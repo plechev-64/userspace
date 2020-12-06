@@ -1,0 +1,1564 @@
+/*----------------------
+>>> Table of contents
+------------------------
+  1. General
+  2. Ruble
+  3. Notify & USP Notice
+  4. USP preloader
+  5. USP smiles
+  6. User online/offline
+  7. Dashboard WP-Recall
+  8. Private office general
+  9. Ballun
+  10. USP buttons
+  11. USP buttons states
+  12. USP buttons adjustments
+  13. Private office subtabs
+  14. TODO: old submenu
+  15. TODO: data-filters buttons
+  16. TODO: upload buttons
+  17. Search filter
+  18. Avatar zone
+  19. USP Custom fields API
+  20. Checkbox & radio stylization
+  21. Runner & Range
+  22. USP pagenavi API
+  23. Ssi-modal API
+  24. TODO: Gallery & Video Gallery core
+  25. Upload Cover
+  26. Detailed information
+  27. Upload avatar
+  28. Post bar
+  29. USP Form
+  30. USP Tables API
+  31. TODO: old generation
+  32. New Notices API
+  33. New Buttons API
+
+------------------------*/
+
+
+/*-----------------------------
+  1. General
+-------------------------------*/
+[class^="uspi fa-"]::before,
+[class*=" uspi fa-"]::before {
+    padding: 0;
+}
+.uspi.usp-icon {
+    background-color: #b9c9d6;
+    box-sizing: content-box;
+    color: #fff;
+    margin-right: 5px;
+    padding: 5px;
+    text-align: center;
+    width: 15px;
+}
+.floatright {
+    float: right;
+}
+.floatleft {
+    float: left;
+}
+.aligncenter {
+    text-align: center;
+}
+.alignleft {
+    text-align: left;
+}
+.alignright {
+    text-align: right;
+}
+img.aligncenter {
+    display: block;
+    margin: 0 auto;
+}
+.plugin-info {
+    clear: both;
+    text-align: center;
+}
+:root span.required {
+    color: rgb(229, 57, 53);
+    font: bold 15px/1 Verdana,arial;
+    padding: 0;
+}
+#usp-overlay {
+    background: rgba(0, 0, 0, 0.7);
+    bottom: 0;
+    display: none;
+    left: 0;
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 999;
+}
+body:not(.wp-admin) .usp-bttn.usp-bttn__type-primary {
+    color: var(--uspText);
+}
+/*end*/
+
+
+/*------------------------
+  2. Ruble
+--------------------------*/
+span.ruble-symbol {
+    font-family: Arial;
+    font-weight: normal;
+    line-height: 1;
+    position: relative;
+}
+.ruble-symbol span {
+    left: 0;
+    position: absolute;
+    top: 55%;
+}
+/*end*/
+
+
+/*--------------------------
+  3. Notify & USP Notice
+----------------------------*/
+.wprecallblock .notify-lk {
+    color: #000;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 1.4;
+    text-align: center;
+}
+.wprecallblock .notify-lk div {
+    padding: 6px 2px 6px 10px;
+}
+#usp-notice {
+    left: 10px;
+    position: fixed;
+    top: 70px;
+    width: 210px;
+    z-index: 1501;
+}
+#usp-notice .notice-window {
+    animation-duration: 0.3s;
+    font-size: 14px;
+    line-height: 1.2;
+    margin: 5px 0;
+    padding: 8px 2px 8px 10px;
+    word-wrap: break-word;
+}
+.notify-lk .error,
+#usp-notice .type-error {
+    background: rgb(255, 207, 207);
+    border-left: 3px solid red;
+    color: red;
+}
+.notify-lk .warning,
+#usp-notice .type-warning {
+    background: #fff5ce;
+    border-left: 3px solid #333;
+    color: #333;
+}
+.notify-lk .success,
+#usp-notice .type-success {
+    background: #bfffbd;
+    border-left: 3px solid #008000;
+    color: #008000;
+}
+#usp-notice .notice-window .close-notice {
+    color: inherit;
+    float: right;
+    padding: 0 5px 0 4px;
+}
+/*end*/
+
+
+/*------------------------
+  4. USP preloader
+--------------------------*/
+body .preloader-parent {
+    position: relative;
+}
+body .usp_preloader {
+    background: rgba(255,255,255,0.6) !important;
+    display: block !important;
+    height: 100% !important;
+    left: 0 !important;
+    position: absolute !important;
+    top: 0 !important;
+    width: 100% !important;
+    z-index: 99;
+}
+.usp_preloader i {
+    left: 50%;
+    position: absolute;
+    top: 50%;
+}
+/*end*/
+
+
+/*------------------
+  5. USP smiles
+--------------------*/
+.usp-smiles {
+    clear: both;
+    float: right;
+    position: relative;
+}
+.usp-smiles > i {
+    color: #4c8cbd;
+    cursor: pointer;
+    font-size: 20px;
+}
+.usp-smiles .smiles {
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 1px 1px #ccc;
+    box-sizing: border-box;
+    padding: 3px;
+    text-align: left;
+    width: 350px;
+}
+.usp-smiles .usp-smiles-list {
+    bottom: 0;
+    display: none;
+    padding: 0 15px 20px 0;
+    position: absolute;
+    right: 0;
+    z-index: 9;
+}
+.usp-smiles > img:hover +.usp-smiles-list,
+.usp-smiles .usp-smiles-list:hover {
+    display: block;
+}
+.usp-smiles .smiles img {
+    cursor: pointer;
+    display: inline-block;
+    height: 18px !important;
+    margin: 3px !important;
+    width: auto !important;
+}
+/*end*/
+
+
+/*------------------------
+  6. User online/offline
+--------------------------*/
+.usp-new-users p,
+.usp-online-users p {
+    margin: 5px 0;
+    padding: 0;
+}
+span i.uspi.fa-ciuspe {
+    font-size: 16px;
+    padding: 0;
+    vertical-align: inherit;
+}
+.online .uspi.fa-ciuspe {
+    -webkit-animation: pulsate 2s linear infinite;
+    animation: pulsate 2s linear infinite;
+    color: #89e535;
+}
+.offline .uspi.fa-ciuspe {
+    color: rgb(229, 57, 53);
+    text-shadow: 0 0 1px #5a0d0c;
+}
+@keyframes pulsate {
+    25% {transform: scale(1.025);}
+    50% {color: #A3F558;text-shadow: 0 0 3px #35e668;transform: scale(1.05);}
+    75% {transform: scale(1.025);}
+}
+/*end*/
+
+
+/*------------------------
+  7. Dashboard WP-Recall
+--------------------------*/
+.panel_lk_recall .usp-widget-buttons .usp-widget-button {
+    margin: 0 0 4px;
+    overflow: hidden;
+    padding: 0;
+}
+.panel_lk_recall .usp-widget-buttons .recall-button {
+    color: #fff;
+    display: inline-block;
+    font-size: 14px;
+    line-height: 1;
+    padding: 8px;
+}
+.panel_lk_recall .usp-widget-buttons a.recall-button:hover {
+    color: #fff;
+}
+.panel_lk_recall .username {
+    margin: 0 0 5px;
+}
+.panel_lk_recall .author-avatar {
+    float: left;
+    margin:0 5px 0 0;
+    position: relative;
+    width: 67px;                                /*++Twenty16++*/
+}
+.panel_lk_recall .author-avatar a {
+    display: inline-block;
+    height: auto;
+    width: 100%;
+}
+.panel_lk_recall .author-avatar a img {
+    border-radius: 0;
+    float: left;
+    height: auto;
+    margin: 0;
+    max-width: 100%;
+    width: 100%;
+}
+/*end*/
+
+
+/*-----------------------------
+  8. Private office general
+-------------------------------*/
+#usp-office {
+    background: rgba(236, 240, 241, 0.3);
+    box-shadow: 0 0 1px 1px rgba(219, 219, 219, 0.8);
+    color: #333;                    /*BlackTheme*/
+    overflow: visible;
+    position: relative;
+}
+#usp-office a:link {
+    border: none;                   /*++Twenty15++*/
+    box-shadow: none;               /*++Twenty16++*/
+    text-decoration: none;
+}
+#usp-office h2 {
+    font-size: 22px;
+    font-weight: bold;
+    line-height: 1;
+    margin: 0;
+    text-transform: none;
+}
+#usp-office h3 {
+    font-size: 18px;
+    line-height: 1;
+    margin: 5px 0;
+}
+#usp-office p {
+    line-height: 1;
+    margin: 0;
+    padding: 4px 0;
+}
+.usp-tab-button .usp-menu-notice {
+    line-height: 1;
+}
+#lk-menu,
+#usp-tabs {
+    overflow: hidden;
+}
+#usp-office.horizontal-tabs #usp-tabs {
+    animation-delay: 1s;
+    animation-duration: 1s;
+    animation-fill-mode: both;
+    animation-name: fadeIn;
+    opacity: 0;
+}
+#lk-content {
+    margin: 3px;
+    overflow: hidden;
+    position: relative;
+}
+#usp-office .recall_content_block {
+    background: rgba(255, 255, 255, 0.7);
+    display: none;
+    overflow: hidden;
+    padding: 4px 5px;
+    position: relative;
+}
+#usp-office .recall_content_block.active {
+    display: block;
+}
+@media screen and (max-width:360px) {
+    #userpic-upload #webcamupload {
+        float: right;
+    }
+    #usp-office .recall_content_block {
+        padding: 2px;
+    }
+}
+/*end*/
+
+
+/*------------------
+  9. Ballun
+--------------------*/
+.ballun-status {
+    max-width: 350px;
+}
+.status-user-usp {
+    background: #fff;
+    border-radius: 3px;
+    border-style: solid;
+    border-width: 1px;
+    box-sizing: border-box;
+    color: #333;                                    /*++hueman++*/
+    display: inline-block;
+    font-size: 14px;                                /*++hueman++*/
+    line-height: normal;                            /*++hueman++*/
+    min-width: 50px;
+    padding: 6px 8px;
+    position: relative;
+    -webkit-hyphens: auto;
+	hyphens: auto;
+    word-wrap: break-word;
+}
+.status-user-usp::before {
+    border-color: transparent;
+    border-style: solid;
+    border-width: 11px 0 0 11px;
+    content: "";
+    height: 0;
+    left: 8px;
+    position: absolute;
+    top: -12px;
+    width: 0;
+}
+/*new balloon*/
+.usp-balloon {
+	position: absolute;
+	background: rgb(255, 255, 255);
+	right: 0;
+	top: calc(100% + 1.5em);
+	z-index: 9;
+	padding: 3px 10px;
+	border: 1px solid rgb(0, 0, 0);
+	display:flex;
+	opacity: 0;
+	transform: translate3d(0px, 0px, 0px);
+	transition: all 0.2s ease-in-out 0s;
+	visibility: hidden;
+	border-radius: 3px;
+	text-align: left;
+}
+.usp-balloon::before,
+.usp-balloon::after{
+	border-width: 0px 10px 10px 10px;
+	border-style: solid;
+	content: "";
+	height: 0;
+	right: 5px;
+	position: absolute;
+	width: 0;
+}
+
+.usp-balloon::before{
+	border-color: transparent transparent rgb(0, 0, 0) transparent;
+	top: -11px;
+}
+
+.usp-balloon::after{
+	border-color: transparent transparent rgb(255, 255, 255) transparent;
+	top: -10px;
+}
+.usp-balloon-hover{
+	position:relative;
+}
+.usp-balloon-hover:hover .usp-balloon{
+	cursor: default;
+	opacity: 1;
+	transform: translateY(-18px);
+	visibility: visible;
+}
+.usp-balloon.position-top{
+	top:auto;
+	bottom: calc(100% - 1em);
+}
+.usp-balloon.position-top::before,
+.usp-balloon.position-top::after{
+	border-width: 10px 10px 0px 10px;
+}
+.usp-balloon.position-top::before{
+	border-color: rgb(0, 0, 0) transparent transparent transparent;
+	bottom: -11px;
+	top:auto;
+}
+.usp-balloon.position-top::after{
+	border-color: rgb(255, 255, 255) transparent transparent transparent;
+	bottom: -10px;
+	top:auto;
+}
+/*end*/
+
+
+/*--------------------------
+  10. USP buttons
+----------------------------*/
+.recall-button i + span {
+    margin: 0 0 0 5px;
+}
+
+body a.recall-button,
+span.recall-button,
+.recall-button.usp-upload-button,           /*input[type="file"]*/
+input[type="submit"].recall-button,
+input[type="submit"] .recall-button,
+input[type="button"].recall-button,
+input[type="button"] .recall-button {
+    border-radius: 0;                       /*++hueman++*/
+    border: none;
+    box-shadow: none !important;
+    box-sizing: border-box;
+    color: #fff;
+    cursor:pointer;
+    font-size: 12px;
+    font-weight: normal;                    /*++hueman++*/
+    letter-spacing: normal;                 /*++Twenty16++*/
+    line-height:1;
+    padding: 5px 5px;
+    text-decoration: none;
+    text-transform: none;                   /*++Twenty16++*/
+    white-space: nowrap;
+}
+/*end*/
+
+
+/*--------------------------------
+  11. USP buttons states
+----------------------------------*/
+a.recall-button:hover,
+a.recall-button:visited,
+span.recall-button:hover,
+.recall-button.usp-upload-button:hover,
+input[type="submit"].recall-button:hover,
+input[type="submit"] .recall-button:hover,
+input[type="button"].recall-button:hover,
+input[type="button"] .recall-button:hover {
+    color: #fff;
+    opacity: 0.8;
+}
+.usp-search-form input[type="submit"]:hover,
+.usp-upload-button input[type="file"]:hover {
+    cursor: pointer;
+}
+a.recall-button.active,
+a.recall-button.active:hover,
+a.recall-button.filter-active,
+a.recall-button.filter-active:hover,
+a.data-filter.filter-active,
+a.data-filter.filter-active:hover {
+    box-shadow: none;                       /*++Twenty16++*/
+    color: rgb(30, 56, 75);
+    cursor: default;
+    opacity: 1;
+}
+#usp-office #lk-menu a.recall-button.active {
+    pointer-events: none;
+}
+/*end*/
+
+
+/*------------------------------------
+  12. USP buttons adjustments
+--------------------------------------*/
+#lk-menu a {
+    display: block;
+    float: left;
+    margin: 5px 5px 0 0;
+    padding: 7px;
+}
+.usp-data-filters .recall-button {
+    display: inline-block;
+    float: none;
+    margin: 1px 1px 4px 0;
+    padding: 7px;
+}
+.vertical-menu #lk-menu {
+    float: left;
+    margin: 3px;
+    max-width: 160px;
+    min-width: 120px;
+    width: auto;
+}
+.vertical-menu #lk-menu a {
+    border-bottom: 3px solid #fff;
+    display: table;
+    float: none;
+    margin: 0 3px 0 0;
+    white-space: normal;
+    width: 100%;
+}
+/*end*/
+
+
+/*-----------------------------
+  13. Private office subtabs
+-------------------------------*/
+.usp-subtab-menu {
+    background: #f7f8f8;
+    margin: 5px 0;
+    overflow: hidden;
+    padding: 10px 10px 5px;
+}
+.usp-subtab-menu .usp-subtab-button {
+
+}
+/*end*/
+
+
+/*----------------------------
+  14. TODO: old submenu
+------------------------------*/
+#usp-office .usp-sub-menu {
+    background: #f7f8f8;
+    margin: 5px 0;
+    overflow: hidden;
+    padding: 10px;
+}
+#usp-office .usp-sub-menu .recall-button {
+    display: inline-block;
+    margin-right: 5px;
+    padding: 7px;
+}
+#usp-office a.sec_block_button i.uspi {
+    margin: 0 5px 0 0;
+}
+/*end*/
+
+
+/*---------------------------------
+  15. TODO: data-filters buttons
+-----------------------------------*/
+.usp-data-filters {
+    margin: 10px 0;
+}
+.usp-data-filters a:link {                      /*++Twenty15++*/
+    border: none;
+    text-decoration: none;                      /*++Twenty14++*/
+}
+/*end*/
+
+
+/*----------------------------
+  16. TODO: upload buttons
+------------------------------*/
+.usp-upload-button {
+    position: relative;
+}
+.usp-upload-button input[type="file"] {
+    height: 100%;
+    left: 0;
+    margin: 0;
+    opacity: 0;
+    padding: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+/*end*/
+
+
+/*-------------------
+  17. Search filter
+---------------------*/
+.usp-search-form {
+    clear: both;
+    margin-bottom: 10px;
+    text-align: right;
+}
+.usp-search-form-title {
+    padding: 0 0 3px;
+}
+.usp-search-form form input[type="text"],
+.usp-search-form form select {
+    border-radius: 0;
+    border: 1px solid #ccc;
+    box-shadow: none;
+    box-sizing: border-box;
+    color: #000;
+    display: inline-block;
+    font-size: 14px;
+    height: auto;
+    line-height: normal;
+    margin: 2px;
+    outline: none;
+    vertical-align: middle;
+    width: auto;
+}
+.usp-search-form form input[type="text"] {
+    padding: 4px 6px;
+}
+.usp-search-form form input[type="text"]:focus {
+    background-color: #fff;
+    border-color: #bbb;
+}
+.usp-search-form form select {
+    padding: 3px;
+}
+.usp-search-form form input[type="submit"] {
+    border-radius: 0;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: normal;
+    margin: 0;
+    padding: 5px 14px;
+    vertical-align: middle;
+}
+/*end*/
+
+
+/*------------------
+  18. Avatar zone
+--------------------*/
+#usp-avatar {
+    position: relative;
+}
+#usp-avatar .avatar-icons {
+    display: block;
+    line-height: 1;
+}
+#usp-avatar .avatar-icons .usp-avatar-icon {
+    cursor: pointer;
+}
+#usp-avatar .avatar-icons .usp-avatar-icon a {
+    box-shadow: none;
+    display: inline-block;
+    position: relative;
+}
+#usp-avatar .icon-avatar-upload span {
+    display: block;
+    height: 100%;
+    left: 0;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+#usp-avatar .icon-avatar-upload input[type="file"] {
+    cursor: pointer;
+    display: block;
+    height: 100%;
+    opacity: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 9;
+}
+/*end*/
+
+
+/*---------------------------
+  19. USP Custom fields API
+-----------------------------*/
+
+/*end*/
+
+
+/*-----------------------
+  22. USP pagenavi API
+-------------------------*/
+.usp-pager {
+    box-shadow: 0 0 1px 1px rgba(219, 219, 219, 0.8);
+    box-sizing: border-box;
+    clear: both;
+    padding: 6px 5px;
+	margin: 10px 0;
+	line-height: 1;
+}
+.usp-pager > span{
+	margin: 0 2px;
+}
+body .usp-pager > span a.usp-bttn{
+	margin: 0!important;
+}
+/*end*/
+
+
+/*-------------------
+  23. Ssi-modal API
+---------------------*/
+#ssi-modalWindow {
+    animation-duration: 0.5s;
+    animation-name: slideInDown;
+}
+div.ssi-backdrop {
+    background: rgba(0, 0, 0, 0.7);
+}
+body .ssi-modalOuter .ssi-modalTitle {
+    font-family: inherit;
+}
+.ssi-modalOuter .ssi-modalWindow {
+    border-radius: 0;
+    border: none;
+    margin: 0 auto;
+    max-width: 99%;
+    min-width: 315px;
+    overflow: hidden;
+    padding: 0;
+}
+.ssi-modalOuter .ssi-modalTitle {
+    font-size: 22px;
+    font-style: normal;
+    font-weight: bold;
+    line-height: 1;
+    padding: 6px 40px 8px 15px;
+}
+.ssi-modalOuter .ssi-topIcons {
+    top: 2px;
+    z-index: 1502;
+}
+.ssi-modalOuter .ssi-topIcons .ssi-closeIcon,
+.ssi-modalOuter .ssi-topIcons .ssi-closeIcon:hover {
+    background: none;
+    height: 30px;
+    text-decoration: none;
+}
+.ssi-modalOuter .ssi-topIcons .ssi-closeIcon::after {
+    color: rgb(229, 57, 53);
+    content: "\f00d";                                   /* fa-times */
+    font: 400 30px/30px usp-awesome;
+    margin: 0 7px 0 0;
+}
+.ssi-modalOuter .ssi-topIcons .ssi-closeIcon:hover::after {
+    color: rgb(192, 0, 0);
+}
+.usp-user-getails .ssi-modalOuter .ssi-modalContent {
+    display: table;
+    margin: 0 auto;
+    padding: 9px 9px 10px;
+}
+.ssi-modalOuter .ssi-buttons .ssi-modalBtn {
+    background: #eee;
+    border-radius: 0;
+    border: medium none;
+    box-shadow: 0 0 1px 1px #ccc;
+    color: #555;
+    cursor: pointer;
+    font: 15px/1 normal;
+    margin: 3px 3px 7px;
+    padding: 5px 7px;
+    text-transform: none;
+}
+.ssi-modalOuter .ssi-modalBtn:hover {
+    background: #e9e9e9;
+    box-shadow: 0 0 1px 1px #aaa;
+}
+/*end*/
+
+
+/*-----------------------------------------
+  24. TODO: Gallery & Video Gallery core
+-------------------------------------------*/
+#usp-popup-content label { /*fast editor*/
+    font-weight: bold;
+}
+#usp-popup-content input[type="text"],
+#usp-popup-content textarea {
+    background-color: #f5f5f5;
+    border: 1px solid #e5e5e5;
+    box-sizing: border-box;
+    margin: 5px 0;
+    padding: 5px;
+    width: 100%;
+}
+#usp-popup {
+    background: #f8f8f8;
+    border-radius: 3px;
+    box-sizing: border-box;
+    color: #333;
+    display: block;
+    left: 50%;
+    line-height: 1.4;
+    max-width: 600px;
+    max-width: 80%;
+    position: absolute;
+    top: 10%;
+    -webkit-transform: translateX(-50%);
+	transform: translateX(-50%);
+    z-index: 999;
+}
+#usp-popup h2 {
+    clear: none;
+    font-size: 18px;
+    line-height: 1;
+    margin: 0;
+    padding: 8px 0 0 5px;
+    text-transform: none;
+    width: calc(100% - 40px);
+}
+#usp-popup h4 {
+    clear:both;
+    font-size: 16px;
+    line-height: 1;
+    margin: 8px 0 0;
+    overflow: hidden;
+    padding: 0 10px 4px;
+    text-transform: none;
+}
+#usp-popup p {
+    margin: 0 10px 10px;
+    padding: 0;
+}
+#usp-popup textarea {
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    color: #000;
+    display: block;
+    margin: 10px auto;
+    min-height: 80px;
+    padding: 5px;
+    width: 98%;
+}
+#usp-popup #commentlist .comm-attach {
+    background: rgba(237, 237, 237, 0.5);
+    margin: 10px 0;
+    padding: 10px;
+}
+#usp-popup #commentlist .comment-author::after,
+#usp-popup #commentlist .comment-author::before {
+    display: none;
+}
+#usp-popup #commentlist .author-avatar {
+    float: left;
+    margin: 0 10px 0 0;
+}
+#usp-popup .navi-gallery {
+    color: #ccc;
+    cursor: pointer;
+    font-size: 50px;
+    height: 50px;
+    left: 50%;
+    line-height: 50px;
+    opacity: 0.6;
+    position: absolute;
+    top: 200px;
+    -webkit-transform: translateX(-50%);
+	transform: translateX(-50%);
+    width: auto;
+}
+#usp-popup .navi-gallery:hover {
+    opacity: 1;
+}
+#usp-popup .prev-attach {
+    float: left;
+    margin-left: -54%;
+}
+#usp-popup .next-attach {
+    float: right;
+    margin-left: 54%;
+}
+#usp-popup .next-attach::after {
+    content: "\f138";
+    font-family: usp-awesome;
+}
+#usp-popup .prev-attach::after {
+    content: "\f137";
+    font-family: usp-awesome;
+}
+@media screen and (max-width:480px) {
+    #usp-popup {
+        max-width: 95%;
+    }
+    #usp-popup .navi-gallery {
+        top: 25%;
+    }
+    #usp-popup .prev-attach {
+        margin-left: -47%;
+    }
+    #usp-popup .next-attach {
+        margin-left: 47%;
+    }
+}
+/*end*/
+
+
+/*----------------------------------
+  25. Upload Cover
+------------------------------------*/
+#usp-office .usp-cover-icon {
+    line-height: 1;
+    overflow: hidden;
+    position: relative;
+}
+#usp-office .usp-cover-icon:hover {
+    cursor: pointer;
+}
+#usp-office .usp-cover-icon input[type="file"] {
+    cursor: pointer;
+    height: 100%;
+    opacity: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 99;
+}
+/*end*/
+
+
+/*----------------------------------
+  26. Detailed information
+------------------------------------*/
+.usp-user-getails .usp-user-avatar {
+    display: inline-block;
+    position: relative;
+    text-align: center;
+    width: 100%;
+}
+.usp-user-getails .usp-user-avatar img {
+    border-radius: 0;
+    border: 0;
+    display: block;
+    float: none;
+    height: auto;
+    margin: 0 auto;
+    max-width: 100%;
+    padding: 0;
+    width: 100%;
+}
+.usp-user-getails .usp-user-avatar .usp-avatar-zoom {
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    display: none;
+    font-size: 150px;
+    height: 100%;
+    opacity: 0.7;
+    position: absolute;
+    text-decoration: none;
+    top: 0;
+    width: 100%;
+}
+.usp-user-getails .usp-user-avatar:hover .usp-avatar-zoom {
+    display:flex;
+}
+.usp-user-getails .usp-avatar-zoom i {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+}
+.usp-user-getails .ballun-status {
+    margin: 5px auto 0;
+    max-width: 425px;
+}
+.usp-user-getails .status-user-usp::before {
+    margin-left: calc(50% - 8px);
+}
+.usp-user-getails .block-usp {
+    padding: 5px;
+}
+.usp-user-getails p {
+    margin: 0;
+    padding: 0;
+}
+.usp-user-avatar-zoom .ssi-modalContent {
+    padding: 0;
+}
+.usp-user-avatar-zoom .ssi-topIcons {
+    z-index: 1600;
+}
+.usp-user-getails #ssi-modalWrapper {
+    max-width: 450px;
+}
+.ssi-modalOuter.usp-hand-uploader .ssi-modalContent {
+    padding: 0;
+}
+.ssi-modalOuter.usp-user-avatar-zoom .ssi-modalWindow {
+    min-width: auto;
+}
+.ssi-modalOuter.usp-user-avatar-zoom img {
+    margin: 0;
+}
+/*end*/
+
+
+/*----------------------------------
+  27. Upload avatar
+------------------------------------*/
+.ssi-modalOuter.usp-hand-uploader {
+    overflow-x: hidden;
+}
+.usp-hand-uploader #ssi-modalWindow {
+    max-width: 95%;
+}
+#avatar-upload-progress {
+    background: #ccc;
+    display: none;
+    font-size: 40px;
+    font-weight: bold;
+    height: 100%;
+    left: 0;
+    opacity: 0.5;
+    position: absolute;
+    text-align: center;
+    top: 0;
+    width: 100%;
+}
+#avatar-upload-progress span {
+    left: 50%;
+    margin-left: -30px;
+    margin-top: -20px;
+    position: absolute;
+    top: 50%;
+}
+/*end*/
+
+
+/*--------------------
+  28. Post bar
+----------------------*/
+#usp-post-bar {
+    margin: 10px 0;
+    text-align: right;
+}
+#usp-post-bar .post-bar-item {
+    display: inline-block;
+}
+#usp-post-bar .post-bar-item a {
+    display: inline-block;
+    font-size: 14px;
+    margin: 0 0 0 5px;
+}
+#usp-post-bar .post-bar-item span,
+#usp-post-bar .post-bar-item i {
+    vertical-align: middle;
+}
+#usp-post-bar .post-bar-item i {
+    margin: 0;
+}
+#usp-post-bar .post-bar-item i::before {
+    padding: 0 5px;
+}
+#usp-post-bar .post-bar-item .item-label {
+    padding: 0 5px;
+    margin: 0;
+}
+/*end*/
+
+
+/*-------------------
+  29. USP Form
+---------------------*/
+
+/*end*/
+
+
+/*-----------------------
+  30. USP Tables API
+-------------------------*/
+
+/*end*/
+
+
+/*---------------------------
+  31. TODO: old generation
+-----------------------------*/
+#usp-popup.fixed {
+    position: fixed;
+    top: 80px;
+}
+#usp-popup .delete {
+    display: block;
+    float: left;
+    height: 31px;
+    margin: 5px 5px 10px;
+    width: 31px;
+}
+#usp-popup .popup-body {
+    padding: 10px;
+}
+.usp-upload-button span.progress-bar {
+    background: #36C515;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    z-index: -99;
+}
+/*end*/
+
+/*
+    32. New USP Notice
+*/
+.usp-notice {
+    box-sizing: border-box;
+    clear: both;
+    font-size: 16px;
+    line-height: normal;
+    margin: 12px 0 !important;
+    overflow: hidden;
+    padding: 12px 36px !important;
+    position: relative;
+}
+.usp-notice__border {
+    border-width: 1px;
+    border-style: solid;
+}
+/* AAA accebillity color > 7 contrast*/
+.usp-notice__type-info {
+    background-color: #fff7da;
+    color: #56562a;
+}
+/* border is background-color down to 20 point in firefox */
+.usp-notice__type-info.usp-notice__border {
+    border-color: #ebe3c6;
+}
+.usp-notice__type-success {
+    background-color: #e6f4cd;
+    color: #2e582e;
+}
+.usp-notice__type-success.usp-notice__border {
+    border-color: #d2e0b9;
+}
+.usp-notice__type-warning {
+    background-color: #ffe0b1;
+    color: #594628;
+}
+.usp-notice__type-warning.usp-notice__border {
+    border-color: #ebcc9d;
+}
+.usp-notice__type-error {
+    background-color: #f9dcdc;
+    color: #71363e;
+}
+.usp-notice__type-error.usp-notice__border {
+    border-color: #e5c8c8;
+}
+.usp-notice__type-simple {
+    background-color: #eee;
+    color: #4e4e4e;
+}
+.usp-notice__type-simple.usp-notice__border {
+    border-color: #dadada;
+}
+.usp-notice > .uspi {
+    color: rgba(0, 0, 0, 0.08);
+    font-size: 52px;
+    left: -10px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.usp-notice .usp-notice__text {
+    text-align: center;
+}
+.usp-notice__text > p {
+    margin: 0;
+    padding: 0;
+}
+.usp-notice__title {
+    color: currentColor;
+    font-size: 1.1em;
+    font-weight: bold;
+    margin: 0 0 6px 6px;
+}
+.usp-notice__close {
+    cursor: pointer;
+    font-size: 15px;
+    line-height: 15px;
+    position: absolute;
+    right: 2px;
+    top: 0;
+}
+.usp-notice__close:hover {
+    opacity: .7;
+}
+.usp-notice__close::before {
+    color: currentColor;
+    content: "\f00d";
+    font-family: usp-awesome;
+}
+
+/**/
+
+/**********************
+*					 *
+*	 33. USP Buttons API	 *
+*					 *
+***********************
+usp-bttn__type-clear	- примитивная
+usp-bttn__type-simple	 - простая
+usp-bttn__type-primary	- реколл-цвет
+*/
+
+
+/* Общий стиль */
+body .usp-bttn {
+	align-items: center;
+	border-radius: 0;
+	/*border: 0 !important;*/
+	box-shadow: none;
+	box-sizing: border-box;
+	cursor: pointer;
+	display: inline-flex;
+	/*	font-size: 12px;		 start size for em - идёт инлайном. т.к. задается через кастомайзер */
+	font-weight: normal;
+	letter-spacing: normal;
+	line-height: 1em;
+	outline: 0;
+	padding: 0;
+	position: relative;
+	text-decoration: none !important;
+	text-transform: none;
+	white-space: nowrap;
+
+	-webkit-transition: opacity .1s ease,color .1s ease;
+	transition: opacity .1s ease,color .1s ease;
+
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+body :not(.usp-wrap__wiget) > .usp-bttn:not(.usp-bttn__active):hover {
+	opacity: 0.8;
+}
+/* END общий стиль */
+
+/* пересекающие стили для 2х кнопок: usp-bttn__type-simple и usp-bttn__type-primary */
+body .usp-bttn:not(.usp-bttn__type-clear):not(.usp-bttn__fullwidth) {
+	margin: 0 .25em .25em 0;
+}
+body .usp-wrap.usp-wrap__vertical .usp-bttn,
+body .usp-bttn:not(.usp-bttn__type-clear):last-child {
+	margin-right: 0;
+}
+.usp-bttn:not(.usp-bttn__type-clear) .usp-bttn__text,
+.usp-bttn:not(.usp-bttn__type-clear) .usp-bttn__ico-left {
+	padding: .5em .7em;
+}
+.usp-bttn:not(.usp-bttn__type-clear):not(.usp-bttn__ico-mask) .usp-bttn__text + .usp-bttn__ico,
+.usp-bttn:not(.usp-bttn__type-clear):not(.usp-bttn__ico-mask) .usp-bttn__ico + .usp-bttn__text,
+.usp-bttn:not(.usp-bttn__type-clear):not(.usp-bttn__ico-mask) .usp-bttn__ico + .usp-bttn__count {
+	padding: 0 .7em 0 0;
+}
+.usp-bttn:not(.usp-bttn__type-clear) .usp-bttn__text + .usp-bttn__count {
+	align-self: flex-start;
+	font-size: .85em;
+	margin: .5em .5em 0 -.3em;
+}
+.usp-bttn .usp-bttn__ava img {
+	border-radius: 0;
+	border: 0;
+	box-shadow: none;
+	display: block;
+	float: none;
+	height: auto;
+	margin: 0;
+	max-width: 100%;
+	padding: 0;
+}
+.usp-bttn:not(.usp-bttn__type-clear) .usp-bttn__ava + .usp-bttn__count {
+	padding: 0 .7em;
+}
+/* END пересекающие стили для 2х кнопок: usp-bttn__type-simple и usp-bttn__type-primary */
+
+
+/* стиль clear */
+:not(.usp-wrap__wiget) > .usp-bttn.usp-bttn__type-clear {
+	margin: 0 1em 0 0;
+}
+.usp-bttn__type-clear .usp-bttn__text + .usp-bttn__count,
+.usp-bttn__type-clear i + span,
+.usp-bttn__type-clear span + i {
+	padding: 0 0 0 .45em;
+}
+/* END clear */
+
+/* стиль simple */
+.usp-bttn.usp-bttn__type-simple {
+	background-color: #f5f5f5;
+	box-shadow: 0 0 0 1px #e5e5e5 inset;
+}
+.usp-bttn.usp-bttn__type-simple:hover {
+	background-color: #fafafa;
+}
+/* END simple */
+
+
+/********************
+	Modificators
+*********************/
+
+/* fullwidth */
+.usp-bttn.usp-bttn__fullwidth:not(.usp-bttn__type-clear) {
+	display: flex;
+	justify-content: center;
+}
+/* END fullwidth */
+
+/* masked icon */
+.usp-bttn.usp-bttn__ico-mask .uspi,
+.usp-bttn__ico-mask.usp-bttn__mod-text-rico-count .usp-bttn__count {
+	background-color: rgba(0,0,0,.1);
+}
+.usp-bttn__ico-mask.usp-bttn__mod-text-rico .usp-bttn__ico-right,
+.usp-bttn__ico-mask.usp-bttn__mod-text-rico-count .usp-bttn__count {
+	padding: .5em .7em;
+}
+.usp-bttn__ico-mask.usp-bttn__mod-text-rico-count .usp-bttn__ico.usp-bttn__ico-right {
+	padding: .5em 0 .5em .7em;
+}
+/* END masked icon */
+
+/* wrappers */
+.usp-wrap {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-start;
+	width: 100%;
+}
+.usp-wrap.usp-wrap__right {
+	justify-content: flex-end;
+}
+.usp-wrap.usp-wrap__vertical {
+	flex-direction: column;
+	align-items: flex-start;
+}
+.usp-wrap.usp-wrap__right.usp-wrap__vertical {
+	align-content: flex-end;
+}
+/* END wrappers */
+
+/* special wiget list style */
+.usp-wrap__wiget {
+	flex-direction: column;
+}
+.usp-wrap__wiget .usp-bttn__type-clear {
+	padding: .45em .6em;
+}
+.usp-wrap__wiget .usp-bttn__type-clear:hover {
+	background-color: #e7edf0;
+	box-shadow: none;
+}
+.usp-wrap__wiget .usp-bttn__ava {
+	flex-shrink: 0;
+}
+.usp-wrap__wiget .usp-bttn__text {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	width: 100%;
+}
+.usp-wrap__wiget .usp-bttn__text {
+	margin-left: .3em;
+}
+.usp-wrap__wiget .usp-bttn__ava_ciuspe .usp-bttn__ava img {
+	border-radius: 50%;
+}
+/* END special wiget list style */
+
+
+/********************
+	conditions
+*********************/
+
+/* loader */
+.usp-bttn.usp-bttn__loading {
+	color: transparent !important;
+	cursor: default;
+	opacity: 1;
+	pointer-events: none;
+}
+.usp-bttn__loading .usp-bttn__ava img {
+	opacity: 0;
+}
+.usp-bttn.usp-bttn__loading::before,
+.usp-bttn.usp-bttn__loading::after {
+	border-radius: 50%;
+	border-style: solid;
+	border-width: .2em;
+	box-sizing: border-box;
+	content: "";
+	height: 1.4em;
+	left: 50%;
+	margin: -.7em;
+	position: absolute;
+	top: 50%;
+	width: 1.4em;
+}
+.usp-bttn.usp-bttn__loading::before {
+	border-color: rgba(0,0,0,.15);
+}
+.usp-bttn.usp-bttn__loading::after {
+	-webkit-animation: usp-bttn-loader .8s linear;
+	animation: usp-bttn-loader .8s linear;
+	-webkit-animation-iteration-count: infinite;
+	animation-iteration-count: infinite;
+	border-color: #fff transparent transparent;
+	transform: rotate(0deg);
+}
+@-webkit-keyframes usp-bttn-loader {
+	to {-webkit-transform:rotate(360deg);
+		transform:rotate(360deg);
+	}
+}
+@keyframes usp-bttn-loader {
+	to {-webkit-transform:rotate(360deg);
+		transform:rotate(360deg);
+	}
+}
+/* END loader */
+
+/* condition */
+.usp-bttn.usp-bttn__disabled {
+	opacity: .6;
+	pointer-events: none;
+}
+.usp-bttn.usp-bttn__type-simple.usp-bttn__disabled {
+	background-color: transparent;
+	box-shadow: none;
+}
+.usp-bttn.usp-bttn__active {
+	pointer-events: none;
+}
+.usp-bttn.usp-bttn__type-primary.usp-bttn__active {
+	color: #333;
+}
+/* END condition */
+
+/** new uploader styles **/
+
+/* new uploader styles end */
+
+/*
+	Manager Content
+*/
+.usp-content{
+
+}
+.usp-content .usp-content-group{
+
+}
+.usp-content .usp-content-group .group-title{
+	font-weight:bold;
+	font-size:20px;
+}
+.usp-content .usp-content-group .group-areas {
+    display: flex;
+    flex-wrap: wrap;
+    --multiplier: calc( 600px - 100%);
+}
+.usp-content .usp-content-area {
+    padding: 5px;
+    box-sizing: border-box;
+    max-width: 100%;
+    flex-grow: 1;
+    flex-basis: calc( var(--multiplier) * 999 );
+}
+/**/
+
+/* User Widget */
+.usp-user-widget{
+	display: flex;
+}
+.usp-user-widget .userdata{
+	margin-right: 10px;
+}
+.usp-user-widget .buttons{
+
+}
+/* User Widget End */
+
+.tab-content{
+
+}
+.tab-content .tab-title > i{
+
+}
+.tab-content .tab-title{
+	padding: 10px;
+    margin-bottom: 10px;
+    background: #e7e7e7;
+}

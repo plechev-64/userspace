@@ -1,0 +1,531 @@
+<?php
+
+class USP_Includer {
+
+	public $cache				 = 0;
+	public $cache_time			 = 3600;
+	public $place;
+	public $files				 = array();
+	public $minify_dir;
+	public $is_minify;
+	public $deregister_styles	 = array();
+	public $deregister_scripts	 = array();
+
+	function __construct() {
+		global $usp_styles;
+		$this->place = ( ! isset( $usp_styles['header'] )) ? 'header' : 'footer';
+	}
+
+	function include_styles() {
+		global $usp_styles;
+
+		$this->is_minify = usp_get_option( 'minify_css' );
+
+		$this->minify_dir = USP_UPLOAD_PATH . 'css';
+
+		//Если место подключения header
+		if ( $this->place == 'header' ) {
+			if ( ! $usp_styles )
+				$usp_styles	 = array();
+			$usp_styles	 = $this->regroup( $usp_styles );
+		}
+
+		$usp_styles = $this->dequeue( apply_filters( 'usp_pre_include_styles', $usp_styles ) );
+
+		if ( ! isset( $usp_styles[$this->place] ) )
+			return false;
+
+		$forceUnion = isset( $usp_styles['force-union'] ) ? $usp_styles['force-union'] : [ ];
+
+		if ( $this->is_minify || $forceUnion ) {
+			$this->init_dir();
+		} else if ( is_dir( $this->minify_dir ) ) {
+			usp_remove_dir( $this->minify_dir );
+		}
+
+		$styles = array();
+		foreach ( $usp_styles[$this->place] as $key => $url ) {
+
+			//Если минификация не используется, то подключаем файлы как обычно
+			if ( ! $this->is_minify && ! in_array( $key, $forceUnion ) ) {
+				wp_enqueue_style( $key, $url, false, VER_USP );
+				continue;
+			}
+
+			$this->files['css'][$key]['path']	 = usp_path_by_url( $url );
+			$this->files['css'][$key]['url']	 = $url;
+		}
+
+		if ( ! isset( $this->files['css'] ) || ! $this->files['css'] )
+			return false;
+
+		foreach ( $this->files['css'] as $id => $file ) {
+			$ids[] = $id . ':' . filemtime( $file['path'] );
+		}
+
+		$filename	 = md5( implode( ',', $ids ) ) . '.css';
+		$filepath	 = USP_UPLOAD_PATH . 'css/' . $filename;
+
+		if ( ! file_exists( wp_normalize_path( $filepath ) ) ) {
+			$this->create_file( $filename, 'css' );
+		}
+
+		wp_enqueue_style( 'usp-' . $this->place, USP_UPLOAD_URL . 'css/' . $filename, false, VER_USP );
+	}
+
+	function include_scripts() {
+		global $usp_scripts;
+
+		$this->is_minify = usp_get_option( 'minify_js' );
+
+		$this->minify_dir = USP_UPLOAD_PATH . 'js';
+
+		//Если место подключения header
+		if ( $this->place == 'header' ) {
+			if ( ! $usp_scripts )
+				$usp_scripts = array();
+			$usp_scripts = $this->regroup( $usp_scripts );
+		}
+
+		$usp_scripts = $this->dequeue( apply_filters( 'usp_pre_include_scripts', $usp_scripts ) );
+
+		if ( ! isset( $usp_scripts[$this->place] ) )
+			return false;
+
+		$in_footer	 = ($this->place == 'footer') ? true : false;
+		$forceUnion	 = isset( $usp_scripts['force-union'] ) ? $usp_scripts['force-union'] : [ ];
+
+		if ( $this->is_minify || $forceUnion ) {
+			$this->init_dir();
+		} else if ( is_dir( $this->minify_dir ) ) {
+			usp_remove_dir( $this->minify_dir );
+		}
+
+		foreach ( $usp_scripts[$this->place] as $key => $url ) {
+
+			//Если минификация не используется, то подключаем файлы как обычно
+			if ( ! $this->is_minify && ! in_array( $key, $forceUnion ) ) {
+				$parents = isset( $usp_scripts['parents'][$key] ) ? $parents = array_merge( $usp_scripts['parents'][$key], array( 'jquery' ) ) : array( 'jquery' );
+				wp_enqueue_script( $key, $url, $parents, VER_USP, $in_footer );
+				continue;
+			}
+
+			$this->files['js'][$key]['path'] = usp_path_by_url( $url );
+			$this->files['js'][$key]['url']	 = $url;
+		}
+
+		if ( ! isset( $this->files['js'] ) || ! $this->files['js'] )
+			return false;
+
+		$parents = array( 'jquery' );
+
+		foreach ( $this->files['js'] as $key => $file ) {
+			$ids[] = $key . ':' . filemtime( $file['path'] );
+			if ( $this->is_minify && isset( $usp_scripts['parents'][$key] ) ) {
+				$parents = array_merge( $usp_scripts['parents'][$key], $parents );
+			}
+		}
+
+		$filename	 = md5( implode( ',', $ids ) ) . '.js';
+		$filepath	 = USP_UPLOAD_PATH . 'js/' . $filename;
+
+		if ( ! file_exists( $filepath ) ) {
+			$this->create_file( $filename, 'js' );
+		}
+
+		wp_enqueue_script( 'usp-' . $this->place . '-scripts', USP_UPLOAD_URL . 'js/' . $filename, $parents, VER_USP, $in_footer );
+	}
+
+	function init_dir() {
+		if ( ! is_dir( $this->minify_dir ) ) {
+			mkdir( $this->minify_dir );
+			chmod( $this->minify_dir, 0755 );
+		}
+	}
+
+	function create_file( $filename, $type ) {
+
+		$filepath = $this->minify_dir . '/' . $filename;
+
+		$f = fopen( $filepath, 'w' );
+
+		$string = '';
+		foreach ( $this->files[$type] as $id => $file ) {
+
+			$file_string = file_get_contents( $file['path'] );
+
+			if ( $type == 'css' ) {
+				$urls	 = array();
+				preg_match_all( '/(?<=url\()[A-zА-я0-9\-\_\/\"\'\.\?\s]*(?=\))/iu', $file_string, $urls );
+				$addon	 = (usp_addon_path( $file['path'] )) ? true : false;
+
+				if ( $urls[0] ) {
+
+					foreach ( $urls[0] as $u ) {
+						$imgs[]	 = ($addon) ? usp_addon_url( trim( $u, '\',\"' ), $file['path'] ) : USP_URL . 'css/' . trim( $u, '\',\"' );
+						$us[]	 = $u;
+					}
+
+					$file_string = str_replace( $us, $imgs, $file_string );
+				}
+			}
+
+			$string .= $file_string;
+		}
+
+		if ( $type == 'js' ) {
+			// удаляем строки начинающиеся с //
+			$string = preg_replace( '#//.*#', '', $string );
+		}
+
+		// удаляем многострочные комментарии /* */
+		$string	 = preg_replace( '#/\*(?:[^*]*(?:\*(?!/))*)*\*/#', '', $string );
+		// удаляем пробелы, переносы, табуляцию
+		$string	 = str_replace( array( "\r\n", "\r", "\n", "\t" ), " ", $string );
+		$string	 = preg_replace( '/ {2,}/', ' ', $string );
+
+		fwrite( $f, $string );
+		fclose( $f );
+
+		return $filepath;
+	}
+
+	function regroup( $array ) {
+		$forceUnion = [ ];
+		if ( isset( $array['force-union'] ) ) {
+			$forceUnion = $array['force-union'];
+			unset( $array['force-union'] );
+		}
+
+		$new_array = array();
+
+		if ( isset( $array['dequeue'] ) ) {
+			$new_array['dequeue'] = $array['dequeue'];
+			unset( $array['dequeue'] );
+		}
+
+		$new_array[$this->place]	 = $array;
+		$new_array['force-union']	 = $forceUnion;
+
+		if ( isset( $new_array[$this->place]['footer'] ) ) {
+			$new_array['footer'] = $new_array[$this->place]['footer'];
+			unset( $new_array[$this->place]['footer'] );
+		}
+
+		if ( isset( $new_array[$this->place]['parents'] ) ) {
+			$new_array['parents'] = $new_array[$this->place]['parents'];
+			unset( $new_array[$this->place]['parents'] );
+		}
+
+		$array = $new_array;
+
+		return $array;
+	}
+
+	function dequeue( $included ) {
+
+		if ( isset( $included['dequeue'] ) ) {
+
+			foreach ( $included['dequeue'] as $key ) {
+
+				if ( isset( $included['header'][$key] ) ) {
+					unset( $included['header'][$key] );
+				} else if ( isset( $included['footer'][$key] ) ) {
+					unset( $included['footer'][$key] );
+				}
+			}
+		}
+
+		return $included;
+	}
+
+	function get_ajax_includes() {
+
+		$content = '';
+
+		$styles = $this->get_ajax_styles();
+
+		if ( $styles )
+			$content .= $styles;
+
+		$scripts = $this->get_ajax_scripts();
+
+		if ( $scripts )
+			$content .= $scripts;
+
+		return $content;
+	}
+
+	function get_ajax_scripts() {
+
+		$wp_scripts = wp_scripts();
+
+		$remove = array(
+			'jquery', 'jquery-core'
+		);
+
+		$scriptsArray = array();
+
+		foreach ( $wp_scripts->queue as $k => $script_id ) {
+
+			if ( in_array( $script_id, $remove ) )
+				continue;
+
+			if ( strpos( $script_id, 'admin' ) !== false )
+				continue;
+
+			$scriptsArray[] = $script_id;
+		}
+
+		if ( ! $scriptsArray )
+			return false;
+
+		ob_start();
+
+		$wp_scripts->do_items( $scriptsArray );
+
+		$scripts = ob_get_contents();
+
+		ob_end_clean();
+
+		return $scripts;
+	}
+
+	function get_ajax_styles() {
+
+		$wp_scripts = wp_styles();
+
+		$scriptsArray = array();
+		foreach ( $wp_scripts->queue as $k => $script_id ) {
+
+			if ( strpos( $script_id, 'admin' ) !== false )
+				continue;
+
+			$scriptsArray[] = $script_id;
+		}
+
+		if ( ! $scriptsArray )
+			return false;
+
+		ob_start();
+
+		$wp_scripts->do_items( $scriptsArray );
+
+		$scripts = ob_get_contents();
+
+		ob_end_clean();
+
+		return $scripts;
+	}
+
+	function get_ajax_src_list_includes() {
+
+		$styles = $this->get_ajax_src_list_styles();
+
+		$scripts = $this->get_ajax_src_list_scripts();
+
+		return array_merge( $styles, $scripts );
+	}
+
+	function get_ajax_src_list_scripts() {
+
+		$wp_scripts = wp_scripts();
+
+		$remove = array(
+			'jquery'
+		);
+
+		$scriptsArray = array();
+
+		foreach ( $wp_scripts->queue as $k => $script_id ) {
+
+			if ( in_array( $script_id, $remove ) )
+				continue;
+
+			if ( strpos( $script_id, 'admin' ) !== false )
+				continue;
+
+			$obj = $wp_scripts->registered[$script_id];
+
+			$scriptsArray[] = $obj->src;
+		}
+
+		return $scriptsArray;
+	}
+
+	function get_ajax_src_list_styles() {
+
+		$wp_scripts = wp_styles();
+
+		$scriptsArray = array();
+		foreach ( $wp_scripts->queue as $k => $script_id ) {
+
+			if ( strpos( $script_id, 'admin' ) !== false )
+				continue;
+
+			$obj = $wp_scripts->registered[$script_id];
+
+			$scriptsArray[] = $obj->src;
+		}
+
+		return $scriptsArray;
+	}
+
+}
+
+//подключаем стилевой файл дополнения
+function usp_enqueue_style( $id, $url, $parents = false, $in_footer = false, $force_union = false ) {
+	global $usp_styles;
+
+	if ( is_admin() || doing_action( 'login_enqueue_scripts' ) || isset( $_REQUEST['rest_route'] ) ) {
+
+		wp_enqueue_style( $id, $url, $parents, VER_USP );
+
+		return;
+	}
+
+	$search	 = str_replace( '\\', '/', ABSPATH );
+	$url	 = str_replace( '\\', '/', $url );
+
+	//если определили, что указан абсолютный путь, то получаем URL до файла style.css
+	if ( stristr( $url, $search ) ) {
+		$url = usp_addon_url( 'style.css', $url );
+	}
+
+	//если скрипт выводим в футере
+	if ( $in_footer || isset( $usp_styles['header'] ) ) {
+		//если не обнаружен дубль скрипта в хедере
+		if ( ! isset( $usp_styles['header'][$id] ) )
+			$usp_styles['footer'][$id] = $url;
+	}else {
+		$usp_styles[$id] = $url;
+	}
+
+	if ( $force_union )
+		$usp_styles['force-union'][] = $id;
+}
+
+function usp_enqueue_script( $id, $url, $parents = false, $in_footer = false, $force_union = false ) {
+	global $usp_scripts;
+
+	if ( is_admin() || doing_action( 'login_enqueue_scripts' ) || USP_Ajax()->is_rest_request() ) {
+
+		if (  $parents && USP_Ajax()->is_rest_request()) {
+			$k = array_search( 'usp-core-scripts', $parents );
+			if ( $k !== false ) {
+				unset( $parents[$k] );
+			}
+		}
+
+		wp_enqueue_script( $id, $url, $parents, VER_USP, $in_footer );
+
+		return;
+	}
+
+	//если скрипт выводим в футере
+	if ( $in_footer || isset( $usp_scripts['header'] ) ) {
+		//если не обнаружен дубль скрипта в хедере
+		if ( ! isset( $usp_scripts['header'][$id] ) )
+			$usp_scripts['footer'][$id] = $url;
+	}else {
+		$usp_scripts[$id] = $url;
+	}
+
+	if ( $parents )
+		$usp_scripts['parents'][$id] = $parents;
+
+	if ( $force_union )
+		$usp_scripts['force-union'][] = $id;
+}
+
+function usp_dequeue_style( $style ) {
+	global $usp_styles;
+
+	if ( ! isset( $usp_styles['dequeue'] ) )
+		$usp_styles['dequeue'] = array();
+
+	if ( is_array( $style ) ) {
+		$usp_styles['dequeue'] = array_merge( $usp_styles['dequeue'], $style );
+	} else {
+		$usp_styles['dequeue'][] = $style;
+	}
+}
+
+function usp_dequeue_script( $script ) {
+	global $usp_scripts;
+
+	if ( ! isset( $usp_scripts['dequeue'] ) )
+		$usp_scripts['dequeue'] = array();
+
+	if ( is_array( $script ) ) {
+		$usp_scripts['dequeue'] = array_merge( $usp_scripts['dequeue'], $script );
+	} else {
+		$usp_scripts['dequeue'][] = $script;
+	}
+}
+
+add_action( 'wp_enqueue_scripts', 'usp_include_scripts', 10 );
+add_action( 'wp_footer', 'usp_include_scripts', 10 );
+function usp_include_scripts() {
+
+	do_action( 'usp_enqueue_scripts' );
+
+	$USP_Include = new USP_Includer();
+	$USP_Include->include_styles();
+	$USP_Include->include_scripts();
+}
+
+add_action( 'wp_footer', 'usp_localize_modules_list', 10 );
+add_action( 'admin_footer', 'usp_localize_modules_list', 10 );
+function usp_localize_modules_list() {
+	echo '<script>USP.used_modules = ' . json_encode( USP()->used_modules ) . '</script>';
+}
+
+//сбрасываем массивы зарегистрированных скриптов и стилей при вызове вкладки через ajax
+add_action( 'usp_init_ajax_tab', 'usp_reset_wp_dependencies', 10 );
+function usp_reset_wp_dependencies() {
+	global $wp_scripts, $wp_styles;
+
+	$wp_scripts->queue	 = array();
+	$wp_styles->queue	 = array();
+}
+
+//цепляем код подключения скриптов и стилей вызванных внутри вкладки
+add_filter( 'usp_ajax_tab_content', 'usp_add_registered_scripts', 10 );
+function usp_add_registered_scripts( $content ) {
+
+	$USP_Include = new USP_Includer();
+
+	add_filter( 'script_loader_src', 'usp_ajax_edit_version_scripts' );
+
+	$content = $USP_Include->get_ajax_includes() . $content;
+
+	return $content;
+}
+
+//добавление массива подключаемых скриптов к возвращаемому результату вызова вкладки через ajax
+//для их подключения через функцию getScripts
+//add_filter('usp_ajax_tab_result','usp_add_src_list_includes');
+function usp_add_src_list_includes( $result ) {
+	$USP_Include		 = new USP_Includer();
+	$result['includes']	 = $USP_Include->get_ajax_src_list_includes();
+	return $result;
+}
+
+//генерируем свою версию подключаемых скриптов при ajax-вызове вкладки
+function usp_ajax_edit_version_scripts( $src ) {
+
+	if ( strpos( $src, 'wp-includes/js/jquery/jquery.js' ) )
+		return false;
+
+	$srcData = explode( '?', $src );
+
+	if ( isset( $srcData[1] ) ) {
+
+		$str = 'ver=' . md5( current_time( 'mysql' ) );
+
+		$src = str_replace( $srcData[1], $str, $src );
+	}
+
+	return $src;
+}

@@ -1,0 +1,1039 @@
+.toplevel_page_manage-wprecall h2,
+body.wp-admin.toplevel_page_manage-rmag h2,
+body.wp-admin[class*="wp-recall-1_page_"] h2,
+body.wp-admin[class*="usp-commerce_page_manage-"] h2 { /* h2 title on wp-recall page */
+    font-size: 20px;
+    font-weight: 600;
+    line-height: normal;
+    margin: 15px 0;
+    padding: 0;
+}
+#usp-notice {
+    position: fixed;
+    right: 30px;
+    top: 70px;
+    width: 210px;
+    z-index: 999999;
+}
+#usp-notice .notice-window {
+    font-size: 14px;
+    line-height: 1;
+    margin: 5px 0;
+    padding: 8px 2px 8px 10px;
+    word-wrap: break-word;
+}
+#usp-notice .type-error {
+    background-color: rgb(255, 207, 207);
+    border-left: 3px solid red;
+    color: red;
+}
+#usp-notice .type-warning {
+    background-color: #fff5ce;
+    border-left: 3px solid #333;
+    color: #333;
+}
+#usp-notice .type-success {
+    background-color: #bfffbd;
+    border-left: 3px solid #008000;
+    color: #008000;
+}
+#usp-notice .notice-window .close-notice {
+    color: inherit;
+    float: right;
+    padding: 0 5px 0 4px;
+}
+.usp_preloader {
+    background-color: rgba(255, 255, 255, 0.5);
+    display: block;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 99;
+}
+.usp_preloader i {
+    -webkit-animation: adm_rotation 2s infinite linear;
+	animation: adm_rotation 2s infinite linear;
+    color: rgb(76, 140, 189);
+    left: 50%;
+    line-height: 1;
+    margin: -50px 0 0 -50px;
+    position: absolute;
+    top: 50%;
+}
+div.usp_preloader i.uspi::before {
+    content: "\f463";
+    font: 80px/1 dashicons;
+}
+.wp-admin .ssi-modalWindow {
+    border: none;
+    border-radius: 0;
+    padding: 0;
+}
+@-webkit-keyframes adm_rotation {
+	0% {
+		-webkit-transform: rotate(0deg);
+		transform: rotate(0deg);
+	}
+	100% {
+		-webkit-transform: rotate(359deg);
+		transform: rotate(359deg);
+	}
+}
+@keyframes adm_rotation {
+	0% {
+		-webkit-transform: rotate(0deg);
+		transform: rotate(0deg);
+	}
+	100% {
+		-webkit-transform: rotate(359deg);
+		transform: rotate(359deg);
+	}
+}
+#recall {
+    position: relative;
+}
+.shift-extend-options > label {
+    background-color: #f5c0c0;
+    border: 1px solid #cd9898;
+    display: inline-block;
+    font-size: 14px;
+    padding: 8px;
+    width: 220px;
+}
+#recall.left-sidebar form {
+    height: 870px;
+}
+#recall .title-option {
+    background-color: #e6e6e6;
+    border: 1px solid #d4d4d4;
+    cursor: pointer;
+    display: flex;
+    margin: 5px 0 0;
+    padding: 5px 8px;
+    width: 600px;
+}
+#recall.left-sidebar .title-option {
+    font-size: 16px;
+    transform: translate3d(0px, 0px, 0px);
+    width: 220px;
+}
+#recall.left-sidebar .active {
+    background-color: rgb(76, 140, 189);
+    border: 1px solid #266697;
+    color: #fff;
+}
+#recall .title-option > span {
+    color: rgb(76, 140, 189);
+    margin: 0 5px 0 0;
+}
+#recall .title-option.active > span {
+    color: #fff;
+}
+#recall.left-sidebar .title-option:hover:not(.active) {
+    background-color: #eee;
+    border-left: 3px solid rgb(76, 140, 189);
+    transform: translateX(-2px);
+}
+.wrap-recall-options {
+    border: 1px solid #ddd;
+    display: none;
+    margin: 0 0 5px;
+    padding: 15px;
+}
+.left-sidebar .wrap-recall-options {
+    left: 250px;
+    max-height: 800px;
+    max-width: 500px;
+    overflow-y: auto;
+    position: absolute;
+    top: 0;
+}
+.wrap-recall-options .option-block {
+    background-color: #eee;
+    border: 1px solid #ddd;
+    border-radius: 2px;
+    margin: 0 0 14px;
+    max-width: 500px;
+    padding: 5px 15px;
+}
+#usp-options-form .extend-options {
+    background-color: #f5f5f5;
+    border-left: 2px solid #f8d3d3;
+    margin: 5px 0;
+    padding: 5px 8px;
+}
+.wrap-recall-options .option-block h3 {
+    margin: 10px 0;
+    text-transform: uppercase;
+}
+.wrap-recall-options .option-block label {
+    display: block;
+    font-weight: bold;
+    margin-top: 5px;
+}
+.wrap-recall-options div.usp-option label.option-title,
+.wrap-recall-options div.usp-option .usp-field-input label {
+    display: inline-block;
+}
+.wrap-recall-options div.usp-option .usp-field-input label {
+    font-weight:normal;
+}
+.wrap-recall-options .option-block small {
+    display: block;
+}
+.wrap-recall-options .option-block select,
+.wrap-recall-options .option-block input[type="text"],
+.wrap-recall-options .option-block input[type="number"] {
+    box-sizing: border-box;
+    height: auto;
+    line-height: normal;
+    margin: 2px 0;
+    padding: 5px;
+    width: 300px;
+}
+#usp-options-form .help-option {
+    display: inline-block;
+}
+.usp-options-form .help-option .dashicons,
+#usp-options-form .help-option .dashicons {
+    color: rgb(76, 140, 189);
+    cursor: pointer;
+    margin: 0 0 0 4px;
+}
+#usp-options-form .help-option .dashicons:hover {
+    opacity: 0.8;
+}
+.usp-help-dialog .ui-dialog-titlebar {
+    font-size: 15px;
+}
+.usp-help-dialog .ui-dialog-titlebar-close::before {
+    color: #d32723;
+    font-size: 26px;
+}
+.usp-help-dialog .ui-dialog-titlebar-close:hover::before {
+    opacity: 0.7;
+}
+.usp-help-dialog .help-content {
+    font-size: 14px;
+}
+.child-select,
+.help-option .help-content,
+.wrap-recall-options .hidden-option {
+    display:none;
+}
+.wrap-recall-options .option-block input[type="number"] {
+    width: 100px;
+}
+.wrap-recall-options .option-block textarea {
+    height: 80px;
+    width: 100%;
+}
+
+
+/* START bom helper */
+.adm_warn {
+    color: #d32723;
+}
+.adm_succ {
+    color: #52ae02;
+}
+.adm_notice {
+    color: rgba(255, 174, 25, 0.4);
+}
+.adm_b14 {
+    font: bold 14px Arial,Georgia,Verdana;
+}
+.adm_b16 {
+    font: bold 16px Arial,Georgia,Verdana;
+}
+.adm_b18 {
+    font: bold 18px Arial,Georgia,Verdana;
+}
+/* END bom helper */
+
+
+.left-sidebar .submit-block {
+    margin-top: 50px;
+    width: 238px;
+}
+#recall .usp-save-button {
+    background-color: rgb(76, 140, 189);
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
+    color: #fff;
+    cursor: pointer;
+    float: right;
+    font-size: 16px;
+    height: auto;
+    margin: 0;
+    padding: 5px;
+    text-shadow: none;
+    width: 100%;
+}
+#recall .usp-save-button:hover {
+    opacity: 0.9;
+}
+
+
+/* START addon-template page */
+.usp-admin-service-box {
+    background-color: #f5f5f5;
+    border: 1px solid #e5e5e5;
+    margin: 10px 0;
+    padding: 0 10px 4px;
+}
+.usp-admin-service-box .install-help {
+    line-height: normal;
+    padding: 0 0 0 22px;
+    position: relative;
+}
+.usp-admin-service-box .install-help::before {
+    color: #ffae19;
+    content: "\f534";
+    font-family: dashicons;
+    font-size: 18px;
+    font-style: normal;
+    left: 0;
+    opacity: 0.4;
+    position: absolute;
+    top: 0;
+}
+.wp-admin input[name="usp-key"]:not([value=""]) {
+    filter: blur(3px) invert(0.4) opacity(0.3);
+    transition: all 0.15s linear 0s;
+}
+.wp-admin input[name="usp-key"]:hover:not([value=""]) {
+    filter: none;
+}
+/* END addon-template page */
+
+
+.wp-list-table .addon_screen img {
+    width: 200px;
+}
+.wp-list-table .addon_icon img {
+    width: 40px;
+}
+
+
+/* navigation Start */
+.tablenav .tablenav-pages .pagination-links a:hover,
+.tablenav .tablenav-pages .pagination-links a:focus {
+    background-color: rgb(76, 140, 189);
+}
+.usp-pager {
+    background-color: #fff;
+    border: 1px solid #e5e5e5;
+    box-sizing: border-box;
+    clear: both;
+    display: inline-block;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 1.4;
+    margin: 10px 0;
+    padding: 6px;
+    text-align: right;
+    width: calc(100% - 2px);
+}
+.pager-item.type-current > span,
+.pager-item.type-separator > span {
+    padding: 2px 10px;
+}
+.usp-pager .pager-item a {
+    background-color: #f5f5f5;
+    border: 1px solid #e5e5e5;
+    color: rgb(76, 140, 189);
+    display: inline-block;
+    margin: 0 4px;
+    padding: 2px 10px;
+    text-decoration: none;
+}
+.usp-pager .pager-item a:hover {
+    background-color: #eee;
+    border: 1px solid #d5d5d5;
+    color: #000;
+}
+/* navigation End */
+
+
+/* START custom field navi */
+.usp-custom-fields-navi {
+    margin: 10px 10px 10px 0;
+    padding: 10px;
+}
+.usp-custom-fields-navi .usp-types-list {
+    border-bottom: 1px solid #ccc;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.usp-custom-fields-navi .usp-types-list li {
+    border-color: #ccc #ccc currentcolor;
+    border-style: solid solid none;
+    border-width: 1px 1px medium;
+    display: inline-block;
+    font-size: 14px;
+    line-height: 24px;
+    margin: 0 0 0 0.5em;
+}
+.usp-custom-fields-navi li.current-item {
+    border-bottom: 1px solid #f1f1f1;
+    margin-bottom: -1px;
+}
+.usp-custom-fields-navi .usp-types-list li a {
+    background-color: #e5e5e5;
+    color: #555;
+    display: inline-block;
+    height: 26px;
+    padding: 5px 12px;
+    text-decoration: none;
+}
+.usp-custom-fields-navi .usp-types-list li.current-item a {
+    background-color: #f1f1f1;
+    color: #000;
+    font-weight: bold;
+}
+.usp-custom-fields-navi .usp-types-list li:not(.current-item) a:hover {
+    background-color: #eee;
+    color: #000;
+}
+.usp-custom-fields-navi + .usp-custom-fields-navi .usp-types-list {
+    padding: 0 30px;
+}
+.usp-custom-fields-navi i {
+    color: #008000;
+}
+.usp-custom-fields-navi .fa-plus::before {
+    content: "\f502";
+}
+.usp-custom-fields-navi > p {
+    background-color: #eee;
+    border: 1px solid #ddd;
+    display: inline-block;
+    font-size: 14px;
+    line-height: normal;
+    margin: 0;
+    padding: 10px 30px 10px 40px;
+    position: relative;
+}
+.usp-custom-fields-navi > p::before {
+    color: #ffae19;
+    content: "\f534";
+    font-family: dashicons;
+    font-size: 30px;
+    left: 5px;
+    opacity: 0.4;
+    position: absolute;
+    top: 4px;
+}
+/* END custom field navi */
+
+
+
+
+/* START custom fields box */
+.usp-custom-fields-box {
+    background-color: #f5f5f5;
+    border: 1px solid #d5d5d5;
+    box-sizing: border-box;
+    display: inline-block;
+    margin: 10px;
+    max-width: 500px;
+    padding: 10px;
+    position: relative;
+    vertical-align: top;
+    width: calc(100% - 20px);
+}
+#profile-page .usp-custom-fields-box {
+    max-width: 700px;
+}
+.usp-custom-fields-box > h3 {
+    font-size: 18px;
+    margin: 0;
+    padding: 5px 15px;
+}
+.usp-custom-fields-box .usp-sortable-fields {
+    min-height: 30px;
+    padding: 0;
+}
+.usp-custom-fields-box .usp-custom-field {
+    margin-bottom: 10px;
+    position: relative;
+}
+.usp-custom-fields-box .usp-custom-field .field-header {
+    align-items: center;
+    background: #eee linear-gradient(to top, #f5f5f5, #eee);
+    border: 1px solid #ddd;
+    display: flex;
+    overflow: hidden;
+    padding: 5px;
+}
+.ui-sortable .usp-custom-field .field-header {
+    cursor: move;
+}
+.usp-custom-fields-box .field-header .field-type {
+    background-color: #f6f6f6;
+    border: 1px solid #e5e5e5;
+    color: rgb(76, 140, 189);
+    font-family: dashicons;
+    font-size: 20px;
+    margin-right: 10px;
+    padding: 5px;
+}
+.usp-custom-fields-box [data-type="text"] .field-type::before {
+    content: "\f464";
+}
+.usp-custom-fields-box [data-type="textarea"] .field-type::before {
+    content: "\f119";
+}
+.usp-custom-fields-box [data-type="select"] .field-type::before {
+    content: "\f203";
+}
+.usp-custom-fields-box [data-type="multiselect"] .field-type::before {
+    content: "\f163";
+}
+.usp-custom-fields-box [data-type="checkbox"] .field-type::before {
+    content: "\f147";
+}
+.usp-custom-fields-box [data-type="radio"] .field-type::before {
+    content: "\f159";
+}
+.usp-custom-fields-box [data-type="email"] .field-type::before {
+    content: "\f466";
+}
+.usp-custom-fields-box [data-type="tel"] .field-type::before {
+    content: "\f525";
+}
+.usp-custom-fields-box [data-type="number"] .field-type::before {
+    content: "123";
+    font-size: 14px;
+    font-weight: bold;
+    vertical-align: super;
+}
+.usp-custom-fields-box [data-type="date"] .field-type::before {
+    content: "\f508";
+}
+.usp-custom-fields-box [data-type="time"] .field-type::before {
+    content: "\f469";
+}
+.usp-custom-fields-box [data-type="url"] .field-type::before {
+    content: "\f103";
+}
+.usp-custom-fields-box [data-type="agree"] .field-type::before {
+    content: "\f491";
+}
+.usp-custom-fields-box [data-type="file"] .field-type::before {
+    content: "\f501";
+}
+.usp-custom-fields-box [data-type="dynamic"] .field-type::before {
+    content: "\f502";
+}
+.usp-custom-fields-box [data-type="editor"] .field-type::before {
+    content: "\f212";
+}
+.usp-custom-fields-box [data-type="runner"] .field-type::before {
+    content: "\f229";
+}
+.usp-custom-fields-box [data-type="range"] .field-type::before {
+    content: "\f108";
+}
+.usp-custom-fields-box [data-type="custom"] .field-type::before {
+    content: "\f111";
+}
+.usp-custom-fields-box .field-header .field-title {
+    flex-grow: 1;
+    font-size: 14px;
+    font-weight: bold;
+}
+.usp-custom-fields-box .field-header .field-controls {
+    display: flex;
+    font-family: dashicons;
+    justify-content: flex-end;
+}
+.usp-custom-fields-box .field-header .field-delete::before {
+    color: rgba(229, 57, 53, 0.7);
+    content: "\f158";
+}
+.usp-custom-fields-box .field-header .field-edit::before {
+    color: rgb(76, 140, 189);
+    content: "\f140";
+}
+.usp-custom-fields-box .field-header .field-controls a:hover {
+    opacity: 0.7;
+}
+.usp-custom-fields-box .field-header .field-control {
+    font-size: 25px;
+    margin: 0 0 0 3px;
+}
+.usp-custom-fields-box .usp-custom-field a {
+    font-style: normal;
+    text-decoration: none;
+}
+.usp-custom-fields-box .usp-custom-field .field-settings {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    display: none;
+    margin: 0 0 25px;
+    padding: 5px;
+}
+.usp-custom-fields-box .field-settings .usp-cf-type-text {
+    background-color: rgba(224, 248, 201, 0.6);
+    color: #555;
+    float: right;
+    margin: -5px -5px 0 0;
+    padding: 5px 10px;
+}
+.usp-custom-fields-box .usp-custom-field .option-content {
+    padding: 5px 10px;
+}
+.usp-custom-fields-box .usp-custom-field label:not(.block-label) {
+    display: block;
+    font-weight: bold;
+    margin: 0;
+}
+.usp-custom-fields-box .usp-custom-field input,
+.usp-custom-fields-box .usp-custom-field select,
+.usp-custom-fields-box .usp-custom-field textarea {
+    box-sizing: border-box;
+    width: 100%;
+}
+.usp-custom-fields-box .wp-editor-container input {
+    width: auto;
+}
+.usp-custom-fields-box input[type="radio"] {
+    margin: 0 0 0 5px;
+    width: initial;
+}
+.usp-custom-fields-box .usp-field-notice {
+    clear: both;
+    color: #777;
+    display: block;
+    font-size: 12px;
+    line-height: normal;
+}
+.usp-custom-fields-box .usp-custom-field .fa-info::before {
+    /*content: "\f534";*/
+}
+/*.usp-field-core a:not(.iconpicker-item) i:not(.mce-ico) {
+    font-family: dashicons;
+    font-size: 20px;
+    font-style: normal;
+    margin: 0 2px;
+    vertical-align: middle;
+}*/
+.usp-custom-fields-box .usp-custom-field i:hover {
+    opacity: 0.7;
+}
+.usp-custom-fields-box .usp-field-notice i {
+    color: #ffae19;
+    font-size: 14px;
+    opacity: 0.8;
+}
+.usp-custom-fields-box .usp-custom-field textarea {
+    height: 50px;
+}
+.usp-custom-fields-box .usp-custom-field .dynamic-values {
+    background-color: #f5f5f5;
+    display: block;
+    padding: 10px;
+}
+.usp-custom-fields-box .usp-custom-field .dynamic-values .dynamic-value,
+.usp-custom-fields-box .usp-custom-field .dynamic-values .ui-sortable-placeholder {
+    background-color: #ebebeb;
+    border: 1px solid #dbdbdb;
+    clear: both;
+    display: block;
+    line-height: normal;
+    margin: 3px 0;
+    padding: 2px;
+    position: relative;
+}
+.usp-custom-fields-box .usp-custom-field .dynamic-values.ui-sortable .dynamic-value::before {
+    background-color: #f5f5f5;
+    color: rgb(76, 140, 189);
+    content: "\f545";
+    cursor: move;
+    font-family: dashicons;
+    font-size: 20px;
+    height: 20px;
+    padding: 3px;
+    position: absolute;
+    right: 4px;
+    top: 4px;
+}
+.usp-custom-fields-box .usp-custom-field .dynamic-value input {
+    width: 80%;
+}
+.usp-custom-fields-box .usp-custom-field .half-width {
+    display: inline-block;
+    float: left;
+    margin: 0 5px 0 0;
+    width: 47%;
+}
+.usp-custom-fields-box .usp-custom-field .half-width .option-content {
+    padding: 5px;
+}
+.usp-custom-fields-box .new-field .field-header .field-control {
+    float: right;
+    margin-top: 20px;
+}
+.usp-custom-fields-box .usp-custom-field.new-field .field-settings {
+    display: block;
+}
+.usp-custom-fields-box .fields-submit input {
+    box-sizing: border-box;
+    margin: 10px 0;
+    width: 100%;
+}
+.usp-custom-fields-box .fields-submit .button-secondary {
+    background-color: #e6e6e6;
+    border: 1px solid #d4d4d4;
+    border-radius: 0;
+    box-shadow: none;
+    height: auto;
+    padding: 4px;
+}
+.usp-custom-fields-box .fields-submit .button-secondary:hover {
+    background-color: #eee;
+    border-color: #d4d4d4;
+}
+.usp-custom-fields-box .fields-submit .button-primary {
+    background-color: rgb(76, 140, 189);
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
+    font-size: 16px;
+    height: auto;
+    padding: 5px;
+    text-shadow: none;
+}
+.usp-custom-fields-box .fields-submit .button-primary:hover {
+    background-color: rgb(76, 140, 189);
+    opacity: 0.9;
+}
+.usp-inactive-fields-box {
+    opacity: 0.8;
+    width: 350px;
+}
+.usp-inactive-fields-box .usp-custom-field {
+    opacity:0.7;
+}
+.usp-inactive-fields-box .usp-custom-field .field-control,
+.usp-inactive-fields-box .usp-custom-field .field-settings {
+    display: none!important;
+}
+.usp-custom-fields-box .ui-sortable-placeholder {
+    background: #fff;
+    border: 2px dashed #ccc;
+    box-sizing: border-box;
+    height: 45px;
+    width: 100%;
+}
+.usp-custom-fields-box .usp-custom-field .dynamic-values .ui-sortable-placeholder {
+    background: #fff;
+    height: 30px;
+}
+.options-custom-field .option-content .option-input .quicktags-toolbar .button-small {
+    border-radius: 1px;
+    height: auto;
+    line-height: normal;
+    margin: 2px 2px 3px;
+    min-height: 24px;
+    min-width: 58px;
+    padding: 4px;
+    text-align: center;
+    width: auto;
+}
+.usp-custom-fields-box .usp-custom-field .type-editor-input textarea {
+    height: 150px;
+}
+/* END custom fields box */
+
+/* START backend publications */
+.usp-custom-fields-box .type-file-input {
+    background-color: #fff;
+    border: 1px solid #e5e5e5;
+    display: block;
+    padding: 10px;
+}
+.usp-custom-fields-box .type-file-input .usp-field-value {
+    margin: 0 15px 0 0;
+}
+.usp-custom-fields-box .type-file-input .usp-field-value .fa-upload::before {
+    content: "\f501";
+}
+.usp-custom-fields-box .type-file-input .delete-file-url .fa-times-ciuspe-o::before {
+    color: rgb(229, 57, 53);
+    content: "\f153";
+}
+.wrap-recall-options .usp-radio-box {
+	display: inline-flex;
+	align-items: center;
+	margin: 3px 6px 0 0;
+}
+.wrap-recall-options div.usp-option .usp-radio-box .block-label {
+	margin: 0;
+	padding: 0 0 0 5px;
+	line-height: 10px;
+}
+.wrap-recall-options .usp-custom-field i.fa-info:not(.mce-ico) {
+	vertical-align: bottom;
+	font-size: 18px;
+}
+/* END backend publications */
+
+
+/* START backend products publications */
+span.ruble-symbol {
+    font-family: arial,helvetica,sans-serif;
+    font-weight: normal;
+    position: relative;
+}
+.ruble-symbol span {
+    left: 0;
+    line-height: 1px;
+    position: absolute;
+    top: 55%;
+}
+/* END backend products publications */
+
+#usp-reg-form {
+    background: #ffdfdf;
+    margin: 10px 0 20px;
+    padding: 10px;
+}
+.usp-option.children-option {
+    display:none;
+}
+.usp-option.option-show {
+    display:block;
+}
+
+.usp-repository-list .addon-box {
+    overflow:hidden;
+    position:relative;
+}
+#usp-addon-details {
+    background: #eaeaea;
+    overflow: hidden;
+}
+#usp-addon-details .details-sidebar {
+    float: right;
+    padding: 10px;
+    width: 200px;
+}
+#usp-addon-details .details-sidebar .addon-thumbnail {
+    margin: 15px 0;
+    text-align: center;
+}
+#usp-addon-details .details-content {
+    background: #fff;
+    overflow: hidden;
+    padding-right: 10px;
+}
+#usp-addon-details .details-content ul {
+    list-style: disc;
+    padding-left: 20px;
+}
+#usp-addon-details .details-content img {
+    max-width: 100%;
+}
+#usp-addon-details .details-content .aligncenter {
+    text-align: center;
+}
+#usp-addon-details .details-content .alignright {
+    float: none;
+    text-align: right;
+}
+#usp-addon-details .details-content .alignleft {
+    float: none;
+    text-align: left;
+}
+#usp-addon-details .details-content img.aligncenter {
+    display: block;
+    margin: 10px auto;
+}
+#usp-addon-details .details-content img.alignleft {
+    display: block;
+    float: left;
+    margin: 10px 10px 10px 0;
+}
+#usp-addon-details .details-content img.alignright {
+    display: block;
+    float: right;
+    margin: 10px 0 10px 10px;
+}
+#usp-addon-details .details-content .inline-image {
+    display: inline-block !important;
+}
+#usp-addon-details .details-content pre {
+    background-color: #ffffff;
+    background-image: none !important;
+    border: 2px solid #e3e8ec;
+    color: #1f7ca9 !important;
+    display: block;
+    font-size: inherit;
+    line-height: normal;
+    margin: 10px 0;
+    overflow: auto;
+    padding: 20px 10px 20px 20px !important;
+    position: relative;
+    white-space: pre;
+    word-wrap: normal;
+}
+#usp-addon-details .details-content iframe {
+    margin: 10px 0;
+    width: 100%;
+}
+#usp-addon-details .sections-content {
+    margin-top: 20px;
+}
+#usp-addon-details .sections-content .sections-menu {
+    font-size: 16px;
+    margin-bottom: -1px;
+    padding: 0;
+}
+#usp-addon-details .sections-content .sections-menu li {
+    background: #4c8cbd;
+    border-left: 1px solid #4c8cbd;
+    border-right: 1px solid #4c8cbd;
+    border-top: 1px solid #4c8cbd;
+    display: inline-block;
+    margin: 5px 3px 0 0;
+    padding: 5px 12px;
+}
+#usp-addon-details .sections-content .sections-menu li a {
+    color: #fff;
+    text-decoration: none;
+}
+#usp-addon-details .sections-content .sections-menu li.active-section {
+    background: #fff;
+}
+#usp-addon-details .sections-content .sections-menu li.active-section a {
+    color: #4c8cbd;
+}
+#usp-addon-details .sections-content .section-content {
+    border-bottom: 1px solid #4c8cbd;
+    border-left: 1px solid #4c8cbd;
+    border-top: 1px solid #4c8cbd;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    padding-top: 10px;
+}
+#usp-addon-details .sections-content .no-active-box {
+    display: none;
+}
+#usp-addon-details .sections-content .sub-content-box {
+    padding: 10px 5px;
+}
+#usp-addon-details .sections-content .sub-content-box .sub-heading {
+    font-weight: bold;
+}
+#usp-addon-details .sections-content .section-content .section-code {
+    background: rgb(242, 251, 255);
+    border-bottom: 2px solid rgb(175, 230, 255);
+    border-top: 2px solid rgb(175, 230, 255);
+    overflow: auto;
+    padding: 10px;
+}
+.usp-addon-details #ssi-modalWrapper {
+    height: calc(100vh - 40px);
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+.usp-addon-details #ssi-modalWindow {
+    border-radius: 0;
+    border: none;
+    box-sizing: border-box;
+    padding: 8px;
+}
+.usp-addon-details #ssi-modalTitle {
+    font-style: normal;
+}
+.usp-addon-details .ssi-topIcons .ssi-closeIcon {
+    padding: 8px;
+    visibility: hidden;
+}
+.usp-addon-details .ssi-topIcons .ssi-closeIcon::after {
+    content: "\f335";
+    font: 400 32px/29px dashicons;
+    visibility: visible;
+}
+
+/*форма*/
+.usp-form .form-field {
+    margin: 15px 0;
+}
+.usp-form .form-field .field-title {
+    display:block;
+    font-size: 18px;
+    font-weight:bold;
+    line-height: 1;
+    margin-bottom: 5px;
+}
+.usp-form .submit-box {
+    background: #eee;
+    border: 1px solid #ddd;
+    overflow: hidden;
+    padding: 5px;
+    text-align: right;
+}
+.usp-form .submit-box a,
+.usp-form .submit-box input[type="submit"] {
+    display: inline-block;
+    font-size: 15px;
+    padding: 7px 10px;
+}
+
+/* new options*/
+
+/*****/
+
+/* Fields Manager */
+
+
+/****/
+
+@media screen and (max-width:800px) {
+    .usp-addon-details #ssi-modalWrapper {
+        margin: 46px auto;
+        width: 95%;
+    }
+}
+
+@media screen and (max-width:568px) {
+    #recall.left-sidebar .title-option,
+    #recall .shift-extend-options > label {
+        box-sizing: border-box;
+        padding: 10px;
+        width: 100%;
+    }
+    #recall.left-sidebar .wrap-recall-options {
+        position: static;
+        width: auto;
+    }
+    .left-sidebar .submit-block {
+        width: 100%;
+    }
+    .usp-addon-details #ssi-modalWrapper {
+        margin: 8px auto;
+    }
+    #usp-addon-details .details-sidebar {
+        display: flex;
+        float: none;
+        width: 100%;
+    }
+    #usp-addon-details .details-sidebar .addon-thumbnail {
+        display: flex;
+        margin: 0 10px 0 0;
+    }
+}
+
+@media screen and (max-width:375px) {
+    .wrap-recall-options .option-block select {
+        max-width: 260px;
+    }
+}

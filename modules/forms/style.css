@@ -1,0 +1,113 @@
+.usp-form {
+	border-collapse: collapse;
+	border-spacing: 0;
+	border: none;
+	box-sizing: border-box;
+	font-size: 14px;
+	line-height: normal;
+	margin: 0 0 12px;
+	text-align: left;
+	width: 100%;
+}
+.usp-form table {
+	line-height: normal;
+	width: 100%;
+}
+.usp-form tr {
+	background: #fff;
+}
+.usp-form th,
+.usp-form td {
+	border: 1px solid #eaeaea;
+	box-sizing: border-box;
+	line-height: normal;
+	padding: 8px;
+	text-align: left;
+	text-transform: none; /* ++Twenty14++ */
+	vertical-align: middle;
+}
+.usp-form th:first-child,
+.usp-form td:first-child {
+	padding-left: 8px; /* ++Twenty17++ */
+}
+.usp-form tr th {
+	overflow: hidden;
+}
+.usp-form tr:nth-child(1) th {
+	background-color: #f5f5f5;
+	font-size: 14px;
+	font-weight: bold;
+}
+.usp-form input[disabled] {
+	background-color: #eee;
+	opacity: 0.6;
+}
+.usp-form .block-label input[type="checkbox"] {
+	margin: 0 6px 0 0;
+}
+.usp-form .block-label input[type="radio"] {
+	border: 1px solid #d1d1d1;
+	color: #b1b1b1;
+	float: none;
+	font-size: 13px;
+	padding: 8px 12px;
+	width: auto;
+}
+.usp-form label a {
+	color: rgb(76, 140, 189);
+	display: inline;
+	font-weight: bold;
+	margin: 0;
+	padding: 0 1px 0 0;
+}
+.usp-form label a:hover,
+.usp-form td span a:hover {
+	color: #000;
+	text-decoration: underline;
+}
+.usp-form td a:hover {
+	color: #000;
+}
+.usp-form td a:hover i {
+	color: rgb(229, 57, 53);
+}
+.usp-form .aligncenter {
+	text-align: center;
+}
+.usp-form .form-field {
+	margin: 15px 0;
+}
+.usp-form .form-field .field-title {
+	display: block;
+	font-size: 16px;
+	font-weight: bold;
+	line-height: 1;
+	margin-bottom: 5px;
+}
+.usp-form .submit-box {
+	background: #f2f2f2;
+	overflow: hidden;
+	padding: 5px;
+	text-align: right;
+}
+.usp-form .submit-box a,
+.usp-form .submit-box input[type="submit"] {
+
+}
+
+@media screen and (max-width:375px) {
+	.usp-form tr th {
+		-webkit-hyphens: auto;
+		hyphens: auto;
+		word-wrap: break-word;
+	}
+	.usp-form td a {
+		font-size: 13px;
+		margin: 3px 0;
+		width: 83px;
+	}
+	.usp-form .file-field-upload {
+		width: 205px;
+	}
+}
+

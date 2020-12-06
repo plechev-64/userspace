@@ -1,0 +1,53 @@
+<?php
+
+/**
+ * Created by PhpStorm.
+ * Author: Maksim Martirosov
+ * Date: 05.10.2015
+ * Time: 20:39
+ * Project: wp-recall
+ */
+if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
+	exit;
+}
+
+global $wpdb;
+
+require_once 'classes/class-usp-install.php';
+require_once 'functions/plugin-pages.php';
+require_once 'functions/files.php';
+
+$upload_dir = usp_get_wp_upload_dir();
+define( 'USP_UPLOAD_PATH', $upload_dir['basedir'] . '/usp-uploads/' );
+define( 'USP_TAKEPATH', WP_CONTENT_DIR . '/userspace/' );
+
+//Удаляем созданные роли
+USP_Install::remove_roles();
+
+//Удаляем расписания крона
+wp_clear_scheduled_hook( 'usp_cron_hourly_schedule' );
+wp_clear_scheduled_hook( 'usp_cron_twicedaily_schedule' );
+wp_clear_scheduled_hook( 'usp_cron_daily_schedule' );
+
+//Подчищаем на сервере
+usp_remove_dir( USP_TAKEPATH );
+usp_remove_dir( USP_UPLOAD_PATH );
+
+//Удаляем таблицы и настройки плагина
+$tables = $wpdb->get_results( "SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name like '%usp_%'" );
+if ( $tables ) {
+	foreach ( $tables as $tables ) {
+		$wpdb->query( "DROP TABLE IF EXISTS " . $tables->table_name );
+	}
+}
+
+$wpdb->query( "DELETE FROM $wpdb->options WHERE option_name LIKE '%usp%'" );
+$wpdb->query( "DELETE FROM $wpdb->usermeta WHERE meta_key LIKE '%usp%'" );
+
+//включаем всем пользователям сайта показ админ панели
+$wpdb->update(
+	$wpdb->prefix . 'usermeta', array( 'meta_value' => 'true' ), array( 'meta_key' => 'show_admin_bar_front' )
+);
+
+//удаляем все страницы плагина
+usp_delete_plugin_pages();

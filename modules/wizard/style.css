@@ -1,0 +1,31 @@
+#usp-wizard{
+	padding: 20px 100px;
+}
+#usp-wizard .wizard-image{
+	text-align: center;
+	margin: 10px;
+}
+#usp-wizard .wizard-title{
+	font-size: 20px;
+	font-weight: bold;
+	text-align: center;
+	margin: 20px;
+}
+#usp-wizard .step-content{
+	background: #fff;
+	padding: 30px;
+}
+#usp-wizard .step-title{
+    font-size: 20px;
+    border-bottom: 1px solid #ccc;
+    line-height: 2;
+}
+#usp-wizard .step-description{
+	font-size: 16px;
+	margin: 15px 0;
+}
+#usp-wizard .step-options{
+	max-width: 500px;
+}
+
+

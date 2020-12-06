@@ -1,0 +1,170 @@
+.usp-uploader{
+	margin: 10px 0;
+}
+
+.usp-uploader-progress{
+	background: #ccc;
+    border-radius: 3px;
+    overflow: hidden;
+}
+.usp-uploader-progress .progress-bar{
+	background: #0080005c;
+    height: 20px;
+    line-height: 1;
+    padding: 5px;
+    font-size: 12px;
+    color: #fff;
+    border-right: 5px solid green;
+}
+
+body .usp-bttn.usp-uploader-button{
+	position: relative;
+	overflow: hidden;
+	display: inline-block;
+	margin: 0 10px 0 0!important;
+}
+.usp-uploader-button input{
+	position: absolute;
+	top: 0;
+	right: 0;
+	opacity: 0;
+	cursor: pointer;
+	height: 100%;
+}
+.usp-uploader .usp-uploader-button-box{
+	padding: 3px;
+}
+
+.usp-dropzone{
+	background: #ccc;
+	padding: 15px;
+	text-align: center;
+	font-size: 18px;
+}
+.usp-dropzone.hover-dropzone{
+	background: #323232;
+}
+.usp-dropzone .dropzone-upload-area{
+	padding: 20px;
+	border: 3px dashed #fff;
+	border-style: dashed;
+}
+
+.usp-uploader .notice,
+.usp-uploader-button{
+	vertical-align: middle;
+}
+
+.usp-upload-gallery{
+	position: relative;
+}
+.usp-upload-gallery img{
+	width: auto;
+    height: inherit;
+}
+.usp-upload-gallery.simple-manager .attachment-manager{
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+.usp-upload-gallery .gallery-attachment{
+	position: relative;
+    margin: 3px;
+    border: 1px solid #eaeaea;
+    width: auto;
+    height: 110px;
+    display: inline-block;
+    overflow: hidden;
+}
+.usp-upload-gallery .attachment-title{
+	display:none;
+}
+.usp-upload-gallery.mode-grid .gallery-attachment.type-file{
+	text-align:center;
+}
+.usp-upload-gallery .gallery-attachment.type-file img{
+	margin-top: 5px;
+}
+.usp-upload-gallery.mode-grid .gallery-attachment.type-file .attachment-title{
+	display: block;
+	background: #fff;
+	font-size: 12px;
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+}
+.usp-upload-gallery .gallery-attachment img {
+	margin: 0;
+}
+.usp-upload-gallery .attachment-manager{
+
+}
+.usp-upload-gallery .attachment-manager-balloon{
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+.usp-upload-gallery .attachment-manager-balloon > i{
+	border: 1px solid #ccc;
+	padding: 5px;
+	background: #fff;
+	margin: 3px;
+}
+.usp-upload-gallery .attachment-manager-balloon .usp-balloon{
+
+}
+.usp-upload-gallery .usp-balloon a{
+	display: inline;
+}
+body .usp-upload-gallery .attachment-manager > a{
+	margin: 0!important;
+}
+body .usp-upload-gallery .attachment-manager > .usp-bttn .usp-bttn__ico{
+	padding: 5px;
+}
+.usp-upload-gallery.mode-list{
+
+}
+.usp-upload-gallery.mode-list .gallery-attachment{
+	display: flex;
+	align-items: center;
+	padding: 5px;
+	width: auto;
+	height: auto;
+}
+.usp-upload-gallery.mode-list .attachment-manager{
+	width: 165px;
+	text-align: right;
+	position: static;
+}
+.usp-upload-gallery.mode-list .attachment-title{
+	width: 100%;
+	display: block;
+}
+.usp-upload-gallery.mode-list img{
+	width: 35px;
+	height: 35px;
+	margin-right: 15px;
+}
+.usp-upload-gallery .ui-sortable-placeholder{
+	background: #ccc;
+	margin: 3px;
+	border: 3px dotted #eaeaea;
+}
+.usp-upload-gallery.mode-list .ui-sortable-placeholder{
+
+}
+.usp-upload-gallery.mode-grid .ui-sortable-placeholder{
+	width: 110px;
+	height: 110px;
+	display: inline-block;
+}
+.usp-upload-gallery .ui-sortable-helper{
+	z-index: 9999999;
+}
+.usp-upload-gallery.mode-list .ui-sortable-helper{
+
+}
+.usp-upload-gallery.mode-grid .ui-sortable-helper{
+
+}
