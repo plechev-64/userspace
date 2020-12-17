@@ -157,7 +157,7 @@ class USP_Includer {
             if ( $type == 'css' ) {
                 $urls  = array();
                 preg_match_all( '/(?<=url\()[A-zА-я0-9\-\_\/\"\'\.\?\s]*(?=\))/iu', $file_string, $urls );
-                $addon = (usp_addon_path( $file['path'] )) ? true : false;
+                $addon = false;
 
                 if ( $urls[0] ) {
 
