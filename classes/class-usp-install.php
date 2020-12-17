@@ -234,7 +234,7 @@ class USP_Install {
         if ( ! get_site_option( 'rtl_standard' ) )
             update_site_option( 'rtl_standard', '' );
 
-        update_site_option( 'usp_version', VER_USP );
+        update_site_option( 'usp_version', USP_VERSION );
 
         usp_remove_dir( USP_UPLOAD_PATH . 'js' );
         usp_remove_dir( USP_UPLOAD_PATH . 'css' );
