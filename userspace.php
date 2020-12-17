@@ -43,9 +43,9 @@ final class UserSpace {
         $this->init_modules(); //Определяем модули.
         $this->init_hooks(); //Тут все наши хуки
 
-	    $this->use_module( 'tabs' );
-	    $this->use_module( 'forms' );
-	    $this->use_module( 'table' );
+        $this->use_module( 'tabs' );
+        $this->use_module( 'forms' );
+        $this->use_module( 'table' );
 
         do_action( 'usp_loaded' ); //Оставляем кручёк
 
@@ -126,8 +126,8 @@ final class UserSpace {
         $this->define( 'USP_PREF', $wpdb->base_prefix . 'usp_' );
 
         $this->define( 'USP_PATH', trailingslashit( $this->plugin_path() ) );
-        $this->define( 'RCL_UPLOAD_PATH', $upload_dir['basedir'] . '/usp-uploads/' );
-        $this->define( 'RCL_UPLOAD_URL', $upload_dir['baseurl'] . '/usp-uploads/' );
+        $this->define( 'USP_UPLOAD_PATH', $upload_dir['basedir'] . '/usp-uploads/' );
+        $this->define( 'USP_UPLOAD_URL', $upload_dir['baseurl'] . '/usp-uploads/' );
 
         $this->define( 'USP_TAKEPATH', WP_CONTENT_DIR . '/wp-recall/' );
     }
