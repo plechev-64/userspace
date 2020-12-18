@@ -74,7 +74,7 @@ function usp_rangyinputs_scripts() {
 }
 
 function usp_font_awesome_style() {
-    wp_enqueue_style( 'usp-awesome', USP_URL . 'assets/uspi-awesome/usp-awesome.min.css', false, USP_VERSION );
+    wp_enqueue_style( 'usp-awesome', USP_URL . 'assets/usp-awesome/usp-awesome.min.css', false, USP_VERSION );
 }
 
 function usp_animate_css() {
