@@ -48,7 +48,7 @@ class USP_Includer {
 
 			//Если минификация не используется, то подключаем файлы как обычно
 			if ( ! $this->is_minify && ! in_array( $key, $forceUnion ) ) {
-				wp_enqueue_style( $key, $url, false, USP_VERSION );
+				wp_enqueue_style( $key, $url, false, VER_USP );
 				continue;
 			}
 
@@ -70,7 +70,7 @@ class USP_Includer {
 			$this->create_file( $filename, 'css' );
 		}
 
-		wp_enqueue_style( 'usp-' . $this->place, USP_UPLOAD_URL . 'css/' . $filename, false, USP_VERSION );
+		wp_enqueue_style( 'usp-' . $this->place, USP_UPLOAD_URL . 'css/' . $filename, false, VER_USP );
 	}
 
 	function include_scripts() {
@@ -106,7 +106,7 @@ class USP_Includer {
 			//Если минификация не используется, то подключаем файлы как обычно
 			if ( ! $this->is_minify && ! in_array( $key, $forceUnion ) ) {
 				$parents = isset( $usp_scripts['parents'][$key] ) ? $parents = array_merge( $usp_scripts['parents'][$key], array( 'jquery' ) ) : array( 'jquery' );
-				wp_enqueue_script( $key, $url, $parents, USP_VERSION, $in_footer );
+				wp_enqueue_script( $key, $url, $parents, VER_USP, $in_footer );
 				continue;
 			}
 
@@ -133,7 +133,7 @@ class USP_Includer {
 			$this->create_file( $filename, 'js' );
 		}
 
-		wp_enqueue_script( 'usp-' . $this->place . '-scripts', USP_UPLOAD_URL . 'js/' . $filename, $parents, USP_VERSION, $in_footer );
+		wp_enqueue_script( 'usp-' . $this->place . '-scripts', USP_UPLOAD_URL . 'js/' . $filename, $parents, VER_USP, $in_footer );
 	}
 
 	function init_dir() {
@@ -379,7 +379,7 @@ function usp_enqueue_style( $id, $url, $parents = false, $in_footer = false, $fo
 
 	if ( is_admin() || doing_action( 'login_enqueue_scripts' ) || isset( $_REQUEST['rest_route'] ) ) {
 
-		wp_enqueue_style( $id, $url, $parents, USP_VERSION );
+		wp_enqueue_style( $id, $url, $parents, VER_USP );
 
 		return;
 	}
@@ -401,8 +401,8 @@ function usp_enqueue_style( $id, $url, $parents = false, $in_footer = false, $fo
 		$usp_styles[$id] = $url;
 	}
 
-	//if ( $force_union )
-		//$usp_styles['force-union'][] = $id;
+	if ( $force_union )
+		$usp_styles['force-union'][] = $id;
 }
 
 function usp_enqueue_script( $id, $url, $parents = false, $in_footer = false, $force_union = false ) {
@@ -417,7 +417,7 @@ function usp_enqueue_script( $id, $url, $parents = false, $in_footer = false, $f
 			}
 		}
 
-		wp_enqueue_script( $id, $url, $parents, USP_VERSION, $in_footer );
+		wp_enqueue_script( $id, $url, $parents, VER_USP, $in_footer );
 
 		return;
 	}
@@ -434,8 +434,8 @@ function usp_enqueue_script( $id, $url, $parents = false, $in_footer = false, $f
 	if ( $parents )
 		$usp_scripts['parents'][$id] = $parents;
 
-	//if ( $force_union )
-		//$usp_scripts['force-union'][] = $id;
+	if ( $force_union )
+		$usp_scripts['force-union'][] = $id;
 }
 
 function usp_dequeue_style( $style ) {

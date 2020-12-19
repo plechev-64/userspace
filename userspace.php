@@ -44,9 +44,9 @@ final class UserSpace {
         $this->init_modules(); //Определяем модули.
         $this->init_hooks(); //Тут все наши хуки
 
-	    $this->use_module( 'tabs' );
-	    $this->use_module( 'forms' );
-	    $this->use_module( 'table' );
+        $this->use_module( 'tabs' );
+        $this->use_module( 'forms' );
+        $this->use_module( 'table' );
 
 	    $this->init_theme();
 

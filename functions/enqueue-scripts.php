@@ -1,8 +1,8 @@
 <?php
 
 function usp_iconpicker() {
-	wp_enqueue_style( 'usp-iconpicker', USP_URL . 'assets/usp-awesome/iconpicker/iconpicker.css', false, USP_VERSION );
-	wp_enqueue_script( 'usp-iconpicker', USP_URL . 'assets/usp-awesome/iconpicker/iconpicker.js', array( 'jquery' ), USP_VERSION );
+	wp_enqueue_style( 'usp-iconpicker', USP_URL . 'assets/usp-awesome/iconpicker/iconpicker.css', false, VER_USP );
+	wp_enqueue_script( 'usp-iconpicker', USP_URL . 'assets/usp-awesome/iconpicker/iconpicker.js', array( 'jquery' ), VER_USP );
 }
 
 function usp_sortable_scripts() {
@@ -17,8 +17,8 @@ function usp_resizable_scripts() {
 
 function usp_multiselect_scripts() {
 	wp_enqueue_script( 'jquery' );
-	usp_enqueue_style( 'f-select', USP_URL . 'assets/js/fselect/fSelect.css', false, USP_VERSION );
-	wp_enqueue_script( 'f-select', USP_URL . 'assets/js/fselect/fSelect.js', false, USP_VERSION );
+	usp_enqueue_style( 'f-select', USP_URL . 'assets/js/fselect/fSelect.css', false, VER_USP );
+	wp_enqueue_script( 'f-select', USP_URL . 'assets/js/fselect/fSelect.js', false, VER_USP );
 }
 
 function usp_slider_scripts() {
@@ -29,7 +29,7 @@ function usp_slider_scripts() {
 }
 
 function usp_datepicker_scripts() {
-	wp_enqueue_style( 'jquery-ui-datepicker', USP_URL . 'assets/js/datepicker/style.css', false, USP_VERSION );
+	wp_enqueue_style( 'jquery-ui-datepicker', USP_URL . 'assets/js/datepicker/style.css', false, VER_USP );
 	wp_enqueue_script( 'jquery' );
 	wp_enqueue_script( 'jquery-ui-core' );
 	wp_enqueue_script( 'jquery-ui-datepicker' );
@@ -74,7 +74,7 @@ function usp_rangyinputs_scripts() {
 }
 
 function usp_font_awesome_style( ) {
-	wp_enqueue_style( 'usp-awesome', USP_URL . 'assets/uspi-awesome/usp-awesome.min.css', false, USP_VERSION );
+	wp_enqueue_style( 'usp-awesome', USP_URL . 'assets/uspi-awesome/usp-awesome.min.css', false, VER_USP );
 }
 
 function usp_animate_css() {
@@ -84,8 +84,8 @@ function usp_animate_css() {
 add_action( 'login_enqueue_scripts', 'usp_enqueue_wp_form_scripts', 1 );
 function usp_enqueue_wp_form_scripts() {
 	wp_enqueue_script( 'jquery' );
-	wp_enqueue_script( 'usp-core-scripts', USP_URL . 'assets/js/core.js', array( 'jquery' ), USP_VERSION );
-	wp_enqueue_script( 'usp-primary-scripts', USP_URL . 'assets/js/scripts.js', array( 'jquery' ), USP_VERSION );
+	wp_enqueue_script( 'usp-core-scripts', USP_URL . 'assets/js/core.js', array( 'jquery' ), VER_USP );
+	wp_enqueue_script( 'usp-primary-scripts', USP_URL . 'assets/js/scripts.js', array( 'jquery' ), VER_USP );
 
 	usp_font_awesome_style();
 	usp_fields_scripts();
@@ -112,7 +112,7 @@ function usp_frontend_scripts() {
 		usp_dialog_scripts();
 	}
 
-	wp_enqueue_script( 'usp-core-scripts', USP_URL . 'assets/js/core.js', array( 'jquery' ), USP_VERSION );
+	wp_enqueue_script( 'usp-core-scripts', USP_URL . 'assets/js/core.js', array( 'jquery' ), VER_USP );
 	usp_enqueue_script( 'usp-primary-scripts', USP_URL . 'assets/js/scripts.js' );
 
 	$locData = usp_get_localize_data();
@@ -174,12 +174,12 @@ function usp_get_localize_data() {
 
 function usp_admin_scripts() {
 	usp_enqueue_style( 'usp-core', USP_URL . 'assets/css/core.css' );
-	wp_enqueue_style( 'animate-css', USP_URL . 'assets/css/animate-css/animate.min.css', false, USP_VERSION );
-	wp_enqueue_style( 'usp-admin-style', USP_URL . 'admin/assets/style.css', false, USP_VERSION );
+	wp_enqueue_style( 'animate-css', USP_URL . 'assets/css/animate-css/animate.min.css', false, VER_USP );
+	wp_enqueue_style( 'usp-admin-style', USP_URL . 'admin/assets/style.css', false, VER_USP );
 	wp_enqueue_style( 'wp-color-picker' );
 	wp_enqueue_script( 'jquery' );
-	wp_enqueue_script( 'usp-core-scripts', USP_URL . 'assets/js/core.js', array( 'jquery' ), USP_VERSION );
-	wp_enqueue_script( 'usp-admin-scripts', USP_URL . 'admin/assets/scripts.js', array( 'wp-color-picker' ), USP_VERSION );
+	wp_enqueue_script( 'usp-core-scripts', USP_URL . 'assets/js/core.js', array( 'jquery' ), VER_USP );
+	wp_enqueue_script( 'usp-admin-scripts', USP_URL . 'admin/assets/scripts.js', array( 'wp-color-picker' ), VER_USP );
 
 	if ( ! usp_is_ajax() )
 		wp_localize_script( 'usp-core-scripts', 'USP', usp_get_localize_data() );
