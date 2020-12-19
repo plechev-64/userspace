@@ -1,7 +1,7 @@
 ( function( $ ) {
 	var LkMenu = $( '#usp-tabs .usp-tabs-menu' );
 	var typeButton = $( '#usp-office' );
-	var RclOverlay = $( '#usp-overlay' );
+	var UspOverlay = $( '#usp-overlay' );
 
 // при ресайзе обновляем
 	function moveMenu() {
@@ -12,8 +12,8 @@
 
 // закрытие меню
 	function closeExtMenu() {
-		if ( RclOverlay.hasClass( 'sunshine_mbl_menu' ) ) {  // проверяем что это наш оверлей
-			RclOverlay.fadeOut( 100 ).removeClass( 'sunshine_mbl_menu' );
+		if ( UspOverlay.hasClass( 'sunshine_mbl_menu' ) ) {  // проверяем что это наш оверлей
+			UspOverlay.fadeOut( 100 ).removeClass( 'sunshine_mbl_menu' );
 		}
 		$( '#sunshine_ext_menu' ).removeClass( 'bounce' ).css( {
 			'top': '',
@@ -94,12 +94,12 @@
 		}
 
 		$( '#usp-tabs .hideshow' ).on( 'click', function() {
-			RclOverlay.fadeToggle( 100 ).toggleClass( 'sunshine_mbl_menu' ); // добавляем наш класс оверлею. Чтоб чужой не закрывать
+			UspOverlay.fadeToggle( 100 ).toggleClass( 'sunshine_mbl_menu' ); // добавляем наш класс оверлею. Чтоб чужой не закрывать
 			menuPosition();
 			$( '#sunshine_ext_menu' ).toggleClass( 'bounce', 100 );
 		} );
 
-		RclOverlay.on( 'click', function() {
+		UspOverlay.on( 'click', function() {
 			closeExtMenu();
 		} );
 		$( '#sunshine_ext_menu' ).on( 'click', function() {
