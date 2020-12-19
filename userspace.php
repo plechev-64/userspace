@@ -498,18 +498,12 @@ final class UserSpace {
 
 }
 
-/*
- * Возвращает класс WP_Recall
- * @return WP_Recall
- */
+
 function USP() {
     return UserSpace::getInstance();
 }
 
-/*
- * Теперь у нас есть глобальная переменная $wprecall
- * Которая содержит в себе основной класс WP_Recall
- */
+
 $GLOBALS['usp'] = USP();
 function userspace() {
     global $user_LK;
