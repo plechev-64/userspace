@@ -230,15 +230,15 @@ function usp_update_timeaction_user() {
 		$time = current_time( 'mysql' );
 
 		$res = $wpdb->update(
-			USP_PREF . 'users_actions', array( 'time_action' => $time ), array( 'user' => $user_ID )
+			USP_PREF . 'users_actions', array( 'date_action' => $time ), array( 'user_id' => $user_ID )
 		);
 
 		if ( ! isset( $res ) || $res == 0 ) {
-			$act_user = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(time_action) FROM " . USP_PREF . "users_actions WHERE user ='%d'", $user_ID ) );
+			$act_user = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(date_action) FROM " . USP_PREF . "users_actions WHERE user_id ='%d'", $user_ID ) );
 			if ( $act_user == 0 ) {
 				$wpdb->insert(
-					USP_PREF . 'users_actions', array( 'user'			 => $user_ID,
-					'time_action'	 => $time )
+					USP_PREF . 'users_actions', array( 'user_id'			 => $user_ID,
+					'date_action'	 => $time )
 				);
 			}
 			if ( $act_user > 1 ) {
@@ -508,7 +508,7 @@ function usp_get_user_url( $user_id = false ) {
 add_action( 'delete_user', 'usp_delete_user_action', 10 );
 function usp_delete_user_action( $user_id ) {
 	global $wpdb;
-	return $wpdb->query( $wpdb->prepare( "DELETE FROM " . USP_PREF . "users_actions WHERE user ='%d'", $user_id ) );
+	return $wpdb->query( $wpdb->prepare( "DELETE FROM " . USP_PREF . "users_actions WHERE user_id ='%d'", $user_id ) );
 }
 
 add_action( 'delete_user', 'usp_delete_user_avatar', 10 );

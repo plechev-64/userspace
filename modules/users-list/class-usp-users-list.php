@@ -169,10 +169,10 @@ class USP_Users_List extends USP_Users_Query {
 	function add_query_only_actions_users( $query ) {
 
 		$timeout			 = usp_get_option( 'timeout', 10 );
-		$query['where'][]	 = "actions.time_action > date_sub('" . current_time( 'mysql' ) . "', interval $timeout minute)";
+		$query['where'][]	 = "actions.date_action > date_sub('" . current_time( 'mysql' ) . "', interval $timeout minute)";
 
 		if ( $this->orderby != 'time_action' ) {
-			$query['join'][] = "RIGHT JOIN " . USP_PREF . "users_actions AS actions ON wp_users.ID = actions.user";
+			$query['join'][] = "RIGHT JOIN " . USP_PREF . "users_actions AS actions ON wp_users.ID = actions.user_id";
 		}
 
 		return $query;
@@ -277,10 +277,10 @@ class USP_Users_List extends USP_Users_Query {
 	//добавляем выборку данных активности пользователей в основной запрос
 	function add_query_time_action( $query ) {
 
-		$query['select'][]	 = "actions.time_action";
-		$query['orderby']	 = "actions.time_action";
+		$query['select'][]	 = "actions.date_action";
+		$query['orderby']	 = "actions.date_action";
 
-		$query['join'][] = "RIGHT JOIN " . USP_PREF . "users_actions AS actions ON wp_users.ID = actions.user";
+		$query['join'][] = "RIGHT JOIN " . USP_PREF . "users_actions AS actions ON wp_users.ID = actions.user_id";
 
 		return $query;
 	}
@@ -293,9 +293,9 @@ class USP_Users_List extends USP_Users_Query {
 
 		if ( $ids ) {
 
-			$query = "SELECT time_action, user AS ID "
+			$query = "SELECT date_action, user_id AS ID "
 				. "FROM " . USP_PREF . "users_actions "
-				. "WHERE user IN (" . implode( ',', $ids ) . ")";
+				. "WHERE user_id IN (" . implode( ',', $ids ) . ")";
 
 			$posts = $wpdb->get_results( $query );
 

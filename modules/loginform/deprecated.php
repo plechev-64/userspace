@@ -33,7 +33,7 @@ function usp_login_user() {
 	exit;
 }
 
-//принимаем данные для авторизации пользователя с формы wp-recall
+//принимаем данные для авторизации пользователя с формы UserSpace
 add_action( 'init', 'usp_get_login_user_activate' );
 function usp_get_login_user_activate() {
 	if ( isset( $_POST['login_wpnonce'] ) ) {

@@ -167,7 +167,7 @@ function usp_confirm_user_registration() {
 			wp_update_user( array( 'ID' => $user->ID, 'role' => $defaultRole ) );
 
 			if ( ! usp_get_time_user_action( $user->ID ) )
-				$wpdb->insert( USP_PREF . 'users_actions', array( 'user' => $user->ID, 'time_action' => current_time( 'mysql' ) ) );
+				$wpdb->insert( USP_PREF . 'users_actions', array( 'user_id' => $user->ID, 'date_action' => current_time( 'mysql' ) ) );
 
 			do_action( 'usp_confirm_registration', $user->ID );
 

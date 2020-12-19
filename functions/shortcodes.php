@@ -1,6 +1,6 @@
 <?php
 
-add_shortcode( 'usp', 'usp_get_userspace' );
+add_shortcode( 'userspace', 'usp_get_userspace' );
 function usp_get_userspace() {
 	global $user_LK;
 

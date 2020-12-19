@@ -18,48 +18,17 @@ function usp_get_wp_upload_dir() {
 
 //получение абсолютного пути до указанного файла шаблона
 function usp_get_template_path( $temp_name, $path = false ) {
-
-	if ( file_exists( USP_TAKEPATH . 'templates/' . $temp_name ) )
-		return USP_TAKEPATH . 'templates/' . $temp_name;
-
-	$path = ($path) ? usp_addon_path( $path ) . 'templates/' : USP_PATH . 'templates/';
-
-	$filepath = $path . $temp_name;
-
-	$filepath = apply_filters( 'usp_template_path', $filepath, $temp_name );
-
-	if ( ! file_exists( $filepath ) )
-		return false;
-
-	return $filepath;
+	return USP()->template($temp_name, $path)->get_path();
 }
 
 //подключение указанного файла шаблона с выводом
 function usp_include_template( $temp_name, $path = false, $data = false ) {
-
-	if ( ! empty( $data ) && is_array( $data ) ) {
-		extract( $data );
-	}
-
-	$pathfile = usp_get_template_path( $temp_name, $path );
-
-	if ( ! $pathfile )
-		return false;
-
-	do_action( 'usp_include_template_before', $temp_name, $path );
-
-	include $pathfile;
-
-	do_action( 'usp_include_template_after', $temp_name, $path );
+	return USP()->template($temp_name, $path)->include($data);
 }
 
 //подключение указанного файла шаблона без вывода
 function usp_get_include_template( $temp_name, $path = false, $data = false ) {
-	ob_start();
-	usp_include_template( $temp_name, $path, $data );
-	$content = ob_get_contents();
-	ob_end_clean();
-	return $content;
+	return USP()->template($temp_name, $path)->get_content($data);
 }
 
 //форматирование абсолютного пути в урл

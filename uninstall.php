@@ -1,12 +1,5 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * Author: Maksim Martirosov
- * Date: 05.10.2015
- * Time: 20:39
- * Project: wp-recall
- */
 if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit;
 }

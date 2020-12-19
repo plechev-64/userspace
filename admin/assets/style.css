@@ -1,7 +1,7 @@
 .toplevel_page_manage-wprecall h2,
 body.wp-admin.toplevel_page_manage-rmag h2,
-body.wp-admin[class*="wp-recall-1_page_"] h2,
-body.wp-admin[class*="usp-commerce_page_manage-"] h2 { /* h2 title on wp-recall page */
+body.wp-admin[class*="usp-1_page_"] h2,
+body.wp-admin[class*="usp-commerce_page_manage-"] h2 { /* h2 title on userspace page */
     font-size: 20px;
     font-weight: 600;
     line-height: normal;

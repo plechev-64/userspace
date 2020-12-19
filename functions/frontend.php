@@ -136,7 +136,7 @@ function usp_api_button_inline_size( $styles ) {
 }
 
 // css variable
-// Основные цвета WP-Recall переведем в css переменные
+// Основные цвета UserSpace переведем в css переменные
 // для удобства: hex и rgb значения - чтобы потом самим css генерировать как прозрачность текста (rgba)
 add_filter( 'usp_inline_styles', 'usp_css_variable', 10, 2 );
 function usp_css_variable( $styles, $rgb ) {

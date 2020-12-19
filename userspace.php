@@ -16,6 +16,7 @@
 final class UserSpace {
 
     public $version      = '1.0.0';
+    public $theme = null;
     public $fields       = array();
     public $tabs         = array();
     public $modules      = array();
@@ -46,6 +47,8 @@ final class UserSpace {
 	    $this->use_module( 'tabs' );
 	    $this->use_module( 'forms' );
 	    $this->use_module( 'table' );
+
+	    $this->init_theme();
 
         do_action( 'usp_loaded' ); //Оставляем кручёк
 
@@ -126,10 +129,10 @@ final class UserSpace {
         $this->define( 'USP_PREF', $wpdb->base_prefix . 'usp_' );
 
         $this->define( 'USP_PATH', trailingslashit( $this->plugin_path() ) );
-        $this->define( 'RCL_UPLOAD_PATH', $upload_dir['basedir'] . '/usp-uploads/' );
-        $this->define( 'RCL_UPLOAD_URL', $upload_dir['baseurl'] . '/usp-uploads/' );
+        $this->define( 'USP_UPLOAD_PATH', $upload_dir['basedir'] . '/usp-uploads/' );
+        $this->define( 'USP_UPLOAD_URL', $upload_dir['baseurl'] . '/usp-uploads/' );
 
-        $this->define( 'USP_TAKEPATH', WP_CONTENT_DIR . '/wp-recall/' );
+        $this->define( 'USP_TAKEPATH', WP_CONTENT_DIR . '/userspace/' );
     }
 
     private function define( $name, $value ) {
@@ -153,6 +156,18 @@ final class UserSpace {
                 return ( ! is_admin() || defined( 'DOING_AJAX' ) ) && ! defined( 'DOING_CRON' );
         }
     }
+
+	function init_theme() {
+
+		$this->theme = $this->themes()->get_current();
+
+		do_action( 'usp_init_theme' );
+	}
+
+	function themes() {
+		$themes = new USP_Themes();
+		return $themes;
+	}
 
     function tabs() {
         return USP_Tabs::instance();
@@ -178,6 +193,9 @@ final class UserSpace {
         require_once 'classes/class-usp-install.php';
         require_once 'classes/class-usp-log.php';
         require_once 'classes/class-usp-button.php';
+	    require_once 'classes/class-usp-theme.php';
+	    require_once 'classes/class-usp-themes.php';
+	    require_once 'classes/class-usp-template.php';
 
         require_once 'functions/activate.php';
         require_once 'functions/ajax.php';
@@ -443,6 +461,10 @@ final class UserSpace {
         return untrailingslashit( plugin_dir_path( __FILE__ ) );
     }
 
+    public function template($name, $file = false){
+        return new USP_Template($name, $file);
+    }
+
     public function ajax_url() {
         return admin_url( 'admin-ajax.php', 'relative' );
     }
@@ -499,7 +521,13 @@ function userspace() {
 
         <?php do_action( 'usp_area_notice' ); ?>
 
-        <?php usp_include_template_office(); ?>
+        <?php
+        if ( $themePath = USP()->theme->get( 'path' ) ) {
+	        USP()->template( 'office.php', $themePath )->include();
+        } else {
+	        echo '<h3>' . __( 'Office templates not found!', 'usp' ) . '</h3>';
+        }
+        ?>
 
     </div>
 
