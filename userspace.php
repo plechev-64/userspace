@@ -47,6 +47,7 @@ final class UserSpace {
         $this->use_module( 'tabs' );
         $this->use_module( 'forms' );
         $this->use_module( 'table' );
+	    $this->use_module( 'profile' );
 
 	    $this->init_theme();
 
@@ -77,6 +78,7 @@ final class UserSpace {
             'fields-manager'  => new USP_Module( USP_PATH . 'modules/fields-manager/index.php', [ 'fields' ] ),
             'content-manager' => new USP_Module( USP_PATH . 'modules/content-manager/index.php', [ 'fields', 'table' ] ),
             'options-manager' => new USP_Module( USP_PATH . 'modules/options-manager/index.php', [ 'fields' ] ),
+            'profile'         => new USP_Module( USP_PATH . 'modules/profile/index.php', [ 'forms' ] ),
         ];
     }
 

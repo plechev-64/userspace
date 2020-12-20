@@ -106,7 +106,7 @@ function usp_manager_get_new_group() {
 	);
 }
 
-usp_ajax_action( 'usp_manager_update_fields_by_ajax', false, true );
+usp_ajax_action( 'usp_manager_update_fields_by_ajax', false );
 function usp_manager_update_fields_by_ajax() {
 
 	return usp_manager_update_data_fields();
