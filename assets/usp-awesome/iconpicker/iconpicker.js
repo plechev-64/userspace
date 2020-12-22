@@ -1055,2153 +1055,527 @@
 			}
 		} );
 	};
-	c.defaultOptions = a.extend( c.defaultOptions, {
-		icons: [ {
-				title: "fa-500px",
-				searchTerms: [ ]
-			}, {
-				title: "fa-address-book",
-				searchTerms: [ ]
-			}, {
-				title: "fa-address-book-o",
-				searchTerms: [ ]
-			}, {
-				title: "fa-address-card",
-				searchTerms: [ ]
-			}, {
-				title: "fa-address-card-o",
-				searchTerms: [ ]
-			}, {
-				title: "fa-adjust",
-				searchTerms: [ "contrast" ]
-			}, {
-				title: "fa-adn",
-				searchTerms: [ ]
-			}, {
-				title: "fa-align-center",
-				searchTerms: [ "middle", "text" ]
-			}, {
-				title: "fa-align-justify",
-				searchTerms: [ "text" ]
-			}, {
-				title: "fa-align-left",
-				searchTerms: [ "text" ]
-			}, {
-				title: "fa-align-right",
-				searchTerms: [ "text" ]
-			}, {
-				title: "fa-amazon",
-				searchTerms: [ ]
-			}, {
-				title: "fa-ambulance",
-				searchTerms: [ "vehicle", "support", "help" ]
-			}, {
-				title: "fa-asl-interpreting",
-				searchTerms: [ ]
-			}, {
-				title: "fa-anchor",
-				searchTerms: [ "link" ]
-			}, {
-				title: "fa-android",
-				searchTerms: [ "robot" ]
-			}, {
-				title: "fa-angellist",
-				searchTerms: [ ]
-			}, {
-				title: "fa-angle-double-down",
-				searchTerms: [ "arrows" ]
-			}, {
-				title: "fa-angle-double-left",
-				searchTerms: [ "laquo", "quote", "previous", "back", "arrows" ]
-			}, {
-				title: "fa-angle-double-right",
-				searchTerms: [ "raquo", "quote", "next", "forward", "arrows" ]
-			}, {
-				title: "fa-angle-double-up",
-				searchTerms: [ "arrows" ]
-			}, {
-				title: "fa-angle-down",
-				searchTerms: [ "arrow" ]
-			}, {
-				title: "fa-angle-left",
-				searchTerms: [ "previous", "back", "arrow" ]
-			}, {
-				title: "fa-angle-right",
-				searchTerms: [ "next", "forward", "arrow" ]
-			}, {
-				title: "fa-angle-up",
-				searchTerms: [ "arrow" ]
-			}, {
-				title: "fa-apple",
-				searchTerms: [ "osx", "food" ]
-			}, {
-				title: "fa-archive",
-				searchTerms: [ "box", "storage", "package" ]
-			}, {
-				title: "fa-arrow-ciuspe-o-down",
-				searchTerms: [ "download", "arrow-ciuspe-o-down" ]
-			}, {
-				title: "fa-arrow-ciuspe-o-left",
-				searchTerms: [ "previous", "back", "arrow-ciuspe-o-left" ]
-			}, {
-				title: "fa-arrow-ciuspe-o-right",
-				searchTerms: [ "next", "forward", "arrow-ciuspe-o-right" ]
-			}, {
-				title: "fa-arrow-ciuspe-o-up",
-				searchTerms: [ "arrow-ciuspe-o-up" ]
-			}, {
-				title: "fa-arrow-ciuspe-down",
-				searchTerms: [ "download" ]
-			}, {
-				title: "fa-arrow-ciuspe-left",
-				searchTerms: [ "previous", "back" ]
-			}, {
-				title: "fa-arrow-ciuspe-right",
-				searchTerms: [ "next", "forward" ]
-			}, {
-				title: "fa-arrow-ciuspe-up",
-				searchTerms: [ ]
-			}, {
-				title: "fa-arrow-down",
-				searchTerms: [ "download" ]
-			}, {
-				title: "fa-arrow-left",
-				searchTerms: [ "previous", "back" ]
-			}, {
-				title: "fa-arrow-right",
-				searchTerms: [ "next", "forward" ]
-			}, {
-				title: "fa-arrow-up",
-				searchTerms: [ ]
-			}, {
-				title: "fa-arrows",
-				searchTerms: [ "expand", "enlarge", "fullscreen", "bigger",
-					"move",
-					"reorder", "resize", "arrow", "arrows" ]
-			}, {
-				title: "fa-arrows-alt",
-				searchTerms: [ "expand", "enlarge", "fullscreen", "bigger",
-					"move",
-					"reorder", "resize", "arrow", "arrows" ]
-			}, {
-				title: "fa-arrows-h",
-				searchTerms: [ "resize", "arrows-h" ]
-			}, {
-				title: "fa-arrows-v",
-				searchTerms: [ "resize", "arrows-v" ]
-			}, {
-				title: "fa-assistive-listening-systems",
-				searchTerms: [ ]
-			}, {
-				title: "fa-asterisk",
-				searchTerms: [ "details" ]
-			}, {
-				title: "fa-at",
-				searchTerms: [ "email", "e-mail" ]
-			}, {
-				title: "fa-audio-description",
-				searchTerms: [ ]
-			}, {
-				title: "fa-backward",
-				searchTerms: [ "rewind", "previous" ]
-			}, {
-				title: "fa-balance-scale",
-				searchTerms: [ ]
-			}, {
-				title: "fa-ban",
-				searchTerms: [ "delete", "remove", "trash", "hide", "block",
-					"stop",
-					"abort", "cancel", "ban", "prohibit" ]
-			}, {
-				title: "fa-bandcamp",
-				searchTerms: [ ]
-			}, {
-				title: "fa-barcode",
-				searchTerms: [ "scan" ]
-			}, {
-				title: "fa-navicon",
-				searchTerms: [ "menu", "drag", "reorder", "settings", "list",
-					"ul", "ol",
-					"checklist", "todo", "list", "hamburger" ]
-			}, {
-				title: "fa-bathtub",
-				searchTerms: [ ]
-			}, {
-				title: "fa-battery-0",
-				searchTerms: [ "power", "status" ]
-			}, {
-				title: "fa-battery",
-				searchTerms: [ "power", "status" ]
-			}, {
-				title: "fa-battery-2",
-				searchTerms: [ "power", "status" ]
-			}, {
-				title: "fa-battery-1",
-				searchTerms: [ "power", "status" ]
-			}, {
-				title: "fa-battery-3",
-				searchTerms: [ "power", "status" ]
-			}, {
-				title: "fa-battery-4",
-				searchTerms: [ "power", "status" ]
-			}, {
-				title: "fa-hotel",
-				searchTerms: [ "travel" ]
-			}, {
-				title: "fa-beer",
-				searchTerms: [ "alcohol", "stein", "drink", "mug", "bar",
-					"liquor" ]
-			}, {
-				title: "fa-behance",
-				searchTerms: [ ]
-			}, {
-				title: "fa-behance-square",
-				searchTerms: [ ]
-			}, {
-				title: "fa-bell",
-				searchTerms: [ "alert", "reminder", "notification" ]
-			}, {
-				title: "fa-bell-o",
-				searchTerms: [ "alert", "reminder", "notification" ]
-			}, {
-				title: "fa-bell-slash",
-				searchTerms: [ ]
-			}, {
-				title: "fa-bell-slash-o",
-				searchTerms: [ ]
-			}, {
-				title: "fa-bicycle",
-				searchTerms: [ "vehicle", "bike", "gears" ]
-			}, {
-				title: "fa-binoculars",
-				searchTerms: [ ]
-			}, {
-				title: "fa-birthday-cake",
-				searchTerms: [ ]
-			}, {
-				title: "fa-bitbucket",
-				searchTerms: [ "git", "bitbucket" ]
-			}, {
-				title: "fa-bitbucket-square",
-				searchTerms: [ "git", "bitbucket" ]
-			}, {
-				title: "fa-bitcoin",
-				searchTerms: [ ]
-			}, {
-				title: "fa-black-tie",
-				searchTerms: [ ]
-			}, {
-				title: "fa-blind",
-				searchTerms: [ ]
-			}, {
-				title: "fa-bluetooth",
-				searchTerms: [ ]
-			}, {
-				title: "fa-bluetooth-b",
-				searchTerms: [ ]
-			}, {
-				title: "fa-bold",
-				searchTerms: [ ]
-			}, {
-				title: "fa-flash",
-				searchTerms: [ "lightning", "weather" ]
-			}, {
-				title: "fa-bomb",
-				searchTerms: [ ]
-			}, {
-				title: "fa-book",
-				searchTerms: [ "read", "documentation" ]
-			}, {
-				title: "fa-bookmark",
-				searchTerms: [ "save" ]
-			}, {
-				title: "fa-bookmark-o",
-				searchTerms: [ "save" ]
-			}, {
-				title: "fa-braille",
-				searchTerms: [ ]
-			}, {
-				title: "fa-briefcase",
-				searchTerms: [ "work", "business", "office", "luggage", "bag" ]
-			}, {
-				title: "fa-btc",
-				searchTerms: [ ]
-			}, {
-				title: "fa-bug",
-				searchTerms: [ "report", "insect" ]
-			}, {
-				title: "fa-building",
-				searchTerms: [ "work", "business", "apartment", "office",
-					"company" ]
-			}, {
-				title: "fa-building-o",
-				searchTerms: [ "work", "business", "apartment", "office",
-					"company" ]
-			}, {
-				title: "fa-bullhorn",
-				searchTerms: [ "announcement", "share", "broadcast", "louder", "megaphone"
-				]
-			}, {
-				title: "fa-bullseye",
-				searchTerms: [ "target" ]
-			}, {
-				title: "fa-bus",
-				searchTerms: [ "vehicle" ]
-			}, {
-				title: "fa-buysellads",
-				searchTerms: [ ]
-			}, {
-				title: "fa-calculator",
-				searchTerms: [ ]
-			}, {
-				title: "fa-calendar",
-				searchTerms: [ "date", "time", "when", "event", "calendar-o" ]
-			}, {
-				title: "fa-calendar-o",
-				searchTerms: [ "date", "time", "when", "event", "calendar" ]
-			}, {
-				title: "fa-calendar-check-o",
-				searchTerms: [ "ok" ]
-			}, {
-				title: "fa-calendar-minus-o",
-				searchTerms: [ ]
-			}, {
-				title: "fa-calendar-plus-o",
-				searchTerms: [ ]
-			}, {
-				title: "fa-calendar-times-o",
-				searchTerms: [ ]
-			}, {
-				title: "fa-camera",
-				searchTerms: [ "photo", "picture", "record" ]
-			}, {
-				title: "fa-camera-retro",
-				searchTerms: [ "photo", "picture", "record" ]
-			}, {
-				title: "fa-automobile",
-				searchTerms: [ "vehicle" ]
-			}, {
-				title: "fa-caret-down",
-				searchTerms: [ "more", "dropdown", "menu", "triangle down",
-					"arrow" ]
-			}, {
-				title: "fa-caret-left",
-				searchTerms: [ "previous", "back", "triangle left", "arrow" ]
-			}, {
-				title: "fa-caret-right",
-				searchTerms: [ "next", "forward", "triangle right", "arrow" ]
-			}, {
-				title: "fa-caret-up",
-				searchTerms: [ "triangle up", "arrow" ]
-			}, {
-				title: "fa-toggle-down",
-				searchTerms: [ "more", "dropdown", "menu",
-					"caret-square-o-down" ]
-			}, {
-				title: "fa-toggle-left",
-				searchTerms: [ "previous", "back", "caret-square-o-left" ]
-			}, {
-				title: "fa-toggle-right",
-				searchTerms: [ "next", "forward", "caret-square-o-right" ]
-			}, {
-				title: "fa-toggle-up",
-				searchTerms: [ "caret-square-o-up" ]
-			}, {
-				title: "fa-cart-arrow-down",
-				searchTerms: [ "shopping" ]
-			}, {
-				title: "fa-cart-plus",
-				searchTerms: [ "add", "shopping" ]
-			}, {
-				title: "fa-cc-amex",
-				searchTerms: [ "amex" ]
-			}, {
-				title: "fa-cc-diners-club",
-				searchTerms: [ ]
-			}, {
-				title: "fa-cc-discover",
-				searchTerms: [ ]
-			}, {
-				title: "fa-cc-jcb",
-				searchTerms: [ ]
-			}, {
-				title: "fa-cc-mastercard",
-				searchTerms: [ ]
-			}, {
-				title: "fa-cc-paypal",
-				searchTerms: [ ]
-			}, {
-				title: "fa-cc-stripe",
-				searchTerms: [ ]
-			}, {
-				title: "fa-cc-visa",
-				searchTerms: [ ]
-			}, {
-				title: "fa-certificate",
-				searchTerms: [ "badge", "star" ]
-			}, {
-				title: "fa-area-chart",
-				searchTerms: [ "graph", "analytics", "area-chart" ]
-			}, {
-				title: "fa-bar-chart",
-				searchTerms: [ "graph", "analytics", "bar-chart" ]
-			}, {
-				title: "fa-line-chart",
-				searchTerms: [ "graph", "analytics", "line-chart", "dashboard" ]
-			}, {
-				title: "fa-pie-chart",
-				searchTerms: [ "graph", "analytics", "pie-chart" ]
-			}, {
-				title: "fa-check",
-				searchTerms: [ "checkmark", "done", "todo", "agree", "accept",
-					"confirm",
-					"tick", "ok", "select" ]
-			}, {
-				title: "fa-check-ciuspe",
-				searchTerms: [ "todo", "done", "agree", "accept", "confirm",
-					"ok", "select"
-				]
-			}, {
-				title: "fa-check-ciuspe-o",
-				searchTerms: [ "todo", "done", "agree", "accept", "confirm",
-					"ok", "select"
-				]
-			}, {
-				title: "fa-check-square",
-				searchTerms: [ "checkmark", "done", "todo", "agree", "accept",
-					"confirm",
-					"ok", "select" ]
-			}, {
-				title: "fa-check-square-o",
-				searchTerms: [ "checkmark", "done", "todo", "agree", "accept",
-					"confirm",
-					"ok", "select" ]
-			}, {
-				title: "fa-chevron-ciuspe-down",
-				searchTerms: [ "more", "dropdown", "menu", "arrow" ]
-			}, {
-				title: "fa-chevron-ciuspe-left",
-				searchTerms: [ "previous", "back", "arrow" ]
-			}, {
-				title: "fa-chevron-ciuspe-right",
-				searchTerms: [ "next", "forward", "arrow" ]
-			}, {
-				title: "fa-chevron-ciuspe-up",
-				searchTerms: [ "arrow" ]
-			}, {
-				title: "fa-chevron-down",
-				searchTerms: [ ]
-			}, {
-				title: "fa-chevron-left",
-				searchTerms: [ "bracket", "previous", "back" ]
-			}, {
-				title: "fa-chevron-right",
-				searchTerms: [ "bracket", "next", "forward" ]
-			}, {
-				title: "fa-chevron-up",
-				searchTerms: [ ]
-			}, {
-				title: "fa-child",
-				searchTerms: [ ]
-			}, {
-				title: "fa-chrome",
-				searchTerms: [ "browser" ]
-			}, {
-				title: "fa-ciuspe",
-				searchTerms: [ "dot", "notification", "ciuspe-thin" ]
-			}, {
-				title: "fa-ciuspe-o",
-				searchTerms: [ "dot", "notification", "ciuspe-thin" ]
-			}, {
-				title: "fa-ciuspe-o-notch",
-				searchTerms: [ "ciuspe-o-notch" ]
-			}, {
-				title: "fa-clipboard",
-				searchTerms: [ "paste" ]
-			}, {
-				title: "fa-clock-o",
-				searchTerms: [ "watch", "timer", "late", "timestamp", "date" ]
-			}, {
-				title: "fa-clone",
-				searchTerms: [ "copy" ]
-			}, {
-				title: "fa-cc",
-				searchTerms: [ "cc" ]
-			}, {
-				title: "fa-cloud",
-				searchTerms: [ "save" ]
-			}, {
-				title: "fa-cloud-download",
-				searchTerms: [ "cloud-download" ]
-			}, {
-				title: "fa-cloud-upload",
-				searchTerms: [ "cloud-upload" ]
-			}, {
-				title: "fa-code",
-				searchTerms: [ "html", "brackets" ]
-			}, {
-				title: "fa-code-fork",
-				searchTerms: [ "git", "fork", "vcs", "svn", "github", "rebase",
-					"version",
-					"branch", "code-fork" ]
-			}, {
-				title: "fa-codepen",
-				searchTerms: [ ]
-			}, {
-				title: "fa-codiepie",
-				searchTerms: [ ]
-			}, {
-				title: "fa-coffee",
-				searchTerms: [ "morning", "mug", "breakuspit", "tea", "drink",
-					"cafe" ]
-			}, {
-				title: "fa-gear",
-				searchTerms: [ "settings" ]
-			}, {
-				title: "fa-cog",
-				searchTerms: [ "settings", "gear" ]
-			}, {
-				title: "fa-cogs",
-				searchTerms: [ "settings", "gears" ]
-			}, {
-				title: "fa-gears",
-				searchTerms: [ "settings", "gears" ]
-			}, {
-				title: "fa-columns",
-				searchTerms: [ "split", "panes", "dashboard" ]
-			}, {
-				title: "fa-commenting",
-				searchTerms: [ "speech", "notification", "note", "chat",
-					"bubble",
-					"feedback", "message", "texting", "sms", "conversation" ]
-			}, {
-				title: "fa-commenting-o",
-				searchTerms: [ "speech", "notification", "note", "chat",
-					"bubble",
-					"feedback", "message", "texting", "sms", "conversation" ]
-			}, {
-				title: "fa-comment",
-				searchTerms: [ "speech", "notification", "note", "chat",
-					"bubble",
-					"feedback", "message", "texting", "sms", "conversation" ]
-			}, {
-				title: "fa-comment-o",
-				searchTerms: [ "speech", "notification", "note", "chat",
-					"bubble",
-					"feedback", "message", "texting", "sms", "conversation" ]
-			}, {
-				title: "fa-comments",
-				searchTerms: [ "speech", "notification", "note", "chat",
-					"bubble",
-					"feedback", "message", "texting", "sms", "conversation" ]
-			}, {
-				title: "fa-comments-o",
-				searchTerms: [ "speech", "notification", "note", "chat",
-					"bubble",
-					"feedback", "message", "texting", "sms", "conversation" ]
-			}, {
-				title: "fa-compass",
-				searchTerms: [ "sauspii", "directory", "menu", "location" ]
-			}, {
-				title: "fa-compress",
-				searchTerms: [ "collapse", "combine", "contract", "merge",
-					"smaller" ]
-			}, {
-				title: "fa-connectdevelop",
-				searchTerms: [ ]
-			}, {
-				title: "fa-contao",
-				searchTerms: [ ]
-			}, {
-				title: "fa-copy",
-				searchTerms: [ "duplicate", "clone", "file", "files-o" ]
-			}, {
-				title: "fa-copyright",
-				searchTerms: [ ]
-			}, {
-				title: "fa-creative-commons",
-				searchTerms: [ ]
-			}, {
-				title: "fa-credit-card",
-				searchTerms: [ "money", "buy", "debit", "checkout", "purchase",
-					"payment",
-					"credit-card-alt" ]
-			}, {
-				title: "fa-crop",
-				searchTerms: [ "design" ]
-			}, {
-				title: "fa-crosshairs",
-				searchTerms: [ "picker", "gpd" ]
-			}, {
-				title: "fa-css3",
-				searchTerms: [ "code" ]
-			}, {
-				title: "fa-cube",
-				searchTerms: [ "package" ]
-			}, {
-				title: "fa-cubes",
-				searchTerms: [ "packages" ]
-			}, {
-				title: "fa-cut",
-				searchTerms: [ "scissors", "scissors" ]
-			}, {
-				title: "fa-dashcube",
-				searchTerms: [ ]
-			}, {
-				title: "fa-database",
-				searchTerms: [ ]
-			}, {
-				title: "fa-deafness",
-				searchTerms: [ ]
-			}, {
-				title: "fa-delicious",
-				searchTerms: [ ]
-			}, {
-				title: "fa-desktop",
-				searchTerms: [ "monitor", "screen", "desktop", "computer",
-					"demo",
-					"device", "pc" ]
-			}, {
-				title: "fa-deviantart",
-				searchTerms: [ ]
-			}, {
-				title: "fa-digg",
-				searchTerms: [ ]
-			}, {
-				title: "fa-dollar",
-				searchTerms: [ "usd", "price" ]
-			}, {
-				title: "fa-dot-ciuspe-o",
-				searchTerms: [ "target", "bullseye", "notification" ]
-			}, {
-				title: "fa-download",
-				searchTerms: [ "import" ]
-			}, {
-				title: "fa-dribbble",
-				searchTerms: [ ]
-			}, {
-				title: "fa-dropbox",
-				searchTerms: [ ]
-			}, {
-				title: "fa-drupal",
-				searchTerms: [ ]
-			}, {
-				title: "fa-edge",
-				searchTerms: [ "browser", "ie" ]
-			}, {
-				title: "fa-edit",
-				searchTerms: [ "write", "edit", "update", "pencil", "pen" ]
-			}, {
-				title: "fa-eject",
-				searchTerms: [ ]
-			}, {
-				title: "fa-ellipsis-h",
-				searchTerms: [ "dots" ]
-			}, {
-				title: "fa-ellipsis-v",
-				searchTerms: [ "dots" ]
-			}, {
-				title: "fa-ge",
-				searchTerms: [ ]
-			}, {
-				title: "fa-envelope",
-				searchTerms: [ "email", "e-mail", "letter", "support", "mail",
-					"message",
-					"notification" ]
-			}, {
-				title: "fa-envelope-o",
-				searchTerms: [ "email", "e-mail", "letter", "support", "mail",
-					"message",
-					"notification" ]
-			}, {
-				title: "fa-envelope-open",
-				searchTerms: [ "email", "e-mail", "letter", "support", "mail",
-					"message",
-					"notification" ]
-			}, {
-				title: "fa-envelope-open-o",
-				searchTerms: [ "email", "e-mail", "letter", "support", "mail",
-					"message",
-					"notification" ]
-			}, {
-				title: "fa-envelope-square",
-				searchTerms: [ "email", "e-mail", "letter", "support", "mail",
-					"message",
-					"notification" ]
-			}, {
-				title: "fa-envira",
-				searchTerms: [ "leaf" ]
-			}, {
-				title: "fa-eraser",
-				searchTerms: [ "remove", "delete" ]
-			}, {
-				title: "fa-etsy",
-				searchTerms: [ ]
-			}, {
-				title: "fa-eur",
-				searchTerms: [ "eur", "euro" ]
-			}, {
-				title: "fa-euro",
-				searchTerms: [ "eur", "euro" ]
-			}, {
-				title: "fa-exchange",
-				searchTerms: [ "transfer", "arrows", "arrow", "exchange",
-					"swap" ]
-			}, {
-				title: "fa-exclamation",
-				searchTerms: [ "warning", "error", "problem", "notification",
-					"notify",
-					"alert", "danger" ]
-			}, {
-				title: "fa-exclamation-ciuspe",
-				searchTerms: [ "warning", "error", "problem", "notification",
-					"notify",
-					"alert", "danger" ]
-			}, {
-				title: "fa-warning",
-				searchTerms: [ "warning", "error", "problem", "notification",
-					"notify",
-					"alert", "danger" ]
-			}, {
-				title: "fa-expand",
-				searchTerms: [ "enlarge", "bigger", "resize" ]
-			}, {
-				title: "fa-expeditedssl",
-				searchTerms: [ ]
-			}, {
-				title: "fa-external-link",
-				searchTerms: [ "open", "new", "external-link" ]
-			}, {
-				title: "fa-external-link-square",
-				searchTerms: [ "open", "new", "external-link-square" ]
-			}, {
-				title: "fa-eye",
-				searchTerms: [ "show", "visible", "views" ]
-			}, {
-				title: "fa-eyedropper",
-				searchTerms: [ "eyedropper" ]
-			}, {
-				title: "fa-eye-slash",
-				searchTerms: [ "toggle", "show", "hide", "visible",
-					"visiblity", "views" ]
-			}, {
-				title: "fa-facebook",
-				searchTerms: [ "social network", "facebook-official" ]
-			}, {
-				title: "fa-facebook-square",
-				searchTerms: [ "social network" ]
-			}, {
-				title: "fa-fast-backward",
-				searchTerms: [ "rewind", "previous", "beginning", "start",
-					"first" ]
-			}, {
-				title: "fa-fast-forward",
-				searchTerms: [ "next", "end", "last" ]
-			}, {
-				title: "fa-fax",
-				searchTerms: [ ]
-			}, {
-				title: "fa-female",
-				searchTerms: [ "woman", "human", "user", "person", "profile" ]
-			}, {
-				title: "fa-fighter-jet",
-				searchTerms: [ "fly", "plane", "airplane", "quick", "uspit",
-					"travel" ]
-			}, {
-				title: "fa-file-o",
-				searchTerms: [ "new", "page", "pdf", "document" ]
-			}, {
-				title: "fa-file-text",
-				searchTerms: [ "new", "page", "pdf", "document", "file-text" ]
-			}, {
-				title: "fa-file-text-o",
-				searchTerms: [ "new", "page", "pdf", "document", "file-text" ]
-			}, {
-				title: "fa-file-archive-o",
-				searchTerms: [ ]
-			}, {
-				title: "fa-file-audio-o",
-				searchTerms: [ ]
-			}, {
-				title: "fa-file-code-o",
-				searchTerms: [ ]
-			}, {
-				title: "fa-file-excel-o",
-				searchTerms: [ ]
-			}, {
-				title: "fa-file-picture-o",
-				searchTerms: [ ]
-			}, {
-				title: "fa-file-pdf-o",
-				searchTerms: [ ]
-			}, {
-				title: "fa-file-powerpoint-o",
-				searchTerms: [ ]
-			}, {
-				title: "fa-file-video-o",
-				searchTerms: [ ]
-			}, {
-				title: "fa-file-word-o",
-				searchTerms: [ ]
-			}, {
-				title: "fa-filter",
-				searchTerms: [ "funnel", "options" ]
-			}, {
-				title: "fa-fire",
-				searchTerms: [ "flame", "hot", "popular" ]
-			}, {
-				title: "fa-fire-extinguisher",
-				searchTerms: [ ]
-			}, {
-				title: "fa-firefox",
-				searchTerms: [ "browser" ]
-			}, {
-				title: "fa-first-order",
-				searchTerms: [ ]
-			}, {
-				title: "fa-flag",
-				searchTerms: [ "report", "notification", "notify" ]
-			}, {
-				title: "fa-flag-o",
-				searchTerms: [ "report", "notification", "notify" ]
-			}, {
-				title: "fa-flag-checkered",
-				searchTerms: [ "report", "notification", "notify" ]
-			}, {
-				title: "fa-flask",
-				searchTerms: [ "science", "beaker", "experimental", "labs" ]
-			}, {
-				title: "fa-flickr",
-				searchTerms: [ ]
-			}, {
-				title: "fa-folder",
-				searchTerms: [ ]
-			}, {
-				title: "fa-folder-o",
-				searchTerms: [ ]
-			}, {
-				title: "fa-folder-open",
-				searchTerms: [ ]
-			}, {
-				title: "fa-folder-open-o",
-				searchTerms: [ ]
-			}, {
-				title: "fa-font",
-				searchTerms: [ "text" ]
-			}, {
-				title: "fa-fonticons",
-				searchTerms: [ ]
-			}, {
-				title: "fa-fort-awesome",
-				searchTerms: [ "castle" ]
-			}, {
-				title: "fa-forumbee",
-				searchTerms: [ ]
-			}, {
-				title: "fa-forward",
-				searchTerms: [ "forward", "next" ]
-			}, {
-				title: "fa-foursquare",
-				searchTerms: [ ]
-			}, {
-				title: "fa-free-code-camp",
-				searchTerms: [ ]
-			}, {
-				title: "fa-frown-o",
-				searchTerms: [ "face", "emoticon", "sad", "disapprove",
-					"rating" ]
-			}, {
-				title: "fa-futbol-o",
-				searchTerms: [ ]
-			}, {
-				title: "fa-gamepad",
-				searchTerms: [ "controller" ]
-			}, {
-				title: "fa-legal",
-				searchTerms: [ "judge", "lawyer", "opinion", "hammer" ]
-			}, {
-				title: "fa-diamond",
-				searchTerms: [ "diamond" ]
-			}, {
-				title: "fa-genderless",
-				searchTerms: [ ]
-			}, {
-				title: "fa-get-pocket",
-				searchTerms: [ ]
-			}, {
-				title: "fa-gg",
-				searchTerms: [ ]
-			}, {
-				title: "fa-gg-ciuspe",
-				searchTerms: [ ]
-			}, {
-				title: "fa-gift",
-				searchTerms: [ "present" ]
-			}, {
-				title: "fa-git",
-				searchTerms: [ ]
-			}, {
-				title: "fa-git-square",
-				searchTerms: [ ]
-			}, {
-				title: "fa-github",
-				searchTerms: [ "octocat" ]
-			}, {
-				title: "fa-github-alt",
-				searchTerms: [ "octocat" ]
-			}, {
-				title: "fa-github-square",
-				searchTerms: [ "octocat" ]
-			}, {
-				title: "fa-gitlab",
-				searchTerms: [ "Axosoft" ]
-			}, {
-				title: "fa-glass",
-				searchTerms: [ "martini", "drink", "bar", "alcohol", "liquor",
-					"glass" ]
-			}, {
-				title: "fa-glide",
-				searchTerms: [ ]
-			}, {
-				title: "fa-glide-g",
-				searchTerms: [ ]
-			}, {
-				title: "fa-globe",
-				searchTerms: [ "world", "planet", "map", "place", "travel",
-					"earth",
-					"global", "translate", "all", "language", "localize",
-					"location",
-					"coordinates", "country", "gps" ]
-			}, {
-				title: "fa-google",
-				searchTerms: [ ]
-			}, {
-				title: "fa-google-plus",
-				searchTerms: [ "google-plus-ciuspe", "google-plus-official" ]
-			}, {
-				title: "fa-google-plus-official",
-				searchTerms: [ "social network", "google-plus" ]
-			}, {
-				title: "fa-google-plus-square",
-				searchTerms: [ "social network" ]
-			}, {
-				title: "fa-google-wallet",
-				searchTerms: [ ]
-			}, {
-				title: "fa-mortar-board",
-				searchTerms: [ "learning", "school", "student" ]
-			}, {
-				title: "fa-gittip",
-				searchTerms: [ "heart", "like", "favorite", "love" ]
-			}, {
-				title: "fa-grav",
-				searchTerms: [ ]
-			}, {
-				title: "fa-h-square",
-				searchTerms: [ "hospital", "hotel" ]
-			}, {
-				title: "fa-y-combinator-square",
-				searchTerms: [ ]
-			}, {
-				title: "fa-hand-lizard-o",
-				searchTerms: [ ]
-			}, {
-				title: "fa-hand-stop-o",
-				searchTerms: [ "stop" ]
-			}, {
-				title: "fa-hand-peace-o",
-				searchTerms: [ ]
-			}, {
-				title: "fa-hand-o-down",
-				searchTerms: [ "point", "finger", "hand-o-down" ]
-			}, {
-				title: "fa-hand-o-left",
-				searchTerms: [ "point", "left", "previous", "back", "finger", "hand-o-left"
-				]
-			}, {
-				title: "fa-hand-o-right",
-				searchTerms: [ "point", "right", "next", "forward", "finger",
-					"hand-o-right" ]
-			}, {
-				title: "fa-hand-o-up",
-				searchTerms: [ "point", "finger", "hand-o-up" ]
-			}, {
-				title: "fa-hand-pointer-o",
-				searchTerms: [ "select" ]
-			}, {
-				title: "fa-hand-rock-o",
-				searchTerms: [ ]
-			}, {
-				title: "fa-hand-scissors-o",
-				searchTerms: [ ]
-			}, {
-				title: "fa-hand-spock-o",
-				searchTerms: [ ]
-			}, {
-				title: "fa-handshake-o",
-				searchTerms: [ ]
-			}, {
-				title: "fa-hard-of-hearing",
-				searchTerms: [ ]
-			}, {
-				title: "fa-hashtag",
-				searchTerms: [ ]
-			}, {
-				title: "fa-hdd-o",
-				searchTerms: [ "harddrive", "hard drive", "storage", "save" ]
-			}, {
-				title: "fa-header",
-				searchTerms: [ "header", "header" ]
-			}, {
-				title: "fa-headphones",
-				searchTerms: [ "sound", "listen", "music", "audio" ]
-			}, {
-				title: "fa-heart",
-				searchTerms: [ "love", "like", "favorite" ]
-			}, {
-				title: "fa-heart-o",
-				searchTerms: [ "love", "like", "favorite" ]
-			}, {
-				title: "fa-heartbeat",
-				searchTerms: [ "ekg", "vital signs" ]
-			}, {
-				title: "fa-history",
-				searchTerms: [ ]
-			}, {
-				title: "fa-home",
-				searchTerms: [ "main", "house" ]
-			}, {
-				title: "fa-hospital-o",
-				searchTerms: [ "building", "medical center", "emergency room" ]
-			}, {
-				title: "fa-hourglass",
-				searchTerms: [ ]
-			}, {
-				title: "fa-hourglass-3",
-				searchTerms: [ ]
-			}, {
-				title: "fa-hourglass-2",
-				searchTerms: [ ]
-			}, {
-				title: "fa-hourglass-1",
-				searchTerms: [ ]
-			}, {
-				title: "fa-houzz",
-				searchTerms: [ ]
-			}, {
-				title: "fa-html5",
-				searchTerms: [ ]
-			}, {
-				title: "fa-i-cursor",
-				searchTerms: [ ]
-			}, {
-				title: "fa-id-badge",
-				searchTerms: [ ]
-			}, {
-				title: "fa-id-card",
-				searchTerms: [ ]
-			}, {
-				title: "fa-id-card-o",
-				searchTerms: [ ]
-			}, {
-				title: "fa-image",
-				searchTerms: [ "photo", "album", "picture", "image" ]
-			}, {
-				title: "fa-imdb",
-				searchTerms: [ ]
-			}, {
-				title: "fa-inbox",
-				searchTerms: [ ]
-			}, {
-				title: "fa-indent",
-				searchTerms: [ ]
-			}, {
-				title: "fa-industry",
-				searchTerms: [ "factory" ]
-			}, {
-				title: "fa-info",
-				searchTerms: [ "help", "information", "more", "details" ]
-			}, {
-				title: "fa-info-ciuspe",
-				searchTerms: [ "help", "information", "more", "details" ]
-			}, {
-				title: "fa-instagram",
-				searchTerms: [ ]
-			}, {
-				title: "fa-internet-explorer",
-				searchTerms: [ "browser", "ie" ]
-			}, {
-				title: "fa-ioxhost",
-				searchTerms: [ ]
-			}, {
-				title: "fa-italic",
-				searchTerms: [ "italics" ]
-			}, {
-				title: "fa-joomla",
-				searchTerms: [ ]
-			}, {
-				title: "fa-jsfiddle",
-				searchTerms: [ ]
-			}, {
-				title: "fa-key",
-				searchTerms: [ "unlock", "password" ]
-			}, {
-				title: "fa-keyboard-o",
-				searchTerms: [ "type", "input" ]
-			}, {
-				title: "fa-language",
-				searchTerms: [ ]
-			}, {
-				title: "fa-laptop",
-				searchTerms: [ "demo", "computer", "device", "pc" ]
-			}, {
-				title: "fa-lastfm",
-				searchTerms: [ ]
-			}, {
-				title: "fa-lastfm-square",
-				searchTerms: [ ]
-			}, {
-				title: "fa-leaf",
-				searchTerms: [ "eco", "nature", "plant" ]
-			}, {
-				title: "fa-leanpub",
-				searchTerms: [ ]
-			}, {
-				title: "fa-lemon-o",
-				searchTerms: [ "food" ]
-			}, {
-				title: "fa-level-down",
-				searchTerms: [ "level-down" ]
-			}, {
-				title: "fa-level-up",
-				searchTerms: [ "level-up" ]
-			}, {
-				title: "fa-support",
-				searchTerms: [ "support" ]
-			}, {
-				title: "fa-lightbulb-o",
-				searchTerms: [ "idea", "inspiration" ]
-			}, {
-				title: "fa-link",
-				searchTerms: [ "chain" ]
-			}, {
-				title: "fa-linkedin-square",
-				searchTerms: [ "linkedin-square" ]
-			}, {
-				title: "fa-linkedin",
-				searchTerms: [ "linkedin" ]
-			}, {
-				title: "fa-linode",
-				searchTerms: [ ]
-			}, {
-				title: "fa-linux",
-				searchTerms: [ "tux" ]
-			}, {
-				title: "fa-try",
-				searchTerms: [ "try", "turkish", "try" ]
-			}, {
-				title: "fa-list",
-				searchTerms: [ "ul", "ol", "checklist", "finished",
-					"completed", "done",
-					"todo" ]
-			}, {
-				title: "fa-list-alt",
-				searchTerms: [ "ul", "ol", "checklist", "finished",
-					"completed", "done",
-					"todo" ]
-			}, {
-				title: "fa-list-ol",
-				searchTerms: [ "ul", "ol", "checklist", "list", "todo", "list",
-					"numbers" ]
-			}, {
-				title: "fa-list-ul",
-				searchTerms: [ "ul", "ol", "checklist", "todo", "list" ]
-			}, {
-				title: "fa-location-arrow",
-				searchTerms: [ "map", "coordinates", "location", "address",
-					"place",
-					"where", "gps" ]
-			}, {
-				title: "fa-lock",
-				searchTerms: [ "protect", "admin", "security" ]
-			}, {
-				title: "fa-long-arrow-down",
-				searchTerms: [ "long-arrow-down" ]
-			}, {
-				title: "fa-long-arrow-left",
-				searchTerms: [ "previous", "back", "long-arrow-left" ]
-			}, {
-				title: "fa-long-arrow-right",
-				searchTerms: [ "long-arrow-right" ]
-			}, {
-				title: "fa-long-arrow-up",
-				searchTerms: [ "long-arrow-up" ]
-			}, {
-				title: "fa-low-vision",
-				searchTerms: [ ]
-			}, {
-				title: "fa-magic",
-				searchTerms: [ "wizard", "automatic", "autocomplete" ]
-			}, {
-				title: "fa-magnet",
-				searchTerms: [ ]
-			}, {
-				title: "fa-male",
-				searchTerms: [ "man", "human", "user", "person", "profile" ]
-			}, {
-				title: "fa-map",
-				searchTerms: [ ]
-			}, {
-				title: "fa-map-o",
-				searchTerms: [ ]
-			}, {
-				title: "fa-map-marker",
-				searchTerms: [ "map", "pin", "location", "coordinates",
-					"localize",
-					"address", "travel", "where", "place", "gps" ]
-			}, {
-				title: "fa-map-pin",
-				searchTerms: [ ]
-			}, {
-				title: "fa-map-signs",
-				searchTerms: [ ]
-			}, {
-				title: "fa-mars",
-				searchTerms: [ "male" ]
-			}, {
-				title: "fa-mars-double",
-				searchTerms: [ ]
-			}, {
-				title: "fa-mars-stroke",
-				searchTerms: [ ]
-			}, {
-				title: "fa-mars-stroke-h",
-				searchTerms: [ ]
-			}, {
-				title: "fa-mars-stroke-v",
-				searchTerms: [ ]
-			}, {
-				title: "fa-maxcdn",
-				searchTerms: [ ]
-			}, {
-				title: "fa-medium",
-				searchTerms: [ ]
-			}, {
-				title: "fa-medkit",
-				searchTerms: [ "first aid", "firstaid", "help", "support",
-					"health" ]
-			}, {
-				title: "fa-meetup",
-				searchTerms: [ ]
-			}, {
-				title: "fa-meh-o",
-				searchTerms: [ "face", "emoticon", "rating", "neutral" ]
-			}, {
-				title: "fa-mercury",
-				searchTerms: [ "transgender" ]
-			}, {
-				title: "fa-microchip",
-				searchTerms: [ ]
-			}, {
-				title: "fa-microphone",
-				searchTerms: [ "record", "voice", "sound" ]
-			}, {
-				title: "fa-microphone-slash",
-				searchTerms: [ "record", "voice", "sound", "mute" ]
-			}, {
-				title: "fa-minus",
-				searchTerms: [ "hide", "minify", "delete", "remove", "trash",
-					"hide",
-					"collapse" ]
-			}, {
-				title: "fa-minus-ciuspe",
-				searchTerms: [ "delete", "remove", "trash", "hide" ]
-			}, {
-				title: "fa-minus-square",
-				searchTerms: [ "hide", "minify", "delete", "remove", "trash",
-					"hide",
-					"collapse" ]
-			}, {
-				title: "fa-minus-square-o",
-				searchTerms: [ "hide", "minify", "delete", "remove", "trash",
-					"hide",
-					"collapse" ]
-			}, {
-				title: "fa-mixcloud",
-				searchTerms: [ ]
-			}, {
-				title: "fa-mobile",
-				searchTerms: [ "cell phone", "cellphone", "text", "call",
-					"iphone",
-					"number", "telephone" ]
-			}, {
-				title: "fa-modx",
-				searchTerms: [ ]
-			}, {
-				title: "fa-money",
-				searchTerms: [ "cash", "money", "buy", "checkout", "purchase",
-					"payment",
-					"price" ]
-			}, {
-				title: "fa-moon-o",
-				searchTerms: [ "night", "darker", "contrast" ]
-			}, {
-				title: "fa-motorcycle",
-				searchTerms: [ "vehicle", "bike" ]
-			}, {
-				title: "fa-mouse-pointer",
-				searchTerms: [ "select" ]
-			}, {
-				title: "fa-music",
-				searchTerms: [ "note", "sound" ]
-			}, {
-				title: "fa-neuter",
-				searchTerms: [ ]
-			}, {
-				title: "fa-newspaper-o",
-				searchTerms: [ "press", "article" ]
-			}, {
-				title: "fa-object-group",
-				searchTerms: [ "design" ]
-			}, {
-				title: "fa-object-group",
-				searchTerms: [ "design" ]
-			}, {
-				title: "fa-object-ungroup",
-				searchTerms: [ "design" ]
-			}, {
-				title: "fa-object-ungroup",
-				searchTerms: [ "design" ]
-			}, {
-				title: "fa-odnoklassniki",
-				searchTerms: [ ]
-			}, {
-				title: "fa-odnoklassniki-square",
-				searchTerms: [ ]
-			}, {
-				title: "fa-opencart",
-				searchTerms: [ ]
-			}, {
-				title: "fa-openid",
-				searchTerms: [ ]
-			}, {
-				title: "fa-opera",
-				searchTerms: [ ]
-			}, {
-				title: "fa-optin-monster",
-				searchTerms: [ ]
-			}, {
-				title: "fa-dedent",
-				searchTerms: [ ]
-			}, {
-				title: "fa-pagelines",
-				searchTerms: [ "leaf", "leaves", "tree", "plant", "eco",
-					"nature" ]
-			}, {
-				title: "fa-paint-brush",
-				searchTerms: [ ]
-			}, {
-				title: "fa-send",
-				searchTerms: [ ]
-			}, {
-				title: "fa-send-o",
-				searchTerms: [ ]
-			}, {
-				title: "fa-papeuspip",
-				searchTerms: [ "attachment" ]
-			}, {
-				title: "fa-paragraph",
-				searchTerms: [ ]
-			}, {
-				title: "fa-paste",
-				searchTerms: [ "copy", "clipboard" ]
-			}, {
-				title: "fa-pause",
-				searchTerms: [ "wait" ]
-			}, {
-				title: "fa-pause-ciuspe",
-				searchTerms: [ ]
-			}, {
-				title: "fa-pause-ciuspe-o",
-				searchTerms: [ ]
-			}, {
-				title: "fa-paw",
-				searchTerms: [ "pet" ]
-			}, {
-				title: "fa-paypal",
-				searchTerms: [ ]
-			}, {
-				title: "fa-pencil-square",
-				searchTerms: [ "write", "edit", "update", "pencil-square" ]
-			}, {
-				title: "fa-pencil-square-o",
-				searchTerms: [ "write", "edit", "update", "pencil-square" ]
-			}, {
-				title: "fa-pencil",
-				searchTerms: [ "write", "edit", "update", "pencil", "design" ]
-			}, {
-				title: "fa-percent",
-				searchTerms: [ ]
-			}, {
-				title: "fa-phone",
-				searchTerms: [ "call", "voice", "number", "support", "earphone",
-					"telephone" ]
-			}, {
-				title: "fa-phone-square",
-				searchTerms: [ "call", "voice", "number", "support",
-					"telephone" ]
-			}, {
-				title: "fa-volume-control-phone",
-				searchTerms: [ "telephone", "volume-control-phone" ]
-			}, {
-				title: "fa-pied-piper",
-				searchTerms: [ ]
-			}, {
-				title: "fa-pied-piper-alt",
-				searchTerms: [ ]
-			}, {
-				title: "fa-pied-piper-pp",
-				searchTerms: [ ]
-			}, {
-				title: "fa-pinterest",
-				searchTerms: [ ]
-			}, {
-				title: "fa-pinterest-p",
-				searchTerms: [ ]
-			}, {
-				title: "fa-pinterest-square",
-				searchTerms: [ ]
-			}, {
-				title: "fa-plane",
-				searchTerms: [ "travel", "trip", "location", "destination",
-					"airplane",
-					"fly", "mode" ]
-			}, {
-				title: "fa-play",
-				searchTerms: [ "start", "playing", "music", "sound" ]
-			}, {
-				title: "fa-play-ciuspe",
-				searchTerms: [ "start", "playing" ]
-			}, {
-				title: "fa-play-ciuspe-o",
-				searchTerms: [ "start", "playing" ]
-			}, {
-				title: "fa-plug",
-				searchTerms: [ "power", "connect" ]
-			}, {
-				title: "fa-plus",
-				searchTerms: [ "add", "new", "create", "expand" ]
-			}, {
-				title: "fa-plus-ciuspe",
-				searchTerms: [ "add", "new", "create", "expand" ]
-			}, {
-				title: "fa-plus-square",
-				searchTerms: [ "add", "new", "create", "expand" ]
-			}, {
-				title: "fa-plus-square-o",
-				searchTerms: [ "add", "new", "create", "expand" ]
-			}, {
-				title: "fa-podcast",
-				searchTerms: [ ]
-			}, {
-				title: "fa-gbp",
-				searchTerms: [ "gbp", "gbp" ]
-			}, {
-				title: "fa-power-off",
-				searchTerms: [ "on" ]
-			}, {
-				title: "fa-print",
-				searchTerms: [ ]
-			}, {
-				title: "fa-product-hunt",
-				searchTerms: [ ]
-			}, {
-				title: "fa-puzzle-piece",
-				searchTerms: [ "addon", "add-on", "section" ]
-			}, {
-				title: "fa-qq",
-				searchTerms: [ ]
-			}, {
-				title: "fa-qrcode",
-				searchTerms: [ "scan" ]
-			}, {
-				title: "fa-question",
-				searchTerms: [ "help", "information", "unknown", "support" ]
-			}, {
-				title: "fa-question-ciuspe",
-				searchTerms: [ "help", "information", "unknown", "support" ]
-			}, {
-				title: "fa-question-ciuspe-o",
-				searchTerms: [ "help", "information", "unknown", "support" ]
-			}, {
-				title: "fa-quora",
-				searchTerms: [ ]
-			}, {
-				title: "fa-quote-left",
-				searchTerms: [ ]
-			}, {
-				title: "fa-quote-right",
-				searchTerms: [ ]
-			}, {
-				title: "fa-random",
-				searchTerms: [ "sort", "shuffle" ]
-			}, {
-				title: "fa-ravelry",
-				searchTerms: [ ]
-			}, {
-				title: "fa-ra",
-				searchTerms: [ ]
-			}, {
-				title: "fa-recycle",
-				searchTerms: [ ]
-			}, {
-				title: "fa-reddit",
-				searchTerms: [ ]
-			}, {
-				title: "fa-reddit-alien",
-				searchTerms: [ ]
-			}, {
-				title: "fa-reddit-square",
-				searchTerms: [ ]
-			}, {
-				title: "fa-repeat",
-				searchTerms: [ "forward", "repeat", "repeat" ]
-			}, {
-				title: "fa-registered",
-				searchTerms: [ ]
-			}, {
-				title: "fa-renren",
-				searchTerms: [ ]
-			}, {
-				title: "fa-reply",
-				searchTerms: [ ]
-			}, {
-				title: "fa-reply-all",
-				searchTerms: [ ]
-			}, {
-				title: "fa-retweet",
-				searchTerms: [ "refresh", "reload", "share", "swap" ]
-			}, {
-				title: "fa-road",
-				searchTerms: [ "street" ]
-			}, {
-				title: "fa-rocket",
-				searchTerms: [ "app" ]
-			}, {
-				title: "fa-feed",
-				searchTerms: [ "feed" ]
-			}, {
-				title: "fa-rss-square",
-				searchTerms: [ "feed", "blog" ]
-			}, {
-				title: "fa-rub",
-				searchTerms: [ "rub", "rub" ]
-			}, {
-				title: "fa-inr",
-				searchTerms: [ "indian", "inr" ]
-			}, {
-				title: "fa-save",
-				searchTerms: [ "floppy", "floppy-o" ]
-			}, {
-				title: "fa-scribd",
-				searchTerms: [ ]
-			}, {
-				title: "fa-search",
-				searchTerms: [ "magnify", "zoom", "enlarge", "bigger" ]
-			}, {
-				title: "fa-search-minus",
-				searchTerms: [ "magnify", "minify", "zoom", "smaller" ]
-			}, {
-				title: "fa-search-plus",
-				searchTerms: [ "magnify", "zoom", "enlarge", "bigger" ]
-			}, {
-				title: "fa-eercast",
-				searchTerms: [ "eercast" ]
-			}, {
-				title: "fa-sellsy",
-				searchTerms: [ ]
-			}, {
-				title: "fa-server",
-				searchTerms: [ ]
-			}, {
-				title: "fa-share",
-				searchTerms: [ ]
-			}, {
-				title: "fa-share-alt",
-				searchTerms: [ ]
-			}, {
-				title: "fa-share-alt-square",
-				searchTerms: [ ]
-			}, {
-				title: "fa-share-square",
-				searchTerms: [ "social", "send" ]
-			}, {
-				title: "fa-share-square-o",
-				searchTerms: [ "social", "send" ]
-			}, {
-				title: "fa-shield",
-				searchTerms: [ "shield" ]
-			}, {
-				title: "fa-ship",
-				searchTerms: [ "boat", "sea" ]
-			}, {
-				title: "fa-shirtsinbulk",
-				searchTerms: [ ]
-			}, {
-				title: "fa-shopping-bag",
-				searchTerms: [ ]
-			}, {
-				title: "fa-shopping-basket",
-				searchTerms: [ ]
-			}, {
-				title: "fa-shopping-cart",
-				searchTerms: [ "checkout", "buy", "purchase", "payment" ]
-			}, {
-				title: "fa-shower",
-				searchTerms: [ ]
-			}, {
-				title: "fa-sign-in",
-				searchTerms: [ "enter", "join", "log in", "login", "sign up",
-					"sign in",
-					"signin", "signup", "arrow", "sign-in" ]
-			}, {
-				title: "fa-signing",
-				searchTerms: [ ]
-			}, {
-				title: "fa-sign-out",
-				searchTerms: [ "log out", "logout", "leave", "exit", "arrow",
-					"sign-out" ]
-			}, {
-				title: "fa-signal",
-				searchTerms: [ "graph", "bars", "status" ]
-			}, {
-				title: "fa-simplybuilt",
-				searchTerms: [ ]
-			}, {
-				title: "fa-sitemap",
-				searchTerms: [ "directory", "hierarchy", "organization" ]
-			}, {
-				title: "fa-skyatlas",
-				searchTerms: [ ]
-			}, {
-				title: "fa-skype",
-				searchTerms: [ ]
-			}, {
-				title: "fa-slack",
-				searchTerms: [ "hashtag", "anchor", "hash" ]
-			}, {
-				title: "fa-sliders",
-				searchTerms: [ "settings", "sliders" ]
-			}, {
-				title: "fa-slideshare",
-				searchTerms: [ ]
-			}, {
-				title: "fa-smile-o",
-				searchTerms: [ "face", "emoticon", "happy", "approve",
-					"satisfied",
-					"rating" ]
-			}, {
-				title: "fa-snapchat",
-				searchTerms: [ ]
-			}, {
-				title: "fa-snapchat-ghost",
-				searchTerms: [ ]
-			}, {
-				title: "fa-snapchat-square",
-				searchTerms: [ ]
-			}, {
-				title: "fa-snowflake-o",
-				searchTerms: [ ]
-			}, {
-				title: "fa-sort",
-				searchTerms: [ "order" ]
-			}, {
-				title: "fa-sort-alpha-asc",
-				searchTerms: [ "sort-alpha-asc" ]
-			}, {
-				title: "fa-sort-alpha-desc",
-				searchTerms: [ "sort-alpha-desc" ]
-			}, {
-				title: "fa-sort-amount-asc",
-				searchTerms: [ "sort-amount-asc" ]
-			}, {
-				title: "fa-sort-amount-desc",
-				searchTerms: [ "sort-amount-desc" ]
-			}, {
-				title: "fa-sort-desc",
-				searchTerms: [ "arrow", "descending", "sort-desc" ]
-			}, {
-				title: "fa-sort-numeric-asc",
-				searchTerms: [ "numbers", "sort-numeric-asc" ]
-			}, {
-				title: "fa-sort-numeric-desc",
-				searchTerms: [ "numbers", "sort-numeric-desc" ]
-			}, {
-				title: "fa-sort-asc",
-				searchTerms: [ "arrow", "ascending", "sort-asc" ]
-			}, {
-				title: "fa-soundcloud",
-				searchTerms: [ ]
-			}, {
-				title: "fa-space-shuttle",
-				searchTerms: [ ]
-			}, {
-				title: "fa-spinner",
-				searchTerms: [ "loading", "progress" ]
-			}, {
-				title: "fa-spotify",
-				searchTerms: [ ]
-			}, {
-				title: "fa-square",
-				searchTerms: [ "block", "box" ]
-			}, {
-				title: "fa-square-o",
-				searchTerms: [ "block", "box" ]
-			}, {
-				title: "fa-stack-exchange",
-				searchTerms: [ ]
-			}, {
-				title: "fa-stack-overflow",
-				searchTerms: [ ]
-			}, {
-				title: "fa-star",
-				searchTerms: [ "award", "achievement", "night", "rating",
-					"score",
-					"favorite" ]
-			}, {
-				title: "fa-star-o",
-				searchTerms: [ "award", "achievement", "night", "rating",
-					"score",
-					"favorite" ]
-			}, {
-				title: "fa-star-half",
-				searchTerms: [ "award", "achievement", "rating", "score",
-					"star-half-empty", "star-half-full" ]
-			}, {
-				title: "fa-star-half-o",
-				searchTerms: [ "award", "achievement", "rating", "score",
-					"star-half-empty", "star-half-full" ]
-			}, {
-				title: "fa-steam",
-				searchTerms: [ ]
-			}, {
-				title: "fa-steam-square",
-				searchTerms: [ ]
-			}, {
-				title: "fa-step-backward",
-				searchTerms: [ "rewind", "previous", "beginning", "start",
-					"first" ]
-			}, {
-				title: "fa-step-forward",
-				searchTerms: [ "next", "end", "last" ]
-			}, {
-				title: "fa-stethoscope",
-				searchTerms: [ ]
-			}, {
-				title: "fa-sticky-note",
-				searchTerms: [ ]
-			}, {
-				title: "fa-sticky-note-o",
-				searchTerms: [ ]
-			}, {
-				title: "fa-stop",
-				searchTerms: [ "block", "box", "square" ]
-			}, {
-				title: "fa-stop-ciuspe",
-				searchTerms: [ ]
-			}, {
-				title: "fa-stop-ciuspe-o",
-				searchTerms: [ ]
-			}, {
-				title: "fa-street-view",
-				searchTerms: [ "map" ]
-			}, {
-				title: "fa-strikethrough",
-				searchTerms: [ ]
-			}, {
-				title: "fa-stumbleupon",
-				searchTerms: [ ]
-			}, {
-				title: "fa-stumbleupon-ciuspe",
-				searchTerms: [ ]
-			}, {
-				title: "fa-subscript",
-				searchTerms: [ ]
-			}, {
-				title: "fa-subway",
-				searchTerms: [ ]
-			}, {
-				title: "fa-suitcase",
-				searchTerms: [ "trip", "luggage", "travel", "move", "baggage" ]
-			}, {
-				title: "fa-sun-o",
-				searchTerms: [ "weather", "contrast", "lighter", "brighten",
-					"day" ]
-			}, {
-				title: "fa-superpowers",
-				searchTerms: [ ]
-			}, {
-				title: "fa-superscript",
-				searchTerms: [ "exponential" ]
-			}, {
-				title: "fa-refresh",
-				searchTerms: [ "reload", "refresh", "refresh" ]
-			}, {
-				title: "fa-table",
-				searchTerms: [ "data", "excel", "spreadsheet" ]
-			}, {
-				title: "fa-tablet",
-				searchTerms: [ "ipad", "device" ]
-			}, {
-				title: "fa-tachometer",
-				searchTerms: [ "tachometer", "dashboard" ]
-			}, {
-				title: "fa-dashboard",
-				searchTerms: [ "tachometer", "dashboard" ]
-			}, {
-				title: "fa-tag",
-				searchTerms: [ "label" ]
-			}, {
-				title: "fa-tags",
-				searchTerms: [ "labels" ]
-			}, {
-				title: "fa-tasks",
-				searchTerms: [ "progress", "loading", "downloading",
-					"downloads",
-					"settings" ]
-			}, {
-				title: "fa-telegram",
-				searchTerms: [ ]
-			}, {
-				title: "fa-tencent-weibo",
-				searchTerms: [ ]
-			}, {
-				title: "fa-terminal",
-				searchTerms: [ "command", "prompt", "code" ]
-			}, {
-				title: "fa-text-height",
-				searchTerms: [ ]
-			}, {
-				title: "fa-text-width",
-				searchTerms: [ ]
-			}, {
-				title: "fa-th",
-				searchTerms: [ "blocks", "squares", "boxes", "grid" ]
-			}, {
-				title: "fa-th-large",
-				searchTerms: [ "blocks", "squares", "boxes", "grid" ]
-			}, {
-				title: "fa-th-list",
-				searchTerms: [ "ul", "ol", "checklist", "finished",
-					"completed", "done",
-					"todo" ]
-			}, {
-				title: "fa-themeisle",
-				searchTerms: [ ]
-			}, {
-				title: "fa-thermometer",
-				searchTerms: [ "temperature", "fever" ]
-			}, {
-				title: "fa-thermometer-0",
-				searchTerms: [ "status" ]
-			}, {
-				title: "fa-thermometer-4",
-				searchTerms: [ "status" ]
-			}, {
-				title: "fa-thermometer-2",
-				searchTerms: [ "status" ]
-			}, {
-				title: "fa-thermometer-1",
-				searchTerms: [ "status" ]
-			}, {
-				title: "fa-thermometer-3",
-				searchTerms: [ "status" ]
-			}, {
-				title: "fa-thumbs-down",
-				searchTerms: [ "dislike", "disapprove", "disagree", "hand", "thumbs-o-down"
-				]
-			}, {
-				title: "fa-thumbs-o-down",
-				searchTerms: [ "dislike", "disapprove", "disagree", "hand", "thumbs-o-down"
-				]
-			}, {
-				title: "fa-thumbs-up",
-				searchTerms: [ "like", "favorite", "approve", "agree", "hand",
-					"thumbs-o-up" ]
-			}, {
-				title: "fa-thumbs-o-up",
-				searchTerms: [ "like", "favorite", "approve", "agree", "hand",
-					"thumbs-o-up" ]
-			}, {
-				title: "fa-thumb-tack",
-				searchTerms: [ "marker", "pin", "location", "coordinates",
-					"thumb-tack" ]
-			}, {
-				title: "fa-ticket",
-				searchTerms: [ "ticket" ]
-			}, {
-				title: "fa-times",
-				searchTerms: [ "close", "exit", "x" ]
-			}, {
-				title: "fa-times-ciuspe",
-				searchTerms: [ "close", "exit", "x" ]
-			}, {
-				title: "fa-times-ciuspe-o",
-				searchTerms: [ "close", "exit", "x" ]
-			}, {
-				title: "fa-tint",
-				searchTerms: [ "raindrop", "waterdrop", "drop", "droplet" ]
-			}, {
-				title: "fa-toggle-off",
-				searchTerms: [ "switch" ]
-			}, {
-				title: "fa-toggle-on",
-				searchTerms: [ "switch" ]
-			}, {
-				title: "fa-trademark",
-				searchTerms: [ ]
-			}, {
-				title: "fa-train",
-				searchTerms: [ ]
-			}, {
-				title: "fa-intersex",
-				searchTerms: [ "intersex" ]
-			}, {
-				title: "fa-transgender-alt",
-				searchTerms: [ ]
-			}, {
-				title: "fa-trash",
-				searchTerms: [ "garbage", "delete", "remove", "hide" ]
-			}, {
-				title: "fa-trash-o",
-				searchTerms: [ "garbage", "delete", "remove", "hide", "trash",
-					"trash-o" ]
-			}, {
-				title: "fa-tree",
-				searchTerms: [ ]
-			}, {
-				title: "fa-trello",
-				searchTerms: [ ]
-			}, {
-				title: "fa-tripadvisor",
-				searchTerms: [ ]
-			}, {
-				title: "fa-trophy",
-				searchTerms: [ "award", "achievement", "cup", "winner", "game" ]
-			}, {
-				title: "fa-truck",
-				searchTerms: [ "shipping" ]
-			}, {
-				title: "fa-tty",
-				searchTerms: [ ]
-			}, {
-				title: "fa-tumblr",
-				searchTerms: [ ]
-			}, {
-				title: "fa-tumblr-square",
-				searchTerms: [ ]
-			}, {
-				title: "fa-television",
-				searchTerms: [ "display", "computer", "monitor", "television" ]
-			}, {
-				title: "fa-twitch",
-				searchTerms: [ ]
-			}, {
-				title: "fa-twitter",
-				searchTerms: [ "tweet", "social network" ]
-			}, {
-				title: "fa-twitter-square",
-				searchTerms: [ "tweet", "social network" ]
-			}, {
-				title: "fa-umbrella",
-				searchTerms: [ ]
-			}, {
-				title: "fa-underline",
-				searchTerms: [ ]
-			}, {
-				title: "fa-universal-access",
-				searchTerms: [ ]
-			}, {
-				title: "fa-bank",
-				searchTerms: [ "bank", "institution" ]
-			}, {
-				title: "fa-unlink",
-				searchTerms: [ "remove", "chain", "chain-broken" ]
-			}, {
-				title: "fa-unlock",
-				searchTerms: [ "protect", "admin", "password", "lock" ]
-			}, {
-				title: "fa-unlock-alt",
-				searchTerms: [ "protect", "admin", "password", "lock" ]
-			}, {
-				title: "fa-upload",
-				searchTerms: [ "import" ]
-			}, {
-				title: "fa-usb",
-				searchTerms: [ ]
-			}, {
-				title: "fa-user",
-				searchTerms: [ "person", "man", "head", "profile", "account" ]
-			}, {
-				title: "fa-user-o",
-				searchTerms: [ "person", "man", "head", "profile", "account" ]
-			}, {
-				title: "fa-user-ciuspe",
-				searchTerms: [ "person", "man", "head", "profile", "account" ]
-			}, {
-				title: "fa-user-ciuspe-o",
-				searchTerms: [ "person", "man", "head", "profile", "account" ]
-			}, {
-				title: "fa-user-md",
-				searchTerms: [ "doctor", "profile", "medical", "nurse", "job", "occupation"
-				]
-			}, {
-				title: "fa-user-plus",
-				searchTerms: [ "sign up", "signup" ]
-			}, {
-				title: "fa-user-secret",
-				searchTerms: [ "whisper", "spy", "incognito", "privacy" ]
-			}, {
-				title: "fa-user-times",
-				searchTerms: [ ]
-			}, {
-				title: "fa-users",
-				searchTerms: [ "people", "profiles", "persons" ]
-			}, {
-				title: "fa-spoon",
-				searchTerms: [ "spoon" ]
-			}, {
-				title: "fa-cutlery",
-				searchTerms: [ "food", "restaurant", "spoon", "knife",
-					"dinner", "eat",
-					"cutlery" ]
-			}, {
-				title: "fa-venus",
-				searchTerms: [ "female" ]
-			}, {
-				title: "fa-venus-double",
-				searchTerms: [ ]
-			}, {
-				title: "fa-venus-mars",
-				searchTerms: [ ]
-			}, {
-				title: "fa-viacoin",
-				searchTerms: [ ]
-			}, {
-				title: "fa-viadeo",
-				searchTerms: [ ]
-			}, {
-				title: "fa-viadeo-square",
-				searchTerms: [ ]
-			}, {
-				title: "fa-video-camera",
-				searchTerms: [ "film", "movie", "record", "camera",
-					"video-camera" ]
-			}, {
-				title: "fa-vimeo",
-				searchTerms: [ ]
-			}, {
-				title: "fa-vimeo-square",
-				searchTerms: [ ]
-			}, {
-				title: "fa-vine",
-				searchTerms: [ ]
-			}, {
-				title: "fa-vk",
-				searchTerms: [ ]
-			}, {
-				title: "fa-volume-down",
-				searchTerms: [ "audio", "lower", "quieter", "sound", "music" ]
-			}, {
-				title: "fa-volume-off",
-				searchTerms: [ "audio", "mute", "sound", "music" ]
-			}, {
-				title: "fa-volume-up",
-				searchTerms: [ "audio", "higher", "louder", "sound", "music" ]
-			}, {
-				title: "fa-weibo",
-				searchTerms: [ ]
-			}, {
-				title: "fa-wechat",
-				searchTerms: [ ]
-			}, {
-				title: "fa-whatsapp-square",
-				searchTerms: [ ]
-			}, {
-				title: "fa-wheelchair",
-				searchTerms: [ "handicap", "person" ]
-			}, {
-				title: "fa-wifi",
-				searchTerms: [ ]
-			}, {
-				title: "fa-wikipedia-w",
-				searchTerms: [ ]
-			}, {
-				title: "fa-window-close",
-				searchTerms: [ ]
-			}, {
-				title: "fa-window-close-o",
-				searchTerms: [ ]
-			}, {
-				title: "fa-window-maximize",
-				searchTerms: [ ]
-			}, {
-				title: "fa-window-minimize",
-				searchTerms: [ ]
-			}, {
-				title: "fa-window-restore",
-				searchTerms: [ ]
-			}, {
-				title: "fa-windows",
-				searchTerms: [ "microsoft" ]
-			}, {
-				title: "fa-krw",
-				searchTerms: [ "krw", "krw" ]
-			}, {
-				title: "fa-wordpress",
-				searchTerms: [ ]
-			}, {
-				title: "fa-wpbeginner",
-				searchTerms: [ ]
-			}, {
-				title: "fa-wpexplorer",
-				searchTerms: [ ]
-			}, {
-				title: "fa-wpforms",
-				searchTerms: [ ]
-			}, {
-				title: "fa-wrench",
-				searchTerms: [ "settings", "fix", "update", "spanner", "tool" ]
-			}, {
-				title: "fa-xing",
-				searchTerms: [ ]
-			}, {
-				title: "fa-xing-square",
-				searchTerms: [ ]
-			}, {
-				title: "fa-yc",
-				searchTerms: [ ]
-			}, {
-				title: "fa-yahoo",
-				searchTerms: [ ]
-			}, {
-				title: "fa-yelp",
-				searchTerms: [ ]
-			}, {
-				title: "fa-cny",
-				searchTerms: [ "jpy", "jpy" ]
-			}, {
-				title: "fa-yoast",
-				searchTerms: [ ]
-			}, {
-				title: "fa-youtube",
-				searchTerms: [ "video", "film", "youtube-play",
-					"youtube-square" ]
-			}, {
-				title: "fa-youtube-square",
-				searchTerms: [ ]
-			} ]
-	} );
+        c.defaultOptions = a.extend( c.defaultOptions, {
+            icons: [ {
+                    title: "fa-user-cog",
+                    searchTerms: [ "settings", "gear" ]
+                }, {
+                    title: "fa-users-cog",
+                    searchTerms: [ "settings", "gear" ]
+                }, {
+                    title: "fa-cog",
+                    searchTerms: [ "settings", "gear" ]
+                }, {
+                    title: "fa-cogs",
+                    searchTerms: [ "settings", "gear" ]
+                }, {
+                    title: "fa-user-secret",
+                    searchTerms: [ "whisper", "spy", "incognito", "privacy" ]
+                }, {
+                    title: "fa-user",
+                    searchTerms: [ "person", "man", "head", "profile", "account" ]
+                }, {
+                    title: "fa-user-friends",
+                    searchTerms: [ "person", "man", "head", "profile", "account" ]
+                }, {
+                    title: "fa-users",
+                    searchTerms: [ "people", "profiles", "persons" ]
+                }, {
+                    title: "fa-address-book",
+                    searchTerms: [ "bookmark" ]
+                }, {
+                    title: "fa-exclamation-triangle",
+                    searchTerms: [ "warning", "error", "problem", "notification",
+                        "notify",
+                        "alert", "danger" ]
+                }, {
+                    title: "fa-exclamation-circle",
+                    searchTerms: [ "warning", "error", "problem", "notification",
+                        "notify",
+                        "alert", "danger" ]
+                }, {
+                    title: "fa-question-circle",
+                    searchTerms: [ "warning", "error", "problem", "notification",
+                        "notify",
+                        "alert", "danger" ]
+                }, {
+                    title: "fa-info-circle",
+                    searchTerms: [ "warning", "error", "problem", "notification",
+                        "notify",
+                        "alert", "danger" ]
+                }, {
+                    title: "fa-info",
+                    searchTerms: [ "help", "information", "more", "details" ]
+                }, {
+                    title: "fa-bell",
+                    searchTerms: [ "alert", "reminder", "notification" ]
+                }, {
+                    title: "fa-bell-slash",
+                    searchTerms: [ "alert", "reminder", "notification" ]
+                }, {
+                    title: "fa-comment",
+                    searchTerms: [ "speech", "notification", "note", "chat",
+                        "bubble",
+                        "feedback", "message", "texting", "sms", "conversation" ]
+                }, {
+                    title: "fa-comment-dots",
+                    searchTerms: [ "speech", "notification", "note", "chat",
+                        "bubble",
+                        "feedback", "message", "texting", "sms", "conversation" ]
+                }, {
+                    title: "fa-comment-row",
+                    searchTerms: [ "speech", "notification", "note", "chat",
+                        "bubble",
+                        "feedback", "message", "texting", "sms", "conversation" ]
+                }, {
+                    title: "fa-comments",
+                    searchTerms: [ "speech", "notification", "note", "chat",
+                        "bubble",
+                        "feedback", "message", "texting", "sms", "conversation" ]
+                }, {
+                    title: "fa-envelope",
+                    searchTerms: [ "email", "e-mail", "letter", "support", "mail",
+                        "message",
+                        "notification" ]
+                }, {
+                    title: "fa-envelope-open",
+                    searchTerms: [ "email", "e-mail", "letter", "support", "mail",
+                        "message",
+                        "notification" ]
+                }, {
+                    title: "fa-paper-plane",
+                    searchTerms: [ "social", "send" ]
+                }, {
+                    title: "fa-sync",
+                    searchTerms: [ "spinner", "load", "loading", "progress" ]
+                }, {
+                    title: "fa-spinner",
+                    searchTerms: [ "load", "loading", "progress" ]
+                }, {
+                    title: "fa-circle-notched",
+                    searchTerms: [ "spinner", "load", "loading", "progress" ]
+                }, {
+                    title: "fa-list-ol",
+                    searchTerms: [ "ul", "ol", "checklist", "list", "todo", "list",
+                        "numbers" ]
+                }, {
+                    title: "fa-list-ul",
+                    searchTerms: [ "ul", "ol", "checklist", "todo", "list" ]
+                }, {
+                    title: "fa-list",
+                    searchTerms: [ "ul", "ol", "checklist", "finished",
+                        "completed", "done",
+                        "todo" ]
+                }, {
+                    title: "fa-th-list",
+                    searchTerms: [ "ul", "ol", "checklist", "finished",
+                        "completed", "done",
+                        "todo" ]
+                }, {
+                    title: "fa-link",
+                    searchTerms: [ "chain" ]
+                }, {
+                    title: "fa-unlink",
+                    searchTerms: [ "remove", "chain", "chain-broken" ]
+                }, {
+                    title: "fa-italic",
+                    searchTerms: [ "italics", "editor" ]
+                }, {
+                    title: "fa-bold",
+                    searchTerms: [ "editor", "strong" ]
+                }, {
+                    title: "fa-strikethrough",
+                    searchTerms: [ ]
+                }, {
+                    title: "fa-print",
+                    searchTerms: [ ]
+                }, {
+                    title: "fa-save",
+                    searchTerms: [ "floppy", "floppy-o" ]
+                }, {
+                    title: "fa-copy",
+                    searchTerms: [ "duplicate", "clone", "file", "files-o" ]
+                }, {
+                    title: "fa-file",
+                    searchTerms: [ "new", "page", "pdf", "document" ]
+                }, {
+                    title: "fa-image",
+                    searchTerms: [ "photo", "album", "picture", "image" ]
+                }, {
+                    title: "fa-camera",
+                    searchTerms: [ "photo", "picture", "record" ]
+                }, {
+                    title: "fa-eraser",
+                    searchTerms: [ "remove", "delete" ]
+                }, {
+                    title: "fa-code",
+                    searchTerms: [ "html", "brackets" ]
+                }, {
+                    title: "fa-terminal",
+                    searchTerms: [ "command", "prompt", "code" ]
+                }, {
+                    title: "fa-quote-right",
+                    searchTerms: [ ]
+                }, {
+                    title: "fa-at",
+                    searchTerms: [ "email", "e-mail" ]
+                }, {
+                    title: "fa-pencil",
+                    searchTerms: [ "write", "edit", "update", "pencil", "design" ]
+                }, {
+                    title: "fa-edit",
+                    searchTerms: [ "write", "edit", "update", "pencil", "pen" ]
+                }, {
+                    title: "fa-object-ungroup",
+                    searchTerms: [ "design" ]
+                }, {
+                    title: "fa-window-restore",
+                    searchTerms: [ ]
+                }, {
+                    title: "fa-lock",
+                    searchTerms: [ "protect", "admin", "security" ]
+                }, {
+                    title: "fa-unlock",
+                    searchTerms: [ "protect", "admin", "password", "lock" ]
+                }, {
+                    title: "fa-folder",
+                    searchTerms: [ "directory" ]
+                }, {
+                    title: "fa-folder-open",
+                    searchTerms: [ "directory" ]
+                }, {
+                    title: "fa-paperclip",
+                    searchTerms: [ "bookmark" ]
+                }, {
+                    title: "fa-check-square",
+                    searchTerms: [ "checkmark", "done", "todo", "agree", "accept",
+                        "confirm",
+                        "ok", "select" ]
+                }, {
+                    title: "fa-square",
+                    searchTerms: [ "block", "box" ]
+                }, {
+                    title: "fa-toggle-on",
+                    searchTerms: [ "switch" ]
+                }, {
+                    title: "fa-toggle-off",
+                    searchTerms: [ "switch" ]
+                }, {
+                    title: "fa-circle",
+                    searchTerms: [ "checkmark", "done", "todo", "agree", "accept",
+                        "confirm",
+                        "tick", "ok", "select" ]
+                }, {
+                    title: "fa-check-circle",
+                    searchTerms: [ "checkmark", "done", "todo", "agree", "accept",
+                        "confirm",
+                        "tick", "ok", "select" ]
+                }, {
+                    title: "fa-plus-circle",
+                    searchTerms: [ "add", "new", "create", "expand" ]
+                }, {
+                    title: "fa-ban",
+                    searchTerms: [ "delete", "remove", "trash", "hide", "block",
+                        "stop", "abort", "cancel", "ban", "prohibit" ]
+                }, {
+                    title: "fa-times-circle",
+                    searchTerms: [ "close", "exit", "x" ]
+                }, {
+                    title: "fa-window-close",
+                    searchTerms: [ "close", "exit", "x" ]
+                }, {
+                    title: "fa-times",
+                    searchTerms: [ "close", "exit", "x" ]
+                }, {
+                    title: "fa-horizontal-sliders",
+                    searchTerms: [ "settings", "sliders" ]
+                }, {
+                    title: "fa-bars",
+                    searchTerms: [ "menu", "settings", "list", "hamburger",
+                        "dropdown" ]
+                }, {
+                    title: "fa-horizontal-ellipsis",
+                    searchTerms: [ "dots", "menu", "settings", "list", "hamburger",
+                        "dropdown" ]
+                }, {
+                    title: "fa-vertical-ellipsis",
+                    searchTerms: [ "dots", "menu", "settings", "list", "hamburger",
+                        "dropdown" ]
+                }, {
+                    title: "fa-plus-square",
+                    searchTerms: [ "add", "new", "create", "expand" ]
+                }, {
+                    title: "fa-minus-square",
+                    searchTerms: [ "hide", "minify", "delete", "remove", "trash",
+                        "hide", "collapse" ]
+                }, {
+                    title: "fa-plus",
+                    searchTerms: [ "add", "new", "create", "expand" ]
+                }, {
+                    title: "fa-minus",
+                    searchTerms: [ "hide", "minify", "delete", "remove", "trash",
+                        "hide",
+                        "collapse" ]
+                }, {
+                    title: "fa-trash",
+                    searchTerms: [ "garbage", "delete", "remove", "hide" ]
+                }, {
+                    title: "fa-shopping-cart",
+                    searchTerms: [ "checkout", "buy", "purchase", "payment" ]
+                }, {
+                    title: "fa-shopping-cart-in",
+                    searchTerms: [ "checkout", "buy", "purchase", "payment", "add"
+                    ]
+                }, {
+                    title: "fa-shopping-cart-add",
+                    searchTerms: [ "checkout", "buy", "purchase", "payment", "add"
+                    ]
+                }, {
+                    title: "fa-shopping-basket",
+                    searchTerms: [ "checkout", "buy", "purchase", "payment" ]
+                }, {
+                    title: "fa-dollar-sign",
+                    searchTerms: [ "usd", "price", "buck", "bucks", "money", "pay",
+                        "cash" ]
+                }, {
+                    title: "fa-euro-sign",
+                    searchTerms: [ "eur", "euro", "price", "money", "pay" ]
+                }, {
+                    title: "fa-ruble-sign",
+                    searchTerms: [ "rbl", "rouble", "price", "money", "pay" ]
+                }, {
+                    title: "fa-birthday-cake",
+                    searchTerms: [ "happy", "dob" ]
+                }, {
+                    title: "fa-car",
+                    searchTerms: [ "vehicle", "automobile", "transport" ]
+                }, {
+                    title: "fa-money-check",
+                    searchTerms: [ "cash", "money", "buy", "checkout", "purchase",
+                        "payment",
+                        "price" ]
+                }, {
+                    title: "fa-copyright",
+                    searchTerms: [ ]
+                }, {
+                    title: "fa-coffee",
+                    searchTerms: [ "morning", "mug", "breakuspit", "tea", "drink",
+                        "cafe" ]
+                }, {
+                    title: "fa-angle-down",
+                    searchTerms: [ "arrow" ]
+                }, {
+                    title: "fa-angle-up",
+                    searchTerms: [ "arrow" ]
+                }, {
+                    title: "fa-angle-left",
+                    searchTerms: [ "previous", "back", "arrow" ]
+                }, {
+                    title: "fa-angle-right",
+                    searchTerms: [ "next", "forward", "arrow" ]
+                }, {
+                    title: "fa-chevron-circle-left",
+                    searchTerms: [ "previous", "back", "arrow" ]
+                }, {
+                    title: "fa-chevron-circle-right",
+                    searchTerms: [ "next", "forward", "arrow" ]
+                }, {
+                    title: "fa-sign-in",
+                    searchTerms: [ "enter", "join", "log in", "login", "sign up",
+                        "sign in",
+                        "signin", "signup", "arrow", "sign-in" ]
+                }, {
+                    title: "fa-sign-out",
+                    searchTerms: [ "log out", "logout", "leave", "exit", "arrow",
+                        "sign-out" ]
+                }, {
+                    title: "fa-chevron-left",
+                    searchTerms: [ "bracket", "previous", "back" ]
+                }, {
+                    title: "fa-chevron-right",
+                    searchTerms: [ "bracket", "next", "forward" ]
+                }, {
+                    title: "fa-chevron-up",
+                    searchTerms: [ ]
+                }, {
+                    title: "fa-chevron-down",
+                    searchTerms: [ ]
+                }, {
+                    title: "fa-angle-double-left",
+                    searchTerms: [ "laquo", "quote", "previous", "back", "arrows" ]
+                }, {
+                    title: "fa-angle-double-right",
+                    searchTerms: [ "raquo", "quote", "next", "forward", "arrows" ]
+                }, {
+                    title: "fa-caret-left",
+                    searchTerms: [ "previous", "back", "triangle left", "arrow" ]
+                }, {
+                    title: "fa-caret-right",
+                    searchTerms: [ "next", "forward", "triangle right", "arrow" ]
+                }, {
+                    title: "fa-caret-down",
+                    searchTerms: [ "more", "dropdown", "menu", "triangle down",
+                        "arrow" ]
+                }, {
+                    title: "fa-caret-up",
+                    searchTerms: [ "triangle up", "arrow" ]
+                }, {
+                    title: "fa-upload",
+                    searchTerms: [ "import" ]
+                }, {
+                    title: "fa-download",
+                    searchTerms: [ "import", "export" ]
+                }, {
+                    title: "fa-arrows",
+                    searchTerms: [ "expand", "enlarge", "fullscreen", "bigger",
+                        "move",
+                        "reorder", "resize", "arrow", "arrows" ]
+                }, {
+                    title: "fa-expand-arrows",
+                    searchTerms: [ "expand", "enlarge", "fullscreen", "bigger",
+                        "move",
+                        "reorder", "resize", "arrow", "arrows" ]
+                }, {
+                    title: "fa-arrows-horizontal",
+                    searchTerms: [ "resize", "arrows-h" ]
+                }, {
+                    title: "fa-arrows-vertical",
+                    searchTerms: [ "resize", "arrows-v" ]
+                }, {
+                    title: "fa-external-link-square",
+                    searchTerms: [ "open", "new", "external-link-square" ]
+                }, {
+                    title: "fa-external-link",
+                    searchTerms: [ "open", "new", "external-link" ]
+                }, {
+                    title: "fa-share-square",
+                    searchTerms: [ "social", "send" ]
+                }, {
+                    title: "fa-reply",
+                    searchTerms: [ "back" ]
+                }, {
+                    title: "fa-thumbs-down",
+                    searchTerms: [ "dislike", "disapprove", "disagree", "hand",
+                        "thumbs-o-down"
+                    ]
+                }, {
+                    title: "fa-thumbs-up",
+                    searchTerms: [ "like", "favorite", "approve", "agree", "hand",
+                        "thumbs-o-up" ]
+                }, {
+                    title: "fa-star",
+                    searchTerms: [ "award", "achievement", "night", "rating",
+                        "score",
+                        "favorite" ]
+                }, {
+                    title: "fa-star-fill",
+                    searchTerms: [ "award", "achievement", "night", "rating",
+                        "score",
+                        "favorite" ]
+                }, {
+                    title: "fa-star-half-o",
+                    searchTerms: [ "award", "achievement", "rating", "score",
+                        "star-half-empty", "star-half-full" ]
+                }, {
+                    title: "fa-star-half",
+                    searchTerms: [ "award", "achievement", "rating", "score",
+                        "star-half-empty", "star-half-full" ]
+                }, {
+                    title: "fa-heart",
+                    searchTerms: [ "love", "like", "favorite" ]
+                }, {
+                    title: "fa-heart-fill",
+                    searchTerms: [ "love", "like", "favorite" ]
+                }, {
+                    title: "fa-heartbeat",
+                    searchTerms: [ "ekg", "vital signs" ]
+                }, {
+                    title: "fa-rss",
+                    searchTerms: [ "feed", "blog" ]
+                }, {
+                    title: "fa-wechat",
+                    searchTerms: [ ]
+                }, {
+                    title: "fa-twitter",
+                    searchTerms: [ "tweet", "social network" ]
+                }, {
+                    title: "fa-home",
+                    searchTerms: [ "main", "house" ]
+                }, {
+                    title: "fa-bookmark",
+                    searchTerms: [ "save" ]
+                }, {
+                    title: "fa-book",
+                    searchTerms: [ "read", "documentation" ]
+                }, {
+                    title: "fa-eye",
+                    searchTerms: [ "show", "visible", "views" ]
+                }, {
+                    title: "fa-eye-slash",
+                    searchTerms: [ "toggle", "show", "hide", "visible",
+                        "visiblity", "views" ]
+                }, {
+                    title: "fa-search",
+                    searchTerms: [ "magnify", "zoom", "enlarge", "bigger" ]
+                }, {
+                    title: "fa-search-plus",
+                    searchTerms: [ "magnify", "zoom", "enlarge", "bigger" ]
+                }, {
+                    title: "fa-balance-scale",
+                    searchTerms: [ ]
+                }, {
+                    title: "fa-check",
+                    searchTerms: [ "checkmark", "done", "todo", "agree", "accept",
+                        "confirm",
+                        "tick", "ok", "select" ]
+                }, {
+                    title: "fa-newspaper",
+                    searchTerms: [ "press", "article" ]
+                }, {
+                    title: "fa-bug",
+                    searchTerms: [ "report", "insect" ]
+                }, {
+                    title: "fa-sitemap",
+                    searchTerms: [ "directory", "hierarchy", "organization" ]
+                }, {
+                    title: "fa-database",
+                    searchTerms: [ "db" ]
+                }, {
+                    title: "fa-code-branch",
+                    searchTerms: [ "git", "fork", "vcs", "svn", "github", "rebase",
+                        "version",
+                        "branch", "code-fork" ]
+                }, {
+                    title: "fa-shield",
+                    searchTerms: [ "shield" ]
+                }, {
+                    title: "fa-rocket",
+                    searchTerms: [ "app" ]
+                }, {
+                    title: "fa-calendar-check",
+                    searchTerms: [ "ok" ]
+                }, {
+                    title: "fa-key",
+                    searchTerms: [ "unlock", "password" ]
+                }, {
+                    title: "fa-magic",
+                    searchTerms: [ "wizard", "automatic", "autocomplete" ]
+                }, {
+                    title: "fa-wired-network",
+                    searchTerms: [ ]
+                }, {
+                    title: "fa-clock",
+                    searchTerms: [ "watch", "timer", "late", "timestamp", "date" ]
+                }, {
+                    title: "fa-history",
+                    searchTerms: [ ]
+                }, {
+                    title: "fa-beaming-face-with-smiling-eyes",
+                    searchTerms: [ "face", "emoticon", "happy", "approve",
+                        "satisfied",
+                        "rating" ]
+                } ]
+        } );
 } );
 
 jQuery( window ).on( 'load', function() {
