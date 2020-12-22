@@ -2,883 +2,883 @@
 
 class USP_Fields_Manager extends USP_Fields {
 
-	public $manager_id			 = false;
-	//public $fields = array();
-	public $option_name			 = '';
-	public $structure_edit		 = 0;
-	public $template_fields		 = 0;
-	public $default_fields		 = array();
-	public $default_is_null		 = 0;
-	public $sortable			 = 1;
-	public $empty_field			 = 1;
-	public $create_field		 = 1;
-	public $switch_id			 = 0;
-	public $switch_type			 = 1;
-	public $fields_delete		 = 1;
-	public $field_options		 = array();
-	public $new_field_options	 = array();
-	public $new_field_type		 = 0;
-	public $default_box			 = 1;
-	public $meta_delete			 = 0;
-	public $current_item		 = 0;
-	public $group_id			 = 0;
-	public $onsubmit			 = 'usp_manager_update_fields';
-	public $types				 = array(
-		'text',
-		'textarea',
-		'select',
-		'multiselect',
-		'checkbox',
-		'radio', 'email',
-		'tel',
-		'number',
-		'date',
-		'time',
-		'url',
-		'agree',
-		'file',
-		'dynamic',
-		'runner',
-		'range',
-		'editor',
-		'uploader'
-	);
+    public $manager_id        = false;
+    //public $fields = array();
+    public $option_name       = '';
+    public $structure_edit    = 0;
+    public $template_fields   = 0;
+    public $default_fields    = array();
+    public $default_is_null   = 0;
+    public $sortable          = 1;
+    public $empty_field       = 1;
+    public $create_field      = 1;
+    public $switch_id         = 0;
+    public $switch_type       = 1;
+    public $fields_delete     = 1;
+    public $field_options     = array();
+    public $new_field_options = array();
+    public $new_field_type    = 0;
+    public $default_box       = 1;
+    public $meta_delete       = 0;
+    public $current_item      = 0;
+    public $group_id          = 0;
+    public $onsubmit          = 'usp_manager_update_fields';
+    public $types             = array(
+        'text',
+        'textarea',
+        'select',
+        'multiselect',
+        'checkbox',
+        'radio', 'email',
+        'tel',
+        'number',
+        'date',
+        'time',
+        'url',
+        'agree',
+        'file',
+        'dynamic',
+        'runner',
+        'range',
+        'editor',
+        'uploader'
+    );
 
-	function __construct( $manager_id, $args = false ) {
+    function __construct( $manager_id, $args = false ) {
 
-		usp_dialog_scripts();
+        usp_dialog_scripts();
 
-		usp_iconpicker();
+        usp_iconpicker();
 
-		$this->manager_id = $manager_id;
+        $this->manager_id = $manager_id;
 
-		$this->init_properties( $args );
+        $this->init_properties( $args );
 
-		if ( $this->sortable )
-			usp_sortable_scripts();
+        if ( $this->sortable )
+            usp_sortable_scripts();
 
-		//if ( $this->structure_edit )
-		usp_resizable_scripts();
+        //if ( $this->structure_edit )
+        usp_resizable_scripts();
 
-		if ( ! $this->option_name )
-			$this->option_name = 'usp_fields_' . $this->manager_id;
+        if ( ! $this->option_name )
+            $this->option_name = 'usp_fields_' . $this->manager_id;
 
-		$fields = apply_filters( 'usp_custom_fields', $this->get_active_fields(), $this->manager_id );
+        $fields = apply_filters( 'usp_custom_fields', $this->get_active_fields(), $this->manager_id );
 
-		parent::__construct( $fields, $this->get_structure() );
+        parent::__construct( $fields, $this->get_structure() );
 
-		$this->setup_active_fields();
+        $this->setup_active_fields();
 
-		if ( $this->template_fields ) {
-			$this->setup_template_fields();
-		}
-	}
+        if ( $this->template_fields ) {
+            $this->setup_template_fields();
+        }
+    }
 
-	function init_properties( $args ) {
+    function init_properties( $args ) {
 
-		$properties = get_class_vars( get_class( $this ) );
+        $properties = get_class_vars( get_class( $this ) );
 
-		foreach ( $properties as $name => $val ) {
-			if ( isset( $args[$name] ) ) {
-				$this->$name = is_bool( $args[$name] ) ? ( boolean ) $args[$name] : $args[$name];
-			}
-		}
-	}
+        foreach ( $properties as $name => $val ) {
+            if ( isset( $args[$name] ) ) {
+                $this->$name = is_bool( $args[$name] ) ? ( boolean ) $args[$name] : $args[$name];
+            }
+        }
+    }
 
-	function setup_template_fields( $fields = false ) {
+    function setup_template_fields( $fields = false ) {
 
-		if ( ! $fields )
-			$fields = $this->get_template_fields();
+        if ( ! $fields )
+            $fields = $this->get_template_fields();
 
-		if ( ! $fields || ! is_array( $fields ) )
-			return false;
+        if ( ! $fields || ! is_array( $fields ) )
+            return false;
 
-		$template_fields = array();
+        $template_fields = array();
 
-		foreach ( $fields as $field ) {
+        foreach ( $fields as $field ) {
 
-			if ( ! $field )
-				continue;
+            if ( ! $field )
+                continue;
 
-			$template_fields[$field['slug']] = $this::setup( $field );
-		}
+            $template_fields[$field['slug']] = $this::setup( $field );
+        }
 
-		if ( $template_fields ) {
-			$this->template_fields = $template_fields;
-		}
-	}
+        if ( $template_fields ) {
+            $this->template_fields = $template_fields;
+        }
+    }
 
-	function get_template_fields() {
-		return apply_filters( 'usp_template_fields_manager', $this->template_fields, $this->manager_id );
-	}
+    function get_template_fields() {
+        return apply_filters( 'usp_template_fields_manager', $this->template_fields, $this->manager_id );
+    }
 
-	function setup_default_fields( $fields = false ) {
+    function setup_default_fields( $fields = false ) {
 
-		if ( ! $fields )
-			$fields = $this->get_default_fields();
+        if ( ! $fields )
+            $fields = $this->get_default_fields();
 
-		if ( ! $fields )
-			return false;
+        if ( ! $fields )
+            return false;
 
-		$default_fields = array();
+        $default_fields = array();
 
-		foreach ( $fields as $field ) {
+        foreach ( $fields as $field ) {
 
-			if ( ! $field )
-				continue;
+            if ( ! $field )
+                continue;
 
-			$default_fields[$field['slug']] = $this::setup( $field );
+            $default_fields[$field['slug']] = $this::setup( $field );
 
-			if ( ! $this->default_box && ! $this->is_active_field( $field['slug'] ) )
-				$this->add_field( $field );
-		}
+            if ( ! $this->default_box && ! $this->is_active_field( $field['slug'] ) )
+                $this->add_field( $field );
+        }
 
-		if ( $default_fields ) {
-			$this->default_fields = $default_fields;
-		}
+        if ( $default_fields ) {
+            $this->default_fields = $default_fields;
+        }
 
-		if ( ! $this->fields && $this->default_is_null ) {
+        if ( ! $this->fields && $this->default_is_null ) {
 
-			$this->fields = $this->default_fields;
+            $this->fields = $this->default_fields;
 
-			$this->setup_structure( true );
-		}
-	}
+            $this->setup_structure( true );
+        }
+    }
 
-	function setup_active_fields() {
+    function setup_active_fields() {
 
-		$fields = $this->get_default_fields();
+        $fields = $this->get_default_fields();
 
-		if ( ! $fields )
-			return false;
+        if ( ! $fields )
+            return false;
 
-		foreach ( $fields as $field ) {
+        foreach ( $fields as $field ) {
 
-			if ( ! $field || ! $this->is_active_field( $field['slug'] ) )
-				continue;
+            if ( ! $field || ! $this->is_active_field( $field['slug'] ) )
+                continue;
 
 
-			if ( ! isset( $field['options'] ) )
-				continue;
+            if ( ! isset( $field['options'] ) )
+                continue;
 
-			$activeField = $this->get_field( $field['slug'] );
+            $activeField = $this->get_field( $field['slug'] );
 
-			$activeField->set_prop( 'options', $field['options'] );
-		}
-	}
+            $activeField->set_prop( 'options', $field['options'] );
+        }
+    }
 
-	function setup_fields( $fields ) {
-		if ( is_array( $fields ) ) {
-			parent::__construct( $fields );
-		}
-	}
+    function setup_fields( $fields ) {
+        if ( is_array( $fields ) ) {
+            parent::__construct( $fields );
+        }
+    }
 
-	function get_active_fields() {
+    function get_active_fields() {
 
-		/* $name_option = 'usp_fields_'.$this->manager_id;
+        /* $name_option = 'usp_fields_'.$this->manager_id;
 
-		  if(!$fields = get_site_option($name_option)){
+          if(!$fields = get_site_option($name_option)){
 
-		  switch($this->manager_id){
-		  case 'post': $fields = get_site_option('usp_fields_post_1'); break;
-		  case 'orderform': $fields = get_site_option('usp_cart_fields'); break;
-		  case 'profile': $fields = get_site_option('usp_profile_fields'); break;
-		  }
+          switch($this->manager_id){
+          case 'post': $fields = get_site_option('usp_fields_post_1'); break;
+          case 'orderform': $fields = get_site_option('usp_cart_fields'); break;
+          case 'profile': $fields = get_site_option('usp_profile_fields'); break;
+          }
 
-		  } */
+          } */
 
-		return apply_filters( $this->option_name . '_in_manager', get_site_option( $this->option_name ) );
-	}
+        return apply_filters( $this->option_name . '_in_manager', get_site_option( $this->option_name ) );
+    }
 
-	function get_structure() {
-		if ( ! $this->structure_edit )
-			return false;
-		return get_site_option( 'usp_fields_' . $this->manager_id . '_structure' );
-	}
+    function get_structure() {
+        if ( ! $this->structure_edit )
+            return false;
+        return get_site_option( 'usp_fields_' . $this->manager_id . '_structure' );
+    }
 
-	function get_field( $field_id, $serviceType = false ) {
-		if ( ! $serviceType )
-			return isset( $this->fields[$field_id] ) ? $this->fields[$field_id] : false;
+    function get_field( $field_id, $serviceType = false ) {
+        if ( ! $serviceType )
+            return isset( $this->fields[$field_id] ) ? $this->fields[$field_id] : false;
 
-		else if ( $serviceType == 'default' )
-			return $this->default_fields[$field_id];
+        else if ( $serviceType == 'default' )
+            return $this->default_fields[$field_id];
 
-		else if ( $serviceType == 'template' )
-			return $this->template_fields[$field_id];
-	}
+        else if ( $serviceType == 'template' )
+            return $this->template_fields[$field_id];
+    }
 
-	function add_field( $args, $serviceType = false ) {
-		if ( $serviceType ) {
-			$this->default_fields[$args['slug']] = $this::setup( $args );
-		} else {
-			$this->fields[$args['slug']] = $this::setup( $args );
-		}
-	}
+    function add_field( $args, $serviceType = false ) {
+        if ( $serviceType ) {
+            $this->default_fields[$args['slug']] = $this::setup( $args );
+        } else {
+            $this->fields[$args['slug']] = $this::setup( $args );
+        }
+    }
 
-	function set_field_prop( $field_id, $propName, $propValue, $serviceType = false ) {
+    function set_field_prop( $field_id, $propName, $propValue, $serviceType = false ) {
 
-		$field = $this->get_field( $field_id, $serviceType );
+        $field = $this->get_field( $field_id, $serviceType );
 
-		$field->$propName = $propValue;
+        $field->$propName = $propValue;
 
-		if ( $serviceType ) {
-			$this->default_fields[$field_id] = $field;
-		} else {
-			$this->fields[$field_id] = $field;
-		}
-	}
+        if ( $serviceType ) {
+            $this->default_fields[$field_id] = $field;
+        } else {
+            $this->fields[$field_id] = $field;
+        }
+    }
 
-	function isset_field_prop( $field_id, $propName, $serviceType = false ) {
+    function isset_field_prop( $field_id, $propName, $serviceType = false ) {
 
-		$field = $this->get_field( $field_id, $serviceType );
+        $field = $this->get_field( $field_id, $serviceType );
 
-		if ( ! $field )
-			return false;
+        if ( ! $field )
+            return false;
 
-		return isset( $field->$propName );
-	}
+        return isset( $field->$propName );
+    }
 
-	function get_field_prop( $field_id, $propName, $serviceType = false ) {
+    function get_field_prop( $field_id, $propName, $serviceType = false ) {
 
-		if ( ! $this->isset_field_prop( $field_id, $propName, $serviceType ) )
-			return false;
+        if ( ! $this->isset_field_prop( $field_id, $propName, $serviceType ) )
+            return false;
 
-		$field = $this->get_field( $field_id, $serviceType );
+        $field = $this->get_field( $field_id, $serviceType );
 
-		return $field->$propName;
-	}
+        return $field->$propName;
+    }
 
-	function get_manager() {
+    function get_manager() {
 
-		$content = '<div class="usp-fields-manager ' . ($this->structure_edit ? 'structure-edit' : 'structure-simple') . '">';
+        $content = '<div class="usp-fields-manager ' . ($this->structure_edit ? 'structure-edit' : 'structure-simple') . '">';
 
-		if ( $this->meta_delete ) {
-			$content .= '<span style="display:none" id="usp-manager-confirm-delete">' . __( 'To delete a data adding this field?', 'usp' ) . '</span>';
-		}
+        if ( $this->meta_delete ) {
+            $content .= '<span style="display:none" id="usp-manager-confirm-delete">' . __( 'To delete a data adding this field?', 'usp' ) . '</span>';
+        }
 
-		if ( $this->template_fields ) {
-			$content .= '<div class="usp-manager-box service-box">';
-			$content .= '<span class="manager-title">' . __( 'Templates', 'usp' ) . '</span>';
-			$content .= $this->get_service_box();
-			$content .= '</div>';
-		}
+        if ( $this->template_fields ) {
+            $content .= '<div class="usp-manager-box service-box">';
+            $content .= '<span class="manager-title">' . __( 'Templates', 'usp' ) . '</span>';
+            $content .= $this->get_service_box();
+            $content .= '</div>';
+        }
 
-		if ( $this->default_fields && $this->default_box ) {
-			$content .= '<div class="usp-manager-box default-box">';
-			$content .= '<span class="manager-title">' . __( 'Inactive fields', 'usp' ) . '</span>';
-			$content .= $this->get_default_box();
-			$content .= '</div>';
-		}
+        if ( $this->default_fields && $this->default_box ) {
+            $content .= '<div class="usp-manager-box default-box">';
+            $content .= '<span class="manager-title">' . __( 'Inactive fields', 'usp' ) . '</span>';
+            $content .= $this->get_default_box();
+            $content .= '</div>';
+        }
 
-		$content .= '<div class="usp-manager-box usp-custom-fields-box">';
-		$content .= '<span class="manager-title">' . __( 'Active fields', 'usp' ) . '</span>';
-		$content .= '<form method="post" action="" class="usp-fields-manager-form" ' . ($this->onsubmit ? 'onsubmit="' . $this->onsubmit . '();return false;"' : '') . '>';
+        $content .= '<div class="usp-manager-box usp-custom-fields-box">';
+        $content .= '<span class="manager-title">' . __( 'Active fields', 'usp' ) . '</span>';
+        $content .= '<form method="post" action="" class="usp-fields-manager-form" ' . ($this->onsubmit ? 'onsubmit="' . $this->onsubmit . '();return false;"' : '') . '>';
 
-		$content .= $this->get_manager_options_form();
+        $content .= $this->get_manager_options_form();
 
-		$content .= '<div class="usp-manager-groups preloader-parent">';
+        $content .= '<div class="usp-manager-groups preloader-parent">';
 
-		foreach ( $this->structure as $group_id => $group ) {
-			$content .= $this->get_group_areas( $group );
-		}
+        foreach ( $this->structure as $group_id => $group ) {
+            $content .= $this->get_group_areas( $group );
+        }
 
-		$content .= '</div>';
+        $content .= '</div>';
 
-		$content .= $this->get_submit_box();
-		$content .= '<input type="hidden" name="manager_id" value="' . $this->manager_id . '">';
-		$content .= '<input type="hidden" name="option_name" value="' . $this->option_name . '">';
+        $content .= $this->get_submit_box();
+        $content .= '<input type="hidden" name="manager_id" value="' . $this->manager_id . '">';
+        $content .= '<input type="hidden" name="option_name" value="' . $this->option_name . '">';
 
-		if ( ! $this->onsubmit ) {
-			$content .= wp_nonce_field( 'usp-update-custom-fields', '_wpnonce', true, false );
-			$content .= '<input type="hidden" name="usp_manager_update_fields_by_post" value="1">';
-		}
+        if ( ! $this->onsubmit ) {
+            $content .= wp_nonce_field( 'usp-update-custom-fields', '_wpnonce', true, false );
+            $content .= '<input type="hidden" name="usp_manager_update_fields_by_post" value="1">';
+        }
 
-		$content .= '</form>';
-		$content .= '</div>';
+        $content .= '</form>';
+        $content .= '</div>';
 
-		$content .= '</div>';
+        $content .= '</div>';
 
-		if ( $this->sortable ) {
-			$content .= $this->sortable_fields_script();
-		}
+        if ( $this->sortable ) {
+            $content .= $this->sortable_fields_script();
+        }
 
-		$content .= $this->resizable_areas_script();
+        $content .= $this->resizable_areas_script();
 
-		$content .= $this->sortable_dynamic_values_script();
+        $content .= $this->sortable_dynamic_values_script();
 
-		$props = get_object_vars( $this );
+        $props = get_object_vars( $this );
 
-		unset( $props['fields'] );
-		unset( $props['default_fields'] );
+        unset( $props['fields'] );
+        unset( $props['default_fields'] );
 
-		$content .= '<script>jQuery(window).on("load", function() {usp_init_manager_fields(' . json_encode( $props ) . ');});</script>';
+        $content .= '<script>jQuery(window).on("load", function() {usp_init_manager_fields(' . json_encode( $props ) . ');});</script>';
 
-		return $content;
-	}
+        return $content;
+    }
 
-	function get_manager_options_form() {
+    function get_manager_options_form() {
 
-		$fields = $this->get_manager_options_form_fields();
+        $fields = $this->get_manager_options_form_fields();
 
-		if ( ! $fields )
-			return false;
+        if ( ! $fields )
+            return false;
 
-		$content = '<div class="usp-manager-options">';
-		foreach ( $fields as $field ) {
-			$content .= $this::setup( $field )->get_field_html();
-		}
-		$content .= '</div>';
+        $content = '<div class="usp-manager-options">';
+        foreach ( $fields as $field ) {
+            $content .= $this::setup( $field )->get_field_html();
+        }
+        $content .= '</div>';
 
-		return $content;
-	}
+        return $content;
+    }
 
-	function get_manager_options_form_fields() {
-		return array();
-	}
+    function get_manager_options_form_fields() {
+        return array();
+    }
 
-	function get_group_areas( $group = array() ) {
+    function get_group_areas( $group = array() ) {
 
-		$group = wp_parse_args( $group, array(
-			'title'	 => '',
-			'id'	 => 'section-' . rand( 100, 10000 ),
-			'type'	 => 0,
-			'areas'	 => array(
-				array(
-					'fields' => array()
-				)
-			)
-			) );
+        $group = wp_parse_args( $group, array(
+            'title' => '',
+            'id'    => 'section-' . rand( 100, 10000 ),
+            'type'  => 0,
+            'areas' => array(
+                array(
+                    'fields' => array()
+                )
+            )
+            ) );
 
-		$content = '<div id="manager-group-' . $this->group_id . '" class="manager-group">';
+        $content = '<div id="manager-group-' . $this->group_id . '" class="manager-group">';
 
-		if ( $this->structure_edit ) {
+        if ( $this->structure_edit ) {
 
-			$this->group_id = $group['id'];
+            $this->group_id = $group['id'];
 
-			$content .= '<input type="hidden" name="structure[][group_id]" value="' . $this->group_id . '">';
+            $content .= '<input type="hidden" name="structure[][group_id]" value="' . $this->group_id . '">';
 
-			$content .= '<div class="group-header">';
+            $content .= '<div class="group-header">';
 
-			$content .= '<div class="group-primary-settings">';
+            $content .= '<div class="group-primary-settings">';
 
-			$content .= '<div class="group-title-field">';
-			$content .= $this::setup( array(
-					'slug'			 => 'group-title',
-					'type'			 => 'text',
-					'input_name'	 => 'structure-groups[' . $this->group_id . '][title]',
-					'placeholder'	 => __( 'Name of the section', 'usp' ),
-					'value'			 => $group['title']
-				) )->get_field_html();
-			$content .= '</div>';
+            $content .= '<div class="group-title-field">';
+            $content .= $this::setup( array(
+                    'slug'        => 'group-title',
+                    'type'        => 'text',
+                    'input_name'  => 'structure-groups[' . $this->group_id . '][title]',
+                    'placeholder' => __( 'Name of the section', 'usp' ),
+                    'value'       => $group['title']
+                ) )->get_field_html();
+            $content .= '</div>';
 
-			$content .= '<div class="usp-areas-manager">';
+            $content .= '<div class="usp-areas-manager">';
 
-			//if ( count( $this->structure ) > 1 ) {
-			$content .= usp_get_button( [
-				'size'		 => 'medium',
-				'type'		 => 'clear',
-				'title'		 => __( 'Delete section', 'usp' ),
-				'icon'		 => 'fa-trash',
-				'class'		 => 'group-manager-button group-delete',
-				'onclick'	 => 'usp_remove_manager_group("' . __( 'Are you sure?', 'usp' ) . '",this);return false;',
-				] );
-			//}
+            //if ( count( $this->structure ) > 1 ) {
+            $content .= usp_get_button( [
+                'size'    => 'medium',
+                'type'    => 'clear',
+                'title'   => __( 'Delete section', 'usp' ),
+                'icon'    => 'fa-trash',
+                'class'   => 'group-manager-button group-delete',
+                'onclick' => 'usp_remove_manager_group("' . __( 'Are you sure?', 'usp' ) . '",this);return false;',
+                ] );
+            //}
 
-			$content .= usp_get_button( [
-				'size'		 => 'medium',
-				'type'		 => 'clear',
-				'title'		 => __( 'Settings of section', 'usp' ),
-				'icon'		 => 'fa-sliders',
-				'class'		 => 'group-manager-button group-settings',
-				'onclick'	 => 'usp_switch_view_settings_manager_group(this);return false;',
-				] );
+            $content .= usp_get_button( [
+                'size'    => 'medium',
+                'type'    => 'clear',
+                'title'   => __( 'Settings of section', 'usp' ),
+                'icon'    => 'fa-horizontal-sliders',
+                'class'   => 'group-manager-button group-settings',
+                'onclick' => 'usp_switch_view_settings_manager_group(this);return false;',
+                ] );
 
-			$content .= usp_get_button( [
-				'size'		 => 'medium',
-				'type'		 => 'clear',
-				'label'		 => __( 'Add a group of fields', 'usp' ),
-				'icon'		 => 'fa-plus',
-				'class'		 => 'group-manager-button add-area',
-				'onclick'	 => 'usp_manager_get_new_area(this);return false;',
-				] );
+            $content .= usp_get_button( [
+                'size'    => 'medium',
+                'type'    => 'clear',
+                'label'   => __( 'Add a group of fields', 'usp' ),
+                'icon'    => 'fa-plus',
+                'class'   => 'group-manager-button add-area',
+                'onclick' => 'usp_manager_get_new_area(this);return false;',
+                ] );
 
-			$content .= '</div>';
+            $content .= '</div>';
 
-			$content .= '</div>';
+            $content .= '</div>';
 
-			$fields = array(
-				'group-id'		 => array(
-					'slug'		 => 'group-id',
-					'type'		 => 'text',
-					'input_name' => 'structure-groups[' . $this->group_id . '][id]',
-					'title'		 => 'ID секции',
-					'required'	 => true,
-					'value'		 => $this->group_id
-				),
-				'group-notice'	 => array(
-					'slug'		 => 'group-notice',
-					'type'		 => 'text',
-					'input_name' => 'structure-groups[' . $this->group_id . '][notice]',
-					'title'		 => __( 'A note of this section', 'usp' ),
-					'value'		 => isset( $group['notice'] ) ? $group['notice'] : ''
-				)
-			);
+            $fields = array(
+                'group-id'     => array(
+                    'slug'       => 'group-id',
+                    'type'       => 'text',
+                    'input_name' => 'structure-groups[' . $this->group_id . '][id]',
+                    'title'      => 'ID секции',
+                    'required'   => true,
+                    'value'      => $this->group_id
+                ),
+                'group-notice' => array(
+                    'slug'       => 'group-notice',
+                    'type'       => 'text',
+                    'input_name' => 'structure-groups[' . $this->group_id . '][notice]',
+                    'title'      => __( 'A note of this section', 'usp' ),
+                    'value'      => isset( $group['notice'] ) ? $group['notice'] : ''
+                )
+            );
 
-			$content .= '<div class="manager-group-settings">';
-			foreach ( $fields as $field ) {
-				$content .= $this::setup( $field )->get_field_html();
-			}
-			$content .= '</div>';
+            $content .= '<div class="manager-group-settings">';
+            foreach ( $fields as $field ) {
+                $content .= $this::setup( $field )->get_field_html();
+            }
+            $content .= '</div>';
 
-			$content .= '</div>';
-		}
+            $content .= '</div>';
+        }
 
-		$content .= '<div class="manager-group-areas preloader-parent">';
+        $content .= '<div class="manager-group-areas preloader-parent">';
 
-		foreach ( $group['areas'] as $area ) {
-			$content .= $this->get_active_area( $area );
-		}
+        foreach ( $group['areas'] as $area ) {
+            $content .= $this->get_active_area( $area );
+        }
 
-		$content .= '</div>';
-		$content .= '</div>';
+        $content .= '</div>';
+        $content .= '</div>';
 
-		return $content;
-	}
+        return $content;
+    }
 
-	function get_active_area( $area = array() ) {
+    function get_active_area( $area = array() ) {
 
-		if ( $this->empty_field ) {
+        if ( $this->empty_field ) {
 
-			$this->add_field( array(
-				'slug'	 => 'newField-' . rand( 1, 10000 ),
-				'type'	 => $this->types[0],
-				'_new'	 => true
-			) );
-		}
+            $this->add_field( array(
+                'slug' => 'newField-' . rand( 1, 10000 ),
+                'type' => $this->types[0],
+                '_new' => true
+            ) );
+        }
 
-		$widthArea = isset( $area['width'] ) && $area['width'] ? $area['width'] : 100;
+        $widthArea = isset( $area['width'] ) && $area['width'] ? $area['width'] : 100;
 
-		$content = '<div class="manager-area preloader-parent" style="width:' . ($widthArea ? $widthArea . '%' : 'auto') . ';">';
+        $content = '<div class="manager-area preloader-parent" style="width:' . ($widthArea ? $widthArea . '%' : 'auto') . ';">';
 
-		if ( $this->structure_edit ) {
+        if ( $this->structure_edit ) {
 
-			$content .= '<div class="area-width-content">' . $widthArea . '</div>';
+            $content .= '<div class="area-width-content">' . $widthArea . '</div>';
 
-			$content .= '<input type="hidden" name="structure[]" value="area">';
-			$content .= '<input type="hidden" class="area-width" name="structure-areas[][width]" value="' . $widthArea . '">';
-		}
+            $content .= '<input type="hidden" name="structure[]" value="area">';
+            $content .= '<input type="hidden" class="area-width" name="structure-areas[][width]" value="' . $widthArea . '">';
+        }
 
-		$content .= '<div class="area-content">';
+        $content .= '<div class="area-content">';
 
-		if ( $this->structure_edit ) {
+        if ( $this->structure_edit ) {
 
-			$content .= '<div class="usp-areas-manager">';
-			$content .= '<a href="#" title="' . __( 'Delete group of fields', 'usp' ) . '"onclick="usp_remove_manager_area(\'' . __( 'Are you sure?', 'usp' ) . '\',this);return false"><i class="uspi fa-trash" aria-hidden="true"></i></a>';
+            $content .= '<div class="usp-areas-manager">';
+            $content .= '<a href="#" title="' . __( 'Delete group of fields', 'usp' ) . '"onclick="usp_remove_manager_area(\'' . __( 'Are you sure?', 'usp' ) . '\',this);return false"><i class="uspi fa-trash" aria-hidden="true"></i></a>';
 
-			if ( $this->sortable )
-				$content .= '<span class="area-move left-align"><i class="uspi fa-arrows" aria-hidden="true"></i></span>';
-			/* if ( $this->create_field ) {
-			  $content .= '<a href="#" onclick="usp_manager_get_new_field(this);return false;" title="' . __( 'Добавить поле', 'usp' ) . '" class="add-field left-align"><i class="uspi fa-plus-square" aria-hidden="true"></i> ' . __( 'Добавить поле', 'usp' ) . '</a>';
-			  } */
-			$content .= '</div>';
-		}
+            if ( $this->sortable )
+                $content .= '<span class="area-move left-align"><i class="uspi fa-arrows" aria-hidden="true"></i></span>';
+            /* if ( $this->create_field ) {
+              $content .= '<a href="#" onclick="usp_manager_get_new_field(this);return false;" title="' . __( 'Добавить поле', 'usp' ) . '" class="add-field left-align"><i class="uspi fa-plus-square" aria-hidden="true"></i> ' . __( 'Добавить поле', 'usp' ) . '</a>';
+              } */
+            $content .= '</div>';
+        }
 
-		$content .= '<div class="usp-active-fields fields-box">';
+        $content .= '<div class="usp-active-fields fields-box">';
 
-		if ( $this->fields ) {
+        if ( $this->fields ) {
 
-			if ( $this->structure_edit ) {
+            if ( $this->structure_edit ) {
 
-				if ( isset( $area['fields'] ) && $area['fields'] ) {
-					foreach ( $area['fields'] as $field_id ) {
-						if ( ! $this->is_active_field( $field_id ) )
-							continue;
+                if ( isset( $area['fields'] ) && $area['fields'] ) {
+                    foreach ( $area['fields'] as $field_id ) {
+                        if ( ! $this->is_active_field( $field_id ) )
+                            continue;
 
-						$content .= $this->get_field_manager( $field_id );
-					}
-				}
-			}else {
+                        $content .= $this->get_field_manager( $field_id );
+                    }
+                }
+            } else {
 
-				foreach ( $this->fields as $field_id => $field ) {
-					if ( ! $this->is_active_field( $field_id ) )
-						continue;
+                foreach ( $this->fields as $field_id => $field ) {
+                    if ( ! $this->is_active_field( $field_id ) )
+                        continue;
 
-					$content .= $this->get_field_manager( $field_id, false );
-				}
-			}
-		}
+                    $content .= $this->get_field_manager( $field_id, false );
+                }
+            }
+        }
 
-		$content .= '</div>';
+        $content .= '</div>';
 
-		$content .= "<div class=submit-box>";
+        $content .= "<div class=submit-box>";
 
-		if ( $this->create_field ) {
-			$content .= "<input type=button onclick='usp_manager_get_new_field(this);' class='add-field-button button-secondary right' value='+ " . __( 'Add field', 'usp' ) . "'>";
-		}
+        if ( $this->create_field ) {
+            $content .= "<input type=button onclick='usp_manager_get_new_field(this);' class='add-field-button button-secondary right' value='+ " . __( 'Add field', 'usp' ) . "'>";
+        }
 
-		$content .= "</div>";
+        $content .= "</div>";
 
-		$content .= '</div>';
+        $content .= '</div>';
 
-		$content .= '</div>';
+        $content .= '</div>';
 
-		return $content;
-	}
+        return $content;
+    }
 
-	function get_submit_box() {
+    function get_submit_box() {
 
-		$content = "<div class=submit-box>";
+        $content = "<div class=submit-box>";
 
-		if ( $this->structure_edit )
-			$content .= "<input type=button onclick='usp_manager_get_new_group(this);' class='add-field-button button-secondary right' value='+ " . __( 'Add new section', 'usp' ) . "'>";
+        if ( $this->structure_edit )
+            $content .= "<input type=button onclick='usp_manager_get_new_group(this);' class='add-field-button button-secondary right' value='+ " . __( 'Add new section', 'usp' ) . "'>";
 
-		$content .= "<input class='button button-primary' type=submit value='" . __( 'Save', 'usp' ) . "' name='usp_save_custom_fields'>";
+        $content .= "<input class='button button-primary' type=submit value='" . __( 'Save', 'usp' ) . "' name='usp_save_custom_fields'>";
 
-		if ( $this->meta_delete ) {
-			foreach ( $this->meta_delete as $table_name => $colname ) {
-				$content .= "<input type=hidden name=delete_table_data[$table_name] value='$colname'>";
-			}
+        if ( $this->meta_delete ) {
+            foreach ( $this->meta_delete as $table_name => $colname ) {
+                $content .= "<input type=hidden name=delete_table_data[$table_name] value='$colname'>";
+            }
 
-			$content .= "<div id='field-delete-confirm' style='display:none;'>" . __( 'To remove the data added to this field?', 'usp' ) . "</div>";
-		}
+            $content .= "<div id='field-delete-confirm' style='display:none;'>" . __( 'To remove the data added to this field?', 'usp' ) . "</div>";
+        }
 
-		$content .= "</div>";
+        $content .= "</div>";
 
-		return $content;
-	}
+        return $content;
+    }
 
-	function get_default_box() {
+    function get_default_box() {
 
-		if ( ! $this->default_fields )
-			return false;
+        if ( ! $this->default_fields )
+            return false;
 
-		$content = '<div class="usp-service-fields usp-default-fields fields-box">';
+        $content = '<div class="usp-service-fields usp-default-fields fields-box">';
 
-		foreach ( $this->default_fields as $field_id => $field ) {
+        foreach ( $this->default_fields as $field_id => $field ) {
 
-			if ( $this->is_active_field( $field_id ) )
-				continue;
+            if ( $this->is_active_field( $field_id ) )
+                continue;
 
-			$content .= $this->get_field_manager( $field_id, 'default' );
-		}
+            $content .= $this->get_field_manager( $field_id, 'default' );
+        }
 
-		$content .= '</div>';
+        $content .= '</div>';
 
-		return $content;
-	}
+        return $content;
+    }
 
-	function get_service_box() {
+    function get_service_box() {
 
-		if ( ! $this->template_fields )
-			return false;
+        if ( ! $this->template_fields )
+            return false;
 
-		$content = '<div class="usp-service-fields usp-template-fields fields-box">';
+        $content = '<div class="usp-service-fields usp-template-fields fields-box">';
 
-		foreach ( $this->template_fields as $field_id => $field ) {
-			$content .= $this->get_field_manager( $field_id, 'template' );
-		}
+        foreach ( $this->template_fields as $field_id => $field ) {
+            $content .= $this->get_field_manager( $field_id, 'template' );
+        }
 
-		$content .= '</div>';
+        $content .= '</div>';
 
-		return $content;
-	}
+        return $content;
+    }
 
-	function get_default_fields() {
+    function get_default_fields() {
 
-		return apply_filters( 'usp_default_fields_manager', $this->default_fields, $this->manager_id );
-	}
+        return apply_filters( 'usp_default_fields_manager', $this->default_fields, $this->manager_id );
+    }
 
-	function get_field_manager( $field_id, $serviceType = false ) {
+    function get_field_manager( $field_id, $serviceType = false ) {
 
-		$field = $this->get_field( $field_id, $serviceType );
+        $field = $this->get_field( $field_id, $serviceType );
 
-		$classes = array( 'manager-field' );
+        $classes = array( 'manager-field' );
 
-		if ( $this->is_service_type( $field_id, 'default' ) ) {
-			$classes[] = 'default-field';
-		} else if ( $this->is_service_type( $field_id, 'template' ) ) {
-			$classes[] = 'template-field';
-		}
+        if ( $this->is_service_type( $field_id, 'default' ) ) {
+            $classes[] = 'default-field';
+        } else if ( $this->is_service_type( $field_id, 'template' ) ) {
+            $classes[] = 'template-field';
+        }
 
-		if ( $this->meta_delete ) {
-			$classes[] = 'must-meta-delete';
-		}
+        if ( $this->meta_delete ) {
+            $classes[] = 'must-meta-delete';
+        }
 
-		$content = '<div id="manager-field-' . $field_id . '" class="' . implode( ' ', $classes ) . '" data-type="' . $field->type . '" data-id="' . $field_id . '">';
+        $content = '<div id="manager-field-' . $field_id . '" class="' . implode( ' ', $classes ) . '" data-type="' . $field->type . '" data-id="' . $field_id . '">';
 
-		if ( $this->structure_edit ) {
-			$content .= '<input type="hidden" name="structure[][field_id]" value="' . $field_id . '">';
-		}
+        if ( $this->structure_edit ) {
+            $content .= '<input type="hidden" name="structure[][field_id]" value="' . $field_id . '">';
+        }
 
-		$content .= $this->get_field_header( $field_id, $serviceType );
+        $content .= $this->get_field_header( $field_id, $serviceType );
 
-		$content .= $this->get_field_options_box( $field_id, $serviceType );
+        $content .= $this->get_field_options_box( $field_id, $serviceType );
 
-		$content .= '</div>';
+        $content .= '</div>';
 
-		return $content;
-	}
+        return $content;
+    }
 
-	function setup_options( $options, $field_id, $serviceType = false ) {
+    function setup_options( $options, $field_id, $serviceType = false ) {
 
-		if ( ! $options )
-			return $options;
+        if ( ! $options )
+            return $options;
 
-		$field = $this->get_field( $field_id, $serviceType );
+        $field = $this->get_field( $field_id, $serviceType );
 
-		foreach ( $options as $k => $option ) {
+        foreach ( $options as $k => $option ) {
 
-			$option_id = $option['slug'];
+            $option_id = $option['slug'];
 
-			if ( ! isset( $option['input_name'] ) )
-				$options[$k]['input_name'] = 'fields[' . $field_id . '][' . $option['slug'] . ']';
+            if ( ! isset( $option['input_name'] ) )
+                $options[$k]['input_name'] = 'fields[' . $field_id . '][' . $option['slug'] . ']';
 
-			if ( ! isset( $option['value'] ) && isset( $field->$option_id ) )
-				$options[$k]['value'] = $field->$option_id;
-		}
+            if ( ! isset( $option['value'] ) && isset( $field->$option_id ) )
+                $options[$k]['value'] = $field->$option_id;
+        }
 
-		return $options;
-	}
+        return $options;
+    }
 
-	function get_field_header( $field_id, $serviceType = false ) {
+    function get_field_header( $field_id, $serviceType = false ) {
 
-		$field = $this->get_field( $field_id, $serviceType );
+        $field = $this->get_field( $field_id, $serviceType );
 
-		$content = '<div class="manager-field-header">';
-		$content .= '<span class="field-icon icon-type-' . $field->type . '"></span>';
+        $content = '<div class="manager-field-header">';
+        $content .= '<span class="field-icon icon-type-' . $field->type . '"></span>';
 
-		if ( $field->is_new() ) {
-			$content .= $this::setup( array(
-					'slug'			 => 'title',
-					'type'			 => 'text',
-					'placeholder'	 => __( 'Point a title of new field', 'usp' ),
-					'input_name'	 => 'fields[' . $field_id . '][title]'
-				) )->get_field_html();
-		} else {
-			$content .= $this::setup( array(
-					'slug'			 => 'title',
-					'type'			 => 'text',
-					'placeholder'	 => __( 'Point a title of this field', 'usp' ),
-					'input_name'	 => 'fields[' . $field_id . '][title]',
-					'value'			 => $field->title
-				) )->get_field_html();
-			//$content .= '<span class="field-title">'.$field->title.'</span>';
-		}
+        if ( $field->is_new() ) {
+            $content .= $this::setup( array(
+                    'slug'        => 'title',
+                    'type'        => 'text',
+                    'placeholder' => __( 'Point a title of new field', 'usp' ),
+                    'input_name'  => 'fields[' . $field_id . '][title]'
+                ) )->get_field_html();
+        } else {
+            $content .= $this::setup( array(
+                    'slug'        => 'title',
+                    'type'        => 'text',
+                    'placeholder' => __( 'Point a title of this field', 'usp' ),
+                    'input_name'  => 'fields[' . $field_id . '][title]',
+                    'value'       => $field->title
+                ) )->get_field_html();
+            //$content .= '<span class="field-title">'.$field->title.'</span>';
+        }
 
-		$buttons = $this->get_control_buttons( $field_id, $field );
+        $buttons = $this->get_control_buttons( $field_id, $field );
 
-		if ( $buttons ) {
-			$content .= '<span class="field-control">';
+        if ( $buttons ) {
+            $content .= '<span class="field-control">';
 
-			foreach ( $buttons as $button ) {
-				$content .= usp_get_button( $button );
-			}
+            foreach ( $buttons as $button ) {
+                $content .= usp_get_button( $button );
+            }
 
-			$content .= '</span>';
-		}
+            $content .= '</span>';
+        }
 
-		$content .= '</div>';
+        $content .= '</div>';
 
-		return $content;
-	}
+        return $content;
+    }
 
-	function get_control_buttons( $field_id, $field ) {
+    function get_control_buttons( $field_id, $field ) {
 
-		$buttons = array();
+        $buttons = array();
 
-		if ( $field->must_delete && $this->fields_delete && ! $this->is_service_type( $field_id, 'default' ) && ! $field->is_new() ) {
-			$buttons['delete'] = array(
-				'icon'		 => 'fa-trash',
-				'class'		 => 'control-delete',
-				'onclick'	 => 'usp_manager_field_delete("' . $field_id . '", ' . ($this->meta_delete ? 1 : 0) . ', this);return false;',
-			);
-		}
+        if ( $field->must_delete && $this->fields_delete && ! $this->is_service_type( $field_id, 'default' ) && ! $field->is_new() ) {
+            $buttons['delete'] = array(
+                'icon'    => 'fa-trash',
+                'class'   => 'control-delete',
+                'onclick' => 'usp_manager_field_delete("' . $field_id . '", ' . ($this->meta_delete ? 1 : 0) . ', this);return false;',
+            );
+        }
 
-		$buttons['edit'] = array(
-			'class'		 => 'control-edit',
-			'icon'		 => 'fa-sliders',
-			'onclick'	 => 'usp_manager_field_switch(this);return false;'
-		);
+        $buttons['edit'] = array(
+            'class'   => 'control-edit',
+            'icon'    => 'fa-horizontal-sliders',
+            'onclick' => 'usp_manager_field_switch(this);return false;'
+        );
 
-		if ( $this->sortable )
-			$buttons['sortable'] = array(
-				'class'	 => 'control-move',
-				'icon'	 => 'fa-arrows'
-			);
+        if ( $this->sortable )
+            $buttons['sortable'] = array(
+                'class' => 'control-move',
+                'icon'  => 'fa-arrows'
+            );
 
-		$buttons = apply_filters( 'usp_manager_field_controls', $buttons, $field_id, $this->manager_id );
+        $buttons = apply_filters( 'usp_manager_field_controls', $buttons, $field_id, $this->manager_id );
 
-		return $buttons;
-	}
+        return $buttons;
+    }
 
-	function get_field_options_box( $field_id, $serviceType = false ) {
+    function get_field_options_box( $field_id, $serviceType = false ) {
 
-		$field = $this->get_field( $field_id, $serviceType );
+        $field = $this->get_field( $field_id, $serviceType );
 
-		$content = '<div class="manager-field-settings">';
+        $content = '<div class="manager-field-settings">';
 
-		if ( ! $field->is_new() ) {
-			$content .= '<span class="field-id">' . __( 'ID', 'usp' ) . ': ' . $field_id . '</span>';
-		}
+        if ( ! $field->is_new() ) {
+            $content .= '<span class="field-id">' . __( 'ID', 'usp' ) . ': ' . $field_id . '</span>';
+        }
 
-		$content .= $this->get_field_general_options_content( $field_id, $serviceType );
+        $content .= $this->get_field_general_options_content( $field_id, $serviceType );
 
-		$content .= $this->get_field_options_content( $field_id, $serviceType );
+        $content .= $this->get_field_options_content( $field_id, $serviceType );
 
-		$content .= '</div>';
+        $content .= '</div>';
 
-		return $content;
-	}
+        return $content;
+    }
 
-	function get_field_general_options_content( $field_id, $serviceType = false ) {
+    function get_field_general_options_content( $field_id, $serviceType = false ) {
 
-		$options = $this->get_field_general_options( $field_id, $serviceType );
+        $options = $this->get_field_general_options( $field_id, $serviceType );
 
-		if ( ! $options )
-			return false;
+        if ( ! $options )
+            return false;
 
-		$content = '<div class="field-primary-options">';
+        $content = '<div class="field-primary-options">';
 
-		foreach ( $options as $option ) {
-			$content .= $this::setup( $option )->get_field_html();
-		}
+        foreach ( $options as $option ) {
+            $content .= $this::setup( $option )->get_field_html();
+        }
 
-		$content .= '</div>';
+        $content .= '</div>';
 
-		return $content;
-	}
+        return $content;
+    }
 
-	function get_field_options_content( $field_id, $serviceType = false ) {
+    function get_field_options_content( $field_id, $serviceType = false ) {
 
-		$options = $this->get_field_options( $field_id, $serviceType );
+        $options = $this->get_field_options( $field_id, $serviceType );
 
-		$content = '<div class="field-secondary-options">';
+        $content = '<div class="field-secondary-options">';
 
-		foreach ( $options as $option ) {
-			$content .= $this::setup( $option )->get_field_html();
-		}
+        foreach ( $options as $option ) {
+            $content .= $this::setup( $option )->get_field_html();
+        }
 
-		$content .= '</div>';
+        $content .= '</div>';
 
-		return $content;
-	}
+        return $content;
+    }
 
-	function get_field_general_options( $field_id, $serviceType = false ) {
+    function get_field_general_options( $field_id, $serviceType = false ) {
 
-		$field = $this->get_field( $field_id, $serviceType );
+        $field = $this->get_field( $field_id, $serviceType );
 
-		if ( $field->is_new() || $this->switch_id ) {
-			$options['id'] = array(
-				'slug'			 => 'id',
-				'type'			 => 'text',
-				'pattern'		 => '[a-z0-9-_]+',
-				'value'			 => $field->is_new() ? '' : $field_id,
-				'title'			 => __( 'ID', 'usp' ),
-				'notice'		 => __( 'not required, but you can list your own meta_key in this field', 'usp' ),
-				'placeholder'	 => __( 'Latin letters and numbers', 'usp' )
-			);
-		}
+        if ( $field->is_new() || $this->switch_id ) {
+            $options['id'] = array(
+                'slug'        => 'id',
+                'type'        => 'text',
+                'pattern'     => '[a-z0-9-_]+',
+                'value'       => $field->is_new() ? '' : $field_id,
+                'title'       => __( 'ID', 'usp' ),
+                'notice'      => __( 'not required, but you can list your own meta_key in this field', 'usp' ),
+                'placeholder' => __( 'Latin letters and numbers', 'usp' )
+            );
+        }
 
-		if ( $this->switch_type ) {
+        if ( $this->switch_type ) {
 
-			if ( $typeList = $this->get_types_list() ) {
+            if ( $typeList = $this->get_types_list() ) {
 
-				if ( $this->is_service_type( $field_id ) || ! isset( $typeList[$field->type] ) ) {
-					//для дефолтных полей устанавливаем фиксированный тип
-					$options['type'] = array(
-						'slug'	 => 'type',
-						'type'	 => 'hidden',
-						'value'	 => $field->type
-					);
-				} else {
-					$options['type'] = array(
-						'slug'	 => 'type',
-						'type'	 => 'select',
-						'title'	 => __( 'Type of field', 'usp' ),
-						'values' => $typeList
-					);
-				}
-			}
-		} else {
+                if ( $this->is_service_type( $field_id ) || ! isset( $typeList[$field->type] ) ) {
+                    //для дефолтных полей устанавливаем фиксированный тип
+                    $options['type'] = array(
+                        'slug'  => 'type',
+                        'type'  => 'hidden',
+                        'value' => $field->type
+                    );
+                } else {
+                    $options['type'] = array(
+                        'slug'   => 'type',
+                        'type'   => 'select',
+                        'title'  => __( 'Type of field', 'usp' ),
+                        'values' => $typeList
+                    );
+                }
+            }
+        } else {
 
-			$options['type'] = array(
-				'slug'	 => 'type',
-				'type'	 => 'hidden',
-				'value'	 => ($field->is_new() && $this->new_field_type) ? $this->new_field_type : $field->type
-			);
-		}
+            $options['type'] = array(
+                'slug'  => 'type',
+                'type'  => 'hidden',
+                'value' => ($field->is_new() && $this->new_field_type) ? $this->new_field_type : $field->type
+            );
+        }
 
-		$options = apply_filters( 'usp_field_general_options', $options, $field, $this->manager_id );
+        $options = apply_filters( 'usp_field_general_options', $options, $field, $this->manager_id );
 
-		return $this->setup_options( $options, $field_id, $serviceType );
-	}
+        return $this->setup_options( $options, $field_id, $serviceType );
+    }
 
-	function get_field_options( $field_id, $serviceType = false ) {
+    function get_field_options( $field_id, $serviceType = false ) {
 
-		$options = array();
+        $options = array();
 
-		$field = $this->get_field( $field_id, $serviceType );
+        $field = $this->get_field( $field_id, $serviceType );
 
-		$fieldOptions = $field->get_options();
+        $fieldOptions = $field->get_options();
 
-		if ( $fieldOptions ) {
-			foreach ( $fieldOptions as $option ) {
-				$options[$option['slug']] = $option;
-			}
-		}
+        if ( $fieldOptions ) {
+            foreach ( $fieldOptions as $option ) {
+                $options[$option['slug']] = $option;
+            }
+        }
 
-		if ( $this->field_options ) {
+        if ( $this->field_options ) {
 
-			foreach ( $this->field_options as $option ) {
-				$option						 = ( array ) $option;
-				$options[$option['slug']]	 = $option;
-			}
-		}
+            foreach ( $this->field_options as $option ) {
+                $option                   = ( array ) $option;
+                $options[$option['slug']] = $option;
+            }
+        }
 
-		if ( $field->is_new() && $this->new_field_options ) {
+        if ( $field->is_new() && $this->new_field_options ) {
 
-			foreach ( $this->new_field_options as $option ) {
-				$option						 = ( array ) $option;
-				$options[$option['slug']]	 = $option;
-			}
-		}
+            foreach ( $this->new_field_options as $option ) {
+                $option                   = ( array ) $option;
+                $options[$option['slug']] = $option;
+            }
+        }
 
-		if ( isset( $field->options ) ) {
-			foreach ( $field->options as $option ) {
-				$options[$option['slug']] = $option;
-			}
-		}
+        if ( isset( $field->options ) ) {
+            foreach ( $field->options as $option ) {
+                $options[$option['slug']] = $option;
+            }
+        }
 
-		if ( ! $serviceType && $this->is_default_field( $field_id ) ) {
-			//для поля в активной зоне добавляем опции,
-			//которые были определены для дефолтного поля,
-			//если такое есть
-			$defaultField = $this->get_field( $field_id, 1 );
+        if ( ! $serviceType && $this->is_default_field( $field_id ) ) {
+            //для поля в активной зоне добавляем опции,
+            //которые были определены для дефолтного поля,
+            //если такое есть
+            $defaultField = $this->get_field( $field_id, 1 );
 
-			if ( isset( $defaultField->options ) ) {
+            if ( isset( $defaultField->options ) ) {
 
-				foreach ( $defaultField->options as $option ) {
-					$options[$option['slug']] = $option;
-				}
-			}
-		}
+                foreach ( $defaultField->options as $option ) {
+                    $options[$option['slug']] = $option;
+                }
+            }
+        }
 
-		$options = apply_filters( 'usp_field_options', $options, $field, $this->manager_id, $this );
+        $options = apply_filters( 'usp_field_options', $options, $field, $this->manager_id, $this );
 
-		return $this->setup_options( $options, $field_id, false );
-	}
+        return $this->setup_options( $options, $field_id, false );
+    }
 
-	function sortable_fields_script() {
-		return '<script>jQuery(window).on("load", function() { usp_init_manager_sortable(); });</script>';
-	}
+    function sortable_fields_script() {
+        return '<script>jQuery(window).on("load", function() { usp_init_manager_sortable(); });</script>';
+    }
 
-	function resizable_areas_script() {
-		return '<script>jQuery(window).on("load", function() { usp_init_manager_areas_resizable(); });</script>';
-	}
+    function resizable_areas_script() {
+        return '<script>jQuery(window).on("load", function() { usp_init_manager_areas_resizable(); });</script>';
+    }
 
-	function sortable_dynamic_values_script( $field_id = false ) {
+    function sortable_dynamic_values_script( $field_id = false ) {
 
-		return '<script>
+        return '<script>
 				jQuery(function(){
 					jQuery("' . ($field_id ? "#manager-field-" . $field_id . " " : '') . '.usp-field-input .dynamic-values").sortable({
 						containment: "parent",
@@ -900,44 +900,44 @@ class USP_Fields_Manager extends USP_Fields {
 					});
 				});
 			</script>';
-	}
+    }
 
-	function is_service_type( $field_id, $serviceType = array( 'default', 'template' ) ) {
+    function is_service_type( $field_id, $serviceType = array( 'default', 'template' ) ) {
 
-		if ( is_array( $serviceType ) ) {
+        if ( is_array( $serviceType ) ) {
 
-			if ( in_array( 'default', $serviceType ) && isset( $this->default_fields[$field_id] ) )
-				return true;
-			else if ( in_array( 'template', $serviceType ) && isset( $this->template_fields[$field_id] ) )
-				return true;
+            if ( in_array( 'default', $serviceType ) && isset( $this->default_fields[$field_id] ) )
+                return true;
+            else if ( in_array( 'template', $serviceType ) && isset( $this->template_fields[$field_id] ) )
+                return true;
 
-			return false;
-		}
+            return false;
+        }
 
-		if ( $serviceType == 'default' )
-			return isset( $this->default_fields[$field_id] );
-		else if ( $serviceType == 'template' )
-			return isset( $this->template_fields[$field_id] );
-	}
+        if ( $serviceType == 'default' )
+            return isset( $this->default_fields[$field_id] );
+        else if ( $serviceType == 'template' )
+            return isset( $this->template_fields[$field_id] );
+    }
 
-	function is_active_field( $field_id ) {
-		return isset( $this->fields[$field_id] );
-	}
+    function is_active_field( $field_id ) {
+        return isset( $this->fields[$field_id] );
+    }
 
-	function is_default_field( $field_id ) {
-		return $this->is_service_type( $field_id, 'default' );
-	}
+    function is_default_field( $field_id ) {
+        return $this->is_service_type( $field_id, 'default' );
+    }
 
-	function get_types_list() {
+    function get_types_list() {
 
-		$typesList = array();
-		foreach ( $this->types as $type ) {
-			if ( ! isset( USP()->fields[$type] ) )
-				continue;
-			$typesList[$type] = USP()->fields[$type]['label'];
-		}
+        $typesList = array();
+        foreach ( $this->types as $type ) {
+            if ( ! isset( USP()->fields[$type] ) )
+                continue;
+            $typesList[$type] = USP()->fields[$type]['label'];
+        }
 
-		return $typesList;
-	}
+        return $typesList;
+    }
 
 }

@@ -614,7 +614,7 @@ div.usp_preloader i.uspi::before {
     font-size: 12px;
     line-height: normal;
 }
-.usp-custom-fields-box .usp-custom-field .fa-info::before {
+.usp-custom-fields-box .usp-custom-field .fa-info-circle::before {
     /*content: "\f534";*/
 }
 /*.usp-field-core a:not(.iconpicker-item) i:not(.mce-ico) {
@@ -779,7 +779,7 @@ div.usp_preloader i.uspi::before {
 	padding: 0 0 0 5px;
 	line-height: 10px;
 }
-.wrap-recall-options .usp-custom-field i.fa-info:not(.mce-ico) {
+.wrap-recall-options .usp-custom-field i.fa-info-circle:not(.mce-ico) {
 	vertical-align: bottom;
 	font-size: 18px;
 }

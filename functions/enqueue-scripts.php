@@ -1,5 +1,9 @@
 <?php
 
+function usp_font_awesome_style() {
+    wp_enqueue_style( 'usp-awesome', USP_URL . 'assets/usp-awesome/usp-awesome.min.css', false, USP_VERSION );
+}
+
 function usp_iconpicker() {
     wp_enqueue_style( 'usp-iconpicker', USP_URL . 'assets/usp-awesome/iconpicker/iconpicker.css', false, USP_VERSION );
     wp_enqueue_script( 'usp-iconpicker', USP_URL . 'assets/usp-awesome/iconpicker/iconpicker.js', array( 'jquery' ), USP_VERSION );
@@ -71,10 +75,6 @@ function usp_crop_scripts() {
 
 function usp_rangyinputs_scripts() {
     usp_enqueue_script( 'rangyinputs', USP_URL . 'assets/js/rangyinputs.js' );
-}
-
-function usp_font_awesome_style() {
-    wp_enqueue_style( 'usp-awesome', USP_URL . 'assets/usp-awesome/usp-awesome.min.css', false, USP_VERSION );
 }
 
 function usp_animate_css() {

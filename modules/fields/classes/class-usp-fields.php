@@ -13,445 +13,444 @@
  */
 class USP_Fields extends USP_Field {
 
-	public $fields;
-	public $structure = array();
-
-	function __construct( $fields = false, $structure = false ) {
-
-		if ( $structure ) {
-			$this->structure = $structure;
-		}
-
-		if ( $fields ) {
-
-			$this->fields = array();
-
-			foreach ( $fields as $field ) {
-				if ( ! isset( $field['slug'] ) )
-					continue;
-				$this->fields[$field['slug']] = is_array( $field ) ? parent::setup( $field ) : $field;
-			}
-		}
-
-		$this->setup_structure();
-	}
-
-	function setup_structure( $force = false ) {
-
-		if ( ! $this->structure || ($this->structure && ! $this->fields) || $force ) {
-
-			$fieldIds = array();
-
-			if ( $this->fields ) {
-				foreach ( $this->fields as $field_id => $field ) {
-					$fieldIds[] = $field_id;
-				}
-			}
-
-			$this->structure = array(
-				array(
-					'areas' => array(
-						array(
-							'fields' => $fieldIds
-						)
-					)
-				)
-			);
-		} else if ( $this->fields ) { //добавляем в структуру ничейные поля
-			$structureFields = array();
-
-			foreach ( $this->structure as $group_id => $group ) {
-				if ( ! isset( $group['areas'] ) )
-					continue;
-				foreach ( $group['areas'] as $area ) {
-					$structureFields = array_merge( $structureFields, $area['fields'] );
-				}
-			}
-
-			$structure		 = [ ];
-			$headerFields	 = [ ];
-			$footerFields	 = [ ];
-			$top			 = true;
-			foreach ( $this->fields as $field_id => $field ) {
-				if ( ! in_array( $field_id, $structureFields ) ) {
-					if ( $top )
-						$headerFields[] = $field_id;
-					else {
-						$footerFields[] = $field_id;
-					}
-				} else if ( $top ) {
-					$top = false;
-				}
-			}
-
-			if ( $headerFields ) {
-				$structure['header-group'] = [
-					'id' => 'header',
-					'areas' => [
-						[
-							'fields' => $headerFields
-						]
-					]
-				];
-			}
-
-			$structure += $this->structure;
+    public $fields;
+    public $structure = array();
+
+    function __construct( $fields = false, $structure = false ) {
+
+        if ( $structure ) {
+            $this->structure = $structure;
+        }
+
+        if ( $fields ) {
+
+            $this->fields = array();
+
+            foreach ( $fields as $field ) {
+                if ( ! isset( $field['slug'] ) )
+                    continue;
+                $this->fields[$field['slug']] = is_array( $field ) ? parent::setup( $field ) : $field;
+            }
+        }
+
+        $this->setup_structure();
+    }
+
+    function setup_structure( $force = false ) {
+
+        if ( ! $this->structure || ($this->structure && ! $this->fields) || $force ) {
+
+            $fieldIds = array();
+
+            if ( $this->fields ) {
+                foreach ( $this->fields as $field_id => $field ) {
+                    $fieldIds[] = $field_id;
+                }
+            }
+
+            $this->structure = array(
+                array(
+                    'areas' => array(
+                        array(
+                            'fields' => $fieldIds
+                        )
+                    )
+                )
+            );
+        } else if ( $this->fields ) { //добавляем в структуру ничейные поля
+            $structureFields = array();
+
+            foreach ( $this->structure as $group_id => $group ) {
+                if ( ! isset( $group['areas'] ) )
+                    continue;
+                foreach ( $group['areas'] as $area ) {
+                    $structureFields = array_merge( $structureFields, $area['fields'] );
+                }
+            }
+
+            $structure    = [];
+            $headerFields = [];
+            $footerFields = [];
+            $top          = true;
+            foreach ( $this->fields as $field_id => $field ) {
+                if ( ! in_array( $field_id, $structureFields ) ) {
+                    if ( $top )
+                        $headerFields[] = $field_id;
+                    else {
+                        $footerFields[] = $field_id;
+                    }
+                } else if ( $top ) {
+                    $top = false;
+                }
+            }
+
+            if ( $headerFields ) {
+                $structure['header-group'] = [
+                    'id'    => 'header',
+                    'areas' => [
+                        [
+                            'fields' => $headerFields
+                        ]
+                    ]
+                ];
+            }
+
+            $structure += $this->structure;
 
-			if ( $footerFields ) {
-				$structure['footer-group'] = [
-					'id' => 'footer',
-					'areas' => [
-						[
-							'fields' => $footerFields
-						]
-					]
-				];
-			}
+            if ( $footerFields ) {
+                $structure['footer-group'] = [
+                    'id'    => 'footer',
+                    'areas' => [
+                        [
+                            'fields' => $footerFields
+                        ]
+                    ]
+                ];
+            }
 
-			$this->structure = $structure;
-		}
-	}
+            $this->structure = $structure;
+        }
+    }
 
-	function get_fields() {
-		return $this->fields;
-	}
+    function get_fields() {
+        return $this->fields;
+    }
 
-	function add_field( $field_id, $args ) {
-		$this->fields[$field_id] = parent::setup( $args );
-	}
+    function add_field( $field_id, $args ) {
+        $this->fields[$field_id] = parent::setup( $args );
+    }
 
-	function remove_field( $field_id ) {
-		unset( $this->fields[$field_id] );
-	}
+    function remove_field( $field_id ) {
+        unset( $this->fields[$field_id] );
+    }
 
-	function isset_field( $field_id ) {
-		return isset( $this->fields[$field_id] );
-	}
+    function isset_field( $field_id ) {
+        return isset( $this->fields[$field_id] );
+    }
 
-	function get_field( $field_id ) {
-		return $this->isset_field( $field_id ) ? $this->fields[$field_id] : false;
-	}
+    function get_field( $field_id ) {
+        return $this->isset_field( $field_id ) ? $this->fields[$field_id] : false;
+    }
 
-	function set_field_prop( $field_id, $propName, $propValue ) {
+    function set_field_prop( $field_id, $propName, $propValue ) {
 
-		$field = $this->get_field( $field_id );
+        $field = $this->get_field( $field_id );
 
-		$field->$propName = $propValue;
+        $field->$propName = $propValue;
 
-		$this->fields[$field_id] = $field;
-	}
+        $this->fields[$field_id] = $field;
+    }
 
-	function isset_field_prop( $field_id, $propName ) {
+    function isset_field_prop( $field_id, $propName ) {
 
-		$field = $this->get_field( $field_id );
+        $field = $this->get_field( $field_id );
 
-		if ( ! $field )
-			return false;
+        if ( ! $field )
+            return false;
 
-		return isset( $field->$propName );
-	}
+        return isset( $field->$propName );
+    }
 
-	function get_field_prop( $field_id, $propName ) {
+    function get_field_prop( $field_id, $propName ) {
 
-		if ( ! $this->isset_field_prop( $field_id, $propName ) )
-			return false;
+        if ( ! $this->isset_field_prop( $field_id, $propName ) )
+            return false;
 
-		$field = $this->get_field( $field_id );
+        $field = $this->get_field( $field_id );
 
-		return $field->$propName;
-	}
+        return $field->$propName;
+    }
 
-	function exclude( $fieldIds ) {
+    function exclude( $fieldIds ) {
 
-		if ( ! $this->fields )
-			return false;
+        if ( ! $this->fields )
+            return false;
 
-		$fields = array();
-		foreach ( $this->fields as $field_id => $field ) {
-			if ( in_array( $field_id, $fieldIds ) )
-				continue;
-			$fields[$field_id] = $field;
-		}
+        $fields = array();
+        foreach ( $this->fields as $field_id => $field ) {
+            if ( in_array( $field_id, $fieldIds ) )
+                continue;
+            $fields[$field_id] = $field;
+        }
 
-		$this->fields = $fields;
+        $this->fields = $fields;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	function search( $filters ) {
+    function search( $filters ) {
 
-		$fields = array();
+        $fields = array();
 
-		foreach ( $filters as $key => $value ) {
-			$fields = $this->search_by( $key, $value, $fields );
-			if ( ! $fields )
-				return false;
-		}
+        foreach ( $filters as $key => $value ) {
+            $fields = $this->search_by( $key, $value, $fields );
+            if ( ! $fields )
+                return false;
+        }
 
-		return $fields;
-	}
+        return $fields;
+    }
 
-	function search_by( $key, $value, $fields = false ) {
+    function search_by( $key, $value, $fields = false ) {
 
-		if ( ! $fields )
-			$fields = $this->fields;
+        if ( ! $fields )
+            $fields = $this->fields;
 
-		$search = array();
+        $search = array();
 
-		foreach ( $fields as $field_id => $field ) {
+        foreach ( $fields as $field_id => $field ) {
 
-			if ( ! $field->isset_prop( $key ) )
-				continue;
+            if ( ! $field->isset_prop( $key ) )
+                continue;
 
-			if ( is_array( $value ) ) {
+            if ( is_array( $value ) ) {
 
-				if ( ! in_array( $field->get_prop( $key ), $value ) )
-					continue;
-			}else {
+                if ( ! in_array( $field->get_prop( $key ), $value ) )
+                    continue;
+            } else {
 
-				if ( $field->get_prop( $key ) != $value )
-					continue;
-			}
+                if ( $field->get_prop( $key ) != $value )
+                    continue;
+            }
 
-			$search[$field_id] = $field;
-		}
+            $search[$field_id] = $field;
+        }
 
-		return $search;
-	}
+        return $search;
+    }
 
-	function add_structure_field( $group_id, $area_id, $fields ) {
+    function add_structure_field( $group_id, $area_id, $fields ) {
 
-		foreach ( $fields as $args ) {
-			$this->fields[$args['slug']]								 = $this::setup( $args );
-			$this->structure[$group_id]['areas'][$area_id]['fields'][]	 = $args['slug'];
-		}
-	}
+        foreach ( $fields as $args ) {
+            $this->fields[$args['slug']]                               = $this::setup( $args );
+            $this->structure[$group_id]['areas'][$area_id]['fields'][] = $args['slug'];
+        }
+    }
 
-	function add_structure_group( $group_id, $args = false ) {
+    function add_structure_group( $group_id, $args = false ) {
 
-		$this->structure[$group_id] = wp_parse_args( $args, array(
-			'title' => ''
-			) );
-	}
+        $this->structure[$group_id] = wp_parse_args( $args, array(
+            'title' => ''
+            ) );
+    }
 
-	function get_content() {
+    function get_content() {
 
-		$content = '';
+        $content = '';
 
-		foreach ( $this->structure as $group_id => $group ) {
-			$content .= $this->get_group( $group );
-		}
+        foreach ( $this->structure as $group_id => $group ) {
+            $content .= $this->get_group( $group );
+        }
 
-		if ( ! $content )
-			return false;
+        if ( ! $content )
+            return false;
 
-		$content = '<div class="usp-content preloader-parent">' . $content . '</div>';
+        $content = '<div class="usp-content preloader-parent">' . $content . '</div>';
 
-		return $content;
-	}
+        return $content;
+    }
 
-	function get_loop() {
+    function get_loop() {
 
-		$content = '';
+        $content = '';
 
-		foreach ( $this->structure as $group_id => $group ) {
-			$content .= $this->get_group( $group );
-		}
+        foreach ( $this->structure as $group_id => $group ) {
+            $content .= $this->get_group( $group );
+        }
 
-		return $content;
-	}
+        return $content;
+    }
 
-	function get_group( $group ) {
+    function get_group( $group ) {
 
-		if ( ! isset( $group['areas'] ) || ! $group['areas'] )
-			return false;
+        if ( ! isset( $group['areas'] ) || ! $group['areas'] )
+            return false;
 
-		$groupContent = '';
+        $groupContent = '';
 
-		foreach ( $group['areas'] as $area ) {
-			$groupContent .= $this->get_area( $area );
-		}
+        foreach ( $group['areas'] as $area ) {
+            $groupContent .= $this->get_area( $area );
+        }
 
-		if ( ! $groupContent )
-			return false;
+        if ( ! $groupContent )
+            return false;
 
-		$content = '<div id="usp-group-' . $group['id'] . '" class="usp-content-group">';
+        $content = '<div id="usp-group-' . $group['id'] . '" class="usp-content-group">';
 
-		if ( $group['title'] )
-			$content .= '<div class="group-title">' . $group['title'] . '</div>';
+        if ( $group['title'] )
+            $content .= '<div class="group-title">' . $group['title'] . '</div>';
 
-		$content .= '<div class="group-areas">';
+        $content .= '<div class="group-areas">';
 
-		$content .= $groupContent;
+        $content .= $groupContent;
 
-		$content .= '</div>';
+        $content .= '</div>';
 
-		$content .= '</div>';
+        $content .= '</div>';
 
-		return $content;
-	}
+        return $content;
+    }
 
-	function get_area( $area ) {
+    function get_area( $area ) {
 
-		$areaContent = '';
+        $areaContent = '';
 
-		if ( ! isset( $area['fields'] ) || ! $area['fields'] )
-			return false;
+        if ( ! isset( $area['fields'] ) || ! $area['fields'] )
+            return false;
 
-		foreach ( $area['fields'] as $field_id ) {
-			$areaContent .= $this->get_field_content( $field_id );
-		}
+        foreach ( $area['fields'] as $field_id ) {
+            $areaContent .= $this->get_field_content( $field_id );
+        }
 
-		if ( ! $areaContent )
-			return false;
+        if ( ! $areaContent )
+            return false;
 
-		$content = '<div class="usp-content-area" style="min-width:' . (isset( $area['width'] ) ? $area['width'] : 100) . '%;">';
-		$content .= $areaContent;
-		$content .= '</div>';
+        $content = '<div class="usp-content-area" style="min-width:' . (isset( $area['width'] ) ? $area['width'] : 100) . '%;">';
+        $content .= $areaContent;
+        $content .= '</div>';
 
-		return $content;
-	}
+        return $content;
+    }
 
-	function get_field_content( $field_id ) {
+    function get_field_content( $field_id ) {
 
-		$field = $this->get_field( $field_id );
+        $field = $this->get_field( $field_id );
 
-		if ( ! $field->value )
-			return false;
+        if ( ! $field->value )
+            return false;
 
         return $field->get_field_html( $field->value );
+    }
 
-	}
+    function get_form( $args = array() ) {
 
-	function get_form( $args = array() ) {
+        $args = wp_parse_args( $args, array(
+            'form_id'    => '',
+            'unique_ids' => false,
+            'action'     => '',
+            'method'     => 'post',
+            'submit'     => __( 'Save', 'usp' ),
+            'nonce_name' => '_wpnonce',
+            'nonce_key'  => '',
+            'onclick'    => '',
+            ) );
 
-		$args = wp_parse_args( $args, array(
-			'form_id'	 => '',
-			'unique_ids' => false,
-			'action'	 => '',
-			'method'	 => 'post',
-			'submit'	 => __( 'Save', 'usp' ),
-			'nonce_name' => '_wpnonce',
-			'nonce_key'	 => '',
-			'onclick'	 => '',
-			) );
+        $content = '<div class="usp-form preloader-parent">';
 
-		$content = '<div class="usp-form preloader-parent">';
+        $content .= '<form ' . ($args['form_id'] ? 'id="' . $args['form_id'] . '"' : '') . ' method="' . $args['method'] . '" action="' . $args['action'] . '">';
 
-		$content .= '<form ' . ($args['form_id'] ? 'id="' . $args['form_id'] . '"' : '') . ' method="' . $args['method'] . '" action="' . $args['action'] . '">';
+        $content .= $this->get_content_form( $args );
 
-		$content .= $this->get_content_form( $args );
+        $content .= '<div class="submit-box">';
 
-		$content .= '<div class="submit-box">';
+        $bttnArgs = array(
+            'label' => $args['submit'],
+            'icon'  => 'fa-check-ciuspe'
+        );
 
-		$bttnArgs = array(
-			'label'	 => $args['submit'],
-			'icon'	 => 'fa-check-ciuspe'
-		);
+        if ( $args['onclick'] ) {
+            $bttnArgs['onclick'] = $args['onclick'];
+        } else {
+            $bttnArgs['submit'] = 1;
+        }
 
-		if ( $args['onclick'] ) {
-			$bttnArgs['onclick'] = $args['onclick'];
-		} else {
-			$bttnArgs['submit'] = 1;
-		}
+        $content .= usp_get_button( $bttnArgs );
 
-		$content .= usp_get_button( $bttnArgs );
+        $content .= '</div>';
 
-		$content .= '</div>';
+        if ( $args['nonce_key'] )
+            $content .= wp_nonce_field( $args['nonce_key'], $args['nonce_name'], true, false );
 
-		if ( $args['nonce_key'] )
-			$content .= wp_nonce_field( $args['nonce_key'], $args['nonce_name'], true, false );
+        $content .= '</form>';
 
-		$content .= '</form>';
+        $content .= '</div>';
 
-		$content .= '</div>';
+        return $content;
+    }
 
-		return $content;
-	}
+    function get_content_form( $args = false ) {
 
-	function get_content_form( $args = false ) {
+        $content = '';
 
-		$content = '';
+        foreach ( $this->structure as $group_id => $group ) {
+            $content .= $this->get_group_form( $group, $args );
+        }
 
-		foreach ( $this->structure as $group_id => $group ) {
-			$content .= $this->get_group_form( $group, $args );
-		}
+        if ( ! $content )
+            return false;
 
-		if ( ! $content )
-			return false;
+        $content = '<div class="usp-content preloader-parent">' . $content . '</div>';
 
-		$content = '<div class="usp-content preloader-parent">' . $content . '</div>';
+        return $content;
+    }
 
-		return $content;
-	}
+    function get_group_form( $group, $args = false ) {
 
-	function get_group_form( $group, $args = false ) {
+        if ( ! isset( $group['areas'] ) || ! $group['areas'] )
+            return false;
 
-		if ( ! isset( $group['areas'] ) || ! $group['areas'] )
-			return false;
+        $groupContent = '';
 
-		$groupContent = '';
+        foreach ( $group['areas'] as $area ) {
+            $groupContent .= $this->get_area_form( $area, $args );
+        }
 
-		foreach ( $group['areas'] as $area ) {
-			$groupContent .= $this->get_area_form( $area, $args );
-		}
+        if ( ! $groupContent )
+            return false;
 
-		if ( ! $groupContent )
-			return false;
+        $content = '<div id="usp-group-' . $group['id'] . '" class="usp-content-group">';
 
-		$content = '<div id="usp-group-' . $group['id'] . '" class="usp-content-group">';
+        if ( isset( $group['title'] ) && $group['title'] )
+            $content .= '<div class="group-title">' . $group['title'] . '</div>';
 
-		if ( isset( $group['title'] ) && $group['title'] )
-			$content .= '<div class="group-title">' . $group['title'] . '</div>';
+        if ( isset( $group['notice'] ) && $group['notice'] )
+            $content .= '<div class="group-notice usp-field-input"><span class="usp-field-notice"><i class="uspi fa-info-circle" aria-hidden="true"></i> ' . nl2br( $group['notice'] ) . '</span></div>';
 
-		if ( isset( $group['notice'] ) && $group['notice'] )
-			$content .= '<div class="group-notice usp-field-input"><span class="usp-field-notice"><i class="uspi fa-info" aria-hidden="true"></i> ' . nl2br( $group['notice'] ) . '</span></div>';
+        $content .= '<div class="group-areas">';
 
-		$content .= '<div class="group-areas">';
+        $content .= $groupContent;
 
-		$content .= $groupContent;
+        $content .= '</div>';
 
-		$content .= '</div>';
+        $content .= '</div>';
 
-		$content .= '</div>';
+        return $content;
+    }
 
-		return $content;
-	}
+    function get_area_form( $area, $args = false ) {
 
-	function get_area_form( $area, $args = false ) {
+        $areaContent = '';
 
-		$areaContent = '';
+        if ( ! isset( $area['fields'] ) || ! $area['fields'] )
+            return false;
 
-		if ( ! isset( $area['fields'] ) || ! $area['fields'] )
-			return false;
+        foreach ( $area['fields'] as $field_id ) {
+            $areaContent .= $this->get_field_form( $field_id, $args );
+        }
 
-		foreach ( $area['fields'] as $field_id ) {
-			$areaContent .= $this->get_field_form( $field_id, $args );
-		}
+        if ( ! $areaContent )
+            return false;
 
-		if ( ! $areaContent )
-			return false;
+        $content = '<div class="usp-content-area" style="min-width:' . (isset( $area['width'] ) ? $area['width'] : 100) . '%;">';
+        $content .= $areaContent;
+        $content .= '</div>';
 
-		$content = '<div class="usp-content-area" style="min-width:' . (isset( $area['width'] ) ? $area['width'] : 100) . '%;">';
-		$content .= $areaContent;
-		$content .= '</div>';
+        return $content;
+    }
 
-		return $content;
-	}
+    function get_field_form( $field_id, $args = false ) {
 
-	function get_field_form( $field_id, $args = false ) {
+        $field = $this->get_field( $field_id );
 
-		$field = $this->get_field( $field_id );
+        if ( ! $field )
+            return false;
 
-		if ( ! $field )
-			return false;
+        if ( isset( $args['unique_ids'] ) )
+            $field->set_prop( 'unique_id', true );
 
-		if ( isset( $args['unique_ids'] ) )
-			$field->set_prop( 'unique_id', true );
+        $content = $field->get_field_html();
 
-		$content = $field->get_field_html();
-
-		return $content;
-	}
+        return $content;
+    }
 
 }

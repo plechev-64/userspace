@@ -1,3 +1,8 @@
+/* mark orphan icons */
+i::before {
+	content: "😡 🤬";
+}
+
 /*----------------------
 >>> Table of contents
 ------------------------
