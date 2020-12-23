@@ -211,7 +211,7 @@ class USP_Field_Abstract {
 
 
         /* $content = '<span class="usp-balloon-hover usp-field-help">';
-          $content .= '<i class="uspi fa-question-ciuspe-o" aria-hidden="true"></i>';
+          $content .= '<i class="uspi fa-question-circle" aria-hidden="true"></i>';
           $content .= '<span class="usp-balloon help-content">';
           $content .= $this->help;
           $content .= '</span>';

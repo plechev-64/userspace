@@ -123,14 +123,14 @@ span.ruble-symbol {
 /*--------------------------
   3. Notify & USP Notice
 ----------------------------*/
-.wprecallblock .notify-lk {
+.usp-office .notify-lk {
     color: #000;
     font-size: 16px;
     font-weight: bold;
     line-height: 1.4;
     text-align: center;
 }
-.wprecallblock .notify-lk div {
+.usp-office .notify-lk div {
     padding: 6px 2px 6px 10px;
 }
 #usp-notice {
@@ -250,17 +250,17 @@ body .usp_preloader {
     margin: 5px 0;
     padding: 0;
 }
-span i.uspi.fa-ciuspe {
+span i.uspi.fa-circle {
     font-size: 16px;
     padding: 0;
     vertical-align: inherit;
 }
-.online .uspi.fa-ciuspe {
+.online .uspi.fa-circle {
     -webkit-animation: pulsate 2s linear infinite;
     animation: pulsate 2s linear infinite;
     color: #89e535;
 }
-.offline .uspi.fa-ciuspe {
+.offline .uspi.fa-circle {
     color: rgb(229, 57, 53);
     text-shadow: 0 0 1px #5a0d0c;
 }
@@ -809,12 +809,14 @@ body .ssi-modalOuter .ssi-modalTitle {
     background: none;
     height: 30px;
     text-decoration: none;
+    margin: 0;
+    line-height: 34px;
+    width: 30px;
 }
 .ssi-modalOuter .ssi-topIcons .ssi-closeIcon::after {
     color: rgb(229, 57, 53);
-    content: "\f00d";                                   /* fa-times */
-    font: 400 30px/30px usp-awesome;
-    margin: 0 7px 0 0;
+    content: "\f00d";
+    font: 400 24px/24px usp-awesome;
 }
 .ssi-modalOuter .ssi-topIcons .ssi-closeIcon:hover::after {
     color: rgb(192, 0, 0);
@@ -1439,7 +1441,7 @@ body .usp-bttn:not(.usp-bttn__type-clear):last-child {
 .usp-wrap__wiget .usp-bttn__text {
 	margin-left: .3em;
 }
-.usp-wrap__wiget .usp-bttn__ava_ciuspe .usp-bttn__ava img {
+.usp-wrap__wiget .usp-bttn__ava_circle .usp-bttn__ava img {
 	border-radius: 50%;
 }
 /* END special wiget list style */

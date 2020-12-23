@@ -3,9 +3,9 @@
   Plugin Name: UserSpace
   Plugin URI: https://userspace.com/
   Description: Фронт-енд профиль, система личных сообщений и рейтинг пользователей на сайте вордпресс.
-  Version: 1.0.0
+  Version: 0.1
   Author: Plechev Andrey
-  Author URI: https://codeseller.ru/
+  Author URI: http://user-space.com/
   Text Domain: usp
   Domain Path: /languages
   License: GPLv2 or later (license.txt)
@@ -16,7 +16,7 @@
 final class UserSpace {
 
     public $version      = '1.0.0';
-    public $theme = null;
+    public $theme        = null;
     public $fields       = array();
     public $tabs         = array();
     public $modules      = array();
@@ -47,9 +47,9 @@ final class UserSpace {
         $this->use_module( 'tabs' );
         $this->use_module( 'forms' );
         $this->use_module( 'table' );
-	    $this->use_module( 'profile' );
+        $this->use_module( 'profile' );
 
-	    $this->init_theme();
+        $this->init_theme();
 
         do_action( 'usp_loaded' ); //Оставляем кручёк
 
@@ -159,17 +159,17 @@ final class UserSpace {
         }
     }
 
-	function init_theme() {
+    function init_theme() {
 
-		$this->theme = $this->themes()->get_current();
+        $this->theme = $this->themes()->get_current();
 
-		do_action( 'usp_init_theme' );
-	}
+        do_action( 'usp_init_theme' );
+    }
 
-	function themes() {
-		$themes = new USP_Themes();
-		return $themes;
-	}
+    function themes() {
+        $themes = new USP_Themes();
+        return $themes;
+    }
 
     function tabs() {
         return USP_Tabs::instance();
@@ -195,9 +195,9 @@ final class UserSpace {
         require_once 'classes/class-usp-install.php';
         require_once 'classes/class-usp-log.php';
         require_once 'classes/class-usp-button.php';
-	    require_once 'classes/class-usp-theme.php';
-	    require_once 'classes/class-usp-themes.php';
-	    require_once 'classes/class-usp-template.php';
+        require_once 'classes/class-usp-theme.php';
+        require_once 'classes/class-usp-themes.php';
+        require_once 'classes/class-usp-template.php';
 
         require_once 'functions/activate.php';
         require_once 'functions/ajax.php';
@@ -257,7 +257,7 @@ final class UserSpace {
     public function init() {
         global $user_ID;
 
-        do_action( 'wp_recall_before_init' );
+        do_action( 'usp_before_init' );
 
         $this->fields_init();
 
@@ -463,8 +463,8 @@ final class UserSpace {
         return untrailingslashit( plugin_dir_path( __FILE__ ) );
     }
 
-    public function template($name, $file = false){
-        return new USP_Template($name, $file);
+    public function template( $name, $file = false ) {
+        return new USP_Template( $name, $file );
     }
 
     public function ajax_url() {
@@ -491,7 +491,7 @@ final class UserSpace {
         if ( is_ssl() )
             $upload_dir['baseurl'] = str_replace( 'http://', 'https://', $upload_dir['baseurl'] );
 
-        return apply_filters( 'wp_recall_upload_dir', $upload_dir, $this );
+        return apply_filters( 'usp_upload_dir', $upload_dir, $this );
     }
 
     public function User() {
@@ -500,11 +500,9 @@ final class UserSpace {
 
 }
 
-
 function USP() {
     return UserSpace::getInstance();
 }
-
 
 $GLOBALS['usp'] = USP();
 function userspace() {
@@ -519,9 +517,9 @@ function userspace() {
 
         <?php
         if ( $themePath = USP()->theme->get( 'path' ) ) {
-	        USP()->template( 'office.php', $themePath )->include();
+            USP()->template( 'office.php', $themePath )->include();
         } else {
-	        echo '<h3>' . __( 'Office templates not found!', 'usp' ) . '</h3>';
+            echo '<h3>' . __( 'Office templates not found!', 'usp' ) . '</h3>';
         }
         ?>
 

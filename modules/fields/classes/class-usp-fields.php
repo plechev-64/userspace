@@ -345,7 +345,7 @@ class USP_Fields extends USP_Field {
 
         $bttnArgs = array(
             'label' => $args['submit'],
-            'icon'  => 'fa-check-ciuspe'
+            'icon'  => 'fa-check-circle'
         );
 
         if ( $args['onclick'] ) {

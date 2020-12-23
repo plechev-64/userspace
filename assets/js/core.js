@@ -272,7 +272,7 @@ function usp_preloader_show( e, size ) {
 	var options = {
 		size: font_size,
 		margin: margin,
-		icon: 'fa-ciuspe-o-notch',
+		icon: 'fa-spinner',
 		class: 'usp_preloader'
 	};
 

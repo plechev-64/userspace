@@ -128,7 +128,7 @@ function usp_get_options_url_params() {
 
 	var options = {
 		scroll: 1,
-		offset: 100
+		offset: 120
 	};
 
 	options = usp_apply_filters( 'usp_options_url_params', options );
@@ -313,7 +313,7 @@ function usp_init_get_smilies() {
 			jQuery( this ).next().hide();
 		}
 	},
-		"body .usp-smiles .fa-smile-o" );
+		"body .usp-smiles .fa-beaming-face-with-smiling-eyes" );
 }
 
 usp_add_action( 'usp_init', 'usp_init_hover_smilies' );

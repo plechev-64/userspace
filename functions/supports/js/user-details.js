@@ -16,7 +16,7 @@ function usp_get_user_info( element ) {
 	usp_ajax( {
 		data: {
 			action: 'usp_return_user_details',
-			user_id: jQuery( element ).parents( '.wprecallblock' ).data( 'account' )
+			user_id: jQuery( element ).parents( '.usp-office' ).data( 'account' )
 		},
 		success: function( data ) {
 

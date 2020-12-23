@@ -1,11 +1,8 @@
-.toplevel_page_manage-wprecall h2,
-body.wp-admin.toplevel_page_manage-rmag h2,
-body.wp-admin[class*="usp-1_page_"] h2,
-body.wp-admin[class*="usp-commerce_page_manage-"] h2 { /* h2 title on userspace page */
+.wp-admin[class*="userspace_page_"] h2 { /* h2 title on userspace page */
     font-size: 20px;
     font-weight: 600;
     line-height: normal;
-    margin: 15px 0;
+    margin: 18px 0;
     padding: 0;
 }
 #usp-notice {
@@ -765,7 +762,7 @@ div.usp_preloader i.uspi::before {
 .usp-custom-fields-box .type-file-input .usp-field-value .fa-upload::before {
     content: "\f501";
 }
-.usp-custom-fields-box .type-file-input .delete-file-url .fa-times-ciuspe-o::before {
+.usp-custom-fields-box .type-file-input .delete-file-url .fa-times-circle::before {
     color: rgb(229, 57, 53);
     content: "\f153";
 }

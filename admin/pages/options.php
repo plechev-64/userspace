@@ -43,11 +43,11 @@ $options->add_box( 'primary', array(
             'title'     => __( 'Personal Cabinet output', 'usp' ),
             'values'    => array(
                 __( 'On the author’s archive page', 'usp' ),
-                __( 'Using shortcode [wp-recall]', 'usp' ) ),
+                __( 'Using shortcode [userspace]', 'usp' ) ),
             'help'      => __( 'Attention! Changing this parameter is not required. '
                 . 'Detailed instructions on personal account output using author.php '
-                . 'file can be received here <a href="https://codeseller.ru/post-group/ustanovka-plagina-wp-recall-na-sajt/ " target="_blank">here</a>', 'usp' ),
-            'notice'    => __( 'If author archive page is selected, the template author.php should contain the code if(function_exists(\'wp_recall\')) wp_recall();', 'usp' ),
+                . 'file can be received here <a href="#" target="_blank">here</a>', 'usp' ),
+            'notice'    => __( 'If author archive page is selected, the template author.php should contain the code if(function_exists(\'userspace\')) userspace();', 'usp' ),
             'childrens' => array(
                 1 => array(
                     array(
@@ -210,7 +210,7 @@ $options->box( 'primary' )->add_group( 'recallbar', array(
         'type'      => 'select',
         'slug'      => 'view_recallbar',
         'title'     => __( 'Output of recallbar panel', 'usp' ),
-        'help'      => __( 'Recallbar – is he top panel WP-Recall plugin through which the plugin and its add-ons can output their data and the administrator can make his menu, forming it on <a href="/wp-admin/nav-menus.php" target="_blank">page management menu of the website</a>', 'usp' ),
+        'help'      => __( 'Recallbar – is he top panel UserSpace plugin through which the plugin and its add-ons can output their data and the administrator can make his menu, forming it on <a href="/wp-admin/nav-menus.php" target="_blank">page management menu of the website</a>', 'usp' ),
         'values'    => array( __( 'Disabled', 'usp' ), __( 'Enabled', 'usp' ) ),
         'childrens' => array(
             'rcb_color'
@@ -224,7 +224,7 @@ $options->box( 'primary' )->add_group( 'recallbar', array(
         'type'   => 'select',
         'slug'   => 'rcb_color',
         'title'  => __( 'Color', 'usp' ),
-        'values' => array( __( 'Default', 'usp' ), __( 'Primary colors of WP-Recall', 'usp' ) )
+        'values' => array( __( 'Default', 'usp' ), __( 'Primary colors of UserSpace', 'usp' ) )
     )
 ) );
 
@@ -236,7 +236,7 @@ $options->box( 'primary' )->add_group( 'caching', array(
         'type'      => 'select',
         'slug'      => 'use_cache',
         'title'     => __( 'Cache', 'usp' ),
-        'help'      => __( 'Use the functionality of the caching WP-Recall plugin. <a href="https://codeseller.ru/post-group/funkcional-keshirovaniya-plagina-wp-recall/" target="_blank">read More</a>', 'usp' ),
+        'help'      => __( 'Use the functionality of the caching UserSpace plugin. <a href="#" target="_blank">read More</a>', 'usp' ),
         'values'    => array(
             __( 'Disabled', 'usp' ),
             __( 'Enabled', 'usp' ) ),
@@ -274,7 +274,7 @@ $options->box( 'primary' )->add_group( 'caching', array(
         'values' => array(
             __( 'Disabled', 'usp' ),
             __( 'Enabled', 'usp' ) ),
-        'notice' => __( 'Minimization of file styles only works in correlation with WP-Recall style files and add-ons that support this feature', 'usp' )
+        'notice' => __( 'Minimization of file styles only works in correlation with UserSpace style files and add-ons that support this feature', 'usp' )
     ),
     array(
         'type'   => 'select',
@@ -316,7 +316,7 @@ $options->box( 'primary' )->add_group( 'logging', array(
 /* support old options */
 global $uspOldOptionData;
 
-apply_filters( 'admin_options_wprecall', '' );
+apply_filters( 'usp_admin_options', '' );
 
 if ( $uspOldOptionData ) {
 
@@ -343,7 +343,7 @@ unset( $uspOldOptionData );
 
 $options = apply_filters( 'usp_options', $options );
 
-$content = '<h2>' . __( 'Configure WP-Recall plugin and add-ons', 'usp' ) . '</h2>';
+$content = '<h2>' . __( 'Configure UserSpace plugin and add-ons', 'usp' ) . '</h2>';
 
 $content .= $options->get_content();
 
