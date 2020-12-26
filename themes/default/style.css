@@ -1,3 +1,66 @@
+#usp-office {
+    background: rgba(236, 240, 241, 0.3);
+    box-shadow: 0 0 1px 1px rgba(219, 219, 219, 0.8);
+    color: #333;                    /*BlackTheme*/
+    overflow: visible;
+    position: relative;
+}
+#usp-office a:link {
+    border: none;                   /*++Twenty15++*/
+    box-shadow: none;               /*++Twenty16++*/
+    text-decoration: none;
+}
+#usp-office h2 {
+    font-size: 22px;
+    font-weight: bold;
+    line-height: 1;
+    margin: 0;
+    text-transform: none;
+}
+#usp-office h3 {
+    font-size: 18px;
+    line-height: 1;
+    margin: 5px 0;
+}
+#usp-office p {
+    line-height: 1;
+    margin: 0;
+    padding: 4px 0;
+}
+.usp-tab-button .usp-menu-notice {
+    line-height: 1;
+}
+#lk-menu,
+#usp-tabs {
+    overflow: hidden;
+}
+#usp-office.horizontal-tabs #usp-tabs {
+    animation-delay: 1s;
+    animation-duration: 1s;
+    animation-fill-mode: both;
+    animation-name: fadeIn;
+    opacity: 0;
+}
+#usp-tab-content {
+    margin: 3px;
+    overflow: hidden;
+    position: relative;
+}
+#usp-office .recall_content_block {
+    background: rgba(255, 255, 255, 0.7);
+    display: none;
+    overflow: hidden;
+    padding: 4px 5px;
+    position: relative;
+}
+#usp-office .recall_content_block.active {
+    display: block;
+}
+@media screen and (max-width:360px) {
+    #usp-office .recall_content_block {
+        padding: 2px;
+    }
+}
 /* блок lk-conteyner start */
 #lk-conteyner {
     background-color: #e3e3e3;
@@ -203,10 +266,10 @@
 .cab_content_blk {
     display: flex;
 }
-.cab_content_blk #lk-content {
+.cab_content_blk #usp-tab-content {
     width: 99%;
 }
-#lk-content + .usp-notice {
+#usp-tab-content + .usp-notice {
 	flex-shrink: 0;
 }
 .cab_sidebar {

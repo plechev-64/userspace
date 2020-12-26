@@ -253,9 +253,9 @@ function usp_manage_user_black_list( e, user_id, confirmText ) {
 
 function usp_show_tab( id_block ) {
 	jQuery( ".usp-tab-button .recall-button" ).removeClass( "active" );
-	jQuery( "#lk-content .recall_content_block" ).removeClass( "active" );
+	jQuery( "#usp-tab-content .recall_content_block" ).removeClass( "active" );
 	jQuery( '#tab-button-' + id_block ).children( '.recall-button' ).addClass( "active" );
-	jQuery( '#lk-content .' + id_block + '_block' ).addClass( "active" );
+	jQuery( '#usp-tab-content .' + id_block + '_block' ).addClass( "active" );
 	return false;
 }
 
@@ -279,7 +279,7 @@ function usp_init_recallbar_hover() {
 
 usp_add_action( 'usp_before_upload_tab', 'usp_add_preloader_tab' );
 function usp_add_preloader_tab() {
-	usp_preloader_show( '#lk-content > div' );
+	usp_preloader_show( '#usp-tab-content > div' );
 	usp_preloader_show( '#ssi-modalContent > div' );
 }
 
@@ -415,7 +415,7 @@ function usp_init_check_url_params() {
 	var options = usp_get_options_url_params();
 
 	if ( usp_url_params['tab'] ) {
-		var lkContent = jQuery( "#lk-content" );
+		var lkContent = jQuery( "#usp-tab-content" );
 		if ( !lkContent.length )
 			return false;
 

@@ -58,8 +58,8 @@ function usp_get_user_details( $user_id, $args = false ) {
 
     $args = wp_parse_args( $args, $defaults );
 
-    if ( ! class_exists( 'USP_Blocks' ) )
-        require_once USP_PATH . 'deprecated/class-usp-blocks.php';
+    // if ( ! class_exists( 'USP_Blocks' ) )
+    //    require_once USP_PATH . 'deprecated/class-usp-blocks.php';
 
     $content = '<div id="usp-user-details">';
 
