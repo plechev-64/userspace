@@ -257,7 +257,7 @@ function usp_get_time_user_action( $user_id ) {
     if ( $cache )
         return $cache;
 
-    $action = RQ::tbl( new USP_User_Action() )->select( [ 'time_action' ] )->where( [ 'user' => $user_id ] )->get_var();
+    $action = RQ::tbl( new USP_User_Action() )->select( [ 'date_action' ] )->where( [ 'user_id' => $user_id ] )->get_var();
 
     if ( ! $action ) {
         $action = '0000-00-00 00:00:00';
