@@ -105,7 +105,19 @@ function usp_get_smiles( $id_area ) {
     return $smiles;
 }
 
-function usp_mail( $email, $title, $text, $from = false, $attach = false ) {
+/**
+ * Send HTML emails from UserSpace.
+ *
+ * @since 1.0
+ *
+ * @param string|array  $email          Array or comma-separated list of email addresses to send message.
+ * @param string        $title          Email subject
+ * @param string        $text           Message contents.
+ * @param array         $from           Optional. From 'name' and 'email' (default: bloginfo name and noreply@ 'HTTP_HOST').
+ * @param string        $attachments    Optional. Attachments. (default: "").
+ * @return bool
+ */
+function usp_mail( $email, $title, $text, $from = false, $attachments = false ) {
 
     $from_name = (isset( $from['name'] )) ? $from['name'] : get_bloginfo( 'name' );
     $from_mail = (isset( $from['email'] )) ? $from['email'] : 'noreply@' . $_SERVER['HTTP_HOST'];
@@ -125,7 +137,7 @@ function usp_mail( $email, $title, $text, $from = false, $attach = false ) {
 	' . __( 'This letter was created automatically, no need to answer it.', 'usp' ) . '<br/>
 	"' . get_bloginfo( 'name' ) . '"</small></p>';
 
-    return wp_mail( $email, $title, $content, $headers, $attach );
+    return wp_mail( $email, $title, $content, $headers, $attachments );
 }
 
 function usp_get_form( $args ) {
