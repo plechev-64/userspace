@@ -163,7 +163,7 @@ $options->box( 'primary' )->add_group( 'usersign', array(
     ),
     array(
         'type'   => 'select',
-        'slug'   => 'confirm_register_recall',
+        'slug'   => 'usp_confirm_register',
         'help'   => __( 'If you are using the registration confirmation, after registration, the user will need to confirm your email by clicking on the link in the sent email', 'usp' ),
         'title'  => __( 'Registration confirmation by the user', 'usp' ),
         'values' => array(
