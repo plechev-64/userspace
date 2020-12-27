@@ -87,17 +87,3 @@ function usp_check_register_captcha( $errors ) {
 
     return $errors;
 }
-
-add_action( 'init_update_post_usp', 'usp_check_public_form_captcha', 10 );
-function usp_check_public_form_captcha() {
-    global $user_ID;
-
-    if ( ! $user_ID && isset( $_POST['usp_captcha_prefix'] ) ) {
-
-        $usp_captcha_correct = usp_captcha_check_correct( $_POST['usp_captcha_code'], $_POST['usp_captcha_prefix'] );
-
-        if ( ! $usp_captcha_correct ) {
-            wp_die( __( 'Incorrect CAPTCHA!', 'usp' ) );
-        }
-    }
-}
