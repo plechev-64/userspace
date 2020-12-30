@@ -188,6 +188,10 @@ final class UserSpace {
         require_once 'classes/class-usp-query-tables.php';
         require_once 'classes/class-usp-cache.php';
         require_once 'classes/class-usp-ajax.php';
+
+        /* deprecated, use class-usp-pager */
+        require_once 'classes/class-usp-pagenavi.php';
+
         require_once 'classes/class-usp-pager.php';
         require_once 'classes/class-usp-user.php';
         require_once 'classes/class-usp-walker.php';
