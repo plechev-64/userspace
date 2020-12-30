@@ -251,7 +251,7 @@ function usp_is_gutenberg() {
 function usp_get_author_block() {
     global $post;
 
-    $content = "<div id=block_author-usp>";
+    $content = '<div id="usp_block_author">';
     $content .= "<h3>" . __( 'Publication author', 'usp' ) . "</h3>";
 
     if ( function_exists( 'usp_add_userlist_follow_button' ) )
