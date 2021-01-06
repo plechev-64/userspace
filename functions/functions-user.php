@@ -61,7 +61,7 @@ function usp_user_rayting() {
     if ( false !== array_search( 'rating_total', $usp_users_set->data ) || isset( $usp_user->rating_total ) ) {
         if ( ! isset( $usp_user->rating_total ) )
             $usp_user->rating_total = 0;
-        echo usp_rating_block( array( 'value' => $usp_user->rating_total ) );
+        echo uspr_rating_block( array( 'value' => $usp_user->rating_total ) );
     }
 }
 
