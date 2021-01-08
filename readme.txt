@@ -1,4 +1,4 @@
-=== UserSpace - user profile framework ===
+=== UserSpace - Login & registration form, profile fields, front-end profile, user account and core for wordpress membership ===
 Contributors: wppost
 Donate link: http://user-space.com/
 Tags: user profile

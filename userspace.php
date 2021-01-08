@@ -107,8 +107,6 @@ final class UserSpace {
 
         register_activation_hook( __FILE__, array( 'USP_Install', 'install' ) );
 
-        add_action( 'plugins_loaded', array( $this, 'load_plugin_textdomain' ), 5 );
-
         add_action( 'wp_loaded', array( $this, 'setup_tabs' ), 10 );
 
         add_action( 'init', array( $this, 'init' ), 0 );
@@ -452,10 +450,6 @@ final class UserSpace {
                 'class' => 'USP_Field_Uploader'
             )
             ) );
-    }
-
-    public function load_plugin_textdomain() {
-        load_plugin_textdomain( 'userspace', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
     }
 
     public function plugin_url() {
