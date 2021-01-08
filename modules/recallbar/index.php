@@ -11,7 +11,7 @@ function usp_register_recallbar() {
 	if ( ! usp_get_option( 'view_recallbar' ) )
 		return false;
 
-	register_nav_menus( array( 'recallbar' => __( 'Recallbar', 'usp' ) ) );
+	register_nav_menus( array( 'recallbar' => __( 'Recallbar', 'userspace' ) ) );
 }
 
 add_action( 'wp_footer', 'usp_recallbar_menu', 3 );
@@ -34,7 +34,7 @@ function usp_setup_bar_default_data() {
 	usp_bar_add_menu_item( 'account-link', array(
 		'url'	 => $usp_user_URL,
 		'icon'	 => 'fa-user',
-		'label'	 => __( 'To personal account', 'usp' )
+		'label'	 => __( 'To personal account', 'userspace' )
 		)
 	);
 
@@ -42,7 +42,7 @@ function usp_setup_bar_default_data() {
 		usp_bar_add_menu_item( 'admin-link', array(
 			'url'	 => admin_url(),
 			'icon'	 => 'fa-external-link-square',
-			'label'	 => __( 'To admin area', 'usp' )
+			'label'	 => __( 'To admin area', 'userspace' )
 			)
 		);
 	}

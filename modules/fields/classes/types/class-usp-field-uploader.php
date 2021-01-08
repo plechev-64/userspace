@@ -43,15 +43,15 @@ class USP_Field_Uploader extends USP_Field_Abstract {
 				'value_min'	 => 256,
 				'value_max'	 => 5120,
 				'value_step' => 256,
-				'title'		 => __( 'File size', 'usp' ),
-				'notice'	 => __( 'maximum size of uploaded file, Kb (Default - 512)', 'usp' )
+				'title'		 => __( 'File size', 'userspace' ),
+				'notice'	 => __( 'maximum size of uploaded file, Kb (Default - 512)', 'userspace' )
 			),
 			array(
 				'slug'		 => 'file_types',
 				'default'	 => $this->file_types,
 				'type'		 => 'text',
-				'title'		 => __( 'Allowed file types', 'usp' ),
-				'notice'	 => __( 'allowed types of files are divided by comma, for example: pdf, zip, jpg', 'usp' )
+				'title'		 => __( 'Allowed file types', 'userspace' ),
+				'notice'	 => __( 'allowed types of files are divided by comma, for example: pdf, zip, jpg', 'userspace' )
 			),
 			array(
 				'slug'		 => 'max_files',
@@ -60,35 +60,35 @@ class USP_Field_Uploader extends USP_Field_Abstract {
 				'value_min'	 => 1,
 				'value_max'	 => 100,
 				'value_step' => 1,
-				'title'		 => __( 'Max number of files', 'usp' ),
+				'title'		 => __( 'Max number of files', 'userspace' ),
 			),
 			array(
 				'slug'		 => 'dropzone',
 				'default'	 => $this->dropzone,
 				'type'		 => 'radio',
 				'values'	 => array(
-					__( 'Disabled', 'usp' ),
-					__( 'Enabled', 'usp' )
+					__( 'Disabled', 'userspace' ),
+					__( 'Enabled', 'userspace' )
 				),
-				'title'		 => __( 'Dropzone', 'usp' ),
+				'title'		 => __( 'Dropzone', 'userspace' ),
 			),
 			array(
 				'slug'		 => 'mode_output',
 				'default'	 => $this->mode_output,
 				'type'		 => 'radio',
 				'values'	 => array(
-					'grid'	 => __( 'Cards', 'usp' ),
-					'list'	 => __( 'List', 'usp' ),
-				//'gallery'	 => __( 'Gallery', 'usp' )
+					'grid'	 => __( 'Cards', 'userspace' ),
+					'list'	 => __( 'List', 'userspace' ),
+				//'gallery'	 => __( 'Gallery', 'userspace' )
 				),
-				'title'		 => __( 'Mode of files output', 'usp' ),
+				'title'		 => __( 'Mode of files output', 'userspace' ),
 			),
 			array(
 				'slug'		 => 'fix_editor',
 				'default'	 => $this->fix_editor,
 				'type'		 => 'text',
-				'title'		 => __( 'ID of an attaching editor', 'usp' ),
-				'notice'	 => __( 'You can attach this uploader for one of text editors, pointing its ID', 'usp' ),
+				'title'		 => __( 'ID of an attaching editor', 'userspace' ),
+				'notice'	 => __( 'You can attach this uploader for one of text editors, pointing its ID', 'userspace' ),
 			)
 		);
 

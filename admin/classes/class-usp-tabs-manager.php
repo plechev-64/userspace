@@ -18,50 +18,50 @@ class USP_Tabs_Manager extends USP_Fields_Manager {
                     'placeholder' => 'fa-check-square',
                     'class'       => 'usp-iconpicker',
                     'type'        => 'text',
-                    'title'       => __( 'Icon class of usp-awesome', 'usp' )
+                    'title'       => __( 'Icon class of usp-awesome', 'userspace' )
                 ),
                 array(
                     'type'   => 'radio',
                     'slug'   => 'hidden',
-                    'title'  => __( 'Hidden tab', 'usp' ),
-                    'notice' => __( 'The tab will be available only by link', 'usp' ),
+                    'title'  => __( 'Hidden tab', 'userspace' ),
+                    'notice' => __( 'The tab will be available only by link', 'userspace' ),
                     'values' => array(
-                        __( 'No', 'usp' ),
-                        __( 'Yes', 'usp' )
+                        __( 'No', 'userspace' ),
+                        __( 'Yes', 'userspace' )
                     )
                 ),
                 array(
                     'type'        => 'text',
                     'slug'        => 'icon',
                     'class'       => 'usp-iconpicker',
-                    'title'       => __( 'Icon class', 'usp' ),
-                    'placeholder' => __( 'Example, fa-user', 'usp' )
+                    'title'       => __( 'Icon class', 'userspace' ),
+                    'placeholder' => __( 'Example, fa-user', 'userspace' )
                 ),
                 array(
                     'type'   => 'select',
                     'slug'   => 'public-tab',
-                    'title'  => __( 'Tab privacy', 'usp' ),
+                    'title'  => __( 'Tab privacy', 'userspace' ),
                     'values' => array(
-                        __( 'Private', 'usp' ),
-                        __( 'Public', 'usp' )
+                        __( 'Private', 'userspace' ),
+                        __( 'Public', 'userspace' )
                     )
                 ),
                 array(
                     'type'   => 'checkbox',
                     'slug'   => 'supports-tab',
-                    'title'  => __( 'Support of the functions', 'usp' ),
+                    'title'  => __( 'Support of the functions', 'userspace' ),
                     'values' => array(
-                        'ajax'   => __( 'ajax-loading', 'usp' ),
-                        'cache'  => __( 'caching', 'usp' ),
-                        'dialog' => __( 'dialog box', 'usp' )
+                        'ajax'   => __( 'ajax-loading', 'userspace' ),
+                        'cache'  => __( 'caching', 'userspace' ),
+                        'dialog' => __( 'dialog box', 'userspace' )
                     )
                 ),
                 array(
                     'type'    => 'editor',
                     'tinymce' => true,
                     'slug'    => 'content',
-                    'title'   => __( 'Content tab', 'usp' ),
-                    'notice'  => __( 'supported shortcodes and HTML-code', 'usp' )
+                    'title'   => __( 'Content tab', 'userspace' ),
+                    'notice'  => __( 'supported shortcodes and HTML-code', 'userspace' )
                 )
             )
         ) );
@@ -74,9 +74,9 @@ class USP_Tabs_Manager extends USP_Fields_Manager {
     function form_navi() {
 
         $areas = array(
-            'area-menu'     => __( '"Menu" area', 'usp' ),
-            'area-actions'  => __( '"Actions" area', 'usp' ),
-            'area-counters' => __( '"Counters" area', 'usp' )
+            'area-menu'     => __( '"Menu" area', 'userspace' ),
+            'area-actions'  => __( '"Actions" area', 'userspace' ),
+            'area-counters' => __( '"Counters" area', 'userspace' )
         );
 
         $content = '<div class="usp-custom-fields-navi">';

@@ -100,7 +100,7 @@ class USP_Options_Manager {
         if ( $this->extends ) {
             $content .= '<label class="usp-option-extend-switch">'
                 . '<input type="checkbox" name="extend_options" ' . checked( $this->extend_options, 1, false ) . ' onclick="return usp_enable_extend_options(this);" value="1"> '
-                . __( 'Advanced settings', 'usp' )
+                . __( 'Advanced settings', 'userspace' )
                 . '</label>';
         }
 
@@ -126,7 +126,7 @@ class USP_Options_Manager {
         $content .= $this->get_menu();
 
         $content .= usp_get_button( array(
-            'label'   => __( 'Save settings', 'usp' ),
+            'label'   => __( 'Save settings', 'userspace' ),
             'onclick' => $this->onclick ? $this->onclick : false,
             'submit'  => $this->onclick ? false : true,
             'icon'    => 'fa-save',

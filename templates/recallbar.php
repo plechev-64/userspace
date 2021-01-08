@@ -14,7 +14,7 @@
         <div class="rcb_icon">
             <a href="/">
                 <i class="uspi fa-home" aria-hidden="true"></i>
-                <div class="rcb_hiden"><span><?php _e( 'Homepage', 'usp' ); ?></span></div>
+                <div class="rcb_hiden"><span><?php _e( 'Homepage', 'userspace' ); ?></span></div>
             </a>
         </div>
 
@@ -22,15 +22,15 @@
 
 			<div class="rcb_icon">
 				<a href="<?php echo usp_get_loginform_url( 'login' ); ?>" class="usp-login">
-					<i class="uspi fa-sign-in" aria-hidden="true"></i><span><?php _e( 'Entry', 'usp' ); ?></span>
-					<div class="rcb_hiden"><span><?php _e( 'Entry', 'usp' ); ?></span></div>
+					<i class="uspi fa-sign-in" aria-hidden="true"></i><span><?php _e( 'Entry', 'userspace' ); ?></span>
+					<div class="rcb_hiden"><span><?php _e( 'Entry', 'userspace' ); ?></span></div>
 				</a>
 			</div>
 			<?php if ( usp_is_register_open() ): ?>
 				<div class="rcb_icon">
 					<a href="<?php echo usp_get_loginform_url( 'register' ); ?>" class="usp-register">
-						<i class="uspi fa-book" aria-hidden="true"></i><span><?php _e( 'Register', 'usp' ); ?></span>
-						<div class="rcb_hiden"><span><?php _e( 'Register', 'usp' ); ?></span></div>
+						<i class="uspi fa-book" aria-hidden="true"></i><span><?php _e( 'Register', 'userspace' ); ?></span>
+						<div class="rcb_hiden"><span><?php _e( 'Register', 'userspace' ); ?></span></div>
 					</a>
 				</div>
 			<?php endif; ?>
@@ -53,7 +53,7 @@
 				<a href="<?php echo $usp_user_URL; ?>"><?php echo get_avatar( $user_ID, 36 ); ?></a>
 				<div class="pr_sub_menu">
 					<?php do_action( 'usp_bar_print_menu' ); ?>
-					<div class="rcb_line"><a href="<?php echo wp_logout_url( '/' ); ?>"><i class="uspi fa-sign-out" aria-hidden="true"></i><span><?php _e( 'Exit', 'usp' ); ?></span></a></div>
+					<div class="rcb_line"><a href="<?php echo wp_logout_url( '/' ); ?>"><i class="uspi fa-sign-out" aria-hidden="true"></i><span><?php _e( 'Exit', 'userspace' ); ?></span></a></div>
 				</div>
 			</div>
 

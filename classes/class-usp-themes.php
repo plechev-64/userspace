@@ -19,7 +19,7 @@ class USP_Themes {
 
         $plugins = get_plugins();
 
-        $themes = array( 'userspace/themes/default/index.php' => __( 'Default Theme', 'usp' ) );
+        $themes = array( 'userspace/themes/default/index.php' => __( 'Default Theme', 'userspace' ) );
 
         foreach ( $plugins as $key => $plugin ) {
             if ( ! $plugin['UserSpaceTheme'] || ! is_plugin_active( $key ) )

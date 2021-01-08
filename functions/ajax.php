@@ -40,19 +40,19 @@ function usp_ajax_call() {
 	if ( ! $callbackProps ) {
 
 		wp_send_json( [
-			'error' => __( 'Unregistered callback', 'usp' )
+			'error' => __( 'Unregistered callback', 'userspace' )
 		] );
 	}
 
 	if ( ! $user_ID && ! $callbackProps['guest'] ) {
 		wp_send_json( [
-			'error' => __( 'Access to callback is forbidden', 'usp' )
+			'error' => __( 'Access to callback is forbidden', 'userspace' )
 		] );
 	}
 
 	if ( ! function_exists( $callback ) ) {
 		wp_send_json( [
-			'error' => __( 'Function is not found', 'usp' )
+			'error' => __( 'Function is not found', 'userspace' )
 		] );
 	}
 
@@ -77,13 +77,13 @@ function usp_load_tab() {
 	$tab = USP()->tabs()->tab( $tab_id );
 
 	if ( ! $tab ) {
-		return array( 'error' => __( 'Data of the requested tab was not found.', 'usp' ) );
+		return array( 'error' => __( 'Data of the requested tab was not found.', 'userspace' ) );
 	}
 
 	$ajax = (in_array( 'ajax', $tab->supports ) || in_array( 'dialog', $tab->supports )) ? 1 : 0;
 
 	if ( ! $ajax ) {
-		return array( 'error' => __( 'Perhaps this add-on does not support ajax loading', 'usp' ) );
+		return array( 'error' => __( 'Perhaps this add-on does not support ajax loading', 'userspace' ) );
 	}
 
 	$user_LK = $office_id;
@@ -136,7 +136,7 @@ function usp_manage_user_black_list() {
 
 	if ( ! $user_id ) {
 		return array(
-			'error' => __( 'Error', 'usp' )
+			'error' => __( 'Error', 'userspace' )
 		);
 	}
 
@@ -153,7 +153,7 @@ function usp_manage_user_black_list() {
 	$new_status = $user_block ? 0 : 1;
 
 	return array(
-		'label' => ($new_status) ? __( 'Unblock', 'usp' ) : __( 'Заблокировать', 'usp' )
+		'label' => ($new_status) ? __( 'Unblock', 'userspace' ) : __( 'Заблокировать', 'userspace' )
 	);
 }
 
@@ -176,7 +176,7 @@ function usp_get_smiles_ajax() {
 
 	if ( ! $content ) {
 		return array(
-			'error' => __( 'Failed to load emoticons', 'usp' )
+			'error' => __( 'Failed to load emoticons', 'userspace' )
 		);
 	}
 
@@ -193,7 +193,7 @@ function usp_upload() {
 
 	if ( ! isset( $options['class_name'] ) || ! $options['class_name'] )
 		return [
-			'error' => __( 'Error', 'usp' )
+			'error' => __( 'Error', 'userspace' )
 		];
 
 	$className = $options['class_name'];
@@ -205,7 +205,7 @@ function usp_upload() {
 
 	if ( md5( json_encode( $uploader ) . usp_get_option( 'security-key' ) ) != $_POST['sk'] )
 		return [
-			'error' => __( 'Error of security', 'usp' )
+			'error' => __( 'Error of security', 'userspace' )
 		];
 
 	$files = $uploader->upload();
@@ -214,7 +214,7 @@ function usp_upload() {
 		return $files;
 	} else {
 		return array(
-			'error' => __( 'Something has been wrong', 'usp' )
+			'error' => __( 'Something has been wrong', 'userspace' )
 		);
 	}
 }
@@ -229,7 +229,7 @@ function usp_ajax_delete_attachment() {
 
 	if ( ! $attachment_id ) {
 		return array(
-			'error' => __( 'The data has been wrong!', 'usp' )
+			'error' => __( 'The data has been wrong!', 'userspace' )
 		);
 	}
 
@@ -237,7 +237,7 @@ function usp_ajax_delete_attachment() {
 
 		if ( ! current_user_can( 'edit_post', $post_id ) ) {
 			return array(
-				'error' => __( 'You can`t delete this file!', 'usp' )
+				'error' => __( 'You can`t delete this file!', 'userspace' )
 			);
 		}
 	} else {
@@ -247,13 +247,13 @@ function usp_ajax_delete_attachment() {
 		if ( ! $user_ID ) {
 			if ( $media->session_id != $_COOKIE['PHPSESSID'] ) {
 				return array(
-					'error' => __( 'You can`t delete this file!', 'usp' )
+					'error' => __( 'You can`t delete this file!', 'userspace' )
 				);
 			}
 		} else {
 			if ( ! current_user_can( 'edit_post', $attachment_id ) ) {
 				return array(
-					'error' => __( 'You can`t delete this file!', 'usp' )
+					'error' => __( 'You can`t delete this file!', 'userspace' )
 				);
 			}
 		}
@@ -264,7 +264,7 @@ function usp_ajax_delete_attachment() {
 	wp_delete_attachment( $attachment_id, true );
 
 	return array(
-		'success' => __( 'The file has been successfully deleted!', 'usp' )
+		'success' => __( 'The file has been successfully deleted!', 'userspace' )
 	);
 }
 

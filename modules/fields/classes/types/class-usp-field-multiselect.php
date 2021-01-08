@@ -28,8 +28,8 @@ class USP_Field_MultiSelect extends USP_Field_Abstract {
 				'slug'		 => 'values',
 				'default'	 => $this->values,
 				'type'		 => 'dynamic',
-				'title'		 => __( 'Specify options', 'usp' ),
-				'notice'	 => __( 'specify each option in a separate field', 'usp' )
+				'title'		 => __( 'Specify options', 'userspace' ),
+				'notice'	 => __( 'specify each option in a separate field', 'userspace' )
 			)
 		);
 	}

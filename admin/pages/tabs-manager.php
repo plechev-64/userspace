@@ -6,9 +6,9 @@ $areaType = (isset( $_GET['area-type'] )) ? $_GET['area-type'] : 'area-menu';
 
 $tabsManager = new USP_Tabs_Manager( $areaType );
 
-$content = '<h2>' . __( 'Personal account tabs manager', 'usp' ) . '</h2>';
+$content = '<h2>' . __( 'Personal account tabs manager', 'userspace' ) . '</h2>';
 
-$content .= '<p>' . __( 'On this page you can create new tabs personal account with arbitrary content and manage existing tabs in different areas of the personal account', 'usp' ) . '</p>';
+$content .= '<p>' . __( 'On this page you can create new tabs personal account with arbitrary content and manage existing tabs in different areas of the personal account', 'userspace' ) . '</p>';
 
 $content .= $tabsManager->form_navi();
 

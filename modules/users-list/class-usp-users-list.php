@@ -501,7 +501,7 @@ class USP_Users_List extends USP_Users_Query {
 
 		$count_users = (false !== $count_users) ? $count_users : $this->count();
 
-		$content .='<h3>' . __( 'Total number of users', 'usp' ) . ': ' . $count_users . '</h3>';
+		$content .='<h3>' . __( 'Total number of users', 'userspace' ) . ': ' . $count_users . '</h3>';
 
 		if ( isset( $this->add_uri['users-filter'] ) )
 			unset( $this->add_uri['users-filter'] );
@@ -521,18 +521,18 @@ class USP_Users_List extends USP_Users_Query {
 		$current_filter = (isset( $_GET['users-filter'] )) ? $_GET['users-filter'] : 'time_action';
 
 		$filters = array(
-			'time_action'		 => __( 'Activity', 'usp' ),
-			'posts_count'		 => __( 'Publications', 'usp' ),
-			'comments_count'	 => __( 'Comments', 'usp' ),
-			'user_registered'	 => __( 'Registration', 'usp' ),
+			'time_action'		 => __( 'Activity', 'userspace' ),
+			'posts_count'		 => __( 'Publications', 'userspace' ),
+			'comments_count'	 => __( 'Comments', 'userspace' ),
+			'user_registered'	 => __( 'Registration', 'userspace' ),
 		);
 
 		if ( isset( $active_addons['rating-system'] ) )
-			$filters['rating_total'] = __( 'Rated', 'usp' );
+			$filters['rating_total'] = __( 'Rated', 'userspace' );
 
 		$filters = apply_filters( 'usp_users_filter', $filters );
 
-		$content .= '<div class="usp-data-filters">' . __( 'Filter by', 'usp' ) . ': ';
+		$content .= '<div class="usp-data-filters">' . __( 'Filter by', 'userspace' ) . ': ';
 
 		foreach ( $filters as $key => $name ) {
 			$content .= usp_get_button( array(

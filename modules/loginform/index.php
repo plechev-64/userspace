@@ -37,9 +37,9 @@ function usp_get_loginform( $atts = [ ] ) {
 
 	$content .= '<div class="tab-group">';
 	if ( in_array( 'login', $forms ) )
-		$content .= '<a href="#login" class="tab tab-login' . ($active == 'login' ? ' active' : '') . '" onclick="USP.loginform.tabShow(\'login\',this);return false;">' . __( 'Авторизация', 'usp' ) . '</a>';
+		$content .= '<a href="#login" class="tab tab-login' . ($active == 'login' ? ' active' : '') . '" onclick="USP.loginform.tabShow(\'login\',this);return false;">' . __( 'Авторизация', 'userspace' ) . '</a>';
 	if ( in_array( 'register', $forms ) )
-		$content .= '<a href="#register" class="tab tab-register' . ($active == 'register' ? ' active' : '') . '" onclick="USP.loginform.tabShow(\'register\',this);return false;">' . __( 'Регистрация', 'usp' ) . '</a>';
+		$content .= '<a href="#register" class="tab tab-register' . ($active == 'register' ? ' active' : '') . '" onclick="USP.loginform.tabShow(\'register\',this);return false;">' . __( 'Регистрация', 'userspace' ) . '</a>';
 	$content .= '</div>';
 
 	$content .= apply_filters( 'usp_loginform_notice', '' );
@@ -49,14 +49,14 @@ function usp_get_loginform( $atts = [ ] ) {
 		$content .= '<div class="tab-content tab-login' . ($active == 'login' ? ' active' : '') . '">';
 
 		$content .= usp_get_form( array(
-			'submit'	 => __( 'Вход', 'usp' ),
+			'submit'	 => __( 'Вход', 'userspace' ),
 			'onclick'	 => 'USP.loginform.send("login",this);return false;',
 			'fields'	 => apply_filters( 'usp_login_form_fields', array(
 				array(
 					'slug'			 => 'user_login',
 					'type'			 => 'text',
-					'title'			 => __( 'Логин или E-mail', 'usp' ),
-					'placeholder'	 => __( 'Логин или E-mail', 'usp' ),
+					'title'			 => __( 'Логин или E-mail', 'userspace' ),
+					'placeholder'	 => __( 'Логин или E-mail', 'userspace' ),
 					'icon'			 => 'fa-user',
 					'maxlenght'		 => 50,
 					'required'		 => 1
@@ -64,8 +64,8 @@ function usp_get_loginform( $atts = [ ] ) {
 				array(
 					'slug'			 => 'user_pass',
 					'type'			 => 'password',
-					'title'			 => __( 'Password', 'usp' ),
-					'placeholder'	 => __( 'Password', 'usp' ),
+					'title'			 => __( 'Password', 'userspace' ),
+					'placeholder'	 => __( 'Password', 'userspace' ),
 					'icon'			 => 'fa-key',
 					'maxlenght'		 => 50,
 					'required'		 => 1
@@ -74,7 +74,7 @@ function usp_get_loginform( $atts = [ ] ) {
 			) );
 
 		if ( in_array( 'lostpassword', $forms ) )
-			$content .= '<a href="#" class="forget-link" onclick="USP.loginform.tabShow(\'lostpassword\',this);return false;">' . __( 'Forget password', 'usp' ) . '</a>';
+			$content .= '<a href="#" class="forget-link" onclick="USP.loginform.tabShow(\'lostpassword\',this);return false;">' . __( 'Forget password', 'userspace' ) . '</a>';
 
 		$content .= '</div>';
 	}
@@ -83,7 +83,7 @@ function usp_get_loginform( $atts = [ ] ) {
 
 		$content .= '<div class="tab-content tab-register' . ($active == 'register' ? ' active' : '') . '">';
 		$content .= usp_get_form( array(
-			'submit'	 => __( 'Регистрация', 'usp' ),
+			'submit'	 => __( 'Регистрация', 'userspace' ),
 			'onclick'	 => 'USP.loginform.send("register",this);return false;',
 			'fields'	 => usp_get_register_form_fields(),
 			'structure'	 => get_site_option( 'usp_fields_register_form_structure' )
@@ -95,14 +95,14 @@ function usp_get_loginform( $atts = [ ] ) {
 	if ( in_array( 'lostpassword', $forms ) ) {
 		$content .= '<div class="tab-content tab-lostpassword' . ($active == 'lostpassword' ? ' active' : '') . '">';
 		$content .= usp_get_form( array(
-			'submit'	 => __( 'Получить новый пароль', 'usp' ),
+			'submit'	 => __( 'Получить новый пароль', 'userspace' ),
 			'onclick'	 => 'USP.loginform.send("lostpassword",this);return false;',
 			'fields'	 => apply_filters( 'usp_lostpassword_form_fields', array(
 				array(
 					'type'			 => 'text',
 					'slug'			 => 'user_login',
-					'title'			 => __( 'Логин', 'usp' ),
-					'placeholder'	 => __( 'Логин или Email', 'usp' ),
+					'title'			 => __( 'Логин', 'userspace' ),
+					'placeholder'	 => __( 'Логин или Email', 'userspace' ),
 					'icon'			 => 'fa-user',
 					'maxlenght'		 => 50,
 					'required'		 => 1
@@ -152,7 +152,7 @@ function usp_call_loginform() {
 
 	if ( $user_ID )
 		return [
-			'error' => __( 'Вы уже авторизованы!', 'usp' )
+			'error' => __( 'Вы уже авторизованы!', 'userspace' )
 		];
 
 	return [
@@ -190,7 +190,7 @@ function usp_send_loginform() {
 
 		return array(
 			'redirect'	 => usp_get_authorize_url( $user->ID ),
-			'success'	 => __( 'Успешная авторизация', 'usp' )
+			'success'	 => __( 'Успешная авторизация', 'userspace' )
 		);
 	} else if ( $tab_id == 'register' ) {
 
@@ -212,9 +212,9 @@ function usp_send_loginform() {
 				'type'	 => 'success',
 				'text'	 => __( 'Регистрация завершена, проверьте вашу почту, затем '
 					. 'зайдите на <a href="#" onclick="USP.loginform.tabShow(\'login\',this);'
-					. 'return false;">страницу входа</a>.', 'usp' )
+					. 'return false;">страницу входа</a>.', 'userspace' )
 			] ),
-			'success'	 => __( 'Успешная регистрация', 'usp' )
+			'success'	 => __( 'Успешная регистрация', 'userspace' )
 		);
 	} else if ( $tab_id == 'lostpassword' ) {
 
@@ -229,9 +229,9 @@ function usp_send_loginform() {
 		return array(
 			'content'	 => usp_get_notice( [
 				'type'	 => 'success',
-				'text'	 => __( 'Ссылка для восстановления пароля выслана на почту', 'usp' )
+				'text'	 => __( 'Ссылка для восстановления пароля выслана на почту', 'userspace' )
 			] ),
-			'success'	 => __( 'Письмо успешно отправлено', 'usp' )
+			'success'	 => __( 'Письмо успешно отправлено', 'userspace' )
 		);
 	}
 }
@@ -245,7 +245,7 @@ function usp_add_login_form_notice( $notice ) {
 	switch ( $_REQUEST['formaction'] ) {
 		case 'success-checkemail':
 			$notice = usp_get_notice( [
-				'success' => __( 'Your email has been successfully confirmed! Log in using your username and password', 'usp' )
+				'success' => __( 'Your email has been successfully confirmed! Log in using your username and password', 'userspace' )
 				] );
 			break;
 	}
@@ -283,7 +283,7 @@ function usp_add_rememberme_button( $fields ) {
 		'type'	 => 'checkbox',
 		'icon'	 => 'fa-key',
 		'values' => array(
-			1 => __( 'Запомнить меня', 'usp' )
+			1 => __( 'Запомнить меня', 'userspace' )
 		)
 	);
 

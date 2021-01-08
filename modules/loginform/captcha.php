@@ -65,7 +65,7 @@ function usp_add_register_form_captcha( $fields ) {
     $fields[] = [
         'type'     => 'custom',
         'slug'     => 'simple-captcha',
-        'title'    => __( 'Enter characters', 'usp' ),
+        'title'    => __( 'Enter characters', 'userspace' ),
         'required' => 1,
         'content'  => '<img src="' . $captcha->img_src . '" alt="captcha" width="' . $captcha->img_size[0] . '" height="' . $captcha->img_size[1] . '" />
         <input id="usp_captcha_code" required name="usp_captcha_code" style="width: 160px;" size="' . $captcha->char_length . '" type="text" />
@@ -82,7 +82,7 @@ function usp_check_register_captcha( $errors ) {
 
     if ( ! $usp_captcha_correct ) {
         $errors = new WP_Error();
-        $errors->add( 'usp_register_captcha', __( 'Incorrect CAPTCHA!', 'usp' ) );
+        $errors->add( 'usp_register_captcha', __( 'Incorrect CAPTCHA!', 'userspace' ) );
     }
 
     return $errors;

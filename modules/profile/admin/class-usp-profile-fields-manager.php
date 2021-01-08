@@ -16,90 +16,90 @@ class USP_Profile_Fields_Manager extends USP_Fields_Manager {
 			'default_fields' => apply_filters( 'usp_default_profile_fields', array(
 				array(
 					'slug'	 => 'first_name',
-					'title'	 => __( 'Firstname', 'usp' ),
+					'title'	 => __( 'Firstname', 'userspace' ),
 					'icon'	 => 'fa-user',
 					'type'	 => 'text'
 				),
 				array(
 					'slug'	 => 'last_name',
-					'title'	 => __( 'Surname', 'usp' ),
+					'title'	 => __( 'Surname', 'userspace' ),
 					'icon'	 => 'fa-user',
 					'type'	 => 'text'
 				),
 				array(
 					'slug'	 => 'display_name',
-					'title'	 => __( 'Name to be displayed', 'usp' ),
+					'title'	 => __( 'Name to be displayed', 'userspace' ),
 					'icon'	 => 'fa-user',
 					'type'	 => 'text'
 				),
 				array(
 					'slug'	 => 'user_url',
-					'title'	 => __( 'Website', 'usp' ),
+					'title'	 => __( 'Website', 'userspace' ),
 					'icon'	 => 'fa-link',
 					'type'	 => 'url'
 				),
 				array(
 					'slug'	 => 'description',
-					'title'	 => __( 'Status', 'usp' ),
+					'title'	 => __( 'Status', 'userspace' ),
 					'icon'	 => 'fa-comment',
 					'type'	 => 'textarea'
 				),
 				array(
 					'slug'	 => 'usp_birthday',
-					'title'	 => __( 'Birthday', 'usp' ),
+					'title'	 => __( 'Birthday', 'userspace' ),
 					'icon'	 => 'fa-birthday-cake',
 					'type'	 => 'date'
 				),
 				array(
 					'slug'		 => 'user_email',
-					'title'		 => __( 'E-mail', 'usp' ),
+					'title'		 => __( 'E-mail', 'userspace' ),
 					'type'		 => 'email',
 					'required'	 => 1
 				),
 				array(
 					'slug'		 => 'primary_pass',
-					'title'		 => __( 'New password', 'usp' ),
+					'title'		 => __( 'New password', 'userspace' ),
 					'type'		 => 'password',
 					'required'	 => 0,
-					'notice'	 => __( 'If you want to change your password - enter a new one', 'usp' )
+					'notice'	 => __( 'If you want to change your password - enter a new one', 'userspace' )
 				),
 				array(
 					'slug'		 => 'repeat_pass',
-					'title'		 => __( 'Repeat password', 'usp' ),
+					'title'		 => __( 'Repeat password', 'userspace' ),
 					'type'		 => 'password',
 					'required'	 => 0,
-					'notice'	 => __( 'Repeat the new password', 'usp' )
+					'notice'	 => __( 'Repeat the new password', 'userspace' )
 				))
 			),
 			'field_options'	 => apply_filters( 'usp_profile_field_options', array(
 				array(
 					'slug'	 => 'notice',
 					'type'	 => 'textarea',
-					'title'	 => __( 'field description', 'usp' )
+					'title'	 => __( 'field description', 'userspace' )
 				),
 				array(
 					'slug'	 => 'required',
 					'type'	 => 'radio',
-					'title'	 => __( 'required field', 'usp' ),
-					'values' => array( __( 'No', 'usp' ), __( 'Yes', 'usp' ) )
+					'title'	 => __( 'required field', 'userspace' ),
+					'values' => array( __( 'No', 'userspace' ), __( 'Yes', 'userspace' ) )
 				),
 				array(
 					'slug'	 => 'public_value',
 					'type'	 => 'radio',
-					'title'	 => __( 'show the content to other users', 'usp' ),
-					'values' => array( __( 'No', 'usp' ), __( 'Yes', 'usp' ) )
+					'title'	 => __( 'show the content to other users', 'userspace' ),
+					'values' => array( __( 'No', 'userspace' ), __( 'Yes', 'userspace' ) )
 				),
 				array(
 					'slug'	 => 'admin',
 					'type'	 => 'radio',
-					'title'	 => __( 'can be changed only by the site administration', 'usp' ),
-					'values' => array( __( 'No', 'usp' ), __( 'Yes', 'usp' ) )
+					'title'	 => __( 'can be changed only by the site administration', 'userspace' ),
+					'values' => array( __( 'No', 'userspace' ), __( 'Yes', 'userspace' ) )
 				),
 				array(
 					'slug'	 => 'filter',
 					'type'	 => 'radio',
-					'title'	 => __( 'Filter users by this field', 'usp' ),
-					'values' => array( __( 'No', 'usp' ), __( 'Yes', 'usp' ) )
+					'title'	 => __( 'Filter users by this field', 'userspace' ),
+					'values' => array( __( 'No', 'userspace' ), __( 'Yes', 'userspace' ) )
 				)
 			) )
 		) );
@@ -112,12 +112,12 @@ class USP_Profile_Fields_Manager extends USP_Fields_Manager {
 		$fields = array(
 			'users_page_usp' => array(
 				'type'		 => 'custom',
-				'title'		 => __( 'Users page', 'usp' ),
-				'notice'	 => __( 'This page is required to filter users by value of profile fields', 'usp' ),
+				'title'		 => __( 'Users page', 'userspace' ),
+				'notice'	 => __( 'This page is required to filter users by value of profile fields', 'userspace' ),
 				'content'	 => wp_dropdown_pages( array(
 					'selected'			 => usp_get_option( 'users_page_usp' ),
 					'name'				 => 'users_page_usp',
-					'show_option_none'	 => __( 'Not selected', 'usp' ),
+					'show_option_none'	 => __( 'Not selected', 'userspace' ),
 					'echo'				 => 0
 					)
 				)

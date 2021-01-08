@@ -324,11 +324,11 @@ class USP_Table {
 
 						usp_datepicker_scripts();
 
-						$datescript = 'class="usp-datepicker" onclick="usp_show_datepicker(this);" title="' . __( 'Use the format', 'usp' ) . ': yyyy-mm-dd" pattern="(\d{4}-\d{2}-\d{2})"';
+						$datescript = 'class="usp-datepicker" onclick="usp_show_datepicker(this);" title="' . __( 'Use the format', 'userspace' ) . ': yyyy-mm-dd" pattern="(\d{4}-\d{2}-\d{2})"';
 					}
 				}
 
-				$contentCell = '<input style="width:100%" type="text" ' . $datescript . ' name="' . $name . '" placeholder="' . __( 'Search', 'usp' ) . '" ' . $onkeyup . ' value="' . $value . '">';
+				$contentCell = '<input style="width:100%" type="text" ' . $datescript . ' name="' . $name . '" placeholder="' . __( 'Search', 'userspace' ) . '" ' . $onkeyup . ' value="' . $value . '">';
 			}
 
 			$content .= $this->cell( $idcol, $contentCell, $col, 'search' );

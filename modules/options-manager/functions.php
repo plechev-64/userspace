@@ -30,7 +30,7 @@ function usp_update_options() {
 	do_action( 'usp_update_options' );
 
 	return array(
-		'success' => __( 'Settings saved!', 'usp' )
+		'success' => __( 'Settings saved!', 'userspace' )
 	);
 }
 
@@ -57,7 +57,7 @@ function usp_add_cover_options( $options ) {
 			'filetitle'		 => 'usp-default-cover',
 			'filename'		 => 'usp-default-cover',
 			'slug'			 => 'default_cover',
-			'title'			 => __( 'Default cover', 'usp' ),
+			'title'			 => __( 'Default cover', 'userspace' ),
 		),
 		array(
 			'type'		 => 'runner',
@@ -66,9 +66,9 @@ function usp_add_cover_options( $options ) {
 			'value_step' => 256,
 			'default'	 => 1024,
 			'slug'		 => 'cover_weight',
-			'title'		 => __( 'Max weight of cover', 'usp' ) . ', Kb',
-			'notice'	 => __( 'Set the image upload limit in kb, by default', 'usp' ) . ' 1024Kb' .
-			'. ' . __( 'If 0 is specified, download is disallowed.', 'usp' )
+			'title'		 => __( 'Max weight of cover', 'userspace' ) . ', Kb',
+			'notice'	 => __( 'Set the image upload limit in kb, by default', 'userspace' ) . ' 1024Kb' .
+			'. ' . __( 'If 0 is specified, download is disallowed.', 'userspace' )
 		)
 	] );
 

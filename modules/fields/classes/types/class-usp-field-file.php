@@ -38,15 +38,15 @@ class USP_Field_File extends USP_Field_Uploader {
 				'value_min'	 => 256,
 				'value_max'	 => 5120,
 				'value_step' => 256,
-				'title'		 => __( 'File size', 'usp' ),
-				'notice'	 => __( 'maximum size of uploaded file, Kb (Default - 512)', 'usp' )
+				'title'		 => __( 'File size', 'userspace' ),
+				'notice'	 => __( 'maximum size of uploaded file, Kb (Default - 512)', 'userspace' )
 			),
 			array(
 				'slug'		 => 'file_types',
 				'default'	 => $this->file_types,
 				'type'		 => 'text',
-				'title'		 => __( 'Allowed file types', 'usp' ),
-				'notice'	 => __( 'allowed types of files are divided by comma, for example: pdf, zip, jpg', 'usp' )
+				'title'		 => __( 'Allowed file types', 'userspace' ),
+				'notice'	 => __( 'allowed types of files are divided by comma, for example: pdf, zip, jpg', 'userspace' )
 			)
 		);
 

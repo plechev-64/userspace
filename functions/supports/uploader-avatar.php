@@ -18,9 +18,9 @@ function usp_init_js_avatar_variables( $data ) {
 
     if ( usp_is_office( $user_ID ) ) {
         $data['avatar_size']                  = usp_get_option( 'avatar_weight', 1024 );
-        $data['local']['upload_size_avatar']  = sprintf( __( 'Exceeds the maximum image size! Max. %s Kb', 'usp' ), usp_get_option( 'avatar_weight', 1024 ) );
-        $data['local']['title_image_upload']  = __( 'Image being loaded', 'usp' );
-        $data['local']['title_webcam_upload'] = __( 'Image from camera', 'usp' );
+        $data['local']['upload_size_avatar']  = sprintf( __( 'Exceeds the maximum image size! Max. %s Kb', 'userspace' ), usp_get_option( 'avatar_weight', 1024 ) );
+        $data['local']['title_image_upload']  = __( 'Image being loaded', 'userspace' );
+        $data['local']['title_webcam_upload'] = __( 'Image from camera', 'userspace' );
     }
 
     return $data;
@@ -68,7 +68,7 @@ function usp_button_avatar_upload( $icons ) {
         'icon'    => 'fa-download',
         'content' => $uploder->get_input(),
         'atts'    => array(
-            'title' => __( 'Avatar upload', 'usp' ),
+            'title' => __( 'Avatar upload', 'userspace' ),
             'url'   => '#'
         )
     );
@@ -78,7 +78,7 @@ function usp_button_avatar_upload( $icons ) {
         $icons['avatar-delete'] = array(
             'icon' => 'fa-times',
             'atts' => array(
-                'title' => __( 'Delete avatar', 'usp' ),
+                'title' => __( 'Delete avatar', 'userspace' ),
                 'href'  => wp_nonce_url( add_query_arg( [ 'usp-action' => 'delete_avatar' ], usp_get_user_url( $user_ID ) ), $user_ID )
             )
         );
@@ -91,7 +91,7 @@ function usp_button_avatar_upload( $icons ) {
           $icons['webcam-upload'] = array(
           'icon'	 => 'fa-camera',
           'atts'	 => array(
-          'title'	 => __( 'Webcam screen', 'usp' ),
+          'title'	 => __( 'Webcam screen', 'userspace' ),
           'id'	 => 'webcamupload',
           'url'	 => '#'
           )
@@ -154,7 +154,7 @@ add_action( 'wp', 'usp_notice_avatar_deleted' );
 function usp_notice_avatar_deleted() {
     if ( isset( $_GET['usp-avatar'] ) && $_GET['usp-avatar'] == 'deleted' )
         add_action( 'usp_area_notice', function() {
-            echo usp_get_notice( [ 'type' => 'success', 'text' => __( 'Your avatar has been deleted', 'usp' ) ] );
+            echo usp_get_notice( [ 'type' => 'success', 'text' => __( 'Your avatar has been deleted', 'userspace' ) ] );
         } );
 }
 

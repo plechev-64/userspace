@@ -95,7 +95,7 @@ function usp_filter_custom_tab_usermetas( $content ) {
 		}
 
 		if ( ! $value )
-			$value = __( 'not specified', 'usp' );
+			$value = __( 'not specified', 'userspace' );
 
 		$matchs['{USP-UM:' . $meta . '}'] = (is_array( $value )) ? implode( ', ', $value ) : $value;
 	}
@@ -110,7 +110,7 @@ function usp_check_user_blocked( $content ) {
 		if ( get_user_meta( $user_LK, 'usp_black_list:' . $user_ID ) ) {
 			$content = usp_get_notice( array(
 				'type'	 => 'info',
-				'text'	 => __( 'The user has restricted access to their page', 'usp' )
+				'text'	 => __( 'The user has restricted access to their page', 'userspace' )
 				) );
 		}
 	}
@@ -123,7 +123,7 @@ function usp_add_block_black_list_button() {
 
 	$user_block = get_user_meta( $user_ID, 'usp_black_list:' . $user_LK );
 
-	$title = ($user_block) ? __( 'Unblock', 'usp' ) : __( 'Заблокировать', 'usp' );
+	$title = ($user_block) ? __( 'Unblock', 'userspace' ) : __( 'Заблокировать', 'userspace' );
 
 	usp_tab(
 		array(
@@ -132,7 +132,7 @@ function usp_add_block_black_list_button() {
 			'public'	 => -2,
 			'output'	 => 'actions',
 			'icon'		 => 'fa-user',
-			'onclick'	 => 'usp_manage_user_black_list(this, ' . $user_LK . ', "' . __( 'Are you sure?', 'usp' ) . '");return false;'
+			'onclick'	 => 'usp_manage_user_black_list(this, ' . $user_LK . ', "' . __( 'Are you sure?', 'userspace' ) . '");return false;'
 		)
 	);
 }

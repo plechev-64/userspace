@@ -86,7 +86,7 @@ class USP_Install {
         $pages = apply_filters( 'usp_pages', array(
             'lk_page_usp' => array(
                 'name'    => 'account',
-                'title'   => __( 'Personal cabinet', 'usp' ),
+                'title'   => __( 'Personal cabinet', 'userspace' ),
                 'content' => '[userspace]'
             )
             ) );
@@ -166,7 +166,7 @@ class USP_Install {
             return;
         }
 
-        add_role( 'need-confirm', __( 'Unconfirmed', 'usp' ), array(
+        add_role( 'need-confirm', __( 'Unconfirmed', 'userspace' ), array(
             'read'         => false,
             'edit_posts'   => false,
             'delete_posts' => false,
@@ -174,7 +174,7 @@ class USP_Install {
             )
         );
 
-        add_role( 'banned', __( 'Ban', 'usp' ), array(
+        add_role( 'banned', __( 'Ban', 'userspace' ), array(
             'read'         => false,
             'edit_posts'   => false,
             'delete_posts' => false,

@@ -30,8 +30,8 @@ class USP_Field_Checkbox extends USP_Field_Abstract {
 				'slug'		 => 'values',
 				'default'	 => $this->values,
 				'type'		 => 'dynamic',
-				'title'		 => __( 'Specify options', 'usp' ),
-				'notice'	 => __( 'specify each option in a separate field', 'usp' )
+				'title'		 => __( 'Specify options', 'userspace' ),
+				'notice'	 => __( 'specify each option in a separate field', 'userspace' )
 			)
 		);
 	}
@@ -75,12 +75,12 @@ class USP_Field_Checkbox extends USP_Field_Abstract {
 			$content .= '<div class="checkbox-manager">';
 
 			$content .= usp_get_button( array(
-				'label'		 => __( 'To mark all', 'usp' ),
+				'label'		 => __( 'To mark all', 'userspace' ),
 				'onclick'	 => 'return usp_check_all_actions_manager("' . $this->input_name . '[]",this);return false;',
 				) );
 
 			$content .= usp_get_button( array(
-				'label'		 => __( 'To delete all marks', 'usp' ),
+				'label'		 => __( 'To delete all marks', 'userspace' ),
 				'onclick'	 => 'return usp_uncheck_all_actions_manager("' . $this->input_name . '[]",this);return false;',
 				) );
 

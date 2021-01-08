@@ -8,9 +8,9 @@ function widget_new_author() {
 
 class Widget_new_author extends WP_Widget {
 	function __construct() {
-		$widget_ops	 = array( 'classname' => 'usp-new-users', 'description' => __( 'New users on website', 'usp' ) );
+		$widget_ops	 = array( 'classname' => 'usp-new-users', 'description' => __( 'New users on website', 'userspace' ) );
 		$control_ops = array( 'width' => 300, 'height' => 350, 'id_base' => 'usp-new-users' );
-		parent::__construct( 'usp-new-users', 'USP: ' . __( 'New users', 'usp' ), $widget_ops, $control_ops );
+		parent::__construct( 'usp-new-users', 'USP: ' . __( 'New users', 'userspace' ), $widget_ops, $control_ops );
 	}
 
 	function widget( $args, $instance ) {
@@ -37,7 +37,7 @@ class Widget_new_author extends WP_Widget {
 		) );
 
 		if ( $all )
-			echo '<p class="clear alignright"><a href="' . get_permalink( $all ) . '">' . __( 'All users', 'usp' ) . '</a></p>';
+			echo '<p class="clear alignright"><a href="' . get_permalink( $all ) . '">' . __( 'All users', 'userspace' ) . '</a></p>';
 		echo $after_widget;
 	}
 
@@ -50,27 +50,27 @@ class Widget_new_author extends WP_Widget {
 	}
 
 	function form( $instance ) {
-		$defaults	 = array( 'title' => __( 'New users', 'usp' ), 'count_user' => '12' );
+		$defaults	 = array( 'title' => __( 'New users', 'userspace' ), 'count_user' => '12' );
 		$instance	 = wp_parse_args( ( array ) $instance, $defaults );
 		?>
 		<p>
-			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title', 'usp' ); ?>:</label>
+			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title', 'userspace' ); ?>:</label>
 			<input id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" value="<?php echo $instance['title']; ?>" style="width:100%;" />
 		</p>
 		<p>
-			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Number of displayed users', 'usp' ); ?>:</label>
+			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Number of displayed users', 'userspace' ); ?>:</label>
 			<input id="<?php echo $this->get_field_id( 'count_user' ); ?>" name="<?php echo $this->get_field_name( 'count_user' ); ?>" value="<?php echo $instance['count_user']; ?>" style="width:100%;" />
 		</p>
 		<?php
 		$args		 = array(
 			'selected'			 => isset( $instance['page_all_users'] ) ? $instance['page_all_users'] : 0,
 			'name'				 => $this->get_field_name( 'page_all_users' ),
-			'show_option_none'	 => __( 'Not selected', 'usp' ),
+			'show_option_none'	 => __( 'Not selected', 'userspace' ),
 			'echo'				 => 0
 		);
 		?>
 		<p>
-			<label><?php _e( 'All users page', 'usp' ); ?>:</label>
+			<label><?php _e( 'All users page', 'userspace' ); ?>:</label>
 			<?php echo wp_dropdown_pages( $args ); ?>
 		</p>
 		<?php
@@ -85,9 +85,9 @@ function widget_online_users() {
 
 class Widget_online_users extends WP_Widget {
 	function __construct() {
-		$widget_ops	 = array( 'classname' => 'usp-online-users', 'description' => __( 'Online users output', 'usp' ) );
+		$widget_ops	 = array( 'classname' => 'usp-online-users', 'description' => __( 'Online users output', 'userspace' ) );
 		$control_ops = array( 'width' => 300, 'height' => 350, 'id_base' => 'usp-online-users' );
-		parent::__construct( 'usp-online-users', 'USP: ' . __( 'Online users', 'usp' ), $widget_ops, $control_ops );
+		parent::__construct( 'usp-online-users', 'USP: ' . __( 'Online users', 'userspace' ), $widget_ops, $control_ops );
 	}
 
 	function widget( $args, $instance ) {
@@ -104,7 +104,7 @@ class Widget_online_users extends WP_Widget {
 		echo usp_get_userlist( array( 'template' => 'mini', 'number' => 10, 'orderby' => 'time_action', 'only' => 'action_users', 'filters' => false, 'id' => 'usp-online-users' ) );
 
 		if ( $all )
-			echo '<p class="clear alignright"><a href="' . get_permalink( $all ) . '">' . __( 'All users', 'usp' ) . '</a></p>';
+			echo '<p class="clear alignright"><a href="' . get_permalink( $all ) . '">' . __( 'All users', 'userspace' ) . '</a></p>';
 		echo $after_widget;
 	}
 
@@ -116,23 +116,23 @@ class Widget_online_users extends WP_Widget {
 	}
 
 	function form( $instance ) {
-		$defaults	 = array( 'title' => __( 'Online', 'usp' ) );
+		$defaults	 = array( 'title' => __( 'Online', 'userspace' ) );
 		$instance	 = wp_parse_args( ( array ) $instance, $defaults );
 		?>
 		<p>
-			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title', 'usp' ); ?>:</label>
+			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title', 'userspace' ); ?>:</label>
 			<input id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" value="<?php echo $instance['title']; ?>" style="width:100%;" />
 		</p>
 		<?php
 		$args		 = array(
 			'selected'			 => isset( $instance['page_all_users'] ) ? $instance['page_all_users'] : '',
 			'name'				 => $this->get_field_name( 'page_all_users' ),
-			'show_option_none'	 => __( 'Not selected', 'usp' ),
+			'show_option_none'	 => __( 'Not selected', 'userspace' ),
 			'echo'				 => 0
 		);
 		?>
 		<p>
-			<label><?php _e( 'All users page', 'usp' ); ?>:</label>
+			<label><?php _e( 'All users page', 'userspace' ); ?>:</label>
 			<?php echo wp_dropdown_pages( $args ); ?>
 		</p>
 		<?php
@@ -147,9 +147,9 @@ function widget_author_profil() {
 
 class Widget_author_profil extends WP_Widget {
 	function __construct() {
-		$widget_ops	 = array( 'classname' => 'usp-primary-panel', 'description' => __( 'Block with main profile information', 'usp' ) );
+		$widget_ops	 = array( 'classname' => 'usp-primary-panel', 'description' => __( 'Block with main profile information', 'userspace' ) );
 		$control_ops = array( 'width' => 300, 'height' => 350, 'id_base' => 'usp-primary-panel' );
-		parent::__construct( 'usp-primary-panel', 'USP: ' . __( 'Control panel', 'usp' ), $widget_ops, $control_ops );
+		parent::__construct( 'usp-primary-panel', 'USP: ' . __( 'Control panel', 'userspace' ), $widget_ops, $control_ops );
 	}
 
 	function widget( $args, $instance ) {
@@ -171,11 +171,11 @@ class Widget_author_profil extends WP_Widget {
 	}
 
 	function form( $instance ) {
-		$defaults	 = array( 'title' => __( 'Control panel', 'usp' ) );
+		$defaults	 = array( 'title' => __( 'Control panel', 'userspace' ) );
 		$instance	 = wp_parse_args( ( array ) $instance, $defaults );
 		?>
 		<p>
-			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title', 'usp' ); ?>:</label>
+			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title', 'userspace' ); ?>:</label>
 			<input id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" value="<?php echo $instance['title']; ?>" style="width:100%;" />
 		</p>
 		<?php

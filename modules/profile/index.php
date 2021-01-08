@@ -17,7 +17,7 @@ function usp_profile_scripts() {
 
 add_filter( 'usp_init_js_variables', 'usp_init_js_profile_variables', 10 );
 function usp_init_js_profile_variables( $data ) {
-	$data['local']['no_repeat_pass'] = __( 'Repeated password not correct!', 'usp' );
+	$data['local']['no_repeat_pass'] = __( 'Repeated password not correct!', 'userspace' );
 	return $data;
 }
 
@@ -27,8 +27,8 @@ function usp_tab_profile() {
 	usp_tab(
 		array(
 			'id'		 => 'profile',
-			'name'		 => __( 'Profile', 'usp' ),
-			'title'		 => __( 'User profile', 'usp' ),
+			'name'		 => __( 'Profile', 'userspace' ),
+			'title'		 => __( 'User profile', 'userspace' ),
 			'supports'	 => array( 'ajax' ),
 			'public'	 => 0,
 			'icon'		 => 'fa-user',
@@ -53,7 +53,7 @@ function usp_bar_add_profile_link() {
 	usp_bar_add_menu_item( 'profile-link', array(
 		'url'	 => usp_get_tab_permalink( $user_ID, 'profile' ),
 		'icon'	 => 'fa-user-secret',
-		'label'	 => __( 'Profile settings', 'usp' )
+		'label'	 => __( 'Profile settings', 'userspace' )
 		)
 	);
 }
@@ -101,7 +101,7 @@ if ( ! is_admin() )
 function usp_update_profile_notice() {
 	if ( isset( $_GET['updated'] ) )
 		add_action( 'usp_area_notice', function() {
-			echo usp_get_notice( ['type' => 'success', 'text' => __( 'Your profile has been updated', 'usp' ) ] );
+			echo usp_get_notice( ['type' => 'success', 'text' => __( 'Your profile has been updated', 'userspace' ) ] );
 		} );
 }
 
@@ -136,11 +136,11 @@ function usp_add_office_profile_fields( $fields ) {
 	$profileFields = [
 			[
 			'slug'   => 'show_admin_bar_front',
-			'title'  => __( 'Admin toolbar', 'usp' ),
+			'title'  => __( 'Admin toolbar', 'userspace' ),
 			'type'   => 'select',
 			'values' => [
-				'false' => __( 'Disabled', 'usp' ),
-				'true'  => __( 'Enabled', 'usp' )
+				'false' => __( 'Disabled', 'userspace' ),
+				'true'  => __( 'Enabled', 'userspace' )
 			]
 		]
 	];
@@ -184,7 +184,7 @@ function usp_tab_profile_content( $master_id ) {
 
 	$content = usp_get_form( array(
 		'nonce_name' => 'update-profile_' . $user_ID,
-		'submit'	 => __( 'Update profile', 'usp' ),
+		'submit'	 => __( 'Update profile', 'userspace' ),
 		'onclick'	 => 'usp_check_profile_form()? usp_submit_form(this): false;',
 		'fields'	 => $profileFields,
 		'structure'	 => get_site_option( 'usp_fields_profile_structure' )
@@ -196,10 +196,10 @@ function usp_tab_profile_content( $master_id ) {
 		<form method="post" action="" name="delete_account">
 		' . wp_nonce_field( 'delete-user-' . $user_ID, '_wpnonce', true, false )
 			. usp_get_button( array(
-				'label'		 => __( 'Delete your profile', 'usp' ),
+				'label'		 => __( 'Delete your profile', 'userspace' ),
 				'id'		 => 'delete_acc',
 				'icon'		 => 'fa-eraser',
-				'onclick'	 => 'return confirm("' . __( 'Are you sure? It can’t be restaured!', 'usp' ) . '")? usp_submit_form(this): false;'
+				'onclick'	 => 'return confirm("' . __( 'Are you sure? It can’t be restaured!', 'userspace' ) . '")? usp_submit_form(this): false;'
 			) )
 			. '<input type="hidden" value="1" name="usp_delete_user_account"/>
 		</form>';
@@ -242,9 +242,9 @@ function usp_delete_user_account() {
 	$delete = wp_delete_user( $user_ID );
 
 	if ( $delete ) {
-		wp_die( __( 'We are very sorry but your account has been deleted!', 'usp' ) );
-		echo '<a href="/">' . __( 'Back to main page', 'usp' ) . '</a>';
+		wp_die( __( 'We are very sorry but your account has been deleted!', 'userspace' ) );
+		echo '<a href="/">' . __( 'Back to main page', 'userspace' ) . '</a>';
 	} else {
-		wp_die( __( 'Account deletion failed! Go back and try again.', 'usp' ) );
+		wp_die( __( 'Account deletion failed! Go back and try again.', 'userspace' ) );
 	}
 }

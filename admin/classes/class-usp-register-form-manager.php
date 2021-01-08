@@ -16,14 +16,14 @@ class USP_Register_Form_Manager extends USP_Fields_Manager {
 					'type'			 => 'text',
 					'slug'			 => 'icon',
 					'class'			 => 'usp-iconpicker',
-					'title'			 => __( 'Icon class', 'usp' ),
-					'placeholder'	 => __( 'Example, fa-user', 'usp' )
+					'title'			 => __( 'Icon class', 'userspace' ),
+					'placeholder'	 => __( 'Example, fa-user', 'userspace' )
 				),
 				array(
 					'type'	 => 'radio',
 					'slug'	 => 'required',
-					'title'	 => __( 'required field', 'usp' ),
-					'values' => array( __( 'No', 'usp' ), __( 'Yes', 'usp' ) )
+					'title'	 => __( 'required field', 'userspace' ),
+					'values' => array( __( 'No', 'userspace' ), __( 'Yes', 'userspace' ) )
 				)
 			) )
 		) );
@@ -49,8 +49,8 @@ class USP_Register_Form_Manager extends USP_Fields_Manager {
 		$fields[] = [
 			'type'			 => 'text',
 			'slug'			 => 'user_login',
-			'title'			 => __( 'Логин', 'usp' ),
-			'placeholder'	 => __( 'Логин', 'usp' ),
+			'title'			 => __( 'Логин', 'userspace' ),
+			'placeholder'	 => __( 'Логин', 'userspace' ),
 			'icon'			 => 'fa-user',
 			'maxlenght'		 => 50,
 			'required'		 => 1
@@ -60,7 +60,7 @@ class USP_Register_Form_Manager extends USP_Fields_Manager {
 			'type'		 => 'password',
 			'slug'		 => 'user_pass',
 			'icon'		 => 'fa-lock',
-			'title'		 => __( 'Пароль', 'usp' ),
+			'title'		 => __( 'Пароль', 'userspace' ),
 			'required'	 => 1
 		];
 
@@ -68,7 +68,7 @@ class USP_Register_Form_Manager extends USP_Fields_Manager {
 			'type'		 => 'password',
 			'slug'		 => 'user_pass_repeat',
 			'icon'		 => 'fa-lock',
-			'title'		 => __( 'Повтор пароля', 'usp' ),
+			'title'		 => __( 'Повтор пароля', 'userspace' ),
 			'required'	 => 1
 		];
 

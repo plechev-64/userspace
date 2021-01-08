@@ -2,10 +2,10 @@
 
 add_action( 'admin_menu', 'usp_admin_menu', 19 );
 function usp_admin_menu() {
-    add_menu_page( __( 'UserSpace', 'usp' ), __( 'UserSpace', 'usp' ), 'manage_options', 'manage-userspace', 'usp_dashboard' );
-    add_submenu_page( 'manage-userspace', __( 'SETTINGS', 'usp' ), __( 'SETTINGS', 'usp' ), 'manage_options', 'usp-options', 'usp_global_options' );
-    add_submenu_page( 'manage-userspace', __( 'Tabs manager', 'usp' ), __( 'Tabs manager', 'usp' ), 'manage_options', 'usp-tabs-manager', 'usp_admin_tabs_manager' );
-    add_submenu_page( 'manage-userspace', __( 'Форма регистрации', 'usp' ), __( 'Форма регистрации', 'usp' ), 'manage_options', 'usp-register-form-manager', 'usp_register_form_manager' );
+    add_menu_page( __( 'UserSpace', 'userspace' ), __( 'UserSpace', 'userspace' ), 'manage_options', 'manage-userspace', 'usp_dashboard' );
+    add_submenu_page( 'manage-userspace', __( 'SETTINGS', 'userspace' ), __( 'SETTINGS', 'userspace' ), 'manage_options', 'usp-options', 'usp_global_options' );
+    add_submenu_page( 'manage-userspace', __( 'Tabs manager', 'userspace' ), __( 'Tabs manager', 'userspace' ), 'manage_options', 'usp-tabs-manager', 'usp_admin_tabs_manager' );
+    add_submenu_page( 'manage-userspace', __( 'Форма регистрации', 'userspace' ), __( 'Форма регистрации', 'userspace' ), 'manage_options', 'usp-register-form-manager', 'usp_register_form_manager' );
 }
 
 function usp_register_form_manager() {
@@ -14,7 +14,7 @@ function usp_register_form_manager() {
 
     $Manager = new USP_Register_Form_Manager( );
 
-    $content = '<h2>' . __( 'Управление поля формы регистрации', 'usp' ) . '</h2>';
+    $content = '<h2>' . __( 'Управление поля формы регистрации', 'userspace' ) . '</h2>';
 
     $content .= $Manager->get_manager();
 

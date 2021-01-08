@@ -40,14 +40,14 @@ function usp_get_user_widget( $atts = [ ] ) {
 		}
 
 		$buttons[] = [
-			'label'	 => __( 'Личный кабинет', 'usp' ),
+			'label'	 => __( 'Личный кабинет', 'userspace' ),
 			'icon'	 => 'fa-home',
 			'size'	 => 'medium',
 			'href'	 => usp_get_user_url( $user_ID )
 		];
 
 		$buttons[] = [
-			'label'	 => __( 'Exit', 'usp' ),
+			'label'	 => __( 'Exit', 'userspace' ),
 			'href'	 => wp_logout_url( home_url() ),
 			'icon'	 => 'fa-external-link',
 			'size'	 => 'medium',
@@ -59,7 +59,7 @@ function usp_get_user_widget( $atts = [ ] ) {
 			usp_dialog_scripts();
 
 		$buttons[] = [
-			'label'		 => __( 'Авторизация', 'usp' ),
+			'label'		 => __( 'Авторизация', 'userspace' ),
 			'icon'		 => 'fa-sign-in',
 			'size'		 => 'medium',
 			'onclick'	 => usp_get_option( 'login_form_recall' ) ? null : 'USP.loginform.call("login");return false;',
@@ -67,7 +67,7 @@ function usp_get_user_widget( $atts = [ ] ) {
 		];
 
 		$buttons[] = [
-			'label'		 => __( 'Регистрация', 'usp' ),
+			'label'		 => __( 'Регистрация', 'userspace' ),
 			'icon'		 => 'fa-book',
 			'size'		 => 'medium',
 			'onclick'	 => usp_get_option( 'login_form_recall' ) ? null : 'USP.loginform.call("register");return false;',
@@ -100,7 +100,7 @@ function usp_get_loginform_shortcode( $atts = [ ] ) {
 	if ( $user_ID ) {
 		return usp_get_notice( [
 			'type'	 => 'success',
-			'text'	 => __( 'Вы уже авторизованы на сайте. Перейдите в <a href="' . usp_get_user_url( $user_ID ) . '">личный кабинет</a>, чтобы начать работу.', 'usp' )
+			'text'	 => __( 'Вы уже авторизованы на сайте. Перейдите в <a href="' . usp_get_user_url( $user_ID ) . '">личный кабинет</a>, чтобы начать работу.', 'userspace' )
 			] );
 	}
 
@@ -156,7 +156,7 @@ function usp_get_userlist( $atts = [ ] ) {
 	$userlist .= '<div class="usp-userlist">';
 
 	if ( ! $usersdata ) {
-		$userlist .= usp_get_notice( ['text' => __( 'Users not found', 'usp' ) ] );
+		$userlist .= usp_get_notice( ['text' => __( 'Users not found', 'userspace' ) ] );
 	} else {
 
 		if ( ! isset( $atts['number'] ) && $pagenavi->in_page ) {

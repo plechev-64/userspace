@@ -9,7 +9,7 @@ function usp_chek_user_authenticate( $user ) {
         if ( usp_is_user_role( $user->ID, 'need-confirm' ) ) {
 
             $wp_errors = new WP_Error();
-            $wp_errors->add( 'need-confirm', __( 'Your account is unconfirmed! Confirm your account by clicking on the link in the email', 'usp' ) );
+            $wp_errors->add( 'need-confirm', __( 'Your account is unconfirmed! Confirm your account by clicking on the link in the email', 'userspace' ) );
             return $wp_errors;
         }
     }

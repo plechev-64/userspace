@@ -14,7 +14,7 @@ function usp_login_user() {
 	$wp_errors = new WP_Error();
 
 	if ( ! $pass || ! $login ) {
-		$wp_errors->add( 'usp_login_empty', __( 'Fill in the required fields!', 'usp' ) );
+		$wp_errors->add( 'usp_login_empty', __( 'Fill in the required fields!', 'userspace' ) );
 		return $wp_errors;
 	}
 

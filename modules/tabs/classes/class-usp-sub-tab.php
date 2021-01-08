@@ -107,7 +107,7 @@ class USP_Sub_Tab {
 			if ( function_exists( $this->callback['name'] ) ) {
 				$content .= apply_filters( 'usp_tab_content', call_user_func_array( $this->callback['name'], $args ), $this->parent_id, $this->id );
 			} else {
-				$content .= usp_get_notice( ['text' => __( 'При загрузке вкладки произошла ошибка. Функция не найдена.', 'usp' ) ] );
+				$content .= usp_get_notice( ['text' => __( 'При загрузке вкладки произошла ошибка. Функция не найдена.', 'userspace' ) ] );
 			}
 		}
 

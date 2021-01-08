@@ -28,27 +28,27 @@ class USP_Field_Runner extends USP_Field_Abstract {
 			array(
 				'slug'			 => 'unit',
 				'default'		 => $this->unit,
-				'placeholder'	 => __( 'For example: km or pcs', 'usp' ),
+				'placeholder'	 => __( 'For example: km or pcs', 'userspace' ),
 				'type'			 => 'text',
-				'title'			 => __( 'Unit', 'usp' )
+				'title'			 => __( 'Unit', 'userspace' )
 			),
 			array(
 				'slug'		 => 'value_min',
 				'default'	 => $this->value_min,
 				'type'		 => 'number',
-				'title'		 => __( 'Min', 'usp' ),
+				'title'		 => __( 'Min', 'userspace' ),
 			),
 			array(
 				'slug'		 => 'value_max',
 				'default'	 => $this->value_max,
 				'type'		 => 'number',
-				'title'		 => __( 'Max', 'usp' ),
+				'title'		 => __( 'Max', 'userspace' ),
 			),
 			array(
 				'slug'		 => 'value_step',
 				'default'	 => $this->value_step,
 				'type'		 => 'number',
-				'title'		 => __( 'Step', 'usp' ),
+				'title'		 => __( 'Step', 'userspace' ),
 			)
 		);
 

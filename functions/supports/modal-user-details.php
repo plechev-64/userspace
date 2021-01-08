@@ -14,7 +14,7 @@ add_filter( 'usp_init_js_variables', 'usp_init_js_user_info_variables', 10 );
 function usp_init_js_user_info_variables( $data ) {
 
     if ( usp_is_office() ) {
-        $data['local']['title_user_info'] = __( 'Detailed information', 'usp' );
+        $data['local']['title_user_info'] = __( 'Detailed information', 'userspace' );
     }
 
     return $data;
@@ -28,7 +28,7 @@ function usp_add_user_info_button( $icons ) {
     $icons['user-info'] = array(
         'icon' => 'fa-info-circle',
         'atts' => array(
-            'title'   => __( 'User info', 'usp' ),
+            'title'   => __( 'User info', 'userspace' ),
             'onclick' => 'usp_get_user_info(this);return false;',
             'url'     => '#'
         )
@@ -77,7 +77,7 @@ function usp_get_user_details( $user_id, $args = false ) {
             } else {
                 $url_avatar = $avatar;
             }
-            $content .= '<a title="' . __( 'Zoom avatar', 'usp' ) . '" data-zoom="' . $url_avatar . '" onclick="usp_zoom_avatar(this);return false;" class="usp-avatar-zoom" href="#"><i class="uspi fa-search-plus"></i></a>';
+            $content .= '<a title="' . __( 'Zoom avatar', 'userspace' ) . '" data-zoom="' . $url_avatar . '" onclick="usp_zoom_avatar(this);return false;" class="usp-avatar-zoom" href="#"><i class="uspi fa-search-plus"></i></a>';
         }
     }
 

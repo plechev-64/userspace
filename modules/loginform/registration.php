@@ -6,8 +6,8 @@ function usp_get_register_form_fields() {
         array(
             'type'        => 'text',
             'slug'        => 'user_email',
-            'title'       => __( 'Email', 'usp' ),
-            'placeholder' => __( 'Email', 'usp' ),
+            'title'       => __( 'Email', 'userspace' ),
+            'placeholder' => __( 'Email', 'userspace' ),
             'icon'        => 'fa-at',
             'maxlenght'   => 50,
             'required'    => 1
@@ -219,11 +219,11 @@ function usp_add_user_register_errors( $errors ) {
     }
 
     if ( ! $required ) {
-        $errors->add( 'usp_register_empty', __( 'Fill in the required fields!', 'usp' ) );
+        $errors->add( 'usp_register_empty', __( 'Fill in the required fields!', 'userspace' ) );
     }
 
     if ( isset( $_POST['user_pass'] ) && isset( $_POST['user_pass_repeat'] ) && $_POST['user_pass'] != $_POST['user_pass_repeat'] ) {
-        $errors->add( 'usp_register_repeat_pass', __( 'Repeated password not correct!', 'usp' ) );
+        $errors->add( 'usp_register_repeat_pass', __( 'Repeated password not correct!', 'userspace' ) );
     }
 
     return $errors;
@@ -238,13 +238,13 @@ function usp_register_mail( $userdata ) {
     $userdata = apply_filters( 'usp_register_mail_data', $userdata );
 
     $textmail = '
-    <p>' . __( 'You or someone else signed up on our website', 'usp' ) . ' "' . get_bloginfo( 'name' ) . '" ' . __( 'with the following data:', 'usp' ) . '</p>
-    <p>' . __( 'Login', 'usp' ) . ': ' . $userdata['user_login'] . '</p>
-    <p>' . __( 'Password', 'usp' ) . ': ' . $userdata['user_pass'] . '</p>';
+    <p>' . __( 'You or someone else signed up on our website', 'userspace' ) . ' "' . get_bloginfo( 'name' ) . '" ' . __( 'with the following data:', 'userspace' ) . '</p>
+    <p>' . __( 'Login', 'userspace' ) . ': ' . $userdata['user_login'] . '</p>
+    <p>' . __( 'Password', 'userspace' ) . ': ' . $userdata['user_pass'] . '</p>';
 
     if ( usp_get_option( 'usp_confirm_register' ) ) {
 
-        $subject = __( 'Confirm your registration!', 'usp' );
+        $subject = __( 'Confirm your registration!', 'userspace' );
 
         $confirmstr = base64_encode(
             json_encode(
@@ -259,16 +259,16 @@ function usp_register_mail( $userdata ) {
             'usp-confirmdata' => urlencode( $confirmstr )
             ), home_url() );
 
-        $textmail .= '<p>' . __( 'If it was you, then confirm your registration by clicking on the link below', 'usp' ) . ':</p>
+        $textmail .= '<p>' . __( 'If it was you, then confirm your registration by clicking on the link below', 'userspace' ) . ':</p>
         <p><a href="' . $url . '">' . $url . '</a></p>
-        <p>' . __( 'Unable to activate the account?', 'usp' ) . '</p>
-        <p>' . __( 'Copy the link below, paste it into the address bar of your browser and hit Enter', 'usp' ) . '</p>';
+        <p>' . __( 'Unable to activate the account?', 'userspace' ) . '</p>
+        <p>' . __( 'Copy the link below, paste it into the address bar of your browser and hit Enter', 'userspace' ) . '</p>';
     } else {
 
-        $subject = __( 'Registration completed', 'usp' );
+        $subject = __( 'Registration completed', 'userspace' );
     }
 
-    $textmail .= '<p>' . __( 'If it wasn’t you, then just ignore this email', 'usp' ) . '</p>';
+    $textmail .= '<p>' . __( 'If it wasn’t you, then just ignore this email', 'userspace' ) . '</p>';
 
     $textmail = apply_filters( 'usp_register_mail_text', $textmail, $userdata );
 

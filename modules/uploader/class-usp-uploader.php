@@ -148,7 +148,7 @@ class USP_Uploader {
         $content .= $this->get_button( $args );
 
         if ( $args['allowed_types'] )
-            $content .= '<small class="notice">' . __( 'Types of files', 'usp' ) . ': ' . implode( ', ', $this->file_types ) . '</small>';
+            $content .= '<small class="notice">' . __( 'Types of files', 'userspace' ) . ': ' . implode( ', ', $this->file_types ) . '</small>';
 
         $content .= '</div>';
 
@@ -176,7 +176,7 @@ class USP_Uploader {
     function get_button( $args ) {
 
         $defaults = array(
-            'button_label' => __( 'Upload file', 'usp' ),
+            'button_label' => __( 'Upload file', 'userspace' ),
             'button_icon'  => 'fa-upload',
             'button_type'  => 'simple'
         );
@@ -198,7 +198,7 @@ class USP_Uploader {
 
         $content = '<div id="usp-dropzone-' . $this->uploader_id . '" class="usp-dropzone">
 				<div class="dropzone-upload-area">
-					' . __( 'Add files in a queue of downloads', 'usp' ) . '
+					' . __( 'Add files in a queue of downloads', 'userspace' ) . '
 				</div>
 			</div>';
 
@@ -351,7 +351,7 @@ class USP_Uploader {
 
         $items[] = array(
             'icon'    => 'fa-newspaper',
-            'title'   => __( 'Add to the editor', 'usp' ),
+            'title'   => __( 'Add to the editor', 'userspace' ),
             'onclick' => 'usp_add_attachment_in_editor(' . $attachment_id . ',"' . $this->fix_editor . '",this);return false;',
             'data'    => array(
                 'html' => $fileHtml,
@@ -371,7 +371,7 @@ class USP_Uploader {
         $items = array(
             array(
                 'icon'    => 'fa-trash',
-                'title'   => __( 'Delete the file', 'usp' ),
+                'title'   => __( 'Delete the file', 'userspace' ),
                 'onclick' => 'usp_delete_attachment(' . $attach_id . ',' . $this->post_parent . ',this);return false;'
             )
         );
@@ -462,7 +462,7 @@ class USP_Uploader {
         $ext = strtolower( $filetype['ext'] );
 
         if ( ! in_array( $ext, $this->file_types ) ) {
-            wp_send_json( array( 'error' => __( 'Forbidden file extension. Allowed:', 'usp' ) . ' ' . implode( ', ', $this->file_types ) ) );
+            wp_send_json( array( 'error' => __( 'Forbidden file extension. Allowed:', 'userspace' ) . ' ' . implode( ', ', $this->file_types ) ) );
         }
 
         $pathInfo = pathinfo( basename( $file['name'] ) );

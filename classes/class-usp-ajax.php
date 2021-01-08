@@ -5,7 +5,7 @@ final class USP_Ajax {
 	public $name;
 	public $nopriv			 = false;
 	public $rest			 = false;
-	public $rest_space		 = 'usp';
+	public $rest_space		 = 'userspace';
 	public $rest_route		 = '';
 	public $rest_callback	 = '';
 	public $ajax_callbacks	 = array();
@@ -68,7 +68,7 @@ final class USP_Ajax {
 			if ( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX )
 				return false;
 			if ( ! wp_verify_nonce( $_POST['ajax_nonce'], 'wp_rest' ) ) {
-				wp_send_json( array( 'error' => __( 'Signature verification failed', 'usp' ) . '!' ) );
+				wp_send_json( array( 'error' => __( 'Signature verification failed', 'userspace' ) . '!' ) );
 			}
 		} else {
 			check_ajax_referer( 'wp_rest' );

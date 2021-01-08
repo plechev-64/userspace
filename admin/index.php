@@ -15,7 +15,7 @@ function usp_mark_own_page( $post_states, $post ) {
             return $post_states;
 
         if ( in_array( $post->ID, $plugin_pages ) ) {
-            $post_states[] = __( 'The page of plugin UserSpace', 'usp' );
+            $post_states[] = __( 'The page of plugin UserSpace', 'userspace' );
         }
     }
 

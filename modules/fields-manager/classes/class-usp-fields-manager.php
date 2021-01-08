@@ -253,25 +253,25 @@ class USP_Fields_Manager extends USP_Fields {
         $content = '<div class="usp-fields-manager ' . ($this->structure_edit ? 'structure-edit' : 'structure-simple') . '">';
 
         if ( $this->meta_delete ) {
-            $content .= '<span style="display:none" id="usp-manager-confirm-delete">' . __( 'To delete a data adding this field?', 'usp' ) . '</span>';
+            $content .= '<span style="display:none" id="usp-manager-confirm-delete">' . __( 'To delete a data adding this field?', 'userspace' ) . '</span>';
         }
 
         if ( $this->template_fields ) {
             $content .= '<div class="usp-manager-box service-box">';
-            $content .= '<span class="manager-title">' . __( 'Templates', 'usp' ) . '</span>';
+            $content .= '<span class="manager-title">' . __( 'Templates', 'userspace' ) . '</span>';
             $content .= $this->get_service_box();
             $content .= '</div>';
         }
 
         if ( $this->default_fields && $this->default_box ) {
             $content .= '<div class="usp-manager-box default-box">';
-            $content .= '<span class="manager-title">' . __( 'Inactive fields', 'usp' ) . '</span>';
+            $content .= '<span class="manager-title">' . __( 'Inactive fields', 'userspace' ) . '</span>';
             $content .= $this->get_default_box();
             $content .= '</div>';
         }
 
         $content .= '<div class="usp-manager-box usp-custom-fields-box">';
-        $content .= '<span class="manager-title">' . __( 'Active fields', 'usp' ) . '</span>';
+        $content .= '<span class="manager-title">' . __( 'Active fields', 'userspace' ) . '</span>';
         $content .= '<form method="post" action="" class="usp-fields-manager-form" ' . ($this->onsubmit ? 'onsubmit="' . $this->onsubmit . '();return false;"' : '') . '>';
 
         $content .= $this->get_manager_options_form();
@@ -366,7 +366,7 @@ class USP_Fields_Manager extends USP_Fields {
                     'slug'        => 'group-title',
                     'type'        => 'text',
                     'input_name'  => 'structure-groups[' . $this->group_id . '][title]',
-                    'placeholder' => __( 'Name of the section', 'usp' ),
+                    'placeholder' => __( 'Name of the section', 'userspace' ),
                     'value'       => $group['title']
                 ) )->get_field_html();
             $content .= '</div>';
@@ -377,17 +377,17 @@ class USP_Fields_Manager extends USP_Fields {
             $content .= usp_get_button( [
                 'size'    => 'medium',
                 'type'    => 'clear',
-                'title'   => __( 'Delete section', 'usp' ),
+                'title'   => __( 'Delete section', 'userspace' ),
                 'icon'    => 'fa-trash',
                 'class'   => 'group-manager-button group-delete',
-                'onclick' => 'usp_remove_manager_group("' . __( 'Are you sure?', 'usp' ) . '",this);return false;',
+                'onclick' => 'usp_remove_manager_group("' . __( 'Are you sure?', 'userspace' ) . '",this);return false;',
                 ] );
             //}
 
             $content .= usp_get_button( [
                 'size'    => 'medium',
                 'type'    => 'clear',
-                'title'   => __( 'Settings of section', 'usp' ),
+                'title'   => __( 'Settings of section', 'userspace' ),
                 'icon'    => 'fa-horizontal-sliders',
                 'class'   => 'group-manager-button group-settings',
                 'onclick' => 'usp_switch_view_settings_manager_group(this);return false;',
@@ -396,7 +396,7 @@ class USP_Fields_Manager extends USP_Fields {
             $content .= usp_get_button( [
                 'size'    => 'medium',
                 'type'    => 'clear',
-                'label'   => __( 'Add a group of fields', 'usp' ),
+                'label'   => __( 'Add a group of fields', 'userspace' ),
                 'icon'    => 'fa-plus',
                 'class'   => 'group-manager-button add-area',
                 'onclick' => 'usp_manager_get_new_area(this);return false;',
@@ -419,7 +419,7 @@ class USP_Fields_Manager extends USP_Fields {
                     'slug'       => 'group-notice',
                     'type'       => 'text',
                     'input_name' => 'structure-groups[' . $this->group_id . '][notice]',
-                    'title'      => __( 'A note of this section', 'usp' ),
+                    'title'      => __( 'A note of this section', 'userspace' ),
                     'value'      => isset( $group['notice'] ) ? $group['notice'] : ''
                 )
             );
@@ -473,12 +473,12 @@ class USP_Fields_Manager extends USP_Fields {
         if ( $this->structure_edit ) {
 
             $content .= '<div class="usp-areas-manager">';
-            $content .= '<a href="#" title="' . __( 'Delete group of fields', 'usp' ) . '"onclick="usp_remove_manager_area(\'' . __( 'Are you sure?', 'usp' ) . '\',this);return false"><i class="uspi fa-trash" aria-hidden="true"></i></a>';
+            $content .= '<a href="#" title="' . __( 'Delete group of fields', 'userspace' ) . '"onclick="usp_remove_manager_area(\'' . __( 'Are you sure?', 'userspace' ) . '\',this);return false"><i class="uspi fa-trash" aria-hidden="true"></i></a>';
 
             if ( $this->sortable )
                 $content .= '<span class="area-move left-align"><i class="uspi fa-arrows" aria-hidden="true"></i></span>';
             /* if ( $this->create_field ) {
-              $content .= '<a href="#" onclick="usp_manager_get_new_field(this);return false;" title="' . __( 'Добавить поле', 'usp' ) . '" class="add-field left-align"><i class="uspi fa-plus-square" aria-hidden="true"></i> ' . __( 'Добавить поле', 'usp' ) . '</a>';
+              $content .= '<a href="#" onclick="usp_manager_get_new_field(this);return false;" title="' . __( 'Добавить поле', 'userspace' ) . '" class="add-field left-align"><i class="uspi fa-plus-square" aria-hidden="true"></i> ' . __( 'Добавить поле', 'userspace' ) . '</a>';
               } */
             $content .= '</div>';
         }
@@ -513,7 +513,7 @@ class USP_Fields_Manager extends USP_Fields {
         $content .= "<div class=submit-box>";
 
         if ( $this->create_field ) {
-            $content .= "<input type=button onclick='usp_manager_get_new_field(this);' class='add-field-button button-secondary right' value='+ " . __( 'Add field', 'usp' ) . "'>";
+            $content .= "<input type=button onclick='usp_manager_get_new_field(this);' class='add-field-button button-secondary right' value='+ " . __( 'Add field', 'userspace' ) . "'>";
         }
 
         $content .= "</div>";
@@ -530,16 +530,16 @@ class USP_Fields_Manager extends USP_Fields {
         $content = "<div class=submit-box>";
 
         if ( $this->structure_edit )
-            $content .= "<input type=button onclick='usp_manager_get_new_group(this);' class='add-field-button button-secondary right' value='+ " . __( 'Add new section', 'usp' ) . "'>";
+            $content .= "<input type=button onclick='usp_manager_get_new_group(this);' class='add-field-button button-secondary right' value='+ " . __( 'Add new section', 'userspace' ) . "'>";
 
-        $content .= "<input class='button button-primary' type=submit value='" . __( 'Save', 'usp' ) . "' name='usp_save_custom_fields'>";
+        $content .= "<input class='button button-primary' type=submit value='" . __( 'Save', 'userspace' ) . "' name='usp_save_custom_fields'>";
 
         if ( $this->meta_delete ) {
             foreach ( $this->meta_delete as $table_name => $colname ) {
                 $content .= "<input type=hidden name=delete_table_data[$table_name] value='$colname'>";
             }
 
-            $content .= "<div id='field-delete-confirm' style='display:none;'>" . __( 'To remove the data added to this field?', 'usp' ) . "</div>";
+            $content .= "<div id='field-delete-confirm' style='display:none;'>" . __( 'To remove the data added to this field?', 'userspace' ) . "</div>";
         }
 
         $content .= "</div>";
@@ -651,14 +651,14 @@ class USP_Fields_Manager extends USP_Fields {
             $content .= $this::setup( array(
                     'slug'        => 'title',
                     'type'        => 'text',
-                    'placeholder' => __( 'Point a title of new field', 'usp' ),
+                    'placeholder' => __( 'Point a title of new field', 'userspace' ),
                     'input_name'  => 'fields[' . $field_id . '][title]'
                 ) )->get_field_html();
         } else {
             $content .= $this::setup( array(
                     'slug'        => 'title',
                     'type'        => 'text',
-                    'placeholder' => __( 'Point a title of this field', 'usp' ),
+                    'placeholder' => __( 'Point a title of this field', 'userspace' ),
                     'input_name'  => 'fields[' . $field_id . '][title]',
                     'value'       => $field->title
                 ) )->get_field_html();
@@ -718,7 +718,7 @@ class USP_Fields_Manager extends USP_Fields {
         $content = '<div class="manager-field-settings">';
 
         if ( ! $field->is_new() ) {
-            $content .= '<span class="field-id">' . __( 'ID', 'usp' ) . ': ' . $field_id . '</span>';
+            $content .= '<span class="field-id">' . __( 'ID', 'userspace' ) . ': ' . $field_id . '</span>';
         }
 
         $content .= $this->get_field_general_options_content( $field_id, $serviceType );
@@ -773,9 +773,9 @@ class USP_Fields_Manager extends USP_Fields {
                 'type'        => 'text',
                 'pattern'     => '[a-z0-9-_]+',
                 'value'       => $field->is_new() ? '' : $field_id,
-                'title'       => __( 'ID', 'usp' ),
-                'notice'      => __( 'not required, but you can list your own meta_key in this field', 'usp' ),
-                'placeholder' => __( 'Latin letters and numbers', 'usp' )
+                'title'       => __( 'ID', 'userspace' ),
+                'notice'      => __( 'not required, but you can list your own meta_key in this field', 'userspace' ),
+                'placeholder' => __( 'Latin letters and numbers', 'userspace' )
             );
         }
 
@@ -794,7 +794,7 @@ class USP_Fields_Manager extends USP_Fields {
                     $options['type'] = array(
                         'slug'   => 'type',
                         'type'   => 'select',
-                        'title'  => __( 'Type of field', 'usp' ),
+                        'title'  => __( 'Type of field', 'userspace' ),
                         'values' => $typeList
                     );
                 }

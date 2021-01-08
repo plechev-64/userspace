@@ -30,20 +30,20 @@ class USP_Field_Tel extends USP_Field_Abstract {
 				'slug'		 => 'placeholder',
 				'default'	 => $this->placeholder,
 				'type'		 => 'text',
-				'title'		 => __( 'Placeholder', 'usp' )
+				'title'		 => __( 'Placeholder', 'userspace' )
 			),
 			array(
 				'slug'		 => 'maxlength',
 				'default'	 => $this->maxlength,
 				'type'		 => 'number',
-				'title'		 => __( 'Maxlength', 'usp' ),
-				'notice'	 => __( 'maximum number of symbols per field', 'usp' )
+				'title'		 => __( 'Maxlength', 'userspace' ),
+				'notice'	 => __( 'maximum number of symbols per field', 'userspace' )
 			),
 			array(
 				'type'	 => 'text',
 				'slug'	 => 'pattern',
-				'title'	 => __( 'Phone mask', 'usp' ),
-				'notice' => __( 'Example: 8\([0-9]{3}\)[0-9]{3}-[0-9]{2}-[0-9]{2} Result: 8(900)123-45-67', 'usp' ),
+				'title'	 => __( 'Phone mask', 'userspace' ),
+				'notice' => __( 'Example: 8\([0-9]{3}\)[0-9]{3}-[0-9]{2}-[0-9]{2} Result: 8(900)123-45-67', 'userspace' ),
 			)
 		);
 	}

@@ -33,20 +33,20 @@ class USP_Field_Editor extends USP_Field_Abstract {
 			array(
 				'slug'	 => 'tinymce',
 				'type'	 => 'radio',
-				'title'	 => __( 'TinyMCE', 'usp' ),
+				'title'	 => __( 'TinyMCE', 'userspace' ),
 				'values' => array(
-					__( 'Disabled', 'usp' ),
-					__( 'Using TinyMCE', 'usp' )
+					__( 'Disabled', 'userspace' ),
+					__( 'Using TinyMCE', 'userspace' )
 				),
-				'notice' => __( 'May not load with AJAX', 'usp' )
+				'notice' => __( 'May not load with AJAX', 'userspace' )
 			),
 			array(
 				'slug'	 => 'media_button',
 				'type'	 => 'radio',
-				'title'	 => __( 'Media uploader WordPress', 'usp' ),
+				'title'	 => __( 'Media uploader WordPress', 'userspace' ),
 				'values' => array(
-					__( 'Disabled', 'usp' ),
-					__( 'Enabled', 'usp' )
+					__( 'Disabled', 'userspace' ),
+					__( 'Enabled', 'userspace' )
 				)
 			)
 		);

@@ -119,12 +119,12 @@ function usp_frontend_scripts() {
 
     if ( usp_get_option( 'difficulty_parole' ) ) {
         if ( ! $user_ID || usp_is_office( $user_ID ) ) {
-            $locData['local']['pass0'] = __( 'Very weak', 'usp' );
-            $locData['local']['pass1'] = __( 'Weak', 'usp' );
-            $locData['local']['pass2'] = __( 'Worse than average', 'usp' );
-            $locData['local']['pass3'] = __( 'Average', 'usp' );
-            $locData['local']['pass4'] = __( 'Reliable', 'usp' );
-            $locData['local']['pass5'] = __( 'Strong', 'usp' );
+            $locData['local']['pass0'] = __( 'Very weak', 'userspace' );
+            $locData['local']['pass1'] = __( 'Weak', 'userspace' );
+            $locData['local']['pass2'] = __( 'Worse than average', 'userspace' );
+            $locData['local']['pass3'] = __( 'Average', 'userspace' );
+            $locData['local']['pass4'] = __( 'Reliable', 'userspace' );
+            $locData['local']['pass5'] = __( 'Strong', 'userspace' );
         }
     }
 
@@ -138,14 +138,14 @@ function usp_get_localize_data() {
     global $user_ID;
 
     $local = array(
-        'save'    => __( 'Save', 'usp' ),
-        'close'   => __( 'Close', 'usp' ),
-        'wait'    => __( 'Please wait', 'usp' ),
-        'preview' => __( 'Preview', 'usp' ),
-        'error'   => __( 'Error', 'usp' ),
-        'loading' => __( 'Loading', 'usp' ),
-        'upload'  => __( 'Upload', 'usp' ),
-        'cancel'  => __( 'Cancel', 'usp' )
+        'save'    => __( 'Save', 'userspace' ),
+        'close'   => __( 'Close', 'userspace' ),
+        'wait'    => __( 'Please wait', 'userspace' ),
+        'preview' => __( 'Preview', 'userspace' ),
+        'error'   => __( 'Error', 'userspace' ),
+        'loading' => __( 'Loading', 'userspace' ),
+        'upload'  => __( 'Upload', 'userspace' ),
+        'cancel'  => __( 'Cancel', 'userspace' )
     );
 
     $data = array(
@@ -161,13 +161,13 @@ function usp_get_localize_data() {
     $data['mobile'] = (wp_is_mobile()) ? ( int ) 1 : ( int ) 0;
     $data['https']  = @( ! isset( $_SERVER["HTTPS"] ) || $_SERVER["HTTPS"] != 'on' ) ? ( int ) 0 : ( int ) 1;
 
-    $data['errors']['required']      = __( 'Fill in all required fields', 'usp' );
-    $data['errors']['pattern']       = __( 'Specify the data in the required format', 'usp' );
-    $data['errors']['number_range']  = __( 'Specify a number within the allowed range', 'usp' );
-    $data['errors']['file_max_size'] = __( 'File size is exceeded', 'usp' );
-    $data['errors']['file_min_size'] = __( 'The insufficient size of the image', 'usp' );
-    $data['errors']['file_max_num']  = __( 'Number of files exceeded', 'usp' );
-    $data['errors']['file_accept']   = __( 'Invalid file type', 'usp' );
+    $data['errors']['required']      = __( 'Fill in all required fields', 'userspace' );
+    $data['errors']['pattern']       = __( 'Specify the data in the required format', 'userspace' );
+    $data['errors']['number_range']  = __( 'Specify a number within the allowed range', 'userspace' );
+    $data['errors']['file_max_size'] = __( 'File size is exceeded', 'userspace' );
+    $data['errors']['file_min_size'] = __( 'The insufficient size of the image', 'userspace' );
+    $data['errors']['file_max_num']  = __( 'Number of files exceeded', 'userspace' );
+    $data['errors']['file_accept']   = __( 'Invalid file type', 'userspace' );
 
     return apply_filters( 'usp_init_js_variables', $data );
 }

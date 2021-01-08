@@ -27,7 +27,7 @@ class USP_Field_Dynamic extends USP_Field_Abstract {
 				'slug'		 => 'placeholder',
 				'default'	 => $this->placeholder,
 				'type'		 => 'text',
-				'title'		 => __( 'Placeholder', 'usp' )
+				'title'		 => __( 'Placeholder', 'userspace' )
 			)
 		);
 	}

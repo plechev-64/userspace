@@ -18,7 +18,7 @@ function usp_checkemail_success( $errors ) {
 	if ( isset( $_GET['success'] ) && $_GET['success'] == 'checkemail' ) {
 
 		$errors = new WP_Error();
-		$errors->add( 'checkemail', __( 'Your email has been successfully confirmed! Log in using your username and password', 'usp' ), 'message' );
+		$errors->add( 'checkemail', __( 'Your email has been successfully confirmed! Log in using your username and password', 'userspace' ), 'message' );
 	}
 
 	if ( isset( $_GET['register'] ) ) {
@@ -27,12 +27,12 @@ function usp_checkemail_success( $errors ) {
 
 		if ( $_GET['register'] == 'success' ) {
 
-			$errors->add( 'register', __( 'Registration completed!', 'usp' ), 'message' );
+			$errors->add( 'register', __( 'Registration completed!', 'userspace' ), 'message' );
 		}
 
 		if ( $_GET['register'] == 'checkemail' ) {
 
-			$errors->add( 'register', __( 'Registration is completed! Check your email for the confirmation link.', 'usp' ), 'message' );
+			$errors->add( 'register', __( 'Registration is completed! Check your email for the confirmation link.', 'userspace' ), 'message' );
 		}
 	}
 
@@ -42,7 +42,7 @@ function usp_checkemail_success( $errors ) {
 
 		if ( $_GET['login'] == 'checkemail' ) {
 
-			$errors->add( 'register', __( 'Your email is not confirmed!', 'usp' ), 'error' );
+			$errors->add( 'register', __( 'Your email is not confirmed!', 'userspace' ), 'error' );
 		}
 	}
 
@@ -52,7 +52,7 @@ function usp_checkemail_success( $errors ) {
 
 		if ( $_GET['remember'] == 'success' ) {
 
-			$errors->add( 'register', __( 'Your password has been sent!<br>Check your email.', 'usp' ), 'message' );
+			$errors->add( 'register', __( 'Your password has been sent!<br>Check your email.', 'userspace' ), 'message' );
 		}
 	}
 

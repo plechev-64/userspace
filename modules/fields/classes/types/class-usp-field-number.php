@@ -30,19 +30,19 @@ class USP_Field_Number extends USP_Field_Abstract {
 				'slug'		 => 'placeholder',
 				'default'	 => $this->placeholder,
 				'type'		 => 'text',
-				'title'		 => __( 'Placeholder', 'usp' )
+				'title'		 => __( 'Placeholder', 'userspace' )
 			),
 			array(
 				'slug'		 => 'value_min',
 				'default'	 => $this->value_min,
 				'type'		 => 'number',
-				'title'		 => __( 'Min', 'usp' ),
+				'title'		 => __( 'Min', 'userspace' ),
 			),
 			array(
 				'slug'		 => 'value_max',
 				'default'	 => $this->value_max,
 				'type'		 => 'number',
-				'title'		 => __( 'Max', 'usp' ),
+				'title'		 => __( 'Max', 'userspace' ),
 			),
 		);
 	}

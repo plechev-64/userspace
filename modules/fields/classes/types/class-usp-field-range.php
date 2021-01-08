@@ -29,39 +29,39 @@ class USP_Field_Range extends USP_Field_Abstract {
 			array(
 				'slug'			 => 'unit',
 				'default'		 => $this->unit,
-				'placeholder'	 => __( 'For example: km or pcs', 'usp' ),
+				'placeholder'	 => __( 'For example: km or pcs', 'userspace' ),
 				'type'			 => 'text',
-				'title'			 => __( 'Unit', 'usp' )
+				'title'			 => __( 'Unit', 'userspace' )
 			),
 			array(
 				'slug'		 => 'value_min',
 				'value'		 => $this->value_min,
 				'type'		 => 'number',
-				'title'		 => __( 'Min', 'usp' ),
+				'title'		 => __( 'Min', 'userspace' ),
 				'default'	 => 0
 			),
 			array(
 				'slug'		 => 'value_max',
 				'value'		 => $this->value_max,
 				'type'		 => 'number',
-				'title'		 => __( 'Max', 'usp' ),
+				'title'		 => __( 'Max', 'userspace' ),
 				'default'	 => 100
 			),
 			array(
 				'slug'		 => 'value_step',
 				'value'		 => $this->value_step,
 				'type'		 => 'number',
-				'title'		 => __( 'Step', 'usp' ),
+				'title'		 => __( 'Step', 'userspace' ),
 				'default'	 => 1
 			),
 			array(
 				'slug'	 => 'manual_input',
 				'value'	 => $this->manual_input,
 				'type'	 => 'radio',
-				'title'	 => __( 'Manual input', 'usp' ),
+				'title'	 => __( 'Manual input', 'userspace' ),
 				'values' => array(
-					__( 'Disable', 'usp' ),
-					__( 'Enable', 'usp' )
+					__( 'Disable', 'userspace' ),
+					__( 'Enable', 'userspace' )
 				)
 			)
 		);
@@ -130,7 +130,7 @@ class USP_Field_Range extends USP_Field_Abstract {
 			$maxValue .= ' ' . $this->unit;
 		}
 
-		return __( 'from', 'usp' ) . ' ' . $minValue . ' ' . __( 'for', 'usp' ) . ' ' . $maxValue;
+		return __( 'from', 'userspace' ) . ' ' . $minValue . ' ' . __( 'for', 'userspace' ) . ' ' . $maxValue;
 	}
 
 }

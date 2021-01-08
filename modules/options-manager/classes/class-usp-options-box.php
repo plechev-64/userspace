@@ -49,7 +49,7 @@ class USP_Options_Box {
 
 		if ( ! $this->isset_group( 'general' ) ) {
 			$this->add_group( 'general', [
-				'title' => __( 'General settings', 'usp' )
+				'title' => __( 'General settings', 'userspace' )
 			] );
 		}
 

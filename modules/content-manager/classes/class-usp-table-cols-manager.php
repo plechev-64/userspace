@@ -30,7 +30,7 @@ class USP_Table_Cols_Manager {
 
         $content .= '<div class="active-cols cols-box">';
 
-        $content .= '<div class="list-title">' . __( 'Активные столбцы', 'usp' ) . '</div>';
+        $content .= '<div class="list-title">' . __( 'Активные столбцы', 'userspace' ) . '</div>';
 
         $content .= '<input type="hidden" name="manager_id" value="' . $this->manager_id . '">';
 
@@ -48,7 +48,7 @@ class USP_Table_Cols_Manager {
 
         $content .= '<div class="unactive-cols cols-box">';
 
-        $content .= '<div class="list-title">' . __( 'Неактивные столбцы', 'usp' ) . '</div>';
+        $content .= '<div class="list-title">' . __( 'Неактивные столбцы', 'userspace' ) . '</div>';
 
         $content .= '<div class="cols-list">';
         foreach ( $this->cols as $colId => $name ) {
@@ -76,7 +76,7 @@ class USP_Table_Cols_Manager {
         $content .= '</div>';
 
         return usp_get_form( array(
-            'submit'  => __( 'Сохранить', 'usp' ),
+            'submit'  => __( 'Сохранить', 'userspace' ),
             'onclick' => 'usp_save_table_manager_cols(this);return false;',
             'fields'  => array(
                 array(

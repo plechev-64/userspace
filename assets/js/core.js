@@ -431,7 +431,7 @@ function usp_ajax( prop ) {
 
 		var restAction = action;
 		var restRoute = restAction;
-		var restSpace = 'usp';
+		var restSpace = 'userspace';
 
 		if ( typeof prop.rest === 'object' ) {
 

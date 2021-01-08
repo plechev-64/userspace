@@ -17,7 +17,7 @@ add_action( 'usp_cron_hourly_schedule', 'usp_cron_hourly' );
 function usp_cron_hourly() {
 
 	usp_add_log(
-		__( 'Launch cron events', 'usp' ) . ' usp_cron_hourly'
+		__( 'Launch cron events', 'userspace' ) . ' usp_cron_hourly'
 	);
 
 	do_action( 'usp_cron_hourly' );
@@ -27,7 +27,7 @@ add_action( 'usp_cron_twicedaily_schedule', 'usp_cron_twicedaily' );
 function usp_cron_twicedaily() {
 
 	usp_add_log(
-		__( 'Launch cron events', 'usp' ) . ' usp_cron_twicedaily'
+		__( 'Launch cron events', 'userspace' ) . ' usp_cron_twicedaily'
 	);
 
 	do_action( 'usp_cron_twicedaily' );
@@ -37,7 +37,7 @@ add_action( 'usp_cron_daily_schedule', 'usp_cron_daily' );
 function usp_cron_daily() {
 
 	usp_add_log(
-		__( 'Launch cron events', 'usp' ) . ' usp_cron_daily'
+		__( 'Launch cron events', 'userspace' ) . ' usp_cron_daily'
 	);
 
 	do_action( 'usp_cron_daily' );

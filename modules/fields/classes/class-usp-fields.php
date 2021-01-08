@@ -329,7 +329,7 @@ class USP_Fields extends USP_Field {
             'unique_ids' => false,
             'action'     => '',
             'method'     => 'post',
-            'submit'     => __( 'Save', 'usp' ),
+            'submit'     => __( 'Save', 'userspace' ),
             'nonce_name' => '_wpnonce',
             'nonce_key'  => '',
             'onclick'    => '',

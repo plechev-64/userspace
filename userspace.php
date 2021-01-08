@@ -1,13 +1,12 @@
 <?php
 /*
   Plugin Name: UserSpace
-  Plugin URI: https://userspace.com/
-  Description: Фронт-енд профиль, система личных сообщений и рейтинг пользователей на сайте вордпресс.
+  Plugin URI: http://user-space.com/
+  Description: Login & registration form, profile fields, front-end profile, user account and core for wordpress membership.
   Version: 0.1
   Author: Plechev Andrey
   Author URI: http://user-space.com/
-  Text Domain: usp
-  Domain Path: /languages
+  Text Domain: userspace
   License: GPLv2 or later (license.txt)
  */
 
@@ -57,11 +56,11 @@ final class UserSpace {
     }
 
     public function __clone() {
-        _doing_it_wrong( __FUNCTION__, __( 'Are you cheating, bastard?', 'usp' ), $this->version );
+        _doing_it_wrong( __FUNCTION__, __( 'Are you cheating, bastard?', 'userspace' ), $this->version );
     }
 
     public function __wakeup() {
-        _doing_it_wrong( __FUNCTION__, __( 'Are you cheating, bastard?', 'usp' ), $this->version );
+        _doing_it_wrong( __FUNCTION__, __( 'Are you cheating, bastard?', 'userspace' ), $this->version );
     }
 
     private function init_modules() {
@@ -361,102 +360,102 @@ final class UserSpace {
 
         $this->fields = apply_filters( 'usp_fields', array(
             'text'        => array(
-                'label' => __( 'Text', 'usp' ),
+                'label' => __( 'Text', 'userspace' ),
                 'class' => 'USP_Field_Text'
             ),
             'time'        => array(
-                'label' => __( 'Time', 'usp' ),
+                'label' => __( 'Time', 'userspace' ),
                 'class' => 'USP_Field_Text'
             ),
             'hidden'      => array(
-                'label' => __( 'Hidden field', 'usp' ),
+                'label' => __( 'Hidden field', 'userspace' ),
                 'class' => 'USP_Field_Hidden'
             ),
             'password'    => array(
-                'label' => __( 'Password', 'usp' ),
+                'label' => __( 'Password', 'userspace' ),
                 'class' => 'USP_Field_Text'
             ),
             'url'         => array(
-                'label' => __( 'Url', 'usp' ),
+                'label' => __( 'Url', 'userspace' ),
                 'class' => 'USP_Field_Text'
             ),
             'textarea'    => array(
-                'label' => __( 'Multiline text area', 'usp' ),
+                'label' => __( 'Multiline text area', 'userspace' ),
                 'class' => 'USP_Field_TextArea'
             ),
             'select'      => array(
-                'label' => __( 'Select', 'usp' ),
+                'label' => __( 'Select', 'userspace' ),
                 'class' => 'USP_Field_Select'
             ),
             'multiselect' => array(
-                'label' => __( 'MultiSelect', 'usp' ),
+                'label' => __( 'MultiSelect', 'userspace' ),
                 'class' => 'USP_Field_MultiSelect'
             ),
             'checkbox'    => array(
-                'label' => __( 'Checkbox', 'usp' ),
+                'label' => __( 'Checkbox', 'userspace' ),
                 'class' => 'USP_Field_Checkbox'
             ),
             'radio'       => array(
-                'label' => __( 'Radiobutton', 'usp' ),
+                'label' => __( 'Radiobutton', 'userspace' ),
                 'class' => 'USP_Field_Radio'
             ),
             'email'       => array(
-                'label' => __( 'E-mail', 'usp' ),
+                'label' => __( 'E-mail', 'userspace' ),
                 'class' => 'USP_Field_Text'
             ),
             'tel'         => array(
-                'label' => __( 'Phone', 'usp' ),
+                'label' => __( 'Phone', 'userspace' ),
                 'class' => 'USP_Field_Tel'
             ),
             'number'      => array(
-                'label' => __( 'Number', 'usp' ),
+                'label' => __( 'Number', 'userspace' ),
                 'class' => 'USP_Field_Number'
             ),
             'date'        => array(
-                'label' => __( 'Date', 'usp' ),
+                'label' => __( 'Date', 'userspace' ),
                 'class' => 'USP_Field_Date'
             ),
             'agree'       => array(
-                'label' => __( 'Agreement', 'usp' ),
+                'label' => __( 'Agreement', 'userspace' ),
                 'class' => 'USP_Field_Agree'
             ),
             'file'        => array(
-                'label' => __( 'File', 'usp' ),
+                'label' => __( 'File', 'userspace' ),
                 'class' => 'USP_Field_File'
             ),
             'dynamic'     => array(
-                'label' => __( 'Dynamic', 'usp' ),
+                'label' => __( 'Dynamic', 'userspace' ),
                 'class' => 'USP_Field_Dynamic'
             ),
             'runner'      => array(
-                'label' => __( 'Runner', 'usp' ),
+                'label' => __( 'Runner', 'userspace' ),
                 'class' => 'USP_Field_Runner'
             ),
             'range'       => array(
-                'label' => __( 'Range', 'usp' ),
+                'label' => __( 'Range', 'userspace' ),
                 'class' => 'USP_Field_Range'
             ),
             'color'       => array(
-                'label' => __( 'Color', 'usp' ),
+                'label' => __( 'Color', 'userspace' ),
                 'class' => 'USP_Field_Color'
             ),
             'custom'      => array(
-                'label' => __( 'Custom content', 'usp' ),
+                'label' => __( 'Custom content', 'userspace' ),
                 'class' => 'USP_Field_Custom'
             ),
             'editor'      => array(
-                'label' => __( 'Text editor', 'usp' ),
+                'label' => __( 'Text editor', 'userspace' ),
                 'class' => 'USP_Field_Editor'
             ),
             'uploader'    => array(
-                'label' => __( 'File uploader', 'usp' ),
+                'label' => __( 'File uploader', 'userspace' ),
                 'class' => 'USP_Field_Uploader'
             )
             ) );
     }
 
     public function load_plugin_textdomain() {
-        load_plugin_textdomain( 'usp', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+        load_plugin_textdomain( 'userspace', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
     }
 
     public function plugin_url() {
@@ -508,7 +507,7 @@ function USP() {
     return UserSpace::getInstance();
 }
 
-$GLOBALS['usp'] = USP();
+$GLOBALS['userspace'] = USP();
 function userspace() {
     global $user_LK;
 
@@ -523,7 +522,7 @@ function userspace() {
         if ( $themePath = USP()->theme->get( 'path' ) ) {
             USP()->template( 'office.php', $themePath )->include();
         } else {
-            echo '<h3>' . __( 'Office templates not found!', 'usp' ) . '</h3>';
+            echo '<h3>' . __( 'Office templates not found!', 'userspace' ) . '</h3>';
         }
         ?>
 

@@ -24,43 +24,43 @@ $options = new USP_Options_Manager( array(
     ) );
 
 $options->add_box( 'primary', array(
-    'title' => __( 'General settings', 'usp' ),
+    'title' => __( 'General settings', 'userspace' ),
     'icon'  => 'fa-cogs'
 ) )->add_group( 'office', array(
-    'title'  => __( 'Personal cabinet', 'usp' ),
+    'title'  => __( 'Personal cabinet', 'userspace' ),
     'extend' => true
 ) )->add_options( array(
     $options->add_box( 'primary', array(
-        'title' => __( 'General settings', 'usp' ),
+        'title' => __( 'General settings', 'userspace' ),
         'icon'  => 'fa-cogs'
     ) )->add_group( 'office', array(
-        'title'  => __( 'Personal cabinet', 'usp' ),
+        'title'  => __( 'Personal cabinet', 'userspace' ),
         'extend' => true
     ) )->add_options( array(
         array(
             'type'      => 'select',
             'slug'      => 'view_user_lk_usp',
-            'title'     => __( 'Personal Cabinet output', 'usp' ),
+            'title'     => __( 'Personal Cabinet output', 'userspace' ),
             'values'    => array(
-                __( 'On the author’s archive page', 'usp' ),
-                __( 'Using shortcode [userspace]', 'usp' ) ),
+                __( 'On the author’s archive page', 'userspace' ),
+                __( 'Using shortcode [userspace]', 'userspace' ) ),
             'help'      => __( 'Attention! Changing this parameter is not required. '
                 . 'Detailed instructions on personal account output using author.php '
-                . 'file can be received here <a href="#" target="_blank">here</a>', 'usp' ),
-            'notice'    => __( 'If author archive page is selected, the template author.php should contain the code if(function_exists(\'userspace\')) userspace();', 'usp' ),
+                . 'file can be received here <a href="#" target="_blank">here</a>', 'userspace' ),
+            'notice'    => __( 'If author archive page is selected, the template author.php should contain the code if(function_exists(\'userspace\')) userspace();', 'userspace' ),
             'childrens' => array(
                 1 => array(
                     array(
                         'type'   => 'select',
                         'slug'   => 'lk_page_usp',
-                        'title'  => __( 'Shortcode host page', 'usp' ),
+                        'title'  => __( 'Shortcode host page', 'userspace' ),
                         'values' => $pages
                     ),
                     array(
                         'type'  => 'text',
                         'slug'  => 'link_user_lk_usp',
-                        'title' => __( 'Link format to personal account', 'usp' ),
-                        'help'  => __( 'The link is formed according to principle "/slug_page/?get=ID". The parameter "get" can be set here. By default user', 'usp' )
+                        'title' => __( 'Link format to personal account', 'userspace' ),
+                        'help'  => __( 'The link is formed according to principle "/slug_page/?get=ID". The parameter "get" can be set here. By default user', 'userspace' )
                     )
                 )
             )
@@ -71,47 +71,47 @@ $options->add_box( 'primary', array(
             'value_min' => 1,
             'value_max' => 20,
             'default'   => 10,
-            'help'      => __( 'This value sets the maximum time a user is considered "online" in the absence of activity', 'usp' ),
-            'title'     => __( 'Inactivity timeout', 'usp' ),
-            'notice'    => __( 'Specify the time in minutes after which the user will be considered offline if you did not show activity on the website. The default is 10 minutes.', 'usp' )
+            'help'      => __( 'This value sets the maximum time a user is considered "online" in the absence of activity', 'userspace' ),
+            'title'     => __( 'Inactivity timeout', 'userspace' ),
+            'notice'    => __( 'Specify the time in minutes after which the user will be considered offline if you did not show activity on the website. The default is 10 minutes.', 'userspace' )
         )
     ) )
 ) );
 
 $options->box( 'primary' )->add_group( 'security', array(
-    'title'  => __( 'Security', 'usp' ),
+    'title'  => __( 'Security', 'userspace' ),
     'extend' => true
 ) )->add_options( array(
     array(
         'type'     => 'password',
         'required' => 1,
         'slug'     => 'security-key',
-        'title'    => __( 'The key of security for ajax-requests and other', 'usp' )
+        'title'    => __( 'The key of security for ajax-requests and other', 'userspace' )
     )
 ) );
 
 $options->box( 'primary' )->add_group( 'design', array(
-    'title' => __( 'Design', 'usp' ),
+    'title' => __( 'Design', 'userspace' ),
 ) )->add_options( array(
     array(
         'slug'   => 'current_theme',
         'type'   => 'select',
-        'title'  => __( 'Текущая тема', 'usp' ),
+        'title'  => __( 'Текущая тема', 'userspace' ),
         'values' => USP()->themes()->get_themes()
     ),
     array(
         'type'    => 'color',
         'slug'    => 'primary-color',
-        'title'   => __( 'Primary color', 'usp' ),
+        'title'   => __( 'Primary color', 'userspace' ),
         'default' => '#4C8CBD'
     ),
     array(
         'type'   => 'select',
         'slug'   => 'buttons_place',
-        'title'  => __( 'The location of the section buttons', 'usp' ),
+        'title'  => __( 'The location of the section buttons', 'userspace' ),
         'values' => array(
-            __( 'Top', 'usp' ),
-            __( 'Left', 'usp' ) )
+            __( 'Top', 'userspace' ),
+            __( 'Left', 'userspace' ) )
     ),
     array(
         'type'       => 'uploader',
@@ -121,7 +121,7 @@ $options->box( 'primary' )->add_group( 'design', array(
         'filetitle'  => 'usp-default-avatar',
         'filename'   => 'usp-default-avatar',
         'slug'       => 'default_avatar',
-        'title'      => __( 'Default avatar', 'usp' )
+        'title'      => __( 'Default avatar', 'userspace' )
     ),
     array(
         'type'       => 'runner',
@@ -130,32 +130,32 @@ $options->box( 'primary' )->add_group( 'design', array(
         'value_step' => 256,
         'default'    => 1024,
         'slug'       => 'avatar_weight',
-        'title'      => __( 'Max weight of avatars', 'usp' ) . ', Kb',
-        'notice'     => __( 'Set the image upload limit in kb, by default', 'usp' ) . ' 1024Kb' .
-        '. ' . __( 'If 0 is specified, download is disallowed.', 'usp' )
+        'title'      => __( 'Max weight of avatars', 'userspace' ) . ', Kb',
+        'notice'     => __( 'Set the image upload limit in kb, by default', 'userspace' ) . ' 1024Kb' .
+        '. ' . __( 'If 0 is specified, download is disallowed.', 'userspace' )
     )
 ) );
 
 $options->box( 'primary' )->add_group( 'usersign', array(
-    'title' => __( 'Login and register', 'usp' ),
+    'title' => __( 'Login and register', 'userspace' ),
 ) )->add_options( array(
     array(
         'type'      => 'select',
         'slug'      => 'login_form_recall',
-        'title'     => __( 'The order of output the form of login and registration', 'usp' ),
+        'title'     => __( 'The order of output the form of login and registration', 'userspace' ),
         'values'    => array(
-            __( 'Floating form', 'usp' ),
-            __( 'On a separate page', 'usp' ),
-            __( 'Wordpress Forms', 'usp' ),
-            __( 'Widget form', 'usp' ) ),
+            __( 'Floating form', 'userspace' ),
+            __( 'On a separate page', 'userspace' ),
+            __( 'Wordpress Forms', 'userspace' ),
+            __( 'Widget form', 'userspace' ) ),
         'notice'    => __( 'The form of login and registration of the plugin can be outputed with help of widget "Control panel" '
-            . 'and a shortcode [loginform], but you can use the standart login form of WordPress also', 'usp' ),
+            . 'and a shortcode [loginform], but you can use the standart login form of WordPress also', 'userspace' ),
         'childrens' => array(
             1 => array(
                 array(
                     'type'   => 'select',
                     'slug'   => 'page_login_form_recall',
-                    'title'  => __( 'ID of the shortcode page [loginform]', 'usp' ),
+                    'title'  => __( 'ID of the shortcode page [loginform]', 'userspace' ),
                     'values' => $pages
                 )
             )
@@ -164,27 +164,27 @@ $options->box( 'primary' )->add_group( 'usersign', array(
     array(
         'type'   => 'select',
         'slug'   => 'usp_confirm_register',
-        'help'   => __( 'If you are using the registration confirmation, after registration, the user will need to confirm your email by clicking on the link in the sent email', 'usp' ),
-        'title'  => __( 'Registration confirmation by the user', 'usp' ),
+        'help'   => __( 'If you are using the registration confirmation, after registration, the user will need to confirm your email by clicking on the link in the sent email', 'userspace' ),
+        'title'  => __( 'Registration confirmation by the user', 'userspace' ),
         'values' => array(
-            __( 'Not used', 'usp' ),
-            __( 'Used', 'usp' ) )
+            __( 'Not used', 'userspace' ),
+            __( 'Used', 'userspace' ) )
     ),
     array(
         'type'      => 'select',
         'slug'      => 'authorize_page',
-        'title'     => __( 'Redirect user after login', 'usp' ),
+        'title'     => __( 'Redirect user after login', 'userspace' ),
         'values'    => array(
-            __( 'The user profile', 'usp' ),
-            __( 'Current page', 'usp' ),
-            __( 'Arbitrary URL', 'usp' ) ),
+            __( 'The user profile', 'userspace' ),
+            __( 'Current page', 'userspace' ),
+            __( 'Arbitrary URL', 'userspace' ) ),
         'childrens' => array(
             2 => array(
                 array(
                     'type'   => 'text',
                     'slug'   => 'custom_authorize_page',
-                    'title'  => __( 'URL', 'usp' ),
-                    'notice' => __( 'Enter your URL below, if you select an arbitrary URL after login', 'usp' )
+                    'title'  => __( 'URL', 'userspace' ),
+                    'notice' => __( 'Enter your URL below, if you select an arbitrary URL after login', 'userspace' )
                 )
             )
         )
@@ -192,26 +192,26 @@ $options->box( 'primary' )->add_group( 'usersign', array(
     /* array(
       'type'	 => 'select',
       'slug'	 => 'repeat_pass',
-      'title'	 => __( 'repeat password field', 'usp' ),
-      'values' => array( __( 'Disabled', 'usp' ), __( 'Displaye', 'usp' ) )
+      'title'	 => __( 'repeat password field', 'userspace' ),
+      'values' => array( __( 'Disabled', 'userspace' ), __( 'Displaye', 'userspace' ) )
       ),
       array(
       'type'	 => 'select',
       'slug'	 => 'difficulty_parole',
-      'title'	 => __( 'Indicator of password complexity', 'usp' ),
-      'values' => array( __( 'Disabled', 'usp' ), __( 'Displaye', 'usp' ) )
+      'title'	 => __( 'Indicator of password complexity', 'userspace' ),
+      'values' => array( __( 'Disabled', 'userspace' ), __( 'Displaye', 'userspace' ) )
       ) */
 ) );
 
 $options->box( 'primary' )->add_group( 'recallbar', array(
-    'title' => __( 'Recallbar', 'usp' )
+    'title' => __( 'Recallbar', 'userspace' )
 ) )->add_options( array(
     array(
         'type'      => 'select',
         'slug'      => 'view_recallbar',
-        'title'     => __( 'Output of recallbar panel', 'usp' ),
-        'help'      => __( 'Recallbar – is he top panel UserSpace plugin through which the plugin and its add-ons can output their data and the administrator can make his menu, forming it on <a href="/wp-admin/nav-menus.php" target="_blank">page management menu of the website</a>', 'usp' ),
-        'values'    => array( __( 'Disabled', 'usp' ), __( 'Enabled', 'usp' ) ),
+        'title'     => __( 'Output of recallbar panel', 'userspace' ),
+        'help'      => __( 'Recallbar – is he top panel UserSpace plugin through which the plugin and its add-ons can output their data and the administrator can make his menu, forming it on <a href="/wp-admin/nav-menus.php" target="_blank">page management menu of the website</a>', 'userspace' ),
+        'values'    => array( __( 'Disabled', 'userspace' ), __( 'Enabled', 'userspace' ) ),
         'childrens' => array(
             'rcb_color'
         )
@@ -223,23 +223,23 @@ $options->box( 'primary' )->add_group( 'recallbar', array(
         ),
         'type'   => 'select',
         'slug'   => 'rcb_color',
-        'title'  => __( 'Color', 'usp' ),
-        'values' => array( __( 'Default', 'usp' ), __( 'Primary colors of UserSpace', 'usp' ) )
+        'title'  => __( 'Color', 'userspace' ),
+        'values' => array( __( 'Default', 'userspace' ), __( 'Primary colors of UserSpace', 'userspace' ) )
     )
 ) );
 
 $options->box( 'primary' )->add_group( 'caching', array(
-    'title'  => __( 'Caching', 'usp' ),
+    'title'  => __( 'Caching', 'userspace' ),
     'extend' => true
 ) )->add_options( array(
     array(
         'type'      => 'select',
         'slug'      => 'use_cache',
-        'title'     => __( 'Cache', 'usp' ),
-        'help'      => __( 'Use the functionality of the caching UserSpace plugin. <a href="#" target="_blank">read More</a>', 'usp' ),
+        'title'     => __( 'Cache', 'userspace' ),
+        'help'      => __( 'Use the functionality of the caching UserSpace plugin. <a href="#" target="_blank">read More</a>', 'userspace' ),
         'values'    => array(
-            __( 'Disabled', 'usp' ),
-            __( 'Enabled', 'usp' ) ),
+            __( 'Disabled', 'userspace' ),
+            __( 'Enabled', 'userspace' ) ),
         'childrens' => array(
             'cache_time', 'cache_output'
         )
@@ -252,8 +252,8 @@ $options->box( 'primary' )->add_group( 'caching', array(
         'type'       => 'number',
         'slug'       => 'cache_time',
         'default'    => 3600,
-        'latitlebel' => __( 'Time cache (seconds)', 'usp' ),
-        'notice'     => __( 'Default', 'usp' ) . ': 3600'
+        'latitlebel' => __( 'Time cache (seconds)', 'userspace' ),
+        'notice'     => __( 'Default', 'userspace' ) . ': 3600'
     ),
     array(
         'parent' => array(
@@ -262,53 +262,53 @@ $options->box( 'primary' )->add_group( 'caching', array(
         ),
         'type'   => 'select',
         'slug'   => 'cache_output',
-        'title'  => __( 'Cache output', 'usp' ),
+        'title'  => __( 'Cache output', 'userspace' ),
         'values' => array(
-            __( 'All users', 'usp' ),
-            __( 'Only guests', 'usp' ) )
+            __( 'All users', 'userspace' ),
+            __( 'Only guests', 'userspace' ) )
     ),
     array(
         'type'   => 'select',
         'slug'   => 'minify_css',
-        'title'  => __( 'Minimization of file styles', 'usp' ),
+        'title'  => __( 'Minimization of file styles', 'userspace' ),
         'values' => array(
-            __( 'Disabled', 'usp' ),
-            __( 'Enabled', 'usp' ) ),
-        'notice' => __( 'Minimization of file styles only works in correlation with UserSpace style files and add-ons that support this feature', 'usp' )
+            __( 'Disabled', 'userspace' ),
+            __( 'Enabled', 'userspace' ) ),
+        'notice' => __( 'Minimization of file styles only works in correlation with UserSpace style files and add-ons that support this feature', 'userspace' )
     ),
     array(
         'type'   => 'select',
         'slug'   => 'minify_js',
-        'title'  => __( 'Minimization of scripts', 'usp' ),
+        'title'  => __( 'Minimization of scripts', 'userspace' ),
         'values' => array(
-            __( 'Disabled', 'usp' ),
-            __( 'Enabled', 'usp' ) )
+            __( 'Disabled', 'userspace' ),
+            __( 'Enabled', 'userspace' ) )
     )
 ) );
 
 $options->box( 'primary' )->add_group( 'access_console', array(
-    'title' => __( 'Access to the console', 'usp' ),
+    'title' => __( 'Access to the console', 'userspace' ),
 ) )->add_options( array(
     array(
         'type'   => 'checkbox',
         'slug'   => 'consol_access_usp',
-        'title'  => __( 'Access to the console is allowed', 'usp' ),
+        'title'  => __( 'Access to the console is allowed', 'userspace' ),
         'values' => usp_get_roles_ids(),
-        'notice' => __( 'Администратор всегда имеет доступ в административную часть', 'usp' )
+        'notice' => __( 'Администратор всегда имеет доступ в административную часть', 'userspace' )
     )
 ) );
 
 $options->box( 'primary' )->add_group( 'logging', array(
-    'title'  => __( 'Logging mode', 'usp' ),
+    'title'  => __( 'Logging mode', 'userspace' ),
     'extend' => true
 ) )->add_options( array(
     array(
         'type'   => 'select',
         'slug'   => 'usp-log',
-        'title'  => __( 'Write background events and errors to the log-file', 'usp' ),
+        'title'  => __( 'Write background events and errors to the log-file', 'userspace' ),
         'values' => array(
-            __( 'Disabled', 'usp' ),
-            __( 'Enabled', 'usp' )
+            __( 'Disabled', 'userspace' ),
+            __( 'Enabled', 'userspace' )
         )
     )
 ) );
@@ -343,7 +343,7 @@ unset( $uspOldOptionData );
 
 $options = apply_filters( 'usp_options', $options );
 
-$content = '<h2>' . __( 'Configure UserSpace plugin and add-ons', 'usp' ) . '</h2>';
+$content = '<h2>' . __( 'Configure UserSpace plugin and add-ons', 'userspace' ) . '</h2>';
 
 $content .= $options->get_content();
 

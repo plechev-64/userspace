@@ -249,7 +249,7 @@ function usp_manager_update_data_fields() {
 	update_site_option( $option_name, $fields );
 
 	$args = array(
-		'success' => __( 'Settings saved!', 'usp' )
+		'success' => __( 'Settings saved!', 'userspace' )
 	);
 
 	if ( $structure )

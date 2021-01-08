@@ -188,11 +188,11 @@ function usp_message_post_moderation( $content ) {
 		return $content;
 
 	if ( $post->post_status == 'pending' ) {
-		$content = usp_get_notice( ['text' => __( 'Publication pending approval!', 'usp' ), 'type' => 'error' ] ) . $content;
+		$content = usp_get_notice( ['text' => __( 'Publication pending approval!', 'userspace' ), 'type' => 'error' ] ) . $content;
 	}
 
 	if ( $post->post_status == 'draft' ) {
-		$content = usp_get_notice( ['text' => __( 'Draft of a post!', 'usp' ), 'type' => 'error' ] ) . $content;
+		$content = usp_get_notice( ['text' => __( 'Draft of a post!', 'userspace' ), 'type' => 'error' ] ) . $content;
 	}
 
 	return $content;

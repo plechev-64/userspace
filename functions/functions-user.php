@@ -5,9 +5,9 @@ function usp_action() {
     $class       = ( ! $last_action) ? 'online' : 'offline';
 
     if ( $last_action )
-        $status = __( 'offline', 'usp' ) . ' ' . $last_action;
+        $status = __( 'offline', 'userspace' ) . ' ' . $last_action;
     else
-        $status = __( 'online', 'usp' );
+        $status = __( 'online', 'userspace' );
 
     echo sprintf( '<span class="user-status %s">%s</span>', $class, $status );
 }
@@ -89,7 +89,7 @@ function usp_user_comments() {
     if ( false !== array_search( 'comments_count', $usp_users_set->data ) || isset( $usp_user->comments_count ) ) {
         if ( ! isset( $usp_user->comments_count ) )
             $usp_user->comments_count = 0;
-        echo '<span class="filter-data"><i class="uspi fa-comment"></i>' . __( 'Comments', 'usp' ) . ': ' . $usp_user->comments_count . '</span>';
+        echo '<span class="filter-data"><i class="uspi fa-comment"></i>' . __( 'Comments', 'userspace' ) . ': ' . $usp_user->comments_count . '</span>';
     }
 }
 
@@ -99,7 +99,7 @@ function usp_user_posts() {
     if ( false !== array_search( 'posts_count', $usp_users_set->data ) || isset( $usp_user->posts_count ) ) {
         if ( ! isset( $usp_user->posts_count ) )
             $usp_user->posts_count = 0;
-        echo '<span class="filter-data"><i class="uspi fa-file"></i>' . __( 'Publics', 'usp' ) . ': ' . $usp_user->posts_count . '</span>';
+        echo '<span class="filter-data"><i class="uspi fa-file"></i>' . __( 'Publics', 'userspace' ) . ': ' . $usp_user->posts_count . '</span>';
     }
 }
 
@@ -113,7 +113,7 @@ function usp_user_action( $type = 1 ) {
             if ( ! $last_action )
                 echo '<span class="status_user online"><i class="uspi fa-circle"></i></span>';
             else
-                echo '<span class="status_user offline" title="' . __( 'offline', 'usp' ) . ' ' . $last_action . '"><i class="uspi fa-circle"></i></span>';
+                echo '<span class="status_user offline" title="' . __( 'offline', 'userspace' ) . ' ' . $last_action . '"><i class="uspi fa-circle"></i></span>';
             break;
         case 2: echo usp_get_miniaction( $action );
             break;
@@ -138,7 +138,7 @@ function usp_user_register() {
     if ( false !== array_search( 'user_registered', $usp_users_set->data ) || isset( $usp_user->user_registered ) ) {
         if ( ! isset( $usp_user->user_registered ) )
             return false;
-        echo '<span class="filter-data"><i class="uspi fa-calendar-check"></i>' . __( 'Registration', 'usp' ) . ': ' . mysql2date( 'd-m-Y', $usp_user->user_registered ) . '</span>';
+        echo '<span class="filter-data"><i class="uspi fa-calendar-check"></i>' . __( 'Registration', 'userspace' ) . ': ' . mysql2date( 'd-m-Y', $usp_user->user_registered ) . '</span>';
     }
 }
 
@@ -174,7 +174,7 @@ function usp_get_useraction( $user_action = false ) {
     $unix_time_user = strtotime( $user_action );
 
     if ( ! $unix_time_user || $user_action == '0000-00-00 00:00:00' )
-        return __( 'long ago', 'usp' );
+        return __( 'long ago', 'userspace' );
 
     $timeout          = ($time             = usp_get_option( 'timeout' )) ? $time * 60 : 600;
     $unix_time_action = strtotime( current_time( 'mysql' ) );
@@ -198,7 +198,7 @@ function usp_get_useraction_html( $user_id, $type = 1 ) {
             if ( ! $last_action )
                 return '<span class="status_user online"><i class="uspi fa-circle"></i></span>';
             else
-                return '<span class="status_user offline" title="' . __( 'offline', 'usp' ) . ' ' . $last_action . '"><i class="uspi fa-circle"></i></span>';
+                return '<span class="status_user offline" title="' . __( 'offline', 'userspace' ) . ' ' . $last_action . '"><i class="uspi fa-circle"></i></span>';
 
             break;
         case 2:
@@ -280,7 +280,7 @@ function usp_get_miniaction( $action ) {
 
     $content = apply_filters( 'usp_before_miniaction', '' );
 
-    $content .= ( ! $last_action && $action) ? '<i class="uspi fa-circle"></i>' : __( 'offline', 'usp' ) . ' ' . $last_action;
+    $content .= ( ! $last_action && $action) ? '<i class="uspi fa-circle"></i>' : __( 'offline', 'userspace' ) . ' ' . $last_action;
 
     $content = sprintf( '<div class="status_author_mess %s">%s</div>', $class, $content );
 

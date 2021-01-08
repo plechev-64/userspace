@@ -26,7 +26,7 @@ function usp_get_pages_ids() {
             ->orderby( 'post_title', 'ASC' )
             ->get_walker()->get_index_values( 'ID', 'post_title' );
 
-    $pages = array( __( 'Not selected', 'usp' ) ) + $pages;
+    $pages = array( __( 'Not selected', 'userspace' ) ) + $pages;
 
     return $pages;
 }
@@ -134,7 +134,7 @@ function usp_mail( $email, $title, $text, $from = false, $attachments = false ) 
         ] );
 
     $content .= '<p><small>-----------------------------------------------------<br/>
-	' . __( 'This letter was created automatically, no need to answer it.', 'usp' ) . '<br/>
+	' . __( 'This letter was created automatically, no need to answer it.', 'userspace' ) . '<br/>
 	"' . get_bloginfo( 'name' ) . '"</small></p>';
 
     return wp_mail( $email, $title, $content, $headers, $attachments );
@@ -252,7 +252,7 @@ function usp_get_author_block() {
     global $post;
 
     $content = '<div id="usp_block_author">';
-    $content .= "<h3>" . __( 'Publication author', 'usp' ) . "</h3>";
+    $content .= "<h3>" . __( 'Publication author', 'userspace' ) . "</h3>";
 
     if ( function_exists( 'usp_add_userlist_follow_button' ) )
         add_filter( 'usp_user_description', 'usp_add_userlist_follow_button', 90 );

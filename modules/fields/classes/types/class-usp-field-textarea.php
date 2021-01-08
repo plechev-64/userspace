@@ -28,14 +28,14 @@ class USP_Field_TextArea extends USP_Field_Abstract {
 				'slug'		 => 'placeholder',
 				'default'	 => $this->placeholder,
 				'type'		 => 'text',
-				'title'		 => __( 'Placeholder', 'usp' )
+				'title'		 => __( 'Placeholder', 'userspace' )
 			),
 			array(
 				'slug'		 => 'maxlength',
 				'default'	 => $this->maxlength,
 				'type'		 => 'number',
-				'title'		 => __( 'Maxlength', 'usp' ),
-				'notice'	 => __( 'maximum number of symbols per field', 'usp' )
+				'title'		 => __( 'Maxlength', 'userspace' ),
+				'notice'	 => __( 'maximum number of symbols per field', 'userspace' )
 			)
 		);
 	}

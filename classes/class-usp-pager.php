@@ -147,9 +147,9 @@ class USP_Pager {
 					if ( $type == 'page' ) {
 
 						if ( $this->current + 1 == $data )
-							$label	 = __( 'Вперед', 'usp' );
+							$label	 = __( 'Вперед', 'userspace' );
 						else if ( $this->current - 1 == $data )
-							$label	 = __( 'Назад', 'usp' );
+							$label	 = __( 'Назад', 'userspace' );
 						else
 							continue;
 

@@ -54,7 +54,7 @@ function usp_banned_user_redirect() {
 	if ( ! $user_ID )
 		return false;
 	if ( usp_is_user_role( $user_ID, 'banned' ) )
-		wp_die( __( 'Congratulations! You have been banned.', 'usp' ) );
+		wp_die( __( 'Congratulations! You have been banned.', 'userspace' ) );
 }
 
 function usp_check_access_console() {

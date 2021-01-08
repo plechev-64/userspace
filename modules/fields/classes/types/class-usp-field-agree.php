@@ -36,19 +36,19 @@ class USP_Field_Agree extends USP_Field_Abstract {
                 'placeholder' => 'fa-check-square',
                 'class'       => 'usp-iconpicker',
                 'type'        => 'text',
-                'title'       => __( 'Icon class of usp-awesome', 'usp' )
+                'title'       => __( 'Icon class of usp-awesome', 'userspace' )
             ),
             array(
                 'slug'    => 'url_agreement',
                 'default' => $this->url_agreement,
                 'type'    => 'url',
-                'title'   => __( 'Agreement URL', 'usp' )
+                'title'   => __( 'Agreement URL', 'userspace' )
             ),
             array(
                 'slug'    => 'text_confirm',
                 'default' => $this->text_confirm,
                 'type'    => 'textarea',
-                'title'   => __( 'Consent confirmation text', 'usp' )
+                'title'   => __( 'Consent confirmation text', 'userspace' )
             )
         );
     }
@@ -56,7 +56,7 @@ class USP_Field_Agree extends USP_Field_Abstract {
     function get_title() {
 
         if ( ! $this->title )
-            $this->title = __( 'Agreement', 'usp' );
+            $this->title = __( 'Agreement', 'userspace' );
 
         if ( $this->url_agreement )
             return '<a href="' . $this->url_agreement . '" target="_blank">' . $this->title . ($this->required ? ' <span class="required">*</span>' : '') . '</a>';
@@ -67,7 +67,7 @@ class USP_Field_Agree extends USP_Field_Abstract {
     function get_value() {
 
         if ( $this->value )
-            return __( 'Accepted', 'usp' );
+            return __( 'Accepted', 'userspace' );
 
         return false;
     }
@@ -78,7 +78,7 @@ class USP_Field_Agree extends USP_Field_Abstract {
 
     function get_input() {
 
-        $text = $this->text_confirm ? $this->text_confirm : __( 'I agree with the text of the agreement', 'usp' );
+        $text = $this->text_confirm ? $this->text_confirm : __( 'I agree with the text of the agreement', 'userspace' );
 
         $input = '<span class="usp-checkbox-box">';
         $input .= '<input type="checkbox" ' . checked( $this->value, 1, false ) . ' ' . $this->get_required() . ' name="' . $this->input_name . '" id="' . $this->input_id . $this->rand . '" value="1"/> ';

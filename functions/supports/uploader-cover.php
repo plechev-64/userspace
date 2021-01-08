@@ -18,8 +18,8 @@ function usp_init_js_cover_variables( $data ) {
 
 	if ( usp_is_office( $user_ID ) ) {
 		$data['cover_size']					 = usp_get_option( 'cover_weight', 1024 );
-		$data['local']['upload_size_cover']	 = sprintf( __( 'Exceeds the maximum image size! Max. %s Kb', 'usp' ), usp_get_option( 'cover_weight', 1024 ) );
-		$data['local']['title_image_upload'] = __( 'Image being loaded', 'usp' );
+		$data['local']['upload_size_cover']	 = sprintf( __( 'Exceeds the maximum image size! Max. %s Kb', 'userspace' ), usp_get_option( 'cover_weight', 1024 ) );
+		$data['local']['title_image_upload'] = __( 'Image being loaded', 'userspace' );
 	}
 
 	return $data;
@@ -53,7 +53,7 @@ function usp_add_cover_uploader_button() {
 			'max_size'		 => usp_get_option( 'cover_weight', 1024 )
 			) );
 
-		echo '<span class="usp-cover-icon" title="' . __( 'Upload background', 'usp' ) . '">
+		echo '<span class="usp-cover-icon" title="' . __( 'Upload background', 'userspace' ) . '">
                 <i class="uspi fa-image"></i>
                 ' . $uploder->get_input() . '
             </span>';

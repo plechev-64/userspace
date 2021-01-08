@@ -17,7 +17,7 @@ function usp_get_table_manager_cols() {
     return array(
         'dialog' => array(
             'size'    => 'medium',
-            'title'   => __( 'Менеджер колонок', 'usp' ),
+            'title'   => __( 'Менеджер колонок', 'userspace' ),
             'content' => $manager->get_manager()
         )
     );
@@ -32,7 +32,7 @@ function usp_save_table_manager_cols() {
     setcookie( $manager_id, json_encode( $col_ids ), time() + 3600 * 24 * 30 * 12, '/', $_SERVER['HOST'] );
 
     return array(
-        'success' => __( 'Структура таблицы сохранена!', 'usp' ),
+        'success' => __( 'Структура таблицы сохранена!', 'userspace' ),
         'reload'  => true
     );
 }

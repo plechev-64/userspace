@@ -5,7 +5,7 @@ require_once 'addon-settings.php';
 
 add_action( 'admin_menu', 'usp_profile_admin_menu', 30 );
 function usp_profile_admin_menu() {
-    add_submenu_page( 'manage-userspace', __( 'The form of profile', 'usp' ), __( 'The form of profile', 'usp' ), 'manage_options', 'manage-userfield', 'usp_profile_fields_manager' );
+    add_submenu_page( 'manage-userspace', __( 'The form of profile', 'userspace' ), __( 'The form of profile', 'userspace' ), 'manage_options', 'manage-userfield', 'usp_profile_fields_manager' );
 }
 
 add_filter( 'usp_field_options', 'usp_setup_profile_manager_field_options', 10, 3 );
@@ -40,9 +40,9 @@ function usp_profile_fields_manager() {
 
     $Manager = new USP_Profile_Fields_Manager();
 
-    $content = '<h2>' . __( 'Manage profile fields', 'usp' ) . '</h2>';
+    $content = '<h2>' . __( 'Manage profile fields', 'userspace' ) . '</h2>';
 
-    $content .= '<p>' . __( 'On this page you can create custom fields of the user profile, as well as to manage already created fields', 'usp' ) . '</p>';
+    $content .= '<p>' . __( 'On this page you can create custom fields of the user profile, as well as to manage already created fields', 'userspace' ) . '</p>';
 
     $content .= $Manager->get_manager();
 
@@ -88,7 +88,7 @@ function usp_get_custom_fields_profile( $user ) {
 
         USP()->use_module( 'fields' );
 
-        $content = '<h3>' . __( 'Custom Profile Fields', 'usp' ) . ':</h3>
+        $content = '<h3>' . __( 'Custom Profile Fields', 'userspace' ) . ':</h3>
         <table class="form-table usp-form usp-custom-fields-box">';
 
         $hiddens = array();
