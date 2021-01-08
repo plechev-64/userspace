@@ -57,11 +57,11 @@ final class UserSpace {
     }
 
     public function __clone() {
-        _doing_it_wrong( __FUNCTION__, __( 'Are you cheating, bastard?' ), $this->version );
+        _doing_it_wrong( __FUNCTION__, __( 'Are you cheating, bastard?', 'usp' ), $this->version );
     }
 
     public function __wakeup() {
-        _doing_it_wrong( __FUNCTION__, __( 'Are you cheating, bastard?' ), $this->version );
+        _doing_it_wrong( __FUNCTION__, __( 'Are you cheating, bastard?', 'usp' ), $this->version );
     }
 
     private function init_modules() {
