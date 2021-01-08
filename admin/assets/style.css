@@ -382,11 +382,15 @@ div.usp_preloader i.uspi::before {
 }
 .usp-custom-fields-navi .usp-types-list li a {
     background-color: #e5e5e5;
-    color: #555;
-    display: inline-block;
+    color: #333;
+    display: inline-flex;
     height: 26px;
-    padding: 5px 12px;
+    padding: 6px 12px;
     text-decoration: none;
+    align-items: center;
+}
+.usp-custom-fields-navi .usp-types-list li .uspi + span {
+    margin: 0 0 0 6px;
 }
 .usp-custom-fields-navi .usp-types-list li.current-item a {
     background-color: #f1f1f1;
@@ -402,9 +406,6 @@ div.usp_preloader i.uspi::before {
 }
 .usp-custom-fields-navi i {
     color: #008000;
-}
-.usp-custom-fields-navi .fa-plus::before {
-    content: "\f502";
 }
 .usp-custom-fields-navi > p {
     background-color: #eee;
