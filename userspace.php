@@ -78,6 +78,7 @@ final class UserSpace {
             'content-manager' => new USP_Module( USP_PATH . 'modules/content-manager/index.php', [ 'fields', 'table' ] ),
             'options-manager' => new USP_Module( USP_PATH . 'modules/options-manager/index.php', [ 'fields' ] ),
             'profile'         => new USP_Module( USP_PATH . 'modules/profile/index.php', [ 'forms' ] ),
+            'users-list'      => new USP_Module( USP_PATH . 'modules/users-list/index.php' ),
         ];
     }
 

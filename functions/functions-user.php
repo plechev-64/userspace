@@ -56,7 +56,7 @@ function usp_user_avatar( $size = 50 ) {
 
 function usp_user_rayting() {
     global $usp_user, $usp_users_set;
-    if ( ! usp_exist_addon( 'rating-system' ) )
+    if ( ! in_array( 'userspace-rating-system/userspace-rating-system.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) )
         return false;
     if ( false !== array_search( 'rating_total', $usp_users_set->data ) || isset( $usp_user->rating_total ) ) {
         if ( ! isset( $usp_user->rating_total ) )
