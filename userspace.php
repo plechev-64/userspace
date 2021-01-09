@@ -67,7 +67,7 @@ final class UserSpace {
 
         $this->modules = [
             'loginform'       => new USP_Module( USP_PATH . 'modules/loginform/index.php', [ 'forms' ] ),
-            'recallbar'       => new USP_Module( USP_PATH . 'modules/recallbar/index.php' ),
+            'usp-bar'         => new USP_Module( USP_PATH . 'modules/usp-bar/index.php' ),
             'uploader'        => new USP_Module( USP_PATH . 'modules/uploader/index.php' ),
             'gallery'         => new USP_Module( USP_PATH . 'modules/gallery/index.php' ),
             'table'           => new USP_Module( USP_PATH . 'modules/table/index.php' ),
@@ -264,8 +264,8 @@ final class UserSpace {
 
         if ( $this->is_request( 'frontend' ) ) {
 
-            if ( usp_get_option( 'view_recallbar' ) ) {
-                $this->use_module( 'recallbar' );
+            if ( usp_get_option( 'view_usp_bar' ) ) {
+                $this->use_module( 'usp-bar' );
             }
 
             $this->init_frontend_globals();

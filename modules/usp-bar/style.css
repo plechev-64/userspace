@@ -1,4 +1,4 @@
-#recallbar {
+#usp-bar {
     background: rgba(0, 0, 0, 0.85);
     font-size: 14px;
     height: 36px;
@@ -9,36 +9,36 @@
     width: 100%;
     z-index: 99;
 }
-#recallbar a {
+#usp-bar a {
     color: #e6e6e6;
     text-decoration: none;
 }
-#recallbar .uspi {
+#usp-bar .uspi {
     color: #e6e6e6;
     font-size: 30px;
     line-height: 36px;
     vertical-align: middle;
     width: 30px;
 }
-#recallbar .rcb_icon:hover .uspi {
+#usp-bar .rcb_icon:hover .uspi {
     color: #d4d4d4;
 }
-#recallbar .rcb_icon {
+#usp-bar .rcb_icon {
     display: inline-block;
     margin: 0 10px;
     position: relative;
 }
-#recallbar .rcb_right .rcb_icons,
-#recallbar .rcb_icon a {
+#usp-bar .rcb_right .rcb_icons,
+#usp-bar .rcb_icon a {
     display: inline-block;
 }
-#recallbar .usp-register span,
-#recallbar .usp-login span {
+#usp-bar .usp-register span,
+#usp-bar .usp-login span {
     color: #e6e6e6;
     margin: 0 0 0 7px;
     vertical-align: middle;
 }
-#recallbar .rcb_icon .rcb_hiden {
+#usp-bar .rcb_icon .rcb_hiden {
     margin: 0 0 0 -43px;
     opacity: 0;
     pointer-events: none;
@@ -52,18 +52,18 @@
     visibility: hidden;
     width: 110px;
 }
-#recallbar .rcb_icon:hover .rcb_hiden,
-#recallbar .rcb_left_menu:hover .rcb_menu,
-#recallbar .rcb_right_menu:hover .pr_sub_menu {
+#usp-bar .rcb_icon:hover .rcb_hiden,
+#usp-bar .rcb_left_menu:hover .rcb_menu,
+#usp-bar .rcb_right_menu:hover .pr_sub_menu {
     cursor: default;
     opacity: 1;
     transform: translateY(-18px);
     visibility: visible;
 }
-#recallbar .current-menu-item a {
+#usp-bar .current-menu-item a {
     background: none;
 }
-#recallbar .rcb_icon .rcb_hiden span {
+#usp-bar .rcb_icon .rcb_hiden span {
     background: rgba(0, 0, 0, 0.7);
     border-radius: 0 0 3px 3px;
     color: inherit;
@@ -71,23 +71,23 @@
     padding: 5px 10px;
 }
 /* Левая часть */
-#recallbar .rcb_left {
+#usp-bar .rcb_left {
     float: left;
     margin: 0 0 0 50px;
 }
 /* Меню слева START */
-#recallbar .rcb_left_menu {
+#usp-bar .rcb_left_menu {
     display: inline-block;
     padding: 0 10px;
 }
-#recallbar .rcb_left_menu:hover {
+#usp-bar .rcb_left_menu:hover {
     color: #d4d4d4;
     cursor: pointer;
 }
-#recallbar .rcb_menu {
+#usp-bar .rcb_menu {
     background: rgba(0, 0, 0, 0.7);
 }
-#recallbar .rcb_menu {
+#usp-bar .rcb_menu {
     border-top: 2px solid #e47641;
     display: block;
     left: 55px;
@@ -99,28 +99,28 @@
     visibility: hidden;
     width: 180px;
 }
-#recallbar .rcb_menu > .menu {
+#usp-bar .rcb_menu > .menu {
     background: inherit;
 }
-#recallbar ul {
+#usp-bar ul {
     list-style: none;
     margin: 0;
     max-width: 200px;
     padding: 0;
 }
-#recallbar li {
+#usp-bar li {
     list-style: none;
     padding: 10px;
 }
-#recallbar .rcb_line:hover,
-#recallbar li:hover,
-#recallbar .current-menu-item {
+#usp-bar .rcb_line:hover,
+#usp-bar li:hover,
+#usp-bar .current-menu-item {
     background: rgba(0, 0, 0, 0.3);
 }
-#recallbar .menu-item-has-children {
+#usp-bar .menu-item-has-children {
     position: relative;
 }
-#recallbar .menu-item-has-children > a::after {
+#usp-bar .menu-item-has-children > a::after {
     color: inherit;
     content: "\f054"; /* fa-chevron-right */
     font-family: usp-awesome;
@@ -130,7 +130,7 @@
     right: 5px;
     top: 13px;
 }
-#recallbar .sub-menu {
+#usp-bar .sub-menu {
     background: rgba(0, 0, 0, 0.7);
     left: 180px;
     opacity: 0;
@@ -140,18 +140,18 @@
     visibility: hidden;
     width: 100%;
 }
-#recallbar .menu-item-has-children:hover .sub-menu {
+#usp-bar .menu-item-has-children:hover .sub-menu {
     opacity: 1;
 }
 /* Меню слева END */
 /* Левая часть END */
 
 /* Правая часть START */
-#recallbar .rcb_right {
+#usp-bar .rcb_right {
     float: right;
     margin: 0 50px 0 0;
 }
-#recallbar .rcb_nmbr {
+#usp-bar .rcb_nmbr {
     background: #b2440f;
     border-radius: 50%;
     color: #f6f6f6;
@@ -166,7 +166,7 @@
 }
 
 /* Меню справа START */
-#recallbar .rcb_right_menu {
+#usp-bar .rcb_right_menu {
     border-left: 2px solid transparent;
     box-sizing: unset;
     float: right;
@@ -175,11 +175,11 @@
     position: relative;
     width: 36px;
 }
-#recallbar .rcb_right_menu:hover {
+#usp-bar .rcb_right_menu:hover {
     border-left: 2px solid #e47641;
     cursor: pointer;
 }
-#recallbar .rcb_right_menu .fa-ellipsis-h {
+#usp-bar .rcb_right_menu .fa-ellipsis-h {
     color: #e47641;
     font-size: 22px;
     left: 10px;
@@ -188,17 +188,17 @@
     top: 14px;
     z-index: 2;
 }
-#recallbar .rcb_right_menu:hover .fa-ellipsis-h {
+#usp-bar .rcb_right_menu:hover .fa-ellipsis-h {
     display: none;
 }
-#recallbar .rcb_right_menu img {
+#usp-bar .rcb_right_menu img {
     border-radius: 0;
     border: none;
     height: 36px;
     max-width: 36px;
     width: 36px;
 }
-#recallbar .pr_sub_menu {
+#usp-bar .pr_sub_menu {
     background: rgba(0, 0, 0, 0.7);
     border-top: 2px solid #e47641;
     display: block;
@@ -211,31 +211,31 @@
     visibility: hidden;
     width: 200px;
 }
-#recallbar .rcb_line {
+#usp-bar .rcb_line {
     padding: 2px 5px 3px 5px;
 }
-#recallbar .pr_sub_menu .rcb_line .uspi {
+#usp-bar .pr_sub_menu .rcb_line .uspi {
     color: #c8c8c8;
     font-size: 22px;
 }
-#recallbar .rcb_line span {
+#usp-bar .rcb_line span {
     margin: 0 0 0 8px;
     vertical-align: text-top;
 }
-#recallbar .pr_sub_menu .rcb_line > a {
+#usp-bar .pr_sub_menu .rcb_line > a {
     align-items: center;
     display: flex;
 }
 /* Меню справа END */
 /* Правая часть END */
 @media screen and (max-width:768px) {
-    #recallbar .rcb_right {
+    #usp-bar .rcb_right {
         margin: 0 5px 0 0;
     }
-    #recallbar .rcb_left {
+    #usp-bar .rcb_left {
         margin: 0 0 0 10px;
     }
-    #recallbar .rcb_menu {
+    #usp-bar .rcb_menu {
         left: 15px;
     }
     .rcb_right_menu > a {
@@ -243,55 +243,51 @@
     }
 }
 @media screen and (max-width:600px) {
-    #recallbar .rcb_right_menu {
+    #usp-bar .rcb_right_menu {
         margin: 0 5px 0 0;
     }
-    #recallbar .rcb_icon {
+    #usp-bar .rcb_icon {
         margin: 0 4px;
     }
 }
 @media screen and (max-width:480px) {
-    #recallbar .my_recallbar .uspi {
-        font-size: 26px;
-        width: 26px;
-    }
-    #recallbar .rcb_right_menu {
+    #usp-bar .rcb_right_menu {
         margin: 0;
     }
-    #recallbar .rcb_left_menu {
+    #usp-bar .rcb_left_menu {
         padding: 0;
     }
-    #recallbar .rcb_menu {
+    #usp-bar .rcb_menu {
         left: 0;
     }
-    #recallbar .rcb_left {
+    #usp-bar .rcb_left {
         margin: 0 0 0 4px;
     }
-    #recallbar .uspi {
+    #usp-bar .uspi {
         font-size: 27px;
     }
-    #recallbar .rcb_nmbr {
+    #usp-bar .rcb_nmbr {
         height: 17px;
         line-height: 17px;
         width: 17px;
     }
 }
 @media screen and (max-width:375px) {
-    #recallbar .rcb_icon {
+    #usp-bar .rcb_icon {
         margin: 0 2px;
     }
-    #recallbar .rcb_nmbr {
+    #usp-bar .rcb_nmbr {
         margin: 0 0 0 -10px;
     }
 }
 @media screen and (max-width:360px) {
-    #recallbar .rcb_left,
-    #recallbar .rcb_right {
+    #usp-bar .rcb_left,
+    #usp-bar .rcb_right {
         margin: 0;
     }
 }
 @media screen and (max-width:360px) {
-    #recallbar .rcb_icon {
+    #usp-bar .rcb_icon {
         margin: 0;
     }
 }

@@ -259,9 +259,9 @@ function usp_show_tab( id_block ) {
 	return false;
 }
 
-usp_add_action( 'usp_init', 'usp_init_recallbar_hover' );
-function usp_init_recallbar_hover() {
-	jQuery( "#recallbar .menu-item-has-children" ).hover( function() {
+usp_add_action( 'usp_init', 'usp_init_userspace_bar_hover' );
+function usp_init_userspace_bar_hover() {
+	jQuery( "#usp-bar .menu-item-has-children" ).hover( function() {
 		jQuery( this ).children( ".sub-menu" ).css( {
 			'visibility': 'visible'
 		} );

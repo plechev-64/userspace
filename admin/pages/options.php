@@ -203,14 +203,14 @@ $options->box( 'primary' )->add_group( 'usersign', array(
       ) */
 ) );
 
-$options->box( 'primary' )->add_group( 'recallbar', array(
-    'title' => __( 'Recallbar', 'userspace' )
+$options->box( 'primary' )->add_group( 'usp_bar', array(
+    'title' => __( 'UserSpace Bar', 'userspace' )
 ) )->add_options( array(
     array(
         'type'      => 'select',
-        'slug'      => 'view_recallbar',
-        'title'     => __( 'Output of recallbar panel', 'userspace' ),
-        'help'      => __( 'Recallbar – is he top panel UserSpace plugin through which the plugin and its add-ons can output their data and the administrator can make his menu, forming it on <a href="/wp-admin/nav-menus.php" target="_blank">page management menu of the website</a>', 'userspace' ),
+        'slug'      => 'view_usp_bar',
+        'title'     => __( 'Output of UserSpace Bar panel', 'userspace' ),
+        'help'      => __( 'UserSpace Bar – is he top panel UserSpace plugin through which the plugin and its add-ons can output their data and the administrator can make his menu, forming it on <a href="/wp-admin/nav-menus.php" target="_blank">page management menu of the website</a>', 'userspace' ),
         'values'    => array( __( 'Disabled', 'userspace' ), __( 'Enabled', 'userspace' ) ),
         'childrens' => array(
             'rcb_color'
@@ -218,7 +218,7 @@ $options->box( 'primary' )->add_group( 'recallbar', array(
     ),
     array(
         'parent' => array(
-            'id'    => 'view_recallbar',
+            'id'    => 'view_usp_bar',
             'value' => 1
         ),
         'type'   => 'select',

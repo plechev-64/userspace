@@ -2,7 +2,7 @@ jQuery( function( $ ) {
 
 	if ( USPUploaders.isset( 'usp_avatar' ) ) {
 		USPUploaders.get( 'usp_avatar' ).afterDone = function( e, data ) {
-			jQuery( '#usp-avatar .avatar-image img, #recallbar img.avatar' ).attr( 'srcset', '' )
+			jQuery( '#usp-avatar .avatar-image img, #usp-bar img.avatar' ).attr( 'srcset', '' )
 				.attr( 'src', data.result.src.thumbnail )
 				.load()
 				.animateCss( 'zoomIn' );
