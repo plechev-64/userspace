@@ -22,8 +22,8 @@
 
             <div class="rcb_icon">
                 <a href="<?php echo usp_get_loginform_url( 'login' ); ?>" class="usp-login">
-                    <i class="uspi fa-sign-in" aria-hidden="true"></i><span><?php _e( 'Entry', 'userspace' ); ?></span>
-                    <div class="rcb_hiden"><span><?php _e( 'Entry', 'userspace' ); ?></span></div>
+                    <i class="uspi fa-sign-in" aria-hidden="true"></i><span><?php _e( 'Sign in', 'userspace' ); ?></span>
+                    <div class="rcb_hiden"><span><?php _e( 'Sign in', 'userspace' ); ?></span></div>
                 </a>
             </div>
             <?php if ( usp_is_register_open() ): ?>
