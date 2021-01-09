@@ -49,7 +49,7 @@
         <?php if ( is_user_logged_in() ): ?>
 
             <div class="rcb_right_menu">
-                <i class="uspi fa-ellipsis-h" aria-hidden="true"></i>
+                <i class="uspi fa-horizontal-ellipsis" aria-hidden="true"></i>
                 <a href="<?php echo $usp_user_URL; ?>"><?php echo get_avatar( $user_ID, 36 ); ?></a>
                 <div class="pr_sub_menu">
                     <?php do_action( 'usp_bar_print_menu' ); ?>

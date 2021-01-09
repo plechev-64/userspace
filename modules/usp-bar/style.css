@@ -179,7 +179,7 @@
     border-left: 2px solid #e47641;
     cursor: pointer;
 }
-#usp-bar .rcb_right_menu .fa-ellipsis-h {
+#usp-bar .rcb_right_menu .fa-horizontal-ellipsis {
     color: #e47641;
     font-size: 22px;
     left: 10px;
@@ -188,7 +188,7 @@
     top: 14px;
     z-index: 2;
 }
-#usp-bar .rcb_right_menu:hover .fa-ellipsis-h {
+#usp-bar .rcb_right_menu:hover .fa-horizontal-ellipsis {
     display: none;
 }
 #usp-bar .rcb_right_menu img {

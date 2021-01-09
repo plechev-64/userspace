@@ -161,7 +161,7 @@ function usp_bar_add_inline_styles( $styles, $rgb ) {
         border-top: 2px solid rgba(' . $r . ',' . $g . ',' . $b . ',0.8);}
         #usp-bar .rcb_right_menu:hover {
         border-left: 2px solid rgba(' . $r . ',' . $g . ',' . $b . ',0.8);}
-        #usp-bar .rcb_right_menu .fa-ellipsis-h {
+        #usp-bar .rcb_right_menu .fa-horizontal-ellipsis {
         color: rgba(' . $r . ',' . $g . ',' . $b . ',0.8);}
         #usp-bar .rcb_nmbr {
         background: rgba(' . $r . ',' . $g . ',' . $b . ',0.8);}
