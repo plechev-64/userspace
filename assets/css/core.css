@@ -4,24 +4,139 @@ i::before {
 }
 
 
-/* wrappers */
-.usp-wrap {
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: flex-start;
-	width: 100%;
+/* usps (style) flex layout */
+.usps {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
 }
-.usp-wrap.usp-wrap__right {
-	justify-content: flex-end;
+.usps:not(.usps__nowrap) {
+    flex-wrap: wrap;
 }
-.usp-wrap.usp-wrap__vertical {
-	flex-direction: column;
-	align-items: flex-start;
+.usps__inline {
+    display: inline-flex;
 }
-.usp-wrap.usp-wrap__right.usp-wrap__vertical {
-	align-content: flex-end;
+.usps__column {
+    flex-direction: column;
+    align-items: flex-start;
 }
-/* END wrappers */
+.usps__right:not(.usps__column) {
+    justify-content: flex-end;
+}
+.usps__column.usps__right {
+    align-content: flex-end;
+}
+.usps__nowrap {
+    flex-wrap: nowrap;
+}
+.usps__grow {
+    flex-grow: 1;
+}
+.usps__grow-0 {
+    flex-grow: 0;
+}
+.usps__shrink {
+    flex-shrink: 1;
+}
+.usps__shrink-0 {
+    flex-shrink: 0;
+}
+
+.usps__jc-start {
+    justify-content: flex-start;
+}
+.usps__jc-end {
+    justify-content: flex-end;
+}
+.usps__jc-center {
+    justify-content: center;
+}
+.usps__jc-between {
+    justify-content: space-between;
+}
+.usps__jc-around {
+    justify-content: space-around;
+}
+.usps__jc-evenly {
+    justify-content: space-evenly;
+}
+
+.usps__ai-start {
+    align-items: flex-start;
+}
+.usps__ai-end {
+    align-items: flex-end;
+}
+.usps__ai-center {
+    align-items: center;
+}
+.usps__ai-baseline {
+    align-items: baseline;
+}
+.usps__ai-stretch {
+    align-items: stretch;
+}
+
+.usps__as-auto {
+    align-self: auto;
+}
+.usps__as-start {
+    align-self: flex-start;
+}
+.usps__as-end {
+    align-self: flex-end;
+}
+.usps__as-center {
+    align-self: center;
+}
+.usps__as-stretch {
+    align-self: stretch;
+}
+
+/* usps (style) helpers */
+.usps__hidden {
+    display: none;
+}
+.usps__invisible {
+    visibility: hidden;
+}
+.usps__fit-cover {
+    object-fit: cover;
+}
+.usps__img-reset {
+    border: 0;
+    height: auto;
+    margin: 0;
+    max-width: 100%;
+    width: 100%;
+}
+
+.usps__text-left {
+    text-align: left;
+}
+.usps__text-center {
+    text-align: center;
+}
+.usps__text-right {
+    text-align: right;
+}
+.usps__text-cut {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.usps__radius {
+    border-radius: 6px;
+}
+.usps__radius-50 {
+    border-radius: 50%;
+}
+
+.usps__shadow-0 {
+    box-shadow: none;
+}
+/* END */
 
 /*----------------------
 >>> Table of contents
@@ -1264,7 +1379,7 @@ body :not(.usp-wrap__wiget) > .usp-bttn:not(.usp-bttn__active):hover {
 body .usp-bttn:not(.usp-bttn__type-clear):not(.usp-bttn__fullwidth) {
 	margin: 0 .25em .25em 0;
 }
-body .usp-wrap.usp-wrap__vertical .usp-bttn,
+body .usps.usps__column .usp-bttn,
 body .usp-bttn:not(.usp-bttn__type-clear):last-child {
 	margin-right: 0;
 }

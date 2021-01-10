@@ -98,7 +98,7 @@ function usp_get_user_widget( $atts = [] ) {
 
     if ( $buttons ) {
 
-        $content .= '<div class="buttons usp-wrap usp-wrap_vertical">';
+        $content .= '<div class="usps usps__column">';
 
         foreach ( $buttons as $button ) {
             $content .= usp_get_button( $button );

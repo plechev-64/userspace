@@ -13,230 +13,229 @@
  */
 class USP_Tab {
 
-	public $id;
-	public $name		 = false;
-	public $icon		 = 'fa-cog';
-	public $public		 = 0;
-	public $hidden		 = 0;
-	public $counter		 = null;
-	public $output		 = 'menu';
-	public $supports	 = array();
-	public $content		 = array();
-	public $custom_tab	 = false;
-	public $current_id	 = 0;
-	public $url			 = false;
-	public $onclick		 = false;
+    public $id;
+    public $name       = false;
+    public $icon       = 'fa-cog';
+    public $public     = 0;
+    public $hidden     = 0;
+    public $counter    = null;
+    public $output     = 'menu';
+    public $supports   = array();
+    public $content    = array();
+    public $custom_tab = false;
+    public $current_id = 0;
+    public $url        = false;
+    public $onclick    = false;
 
-	function __construct( $tabData ) {
+    function __construct( $tabData ) {
 
-		$this->init_properties( $tabData );
+        $this->init_properties( $tabData );
 
-		//$this->setup_subtabs();
+        //$this->setup_subtabs();
+    }
 
-	}
+    function init_properties( $args ) {
 
-	function init_properties( $args ) {
+        $properties = get_class_vars( get_class( $this ) );
 
-		$properties = get_class_vars( get_class( $this ) );
+        foreach ( $properties as $name => $val ) {
+            if ( ! isset( $args[$name] ) )
+                continue;
+            $this->$name = $args[$name];
+        }
+    }
 
-		foreach ( $properties as $name => $val ) {
-			if ( ! isset( $args[$name] ) )
-				continue;
-			$this->$name = $args[$name];
-		}
-	}
+    function setup_subtabs() {
+        foreach ( $this->content as $k => $subtabData ) {
+            $this->content[$k] = $this->new_subtab( $subtabData );
+        }
+    }
 
-	function setup_subtabs() {
-		foreach ( $this->content as $k => $subtabData ) {
-			$this->content[$k] = $this->new_subtab( $subtabData );
-		}
-	}
+    function add_subtab( $subtabData ) {
+        $this->content[] = $this->new_subtab( $subtabData );
+    }
 
-	function add_subtab( $subtabData ) {
-		$this->content[] = $this->new_subtab( $subtabData );
-	}
+    function new_subtab( $subtabData ) {
+        return new USP_Sub_Tab( wp_parse_args( $subtabData, [
+                'id'        => $this->id,
+                'name'      => $this->name,
+                'icon'      => $this->icon,
+                'parent_id' => $this->id
+            ] ) );
+    }
 
-	function new_subtab( $subtabData ) {
-		return new USP_Sub_Tab( wp_parse_args( $subtabData, [
-				'id'		 => $this->id,
-				'name'		 => $this->name,
-				'icon'		 => $this->icon,
-				'parent_id'	 => $this->id
-			] ) );
-	}
+    function set_prop( $propName, $value ) {
+        $this->$propName = $value;
+    }
 
-	function set_prop( $propName, $value ) {
-		$this->$propName = $value;
-	}
+    function is_prop( $propName ) {
+        return isset( $this->$propName );
+    }
 
-	function is_prop( $propName ) {
-		return isset( $this->$propName );
-	}
+    function get_prop( $propName ) {
+        return $this->is_prop( $propName ) ? $this->$propName : false;
+    }
 
-	function get_prop( $propName ) {
-		return $this->is_prop( $propName ) ? $this->$propName : false;
-	}
+    function isset_subtab( $subtab_id ) {
 
-	function isset_subtab( $subtab_id ) {
+        if ( ! $this->content )
+            return false;
 
-		if ( ! $this->content )
-			return false;
+        foreach ( $this->content as $k => $subtab ) {
+            if ( $subtab->id == $subtab_id )
+                return $subtab;
+        }
 
-		foreach ( $this->content as $k => $subtab ) {
-			if ( $subtab->id == $subtab_id )
-				return $subtab;
-		}
+        return false;
+    }
 
-		return false;
-	}
+    function subtab( $subtab_id = false ) {
 
-	function subtab( $subtab_id = false ) {
+        if ( ! $this->content )
+            return false;
 
-		if ( ! $this->content )
-			return false;
+        foreach ( $this->content as $k => $subtab ) {
+            if ( ! $subtab_id || $subtab->id == $subtab_id )
+                return $subtab;
+        }
 
-		foreach ( $this->content as $k => $subtab ) {
-			if ( ! $subtab_id || $subtab->id == $subtab_id )
-				return $subtab;
-		}
+        return false;
+    }
 
-		return false;
-	}
+    function is_active_tab() {
 
-	function is_active_tab() {
+        $active = false;
 
-		$active = false;
+        if ( isset( $_GET['tab'] ) ) {
+            $active = ($_GET['tab'] == $this->id) ? true : false;
+        } else {
+            if ( USP()->tabs()->current_id == $this->id ) {
+                $active = true;
+            }
+        }
 
-		if ( isset( $_GET['tab'] ) ) {
-			$active = ($_GET['tab'] == $this->id) ? true : false;
-		} else {
-			if ( USP()->tabs()->current_id == $this->id ) {
-				$active = true;
-			}
-		}
+        return $active;
+    }
 
-		return $active;
-	}
+    function get_class_button() {
 
-	function get_class_button() {
+        $classes = array( 'usp-tab-button' );
 
-		$classes = array( 'usp-tab-button' );
+        if ( in_array( 'dialog', $this->supports ) ) {
+            $classes[] = 'usp-dialog';
+            //$classes[]	 = 'usp-ajax';
+        } else if ( in_array( 'ajax', $this->supports ) ) {
+            //$classes[] = 'usp-ajax';
+        }
 
-		if ( in_array( 'dialog', $this->supports ) ) {
-			$classes[] = 'usp-dialog';
-			//$classes[]	 = 'usp-ajax';
-		} else if ( in_array( 'ajax', $this->supports ) ) {
-			//$classes[] = 'usp-ajax';
-		}
+        return $classes;
+    }
 
-		return $classes;
-	}
+    function get_button( $args = array() ) {
 
-	function get_button( $args = array() ) {
+        $ajaxLoad = false;
+        if ( isset( $this->supports ) ) {
+            if ( in_array( 'ajax', $this->supports ) ) {
+                $ajaxLoad = true;
+            }
+        }
 
-		$ajaxLoad = false;
-		if ( isset( $this->supports ) ) {
-			if ( in_array( 'ajax', $this->supports ) ) {
-				$ajaxLoad = true;
-			}
-		}
+        $onclick = $ajaxLoad ? 'usp_load_tab("' . $this->id . '", 0, this);return false;' : null;
 
-		$onclick = $ajaxLoad ? 'usp_load_tab("' . $this->id . '", 0, this);return false;' : null;
+        if ( $this->onclick ) {
+            $onclick = $this->onclick;
+        }
 
-		if ( $this->onclick ) {
-			$onclick = $this->onclick;
-		}
+        $args = wp_parse_args( $args, array(
+            'class'   => implode( ' ', $this->get_class_button() ),
+            'label'   => $this->name,
+            'icon'    => $this->icon,
+            'counter' => $this->counter,
+            'href'    => $this->get_permalink(),
+            //'status'	 => $status,
+            'onclick' => $this->url ? false : $onclick
+            ) );
 
-		$args = wp_parse_args( $args, array(
-			'class'		 => implode( ' ', $this->get_class_button() ),
-			'label'		 => $this->name,
-			'icon'		 => $this->icon,
-			'counter'	 => $this->counter,
-			'href'		 => $this->get_permalink(),
-			//'status'	 => $status,
-			'onclick'	 => $this->url ? false : $onclick
-			) );
+        return usp_get_button( $args );
+    }
 
-		return usp_get_button( $args );
-	}
+    function get_permalink( $user_id = false ) {
+        global $user_LK;
+        if ( ! $user_id )
+            $user_id = $user_LK;
+        return $this->url ? $this->url : add_query_arg( [ 'tab' => $this->id ], usp_get_user_url( $user_id ) );
+    }
 
-	function get_permalink( $user_id = false ) {
-		global $user_LK;
-		if ( ! $user_id )
-			$user_id = $user_LK;
-		return $this->url ? $this->url : add_query_arg( [ 'tab' => $this->id ], usp_get_user_url( $user_id ) );
-	}
+    function is_access() {
+        global $user_ID, $user_LK;
 
-	function is_access() {
-		global $user_ID, $user_LK;
+        if ( $this->public == 0 ) {
+            if ( ! $user_ID || $user_ID != $user_LK )
+                return false;
+        } else if ( $this->public == -1 ) {
+            if ( ! $user_ID || $user_ID == $user_LK )
+                return false;
+        } else if ( $this->public == -2 ) {
+            if ( $user_ID && $user_ID == $user_LK )
+                return false;
+        }
 
-		if ( $this->public == 0 ) {
-			if ( ! $user_ID || $user_ID != $user_LK )
-				return false;
-		}else if ( $this->public == -1 ) {
-			if ( ! $user_ID || $user_ID == $user_LK )
-				return false;
-		}else if ( $this->public == -2 ) {
-			if ( $user_ID && $user_ID == $user_LK )
-				return false;
-		}
+        return true;
+    }
 
-		return true;
-	}
+    function get_active_subtab_id() {
 
-	function get_active_subtab_id() {
+        if ( isset( $_GET['subtab'] ) ) {
 
-		if ( isset( $_GET['subtab'] ) ) {
+            foreach ( $this->content as $k => $subtab ) {
+                if ( $_GET['subtab'] == $subtab->id ) {
+                    return $subtab->id;
+                }
+            }
+        }
 
-			foreach ( $this->content as $k => $subtab ) {
-				if ( $_GET['subtab'] == $subtab->id ) {
-					return $subtab->id;
-				}
-			}
-		}
+        return $this->content[0]->id;
+    }
 
-		return $this->content[0]->id;
-	}
+    function get_menu() {
 
-	function get_menu() {
+        if ( ! $this->content || count( $this->content ) < 2 )
+            return false;
 
-		if ( ! $this->content || count( $this->content ) < 2 )
-			return false;
+        if ( ! $this->current_id )
+            $this->current_id = $this->get_active_subtab_id();
 
-		if ( ! $this->current_id )
-			$this->current_id = $this->get_active_subtab_id();
+        $content = '<div class="usps usp-subtabs-menu">';
 
-		$content = '<div class="usp-subtabs-menu usp-wrap">';
+        foreach ( $this->content as $subtab ) {
 
-		foreach ( $this->content as $subtab ) {
+            $content .= $subtab->get_button( $this->current_id == $subtab->id ? [ 'status' => 'active' ] : [] );
+        }
 
-			$content .= $subtab->get_button( $this->current_id == $subtab->id ? ['status' => 'active' ] : [ ]  );
-		}
+        $content .= '</div>';
 
-		$content .= '</div>';
+        return $content;
+    }
 
-		return $content;
-	}
+    function get_content() {
 
-	function get_content() {
+        if ( ! $this->is_access() )
+            return false;
 
-		if ( ! $this->is_access() )
-			return false;
+        if ( ! $this->current_id )
+            $this->current_id = $this->get_active_subtab_id();
 
-		if ( ! $this->current_id )
-			$this->current_id = $this->get_active_subtab_id();
+        $subtab = $this->subtab( $this->current_id );
 
-		$subtab = $this->subtab( $this->current_id );
+        $content = '<div id="usp-tab-content" class="usp-tab-' . $this->id . ' preloader-parent">';
 
-		$content = '<div id="usp-tab-content" class="usp-tab-' . $this->id . ' preloader-parent">';
+        $content .= $this->get_menu();
 
-		$content .= $this->get_menu();
+        $content .= $subtab->get_content();
 
-		$content .= $subtab->get_content();
+        $content .= '</div>';
 
-		$content .= '</div>';
-
-		return $content;
-	}
+        return $content;
+    }
 
 }

@@ -18,7 +18,7 @@ function usp_add_office_menu_counters() {
 add_action( 'usp_area_menu', 'usp_add_office_menu_menu', 10 );
 function usp_add_office_menu_menu() {
     echo USP()->tabs()->get_menu( 'menu', [
-        'class' => usp_get_option( 'buttons_place', 0 ) ? 'usp-wrap__vertical' : false
+        'class' => usp_get_option( 'buttons_place', 0 ) ? 'usps__column' : false
     ] );
 }
 
