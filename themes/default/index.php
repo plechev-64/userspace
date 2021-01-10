@@ -1,15 +1,15 @@
 <?php
 
-add_action( 'usp_enqueue_scripts', 'usp_default_cabinet_css', 10 );
-function usp_default_cabinet_css() {
+add_action( 'usp_enqueue_scripts', 'usp_default_theme_css', 10 );
+function usp_default_theme_css() {
     if ( ! usp_is_office() )
         return;
 
     usp_enqueue_style( 'usp-theme-default-css', plugins_url( 'style.css', __FILE__ ) );
 }
 
-add_action( 'usp_enqueue_scripts', 'usp_default_cabinet_js' );
-function usp_default_cabinet_js() {
+add_action( 'usp_enqueue_scripts', 'usp_default_theme_js' );
+function usp_default_theme_js() {
     if ( ! usp_is_office() )
         return;
 
@@ -25,62 +25,62 @@ function usp_setup_template_options() {
 }
 
 // registering 3 widget areas
-add_action( 'widgets_init', 'usp_default_cabinet_sidebar' );
-function usp_default_cabinet_sidebar() {
+add_action( 'widgets_init', 'usp_default_theme_sidebar' );
+function usp_default_theme_sidebar() {
     register_sidebar( array(
         'name'          => __( 'UserSpace: Sidebar personal account content', 'userspace' ),
-        'id'            => 'usp_cab_sidebar',
-        'description'   => __( 'It is displayed only in personal account. To the right of the content (sidebar)', 'userspace' ),
-        'before_title'  => '<h3 class="cabinet_sidebar_title">',
+        'id'            => 'usp_theme_sidebar',
+        'description'   => __( 'It is displayed only in user profile page. To the right of the content (sidebar)', 'userspace' ),
+        'before_title'  => '<h3 class="theme_sidebar_title">',
         'after_title'   => '</h3>',
-        'before_widget' => '<div class="cabinet_sidebar">',
+        'before_widget' => '<div class="theme_sidebar">',
         'after_widget'  => '</div>'
     ) );
 }
 
-add_action( 'widgets_init', 'usp_default_cabinet_sidebar_before' );
-function usp_default_cabinet_sidebar_before() {
+add_action( 'widgets_init', 'usp_default_theme_sidebar_before' );
+function usp_default_theme_sidebar_before() {
     register_sidebar( array(
         'name'          => __( 'UserSpace: Sidebar above personal account', 'userspace' ),
-        'id'            => 'usp_cab_sidebar_before',
-        'description'   => __( 'It is displayed only in personal account.', 'userspace' ),
-        'before_title'  => '<h3 class="cab_title_before">',
+        'id'            => 'usp_theme_sidebar_before',
+        'description'   => __( 'It is displayed only in user profile page.', 'userspace' ),
+        'before_title'  => '<h3 class="theme_title_before">',
         'after_title'   => '</h3>',
-        'before_widget' => '<div class="cabinet_sidebar_before">',
+        'before_widget' => '<div class="theme_sidebar theme_sidebar_before">',
         'after_widget'  => '</div>'
     ) );
 }
 
-add_action( 'widgets_init', 'usp_default_cabinet_sidebar_after' );
-function usp_default_cabinet_sidebar_after() {
+add_action( 'widgets_init', 'usp_default_theme_sidebar_after' );
+function usp_default_theme_sidebar_after() {
     register_sidebar( array(
         'name'          => __( 'UserSpace: Sidebar under personal account', 'userspace' ),
-        'id'            => 'usp_cab_sidebar_after',
-        'description'   => __( 'It is displayed only in personal account.', 'userspace' ),
-        'before_title'  => '<h3 class="cab_title_after">',
+        'id'            => 'usp_theme_sidebar_after',
+        'description'   => __( 'It is displayed only in user profile page.', 'userspace' ),
+        'before_title'  => '<h3 class="theme_title_after">',
         'after_title'   => '</h3>',
-        'before_widget' => '<div class="cabinet_sidebar_after">',
+        'before_widget' => '<div class="theme_sidebar theme_sidebar_after">',
         'after_widget'  => '</div>'
     ) );
 }
 
-add_action( 'usp_area_before', 'usp_add_sidebar_cabinet_area_before' );
-function usp_add_sidebar_cabinet_area_before() {
+add_action( 'usp_area_before', 'usp_add_sidebar_theme_area_before' );
+function usp_add_sidebar_theme_area_before() {
     if ( function_exists( 'dynamic_sidebar' ) ) {
-        dynamic_sidebar( 'usp_cab_sidebar_before' );
+        dynamic_sidebar( 'usp_theme_sidebar_before' );
     }
 }
 
-add_action( 'usp_area_after', 'usp_add_sidebar_cabinet_area_after' );
-function usp_add_sidebar_cabinet_area_after() {
+add_action( 'usp_area_after', 'usp_add_sidebar_theme_area_after' );
+function usp_add_sidebar_theme_area_after() {
     if ( function_exists( 'dynamic_sidebar' ) ) {
-        dynamic_sidebar( 'usp_cab_sidebar_after' );
+        dynamic_sidebar( 'usp_theme_sidebar_after' );
     }
 }
 
 // inline css
-add_filter( 'usp_inline_styles', 'usp_add_cabinet_cover_inline_styles', 10 );
-function usp_add_cabinet_cover_inline_styles( $styles ) {
+add_filter( 'usp_inline_styles', 'usp_add_theme_cover_inline_styles', 10 );
+function usp_add_theme_cover_inline_styles( $styles ) {
     if ( ! usp_is_office() )
         return $styles;
 

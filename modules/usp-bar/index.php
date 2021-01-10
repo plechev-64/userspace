@@ -34,7 +34,7 @@ function usp_setup_bar_default_data() {
     usp_bar_add_menu_item( 'account-link', array(
         'url'   => $usp_user_URL,
         'icon'  => 'fa-user',
-        'label' => __( 'To personal account', 'userspace' )
+        'label' => __( 'Go to personal account', 'userspace' )
         )
     );
 

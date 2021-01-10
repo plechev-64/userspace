@@ -33,7 +33,7 @@
 <div id="usp-tabs">
     <?php do_action( 'usp_area_menu' ); ?>
 
-    <?php if ( is_active_sidebar( 'usp_cab_sidebar' ) ) { ?>
+    <?php if ( is_active_sidebar( 'usp_theme_sidebar' ) ) { ?>
         <div class="cab_content_blk">
 
             <?php do_action( 'usp_area_tabs' ); ?>
@@ -41,7 +41,7 @@
             <div class="cab_sidebar">
                 <?php
                 if ( function_exists( 'dynamic_sidebar' ) ) {
-                    dynamic_sidebar( 'usp_cab_sidebar' );
+                    dynamic_sidebar( 'usp_theme_sidebar' );
                 }
                 ?>
             </div>

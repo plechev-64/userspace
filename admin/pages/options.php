@@ -27,25 +27,25 @@ $options->add_box( 'primary', array(
     'title' => __( 'General settings', 'userspace' ),
     'icon'  => 'fa-cogs'
 ) )->add_group( 'office', array(
-    'title'  => __( 'Personal cabinet', 'userspace' ),
+    'title'  => __( 'User profile page', 'userspace' ),
     'extend' => true
 ) )->add_options( array(
     $options->add_box( 'primary', array(
         'title' => __( 'General settings', 'userspace' ),
         'icon'  => 'fa-cogs'
     ) )->add_group( 'office', array(
-        'title'  => __( 'Personal cabinet', 'userspace' ),
+        'title'  => __( 'User profile page', 'userspace' ),
         'extend' => true
     ) )->add_options( array(
         array(
             'type'      => 'select',
             'slug'      => 'view_user_lk_usp',
-            'title'     => __( 'Personal Cabinet output', 'userspace' ),
+            'title'     => __( 'User profile page output', 'userspace' ),
             'values'    => array(
                 __( 'On the author’s archive page', 'userspace' ),
                 __( 'Using shortcode [userspace]', 'userspace' ) ),
             'help'      => __( 'Attention! Changing this parameter is not required. '
-                . 'Detailed instructions on personal account output using author.php '
+                . 'Detailed instructions on user profile output using author.php '
                 . 'file can be received here <a href="#" target="_blank">here</a>', 'userspace' ),
             'notice'    => __( 'If author archive page is selected, the template author.php should contain the code if(function_exists(\'userspace\')) userspace();', 'userspace' ),
             'childrens' => array(
@@ -53,13 +53,13 @@ $options->add_box( 'primary', array(
                     array(
                         'type'   => 'select',
                         'slug'   => 'lk_page_usp',
-                        'title'  => __( 'Shortcode host page', 'userspace' ),
+                        'title'  => __( 'Page with shortcode for displaying user profile page', 'userspace' ),
                         'values' => $pages
                     ),
                     array(
                         'type'  => 'text',
                         'slug'  => 'link_user_lk_usp',
-                        'title' => __( 'Link format to personal account', 'userspace' ),
+                        'title' => __( 'Link format to user profile page', 'userspace' ),
                         'help'  => __( 'The link is formed according to principle "/slug_page/?get=ID". The parameter "get" can be set here. By default user', 'userspace' )
                     )
                 )
@@ -72,7 +72,7 @@ $options->add_box( 'primary', array(
             'value_max' => 20,
             'default'   => 10,
             'help'      => __( 'This value sets the maximum time a user is considered "online" in the absence of activity', 'userspace' ),
-            'title'     => __( 'Inactivity timeout', 'userspace' ),
+            'title'     => __( 'Current user inactivity timeout', 'userspace' ),
             'notice'    => __( 'Specify the time in minutes after which the user will be considered offline if you did not show activity on the website. The default is 10 minutes.', 'userspace' )
         )
     ) )
@@ -96,7 +96,7 @@ $options->box( 'primary' )->add_group( 'design', array(
     array(
         'slug'   => 'current_theme',
         'type'   => 'select',
-        'title'  => __( 'Текущая тема', 'userspace' ),
+        'title'  => __( 'Select a user profile page theme', 'userspace' ),
         'values' => USP()->themes()->get_themes()
     ),
     array(
@@ -207,11 +207,12 @@ $options->box( 'primary' )->add_group( 'usp_bar', array(
     'title' => __( 'UserSpace Bar', 'userspace' )
 ) )->add_options( array(
     array(
-        'type'      => 'select',
+        'type'      => 'radio',
         'slug'      => 'view_usp_bar',
-        'title'     => __( 'Output of UserSpace Bar panel', 'userspace' ),
+        'title'     => __( 'Show UserSpace Bar when viewing site', 'userspace' ),
         'help'      => __( 'UserSpace Bar – is he top panel UserSpace plugin through which the plugin and its add-ons can output their data and the administrator can make his menu, forming it on <a href="/wp-admin/nav-menus.php" target="_blank">page management menu of the website</a>', 'userspace' ),
-        'values'    => array( __( 'Disabled', 'userspace' ), __( 'Enabled', 'userspace' ) ),
+        'values'    => array( __( 'Hide', 'userspace' ), __( 'Show', 'userspace' ) ),
+        'default'   => 0,
         'childrens' => array(
             'rcb_color'
         )

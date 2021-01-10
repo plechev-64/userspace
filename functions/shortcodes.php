@@ -2,10 +2,13 @@
 
 add_shortcode( 'userspace', 'usp_get_userspace' );
 function usp_get_userspace() {
-    global $user_LK;
 
-    if ( ! $user_LK ) {
-        return usp_get_userpanel();
+    if ( usp_get_option( 'view_user_lk_usp' ) == 1 ) {
+        global $post;
+
+        if ( $post->ID == usp_get_option( 'lk_page_usp' ) && ! isset( $_GET['user'] ) ) {
+            return usp_get_variations_buttons();
+        }
     }
 
     ob_start();
@@ -16,6 +19,22 @@ function usp_get_userspace() {
     ob_end_clean();
 
     return $content;
+}
+
+function usp_get_variations_buttons() {
+    if ( is_user_logged_in() ) {
+        global $user_ID;
+
+        $args = [
+            'label' => __( 'Go to personal account', 'userspace' ),
+            'icon'  => 'fa-user',
+            'size'  => 'medium',
+            'href'  => usp_get_user_url( $user_ID )
+        ];
+        return usp_get_button( $args );
+    } else {
+        return usp_get_user_widget();
+    }
 }
 
 add_shortcode( 'usp-user-widget', 'usp_get_user_widget' );

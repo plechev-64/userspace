@@ -1,4 +1,4 @@
-=== UserSpace - Login & registration form, profile fields, front-end profile, user account and core for wordpress membership ===
+=== UserSpace - Login & registration form, profile fields, front-end profile, user account and core for WordPress membership ===
 Contributors: wppost
 Donate link: http://user-space.com/
 Tags: user profile
@@ -11,7 +11,8 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 == Description ==
 
-The plugin forms a flexible and functional personal account.
+UserSpace plugin provides you with an easy way to create in frontend user registration and login form.
+A flexible user profile page in the frontend - is ideal for creating membership sites and advanced online communities.
 
 = Development and Translations =
 

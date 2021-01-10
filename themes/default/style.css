@@ -259,9 +259,8 @@
 }
 
 /* START для сайдбара-виджета */
-.cabinet_sidebar_after,
-.cabinet_sidebar_before {
-    margin: 4px 0;
+.theme_sidebar {
+    margin: 6px 0;
 }
 .cab_content_blk {
     display: flex;

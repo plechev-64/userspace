@@ -86,7 +86,7 @@ class USP_Install {
         $pages = apply_filters( 'usp_pages', array(
             'lk_page_usp' => array(
                 'name'    => 'account',
-                'title'   => __( 'Personal cabinet', 'userspace' ),
+                'title'   => __( 'User profile page', 'userspace' ),
                 'content' => '[userspace]'
             )
             ) );
