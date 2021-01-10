@@ -25,11 +25,11 @@ function usp_setup_template_options() {
 }
 
 // registering 3 widget areas
-add_action( 'widgets_init', 'cab_15_sidebar' );
-function cab_15_sidebar() {
+add_action( 'widgets_init', 'usp_default_cabinet_sidebar' );
+function usp_default_cabinet_sidebar() {
     register_sidebar( array(
         'name'          => __( 'UserSpace: Sidebar personal account content', 'userspace' ),
-        'id'            => 'cab_15_sidebar',
+        'id'            => 'usp_cab_sidebar',
         'description'   => __( 'It is displayed only in personal account. To the right of the content (sidebar)', 'userspace' ),
         'before_title'  => '<h3 class="cabinet_sidebar_title">',
         'after_title'   => '</h3>',
@@ -38,11 +38,11 @@ function cab_15_sidebar() {
     ) );
 }
 
-add_action( 'widgets_init', 'cab_15_sidebar_before' );
-function cab_15_sidebar_before() {
+add_action( 'widgets_init', 'usp_default_cabinet_sidebar_before' );
+function usp_default_cabinet_sidebar_before() {
     register_sidebar( array(
         'name'          => __( 'UserSpace: Sidebar above personal account', 'userspace' ),
-        'id'            => 'cab_15_sidebar_before',
+        'id'            => 'usp_cab_sidebar_before',
         'description'   => __( 'It is displayed only in personal account.', 'userspace' ),
         'before_title'  => '<h3 class="cab_title_before">',
         'after_title'   => '</h3>',
@@ -51,11 +51,11 @@ function cab_15_sidebar_before() {
     ) );
 }
 
-add_action( 'widgets_init', 'cab_15_sidebar_after' );
-function cab_15_sidebar_after() {
+add_action( 'widgets_init', 'usp_default_cabinet_sidebar_after' );
+function usp_default_cabinet_sidebar_after() {
     register_sidebar( array(
         'name'          => __( 'UserSpace: Sidebar under personal account', 'userspace' ),
-        'id'            => 'cab_15_sidebar_after',
+        'id'            => 'usp_cab_sidebar_after',
         'description'   => __( 'It is displayed only in personal account.', 'userspace' ),
         'before_title'  => '<h3 class="cab_title_after">',
         'after_title'   => '</h3>',
@@ -64,23 +64,23 @@ function cab_15_sidebar_after() {
     ) );
 }
 
-add_action( 'usp_area_before', 'usp_add_sidebar_area_before' );
-function usp_add_sidebar_area_before() {
+add_action( 'usp_area_before', 'usp_add_sidebar_cabinet_area_before' );
+function usp_add_sidebar_cabinet_area_before() {
     if ( function_exists( 'dynamic_sidebar' ) ) {
-        dynamic_sidebar( 'cab_15_sidebar_before' );
+        dynamic_sidebar( 'usp_cab_sidebar_before' );
     }
 }
 
-add_action( 'usp_area_after', 'usp_add_sidebar_area_after' );
-function usp_add_sidebar_area_after() {
+add_action( 'usp_area_after', 'usp_add_sidebar_cabinet_area_after' );
+function usp_add_sidebar_cabinet_area_after() {
     if ( function_exists( 'dynamic_sidebar' ) ) {
-        dynamic_sidebar( 'cab_15_sidebar_after' );
+        dynamic_sidebar( 'usp_cab_sidebar_after' );
     }
 }
 
 // inline css
-add_filter( 'usp_inline_styles', 'usp_add_cover_inline_styles', 10 );
-function usp_add_cover_inline_styles( $styles ) {
+add_filter( 'usp_inline_styles', 'usp_add_cabinet_cover_inline_styles', 10 );
+function usp_add_cabinet_cover_inline_styles( $styles ) {
     if ( ! usp_is_office() )
         return $styles;
 
@@ -100,29 +100,6 @@ function usp_add_cover_inline_styles( $styles ) {
     $cover_path = untrailingslashit( ABSPATH ) . $dataUrl['path'];
 
     $styles .= '#lk-conteyner{background-image: url(' . $cover_url . '?vers=' . filemtime( $cover_path ) . ');}';
-
-    return $styles;
-}
-
-add_filter( 'usp_inline_styles', 'usp_add_colors_inline_styles', 10 );
-function usp_add_colors_inline_styles( $styles ) {
-    if ( ! usp_is_office() )
-        return $styles;
-
-    $lca_hex = usp_get_option( 'primary-color' );
-    list($r, $g, $b) = sscanf( $lca_hex, "#%02x%02x%02x" );
-
-    $rp = round( $r * 0.90 );
-    $gp = round( $g * 0.90 );
-    $bp = round( $b * 0.90 );
-
-    $styles .= '
-    #lk-menu a:hover {
-        background: rgba(' . $rp . ', ' . $gp . ', ' . $bp . ', 1);
-    }
-    #lk-menu a.active:hover {
-        background: rgba(' . $r . ', ' . $g . ', ' . $b . ', .4);
-    }';
 
     return $styles;
 }
