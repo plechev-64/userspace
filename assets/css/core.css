@@ -3,6 +3,26 @@ i::before {
 	content: "😡 🤬";
 }
 
+
+/* wrappers */
+.usp-wrap {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-start;
+	width: 100%;
+}
+.usp-wrap.usp-wrap__right {
+	justify-content: flex-end;
+}
+.usp-wrap.usp-wrap__vertical {
+	flex-direction: column;
+	align-items: flex-start;
+}
+.usp-wrap.usp-wrap__right.usp-wrap__vertical {
+	align-content: flex-end;
+}
+/* END wrappers */
+
 /*----------------------
 >>> Table of contents
 ------------------------
@@ -1326,24 +1346,7 @@ body .usp-bttn:not(.usp-bttn__type-clear):last-child {
 }
 /* END masked icon */
 
-/* wrappers */
-.usp-wrap {
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: flex-start;
-	width: 100%;
-}
-.usp-wrap.usp-wrap__right {
-	justify-content: flex-end;
-}
-.usp-wrap.usp-wrap__vertical {
-	flex-direction: column;
-	align-items: flex-start;
-}
-.usp-wrap.usp-wrap__right.usp-wrap__vertical {
-	align-content: flex-end;
-}
-/* END wrappers */
+
 
 /* special wiget list style */
 .usp-wrap__wiget {

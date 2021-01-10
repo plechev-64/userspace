@@ -4,26 +4,24 @@
  */
 ?>
 
-<div id="lk-conteyner">
-    <div class="cab_header">
+<div id="usp-office-profile" class="usp-office-profile">
+    <div class="usp-office-top">
         <?php do_action( 'usp_area_top' ); ?>
     </div>
-    <div class="cab_content">
-        <div class="cab_center">
-            <div class="lk-sidebar">
-                <?php usp_avatar( 200 ); ?>
-            </div>
-            <div class="cab_title">
-                <h2><?php usp_username(); ?></h2>
+    <div class="usp-office-content">
+        <div class="usp-office-center">
+            <?php usp_avatar( 200 ); ?>
+            <div class="usp-office-title">
+                <div class="usp-user-name"><?php usp_username(); ?></div>
                 <div class="usp-action"><?php usp_action(); ?></div>
             </div>
         </div>
 
-        <div class="cab_footer">
-            <div class="cab_bttn">
+        <div class="usp-office-bottom">
+            <div class="usp-office-bttn-act">
                 <?php do_action( 'usp_area_actions' ); ?>
             </div>
-            <div class="cab_bttn_lite">
+            <div class="usp-office-bttn-lite">
                 <?php do_action( 'usp_area_counters' ); ?>
             </div>
         </div>
@@ -34,11 +32,11 @@
     <?php do_action( 'usp_area_menu' ); ?>
 
     <?php if ( is_active_sidebar( 'usp_theme_sidebar' ) ) { ?>
-        <div class="cab_content_blk">
+        <div class="usp-tabs-wrap">
 
             <?php do_action( 'usp_area_tabs' ); ?>
 
-            <div class="cab_sidebar">
+            <div class="usp-office-sidebar">
                 <?php
                 if ( function_exists( 'dynamic_sidebar' ) ) {
                     dynamic_sidebar( 'usp_theme_sidebar' );

@@ -1,32 +1,43 @@
 #usp-office {
-    background: rgba(236, 240, 241, 0.3);
-    box-shadow: 0 0 1px 1px rgba(219, 219, 219, 0.8);
-    color: #333;                    /*BlackTheme*/
-    overflow: visible;
-    position: relative;
-}
-#usp-office a:link {
-    border: none;                   /*++Twenty15++*/
-    box-shadow: none;               /*++Twenty16++*/
-    text-decoration: none;
+    box-sizing: border-box;
+    line-height: 1.4;
 }
 #usp-office h2 {
-    font-size: 22px;
+    font-size: 24px;
     font-weight: bold;
-    line-height: 1;
+    line-height: 1.4;
     margin: 0;
     text-transform: none;
 }
 #usp-office h3 {
-    font-size: 18px;
-    line-height: 1;
-    margin: 5px 0;
+    font-size: 20px;
+    line-height: 1.3;
+    margin: 6px 0;
 }
 #usp-office p {
-    line-height: 1;
+    line-height: 1.4;
     margin: 0;
-    padding: 4px 0;
+    padding: 6px 0;
 }
+#usp-office-profile {
+    position: relative;
+    background-position: 50% 50%;
+    background-size: cover;
+    max-width: 1280px;
+}
+#usp-office-profile::after {
+    background: linear-gradient(to bottom, transparent, 70%, rgba(0, 0, 0, .6));
+    bottom: 0;
+    content: "";
+    display: block;
+    height: 100px;
+    left: 0;
+    pointer-events: none;
+    position: absolute;
+    width: 100%;
+    z-index: 1;
+}
+
 .usp-tab-button .usp-menu-notice {
     line-height: 1;
 }
@@ -47,7 +58,7 @@
     position: relative;
 }
 #usp-office .recall_content_block {
-    background: rgba(255, 255, 255, 0.7);
+    background: rgba(255, 255, 255, .7);
     display: none;
     overflow: hidden;
     padding: 4px 5px;
@@ -61,21 +72,12 @@
         padding: 2px;
     }
 }
-/* блок lk-conteyner start */
-#lk-conteyner {
-    background-color: #e3e3e3;
-    overflow: hidden;
-    position: relative;
-}
-.lk-sidebar {
-    float: left;
-    line-height: 1;				/*++Twenty16++*/
-}
-/* блок lk-conteyner end */
+
+
 
 /* START upload cover */
 #usp-office .usp-cover-icon {
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, .3);
     color: #ddd;
     float: right;
     font-size: 26px;
@@ -85,10 +87,9 @@
 #usp-office .usp-cover-icon:hover {
     color: #eee;
 }
-/* END upload cover */
 
-/* START кнопки lite */
-.cab_bttn_lite {
+/* START lite */
+.usp-office-bttn-lite {
     float: right;
 }
 #usp-tabs-menu-counters .usp-tab-button {
@@ -111,15 +112,19 @@
     font-weight: bold;
     margin: 0;
 }
-/* END кнопки lite */
 
-/* START аватар и элементы управления внутри него */
+/* START ava */
 #usp-avatar {
     border: 5px solid #fff;
     box-sizing: border-box;
     display: inline-block;
     height: 100%;
 	width: 100%;
+    float: left;
+    line-height: 1;
+    height: 200px;
+    margin: 0 30px;
+    width: 200px;
 }
 #usp-avatar img {
     border-radius: 0;
@@ -145,8 +150,8 @@
     background: rgb(216, 231, 238);
     color: rgb(229, 57, 53);
     font-size: 20px;
-    opacity: 0.7;
-    padding: 5px;
+    opacity: .7;
+    padding: 6px;
 }
 #usp-avatar .avatar-icons .usp-avatar-icon a:hover {
     opacity: 1;
@@ -171,34 +176,16 @@
     left: 0;
     top: 0;
 }
-/* END аватар и элементы управления внутри него */
+/* END */
 
-.office-sunshine #lk-conteyner {
-    background-position: 50% 50%;
-    background-repeat: no-repeat;
-    background-size: cover;
-    margin: 0 auto;
-    max-width: 1280px;
-    padding: 0;
-}
-.office-sunshine #lk-conteyner::after {
-    background: rgba(0, 0, 0, 0) linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.7)) repeat scroll 0 0;
-    bottom: 0;
-    content: "";
-    display: block;
-    height: 38%;
-    left: 0;
-    pointer-events: none;
-    position: absolute;
-    width: 100%;
-    z-index: 1;
-}
-.cab_header {
+
+
+.usp-office-top {
     float: right;
     margin: 15px 0 8px;
     min-height: 5px;
 }
-.cab_content {
+.usp-office-content {
     display: inline-block;
     margin: 90px 0 0;
     min-height: 230px;
@@ -206,94 +193,82 @@
     width: 100%;
     z-index: 2;
 }
-.cab_content .lk-sidebar {
-    height: 200px;
-    margin: 0 30px;
-    width: 200px;
-}
-.lk-sidebar .lk-avatar {
-    background: #ddd;
-    box-shadow: 0 0 0 5px #fff;
-    height: 100%;
-    width: 100%;
-}
-.cab_title {
+.usp-office-title {
     display: inline-block;
     width: 68%;
     width: calc(100% - 265px);
 }
-.office-sunshine .cab_title h2 {
+.usp-user-name {
     color: #fff;
     font-size: 34px;
     line-height: 1.1;
     padding: 0;
     text-shadow: 1px 0 1px #000;
 }
-.office-sunshine .usp-action {
+.usp-action {
     color: #ddd;
     font-size: 14px;
     margin: 0 0 0 10px;
 }
-.cab_bttn {
+.usp-office-bttn-act {
     display: inline-block;
     margin: 10px 0 2px;
     width: 68%;
     width: calc(100% - 265px);
 }
-.cab_footer .cab_bttn a:hover {
-    background: rgba(0, 0, 0, 0.4);
-    opacity: 0.8;
+.usp-office-bottom .usp-office-bttn-act a:hover {
+    background: rgba(0, 0, 0, .4);
+    opacity: .8;
 }
-.cab_bttn > div,
-.cab_bttn > span {
+.usp-office-bttn-act > div,
+.usp-office-bttn-act > span {
     display: inline-block;
     margin: 1px;
 }
-.cab_bttn_lite {
+.usp-office-bttn-lite {
     bottom: 15px;
     position: absolute;
     right: 15px;
 }
-#usp-office .cab_bttn_lite .usp-tab-button .usp-menu-notice span {
+#usp-office .usp-office-bttn-lite .usp-tab-button .usp-menu-notice span {
     display: inline-block;
 }
 
-/* START для сайдбара-виджета */
+/* START sidbar */
 .theme_sidebar {
     margin: 6px 0;
 }
-.cab_content_blk {
+.usp-tabs-wrap {
     display: flex;
 }
-.cab_content_blk #usp-tab-content {
+.usp-tabs-wrap #usp-tab-content {
     width: 99%;
 }
 #usp-tab-content + .usp-notice {
 	flex-shrink: 0;
 }
-.cab_sidebar {
+.usp-office-sidebar {
     border-left: 1px solid #e5e5e5;
     flex-shrink: 0;
     margin: 0;
     max-width: 280px;
     padding: 5px;
 }
-.cab_sidebar .panel_lk_recall .usp-widget-buttons {
+.usp-office-sidebar .panel_lk_recall .usp-widget-buttons {
     overflow: hidden;
 }
-.vertical-menu .cab_content_blk .recall_content_block.active {
+.vertical-menu .usp-tabs-wrap .recall_content_block.active {
     min-width: 380px;
 }
-/* END для сайдбара-виджета */
 
-/* START стили кнопок для скрипта */
+/* START for script */
 #lk-menu a {
     margin: 0 3px 0 0;
     opacity: 1;
     padding: 0;
 }
 #lk-menu a .uspi {
-    background: rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, .1);
     font-size: 16px;
     padding: 7px;
     vertical-align: middle;
@@ -308,10 +283,10 @@
     position: relative;
 }
 .horizontal-menu #lk-menu {
-    font-family: unset;             /* IE edge fix */
+    font-family: unset;
     padding: 3px;
-    width: 99%;                     /* old browsers */
-    width: calc(100% - 30px);       /* отступ на гамбургер */
+    width: 99%;
+    width: calc(100% - 30px);
 }
 #lk-menu .hideshow a.bars {
     margin: 0;
@@ -328,7 +303,7 @@
     position: absolute;
     right: 0;
     top: 0;
-    transition: top 0.25s ease-in-out 0s;
+    transition: top .25s ease-in-out;
     z-index: -1;
 }
 #sunshine_ext_menu.bounce {
@@ -352,7 +327,7 @@
     width: 100%;
 }
 #sunshine_ext_menu a .uspi {
-    background: rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, .1);
     display: flex;
     flex-direction: column;
     font-size: 16px;
@@ -364,7 +339,7 @@
     margin: 0;
     padding: 10px 10px 10px 8px;
 }
-/* END стили кнопок для скрипта */
+
 
 /* START left buttons */
 .vertical-menu #lk-menu a .uspi {
@@ -390,119 +365,92 @@
 .vertical-menu #usp-tab-content{
 	width: 100%;
 }
-/* END left buttons */
 
 /* START responsive */
 @media screen and (max-width:800px) {
-    .office-sunshine #lk-conteyner::after {
+    #usp-office-profile::after {
         height: 25%;
     }
-    .cab_content {
+    .usp-office-content {
         margin: 50px 0 0;
         min-height: 175px;
     }
-    .office-sunshine .lk-sidebar {
-        height: 150px;
-        margin: 0 20px;
-        width: 150px;
-    }
-    .lk-sidebar .lk-avatar {
-        box-shadow: 0 0 0 4px #fff;
-    }
-    .cab_bttn,
-    .cab_title {
+    .usp-office-bttn-act,
+    .usp-office-title {
         width: 68%;
         width: calc(100% - 205px);
     }
-    .office-sunshine .cab_title h2 {
+    .usp-user-name {
         font-size: 26px;
     }
-    .office-sunshine .usp-action {
+    .usp-action {
         font-size: 13px;
         line-height: 1;
     }
 }
 @media screen and (max-width:768px) {
-    .cab_content_blk {
+    .usp-tabs-wrap {
         display: block;
     }
-    .cab_sidebar,
+    .usp-office-sidebar,
     .usp-content {
         border: none;
         max-width: none;
     }
-    .vertical-menu .cab_content_blk .recall_content_block.active {
+    .vertical-menu .usp-tabs-wrap .recall_content_block.active {
         min-width: auto;
     }
 }
 @media screen and (max-width:667px) {
-    .cab_header {
+    .usp-office-top {
         margin: 8px 0 0;
     }
-    .cab_content {
+    .usp-office-content {
         margin: 15px 0 0;
         min-height: 140px;
     }
-    .cab_center {
+    .usp-office-center {
         min-height: 45px;
     }
-    .office-sunshine .lk-sidebar {
-        height: 80px;
-        margin: 0 15px;
-        width: 80px;
-    }
-    .lk-sidebar .lk-avatar {
-        box-shadow: 0 0 0 3px #fff;
-    }
-    .office-sunshine .usp-avatar-delete {
+    .usp-avatar-delete {
         padding: 5px 6px;
     }
-    .office-sunshine .cab_title h2,
+    .usp-user-name,
     .lk-avatar .cab_usr_info {
         font-size: 20px;
     }
-    .cab_bttn,
-    .cab_title {
+    .usp-office-bttn-act,
+    .usp-office-title {
         width: 68%;
         width: calc(100% - 155px);
     }
-    .cab_bttn_lite {
+    .usp-office-bttn-lite {
         bottom: 0;
         margin: 8px 0;
         position: relative;
     }
 }
 @media screen and (max-width:480px) {
-    .cab_content {
+    .usp-office-content {
         margin: 8px 0 0;
     }
-    .cab_center {
+    .usp-office-center {
         display: inline-block;
         margin: 0 5px;
         text-align: center;
         width: 100%;
     }
-    .office-sunshine .lk-sidebar {
-        display: block;
-        float: none;
-        height: 210px;
-        margin: 15px auto 10px;
-        width: 210px;
-    }
     .lk-avatar .cab_usr_info {
         font-size: 32px;
     }
-    .lk-sidebar .lk-avatar {
-        box-shadow: 0 0 0 5px #fff;
-    }
-    .cab_bttn,
-    .cab_title {
+    .usp-office-bttn-act,
+    .usp-office-title {
         width: 100%;
     }
-    .cab_content .cab_footer {
+    .usp-office-content .usp-office-bottom {
         text-align: center;
     }
-    .cab_bttn_lite {
+    .usp-office-bttn-lite {
         display: table;
         float: none;
         margin: 8px auto;
@@ -510,14 +458,10 @@
     }
 }
 @media screen and (max-width:360px) {
-    #lk-conteyner .cab_bttn_lite .usp-tab-button span span {
+    #usp-office-profile .usp-office-bttn-lite .usp-tab-button span span {
         display: table-header-group;
     }
 }
 @media screen and (max-width:320px) {
-    .office-sunshine .lk-sidebar {
-        height: 205px;
-        width: 205px;
-    }
+
 }
-/* END responsive */

@@ -11,7 +11,7 @@ function usp_zoom_avatar( e ) {
 
 function usp_get_user_info( element ) {
 
-	usp_preloader_show( '#lk-conteyner > div' );
+	usp_preloader_show( '#usp-office-profile > div' );
 
 	usp_ajax( {
 		data: {

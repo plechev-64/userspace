@@ -99,7 +99,7 @@ function usp_add_theme_cover_inline_styles( $styles ) {
     $dataUrl    = wp_parse_url( $cover_url );
     $cover_path = untrailingslashit( ABSPATH ) . $dataUrl['path'];
 
-    $styles .= '#lk-conteyner{background-image: url(' . $cover_url . '?vers=' . filemtime( $cover_path ) . ');}';
+    $styles .= '#usp-office-profile{background-image: url(' . $cover_url . '?vers=' . filemtime( $cover_path ) . ');}';
 
     return $styles;
 }
