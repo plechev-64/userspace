@@ -105,6 +105,6 @@ function usp_template_support( $support ) {
 function usp_add_balloon_menu( $data, $args ) {
     if ( $data['id'] != $args['tab_id'] )
         return $data;
-    $data['name'] = sprintf( '%s <span class="usp-menu-notice">%s</span>', $data['name'], $args['ballon_value'] );
+    $data['name'] = sprintf( '%s <span class="usp-menu-notice usps__line-1">%s</span>', $data['name'], $args['ballon_value'] );
     return $data;
 }

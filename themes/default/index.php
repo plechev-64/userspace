@@ -33,7 +33,7 @@ function usp_default_theme_sidebar() {
         'description'   => __( 'It is displayed only in user profile page. To the right of the content (sidebar)', 'userspace' ),
         'before_title'  => '<h3 class="theme_sidebar_title">',
         'after_title'   => '</h3>',
-        'before_widget' => '<div class="theme_sidebar">',
+        'before_widget' => '<div class="usp-right-sidebar usps usps__column usps__shrink-0">',
         'after_widget'  => '</div>'
     ) );
 }

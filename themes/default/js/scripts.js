@@ -84,7 +84,7 @@
 			+ '</a>'
 			);
 		// формируем в кнопке контент
-		$( 'body' ).append( '<div id="sunshine_ext_menu"><ul>' + menuhtml + '</ul></div>' );
+		$( 'body' ).append( '<div id="sunshine_ext_menu"><ul class="usps__line-1">' + menuhtml + '</ul></div>' );
 
 		var hideshow = $( '#usp-tabs .usp-tab-butt.hideshow' );
 		if ( menuhtml == '' ) {                                           // если нет контента в кнопке - скрываем её

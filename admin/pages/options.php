@@ -106,12 +106,11 @@ $options->box( 'primary' )->add_group( 'design', array(
         'default' => '#4C8CBD'
     ),
     array(
-        'type'   => 'select',
-        'slug'   => 'buttons_place',
-        'title'  => __( 'The location of the section buttons', 'userspace' ),
-        'values' => array(
-            __( 'Top', 'userspace' ),
-            __( 'Left', 'userspace' ) )
+        'type'    => 'radio',
+        'slug'    => 'buttons_place',
+        'title'   => __( 'The location of the section buttons', 'userspace' ),
+        'values'  => [ __( 'Top', 'userspace' ), __( 'Left', 'userspace' ) ],
+        'default' => 0,
     ),
     array(
         'type'       => 'uploader',

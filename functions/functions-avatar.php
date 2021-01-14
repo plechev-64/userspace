@@ -32,7 +32,7 @@ function usp_setup_avatar_icons() {
             }
         }
 
-        $string = '<a ' . implode( ' ', $atts ) . '>';
+        $string = '<a class="usp-ava-bttn usps__line-1 icon-' . $icon_id . '" ' . implode( ' ', $atts ) . '>';
 
         if ( isset( $icon['icon'] ) )
             $string .= '<i class="uspi ' . $icon['icon'] . '"></i>';
@@ -42,10 +42,10 @@ function usp_setup_avatar_icons() {
 
         $string .= '</a>';
 
-        $html[] = '<span class="usp-avatar-icon icon-' . $icon_id . '">' . $string . '</span>';
+        $html[] = $string;
     }
 
-    echo '<span class="avatar-icons">' . implode( '', $html ) . '</span>';
+    echo '<div class="usp-ava-bttns">' . implode( '', $html ) . '</div>';
 }
 
 function usp_avatar_icons() {

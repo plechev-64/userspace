@@ -1,25 +1,17 @@
 <?php
 function usp_action() {
-    global $usp_userlk_action;
-    $last_action = usp_get_useraction( $usp_userlk_action );
-    $class       = ( ! $last_action) ? 'online' : 'offline';
+    global $user_LK;
 
-    if ( $last_action )
-        $status = __( 'offline', 'userspace' ) . ' ' . $last_action;
-    else
-        $status = __( 'online', 'userspace' );
-
-    echo sprintf( '<span class="user-status %s">%s</span>', $class, $status );
+    echo usp_get_useraction_html( $user_LK, $type = 2 );
 }
 
 function usp_avatar( $avatar_size = 120, $attr = false ) {
     global $user_LK;
+
+    $attr['class'] = 'usp-profile-ava usps__img-reset';
     ?>
-    <div id="usp-avatar">
-        <span class="avatar-image">
-            <?php echo get_avatar( $user_LK, $avatar_size, false, false, $attr ); ?>
-            <span id="avatar-upload-progress"><span></span></span>
-        </span>
+    <div id="usp-avatar" class="usp-office-ava usps__relative">
+        <?php echo get_avatar( $user_LK, $avatar_size, false, false, $attr ); ?>
         <?php do_action( 'usp_avatar' ); ?>
     </div>
     <?php

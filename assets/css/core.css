@@ -7,8 +7,6 @@ i::before {
 /* usps (style) flex layout */
 .usps {
     display: flex;
-    justify-content: flex-start;
-    width: 100%;
 }
 .usps:not(.usps__nowrap) {
     flex-wrap: wrap;
@@ -18,7 +16,6 @@ i::before {
 }
 .usps__column {
     flex-direction: column;
-    align-items: flex-start;
 }
 .usps__right:not(.usps__column) {
     justify-content: flex-end;
@@ -100,6 +97,9 @@ i::before {
 .usps__invisible {
     visibility: hidden;
 }
+.usps__relative {
+    position: relative;
+}
 .usps__fit-cover {
     object-fit: cover;
 }
@@ -135,6 +135,12 @@ i::before {
 
 .usps__shadow-0 {
     box-shadow: none;
+}
+.usps__line-1 {
+    line-height: 1;
+}
+.usps__line-normal {
+    line-height: normal;
 }
 /* END */
 
@@ -390,7 +396,6 @@ span i.uspi.fa-circle {
     vertical-align: inherit;
 }
 .online .uspi.fa-circle {
-    -webkit-animation: pulsate 2s linear infinite;
     animation: pulsate 2s linear infinite;
     color: #89e535;
 }
@@ -399,9 +404,9 @@ span i.uspi.fa-circle {
     text-shadow: 0 0 1px #5a0d0c;
 }
 @keyframes pulsate {
-    25% {transform: scale(1.025);}
-    50% {color: #A3F558;text-shadow: 0 0 3px #35e668;transform: scale(1.05);}
-    75% {transform: scale(1.025);}
+    25% {transform: scale(.95);}
+    50% {text-shadow: 0 0 3px #35e668;transform: scale(.75);}
+    75% {transform: scale(.85);}
 }
 /*end*/
 
@@ -766,53 +771,6 @@ a.data-filter.filter-active:hover {
 /*end*/
 
 
-/*------------------
-  18. Avatar zone
---------------------*/
-#usp-avatar {
-    position: relative;
-}
-#usp-avatar .avatar-icons {
-    display: block;
-    line-height: 1;
-}
-#usp-avatar .avatar-icons .usp-avatar-icon {
-    cursor: pointer;
-}
-#usp-avatar .avatar-icons .usp-avatar-icon a {
-    box-shadow: none;
-    display: inline-block;
-    position: relative;
-}
-#usp-avatar .icon-avatar-upload span {
-    display: block;
-    height: 100%;
-    left: 0;
-    overflow: hidden;
-    position: absolute;
-    top: 0;
-    width: 100%;
-}
-#usp-avatar .icon-avatar-upload input[type="file"] {
-    cursor: pointer;
-    display: block;
-    height: 100%;
-    opacity: 0;
-    position: absolute;
-    right: 0;
-    top: 0;
-    z-index: 9;
-}
-/*end*/
-
-
-/*---------------------------
-  19. USP Custom fields API
------------------------------*/
-
-/*end*/
-
-
 /*-----------------------
   22. USP pagenavi API
 -------------------------*/
@@ -1034,29 +992,6 @@ body .ssi-modalOuter .ssi-modalTitle {
 
 
 /*----------------------------------
-  25. Upload Cover
-------------------------------------*/
-#usp-office .usp-cover-icon {
-    line-height: 1;
-    overflow: hidden;
-    position: relative;
-}
-#usp-office .usp-cover-icon:hover {
-    cursor: pointer;
-}
-#usp-office .usp-cover-icon input[type="file"] {
-    cursor: pointer;
-    height: 100%;
-    opacity: 0;
-    position: absolute;
-    right: 0;
-    top: 0;
-    z-index: 99;
-}
-/*end*/
-
-
-/*----------------------------------
   26. Detailed information
 ------------------------------------*/
 .usp-user-getails .usp-user-avatar {
@@ -1140,26 +1075,6 @@ body .ssi-modalOuter .ssi-modalTitle {
 }
 .usp-hand-uploader #ssi-modalWindow {
     max-width: 95%;
-}
-#avatar-upload-progress {
-    background: #ccc;
-    display: none;
-    font-size: 40px;
-    font-weight: bold;
-    height: 100%;
-    left: 0;
-    opacity: 0.5;
-    position: absolute;
-    text-align: center;
-    top: 0;
-    width: 100%;
-}
-#avatar-upload-progress span {
-    left: 50%;
-    margin-left: -30px;
-    margin-top: -20px;
-    position: absolute;
-    top: 50%;
 }
 /*end*/
 
@@ -1524,9 +1439,7 @@ body .usp-bttn:not(.usp-bttn__type-clear):last-child {
 	border-color: rgba(0,0,0,.15);
 }
 .usp-bttn.usp-bttn__loading::after {
-	-webkit-animation: usp-bttn-loader .8s linear;
 	animation: usp-bttn-loader .8s linear;
-	-webkit-animation-iteration-count: infinite;
 	animation-iteration-count: infinite;
 	border-color: #fff transparent transparent;
 	transform: rotate(0deg);
@@ -1603,14 +1516,4 @@ body .usp-bttn:not(.usp-bttn__type-clear):last-child {
 }
 /* User Widget End */
 
-.tab-content{
 
-}
-.tab-content .tab-title > i{
-
-}
-.tab-content .tab-title{
-	padding: 10px;
-    margin-bottom: 10px;
-    background: #e7e7e7;
-}

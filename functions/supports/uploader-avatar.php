@@ -64,7 +64,7 @@ function usp_button_avatar_upload( $icons ) {
         'max_size'    => usp_get_option( 'avatar_weight', 1024 )
         ) );
 
-    $icons['avatar-upload'] = array(
+    $icons['set-ava'] = array(
         'icon'    => 'fa-download',
         'content' => $uploder->get_input(),
         'atts'    => array(
@@ -75,7 +75,7 @@ function usp_button_avatar_upload( $icons ) {
 
     if ( get_user_meta( $user_ID, 'usp_avatar', 1 ) ) {
 
-        $icons['avatar-delete'] = array(
+        $icons['del-ava'] = array(
             'icon' => 'fa-times',
             'atts' => array(
                 'title' => __( 'Delete avatar', 'userspace' ),

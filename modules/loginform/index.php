@@ -33,7 +33,7 @@ function usp_get_loginform( $atts = [] ) {
 
     $forms = array_map( 'trim', explode( ',', $forms ) );
 
-    $content = '<div class="usp-loginform preloader-parent">';
+    $content = '<div class="usp-loginform usps__relative">';
 
     $content .= '<div class="tab-group">';
     if ( in_array( 'login', $forms ) )

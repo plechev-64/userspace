@@ -108,7 +108,7 @@ function USPUploader( props, sk ) {
 		options = {
 			dataType: 'json',
 			type: 'POST',
-			url: USP.wpurl + '/?rest_route=/usp/usp_ajax_call/', /*USP.ajaxurl*/
+			url: USP.wpurl + '/?rest_route=/userspace/usp_ajax_call/', /*USP.ajaxurl*/
 			dropZone: this.options.dropzone ? jQuery( "#usp-dropzone-" + this.uploader_id ) : false,
 			formData: this.getFormData( uploader ),
 			loadImageMaxFileSize: this.options.max_size * 1024,

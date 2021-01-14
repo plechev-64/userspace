@@ -227,7 +227,7 @@ class USP_Tab {
 
         $subtab = $this->subtab( $this->current_id );
 
-        $content = '<div id="usp-tab-content" class="usp-tab-' . $this->id . ' preloader-parent">';
+        $content = '<div id="usp-tab-content" class="usp-tab-' . $this->id . ' usps__relative usps__grow">';
 
         $content .= $this->get_menu();
 
