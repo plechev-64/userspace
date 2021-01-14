@@ -962,11 +962,9 @@ div.usp-ava-zoom .ssi-modalWindow {
     box-sizing: border-box;
     clear: both;
     font-size: 16px;
-    line-height: normal;
     margin: 12px 0 !important;
     overflow: hidden;
     padding: 12px 36px !important;
-    position: relative;
 }
 .usp-notice__border {
     border-width: 1px;
@@ -1010,9 +1008,9 @@ div.usp-ava-zoom .ssi-modalWindow {
     border-color: #dadada;
 }
 .usp-notice > .uspi {
-    color: rgba(0, 0, 0, 0.08);
+    color: rgba(0, 0, 0, .1);
     font-size: 52px;
-    left: -10px;
+    left: -9px;
     position: absolute;
     top: 50%;
     transform: translateY(-50%);

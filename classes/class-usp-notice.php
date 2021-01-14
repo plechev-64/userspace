@@ -39,7 +39,7 @@ class USP_Notice {
 
     function setup_class() {
 
-        $classes = array( 'usp-notice', 'usp-notice__type-' . $this->type );
+        $classes = array( 'usp-notice', 'usps__relative', 'usps__line-normal', 'usp-notice__type-' . $this->type );
 
         if ( $this->class )
             $classes[] = $this->class;
