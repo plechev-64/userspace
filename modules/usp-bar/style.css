@@ -193,10 +193,6 @@
 }
 #usp-bar .rcb_right_menu img {
     border-radius: 0;
-    border: none;
-    height: 36px;
-    max-width: 36px;
-    width: 36px;
 }
 #usp-bar .pr_sub_menu {
     background: rgba(0, 0, 0, 0.7);
