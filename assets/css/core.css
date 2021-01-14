@@ -126,6 +126,9 @@ i::before {
     white-space: nowrap;
 }
 
+.usps__radius-3 {
+    border-radius: 3px;
+}
 .usps__radius {
     border-radius: 6px;
 }
@@ -331,6 +334,7 @@ body .usp_preloader {
     z-index: 99;
 }
 .usp_preloader i {
+    color: var(--uspHex);
     left: 50%;
     position: absolute;
     top: 50%;
@@ -411,83 +415,51 @@ span i.uspi.fa-circle {
 /*end*/
 
 
-/*------------------------
-  7. Dashboard UserSpace
---------------------------*/
-.panel_lk_recall .usp-widget-buttons .usp-widget-button {
-    margin: 0 0 4px;
-    overflow: hidden;
-    padding: 0;
-}
-.panel_lk_recall .usp-widget-buttons .recall-button {
-    color: #fff;
-    display: inline-block;
-    font-size: 14px;
-    line-height: 1;
-    padding: 8px;
-}
-.panel_lk_recall .usp-widget-buttons a.recall-button:hover {
-    color: #fff;
-}
-.panel_lk_recall .username {
-    margin: 0 0 5px;
-}
-.panel_lk_recall .author-avatar {
-    float: left;
-    margin:0 5px 0 0;
-    position: relative;
-    width: 67px;                                /*++Twenty16++*/
-}
-.panel_lk_recall .author-avatar a {
-    display: inline-block;
-    height: auto;
-    width: 100%;
-}
-.panel_lk_recall .author-avatar a img {
-    border-radius: 0;
-    float: left;
-    height: auto;
-    margin: 0;
-    max-width: 100%;
-    width: 100%;
-}
-/*end*/
+
 
 
 /*------------------
   9. Ballun
 --------------------*/
-.ballun-status {
-    max-width: 350px;
+.usp-descr-wrap {
+    max-width: 400px;
 }
-.status-user-usp {
+.usp-descr-top {
+    margin-top: 18px;
+}
+.usp-descr-left {
+    margin-left: 18px;
+}
+.usp-descr {
     background: #fff;
-    border-radius: 3px;
-    border-style: solid;
-    border-width: 1px;
-    box-sizing: border-box;
-    color: #333;                                    /*++hueman++*/
-    display: inline-block;
-    font-size: 14px;                                /*++hueman++*/
-    line-height: normal;                            /*++hueman++*/
-    min-width: 50px;
-    padding: 6px 8px;
-    position: relative;
+    border: 1px solid var(--uspHex);
+    min-width: 48px;
+    padding: 6px 9px;
     -webkit-hyphens: auto;
-	hyphens: auto;
+    hyphens: auto;
     word-wrap: break-word;
 }
-.status-user-usp::before {
+.usp-descr::before {
     border-color: transparent;
     border-style: solid;
-    border-width: 11px 0 0 11px;
+    border-width: 12px 0 0 12px;
     content: "";
     height: 0;
-    left: 8px;
     position: absolute;
-    top: -12px;
     width: 0;
 }
+.usp-descr-top .usp-descr::before {
+    border-left-color: var(--uspHex);
+    left: 12px;
+    top: -12px;
+}
+.usp-descr-left .usp-descr::before {
+    border-top-color: var(--uspHex);
+    left: -12px;
+    top: 12px;
+}
+
+
 /*new balloon*/
 .usp-balloon {
 	position: absolute;
@@ -864,180 +836,28 @@ body .ssi-modalOuter .ssi-modalTitle {
 }
 /*end*/
 
-
-/*-----------------------------------------
-  24. TODO: Gallery & Video Gallery core
--------------------------------------------*/
-#usp-popup-content label { /*fast editor*/
-    font-weight: bold;
-}
-#usp-popup-content input[type="text"],
-#usp-popup-content textarea {
-    background-color: #f5f5f5;
-    border: 1px solid #e5e5e5;
-    box-sizing: border-box;
-    margin: 5px 0;
-    padding: 5px;
-    width: 100%;
-}
-#usp-popup {
-    background: #f8f8f8;
-    border-radius: 3px;
-    box-sizing: border-box;
-    color: #333;
-    display: block;
-    left: 50%;
-    line-height: 1.4;
-    max-width: 600px;
-    max-width: 80%;
-    position: absolute;
-    top: 10%;
-    -webkit-transform: translateX(-50%);
-	transform: translateX(-50%);
-    z-index: 999;
-}
-#usp-popup h2 {
-    clear: none;
-    font-size: 18px;
-    line-height: 1;
-    margin: 0;
-    padding: 8px 0 0 5px;
-    text-transform: none;
-    width: calc(100% - 40px);
-}
-#usp-popup h4 {
-    clear:both;
-    font-size: 16px;
-    line-height: 1;
-    margin: 8px 0 0;
-    overflow: hidden;
-    padding: 0 10px 4px;
-    text-transform: none;
-}
-#usp-popup p {
-    margin: 0 10px 10px;
-    padding: 0;
-}
-#usp-popup textarea {
-    border: 1px solid #ccc;
-    box-sizing: border-box;
-    color: #000;
-    display: block;
-    margin: 10px auto;
-    min-height: 80px;
-    padding: 5px;
-    width: 98%;
-}
-#usp-popup #commentlist .comm-attach {
-    background: rgba(237, 237, 237, 0.5);
-    margin: 10px 0;
-    padding: 10px;
-}
-#usp-popup #commentlist .comment-author::after,
-#usp-popup #commentlist .comment-author::before {
-    display: none;
-}
-#usp-popup #commentlist .author-avatar {
-    float: left;
-    margin: 0 10px 0 0;
-}
-#usp-popup .navi-gallery {
-    color: #ccc;
-    cursor: pointer;
-    font-size: 50px;
-    height: 50px;
-    left: 50%;
-    line-height: 50px;
-    opacity: 0.6;
-    position: absolute;
-    top: 200px;
-    -webkit-transform: translateX(-50%);
-	transform: translateX(-50%);
-    width: auto;
-}
-#usp-popup .navi-gallery:hover {
-    opacity: 1;
-}
-#usp-popup .prev-attach {
-    float: left;
-    margin-left: -54%;
-}
-#usp-popup .next-attach {
-    float: right;
-    margin-left: 54%;
-}
-#usp-popup .next-attach::after {
-    content: "\f138";
-    font-family: usp-awesome;
-}
-#usp-popup .prev-attach::after {
-    content: "\f137";
-    font-family: usp-awesome;
-}
-@media screen and (max-width:480px) {
-    #usp-popup {
-        max-width: 95%;
-    }
-    #usp-popup .navi-gallery {
-        top: 25%;
-    }
-    #usp-popup .prev-attach {
-        margin-left: -47%;
-    }
-    #usp-popup .next-attach {
-        margin-left: 47%;
-    }
-}
-/*end*/
-
-
 /*----------------------------------
   26. Detailed information
 ------------------------------------*/
-.usp-user-getails .usp-user-avatar {
-    display: inline-block;
-    position: relative;
-    text-align: center;
-    width: 100%;
-}
-.usp-user-getails .usp-user-avatar img {
+.usp-detailed-ava {
     border-radius: 0;
-    border: 0;
     display: block;
     float: none;
-    height: auto;
-    margin: 0 auto;
-    max-width: 100%;
     padding: 0;
-    width: 100%;
 }
-.usp-user-getails .usp-user-avatar .usp-avatar-zoom {
-    background: rgba(0, 0, 0, 0.5);
+.usp-user-avatar .usp-avatar-zoom {
+    background: rgba(0, 0, 0, .5);
     color: #fff;
-    display: none;
     font-size: 150px;
     height: 100%;
-    opacity: 0.7;
+    opacity: .7;
     position: absolute;
     text-decoration: none;
     top: 0;
     width: 100%;
 }
-.usp-user-getails .usp-user-avatar:hover .usp-avatar-zoom {
-    display:flex;
-}
-.usp-user-getails .usp-avatar-zoom i {
+.usp-user-avatar:hover .usp-avatar-zoom {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: 100%;
-}
-.usp-user-getails .ballun-status {
-    margin: 5px auto 0;
-    max-width: 425px;
-}
-.usp-user-getails .status-user-usp::before {
-    margin-left: calc(50% - 8px);
 }
 .usp-user-getails .block-usp {
     padding: 5px;
@@ -1046,23 +866,20 @@ body .ssi-modalOuter .ssi-modalTitle {
     margin: 0;
     padding: 0;
 }
-.usp-user-avatar-zoom .ssi-modalContent {
-    padding: 0;
+div.usp-ava-zoom .ssi-modalWindow {
+    min-width: auto;
 }
-.usp-user-avatar-zoom .ssi-topIcons {
+.usp-ava-zoom .ssi-topIcons {
     z-index: 1600;
+}
+.usp-ava-zoom .ssi-modalContent {
+    padding: 0;
 }
 .usp-user-getails #ssi-modalWrapper {
     max-width: 450px;
 }
-.ssi-modalOuter.usp-hand-uploader .ssi-modalContent {
+.usp-hand-uploader .ssi-modalContent {
     padding: 0;
-}
-.ssi-modalOuter.usp-user-avatar-zoom .ssi-modalWindow {
-    min-width: auto;
-}
-.ssi-modalOuter.usp-user-avatar-zoom img {
-    margin: 0;
 }
 /*end*/
 
@@ -1128,20 +945,6 @@ body .ssi-modalOuter .ssi-modalTitle {
 /*---------------------------
   31. TODO: old generation
 -----------------------------*/
-#usp-popup.fixed {
-    position: fixed;
-    top: 80px;
-}
-#usp-popup .delete {
-    display: block;
-    float: left;
-    height: 31px;
-    margin: 5px 5px 10px;
-    width: 31px;
-}
-#usp-popup .popup-body {
-    padding: 10px;
-}
 .usp-upload-button span.progress-bar {
     background: #36C515;
     height: 100%;

@@ -45,18 +45,7 @@ function usp_default_inline_styles( $styles, $rgb ) {
     a.data-filter.filter-active:hover{
         background: rgba(' . $r . ', ' . $g . ', ' . $b . ', 0.4);
     }
-    .usp_preloader i{
-        color:rgb(' . $r . ',' . $g . ',' . $b . ');
-    }
-    .usp-user-getails .status-user-usp::before{
-        border-left-color:rgb(' . $r . ',' . $g . ',' . $b . ');
-    }
-    .rows-list .status-user-usp::before{
-        border-top-color:rgb(' . $r . ',' . $g . ',' . $b . ');
-    }
-    .status-user-usp{
-        border-color:rgb(' . $r . ',' . $g . ',' . $b . ');
-    }
+
     .usp-field-input input[type="checkbox"]:checked + label.block-label::before,
     .usp-field-input input[type="radio"]:checked + label.block-label::before{
         background:rgb(' . $r . ',' . $g . ',' . $b . ');
@@ -267,8 +256,7 @@ function usp_init_footer_action() {
     echo '<script>usp_do_action("usp_footer")</script>';
 }
 
-add_action( 'wp_footer', 'usp_popup_contayner', 4 );
-function usp_popup_contayner() {
-    echo '<div id="usp-overlay"></div>
-        <div id="usp-popup"></div>';
+add_action( 'wp_footer', 'usp_overlay_contayner', 4 );
+function usp_overlay_contayner() {
+    echo '<div id="usp-overlay"></div>';
 }

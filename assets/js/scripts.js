@@ -363,22 +363,11 @@ function usp_init_click_smilies() {
 	} );
 }
 
-usp_add_action( 'usp_init', 'usp_init_close_popup' );
-function usp_init_close_popup() {
-	jQuery( '#usp-popup,.floatform' ).on( 'click', '.close-popup', function() {
-		usp_hide_float_login_form();
-		jQuery( '#usp-overlay' ).fadeOut();
-		jQuery( '#usp-popup' ).empty();
-		return false;
-	} );
-}
-
 usp_add_action( 'usp_init', 'usp_init_click_overlay' );
 function usp_init_click_overlay() {
 	jQuery( '#usp-overlay' ).click( function() {
 		usp_hide_float_login_form();
 		jQuery( '#usp-overlay' ).fadeOut();
-		jQuery( '#usp-popup' ).empty();
 		return false;
 	} );
 }

@@ -17,15 +17,6 @@ function usp_avatar( $avatar_size = 120, $attr = false ) {
     <?php
 }
 
-function usp_status_desc() {
-    global $user_LK;
-    $desc = get_the_author_meta( 'description', $user_LK );
-    if ( $desc )
-        echo '<div class="ballun-status">'
-        . '<div class="status-user-usp">' . nl2br( wp_strip_all_tags( $desc ) ) . '</div>'
-        . '</div>';
-}
-
 function usp_username() {
     global $user_LK;
     echo get_the_author_meta( 'display_name', $user_LK );
@@ -116,9 +107,7 @@ function usp_user_description() {
     global $usp_user;
 
     if ( isset( $usp_user->description ) && $usp_user->description ) {
-        echo '<div class="ballun-status">';
-        echo '<div class="status-user-usp">' . nl2br( esc_html( $usp_user->description ) ) . '</div>
-		</div>';
+        echo usp_get_quote_box( $usp_user->ID, [ 'text' => $usp_user->description ] );
     }
 
     do_action( 'usp_user_description' );

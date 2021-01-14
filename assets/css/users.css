@@ -130,11 +130,6 @@
     margin: 0 6px 8px;
     max-width: none;
 }
-.rows-list .status-user-usp::before {
-    border-width: 13px 0 0 13px;
-    left: -14px;
-    top: 8px;
-}
 .userlist.rows-list .user-single .filter-data {
     background: #eee;
     box-shadow: 0 0 1px 1px rgba(219, 219, 219, 0.7);

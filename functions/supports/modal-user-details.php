@@ -45,7 +45,7 @@ function usp_return_user_details() {
     );
 }
 
-function usp_get_user_details( $user_id, $args = false ) {
+function usp_get_user_details( $user_id, $set_args = false ) {
     global $user_LK, $usp_blocks;
 
     $user_LK = $user_id;
@@ -56,40 +56,28 @@ function usp_get_user_details( $user_id, $args = false ) {
         'custom_fields' => true
     );
 
-    $args = wp_parse_args( $args, $defaults );
+    $args = wp_parse_args( $set_args, $defaults );
 
     // if ( ! class_exists( 'USP_Blocks' ) )
     //    require_once USP_PATH . 'deprecated/class-usp-blocks.php';
 
     $content = '<div id="usp-user-details">';
-
-    $content .= '<div class="usp-user-avatar">';
-
-    $content .= get_avatar( $user_LK, 600 );
+    $content .= '<div class="usp-user-avatar usps__relative">';
+    $content .= get_avatar( $user_LK, 600, false, false, [ 'class' => 'usp-detailed-ava usps__img-reset' ] );
 
     if ( $args['zoom'] ) {
-
         $avatar = get_user_meta( $user_LK, 'usp_avatar', 1 );
 
         if ( $avatar ) {
-            if ( is_numeric( $avatar ) ) {
-                $url_avatar = get_avatar_url( $user_LK, [ 'size' => 1000 ] );
-            } else {
-                $url_avatar = $avatar;
-            }
-            $content .= '<a title="' . __( 'Zoom avatar', 'userspace' ) . '" data-zoom="' . $url_avatar . '" onclick="usp_zoom_avatar(this);return false;" class="usp-avatar-zoom" href="#"><i class="uspi fa-search-plus"></i></a>';
+            $url_avatar = get_avatar_url( $user_LK, [ 'size' => 1000 ] );
+            $content    .= '<a title="' . __( 'Zoom avatar', 'userspace' ) . '" data-zoom="' . $url_avatar . '" onclick="usp_zoom_avatar(this);return false;" class="usp-avatar-zoom usps__hidden" href="#"><i class="uspi fa-search-plus usps usps__column usps__jc-center usps__grow"></i></a>';
         }
     }
 
     $content .= '</div>';
 
     if ( $args['description'] ) {
-
-        $desc    = get_the_author_meta( 'description', $user_LK );
-        if ( $desc )
-            $content .= '<div class="ballun-status">'
-                . '<div class="status-user-usp">' . nl2br( wp_strip_all_tags( $desc ) ) . '</div>'
-                . '</div>';
+        $content .= usp_get_quote_box( $user_LK, [ 'side' => 'top' ] );
     }
 
     if ( $args['custom_fields'] ) {

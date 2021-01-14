@@ -1,5 +1,37 @@
 <?php
 
+/**
+ * Get the description block with the desired side of the quote
+ *
+ * @since 1.0
+ *
+ * @param int $user_id      id user.
+ * @param array $attr       $attr['side'] left|top (default: left)
+ *                          $attr['text'] text of quote
+ *                          $attr['class'] additional css class
+ *
+ * @return string description block.
+ */
+function usp_get_quote_box( $user_id, $attr = false ) {
+    if ( ! isset( $attr['text'] ) ) {
+        $user_description = get_the_author_meta( 'description', $user_id );
+        if ( ! $user_description )
+            return false;
+
+        $descr = nl2br( wp_strip_all_tags( $user_description ) );
+    } else {
+        $descr = $attr['text'];
+    }
+
+    $side = isset( $attr['side'] ) ? 'usp-descr-' . $attr['side'] : 'usp-descr-left';
+
+    $class = isset( $attr['class'] ) ? ' ' . $attr['class'] : '';
+
+    return '<div class="usp-descr-wrap usps ' . $side . $class . '">'
+        . '<div class="usp-descr usps__relative usps__line-normal usps__radius-3">' . $descr . '</div>'
+        . '</div>';
+}
+
 if ( ! function_exists( 'get_called_class' ) ) :
     function get_called_class() {
         $arr       = array();
@@ -255,7 +287,7 @@ function usp_get_author_block() {
     $content .= "<h3>" . __( 'Publication author', 'userspace' ) . "</h3>";
 
     if ( function_exists( 'usp_add_userlist_follow_button' ) )
-        add_filter( 'usp_user_description', 'usp_add_userlist_follow_button', 90 );
+        add_action( 'usp_user_description', 'usp_add_userlist_follow_button', 90 );
 
     $content .= usp_get_userlist( array(
         'template' => 'rows',
@@ -266,7 +298,7 @@ function usp_get_author_block() {
         ) );
 
     if ( function_exists( 'usp_add_userlist_follow_button' ) )
-        remove_filter( 'usp_user_description', 'usp_add_userlist_follow_button', 90 );
+        remove_action( 'usp_user_description', 'usp_add_userlist_follow_button', 90 );
 
     $content .= "</div>";
 
