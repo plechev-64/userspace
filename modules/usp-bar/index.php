@@ -5,15 +5,6 @@ function usp_userspace_bar_scripts() {
     usp_enqueue_style( 'usp-bar', USP_URL . 'modules/usp-bar/style.css', false, false, true );
 }
 
-add_action( 'after_setup_theme', 'usp_register_userspace_bar' );
-function usp_register_userspace_bar() {
-
-    if ( ! usp_get_option( 'view_usp_bar' ) )
-        return false;
-
-    register_nav_menus( array( 'usp-bar' => __( 'UserSpace Bar', 'userspace' ) ) );
-}
-
 add_action( 'wp_footer', 'usp_userspace_bar_menu', 3 );
 function usp_userspace_bar_menu() {
     usp_include_template( 'usp-bar.php' );
@@ -76,13 +67,13 @@ function usp_print_bar_icons() {
             endif;
 
             echo '<i class="uspi ' . $icon['icon'] . '" aria-hidden="true"></i>';
-            echo '<div class="rcb_hiden"><span>';
+            echo '<span>';
 
             if ( isset( $icon['label'] ) ):
                 echo $icon['label'];
             endif;
 
-            echo '</span></div>';
+            echo '</span>';
 
             if ( isset( $icon['url'] ) || isset( $icon['onclick'] ) ):
                 echo '</a>';
@@ -129,22 +120,22 @@ add_filter( 'usp_inline_styles', 'usp_bar_add_inline_styles', 10, 2 );
 function usp_bar_add_inline_styles( $styles, $rgb ) {
 
     if ( is_admin_bar_showing() ) {
-        // 68 = 32 админбар + 36 реколлбар
-        // на 782 пикселях 82 = 46 + 36 соответственно отступ
-        $styles .= 'html {margin-top:68px !important;}
-        * html body {margin-top:68px !important;}
+        // 72 = 32 wordpress toolbar + 40 UserSpace bar
+        // on 782px: 86 = 46 + 40
+        $styles .= 'html {margin-top:72px !important;}
+        * html body {margin-top:72px !important;}
         #usp-bar{margin-top:32px;}
         @media screen and (max-width:782px) {
-        html {margin-top: 82px !important;}
-        * html body {margin-top: 82px !important;}
+        html {margin-top: 86px !important;}
+        * html body {margin-top: 86px !important;}
         #usp-bar{margin-top:46px;}
         }';
     } else {
-        $styles .= 'html {margin-top:36px !important;}
-        * html body {margin-top:36px !important;}';
+        $styles .= 'html {margin-top:40px !important;}
+        * html body {margin-top:40px !important;}';
     }
 
-    if ( usp_get_option( 'rcb_color' ) ) {
+    if ( usp_get_option( 'usp_bar_color' ) == 'color' ) {
 
         list($r, $g, $b) = $rgb;
 
@@ -155,8 +146,7 @@ function usp_bar_add_inline_styles( $styles, $rgb ) {
 
         // $r $g $b - родные цвета от кнопки
         // $rs $gs $bs - темный оттенок от кнопки
-        $styles .= '#usp-bar {
-        background:rgba(' . $rs . ',' . $gs . ',' . $bs . ',0.85);}
+        $styles .= '
         #usp-bar .rcb_menu,#usp-bar .pr_sub_menu {
         border-top: 2px solid rgba(' . $r . ',' . $g . ',' . $b . ',0.8);}
         #usp-bar .rcb_right_menu:hover {
@@ -166,10 +156,7 @@ function usp_bar_add_inline_styles( $styles, $rgb ) {
         #usp-bar .rcb_nmbr {
         background: rgba(' . $r . ',' . $g . ',' . $b . ',0.8);}
         #usp-bar .rcb_menu,#usp-bar .pr_sub_menu,#usp-bar .rcb_menu .sub-menu {
-        background: rgba(' . $rs . ',' . $gs . ',' . $bs . ',0.95);}
-        .rcb_icon div.rcb_hiden span {
-        background: rgba(' . $rs . ',' . $gs . ',' . $bs . ',0.9);
-        border-top: 2px solid rgba(' . $r . ',' . $g . ',' . $b . ',0.8);}';
+        background: rgba(' . $rs . ',' . $gs . ',' . $bs . ',0.95);}';
     }
 
     return $styles;

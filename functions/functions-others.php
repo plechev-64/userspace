@@ -32,6 +32,15 @@ function usp_get_quote_box( $user_id, $attr = false ) {
         . '</div>';
 }
 
+// register menu in userspace bar
+add_action( 'after_setup_theme', 'usp_register_userspace_menu' );
+function usp_register_userspace_menu() {
+    if ( ! usp_get_option( 'view_usp_bar' ) )
+        return;
+
+    register_nav_menu( 'usp-bar', __( 'UserSpace Bar', 'userspace' ) );
+}
+
 if ( ! function_exists( 'get_called_class' ) ) :
     function get_called_class() {
         $arr       = array();

@@ -1,14 +1,23 @@
-#usp-bar {
-    background: rgba(0, 0, 0, 0.85);
+.usp-bar {
     font-size: 14px;
-    height: 36px;
+    height: 40px;
     left: 0;
-    line-height: 1;
     position: fixed;
     top: 0;
     width: 100%;
     z-index: 99;
 }
+.usp-bar-dark {
+    background: rgba(0, 0, 0, .85);
+}
+.usp-bar-white {
+    background: #fff;
+    border-bottom: 1px solid #eee;
+}
+.usp-bar-color {
+    background: rgba(var(--uspRgbDark),.85);
+}
+
 #usp-bar a {
     color: #e6e6e6;
     text-decoration: none;
@@ -16,7 +25,7 @@
 #usp-bar .uspi {
     color: #e6e6e6;
     font-size: 30px;
-    line-height: 36px;
+    line-height: 40px;
     vertical-align: middle;
     width: 30px;
 }
@@ -28,7 +37,7 @@
     margin: 0 10px;
     position: relative;
 }
-#usp-bar .rcb_right .rcb_icons,
+#usp-bar .usp-bar-right .rcb_icons,
 #usp-bar .rcb_icon a {
     display: inline-block;
 }
@@ -38,43 +47,19 @@
     margin: 0 0 0 7px;
     vertical-align: middle;
 }
-#usp-bar .rcb_icon .rcb_hiden {
-    margin: 0 0 0 -43px;
-    opacity: 0;
-    pointer-events: none;
-    position: absolute;
-    text-align: center;
-    top: 54px;
-    transform: translate3d(0px, 0px, 0px);
-    transition: opacity 0.2s ease-in-out 0s,
-		visibility 0.2s ease-in-out 0s,
-		transform 0.2s cubic-bezier(0.71, 1.3, 0.77, 1.04) 0s;
-    visibility: hidden;
-    width: 110px;
-}
-#usp-bar .rcb_icon:hover .rcb_hiden,
+
 #usp-bar .rcb_left_menu:hover .rcb_menu,
 #usp-bar .rcb_right_menu:hover .pr_sub_menu {
     cursor: default;
     opacity: 1;
-    transform: translateY(-18px);
+    transform: translateY(-14px);
     visibility: visible;
 }
 #usp-bar .current-menu-item a {
     background: none;
 }
-#usp-bar .rcb_icon .rcb_hiden span {
-    background: rgba(0, 0, 0, 0.7);
-    border-radius: 0 0 3px 3px;
-    color: inherit;
-    display: inline-block;
-    padding: 5px 10px;
-}
 /* Левая часть */
-#usp-bar .rcb_left {
-    float: left;
-    margin: 0 0 0 50px;
-}
+
 /* Меню слева START */
 #usp-bar .rcb_left_menu {
     display: inline-block;
@@ -90,7 +75,7 @@
 #usp-bar .rcb_menu {
     border-top: 2px solid #e47641;
     display: block;
-    left: 55px;
+    left: 6px;
     opacity: 0;
     position: absolute;
     top: 54px;
@@ -147,10 +132,6 @@
 /* Левая часть END */
 
 /* Правая часть START */
-#usp-bar .rcb_right {
-    float: right;
-    margin: 0 50px 0 0;
-}
 #usp-bar .rcb_nmbr {
     background: #b2440f;
     border-radius: 50%;
@@ -170,10 +151,10 @@
     border-left: 2px solid transparent;
     box-sizing: unset;
     float: right;
-    height: 36px;
+    height: 40px;
     margin: 0 10px 0 30px;
     position: relative;
-    width: 36px;
+    width: 40px;
 }
 #usp-bar .rcb_right_menu:hover {
     border-left: 2px solid #e47641;
@@ -225,10 +206,10 @@
 /* Меню справа END */
 /* Правая часть END */
 @media screen and (max-width:768px) {
-    #usp-bar .rcb_right {
+    #usp-bar .usp-bar-right {
         margin: 0 5px 0 0;
     }
-    #usp-bar .rcb_left {
+    #usp-bar .usp-bar-left {
         margin: 0 0 0 10px;
     }
     #usp-bar .rcb_menu {
@@ -256,7 +237,7 @@
     #usp-bar .rcb_menu {
         left: 0;
     }
-    #usp-bar .rcb_left {
+    #usp-bar .usp-bar-left {
         margin: 0 0 0 4px;
     }
     #usp-bar .uspi {
@@ -274,12 +255,6 @@
     }
     #usp-bar .rcb_nmbr {
         margin: 0 0 0 -10px;
-    }
-}
-@media screen and (max-width:360px) {
-    #usp-bar .rcb_left,
-    #usp-bar .rcb_right {
-        margin: 0;
     }
 }
 @media screen and (max-width:360px) {

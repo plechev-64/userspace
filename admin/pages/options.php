@@ -205,7 +205,7 @@ $options->box( 'primary' )->add_group( 'usersign', array(
 $options->box( 'primary' )->add_group( 'usp_bar', array(
     'title' => __( 'UserSpace Bar', 'userspace' )
 ) )->add_options( array(
-    array(
+    [
         'type'      => 'radio',
         'slug'      => 'view_usp_bar',
         'title'     => __( 'Show UserSpace Bar when viewing site', 'userspace' ),
@@ -213,19 +213,28 @@ $options->box( 'primary' )->add_group( 'usp_bar', array(
         'values'    => array( __( 'Hide', 'userspace' ), __( 'Show', 'userspace' ) ),
         'default'   => 0,
         'childrens' => array(
-            'rcb_color'
+            1 => array(
+                [
+                    'type'    => 'radio',
+                    'slug'    => 'usp_bar_color',
+                    'title'   => __( 'Color', 'userspace' ),
+                    'values'  => [
+                        'dark'  => __( 'Dark', 'userspace' ),
+                        'white' => __( 'White', 'userspace' ),
+                        'color' => __( 'Primary colors of UserSpace', 'userspace' )
+                    ],
+                    'default' => 'dark',
+                ],
+                [
+                    'type'   => 'number',
+                    'slug'   => 'usp_bar_width',
+                    'title'  => __( 'Width content area', 'userspace' ),
+                    'help'   => __( 'Width in pixels. Default or 0: fullwidth. Example: 1280 (max width of your site)', 'userspace' ),
+                    'notice' => __( 'Default: 0 (fullwidth)', 'userspace' ),
+                ],
+            )
         )
-    ),
-    array(
-        'parent' => array(
-            'id'    => 'view_usp_bar',
-            'value' => 1
-        ),
-        'type'   => 'select',
-        'slug'   => 'rcb_color',
-        'title'  => __( 'Color', 'userspace' ),
-        'values' => array( __( 'Default', 'userspace' ), __( 'Primary colors of UserSpace', 'userspace' ) )
-    )
+    ],
 ) );
 
 $options->box( 'primary' )->add_group( 'caching', array(
