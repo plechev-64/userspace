@@ -8,56 +8,48 @@ global $usp_user_URL, $user_ID;
 $class = 'usp-bar-' . usp_get_option( 'usp_bar_color', 'dark' );
 $width = usp_get_option( 'usp_bar_width' ) ? 'style="max-width:' . usp_get_option( 'usp_bar_width' ) . 'px;"' : '';
 
-$usp_bar_menu = wp_nav_menu( array( 'echo' => false, 'theme_location' => 'usp-bar', 'container_class' => 'rcb_menu', 'fallback_cb' => '' ) );
+
+$user = get_userdata( $user_ID );
 ?>
 
 <div id="usp-bar" class="usp-bar <?php echo $class; ?> usps usps__jc-center usps__line-1">
     <div class="usp-bar-wrap usps usps__jc-between usps__grow usps__ai-center usps__relative" <?php echo $width; ?>>
-        <div class="usp-bar-left">
+        <div class="usp-bar-left usps usps__ai-center">
             <?php echo usp_get_button( [ 'type' => 'clear', 'label' => __( 'Home', 'userspace' ), 'icon' => 'fa-home', 'size' => 'medium', 'href' => '/' ] ); ?>
             <?php do_action( 'usp_bar_left_icons' ); ?>
         </div>
 
-        <div class="usp-bar-right">
-            <?php if ( $usp_bar_menu ): ?>
-                <div class="rcb_left_menu">
-                    <i class="uspi fa-bars" aria-hidden="true"></i>
-                    <?php echo $usp_bar_menu; ?>
-                </div>
-            <?php endif; ?>
-            <div class="rcb_icons">
-                <?php do_action( 'usp_bar_print_icons' ); ?>
-            </div>
+        <div class="usp-bar-right usps usps__grow usps__ai-center usps__jc-end">
+            <?php wp_nav_menu( array( 'theme_location' => 'usp-bar', 'container' => false, 'menu_id' => 'rcb_menu', 'menu_class' => 'rcb_menu usps usps__as-stretch', 'fallback_cb' => '' ) ); ?>
 
-            <?php if ( ! is_user_logged_in() ) { ?>
+            <div class="rcb_icons"><?php do_action( 'usp_bar_print_icons' ); ?></div>
 
-                <div class="rcb_icon">
-                    <a href="<?php echo usp_get_loginform_url( 'login' ); ?>" class="usp-login">
-                        <i class="uspi fa-sign-in" aria-hidden="true"></i><span><?php _e( 'Sign in', 'userspace' ); ?></span>
-                        <span><?php _e( 'Sign in', 'userspace' ); ?></span>
+            <div class="rcb_right_menu usp-menu-has-child usps usps__ai-center usps__as-stretch">
+                <?php if ( ! is_user_logged_in() ) { ?>
+                    <?php echo usp_get_button( [ 'type' => 'clear', 'label' => __( 'Sign in', 'userspace' ), 'icon' => 'fa-sign-in', 'size' => 'medium', 'href' => usp_get_loginform_url( 'login' ), 'class' => 'usp-login usps__as-stretch' ] ); ?>
+
+                    <?php if ( usp_is_register_open() ) { ?>
+                        <span class="usp-bar-or">or</span>
+                        <?php echo usp_get_button( [ 'type' => 'clear', 'label' => __( 'Register', 'userspace' ), 'href' => usp_get_loginform_url( 'register' ), 'class' => 'usp-register usps__as-stretch' ] ); ?>
+                    <?php } ?>
+
+                <?php } else { ?>
+                    <a class="usp-bar-userlink usp-bar-usershow usps usps__ai-center" href="<?php echo $usp_user_URL; ?>">
+                        <?php echo get_avatar( $user_ID, 40, false, false, [ 'class' => 'usp-profile-ava usps__img-reset' ] ); ?>
+                        <span><?php echo $user->get( 'user_firstname' ); ?></span>
                     </a>
-                </div>
-                <?php if ( usp_is_register_open() ) { ?>
-                    <div class="rcb_icon">
-                        <a href="<?php echo usp_get_loginform_url( 'register' ); ?>" class="usp-register">
-                            <i class="uspi fa-book" aria-hidden="true"></i><span><?php _e( 'Register', 'userspace' ); ?></span>
-                            <span><?php _e( 'Register', 'userspace' ); ?></span>
-                        </a>
+
+                    <div class="usp-sub-menu">
+                        <?php do_action( 'usp_bar_before_print_menu' ); ?>
+                        <div class="usp-bar-usertabs usps usps__column">
+                            <?php do_action( 'usp_bar_print_menu' ); ?>
+                        </div>
+                        <?php echo usp_get_button( [ 'type' => 'clear', 'fullwidth' => 1, 'class' => 'rcb_line usp-bar-logout', 'label' => __( 'Log Out', 'userspace' ), 'href' => wp_logout_url( '/' ) ] ); ?>
                     </div>
+
+                    <i class="uspi fa-angle-down usp-bar-usershow usps usps__ai-center usps__as-stretch" aria-hidden="true"></i>
                 <?php } ?>
-
-            <?php } else { ?>
-
-                <div class="rcb_right_menu">
-                    <i class="uspi fa-horizontal-ellipsis" aria-hidden="true"></i>
-                    <a href="<?php echo $usp_user_URL; ?>"><?php echo get_avatar( $user_ID, 36, false, false, [ 'class' => 'usp-profile-ava usps__img-reset' ] ); ?></a>
-                    <div class="pr_sub_menu">
-                        <?php do_action( 'usp_bar_print_menu' ); ?>
-                        <div class="rcb_line"><a href="<?php echo wp_logout_url( '/' ); ?>"><i class="uspi fa-sign-out" aria-hidden="true"></i><span><?php _e( 'Exit', 'userspace' ); ?></span></a></div>
-                    </div>
-                </div>
-
-            <?php } ?>
+            </div>
         </div>
     </div>
 </div>

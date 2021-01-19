@@ -19,6 +19,10 @@ jQuery( window ).load( function() {
         }
     }
 
+    jQuery( '.usp-bar .usp-login,.usp-bar .usp-register' ).click( function() {
+        usp_preloader_show( jQuery( this ), 30 );
+    } );
+
 } );
 
 USP.loginform = {

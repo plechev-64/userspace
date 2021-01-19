@@ -259,18 +259,18 @@ function usp_show_tab( id_block ) {
 	return false;
 }
 
-usp_add_action( 'usp_init', 'usp_init_userspace_bar_hover' );
-function usp_init_userspace_bar_hover() {
-	jQuery( "#usp-bar .menu-item-has-children" ).hover( function() {
-		jQuery( this ).children( ".sub-menu" ).css( {
-			'visibility': 'visible'
-		} );
-	}, function() {
-		jQuery( this ).children( ".sub-menu" ).css( {
-			'visibility': ''
-		} );
-	} );
-}
+//usp_add_action( 'usp_init', 'usp_init_userspace_bar_hover' );
+//function usp_init_userspace_bar_hover() {
+//	jQuery( "#usp-bar .menu-item-has-children" ).hover( function() {
+//		jQuery( this ).children( ".sub-menu" ).css( {
+//			'visibility': 'visible'
+//		} );
+//	}, function() {
+//		jQuery( this ).children( ".sub-menu" ).css( {
+//			'visibility': ''
+//		} );
+//	} );
+//}
 
 /*usp_add_action( 'usp_before_upload_tab', 'usp_add_class_upload_tab' );
  function usp_add_class_upload_tab( e ) {

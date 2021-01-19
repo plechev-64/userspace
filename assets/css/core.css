@@ -588,41 +588,17 @@ a.data-filter.filter-active:hover {
     cursor: default;
     opacity: 1;
 }
-#usp-office #lk-menu a.recall-button.active {
-    pointer-events: none;
-}
 /*end*/
 
 
 /*------------------------------------
   12. USP buttons adjustments
 --------------------------------------*/
-#lk-menu a {
-    display: block;
-    float: left;
-    margin: 5px 5px 0 0;
-    padding: 7px;
-}
 .usp-data-filters .recall-button {
     display: inline-block;
     float: none;
     margin: 1px 1px 4px 0;
     padding: 7px;
-}
-.vertical-menu #lk-menu {
-    float: left;
-    margin: 3px;
-    max-width: 160px;
-    min-width: 120px;
-    width: auto;
-}
-.vertical-menu #lk-menu a {
-    border-bottom: 3px solid #fff;
-    display: table;
-    float: none;
-    margin: 0 3px 0 0;
-    white-space: normal;
-    width: 100%;
 }
 /*end*/
 
@@ -636,30 +612,8 @@ a.data-filter.filter-active:hover {
     overflow: hidden;
     padding: 10px 10px 5px;
 }
-.usp-subtab-menu .usp-subtab-button {
-
-}
 /*end*/
 
-
-/*----------------------------
-  14. TODO: old submenu
-------------------------------*/
-#usp-office .usp-sub-menu {
-    background: #f7f8f8;
-    margin: 5px 0;
-    overflow: hidden;
-    padding: 10px;
-}
-#usp-office .usp-sub-menu .recall-button {
-    display: inline-block;
-    margin-right: 5px;
-    padding: 7px;
-}
-#usp-office a.sec_block_button i.uspi {
-    margin: 0 5px 0 0;
-}
-/*end*/
 
 
 /*---------------------------------
@@ -1087,7 +1041,7 @@ body .usp-bttn {
 	user-select: none;
 }
 body :not(.usp-wrap__wiget) > .usp-bttn:not(.usp-bttn__active):hover {
-	opacity: 0.8;
+    opacity: .8;
 }
 /* END общий стиль */
 
@@ -1131,13 +1085,13 @@ body .usp-bttn:not(.usp-bttn__type-clear):last-child {
 
 
 /* стиль clear */
-:not(.usp-wrap__wiget) > .usp-bttn.usp-bttn__type-clear {
-	margin: 0 1em 0 0;
+:not(.usps__column) > .usp-bttn:not(.usp-bttn__fullwidth).usp-bttn__type-clear {
+	margin: 0 .75em 0 0;
 }
 .usp-bttn__type-clear .usp-bttn__text + .usp-bttn__count,
 .usp-bttn__type-clear i + span,
 .usp-bttn__type-clear span + i {
-	padding: 0 0 0 .45em;
+	padding: 0 0 0 .75em;
 }
 /* END clear */
 
@@ -1157,7 +1111,7 @@ body .usp-bttn:not(.usp-bttn__type-clear):last-child {
 *********************/
 
 /* fullwidth */
-.usp-bttn.usp-bttn__fullwidth:not(.usp-bttn__type-clear) {
+.usp-bttn.usp-bttn__fullwidth {
 	display: flex;
 	justify-content: center;
 }
@@ -1180,9 +1134,6 @@ body .usp-bttn:not(.usp-bttn__type-clear):last-child {
 
 
 /* special wiget list style */
-.usp-wrap__wiget {
-	flex-direction: column;
-}
 .usp-wrap__wiget .usp-bttn__type-clear {
 	padding: .45em .6em;
 }

@@ -92,36 +92,48 @@ add_action( 'usp_bar_print_menu', 'usp_print_bar_right_menu', 10 );
 function usp_print_bar_right_menu() {
     global $usp_bar;
     if ( ! isset( $usp_bar['menu'] ) || ! $usp_bar['menu'] )
-        return false;
+        return;
 
-    if ( is_array( $usp_bar['menu'] ) ) {
+    if ( ! is_array( $usp_bar['menu'] ) )
+        return;
 
-        $usp_bar_menu = apply_filters( 'usp_bar_menu', $usp_bar['menu'] );
+    $usp_bar_menu = apply_filters( 'usp_bar_menu', $usp_bar['menu'] );
 
-        foreach ( $usp_bar_menu as $icon ) {
-            if ( ! isset( $icon['url'] ) )
-                continue;
+    foreach ( $usp_bar_menu as $icon ) {
+        if ( ! isset( $icon['url'] ) )
+            continue;
 
-            echo '<div class="rcb_line">';
-            echo '<a href="' . $icon['url'] . '">';
+        $args = [
+            'type'  => 'clear',
+            'label' => $icon['label'],
+            'size'  => 'medium',
+            'href'  => $icon['url'],
+            'class' => 'rcb_line'
+        ];
 
-            if ( isset( $icon['icon'] ) ):
-                echo '<i class="uspi ' . $icon['icon'] . '" aria-hidden="true"></i>';
-            endif;
-
-            echo '<span>' . $icon['label'] . '</span>';
-            echo '</a>';
-            echo '</div>';
+        if ( isset( $icon['icon'] ) ) {
+            $args['icon'] = $icon['icon'];
         }
+
+        echo usp_get_button( $args );
     }
 }
 
-add_filter( 'usp_inline_styles', 'usp_bar_add_inline_styles', 10, 2 );
-function usp_bar_add_inline_styles( $styles, $rgb ) {
+// remove offset in wordpress toolbar
+add_action( 'get_header', 'usp_bar_remove_admin_bar' );
+function usp_bar_remove_admin_bar() {
+    if ( ! is_admin_bar_showing() )
+        return;
 
+    remove_action( 'wp_head', '_admin_bar_bump_cb' );
+}
+
+// registering our offsets
+add_filter( 'usp_inline_styles', 'usp_bar_offset_inline_styles', 10 );
+function usp_bar_offset_inline_styles( $styles ) {
     if ( is_admin_bar_showing() ) {
-        // 72 = 32 wordpress toolbar + 40 UserSpace bar
-        // on 782px: 86 = 46 + 40
+        // 32px wordpress toolbar + 40px (min) UserSpace bar = 72px
+        // on 782px: 46 + 40 = 86
         $styles .= 'html {margin-top:72px !important;}
         * html body {margin-top:72px !important;}
         #usp-bar{margin-top:32px;}
@@ -135,29 +147,44 @@ function usp_bar_add_inline_styles( $styles, $rgb ) {
         * html body {margin-top:40px !important;}';
     }
 
-    if ( usp_get_option( 'usp_bar_color' ) == 'color' ) {
+    return $styles;
+}
 
-        list($r, $g, $b) = $rgb;
+// add a submenu class (as in the standard userspace menu)
+add_filter( 'nav_menu_submenu_css_class', 'usp_bar_rename_submenu_class', 10, 2 );
+function usp_bar_rename_submenu_class( $classes, $args ) {
+    if ( $args->theme_location !== 'usp-bar' )
+        return $classes;
 
-        // разбиваем строку на нужный нам формат
-        $rs = round( $r * 0.45 );
-        $gs = round( $g * 0.45 );
-        $bs = round( $b * 0.45 );
-
-        // $r $g $b - родные цвета от кнопки
-        // $rs $gs $bs - темный оттенок от кнопки
-        $styles .= '
-        #usp-bar .rcb_menu,#usp-bar .pr_sub_menu {
-        border-top: 2px solid rgba(' . $r . ',' . $g . ',' . $b . ',0.8);}
-        #usp-bar .rcb_right_menu:hover {
-        border-left: 2px solid rgba(' . $r . ',' . $g . ',' . $b . ',0.8);}
-        #usp-bar .rcb_right_menu .fa-horizontal-ellipsis {
-        color: rgba(' . $r . ',' . $g . ',' . $b . ',0.8);}
-        #usp-bar .rcb_nmbr {
-        background: rgba(' . $r . ',' . $g . ',' . $b . ',0.8);}
-        #usp-bar .rcb_menu,#usp-bar .pr_sub_menu,#usp-bar .rcb_menu .sub-menu {
-        background: rgba(' . $rs . ',' . $gs . ',' . $bs . ',0.95);}';
+    foreach ( $classes as $key => $class ) {
+        if ( $class == 'sub-menu' ) {
+            $classes[$key] = 'usp-sub-menu';
+        }
     }
 
-    return $styles;
+    return $classes;
+}
+
+// add menu has children class
+add_filter( 'wp_nav_menu_objects', 'usp_bar_add_class_in_parent_item', 10, 2 );
+function usp_bar_add_class_in_parent_item( $sorted_menu_items, $args ) {
+    if ( $args->theme_location !== 'usp-bar' )
+        return $sorted_menu_items;
+
+    foreach ( $sorted_menu_items as $item ) {
+        if ( __find_is_has_child( $item->ID, $sorted_menu_items ) )
+            $item->classes[] = 'usp-menu-has-child';
+    }
+
+    return $sorted_menu_items;
+}
+
+// helper on usp_bar_add_class_in_parent_item functions
+function __find_is_has_child( $item_id, $sorted_menu_items ) {
+    foreach ( $sorted_menu_items as $item ) {
+        if ( $item->menu_item_parent && $item->menu_item_parent == $item_id )
+            return true;
+    }
+
+    return false;
 }

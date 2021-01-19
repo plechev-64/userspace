@@ -1,6 +1,13 @@
+.usp-bar ul,
+.usp-bar li {
+    list-style: none;
+}
+.usp-bar .uspi:not(.fa-angle-down) {
+    font-size: 24px;
+}
 .usp-bar {
-    font-size: 14px;
-    height: 40px;
+    font-size: 16px;
+    min-height: 40px;
     left: 0;
     position: fixed;
     top: 0;
@@ -10,255 +17,147 @@
 .usp-bar-dark {
     background: rgba(0, 0, 0, .85);
 }
+.usp-bar-dark .uspi,
+#usp-bar.usp-bar-dark a {
+    color: #e6e6e6;
+}
+.usp-bar-white .usp-sub-menu,
 .usp-bar-white {
     background: #fff;
-    border-bottom: 1px solid #eee;
 }
+.usp-bar-white {
+    border-bottom: 1px solid #ddd;
+}
+.usp-bar-white .uspi,
+#usp-bar.usp-bar-white a {
+    color: #333;
+}
+.usp-bar-color .usp-sub-menu,
 .usp-bar-color {
-    background: rgba(var(--uspRgbDark),.85);
+    background: rgba(var(--uspRgb),.85);
+}
+.usp-bar-color .uspi,
+#usp-bar.usp-bar-color a,
+#usp-bar:not(.usp-bar-white) .usp-bar-or,
+#usp-bar:not(.usp-bar-white) .usp-menu-has-child::after {
+    color: var(--uspText);
 }
 
-#usp-bar a {
-    color: #e6e6e6;
-    text-decoration: none;
-}
-#usp-bar .uspi {
-    color: #e6e6e6;
-    font-size: 30px;
-    line-height: 40px;
-    vertical-align: middle;
-    width: 30px;
-}
-#usp-bar .rcb_icon:hover .uspi {
-    color: #d4d4d4;
-}
-#usp-bar .rcb_icon {
-    display: inline-block;
-    margin: 0 10px;
-    position: relative;
-}
-#usp-bar .usp-bar-right .rcb_icons,
-#usp-bar .rcb_icon a {
-    display: inline-block;
-}
-#usp-bar .usp-register span,
-#usp-bar .usp-login span {
-    color: #e6e6e6;
-    margin: 0 0 0 7px;
-    vertical-align: middle;
-}
 
-#usp-bar .rcb_left_menu:hover .rcb_menu,
-#usp-bar .rcb_right_menu:hover .pr_sub_menu {
-    cursor: default;
-    opacity: 1;
-    transform: translateY(-14px);
-    visibility: visible;
+.usp-bar-wrap > div {
+    min-height: 40px;
 }
-#usp-bar .current-menu-item a {
-    background: none;
-}
-/* Левая часть */
-
-/* Меню слева START */
-#usp-bar .rcb_left_menu {
-    display: inline-block;
-    padding: 0 10px;
-}
-#usp-bar .rcb_left_menu:hover {
-    color: #d4d4d4;
-    cursor: pointer;
-}
-#usp-bar .rcb_menu {
-    background: rgba(0, 0, 0, 0.7);
-}
-#usp-bar .rcb_menu {
-    border-top: 2px solid #e47641;
-    display: block;
-    left: 6px;
-    opacity: 0;
-    position: absolute;
-    top: 54px;
-    transform: translate3d(0px, 0px, 0px);
-    transition: all 0.2s ease-in-out 0s;
-    visibility: hidden;
-    width: 180px;
-}
-#usp-bar .rcb_menu > .menu {
-    background: inherit;
-}
-#usp-bar ul {
-    list-style: none;
-    margin: 0;
-    max-width: 200px;
-    padding: 0;
-}
-#usp-bar li {
-    list-style: none;
-    padding: 10px;
-}
-#usp-bar .rcb_line:hover,
-#usp-bar li:hover,
-#usp-bar .current-menu-item {
-    background: rgba(0, 0, 0, 0.3);
-}
-#usp-bar .menu-item-has-children {
-    position: relative;
-}
-#usp-bar .menu-item-has-children > a::after {
-    color: inherit;
-    content: "\f054"; /* fa-chevron-right */
-    font-family: usp-awesome;
-    font-size: 11px;
-    pointer-events: none;
-    position: absolute;
-    right: 5px;
-    top: 13px;
-}
-#usp-bar .sub-menu {
-    background: rgba(0, 0, 0, 0.7);
-    left: 180px;
-    opacity: 0;
-    position: absolute;
-    top: 0;
-    transition: all 0.2s ease-in-out 0s;
-    visibility: hidden;
-    width: 100%;
-}
-#usp-bar .menu-item-has-children:hover .sub-menu {
-    opacity: 1;
-}
-/* Меню слева END */
-/* Левая часть END */
-
-/* Правая часть START */
-#usp-bar .rcb_nmbr {
-    background: #b2440f;
-    border-radius: 50%;
-    color: #f6f6f6;
-    display: inline-block;
-    font-size: 12px;
-    height: 22px;
-    line-height: 22px;
-    margin: 2px 0 0;
-    text-align: center;
-    vertical-align: top;
-    width: 22px;
-}
-
-/* Меню справа START */
-#usp-bar .rcb_right_menu {
-    border-left: 2px solid transparent;
-    box-sizing: unset;
-    float: right;
-    height: 40px;
-    margin: 0 10px 0 30px;
-    position: relative;
-    width: 40px;
-}
-#usp-bar .rcb_right_menu:hover {
-    border-left: 2px solid #e47641;
-    cursor: pointer;
-}
-#usp-bar .rcb_right_menu .fa-horizontal-ellipsis {
-    color: #e47641;
-    font-size: 22px;
-    left: 10px;
-    pointer-events: none;
-    position: absolute;
-    top: 14px;
-    z-index: 2;
-}
-#usp-bar .rcb_right_menu:hover .fa-horizontal-ellipsis {
+.rcb_icons:empty {
     display: none;
 }
-#usp-bar .rcb_right_menu img {
-    border-radius: 0;
+.usp-bar-userlink span,
+.rcb_right_menu {
+    margin: 0 0 0 12px;
 }
-#usp-bar .pr_sub_menu {
-    background: rgba(0, 0, 0, 0.7);
-    border-top: 2px solid #e47641;
-    display: block;
+.usp-bar-or {
+    margin: 0 12px 0 0;
+    opacity: .6;
+}
+
+
+
+/* dropdown */
+#rcb_menu a {
+    text-decoration: none;
+}
+#usp-bar ul {
+    margin: 0;
+    padding: 0;
+}
+.rcb_right_menu:hover .usp-bar-usershow,
+#usp-bar.usp-bar-color .rcb_line:hover,
+#usp-bar.usp-bar-color li:hover,
+#usp-bar.usp-bar-color .current-menu-item {
+    background: rgba(0, 0, 0, .3);
+}
+.usp-bar-dark .rcb_right_menu:hover .usp-bar-usershow,
+#usp-bar.usp-bar-dark .rcb_line:hover,
+#usp-bar.usp-bar-dark li:hover,
+#usp-bar.usp-bar-dark .current-menu-item {
+    background: rgba(120, 160, 130, .3);
+}
+#usp-bar .usp-menu-has-child {
+    position: relative;
+}
+#rcb_menu > li > a {
+    display: flex;
+    margin: 0 12px;
+}
+#rcb_menu li > a {
+    min-height: 40px;
+    align-items: center;
+}
+#usp-bar .usp-menu-has-child::after {
+    font-family: usp-awesome;
+    font-size: 13px;
+    min-width: 27px;
+}
+#rcb_menu > .usp-menu-has-child::after {
+    content: "\f107";
+}
+.usp-sub-menu > .usp-menu-has-child::after {
+    content: "\f105";
+}
+.usp-sub-menu {
     opacity: 0;
     position: absolute;
     right: 0;
-    top: 54px;
-    transform: translate3d(0px, 0px, 0px);
-    transition: all 0.2s ease-in-out 0s;
+    transition: all .2s ease-in-out;
     visibility: hidden;
-    width: 200px;
+    max-width: 300px;
+    top: 100%;
+}
+.usp-bar-dark .usp-sub-menu {
+    background: rgba(0, 0, 0, .7);
+}
+.rcb_menu .usp-sub-menu {
+    width: 100%;
+}
+.usp-menu-has-child:hover > a + .usp-sub-menu {
+    opacity: 1;
+    visibility: visible;
+    z-index: 100;
+}
+#rcb_menu > li,
+.usp-sub-menu > li {
+    display: flex;
+    align-items: center;
+}
+.usp-sub-menu > li > a {
+    display: flex;
+    flex-grow: 1;
+    margin: 0 12px;
+}
+.usp-sub-menu .usp-menu-has-child .usp-sub-menu {
+    left: 100%;
+    top: 0;
+}
+
+
+
+
+#usp-bar .usp-profile-ava {
+    width: 40px;
+}
+.rcb_right_menu > .uspi {
+    padding: 0 6px;
+    font-size: 13px;
 }
 #usp-bar .rcb_line {
-    padding: 2px 5px 3px 5px;
+    padding: 12px;
+    min-height: 40px;
 }
-#usp-bar .pr_sub_menu .rcb_line .uspi {
-    color: #c8c8c8;
-    font-size: 22px;
+#usp-bar .usp-sub-menu .rcb_line .uspi {
+    opacity: .7;
 }
-#usp-bar .rcb_line span {
-    margin: 0 0 0 8px;
-    vertical-align: text-top;
-}
-#usp-bar .pr_sub_menu .rcb_line > a {
-    align-items: center;
-    display: flex;
-}
-/* Меню справа END */
-/* Правая часть END */
+
 @media screen and (max-width:768px) {
-    #usp-bar .usp-bar-right {
-        margin: 0 5px 0 0;
-    }
-    #usp-bar .usp-bar-left {
-        margin: 0 0 0 10px;
-    }
-    #usp-bar .rcb_menu {
-        left: 15px;
-    }
-    .rcb_right_menu > a {
-        pointer-events: none;
-    }
-}
-@media screen and (max-width:600px) {
-    #usp-bar .rcb_right_menu {
-        margin: 0 5px 0 0;
-    }
-    #usp-bar .rcb_icon {
-        margin: 0 4px;
-    }
-}
-@media screen and (max-width:480px) {
-    #usp-bar .rcb_right_menu {
-        margin: 0;
-    }
-    #usp-bar .rcb_left_menu {
-        padding: 0;
-    }
-    #usp-bar .rcb_menu {
-        left: 0;
-    }
-    #usp-bar .usp-bar-left {
-        margin: 0 0 0 4px;
-    }
-    #usp-bar .uspi {
-        font-size: 27px;
-    }
-    #usp-bar .rcb_nmbr {
-        height: 17px;
-        line-height: 17px;
-        width: 17px;
-    }
-}
-@media screen and (max-width:375px) {
-    #usp-bar .rcb_icon {
-        margin: 0 2px;
-    }
-    #usp-bar .rcb_nmbr {
-        margin: 0 0 0 -10px;
-    }
-}
-@media screen and (max-width:360px) {
-    #usp-bar .rcb_icon {
-        margin: 0;
+    .usp-bar-wrap {
+        padding: 0 12px;
     }
 }

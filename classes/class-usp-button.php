@@ -25,7 +25,7 @@ class USP_Button {
     public $data;
     public $submit;
     public $status;  // state of the button: loading, disabled, active
-    public $size       = 'standart';   // standart, medium, large, big
+    public $size       = 'standart';   // small, standart, medium, large, big
     public $attr;
     public $attrs;
     public $fullwidth;  // 1 - is fullwidth button
