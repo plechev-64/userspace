@@ -12,9 +12,11 @@ function usp_inline_styles() {
         return;
 
     // removing spaces, hyphenation, and tabs
-    $styles = preg_replace( '/ {2,}/', '', str_replace( array( "\r\n", "\r", "\n", "\t" ), '', $inline_styles ) );
+    $src_cleared = preg_replace( '/ {2,}/', '', str_replace( array( "\r\n", "\r", "\n", "\t" ), '', $inline_styles ) );
+    // space : and {
+    $style       = str_replace( [ ': ', ' {' ], [ ':', '{' ], $src_cleared );
 
-    echo "<style>" . $styles . "</style>\r\n";
+    echo "<style>" . $style . "</style>\r\n";
 }
 
 // color button api
