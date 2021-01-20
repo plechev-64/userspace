@@ -143,13 +143,14 @@ function usp_add_office_profile_fields( $fields ) {
 
     $profileFields = [
         [
-            'slug'   => 'show_admin_bar_front',
-            'title'  => __( 'Admin toolbar', 'userspace' ),
-            'type'   => 'select',
-            'values' => [
+            'slug'    => 'show_admin_bar_front',
+            'title'   => __( 'Admin toolbar', 'userspace' ),
+            'type'    => 'radio',
+            'values'  => [
                 'false' => __( 'Disabled', 'userspace' ),
                 'true'  => __( 'Enabled', 'userspace' )
-            ]
+            ],
+            'default' => 'false',
         ]
     ];
 
