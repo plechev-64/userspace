@@ -94,7 +94,7 @@ function usp_enqueue_wp_form_scripts() {
 }
 
 function usp_frontend_scripts() {
-    global $user_ID, $user_LK, $post;
+    global $user_ID;
 
     usp_font_awesome_style();
     usp_animate_css();
@@ -128,20 +128,14 @@ function usp_frontend_scripts() {
         }
     }
 
-    $locData['post_ID']   = (isset( $post->ID ) && $post->ID) ? ( int ) $post->ID : ( int ) 0;
-    $locData['office_ID'] = ($user_LK) ? ( int ) $user_LK : ( int ) 0;
-
     wp_localize_script( 'usp-core-scripts', 'USP', $locData );
 }
 
 function usp_get_localize_data() {
-    global $user_ID;
+    global $user_ID, $post, $user_LK;
 
     $local = array(
-        'save'    => __( 'Save', 'userspace' ),
         'close'   => __( 'Close', 'userspace' ),
-        'wait'    => __( 'Please wait', 'userspace' ),
-        'preview' => __( 'Preview', 'userspace' ),
         'error'   => __( 'Error', 'userspace' ),
         'loading' => __( 'Loading', 'userspace' ),
         'upload'  => __( 'Upload', 'userspace' ),
@@ -149,17 +143,19 @@ function usp_get_localize_data() {
     );
 
     $data = array(
-        'ajaxurl' => admin_url( 'admin-ajax.php' ),
-        'wpurl'   => get_bloginfo( 'wpurl' ),
-        'usp_url' => USP_URL,
-        'user_ID' => ( int ) $user_ID,
-        'nonce'   => wp_create_nonce( 'wp_rest' ),
-        'local'   => apply_filters( 'usp_js_localize', $local ),
-        'modules' => []
+        'ajaxurl'   => admin_url( 'admin-ajax.php' ),
+        'wpurl'     => get_bloginfo( 'wpurl' ),
+        //'usp_url'   => USP_URL,
+        'user_ID'   => ( int ) $user_ID,
+        'office_ID' => ($user_LK) ? ( int ) $user_LK : ( int ) 0,
+        'post_ID'   => (isset( $post->ID ) && $post->ID) ? ( int ) $post->ID : ( int ) 0,
+        'nonce'     => wp_create_nonce( 'wp_rest' ),
+        'local'     => apply_filters( 'usp_js_localize', $local ),
+        'modules'   => []
     );
 
-    $data['mobile'] = (wp_is_mobile()) ? ( int ) 1 : ( int ) 0;
-    $data['https']  = @( ! isset( $_SERVER["HTTPS"] ) || $_SERVER["HTTPS"] != 'on' ) ? ( int ) 0 : ( int ) 1;
+    //$data['mobile'] = (wp_is_mobile()) ? ( int ) 1 : ( int ) 0;
+    $data['https'] = @( ! isset( $_SERVER["HTTPS"] ) || $_SERVER["HTTPS"] != 'on' ) ? ( int ) 0 : ( int ) 1;
 
     $data['errors']['required']      = __( 'Fill in all required fields', 'userspace' );
     $data['errors']['pattern']       = __( 'Specify the data in the required format', 'userspace' );
