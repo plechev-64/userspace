@@ -17,10 +17,10 @@ function usp_init_js_avatar_variables( $data ) {
     global $user_ID;
 
     if ( usp_is_office( $user_ID ) ) {
-        $data['avatar_size']                  = usp_get_option( 'avatar_weight', 1024 );
-        $data['local']['upload_size_avatar']  = sprintf( __( 'Exceeds the maximum image size! Max. %s Kb', 'userspace' ), usp_get_option( 'avatar_weight', 1024 ) );
-        $data['local']['title_image_upload']  = __( 'Image being loaded', 'userspace' );
-        $data['local']['title_webcam_upload'] = __( 'Image from camera', 'userspace' );
+        $data['avatar_size']                 = usp_get_option( 'avatar_weight', 1024 );
+        $data['local']['upload_size_avatar'] = sprintf( __( 'Exceeds the maximum image size! Max. %s Kb', 'userspace' ), usp_get_option( 'avatar_weight', 1024 ) );
+        $data['local']['title_image_upload'] = __( 'Image being loaded', 'userspace' );
+        //$data['local']['title_webcam_upload'] = __( 'Image from camera', 'userspace' );
     }
 
     return $data;
