@@ -94,7 +94,7 @@ $options->box( 'primary' )->add_group( 'design', array(
     'title' => __( 'Design', 'userspace' ),
 ) )->add_options( array(
     array(
-        'slug'   => 'current_theme',
+        'slug'   => 'usp-current-office',
         'type'   => 'select',
         'title'  => __( 'Select a user profile page theme', 'userspace' ),
         'values' => USP()->themes()->get_themes()

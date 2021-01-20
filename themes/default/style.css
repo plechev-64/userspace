@@ -147,10 +147,10 @@
     animation: 1s fadeIn 1s both;
     opacity: 0;
 }
-.horizontal-menu #usp-tabs {
+.usp-tabs-menu__row #usp-tabs {
     flex-direction: column;
 }
-.vertical-menu #usp-tabs-menu-menu {
+.usp-tabs-menu__column #usp-tabs-menu-menu {
     width: 180px;
     margin: 0 12px 0 0;
 }

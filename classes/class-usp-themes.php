@@ -34,14 +34,14 @@ class USP_Themes {
 
         require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 
-        $current_id = usp_get_option( 'current_theme' );
+        $current_id = usp_get_option( 'usp-current-office' );
 
         if ( ! is_plugin_active( $current_id ) ) {
             $current_id = 'userspace/themes/default/index.php';
             require_once USP_PATH . 'themes/default/index.php';
         }
 
-        $current_theme = apply_filters( 'usp_current_theme', $current_id );
+        $current_theme = apply_filters( 'usp_current_office', $current_id );
 
         return new USP_Theme( array(
             'id'   => $current_theme,

@@ -29,6 +29,16 @@ function usp_add_office_tab_content() {
     return false;
 }
 
+/**
+ * Checks is the user profile page or the user profile of the specified user_id
+ *
+ * @since 1.0
+ *
+ * @param int $user_id  id user.
+ *
+ * @return bool         true - is office, false - not.
+ *                      If user_id is passed: true - is office by user_id, false - not.
+ */
 function usp_is_office( $user_id = null ) {
     global $usp_office;
 
@@ -57,26 +67,23 @@ function usp_is_office( $user_id = null ) {
 }
 
 function usp_office_class() {
-    global $active_addons, $user_LK, $user_ID;
+    echo 'class="' . usp_get_office_class() . '"';
+}
 
-    $class = array( 'usp-office' );
+function usp_get_office_class() {
+    global $user_LK, $user_ID;
 
-    $active_template = get_site_option( 'usp_active_template' );
-
-    if ( $active_template ) {
-        if ( isset( $active_addons[$active_template] ) )
-            $class[] = 'office-' . strtolower( str_replace( ' ', '-', $active_addons[$active_template]['template'] ) );
-    }
+    $class = [ 'usp-office' ];
 
     if ( $user_ID ) {
-        $class[] = ($user_LK == $user_ID) ? 'visitor-master' : 'visitor-guest';
+        $class[] = ($user_LK == $user_ID) ? 'usp-visitor-master' : 'usp-visitor-guest';
     } else {
-        $class[] = 'visitor-guest';
+        $class[] = 'usp-visitor-guest';
     }
 
-    $class[] = (usp_get_option( 'buttons_place' ) == 1) ? "vertical-menu" : "horizontal-menu";
+    $class[] = (usp_get_option( 'buttons_place' ) == 1) ? "usp-tabs-menu__column" : "usp-tabs-menu__row";
 
-    echo 'class="' . implode( ' ', $class ) . '"';
+    return implode( ' ', $class );
 }
 
 function usp_template_support( $support ) {
@@ -107,4 +114,13 @@ function usp_add_balloon_menu( $data, $args ) {
         return $data;
     $data['name'] = sprintf( '%s <span class="usp-menu-notice usps__line-1">%s</span>', $data['name'], $args['ballon_value'] );
     return $data;
+}
+
+add_filter( 'body_class', 'usp_add_office_class_body' );
+function usp_add_office_class_body( $classes ) {
+    if ( usp_is_office() ) {
+        $classes[] = usp_get_office_class();
+    }
+
+    return $classes;
 }

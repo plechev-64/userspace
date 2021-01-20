@@ -22,24 +22,24 @@
 	}
 
 // определяем какой тип кнопок у нас
-	if ( typeButton.hasClass( 'vertical-menu' ) ) {
+	if ( typeButton.hasClass( 'usp-tabs-menu__column' ) ) {
 		if ( $( window ).width() <= 768 ) {         // ширина экрана
-			typeButton.removeClass( 'vertical-menu' ).addClass( 'horizontal-menu' );
+			typeButton.removeClass( 'usp-tabs-menu__column' ).addClass( 'usp-tabs-menu__row' );
 			alignMenu();
 		}
 		$( window ).resize( function() {           // действия при ресайзе окна
 			if ( $( window ).width() <= 768 ) {
-				typeButton.removeClass( 'vertical-menu' ).addClass( 'horizontal-menu' );
+				typeButton.removeClass( 'usp-tabs-menu__column' ).addClass( 'usp-tabs-menu__row' );
 				closeExtMenu();
 				moveMenu();
 				alignMenu();
 			} else {
-				typeButton.removeClass( 'horizontal-menu' ).addClass( 'vertical-menu' );
+				typeButton.removeClass( 'usp-tabs-menu__row' ).addClass( 'usp-tabs-menu__column' );
 				closeExtMenu();
 				moveMenu();
 			}
 		} );
-	} else if ( typeButton.hasClass( 'horizontal-menu' ) ) {
+	} else if ( typeButton.hasClass( 'usp-tabs-menu__row' ) ) {
 		alignMenu();
 		$( window ).resize( function() {
 			closeExtMenu();
