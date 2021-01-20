@@ -217,20 +217,6 @@ function usp_tab_profile_content( $master_id ) {
     return $content;
 }
 
-//Выводим возможность синхронизации соц.аккаунтов в его личном кабинете
-//при активированном плагине Ulogin
-if ( function_exists( 'ulogin_profile_personal_options' ) ) {
-    function get_ulogin_profile_options( $profile_block, $userdata ) {
-        ob_start();
-        ulogin_profile_personal_options( $userdata );
-        $profile_block .= ob_get_contents();
-        ob_end_clean();
-        return $profile_block;
-    }
-
-    add_filter( 'profile_options_usp', 'get_ulogin_profile_options', 10, 2 );
-}
-
 add_action( 'init', 'usp_delete_user_account_activate' );
 function usp_delete_user_account_activate() {
     if ( isset( $_POST['usp_delete_user_account'] ) ) {
