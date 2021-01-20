@@ -188,3 +188,12 @@ function __find_is_has_child( $item_id, $sorted_menu_items ) {
 
     return false;
 }
+
+// added class in body tag
+add_filter( 'body_class', 'usp_add_userbar_class_body' );
+function usp_add_userbar_class_body( $classes ) {
+    $classes[] = 'usp-userbar';
+    $classes[] = 'usp-userbar-' . usp_get_option( 'usp_bar_color', 'dark' );
+
+    return $classes;
+}
