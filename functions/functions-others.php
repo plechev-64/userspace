@@ -207,7 +207,7 @@ function usp_get_button( $args, $depr_url = false, $depr_args = false ) {
         $button .= $depr_args['attr'] . ' ';
     if ( isset( $depr_args['id'] ) && $depr_args['id'] )
         $button .= 'id="' . $depr_args['id'] . '" ';
-    $button .= 'class="recall-button ';
+    $button .= 'class="deprecated ';
     if ( isset( $depr_args['class'] ) && $depr_args['class'] )
         $button .= $depr_args['class'];
     $button .= '">';

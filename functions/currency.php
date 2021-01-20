@@ -3,14 +3,12 @@
 //Перечень действующих валют
 function usp_get_currency_list() {
 
-    $rub = (is_admin()) ? 'p' : '<i class="uspi fa-rub"></i>';
-
     return array(
-        'RUB' => array( 'руб', $rub, '<span class="ruble-symbol">P<span>–</span></span>' ),
-        'UAH' => array( 'гривен', 'грн', 'грн' ),
-        'KZT' => array( 'тенге', 'тнг', 'тнг' ),
-        'USD' => array( 'dollars', '<i class="uspi fa-usd"></i>', '$' ),
-        'EUR' => array( 'euro', '<i class="uspi fa-eur"></i>', '€' ),
+        'RUB' => [ 'руб', '<i class="uspi fa-ruble-sign" aria-hidden="true"></i>', '₽' ],
+        'UAH' => [ 'гривен', 'грн', 'грн' ],
+        'KZT' => [ 'тенге', 'тнг', 'тнг' ],
+        'USD' => [ 'dollars', '<i class="uspi fa-usd" aria-hidden="true"></i>', '$' ],
+        'EUR' => [ 'euro', '<i class="uspi fa-eur" aria-hidden="true"></i>', '€' ],
     );
 }
 

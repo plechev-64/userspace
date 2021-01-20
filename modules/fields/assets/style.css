@@ -246,7 +246,8 @@ div.usp-custom-fields .usp-field-value .fa-upload {
 }
 .usp-field-input input[type="checkbox"]:checked + label.block-label::before,
 .usp-field-input input[type="radio"]:checked + label.block-label::before{
-	background: #4C8CBD;
+    background: var(--uspHex);
+    border-color: var(--uspHex);
 }
 .usp-field-input .checkbox-display-block{
 	display: block;

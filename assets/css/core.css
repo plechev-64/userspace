@@ -202,29 +202,6 @@ i::before {
     text-align: center;
     width: 15px;
 }
-.floatright {
-    float: right;
-}
-.floatleft {
-    float: left;
-}
-.aligncenter {
-    text-align: center;
-}
-.alignleft {
-    text-align: left;
-}
-.alignright {
-    text-align: right;
-}
-img.aligncenter {
-    display: block;
-    margin: 0 auto;
-}
-.plugin-info {
-    clear: both;
-    text-align: center;
-}
 :root span.required {
     color: rgb(229, 57, 53);
     font: bold 15px/1 Verdana,arial;
@@ -239,26 +216,6 @@ img.aligncenter {
     right: 0;
     top: 0;
     z-index: 999;
-}
-body:not(.wp-admin) .usp-bttn.usp-bttn__type-primary {
-    color: var(--uspText);
-}
-/*end*/
-
-
-/*------------------------
-  2. Ruble
---------------------------*/
-span.ruble-symbol {
-    font-family: Arial;
-    font-weight: normal;
-    line-height: 1;
-    position: relative;
-}
-.ruble-symbol span {
-    left: 0;
-    position: absolute;
-    top: 55%;
 }
 /*end*/
 
@@ -527,92 +484,26 @@ span i.uspi.fa-circle {
 /*end*/
 
 
-/*--------------------------
-  10. USP buttons
-----------------------------*/
-.recall-button i + span {
-    margin: 0 0 0 5px;
-}
 
-body a.recall-button,
-span.recall-button,
-.recall-button.usp-upload-button,           /*input[type="file"]*/
-input[type="submit"].recall-button,
-input[type="submit"] .recall-button,
-input[type="button"].recall-button,
-input[type="button"] .recall-button {
-    border-radius: 0;                       /*++hueman++*/
-    border: none;
-    box-shadow: none !important;
-    box-sizing: border-box;
-    color: #fff;
-    cursor:pointer;
-    font-size: 12px;
-    font-weight: normal;                    /*++hueman++*/
-    letter-spacing: normal;                 /*++Twenty16++*/
-    line-height:1;
-    padding: 5px 5px;
-    text-decoration: none;
-    text-transform: none;                   /*++Twenty16++*/
-    white-space: nowrap;
-}
-/*end*/
 
 
 /*--------------------------------
   11. USP buttons states
 ----------------------------------*/
-a.recall-button:hover,
-a.recall-button:visited,
-span.recall-button:hover,
-.recall-button.usp-upload-button:hover,
-input[type="submit"].recall-button:hover,
-input[type="submit"] .recall-button:hover,
-input[type="button"].recall-button:hover,
-input[type="button"] .recall-button:hover {
-    color: #fff;
-    opacity: 0.8;
-}
 .usp-search-form input[type="submit"]:hover,
 .usp-upload-button input[type="file"]:hover {
     cursor: pointer;
 }
-a.recall-button.active,
-a.recall-button.active:hover,
-a.recall-button.filter-active,
-a.recall-button.filter-active:hover,
 a.data-filter.filter-active,
 a.data-filter.filter-active:hover {
-    box-shadow: none;                       /*++Twenty16++*/
+    box-shadow: none;
     color: rgb(30, 56, 75);
     cursor: default;
     opacity: 1;
+    background: rgba(var(--uspRgb), .4);
 }
 /*end*/
 
-
-/*------------------------------------
-  12. USP buttons adjustments
---------------------------------------*/
-.usp-data-filters .recall-button {
-    display: inline-block;
-    float: none;
-    margin: 1px 1px 4px 0;
-    padding: 7px;
-}
-/*end*/
-
-
-/*-----------------------------
-  13. Private office subtabs
--------------------------------*/
-.usp-subtab-menu {
-    background: #f7f8f8;
-    margin: 5px 0;
-    overflow: hidden;
-    padding: 10px 10px 5px;
-}
-/*end*/
 
 
 
@@ -882,19 +773,6 @@ div.usp-ava-zoom .ssi-modalWindow {
 /*end*/
 
 
-/*-------------------
-  29. USP Form
----------------------*/
-
-/*end*/
-
-
-/*-----------------------
-  30. USP Tables API
--------------------------*/
-
-/*end*/
-
 
 /*---------------------------
   31. TODO: old generation
@@ -1042,6 +920,10 @@ body .usp-bttn {
 }
 body :not(.usp-wrap__wiget) > .usp-bttn:not(.usp-bttn__active):hover {
     opacity: .8;
+}
+body:not(.wp-admin) .usp-bttn.usp-bttn__type-primary:not(.usp-bttn__active) {
+    background: var(--uspHex);
+    color: var(--uspText);
 }
 /* END общий стиль */
 
@@ -1222,22 +1104,18 @@ body .usp-bttn:not(.usp-bttn__type-clear):last-child {
 }
 .usp-bttn.usp-bttn__type-primary.usp-bttn__active {
 	color: #333;
+        background: rgba(var(--uspRgb), .4);
+}
+.usp-bttn.usp-bttn__type-simple.usp-bttn__active {
+    box-shadow: 0 -5px 0 -3px var(--uspHex) inset;
 }
 /* END condition */
 
-/** new uploader styles **/
-
-/* new uploader styles end */
 
 /*
 	Manager Content
 */
-.usp-content{
 
-}
-.usp-content .usp-content-group{
-
-}
 .usp-content .usp-content-group .group-title{
 	font-weight:bold;
 	font-size:20px;
@@ -1267,5 +1145,3 @@ body .usp-bttn:not(.usp-bttn__type-clear):last-child {
 
 }
 /* User Widget End */
-
-

@@ -1,4 +1,6 @@
 
+/* global usp_url_params */
+
 jQuery( function() {
 	usp_do_action( 'usp_init' );
 } );
@@ -251,14 +253,6 @@ function usp_manage_user_black_list( e, user_id, confirmText ) {
 	return false;
 }
 
-function usp_show_tab( id_block ) {
-	jQuery( ".usp-tab-button .recall-button" ).removeClass( "active" );
-	jQuery( "#usp-tab-content .recall_content_block" ).removeClass( "active" );
-	jQuery( '#tab-button-' + id_block ).children( '.recall-button' ).addClass( "active" );
-	jQuery( '#usp-tab-content .' + id_block + '_block' ).addClass( "active" );
-	return false;
-}
-
 //usp_add_action( 'usp_init', 'usp_init_userspace_bar_hover' );
 //function usp_init_userspace_bar_hover() {
 //	jQuery( "#usp-bar .menu-item-has-children" ).hover( function() {
@@ -401,25 +395,20 @@ function usp_init_loginform_shift_tabs() {
 usp_add_action( 'usp_init', 'usp_init_check_url_params' );
 function usp_init_check_url_params() {
 
-	var options = usp_get_options_url_params();
+    var options = usp_get_options_url_params();
 
-	if ( usp_url_params['tab'] ) {
-		var lkContent = jQuery( "#usp-tab-content" );
-		if ( !lkContent.length )
-			return false;
+    if ( usp_url_params['tab'] ) {
+        var lkContent = jQuery( '#usp-tab-content' );
+        if ( !lkContent.length )
+            return false;
 
-		if ( options.scroll == 1 ) {
-			var offsetTop = lkContent.offset().top;
-			jQuery( 'body,html' ).animate( {
-				scrollTop: offsetTop - options.offset
-			},
-				1000 );
-		}
-
-		var id_block = usp_url_params['tab'];
-		usp_show_tab( id_block );
-	}
-
+        if ( options.scroll == 1 ) {
+            var offsetTop = lkContent.offset().top;
+            jQuery( 'body,html' ).animate( {
+                scrollTop: offsetTop - options.offset
+            }, 1000 );
+        }
+    }
 }
 
 usp_add_action( 'usp_init', 'usp_init_close_notice' );

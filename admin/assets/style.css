@@ -784,19 +784,6 @@ div.usp_preloader i.uspi::before {
 /* END backend publications */
 
 
-/* START backend products publications */
-span.ruble-symbol {
-    font-family: arial,helvetica,sans-serif;
-    font-weight: normal;
-    position: relative;
-}
-.ruble-symbol span {
-    left: 0;
-    line-height: 1px;
-    position: absolute;
-    top: 55%;
-}
-/* END backend products publications */
 
 #usp-reg-form {
     background: #ffdfdf;
@@ -838,31 +825,6 @@ span.ruble-symbol {
 }
 #usp-addon-details .details-content img {
     max-width: 100%;
-}
-#usp-addon-details .details-content .aligncenter {
-    text-align: center;
-}
-#usp-addon-details .details-content .alignright {
-    float: none;
-    text-align: right;
-}
-#usp-addon-details .details-content .alignleft {
-    float: none;
-    text-align: left;
-}
-#usp-addon-details .details-content img.aligncenter {
-    display: block;
-    margin: 10px auto;
-}
-#usp-addon-details .details-content img.alignleft {
-    display: block;
-    float: left;
-    margin: 10px 10px 10px 0;
-}
-#usp-addon-details .details-content img.alignright {
-    display: block;
-    float: right;
-    margin: 10px 0 10px 10px;
 }
 #usp-addon-details .details-content .inline-image {
     display: inline-block !important;
