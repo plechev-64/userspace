@@ -357,23 +357,6 @@ function usp_init_click_smilies() {
 	} );
 }
 
-usp_add_action( 'usp_init', 'usp_init_click_overlay' );
-function usp_init_click_overlay() {
-	jQuery( '#usp-overlay' ).click( function() {
-		usp_hide_float_login_form();
-		jQuery( '#usp-overlay' ).fadeOut();
-		return false;
-	} );
-}
-
-usp_add_action( 'usp_init', 'usp_init_click_float_window' );
-function usp_init_click_float_window() {
-	jQuery( ".float-window-recall" ).on( 'click', '.close', function() {
-		jQuery( ".float-window-recall" ).remove();
-		return false;
-	} );
-}
-
 usp_add_action( 'usp_init', 'usp_init_loginform_shift_tabs' );
 function usp_init_loginform_shift_tabs() {
 	jQuery( 'body' ).on( 'click', '.form-tab-usp .link-tab-usp', function() {

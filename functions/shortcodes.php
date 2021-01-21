@@ -74,22 +74,22 @@ function usp_get_user_widget( $atts = [] ) {
     } else {
 
         //use loginform module
-        if ( ! usp_get_option( 'login_form_recall' ) )
+        if ( ! usp_get_option( 'usp_login_form' ) )
             usp_dialog_scripts();
 
         $buttons[] = [
-            'label'   => __( 'Авторизация', 'userspace' ),
+            'label'   => __( 'Sign in', 'userspace' ),
             'icon'    => 'fa-sign-in',
             'size'    => 'medium',
-            'onclick' => usp_get_option( 'login_form_recall' ) ? null : 'USP.loginform.call("login");return false;',
+            'onclick' => usp_get_option( 'usp_login_form' ) ? null : 'USP.loginform.call("login");return false;',
             'href'    => usp_get_loginform_url( 'login' )
         ];
 
         $buttons[] = [
-            'label'   => __( 'Регистрация', 'userspace' ),
+            'label'   => __( 'Register', 'userspace' ),
             'icon'    => 'fa-book',
             'size'    => 'medium',
-            'onclick' => usp_get_option( 'login_form_recall' ) ? null : 'USP.loginform.call("register");return false;',
+            'onclick' => usp_get_option( 'usp_login_form' ) ? null : 'USP.loginform.call("register");return false;',
             'href'    => usp_get_loginform_url( 'register' )
         ];
     }

@@ -140,7 +140,7 @@ $options->box( 'primary' )->add_group( 'usersign', array(
 ) )->add_options( array(
     array(
         'type'      => 'select',
-        'slug'      => 'login_form_recall',
+        'slug'      => 'usp_login_form',
         'title'     => __( 'The order of output the form of login and registration', 'userspace' ),
         'values'    => array(
             __( 'Floating form', 'userspace' ),
@@ -153,7 +153,7 @@ $options->box( 'primary' )->add_group( 'usersign', array(
             1 => array(
                 array(
                     'type'   => 'select',
-                    'slug'   => 'page_login_form_recall',
+                    'slug'   => 'usp_id_login_page',
                     'title'  => __( 'ID of the shortcode page [loginform]', 'userspace' ),
                     'values' => $pages
                 )

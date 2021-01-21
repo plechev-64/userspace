@@ -17,7 +17,7 @@ if ( is_admin() || isset( $_REQUEST['rest_route'] ) ) {
     add_action( 'usp_enqueue_scripts', 'usp_loginform_scripts', 10 );
 }
 function usp_loginform_scripts() {
-    if ( ! usp_get_option( 'login_form_recall' ) )
+    if ( ! usp_get_option( 'usp_login_form' ) )
         usp_dialog_scripts();
     usp_enqueue_style( 'usp-loginform', USP_URL . 'modules/loginform/assets/style.css', false, false, true );
     usp_enqueue_script( 'usp-loginform', USP_URL . 'modules/loginform/assets/scripts.js', false, false, true );
@@ -121,10 +121,10 @@ function usp_get_loginform( $atts = [] ) {
 function usp_get_loginform_url( $type ) {
 
     if ( $type == 'login' ) {
-        switch ( usp_get_option( 'login_form_recall' ) ) {
-            case 1: return add_query_arg( [ 'usp-form' => 'login' ], get_permalink( usp_get_option( 'page_login_form_recall' ) ) );
+        switch ( usp_get_option( 'usp_login_form' ) ) {
+            case 1: return add_query_arg( [ 'usp-form' => 'login' ], get_permalink( usp_get_option( 'usp_id_login_page' ) ) );
                 break;
-            case 2: return wp_login_url( get_permalink( usp_get_option( 'page_login_form_recall' ) ) );
+            case 2: return wp_login_url( get_permalink( usp_get_option( 'usp_id_login_page' ) ) );
                 break;
             default: return '#';
                 break;
@@ -132,8 +132,8 @@ function usp_get_loginform_url( $type ) {
     }
 
     if ( $type == 'register' ) {
-        switch ( usp_get_option( 'login_form_recall' ) ) {
-            case 1: return add_query_arg( [ 'usp-form' => 'register' ], get_permalink( usp_get_option( 'page_login_form_recall' ) ) );
+        switch ( usp_get_option( 'usp_login_form' ) ) {
+            case 1: return add_query_arg( [ 'usp-form' => 'register' ], get_permalink( usp_get_option( 'usp_id_login_page' ) ) );
                 break;
             case 2: return wp_registration_url();
                 break;

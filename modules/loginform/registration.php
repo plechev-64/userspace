@@ -144,7 +144,7 @@ function usp_confirm_user_resistration_activate() {
 function usp_confirm_user_registration() {
     global $wpdb;
 
-    $type_form = usp_get_option( 'login_form_recall', 0 );
+    $type_form = usp_get_option( 'usp_login_form', 0 );
 
     if ( $confirmdata = urldecode( $_GET['usp-confirmdata'] ) ) {
 
@@ -172,27 +172,27 @@ function usp_confirm_user_registration() {
             do_action( 'usp_confirm_registration', $user->ID );
 
             //если используется форма WP
-            if ( usp_get_option( 'login_form_recall' ) == 2 ) {
+            if ( usp_get_option( 'usp_login_form' ) == 2 ) {
                 wp_safe_redirect( wp_login_url() . '?success=checkemail' );
             } else {
                 wp_redirect( add_query_arg( array(
                     'usp-form'   => 'login',
                     'type-form'  => ! $type_form ? 'float' : 'onpage',
                     'formaction' => 'success-checkemail'
-                        ), ($type_form == 1 ? get_permalink( usp_get_option( 'page_login_form_recall' ) ) : home_url() ) ) );
+                        ), ($type_form == 1 ? get_permalink( usp_get_option( 'usp_id_login_page' ) ) : home_url() ) ) );
             }
             exit;
         }
     }
 
-    if ( usp_get_option( 'login_form_recall' ) == 2 ) {
+    if ( usp_get_option( 'usp_login_form' ) == 2 ) {
         wp_safe_redirect( wp_login_url() . '?checkemail=confirm' );
     } else {
         wp_redirect( add_query_arg( array(
             'usp-form'   => 'login',
             'type-form'  => ! $type_form ? 'float' : 'onpage',
             'formaction' => 'need-checkemail'
-                ), ($type_form == 1 ? get_permalink( usp_get_option( 'page_login_form_recall' ) ) : home_url() ) ) );
+                ), ($type_form == 1 ? get_permalink( usp_get_option( 'usp_id_login_page' ) ) : home_url() ) ) );
     }
     exit;
 }
