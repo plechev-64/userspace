@@ -101,7 +101,7 @@ $options->box( 'primary' )->add_group( 'design', array(
     ),
     array(
         'type'    => 'color',
-        'slug'    => 'primary-color',
+        'slug'    => 'usp-primary-color',
         'title'   => __( 'Primary color', 'userspace' ),
         'default' => '#4C8CBD'
     ),

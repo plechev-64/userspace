@@ -25,9 +25,9 @@ function usp_mark_own_page( $post_states, $post ) {
 // set admin area root inline css colors
 add_filter( 'admin_head', 'usp_admin_css_variable' );
 function usp_admin_css_variable() {
-    $usp_color = usp_get_option( 'primary-color' );
+    $usp_color = usp_get_option( 'usp-primary-color', '#4c8cbd' );
 
-    list($r, $g, $b) = ($usp_color = usp_get_option( 'primary-color' )) ? sscanf( $usp_color, "#%02x%02x%02x" ) : array( 76, 140, 189 );
+    list($r, $g, $b) = sscanf( $usp_color, "#%02x%02x%02x" );
 
     echo '<style>' . usp_get_root_colors( $r, $g, $b, $usp_color ) . '</style>';
 }
