@@ -88,9 +88,7 @@ div.usp_preloader i.uspi::before {
 		transform: rotate(359deg);
 	}
 }
-#recall {
-    position: relative;
-}
+
 .shift-extend-options > label {
     background-color: #f5c0c0;
     border: 1px solid #cd9898;
@@ -98,40 +96,6 @@ div.usp_preloader i.uspi::before {
     font-size: 14px;
     padding: 8px;
     width: 220px;
-}
-#recall.left-sidebar form {
-    height: 870px;
-}
-#recall .title-option {
-    background-color: #e6e6e6;
-    border: 1px solid #d4d4d4;
-    cursor: pointer;
-    display: flex;
-    margin: 5px 0 0;
-    padding: 5px 8px;
-    width: 600px;
-}
-#recall.left-sidebar .title-option {
-    font-size: 16px;
-    transform: translate3d(0px, 0px, 0px);
-    width: 220px;
-}
-#recall.left-sidebar .active {
-    background-color: rgb(76, 140, 189);
-    border: 1px solid #266697;
-    color: #fff;
-}
-#recall .title-option > span {
-    color: rgb(76, 140, 189);
-    margin: 0 5px 0 0;
-}
-#recall .title-option.active > span {
-    color: #fff;
-}
-#recall.left-sidebar .title-option:hover:not(.active) {
-    background-color: #eee;
-    border-left: 3px solid rgb(76, 140, 189);
-    transform: translateX(-2px);
 }
 
 #usp-options-form .extend-options {
@@ -196,65 +160,6 @@ div.usp_preloader i.uspi::before {
 .left-sidebar .submit-block {
     margin-top: 50px;
     width: 238px;
-}
-#recall .usp-save-button {
-    background-color: rgb(76, 140, 189);
-    border-radius: 0;
-    border: none;
-    box-shadow: none;
-    color: #fff;
-    cursor: pointer;
-    float: right;
-    font-size: 16px;
-    height: auto;
-    margin: 0;
-    padding: 5px;
-    text-shadow: none;
-    width: 100%;
-}
-#recall .usp-save-button:hover {
-    opacity: 0.9;
-}
-
-
-/* START addon-template page */
-.usp-admin-service-box {
-    background-color: #f5f5f5;
-    border: 1px solid #e5e5e5;
-    margin: 10px 0;
-    padding: 0 10px 4px;
-}
-.usp-admin-service-box .install-help {
-    line-height: normal;
-    padding: 0 0 0 22px;
-    position: relative;
-}
-.usp-admin-service-box .install-help::before {
-    color: #ffae19;
-    content: "\f534";
-    font-family: dashicons;
-    font-size: 18px;
-    font-style: normal;
-    left: 0;
-    opacity: 0.4;
-    position: absolute;
-    top: 0;
-}
-.wp-admin input[name="usp-key"]:not([value=""]) {
-    filter: blur(3px) invert(0.4) opacity(0.3);
-    transition: all 0.15s linear 0s;
-}
-.wp-admin input[name="usp-key"]:hover:not([value=""]) {
-    filter: none;
-}
-/* END addon-template page */
-
-
-.wp-list-table .addon_screen img {
-    width: 200px;
-}
-.wp-list-table .addon_icon img {
-    width: 40px;
 }
 
 
@@ -725,131 +630,7 @@ div.usp_preloader i.uspi::before {
     display:block;
 }
 
-.usp-repository-list .addon-box {
-    overflow:hidden;
-    position:relative;
-}
-#usp-addon-details {
-    background: #eaeaea;
-    overflow: hidden;
-}
-#usp-addon-details .details-sidebar {
-    float: right;
-    padding: 10px;
-    width: 200px;
-}
-#usp-addon-details .details-sidebar .addon-thumbnail {
-    margin: 15px 0;
-    text-align: center;
-}
-#usp-addon-details .details-content {
-    background: #fff;
-    overflow: hidden;
-    padding-right: 10px;
-}
-#usp-addon-details .details-content ul {
-    list-style: disc;
-    padding-left: 20px;
-}
-#usp-addon-details .details-content img {
-    max-width: 100%;
-}
-#usp-addon-details .details-content .inline-image {
-    display: inline-block !important;
-}
-#usp-addon-details .details-content pre {
-    background-color: #ffffff;
-    background-image: none !important;
-    border: 2px solid #e3e8ec;
-    color: #1f7ca9 !important;
-    display: block;
-    font-size: inherit;
-    line-height: normal;
-    margin: 10px 0;
-    overflow: auto;
-    padding: 20px 10px 20px 20px !important;
-    position: relative;
-    white-space: pre;
-    word-wrap: normal;
-}
-#usp-addon-details .details-content iframe {
-    margin: 10px 0;
-    width: 100%;
-}
-#usp-addon-details .sections-content {
-    margin-top: 20px;
-}
-#usp-addon-details .sections-content .sections-menu {
-    font-size: 16px;
-    margin-bottom: -1px;
-    padding: 0;
-}
-#usp-addon-details .sections-content .sections-menu li {
-    background: #4c8cbd;
-    border-left: 1px solid #4c8cbd;
-    border-right: 1px solid #4c8cbd;
-    border-top: 1px solid #4c8cbd;
-    display: inline-block;
-    margin: 5px 3px 0 0;
-    padding: 5px 12px;
-}
-#usp-addon-details .sections-content .sections-menu li a {
-    color: #fff;
-    text-decoration: none;
-}
-#usp-addon-details .sections-content .sections-menu li.active-section {
-    background: #fff;
-}
-#usp-addon-details .sections-content .sections-menu li.active-section a {
-    color: #4c8cbd;
-}
-#usp-addon-details .sections-content .section-content {
-    border-bottom: 1px solid #4c8cbd;
-    border-left: 1px solid #4c8cbd;
-    border-top: 1px solid #4c8cbd;
-    padding-bottom: 10px;
-    padding-left: 10px;
-    padding-top: 10px;
-}
-#usp-addon-details .sections-content .no-active-box {
-    display: none;
-}
-#usp-addon-details .sections-content .sub-content-box {
-    padding: 10px 5px;
-}
-#usp-addon-details .sections-content .sub-content-box .sub-heading {
-    font-weight: bold;
-}
-#usp-addon-details .sections-content .section-content .section-code {
-    background: rgb(242, 251, 255);
-    border-bottom: 2px solid rgb(175, 230, 255);
-    border-top: 2px solid rgb(175, 230, 255);
-    overflow: auto;
-    padding: 10px;
-}
-.usp-addon-details #ssi-modalWrapper {
-    height: calc(100vh - 40px);
-    overflow-x: hidden;
-    overflow-y: auto;
-}
-.usp-addon-details #ssi-modalWindow {
-    border-radius: 0;
-    border: none;
-    box-sizing: border-box;
-    padding: 8px;
-}
-.usp-addon-details #ssi-modalTitle {
-    font-style: normal;
-}
-.usp-addon-details .ssi-topIcons .ssi-closeIcon {
-    padding: 8px;
-    visibility: hidden;
-}
-.usp-addon-details .ssi-topIcons .ssi-closeIcon::after {
-    content: "\f335";
-    font: 400 32px/29px dashicons;
-    visibility: visible;
-}
+
 
 /*форма*/
 .usp-form .form-field {
@@ -876,42 +657,10 @@ div.usp_preloader i.uspi::before {
     padding: 7px 10px;
 }
 
-/* new options*/
 
-/*****/
-
-/* Fields Manager */
-
-
-/****/
-
-@media screen and (max-width:800px) {
-    .usp-addon-details #ssi-modalWrapper {
-        margin: 46px auto;
-        width: 95%;
-    }
-}
 
 @media screen and (max-width:568px) {
-    #recall.left-sidebar .title-option,
-    #recall .shift-extend-options > label {
-        box-sizing: border-box;
-        padding: 10px;
-        width: 100%;
-    }
     .left-sidebar .submit-block {
         width: 100%;
-    }
-    .usp-addon-details #ssi-modalWrapper {
-        margin: 8px auto;
-    }
-    #usp-addon-details .details-sidebar {
-        display: flex;
-        float: none;
-        width: 100%;
-    }
-    #usp-addon-details .details-sidebar .addon-thumbnail {
-        display: flex;
-        margin: 0 10px 0 0;
     }
 }

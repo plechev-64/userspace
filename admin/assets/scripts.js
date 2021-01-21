@@ -21,12 +21,6 @@ jQuery( function( $ ) {
 	} );
 	/**/
 
-	$( "#recall" ).find( ".parent-select" ).each( function() {
-		var id = $( this ).attr( 'id' );
-		var val = $( this ).val();
-		$( '.child-select.' + id + '-' + val ).show();
-	} );
-
 	$( '#usp-custom-fields-editor' ).on( 'change', '.select-type-field', function() {
 		usp_get_custom_field_options( this );
 	} );
@@ -57,164 +51,11 @@ jQuery( function( $ ) {
 		return false;
 	} );
 
-	$( '#recall' ).on( 'click', '.title-option', function() {
-
-		if ( $( this ).hasClass( 'active' ) )
-			return false;
-
-		var titleSpan = $( this );
-
-		var addonId = titleSpan.data( 'addon' );
-		var url = titleSpan.data( 'url' );
-
-		usp_update_history_url( url );
-
-		$( '#recall .title-option' ).removeClass( 'active' );
-		titleSpan.addClass( 'active' );
-		return false;
-	} );
-
-	$( '.update-message .update-add-on' ).click( function() {
-		if ( $( this ).hasClass( "updating-message" ) )
-			return false;
-		var addon = $( this ).data( 'addon' );
-		$( '#' + addon + '-update .update-message' ).addClass( 'updating-message' );
-
-		usp_ajax({
-			data: {
-				action: 'usp_update_addon',
-				addon: addon
-			},
-			success: function( data ) {
-				if ( data.addon_id == addon ) {
-					$( '#' + addon + '-update .update-message' ).toggleClass( 'updating-message updated-message' ).html( data.success );
-				}
-				if ( data.error ) {
-
-					$( '#' + addon + '-update .update-message' ).removeClass( 'updating-message' );
-
-					var ssiOptions = {
-						className: 'usp-dialog-tab usp-update-error',
-						sizeClass: 'auto',
-						title: USP.local.error,
-						buttons: [ {
-							label: USP.local.close,
-							closeAfter: true
-						} ],
-						content: data.error
-					};
-
-					ssi_modal.show( ssiOptions );
-
-				}
-			}
-		});
-
-		return false;
-
-	} );
-
 	$( '#usp-notice,body' ).on( 'click', 'a.close-notice', function() {
 		usp_close_notice( jQuery( this ).parent() );
 		return false;
 	} );
-
-	jQuery( 'body' ).on( 'click', '#usp-addon-details .sections-menu .no-active-section', function() {
-		var li = jQuery( this );
-
-		li.parent().find( '.active-section' ).each( function() {
-			var tab = jQuery( this ).data( 'tab' );
-			jQuery( this ).removeClass( 'active-section' );
-			jQuery( this ).addClass( 'no-active-section' );
-
-			var box = jQuery( '#usp-addon-details .section-content [data-box="' + tab + '"]' );
-
-			box.removeClass( 'active-box' );
-			box.addClass( 'no-active-box' );
-		} );
-
-		var tab = li.data( 'tab' );
-
-		li.removeClass( 'no-active-section' );
-		li.addClass( 'active-section' );
-
-		var box = jQuery( '#usp-addon-details .section-content [data-box="' + tab + '"]' );
-
-		box.removeClass( 'no-active-box' );
-		box.addClass( 'active-box' );
-
-		return false;
-
-	} );
-
 } );
-
-function usp_get_details_addon( props, e ) {
-
-	usp_preloader_show( jQuery( e ).parents( '.addon-box' ) );
-
-	props.action = 'usp_get_details_addon';
-
-	usp_ajax( {
-		data: props,
-		success: function( data ) {
-
-			ssi_modal.show( {
-				className: 'usp-dialog-tab usp-addon-details',
-				sizeClass: 'medium',
-				title: data.title,
-				buttons: [ {
-						label: USP.local.close,
-						closeAfter: true
-					} ],
-				content: data.content
-			} );
-
-		}
-	} );
-
-	return false;
-
-}
-
-function usp_update_addon( props, e ) {
-
-	var button = jQuery( e );
-
-	if ( button.hasClass( "updating-message" ) || button.hasClass( "updated-message" ) )
-		return false;
-
-	button.addClass( 'updating-message' );
-
-	usp_ajax( {
-		data: 'action=usp_update_addon&addon=' + props.slug,
-		success: function( data ) {
-			if ( data.addon_id == props.slug ) {
-				button.addClass( 'button-disabled' ).toggleClass( 'updating-message updated-message' ).html( data.success );
-			}
-			if ( data.error ) {
-
-				button.removeClass( 'updating-message' );
-
-				var ssiOptions = {
-					className: 'usp-dialog-tab usp-update-error',
-					sizeClass: 'auto',
-					title: USP.local.error,
-					buttons: [ {
-							label: USP.local.close,
-							closeAfter: true
-						} ],
-					content: data.error
-				};
-
-				ssi_modal.show( ssiOptions );
-
-			}
-		}
-	} );
-	return false;
-
-}
 
 function usp_update_history_url( url ) {
 

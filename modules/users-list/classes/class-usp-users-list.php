@@ -492,7 +492,7 @@ class USP_Users_List extends USP_Users_Query {
     }
 
     function get_filters( $count_users = false ) {
-        global $post, $user_LK, $active_addons;
+        global $post, $user_LK;
 
         if ( ! $this->filters )
             return false;
@@ -530,7 +530,7 @@ class USP_Users_List extends USP_Users_Query {
             'user_registered' => __( 'Registration', 'userspace' ),
         );
 
-        if ( isset( $active_addons['rating-system'] ) )
+        if ( function_exists( 'uspr_get_rating_users' ) )
             $filters['rating_total'] = __( 'Rated', 'userspace' );
 
         $filters = apply_filters( 'usp_users_filter', $filters );

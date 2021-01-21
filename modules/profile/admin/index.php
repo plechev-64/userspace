@@ -1,7 +1,7 @@
 <?php
 
 require_once 'class-usp-profile-fields-manager.php';
-require_once 'addon-settings.php';
+require_once 'profile-settings.php';
 
 add_action( 'admin_menu', 'usp_profile_admin_menu', 30 );
 function usp_profile_admin_menu() {
