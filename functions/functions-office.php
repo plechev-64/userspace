@@ -18,7 +18,7 @@ function usp_add_office_menu_counters() {
 add_action( 'usp_area_menu', 'usp_add_office_menu_menu', 10 );
 function usp_add_office_menu_menu() {
     echo USP()->tabs()->get_menu( 'menu', [
-        'class' => usp_get_option( 'buttons_place', 0 ) ? 'usps__column' : false
+        'class' => usp_get_option( 'usp_office_tab_type', 0 ) ? 'usps__column' : false
     ] );
 }
 
@@ -81,7 +81,7 @@ function usp_get_office_class() {
         $class[] = 'usp-visitor-guest';
     }
 
-    $class[] = (usp_get_option( 'buttons_place' ) == 1) ? "usp-tabs-menu__column" : "usp-tabs-menu__row";
+    $class[] = (usp_get_option( 'usp_office_tab_type' ) == 1) ? "usp-tabs-menu__column" : "usp-tabs-menu__row";
 
     return implode( ' ', $class );
 }

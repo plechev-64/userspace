@@ -133,62 +133,12 @@ div.usp_preloader i.uspi::before {
     border-left: 3px solid rgb(76, 140, 189);
     transform: translateX(-2px);
 }
-.wrap-recall-options {
-    border: 1px solid #ddd;
-    display: none;
-    margin: 0 0 5px;
-    padding: 15px;
-}
-.left-sidebar .wrap-recall-options {
-    left: 250px;
-    max-height: 800px;
-    max-width: 500px;
-    overflow-y: auto;
-    position: absolute;
-    top: 0;
-}
-.wrap-recall-options .option-block {
-    background-color: #eee;
-    border: 1px solid #ddd;
-    border-radius: 2px;
-    margin: 0 0 14px;
-    max-width: 500px;
-    padding: 5px 15px;
-}
+
 #usp-options-form .extend-options {
     background-color: #f5f5f5;
     border-left: 2px solid #f8d3d3;
     margin: 5px 0;
     padding: 5px 8px;
-}
-.wrap-recall-options .option-block h3 {
-    margin: 10px 0;
-    text-transform: uppercase;
-}
-.wrap-recall-options .option-block label {
-    display: block;
-    font-weight: bold;
-    margin-top: 5px;
-}
-.wrap-recall-options div.usp-option label.option-title,
-.wrap-recall-options div.usp-option .usp-field-input label {
-    display: inline-block;
-}
-.wrap-recall-options div.usp-option .usp-field-input label {
-    font-weight:normal;
-}
-.wrap-recall-options .option-block small {
-    display: block;
-}
-.wrap-recall-options .option-block select,
-.wrap-recall-options .option-block input[type="text"],
-.wrap-recall-options .option-block input[type="number"] {
-    box-sizing: border-box;
-    height: auto;
-    line-height: normal;
-    margin: 2px 0;
-    padding: 5px;
-    width: 300px;
 }
 #usp-options-form .help-option {
     display: inline-block;
@@ -216,16 +166,8 @@ div.usp_preloader i.uspi::before {
     font-size: 14px;
 }
 .child-select,
-.help-option .help-content,
-.wrap-recall-options .hidden-option {
+.help-option .help-content{
     display:none;
-}
-.wrap-recall-options .option-block input[type="number"] {
-    width: 100px;
-}
-.wrap-recall-options .option-block textarea {
-    height: 80px;
-    width: 100%;
 }
 
 
@@ -767,20 +709,6 @@ div.usp_preloader i.uspi::before {
     color: rgb(229, 57, 53);
     content: "\f153";
 }
-.wrap-recall-options .usp-radio-box {
-	display: inline-flex;
-	align-items: center;
-	margin: 3px 6px 0 0;
-}
-.wrap-recall-options div.usp-option .usp-radio-box .block-label {
-	margin: 0;
-	padding: 0 0 0 5px;
-	line-height: 10px;
-}
-.wrap-recall-options .usp-custom-field i.fa-info-circle:not(.mce-ico) {
-	vertical-align: bottom;
-	font-size: 18px;
-}
 /* END backend publications */
 
 
@@ -971,10 +899,6 @@ div.usp_preloader i.uspi::before {
         padding: 10px;
         width: 100%;
     }
-    #recall.left-sidebar .wrap-recall-options {
-        position: static;
-        width: auto;
-    }
     .left-sidebar .submit-block {
         width: 100%;
     }
@@ -989,11 +913,5 @@ div.usp_preloader i.uspi::before {
     #usp-addon-details .details-sidebar .addon-thumbnail {
         display: flex;
         margin: 0 10px 0 0;
-    }
-}
-
-@media screen and (max-width:375px) {
-    .wrap-recall-options .option-block select {
-        max-width: 260px;
     }
 }

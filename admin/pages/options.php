@@ -107,7 +107,7 @@ $options->box( 'primary' )->add_group( 'design', array(
     ),
     array(
         'type'    => 'radio',
-        'slug'    => 'buttons_place',
+        'slug'    => 'usp_office_tab_type',
         'title'   => __( 'The location of the section buttons', 'userspace' ),
         'values'  => [ __( 'Top', 'userspace' ), __( 'Left', 'userspace' ) ],
         'default' => 0,

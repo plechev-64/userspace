@@ -67,47 +67,14 @@ function usp_api_button_inline_size( $styles ) {
     return $styles;
 }
 
-// css variable
-// Основные цвета UserSpace переведем в css переменные
-// для удобства: hex и rgb значения - чтобы потом самим css генерировать как прозрачность текста (rgba)
+// set frontend root inline css colors
 add_filter( 'usp_inline_styles', 'usp_css_variable', 10, 2 );
 function usp_css_variable( $styles, $rgb ) {
     $usp_color = usp_get_option( 'primary-color', '#4c8cbd' );
 
     list($r, $g, $b) = $rgb;
 
-    // темнее rgb
-    $rd = round( $r * 0.45 );
-    $gd = round( $g * 0.45 );
-    $bd = round( $b * 0.45 );
-
-    // ярче rgb
-    $rl = round( $r * 1.4 );
-    $gl = round( $g * 1.4 );
-    $bl = round( $b * 1.4 );
-
-    // инверт rgb
-    $rf = round( 0.75 * (255 - $r) );
-    $gf = round( 0.75 * (255 - $g) );
-    $bf = round( 0.75 * (255 - $b) );
-
-    // https://stackoverflow.com/questions/3942878/how-to-decide-font-color-in-white-or-black-depending-on-background-color
-    $text_color = '#fff';
-    $threshold  = apply_filters( 'usp_text_color_threshold', 150 );
-    if ( ($r * 0.299 + $g * 0.587 + $b * 0.114) > $threshold ) {
-        $text_color = '#000';
-    }
-
-    $styles .= '
-:root{
---uspText: ' . $text_color . ';
---uspHex:' . $usp_color . ';
---uspRgb:' . $r . ',' . $g . ',' . $b . ';
---uspRgbDark:' . $rd . ',' . $gd . ',' . $bd . ';
---uspRgbLight:' . $rl . ',' . $gl . ',' . $bl . ';
---uspRgbFlip:' . $rf . ',' . $gf . ',' . $bf . ';
-}
-';
+    $styles .= usp_get_root_colors( $r, $g, $b, $usp_color );
 
     return $styles;
 }

@@ -4,13 +4,6 @@ jQuery( function( $ ) {
 
 	usp_init_cookie();
 
-	if ( usp_url_params['usp-addon-options'] ) {
-		$( '.wrap-recall-options' ).hide();
-		$( '#recall .title-option' ).removeClass( 'active' );
-		$( '#options-' + usp_url_params['usp-addon-options'] ).show();
-		$( '#title-' + usp_url_params['usp-addon-options'] ).addClass( 'active' );
-	}
-
 	$( '.usp-custom-fields-box' ).find( '.required-checkbox' ).each( function() {
 		usp_update_require_checkbox( this );
 	} );
@@ -20,13 +13,6 @@ jQuery( function( $ ) {
 	} );
 
 	/**/
-	$( ".wrap-recall-options" ).find( ".parent-option" ).each( function() {
-		$( this ).find( "input,select" ).each( function() {
-			var id = $( this ).attr( 'id' );
-			var val = $( this ).val();
-			$( '.' + id + '-' + val ).show();
-		} );
-	} );
 
 	$( '.parent-option select, .parent-option input' ).change( function() {
 		var id = $( this ).attr( 'id' );
@@ -39,13 +25,6 @@ jQuery( function( $ ) {
 		var id = $( this ).attr( 'id' );
 		var val = $( this ).val();
 		$( '.child-select.' + id + '-' + val ).show();
-	} );
-
-	$( '.wrap-recall-options .parent-select' ).change( function() {
-		var id = $( this ).attr( 'id' );
-		var val = $( this ).val();
-		$( '.wrap-recall-options .child-select.' + id ).slideUp();
-		$( '.wrap-recall-options .child-select.' + id + '-' + val ).slideDown();
 	} );
 
 	$( '#usp-custom-fields-editor' ).on( 'change', '.select-type-field', function() {
@@ -90,10 +69,8 @@ jQuery( function( $ ) {
 
 		usp_update_history_url( url );
 
-		$( '.wrap-recall-options' ).hide();
 		$( '#recall .title-option' ).removeClass( 'active' );
 		titleSpan.addClass( 'active' );
-		titleSpan.next( '.wrap-recall-options' ).show();
 		return false;
 	} );
 
