@@ -157,7 +157,7 @@ function usp_call_loginform() {
 
     return [
         'dialog' => [
-            'size'    => 'smallToMedium',
+            'size'    => 'auto',
             'content' => usp_get_loginform( [ 'active' => $form ] )
         ]
     ];

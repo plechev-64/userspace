@@ -3,6 +3,13 @@ i::before {
 	content: "😡 🤬";
 }
 
+/* collect color palette */
+:root{
+    --uspRed-500: #ef4444;
+    --uspGray-500: #6b7280;
+    --uspGray-300: #D1D5DB;
+}
+
 
 /* usps (style) flex layout */
 .usps {
@@ -203,12 +210,12 @@ i::before {
     width: 15px;
 }
 :root span.required {
-    color: rgb(229, 57, 53);
     font: bold 15px/1 Verdana,arial;
     padding: 0;
+    color: var(--uspRed-500);
 }
 #usp-overlay {
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, .7);
     bottom: 0;
     display: none;
     left: 0;
@@ -251,8 +258,8 @@ i::before {
 .notify-lk .error,
 #usp-notice .type-error {
     background: rgb(255, 207, 207);
-    border-left: 3px solid red;
-    color: red;
+    border-left: 3px solid var(--uspRed-500);
+    color: var(--uspRed-500);
 }
 .notify-lk .warning,
 #usp-notice .type-warning {
@@ -361,7 +368,7 @@ span i.uspi.fa-circle {
     color: #89e535;
 }
 .offline .uspi.fa-circle {
-    color: rgb(229, 57, 53);
+    color: var(--uspRed-500);
     text-shadow: 0 0 1px #5a0d0c;
 }
 @keyframes pulsate {
@@ -608,78 +615,6 @@ body .usp-pager > span a.usp-bttn{
 /*end*/
 
 
-/*-------------------
-  23. Ssi-modal API
----------------------*/
-#ssi-modalWindow {
-    animation-duration: 0.5s;
-    animation-name: slideInDown;
-}
-div.ssi-backdrop {
-    background: rgba(0, 0, 0, 0.7);
-}
-body .ssi-modalOuter .ssi-modalTitle {
-    font-family: inherit;
-}
-.ssi-modalOuter .ssi-modalWindow {
-    border-radius: 0;
-    border: none;
-    margin: 0 auto;
-    max-width: 99%;
-    min-width: 315px;
-    overflow: hidden;
-    padding: 0;
-}
-.ssi-modalOuter .ssi-modalTitle {
-    font-size: 22px;
-    font-style: normal;
-    font-weight: bold;
-    line-height: 1;
-    padding: 6px 40px 8px 15px;
-}
-.ssi-modalOuter .ssi-topIcons {
-    top: 2px;
-    z-index: 1502;
-}
-.ssi-modalOuter .ssi-topIcons .ssi-closeIcon,
-.ssi-modalOuter .ssi-topIcons .ssi-closeIcon:hover {
-    background: none;
-    height: 30px;
-    text-decoration: none;
-    margin: 0;
-    line-height: 34px;
-    width: 30px;
-}
-.ssi-modalOuter .ssi-topIcons .ssi-closeIcon::after {
-    color: rgb(229, 57, 53);
-    content: "\f00d";
-    font: 400 24px/24px usp-awesome;
-}
-.ssi-modalOuter .ssi-topIcons .ssi-closeIcon:hover::after {
-    color: rgb(192, 0, 0);
-}
-.usp-user-getails .ssi-modalOuter .ssi-modalContent {
-    display: table;
-    margin: 0 auto;
-    padding: 9px 9px 10px;
-}
-.ssi-modalOuter .ssi-buttons .ssi-modalBtn {
-    background: #eee;
-    border-radius: 0;
-    border: medium none;
-    box-shadow: 0 0 1px 1px #ccc;
-    color: #555;
-    cursor: pointer;
-    font: 15px/1 normal;
-    margin: 3px 3px 7px;
-    padding: 5px 7px;
-    text-transform: none;
-}
-.ssi-modalOuter .ssi-modalBtn:hover {
-    background: #e9e9e9;
-    box-shadow: 0 0 1px 1px #aaa;
-}
-/*end*/
 
 /*----------------------------------
   26. Detailed information
@@ -704,41 +639,10 @@ body .ssi-modalOuter .ssi-modalTitle {
 .usp-user-avatar:hover .usp-avatar-zoom {
     display: flex;
 }
-.usp-user-getails .block-usp {
-    padding: 5px;
-}
-.usp-user-getails p {
-    margin: 0;
-    padding: 0;
-}
-div.usp-ava-zoom .ssi-modalWindow {
-    min-width: auto;
-}
-.usp-ava-zoom .ssi-topIcons {
-    z-index: 1600;
-}
-.usp-ava-zoom .ssi-modalContent {
-    padding: 0;
-}
-.usp-user-getails #ssi-modalWrapper {
-    max-width: 450px;
-}
-.usp-hand-uploader .ssi-modalContent {
-    padding: 0;
-}
 /*end*/
 
 
-/*----------------------------------
-  27. Upload avatar
-------------------------------------*/
-.ssi-modalOuter.usp-hand-uploader {
-    overflow-x: hidden;
-}
-.usp-hand-uploader #ssi-modalWindow {
-    max-width: 95%;
-}
-/*end*/
+
 
 
 /*--------------------

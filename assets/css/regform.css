@@ -94,7 +94,7 @@
     font-size: .85em;
 }
 #registerform .form-block-usp .required {
-    color: rgb(229, 57, 53);
+    color: var(--uspRed-500);
     font: bold 15px/normal Verdana,arial;
     left: -15px;
     position: absolute;

@@ -21,8 +21,8 @@
 }
 #usp-notice .type-error {
     background-color: rgb(255, 207, 207);
-    border-left: 3px solid red;
-    color: red;
+    border-left: 3px solid var(--uspRed-500);
+    color: var(--uspRed-500);
 }
 #usp-notice .type-warning {
     background-color: #fff5ce;
@@ -611,7 +611,7 @@ div.usp_preloader i.uspi::before {
     content: "\f501";
 }
 .usp-custom-fields-box .type-file-input .delete-file-url .fa-times-circle::before {
-    color: rgb(229, 57, 53);
+    color: var(--uspRed-500);
     content: "\f153";
 }
 /* END backend publications */

@@ -367,20 +367,20 @@ function USPUploader( props, sk ) {
 					ssi_modal.show( {
 						sizeClass: 'auto',
 						title: USP.local.title_image_upload,
-						className: 'usp-hand-uploader',
+						className: 'usp-hand-uploader ssi-no-padding',
 						buttons: [ {
-								className: 'btn-success',
-								label: USP.local.upload,
-								closeAfter: true,
-								method: function() {
-									data.submit();
-								}
-							}, {
 								className: 'btn-cancel',
 								label: USP.local.cancel,
 								closeAfter: true,
 								method: function() {
 									jcrop_api.destroy();
+								}
+							}, {
+								className: 'btn-success',
+								label: USP.local.upload,
+								closeAfter: true,
+								method: function() {
+									data.submit();
 								}
 							} ],
 						content: jQuery( '#usp-preview' ),

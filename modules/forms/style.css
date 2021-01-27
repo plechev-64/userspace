@@ -69,7 +69,7 @@
 	color: #000;
 }
 .usp-form td a:hover i {
-	color: rgb(229, 57, 53);
+	color: var(--uspRed-500);
 }
 .usp-form .form-field {
 	margin: 15px 0;

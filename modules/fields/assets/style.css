@@ -45,7 +45,7 @@
     width: 100%;
 }
 .usp-field-input input:invalid {
-	border-color: red !important;
+	border-color: var(--uspRed-500) !important;
 }
 .usp-field-input input:focus:not([type="file"]):not([type="checkbox"]):not([type="radio"]),
 .usp-field-input textarea:focus {
@@ -147,7 +147,7 @@
     text-decoration: none !important;
 }
 .type-dynamic-input a .fa-minus {
-    color: rgb(229, 57, 53);
+    color: var(--uspRed-500);
 }
 .type-dynamic-input a .fa-plus {
     color: #008000;
@@ -176,7 +176,7 @@ div.usp-custom-fields .usp-field-value .fa-upload {
     display: flex;
 }
 .usp-field-input .delete-file-url .uspi {
-    color: rgb(229, 57, 53);
+    color: var(--uspRed-500);
     font-size: 16px;
     margin-right: 5px;
 }

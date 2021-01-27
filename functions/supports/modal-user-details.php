@@ -63,7 +63,7 @@ function usp_get_user_details( $user_id, $set_args = false ) {
 
     $content = '<div id="usp-user-details">';
     $content .= '<div class="usp-user-avatar usps__relative">';
-    $content .= get_avatar( $user_LK, 600, false, false, [ 'class' => 'usp-detailed-ava usps__img-reset' ] );
+    $content .= get_avatar( $user_LK, 300, false, false, [ 'class' => 'usp-detailed-ava usps__img-reset' ] );
 
     if ( $args['zoom'] ) {
         $avatar = get_user_meta( $user_LK, 'usp_avatar', 1 );

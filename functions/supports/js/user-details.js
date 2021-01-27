@@ -3,10 +3,9 @@
 function usp_zoom_avatar( e ) {
     ssi_modal.show( {
         sizeClass: 'auto',
-        className: 'usp-ava-zoom',
+        className: 'usp-ava-zoom ssi-no-padding',
         content: '<img class="usps usps__img-reset" src="' + jQuery( e ).data( 'zoom' ) + '">'
     } );
-    jQuery( '.usp-ava-zoom .ssi-modalWindow' ).animateCss( 'zoomIn' );
 }
 
 function usp_get_user_info( element ) {
