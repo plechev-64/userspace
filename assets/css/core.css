@@ -7,7 +7,8 @@ i::before {
 :root{
     --uspRed-500: #ef4444;
     --uspGray-500: #6b7280;
-    --uspGray-300: #D1D5DB;
+    --uspGray-300: #d1d5db;
+    --uspBlue-500: #3b82f6;
 }
 
 
@@ -563,7 +564,7 @@ a.data-filter.filter-active:hover {
 }
 .usp-search-form form input[type="text"]:focus {
     background-color: #fff;
-    border-color: #bbb;
+    border-color: var(--uspBlue-500);
 }
 .usp-search-form form select {
     padding: 3px;

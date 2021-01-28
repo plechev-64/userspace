@@ -50,7 +50,7 @@
 .usp-field-input input:focus:not([type="file"]):not([type="checkbox"]):not([type="radio"]),
 .usp-field-input textarea:focus {
     background-color: #fff;
-    border-color: #c5c5c5;
+    border-color: var(--uspBlue-500);
     box-shadow: none;
     color: #000;
     outline: none;

@@ -387,7 +387,7 @@ final class UserSpace {
                 'class' => 'USP_Field_Select'
             ),
             'multiselect' => array(
-                'label' => __( 'MultiSelect', 'userspace' ),
+                'label' => __( 'Multi select', 'userspace' ),
                 'class' => 'USP_Field_MultiSelect'
             ),
             'checkbox'    => array(
@@ -395,7 +395,7 @@ final class UserSpace {
                 'class' => 'USP_Field_Checkbox'
             ),
             'radio'       => array(
-                'label' => __( 'Radiobutton', 'userspace' ),
+                'label' => __( 'Radio button', 'userspace' ),
                 'class' => 'USP_Field_Radio'
             ),
             'email'       => array(

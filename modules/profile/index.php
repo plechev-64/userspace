@@ -4,16 +4,14 @@
 require_once 'admin/index.php';
 //}
 
-if ( ! is_admin() ):
-    add_action( 'usp_enqueue_scripts', 'usp_profile_scripts', 10 );
-endif;
+add_action( 'usp_enqueue_scripts', 'usp_profile_scripts', 10 );
 function usp_profile_scripts() {
     global $user_ID;
 
     if ( ! usp_is_office( $user_ID ) )
         return;
 
-    usp_enqueue_style( 'usp-profile', plugins_url( 'style.css', __FILE__ ) );
+    //usp_enqueue_style( 'usp-profile', plugins_url( 'style.css', __FILE__ ) );
     usp_enqueue_script( 'usp-profile-scripts', plugins_url( 'js/scripts.js', __FILE__ ) );
 }
 

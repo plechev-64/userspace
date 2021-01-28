@@ -651,7 +651,7 @@ class USP_Fields_Manager extends USP_Fields {
             $content .= $this::setup( array(
                     'slug'        => 'title',
                     'type'        => 'text',
-                    'placeholder' => __( 'Point a title of new field', 'userspace' ),
+                    'placeholder' => __( 'Enter a name for the new field', 'userspace' ),
                     'input_name'  => 'fields[' . $field_id . '][title]'
                 ) )->get_field_html();
         } else {
