@@ -158,38 +158,23 @@ i::before {
 >>> Table of contents
 ------------------------
   1. General
-  2. Ruble
-  3. Notify & USP Notice
-  4. USP preloader
-  5. USP smiles
-  6. User online/offline
-  7. Dashboard UserSpace
-  9. Ballun
-  10. USP buttons
-  11. USP buttons states
-  12. USP buttons adjustments
-  13. Private office subtabs
-  14. TODO: old submenu
-  15. TODO: data-filters buttons
-  16. TODO: upload buttons
-  17. Search filter
-  18. Avatar zone
-  19. USP Custom fields API
-  20. Checkbox & radio stylization
-  21. Runner & Range
-  22. USP pagenavi API
-  23. Ssi-modal API
-  24. TODO: Gallery & Video Gallery core
-  25. Upload Cover
-  26. Detailed information
-  27. Upload avatar
-  28. Post bar
-  29. USP Form
-  30. USP Tables API
-  31. TODO: old generation
-  32. New Notices API
-  33. New Buttons API
-
+  2. Notify & USP Notice
+  3. USP preloader
+  4. USP smiles
+  5. User online/offline
+  6. Ballun
+  7. USP buttons states
+  8. TODO: data-filters buttons
+  9. TODO: upload buttons
+  10. Search filter
+  11. USP pagenavi API
+  12. Detailed information
+  13. Post bar
+  14. TODO: old generation
+  15. New USP Notice
+  16. USP Buttons API
+  17. Manager Content
+  18. User Widget
 ------------------------*/
 
 
@@ -228,7 +213,7 @@ i::before {
 
 
 /*--------------------------
-  3. Notify & USP Notice
+  2. Notify & USP Notice
 ----------------------------*/
 .usp-office .notify-lk {
     color: #000;
@@ -282,7 +267,7 @@ i::before {
 
 
 /*------------------------
-  4. USP preloader
+  3. USP preloader
 --------------------------*/
 body .preloader-parent {
     position: relative;
@@ -307,7 +292,7 @@ body .usp_preloader {
 
 
 /*------------------
-  5. USP smiles
+  4. USP smiles
 --------------------*/
 .usp-smiles {
     clear: both;
@@ -351,7 +336,7 @@ body .usp_preloader {
 
 
 /*------------------------
-  6. User online/offline
+  5. User online/offline
 --------------------------*/
 .usp-new-users p,
 .usp-online-users p {
@@ -383,7 +368,7 @@ span i.uspi.fa-circle {
 
 
 /*------------------
-  9. Ballun
+  6. Ballun
 --------------------*/
 .usp-descr-wrap {
     max-width: 400px;
@@ -495,7 +480,7 @@ span i.uspi.fa-circle {
 
 
 /*--------------------------------
-  11. USP buttons states
+  7. USP buttons states
 ----------------------------------*/
 .usp-search-form input[type="submit"]:hover,
 .usp-upload-button input[type="file"]:hover {
@@ -515,7 +500,7 @@ a.data-filter.filter-active:hover {
 
 
 /*---------------------------------
-  15. TODO: data-filters buttons
+  8. TODO: data-filters buttons
 -----------------------------------*/
 .usp-data-filters {
     margin: 10px 0;
@@ -528,7 +513,7 @@ a.data-filter.filter-active:hover {
 
 
 /*----------------------------
-  16. TODO: upload buttons
+  9. TODO: upload buttons
 ------------------------------*/
 .usp-upload-button {
     position: relative;
@@ -547,7 +532,7 @@ a.data-filter.filter-active:hover {
 
 
 /*-------------------
-  17. Search filter
+  10. Search filter
 ---------------------*/
 .usp-search-form {
     clear: both;
@@ -596,7 +581,7 @@ a.data-filter.filter-active:hover {
 
 
 /*-----------------------
-  22. USP pagenavi API
+  11. USP pagenavi API
 -------------------------*/
 .usp-pager {
     box-shadow: 0 0 1px 1px rgba(219, 219, 219, 0.8);
@@ -617,7 +602,7 @@ body .usp-pager > span a.usp-bttn{
 
 
 /*----------------------------------
-  26. Detailed information
+  12. Detailed information
 ------------------------------------*/
 .usp-detailed-ava {
     border-radius: 0;
@@ -646,7 +631,7 @@ body .usp-pager > span a.usp-bttn{
 
 
 /*--------------------
-  28. Post bar
+  13. Post bar
 ----------------------*/
 #usp-post-bar {
     margin: 10px 0;
@@ -679,7 +664,7 @@ body .usp-pager > span a.usp-bttn{
 
 
 /*---------------------------
-  31. TODO: old generation
+  14. TODO: old generation
 -----------------------------*/
 .usp-upload-button span.progress-bar {
     background: #36C515;
@@ -691,9 +676,9 @@ body .usp-pager > span a.usp-bttn{
 }
 /*end*/
 
-/*
-    32. New USP Notice
-*/
+/*---------------------------
+  15. New USP Notice
+-----------------------------*/
 .usp-notice {
     box-sizing: border-box;
     clear: both;
@@ -783,11 +768,10 @@ body .usp-pager > span a.usp-bttn{
 
 /**/
 
-/**********************
-*					 *
-*	 33. USP Buttons API	 *
-*					 *
-***********************
+/*---------------------------
+  16. USP Buttons API
+-----------------------------*/
+/*
 usp-bttn__type-clear	- примитивная
 usp-bttn__type-simple	 - простая
 usp-bttn__type-primary	- реколл-цвет
@@ -1013,13 +997,12 @@ body .usp-bttn:not(.usp-bttn__type-clear):last-child {
 .usp-bttn.usp-bttn__type-simple.usp-bttn__active {
     box-shadow: 0 -5px 0 -3px var(--uspHex) inset;
 }
-/* END condition */
+/* END */
 
 
-/*
-	Manager Content
-*/
-
+/*---------------------------
+  17. Manager Content
+-----------------------------*/
 .usp-content .usp-content-group .group-title{
 	font-weight:bold;
 	font-size:20px;
@@ -1038,7 +1021,9 @@ body .usp-bttn:not(.usp-bttn__type-clear):last-child {
 }
 /**/
 
-/* User Widget */
+/*---------------------------
+  18. User Widget
+-----------------------------*/
 .usp-user-widget{
 	display: flex;
 }
@@ -1048,4 +1033,4 @@ body .usp-bttn:not(.usp-bttn__type-clear):last-child {
 .usp-user-widget .buttons{
 
 }
-/* User Widget End */
+/* End */
