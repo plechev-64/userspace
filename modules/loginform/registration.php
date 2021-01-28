@@ -6,8 +6,8 @@ function usp_get_register_form_fields() {
         array(
             'type'        => 'text',
             'slug'        => 'user_email',
-            'title'       => __( 'Email', 'userspace' ),
-            'placeholder' => __( 'Email', 'userspace' ),
+            'title'       => __( 'E-mail', 'userspace' ),
+            'placeholder' => __( 'E-mail', 'userspace' ),
             'icon'        => 'fa-at',
             'maxlenght'   => 50,
             'required'    => 1
