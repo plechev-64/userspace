@@ -3,9 +3,9 @@
 add_action( 'admin_menu', 'usp_admin_menu', 19 );
 function usp_admin_menu() {
     add_menu_page( __( 'UserSpace', 'userspace' ), __( 'UserSpace', 'userspace' ), 'manage_options', 'manage-userspace', 'usp_dashboard' );
-    add_submenu_page( 'manage-userspace', __( 'SETTINGS', 'userspace' ), __( 'SETTINGS', 'userspace' ), 'manage_options', 'usp-options', 'usp_global_options' );
+    add_submenu_page( 'manage-userspace', __( 'Settings', 'userspace' ), __( 'Settings', 'userspace' ), 'manage_options', 'usp-options', 'usp_global_options' );
     add_submenu_page( 'manage-userspace', __( 'Tabs manager', 'userspace' ), __( 'Tabs manager', 'userspace' ), 'manage_options', 'usp-tabs-manager', 'usp_admin_tabs_manager' );
-    add_submenu_page( 'manage-userspace', __( 'Форма регистрации', 'userspace' ), __( 'Форма регистрации', 'userspace' ), 'manage_options', 'usp-register-form-manager', 'usp_register_form_manager' );
+    add_submenu_page( 'manage-userspace', __( 'Registration form', 'userspace' ), __( 'Registration form', 'userspace' ), 'manage_options', 'usp-register-form-manager', 'usp_register_form_manager' );
 }
 
 function usp_register_form_manager() {
@@ -14,14 +14,14 @@ function usp_register_form_manager() {
 
     $Manager = new USP_Register_Form_Manager( );
 
-    $content = '<h2>' . __( 'Управление поля формы регистрации', 'userspace' ) . '</h2>';
+    $content = '<h2>' . __( 'Editing registration form fields', 'userspace' ) . '</h2>';
 
     $content .= $Manager->get_manager();
 
     echo $content;
 }
 
-//Настройки плагина в админке
+// Plugin settings in the admin panel
 function usp_global_options() {
     require_once 'pages/options.php';
 }

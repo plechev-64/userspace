@@ -35,7 +35,7 @@ class USP_Tabs_Manager extends USP_Fields_Manager {
                     'slug'        => 'icon',
                     'class'       => 'usp-iconpicker',
                     'title'       => __( 'Icon class', 'userspace' ),
-                    'placeholder' => __( 'Example, fa-user', 'userspace' )
+                    'placeholder' => __( 'Example: fa-user', 'userspace' )
                 ),
                 array(
                     'type'   => 'select',
@@ -51,9 +51,9 @@ class USP_Tabs_Manager extends USP_Fields_Manager {
                     'slug'   => 'supports-tab',
                     'title'  => __( 'Support of the functions', 'userspace' ),
                     'values' => array(
-                        'ajax'   => __( 'ajax-loading', 'userspace' ),
-                        'cache'  => __( 'caching', 'userspace' ),
-                        'dialog' => __( 'dialog box', 'userspace' )
+                        'ajax'   => __( 'Ajax-loading', 'userspace' ),
+                        'cache'  => __( 'Caching', 'userspace' ),
+                        'dialog' => __( 'Dialog box', 'userspace' )
                     )
                 ),
                 array(
@@ -61,7 +61,7 @@ class USP_Tabs_Manager extends USP_Fields_Manager {
                     'tinymce' => true,
                     'slug'    => 'content',
                     'title'   => __( 'Content tab', 'userspace' ),
-                    'notice'  => __( 'supported shortcodes and HTML-code', 'userspace' )
+                    'notice'  => __( 'Supported shortcodes and HTML-code', 'userspace' )
                 )
             )
         ) );

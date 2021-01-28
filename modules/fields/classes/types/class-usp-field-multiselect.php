@@ -13,83 +13,83 @@
  */
 class USP_Field_MultiSelect extends USP_Field_Abstract {
 
-	public $required;
-	public $values;
-	public $value_in_key;
+    public $required;
+    public $values;
+    public $value_in_key;
 
-	function __construct( $args ) {
-		parent::__construct( $args );
-	}
+    function __construct( $args ) {
+        parent::__construct( $args );
+    }
 
-	function get_options() {
+    function get_options() {
 
-		return array(
-			array(
-				'slug'		 => 'values',
-				'default'	 => $this->values,
-				'type'		 => 'dynamic',
-				'title'		 => __( 'Specify options', 'userspace' ),
-				'notice'	 => __( 'specify each option in a separate field', 'userspace' )
-			)
-		);
-	}
+        return array(
+            array(
+                'slug'    => 'values',
+                'default' => $this->values,
+                'type'    => 'dynamic',
+                'title'   => __( 'Specify options', 'userspace' ),
+                'notice'  => __( 'Specify each option in a separate field', 'userspace' )
+            )
+        );
+    }
 
-	function get_input() {
+    function get_input() {
 
-		if ( ! $this->values )
-			return false;
+        if ( ! $this->values )
+            return false;
 
-		usp_multiselect_scripts();
+        usp_multiselect_scripts();
 
-		$this->value = ($this->value) ? $this->value : array();
+        $this->value = ($this->value) ? $this->value : array();
 
-		if ( ! is_array( $this->value ) )
-			$this->value = array( $this->value );
+        if ( ! is_array( $this->value ) )
+            $this->value = array( $this->value );
 
-		$content = '<select ' . $this->get_required() . ' name="' . $this->input_name . '[]" id="' . $this->input_id . '" ' . $this->get_class() . ' multiple>';
+        $content = '<select ' . $this->get_required() . ' name="' . $this->input_name . '[]" id="' . $this->input_id . '" ' . $this->get_class() . ' multiple>';
 
-		foreach ( $this->values as $k => $value ) {
+        foreach ( $this->values as $k => $value ) {
 
-			if ( $this->value_in_key )
-				$k = $value;
+            if ( $this->value_in_key )
+                $k = $value;
 
-			$content .= '<option ' . selected( in_array( $k, $this->value ), true, false ) . ' value="' . trim( $k ) . '">' . $value . '</option>';
-		}
+            $content .= '<option ' . selected( in_array( $k, $this->value ), true, false ) . ' value="' . trim( $k ) . '">' . $value . '</option>';
+        }
 
-		$content .= '</select>';
+        $content .= '</select>';
 
-		$init = 'jQuery("#' . $this->input_id . '").fSelect();';
+        $init = 'jQuery("#' . $this->input_id . '").fSelect();';
 
-		if ( ! usp_is_ajax() ) {
-			$content .= '<script>jQuery(window).on("load", function() {' . $init . '});</script>';
-		} else {
-			$content .= '<script>' . $init . '</script>';
-		}
+        if ( ! usp_is_ajax() ) {
+            $content .= '<script>jQuery(window).on("load", function() {' . $init . '});</script>';
+        } else {
+            $content .= '<script>' . $init . '</script>';
+        }
 
-		return $content;
-	}
+        return $content;
+    }
 
-	function get_value() {
+    function get_value() {
 
-		if ( ! $this->value )
-			return false;
+        if ( ! $this->value )
+            return false;
 
-		return implode( ', ', $this->value );
-	}
+        return implode( ', ', $this->value );
+    }
 
-	function get_filter_value() {
+    function get_filter_value() {
 
-		$links = array();
+        $links = array();
 
-		foreach ( $this->value as $val ) {
+        foreach ( $this->value as $val ) {
 
-			if ( ! $val )
-				continue;
+            if ( ! $val )
+                continue;
 
-			$links[] = '<a href="' . $this->get_filter_url( $val ) . '" target="_blank">' . $val . '</a>';
-		}
+            $links[] = '<a href="' . $this->get_filter_url( $val ) . '" target="_blank">' . $val . '</a>';
+        }
 
-		return implode( ', ', $links );
-	}
+        return implode( ', ', $links );
+    }
 
 }

@@ -139,7 +139,8 @@ function usp_get_localize_data() {
         'error'   => __( 'Error', 'userspace' ),
         'loading' => __( 'Loading', 'userspace' ),
         'upload'  => __( 'Upload', 'userspace' ),
-        'cancel'  => __( 'Cancel', 'userspace' )
+        'cancel'  => __( 'Cancel', 'userspace' ),
+        'search'  => __( 'Search', 'userspace' ),
     );
 
     $data = array(

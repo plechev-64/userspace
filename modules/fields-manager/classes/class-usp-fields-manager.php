@@ -411,7 +411,7 @@ class USP_Fields_Manager extends USP_Fields {
                     'slug'       => 'group-id',
                     'type'       => 'text',
                     'input_name' => 'structure-groups[' . $this->group_id . '][id]',
-                    'title'      => 'ID секции',
+                    'title'      => __( 'Section ID', 'userspace' ),
                     'required'   => true,
                     'value'      => $this->group_id
                 ),
@@ -774,7 +774,7 @@ class USP_Fields_Manager extends USP_Fields {
                 'pattern'     => '[a-z0-9-_]+',
                 'value'       => $field->is_new() ? '' : $field_id,
                 'title'       => __( 'ID', 'userspace' ),
-                'notice'      => __( 'not required, but you can list your own meta_key in this field', 'userspace' ),
+                'notice'      => __( 'Not required, but you can list your own meta_key in this field', 'userspace' ),
                 'placeholder' => __( 'Latin letters and numbers', 'userspace' )
             );
         }

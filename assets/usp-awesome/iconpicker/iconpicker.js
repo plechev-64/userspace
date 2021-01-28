@@ -1,3 +1,5 @@
+/* global USP */
+
 ( function( a ) {
 	if ( typeof define === "function" && define.amd ) {
 		define( [ "jquery" ], a );
@@ -466,7 +468,7 @@
 			popover: '<div class="iconpicker-popover popover"><div class="arrow"></div>' + '<div class="popover-title"></div><div class="popover-content"></div></div>',
 			footer: '<div class="popover-footer"></div>',
 			buttons: '<button class="iconpicker-btn iconpicker-btn-cancel btn btn-default btn-sm">Cancel</button>' + ' <button class="iconpicker-btn iconpicker-btn-accept btn btn-primary btn-sm">Accept</button>',
-			search: '<input type="search" class="form-control iconpicker-search" placeholder="Поиск..." />',
+			search: '<input type="search" class="form-control iconpicker-search" placeholder="'+USP.local.search+'..." />',
 			iconpicker: '<div class="iconpicker"><div class="iconpicker-items"></div></div>',
 			iconpickerItem: '<span role="button" class="iconpicker-item"><i></i></span>'
 		}
