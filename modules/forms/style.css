@@ -1,7 +1,7 @@
 .usp-form {
 	border-collapse: collapse;
 	border-spacing: 0;
-	border: none;
+	border: 0;
 	box-sizing: border-box;
 	font-size: 14px;
 	line-height: normal;
@@ -23,12 +23,12 @@
 	line-height: normal;
 	padding: 8px;
 	text-align: left;
-	text-transform: none; /* ++Twenty14++ */
+	text-transform: none;
 	vertical-align: middle;
 }
 .usp-form th:first-child,
 .usp-form td:first-child {
-	padding-left: 8px; /* ++Twenty17++ */
+	padding-left: 8px;
 }
 .usp-form tr th {
 	overflow: hidden;
@@ -42,10 +42,10 @@
 	background-color: #eee;
 	opacity: 0.6;
 }
-.usp-form .block-label input[type="checkbox"] {
+.usp-form .usp-label input[type="checkbox"] {
 	margin: 0 6px 0 0;
 }
-.usp-form .block-label input[type="radio"] {
+.usp-form .usp-label input[type="radio"] {
 	border: 1px solid #d1d1d1;
 	color: #b1b1b1;
 	float: none;
@@ -82,14 +82,8 @@
 	margin-bottom: 5px;
 }
 .usp-form .submit-box {
-	background: #f2f2f2;
-	overflow: hidden;
-	padding: 5px;
-	text-align: right;
-}
-.usp-form .submit-box a,
-.usp-form .submit-box input[type="submit"] {
-
+    padding: 6px;
+    background: var(--uspGray-100);
 }
 
 @media screen and (max-width:375px) {
@@ -103,8 +97,4 @@
 		margin: 3px 0;
 		width: 83px;
 	}
-	.usp-form .file-field-upload {
-		width: 205px;
-	}
 }
-

@@ -54,7 +54,7 @@ class USP_Form extends USP_Fields {
 
     function get_submit_box() {
 
-        $content = '<div class="submit-box">';
+        $content = '<div class="submit-box usps usps__jc-end">';
 
         if ( $this->onclick ) {
             $content .= usp_get_button( wp_parse_args( $this->submit_args, array(

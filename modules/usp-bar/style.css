@@ -34,7 +34,7 @@
 }
 .usp-bar-color .usp-sub-menu,
 .usp-bar-color {
-    background: rgba(var(--uspRgb),.85);
+    background: rgba(var(--uspRgb), .85);
 }
 .usp-bar-color .uspi,
 #usp-bar.usp-bar-color a,

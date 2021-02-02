@@ -278,9 +278,9 @@ class USP_Fields extends USP_Field {
         $content = '<div id="usp-group-' . $group['id'] . '" class="usp-content-group">';
 
         if ( $group['title'] )
-            $content .= '<div class="group-title">' . $group['title'] . '</div>';
+            $content .= '<div class="usp-group-title">' . $group['title'] . '</div>';
 
-        $content .= '<div class="group-areas">';
+        $content .= '<div class="group-areas usps">';
 
         $content .= $groupContent;
 
@@ -401,12 +401,12 @@ class USP_Fields extends USP_Field {
         $content = '<div id="usp-group-' . $group['id'] . '" class="usp-content-group">';
 
         if ( isset( $group['title'] ) && $group['title'] )
-            $content .= '<div class="group-title">' . $group['title'] . '</div>';
+            $content .= '<div class="usp-group-title">' . $group['title'] . '</div>';
 
         if ( isset( $group['notice'] ) && $group['notice'] )
-            $content .= '<div class="group-notice usp-field-input"><span class="usp-field-notice"><i class="uspi fa-info-circle" aria-hidden="true"></i> ' . nl2br( $group['notice'] ) . '</span></div>';
+            $content .= '<div class="usp-field-notice usps usps__grow">' . nl2br( $group['notice'] ) . '</div>';
 
-        $content .= '<div class="group-areas">';
+        $content .= '<div class="group-areas usps">';
 
         $content .= $groupContent;
 

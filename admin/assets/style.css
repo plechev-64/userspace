@@ -31,8 +31,8 @@
 }
 #usp-notice .type-success {
     background-color: #bfffbd;
-    border-left: 3px solid #008000;
-    color: #008000;
+    border-left: 3px solid var(--uspGeen-700);
+    color: var(--uspGeen-700);
 }
 #usp-notice .notice-window .close-notice {
     color: inherit;
@@ -40,7 +40,7 @@
     padding: 0 5px 0 4px;
 }
 .usp_preloader {
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: rgba(255, 255, 255, .5);
     display: block;
     height: 100%;
     left: 0;
@@ -64,7 +64,7 @@ div.usp_preloader i.uspi::before {
     font: 80px/1 dashicons;
 }
 .wp-admin .ssi-modalWindow {
-    border: none;
+    border: 0;
     border-radius: 0;
     padding: 0;
 }
@@ -143,7 +143,7 @@ div.usp_preloader i.uspi::before {
     color: #52ae02;
 }
 .adm_notice {
-    color: rgba(255, 174, 25, 0.4);
+    color: rgba(255, 174, 25, .4);
 }
 .adm_b14 {
     font: bold 14px Arial,Georgia,Verdana;
@@ -252,7 +252,7 @@ div.usp_preloader i.uspi::before {
     padding: 0 30px;
 }
 .usp-custom-fields-navi i {
-    color: #008000;
+    color: var(--uspGeen-700);
 }
 .usp-custom-fields-navi > p {
     background-color: #eee;
@@ -399,7 +399,7 @@ div.usp_preloader i.uspi::before {
     justify-content: flex-end;
 }
 .usp-custom-fields-box .field-header .field-delete::before {
-    color: rgba(229, 57, 53, 0.7);
+    color: rgba(229, 57, 53, .7);
     content: "\f158";
 }
 .usp-custom-fields-box .field-header .field-edit::before {
@@ -425,7 +425,7 @@ div.usp_preloader i.uspi::before {
     padding: 5px;
 }
 .usp-custom-fields-box .field-settings .usp-cf-type-text {
-    background-color: rgba(224, 248, 201, 0.6);
+    background-color: rgba(224, 248, 201, .6);
     color: #555;
     float: right;
     margin: -5px -5px 0 0;
@@ -434,7 +434,7 @@ div.usp_preloader i.uspi::before {
 .usp-custom-fields-box .usp-custom-field .option-content {
     padding: 5px 10px;
 }
-.usp-custom-fields-box .usp-custom-field label:not(.block-label) {
+.usp-custom-fields-box .usp-custom-field label:not(.usp-label) {
     display: block;
     font-weight: bold;
     margin: 0;
@@ -462,13 +462,6 @@ div.usp_preloader i.uspi::before {
 .usp-custom-fields-box .usp-custom-field .fa-info-circle::before {
     /*content: "\f534";*/
 }
-/*.usp-field-core a:not(.iconpicker-item) i:not(.mce-ico) {
-    font-family: dashicons;
-    font-size: 20px;
-    font-style: normal;
-    margin: 0 2px;
-    vertical-align: middle;
-}*/
 .usp-custom-fields-box .usp-custom-field i:hover {
     opacity: 0.7;
 }
@@ -548,7 +541,7 @@ div.usp_preloader i.uspi::before {
 .usp-custom-fields-box .fields-submit .button-primary {
     background-color: rgb(76, 140, 189);
     border-radius: 0;
-    border: none;
+    border: 0;
     box-shadow: none;
     font-size: 16px;
     height: auto;
@@ -596,26 +589,6 @@ div.usp_preloader i.uspi::before {
     height: 150px;
 }
 /* END custom fields box */
-
-/* START backend publications */
-.usp-custom-fields-box .type-file-input {
-    background-color: #fff;
-    border: 1px solid #e5e5e5;
-    display: block;
-    padding: 10px;
-}
-.usp-custom-fields-box .type-file-input .usp-field-value {
-    margin: 0 15px 0 0;
-}
-.usp-custom-fields-box .type-file-input .usp-field-value .fa-upload::before {
-    content: "\f501";
-}
-.usp-custom-fields-box .type-file-input .delete-file-url .fa-times-circle::before {
-    color: var(--uspRed-500);
-    content: "\f153";
-}
-/* END backend publications */
-
 
 
 #usp-reg-form {

@@ -1,6 +1,3 @@
-.usp-fields-manager{
-
-}
 .usp-manager-options{
 	max-width: 400px;
 }
@@ -19,14 +16,10 @@
 	background-color: #f5f5f5;
 	border: 1px solid #d5d5d5;
 	box-sizing: border-box;
-	/*display: inline-block;*/
 	margin: 10px;
-	/*max-width: 500px;*/
 	padding: 10px;
 	position: relative;
 	vertical-align: top;
-	/*width: calc(100% - 20px);*/
-
 }
 .usp-fields-manager.structure-simple .usp-manager-box{
 	display: inline-block;
@@ -36,14 +29,8 @@
 .usp-fields-manager .fields-box{
 	min-height: 50px;
 }
-.usp-fields-manager .usp-manager-groups{
-
-}
 .usp-fields-manager .usp-manager-groups .manager-group-settings{
 	width: 50%;
-}
-.usp-fields-manager .usp-manager-groups .manager-group-settings .usp-field{
-
 }
 .usp-fields-manager.structure-edit .manager-group{
 	border: 1px solid #ccc;
@@ -128,24 +115,15 @@
 	color: rgb(76, 140, 189);
 	/*content: "\f140";*/
 }
-.usp-fields-manager .control-delete{
-
-}
 .usp-fields-manager .control-move{
 	font-size: 18px;
 }
 .usp-fields-manager .field-id{
-	background-color: rgba(224, 248, 201, 0.6);
+	background-color: rgba(224, 248, 201, .6);
 	color: #555;
 	float: right;
 	margin: -5px -5px 0 0;
 	padding: 5px 10px;
-}
-.usp-fields-manager .field-primary-options{
-
-}
-.usp-fields-manager .field-secondary-options{
-
 }
 .usp-fields-manager .manager-field .field-icon::before {
 	content: "\f111";
@@ -214,43 +192,44 @@
 	content: "\f108";
 }
 .usp-fields-manager i.fa-trash{
-	color: rgba(229, 57, 53, 0.7);
+	color: rgba(229, 57, 53, .7);
 }
 .usp-fields-manager .ui-sortable-placeholder {
-	background: #ccc;
-	border: 2px dashed #aaa;
-	box-sizing: border-box;
-	height: 40px;
-	width: 100%;
+    background: #fff;
+    border: 2px dashed var(--uspGray-400);
+    box-sizing: border-box;
+    height: 45px;
+    width: 100%;
+    display: block;
+    clear: both;
+    line-height: normal;
+    position: relative;
+    margin: 6px 0;
 }
 .usp-fields-manager .usp-custom-field .dynamic-values {
 	background-color: #f5f5f5;
 	display: block;
 	padding: 10px;
 }
-.usp-fields-manager .dynamic-values .dynamic-value,
-.usp-fields-manager .dynamic-values .ui-sortable-placeholder {
-	background-color: #ebebeb;
-	border: 1px solid #dbdbdb;
+.usp-fields-manager .dynamic-values .dynamic-value {
+	background: var(--uspGray-200);
+	border: 1px solid var(--uspGray-300);
 	clear: both;
-	display: block;
 	line-height: normal;
-	margin: 3px 0;
-	padding: 2px;
+	padding: 3px;
 	position: relative;
 }
-.usp-fields-manager .dynamic-values.ui-sortable .dynamic-value::before {
-	background-color: #f5f5f5;
-	color: rgb(76, 140, 189);
-	content: "\f545";
+.usp-fields-manager .dynamic-values.ui-sortable .dynamic-value::after {
+	color: var(--uspHex);
+	content: "\f0b2";
 	cursor: move;
-	font-family: dashicons;
-	font-size: 20px;
-	height: 20px;
-	padding: 3px;
-	position: absolute;
-	right: 4px;
-	top: 4px;
+	font-family: usp-awesome;
+	align-items: center;
+	display: flex;
+	font-size: 22px;
+	justify-content: center;
+	margin: 0 0 0 6px;
+	min-width: 36px;
 }
 
 .usp-fields-manager .submit-box input {
@@ -294,7 +273,7 @@
 	min-width: 310px;
 }
 .usp-fields-manager .usp-default-fields .manager-field-settings{
-	display:none!important;
+	display: none !important;
 }
 .usp-fields-manager .usp-default-fields .manager-field-header input{
 	pointer-events: none;
@@ -362,9 +341,6 @@
 	width: 100%;
 	margin: 5px;
 }
-.usp-fields-manager .usp-active-fields .manager-field.ui-sortable-helper{
-	/*max-width: 400px;*/
-}
 .usp-fields-manager .usp-areas-manager{
 	padding: 0px;
 	position: relative;
@@ -389,12 +365,9 @@
 .usp-fields-manager .usp-areas-manager .area-move{
 	cursor: move;
 }
-.usp-fields-manager .manager-group > .usp-areas-manager{
-
-}
 .usp-fields-manager .manager-group > .usp-areas-manager a{
     margin: 0;
-	background: #fff;
+    background: #fff;
 }
 .usp-fields-manager .manager-field.settings-edit{
 	position: fixed;
@@ -403,7 +376,7 @@
 	height: calc(100% - 50px);
 	width: 450px;
 	left: calc(50% - 1225px);
-	background: rgba(0,0,0,.5);
+	background: rgba(0, 0, 0, .5);
 	padding: 50px 1000px 0px 1000px;
 }
 .usp-fields-manager .manager-field.settings-edit .manager-field-settings{
@@ -422,12 +395,7 @@
 	max-width: none;
 	position: relative;
 }
-.usp-fields-manager.structure-edit .manager-area.ui-resizable{
-
-}
-/*.usp-fields-manager.structure-edit .manager-area.ui-resizable .ui-resizable-e*/
-.usp-fields-manager.structure-edit .manager-area.ui-resizable:not(:last-child) .ui-resizable-e
-{
+.usp-fields-manager.structure-edit .manager-area.ui-resizable:not(:last-child) .ui-resizable-e {
 	width: 3px;
 	background: #777777;
 	height: 100%;
@@ -447,9 +415,6 @@
 .usp-fields-manager.structure-edit .area-width-content{
 	display:none;
 }
-.usp-fields-manager.structure-edit .resizable-area{
-
-}
 .usp-fields-manager.structure-edit .resizable-area .area-width-content{
 	position: absolute;
 	z-index: 9;
@@ -463,10 +428,7 @@
 	justify-content: center;
 	height: 100%;
 	align-items: center;
-	background: rgba(255,255,255,0.5);
-}
-.usp-fields-manager .group-manager-button{
-
+	background: rgba(255, 255, 255, .5);
 }
 .usp-fields-manager .group-manager-button.add-area i{
 	color: green;

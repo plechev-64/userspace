@@ -59,7 +59,7 @@ class USP_Field_Agree extends USP_Field_Abstract {
             $this->title = __( 'Agreement', 'userspace' );
 
         if ( $this->url_agreement )
-            return '<a href="' . $this->url_agreement . '" target="_blank">' . $this->title . ($this->required ? ' <span class="required">*</span>' : '') . '</a>';
+            return '<a href="' . $this->url_agreement . '" class="usp-agree usps__inline" target="_blank">' . $this->title . ($this->required ? ' <span class="required">*</span>' : '') . '</a>';
 
         return $this->title . ($this->required ? ' <span class="required">*</span>' : '');
     }
@@ -80,9 +80,9 @@ class USP_Field_Agree extends USP_Field_Abstract {
 
         $text = $this->text_confirm ? $this->text_confirm : __( 'I agree with the text of the agreement', 'userspace' );
 
-        $input = '<span class="usp-checkbox-box">';
+        $input = '<span class="usp-checkbox-box usps__inline usps__relative">';
         $input .= '<input type="checkbox" ' . checked( $this->value, 1, false ) . ' ' . $this->get_required() . ' name="' . $this->input_name . '" id="' . $this->input_id . $this->rand . '" value="1"/> ';
-        $input .= '<label class="block-label" for="' . $this->input_id . $this->rand . '">' . $text . '</label>';
+        $input .= '<label class="usp-label usps usps__ai-center usps__no-select" for="' . $this->input_id . $this->rand . '">' . $text . '</label>';
         $input .= '</span>';
 
         return $input;

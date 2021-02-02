@@ -189,13 +189,12 @@
 .usp-profile-content {
     margin: 12px 0;
 }
-#usp-tab-content {
-    margin: 0 12px 0 0;
-}
 .usp-subtab-title {
     padding: 12px;
     margin-bottom: 12px;
-    background: #ebebeb;
+    background: var(--uspGray-100);
+    font-size: 18px;
+    line-height: 1;
 }
 .usp-subtab-title > span {
     margin: 0 0 0 6px;
@@ -204,6 +203,9 @@
     min-width: 200px;
     max-width: 300px;
     padding: 0 0 0 12px;
+}
+#usp-tab-content + .usp-right-sidebar {
+    margin: 0 0 0 12px;
 }
 #usp-tab-content + .usp-notice {
     flex-shrink: 0;

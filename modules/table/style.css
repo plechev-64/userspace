@@ -102,23 +102,23 @@
 
 @media screen and (max-width: 768px) {
     .usp-table__border {
-        border: none;
+        border: 0;
     }
     .usp-table__row-header {
         display: none;
     }
     .usp-table .usp-table__row-header ~ .usp-table__row:not(.usp-table__row-header) {
-		display: block;
+        display: block;
         background-color: transparent;
         border-radius: 3px;
-        border: none;
-        box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.1);
+        border: 0;
+        box-shadow: 0 0 9px 0 rgba(0, 0, 0, .1);
         margin: 0 5px 25px 5px;
         padding: 8px;
     }
     .usp-table__row-header ~ .usp-table__row .usp-table__cell {
         align-items: flex-start;
-        border: none;
+        border: 0;
         flex-basis: auto;
         justify-content: flex-start;
         max-width: none !important;

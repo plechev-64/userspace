@@ -156,16 +156,15 @@ body.ssi-modalOpen {
     border: 0 !important;
     box-shadow: none;
     font-size: 16px;
-    font-weight: normal;
+    font-weight: 400;
     letter-spacing: normal;
     line-height: 1.4;
     outline: 0;
     text-decoration: none !important;
     text-transform: none;
     -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+        -ms-user-select: none;
+            user-select: none;
 }
 .ssi-buttons .ssi-modalBtn:hover {
     background: var(--uspHex);

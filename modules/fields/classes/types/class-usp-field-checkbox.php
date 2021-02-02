@@ -94,9 +94,9 @@ class USP_Field_Checkbox extends USP_Field_Abstract {
 
             $checked = checked( in_array( $k, $currentValues ), true, false );
 
-            $content .= '<span class="usp-checkbox-box checkbox-display-' . $this->display . '">';
+            $content .= '<span class="usp-checkbox-box checkbox-display-' . $this->display . ' usps__inline usps__relative">';
             $content .= '<input ' . $this->get_required() . ' ' . $checked . ' id="' . $this->input_id . '_' . $k . $this->rand . '" type="checkbox" ' . $this->get_class() . ' name="' . $this->input_name . '[]" value="' . trim( $k ) . '"> ';
-            $content .= '<label class="block-label" for="' . $this->input_id . '_' . $k . $this->rand . '">';
+            $content .= '<label class="usp-label usps usps__ai-center usps__no-select" for="' . $this->input_id . '_' . $k . $this->rand . '">';
             $content .= $value;
             $content .= '</label>';
             $content .= '</span>';

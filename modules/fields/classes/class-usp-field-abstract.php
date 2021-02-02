@@ -104,9 +104,9 @@ class USP_Field_Abstract {
         if ( ! $this->title )
             return false;
 
-        return '<span class="usp-field-title">'
+        return '<div class="usp-field-title">'
             . $this->title . ($this->required ? ' <span class="required">*</span>' : '')
-            . '</span>';
+            . '</div>';
     }
 
     function get_icon() {
@@ -126,10 +126,10 @@ class USP_Field_Abstract {
         if ( ! $this->notice )
             return false;
 
-        return '<span class="usp-field-notice">'
+        return '<div class="usp-field-notice usps usps__ai-center">'
             . '<i class="uspi fa-info-circle" aria-hidden="true"></i>'
-            . $this->notice
-            . '</span>';
+            . '<span>' . $this->notice . '</span>'
+            . '</div>';
     }
 
     function is_new() {
@@ -160,7 +160,7 @@ class USP_Field_Abstract {
         }
 
         $content = '<div id="usp-field-' . $this->id . '" class="' . implode( ' ', $classes ) . '">'
-            . '<div class="usp-field-core">'
+            . '<div class="usp-field-core usps__relative">'
             . $inputField
             . '</div>'
             . $this->get_notice()
@@ -286,9 +286,9 @@ class USP_Field_Abstract {
         //$content .= $this->get_icon();
 
         if ( $title )
-            $content .= '<span class="usp-field-title">'
+            $content .= '<div class="usp-field-title">'
                 . $this->title
-                . '</span>'
+                . '</div>'
                 . '<span class="title-colon">: </span>';
 
         $content .= '<span class="usp-field-value">';

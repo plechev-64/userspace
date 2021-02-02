@@ -5,10 +5,23 @@ i::before {
 
 /* collect color palette */
 :root{
-    --uspRed-500: #ef4444;
-    --uspGray-500: #6b7280;
+    --uspBlack: #000;
+    --uspWhite: #fff;
+    
+    --uspGray-50: #fdfdfd;
+    --uspGray-100: #f4f4f5;
+    --uspGray-200: #e5e5e5;
     --uspGray-300: #d1d5db;
+    --uspGray-400: #9ca3af;
+    --uspGray-500: #69707e;
+    --uspGray-600: #4b5563;
+    --uspGray-700: #374151;
+    
+    --uspGeen-700: #15803d;
+    
     --uspBlue-500: #3b82f6;
+    
+    --uspRed-500: #ef4444;
 }
 
 
@@ -24,12 +37,6 @@ i::before {
 }
 .usps__column {
     flex-direction: column;
-}
-.usps__right:not(.usps__column) {
-    justify-content: flex-end;
-}
-.usps__column.usps__right {
-    align-content: flex-end;
 }
 .usps__nowrap {
     flex-wrap: nowrap;
@@ -133,6 +140,11 @@ i::before {
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+.usps__no-select {
+    -webkit-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+}
 
 .usps__radius-3 {
     border-radius: 3px;
@@ -174,8 +186,7 @@ i::before {
   14. TODO: old generation
   15. New USP Notice
   16. USP Buttons API
-  17. Manager Content
-  18. User Widget
+  17. User Widget
 ------------------------*/
 
 
@@ -256,8 +267,8 @@ i::before {
 .notify-lk .success,
 #usp-notice .type-success {
     background: #bfffbd;
-    border-left: 3px solid #008000;
-    color: #008000;
+    border-left: 3px solid var(--uspGeen-700);
+    color: var(--uspGeen-700);
 }
 #usp-notice .notice-window .close-notice {
     color: inherit;
@@ -274,7 +285,7 @@ body .preloader-parent {
     position: relative;
 }
 body .usp_preloader {
-    background: rgba(255,255,255,0.6) !important;
+    background: rgba(255, 255, 255, .6) !important;
     display: block !important;
     height: 100% !important;
     left: 0 !important;
@@ -507,7 +518,7 @@ a.data-filter.filter-active:hover {
     margin: 10px 0;
 }
 .usp-data-filters a:link {                      /*++Twenty15++*/
-    border: none;
+    border: 0;
     text-decoration: none;                      /*++Twenty14++*/
 }
 /*end*/
@@ -572,7 +583,7 @@ a.data-filter.filter-active:hover {
 .usp-search-form form input[type="submit"] {
     border-radius: 0;
     font-size: 14px;
-    font-weight: normal;
+    font-weight: 400;
     line-height: normal;
     margin: 0;
     padding: 5px 14px;
@@ -585,7 +596,7 @@ a.data-filter.filter-active:hover {
   11. USP pagenavi API
 -------------------------*/
 .usp-pager {
-    box-shadow: 0 0 1px 1px rgba(219, 219, 219, 0.8);
+    box-shadow: 0 0 1px 1px rgba(219, 219, 219, .8);
     box-sizing: border-box;
     clear: both;
     padding: 6px 5px;
@@ -781,31 +792,30 @@ usp-bttn__type-primary	- реколл-цвет
 
 /* Общий стиль */
 body .usp-bttn {
-	align-items: center;
-	border-radius: 0;
-	/*border: 0 !important;*/
-	box-shadow: none;
-	box-sizing: border-box;
-	cursor: pointer;
-	display: inline-flex;
-	/*	font-size: 12px;		 start size for em - идёт инлайном. т.к. задается через кастомайзер */
-	font-weight: normal;
-	letter-spacing: normal;
-	line-height: 1em;
-	outline: 0;
-	padding: 0;
-	position: relative;
-	text-decoration: none !important;
-	text-transform: none;
-	white-space: nowrap;
+    align-items: center;
+    border-radius: 0;
+    /*border: 0 !important;*/
+    box-shadow: none;
+    box-sizing: border-box;
+    cursor: pointer;
+    display: inline-flex;
+    /*	font-size: 12px;		 start size for em - идёт инлайном. т.к. задается через кастомайзер */
+    font-weight: 400;
+    letter-spacing: normal;
+    line-height: 1em;
+    outline: 0;
+    padding: 0;
+    position: relative;
+    text-decoration: none !important;
+    text-transform: none;
+    white-space: nowrap;
 
-	-webkit-transition: opacity .1s ease,color .1s ease;
-	transition: opacity .1s ease,color .1s ease;
+    -webkit-transition: opacity .1s ease,color .1s ease;
+    transition: opacity .1s ease,color .1s ease;
 
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
+    -webkit-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
 }
 body :not(.usp-wrap__wiget) > .usp-bttn:not(.usp-bttn__active):hover {
     opacity: .8;
@@ -883,22 +893,22 @@ body .usp-bttn:not(.usp-bttn__type-clear):last-child {
 
 /* fullwidth */
 .usp-bttn.usp-bttn__fullwidth {
-	display: flex;
-	justify-content: center;
+    display: flex;
+    justify-content: center;
 }
 /* END fullwidth */
 
 /* masked icon */
 .usp-bttn.usp-bttn__ico-mask .uspi,
 .usp-bttn__ico-mask.usp-bttn__mod-text-rico-count .usp-bttn__count {
-	background-color: rgba(0,0,0,.1);
+    background-color: rgba(0, 0, 0, .1);
 }
 .usp-bttn__ico-mask.usp-bttn__mod-text-rico .usp-bttn__ico-right,
 .usp-bttn__ico-mask.usp-bttn__mod-text-rico-count .usp-bttn__count {
-	padding: .5em .7em;
+    padding: .5em .7em;
 }
 .usp-bttn__ico-mask.usp-bttn__mod-text-rico-count .usp-bttn__ico.usp-bttn__ico-right {
-	padding: .5em 0 .5em .7em;
+    padding: .5em 0 .5em .7em;
 }
 /* END masked icon */
 
@@ -959,7 +969,7 @@ body .usp-bttn:not(.usp-bttn__type-clear):last-child {
 	width: 1.4em;
 }
 .usp-bttn.usp-bttn__loading::before {
-	border-color: rgba(0,0,0,.15);
+    border-color: rgba(0, 0, 0, .15);
 }
 .usp-bttn.usp-bttn__loading::after {
 	animation: usp-bttn-loader .8s linear;
@@ -1002,28 +1012,7 @@ body .usp-bttn:not(.usp-bttn__type-clear):last-child {
 
 
 /*---------------------------
-  17. Manager Content
------------------------------*/
-.usp-content .usp-content-group .group-title{
-	font-weight:bold;
-	font-size:20px;
-}
-.usp-content .usp-content-group .group-areas {
-    display: flex;
-    flex-wrap: wrap;
-    --multiplier: calc( 600px - 100%);
-}
-.usp-content .usp-content-area {
-    padding: 5px;
-    box-sizing: border-box;
-    max-width: 100%;
-    flex-grow: 1;
-    flex-basis: calc( var(--multiplier) * 999 );
-}
-/**/
-
-/*---------------------------
-  18. User Widget
+  17. User Widget
 -----------------------------*/
 .usp-user-widget{
 	display: flex;

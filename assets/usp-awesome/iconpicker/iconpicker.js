@@ -1266,12 +1266,17 @@
                     title: "fa-circle",
                     searchTerms: [ "checkmark", "done", "todo", "agree", "accept",
                         "confirm",
-                        "tick", "ok", "select" ]
+                        "tick", "ok", "select", "radio" ]
+                }, {
+                    title: "fa-dot-circle",
+                    searchTerms: [ "checkmark", "done", "todo", "agree", "accept",
+                        "confirm",
+                        "tick", "ok", "select", "radio" ]
                 }, {
                     title: "fa-check-circle",
                     searchTerms: [ "checkmark", "done", "todo", "agree", "accept",
                         "confirm",
-                        "tick", "ok", "select" ]
+                        "tick", "ok", "select", "radio" ]
                 }, {
                     title: "fa-plus-circle",
                     searchTerms: [ "add", "new", "create", "expand" ]
