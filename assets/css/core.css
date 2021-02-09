@@ -784,22 +784,19 @@ body .usp-pager > span a.usp-bttn{
   16. USP Buttons API
 -----------------------------*/
 /*
-usp-bttn__type-clear	- примитивная
-usp-bttn__type-simple	 - простая
-usp-bttn__type-primary	- реколл-цвет
+usp-bttn__type-clear	- gray fill
+usp-bttn__type-simple	 - as link
+usp-bttn__type-primary	- usp color
 */
 
-
-/* Общий стиль */
+/* general */
 body .usp-bttn {
     align-items: center;
     border-radius: 0;
-    /*border: 0 !important;*/
-    box-shadow: none;
+    box-shadow: none !important;
     box-sizing: border-box;
     cursor: pointer;
     display: inline-flex;
-    /*	font-size: 12px;		 start size for em - идёт инлайном. т.к. задается через кастомайзер */
     font-weight: 400;
     letter-spacing: normal;
     line-height: 1em;
@@ -808,11 +805,8 @@ body .usp-bttn {
     position: relative;
     text-decoration: none !important;
     text-transform: none;
+    transition: opacity .1s ease, color .1s ease;
     white-space: nowrap;
-
-    -webkit-transition: opacity .1s ease,color .1s ease;
-    transition: opacity .1s ease,color .1s ease;
-
     -webkit-user-select: none;
         -ms-user-select: none;
             user-select: none;
@@ -824,9 +818,9 @@ body:not(.wp-admin) .usp-bttn.usp-bttn__type-primary:not(.usp-bttn__active) {
     background: var(--uspHex);
     color: var(--uspText);
 }
-/* END общий стиль */
+/* end */
 
-/* пересекающие стили для 2х кнопок: usp-bttn__type-simple и usp-bttn__type-primary */
+/* cross 2-types: usp-bttn__type-simple and usp-bttn__type-primary */
 body .usp-bttn:not(.usp-bttn__type-clear):not(.usp-bttn__fullwidth) {
 	margin: 0 .25em .25em 0;
 }
@@ -866,9 +860,9 @@ body .usp-bttn:not(.usp-bttn__type-clear):last-child {
 
 
 /* стиль clear */
-:not(.usps__column) > .usp-bttn:not(.usp-bttn__fullwidth).usp-bttn__type-clear {
+/*:not(.usps__column) > .usp-bttn:not(.usp-bttn__fullwidth).usp-bttn__type-clear {
 	margin: 0 .75em 0 0;
-}
+}*/
 .usp-bttn__type-clear .usp-bttn__text + .usp-bttn__count,
 .usp-bttn__type-clear i + span,
 .usp-bttn__type-clear span + i {
@@ -1014,13 +1008,8 @@ body .usp-bttn:not(.usp-bttn__type-clear):last-child {
 /*---------------------------
   17. User Widget
 -----------------------------*/
-.usp-user-widget{
-	display: flex;
-}
-.usp-user-widget .userdata{
-	margin-right: 10px;
-}
-.usp-user-widget .buttons{
-
+.usp-user-widget__left {
+    margin-right: 6px;
+    width: 100px;
 }
 /* End */

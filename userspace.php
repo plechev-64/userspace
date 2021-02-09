@@ -257,7 +257,6 @@ final class UserSpace {
     }
 
     public function init() {
-        global $user_ID;
 
         do_action( 'usp_before_init' );
 
@@ -276,7 +275,7 @@ final class UserSpace {
             usp_update_option( 'security-key', wp_generate_password( 20, false ) );
         }
 
-        if ( ! $user_ID )
+        if ( ! is_user_logged_in() )
             $this->use_module( 'loginform' );
 
         do_action( 'usp_init' );

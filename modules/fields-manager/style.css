@@ -272,6 +272,10 @@
 	border: 3px dashed #ccc;
 	min-width: 310px;
 }
+.default-box.fixed .usp-default-fields {
+	max-height: 195px;
+	overflow: auto;
+}
 .usp-fields-manager .usp-default-fields .manager-field-settings{
 	display: none !important;
 }

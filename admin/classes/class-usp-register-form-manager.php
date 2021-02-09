@@ -12,13 +12,13 @@ class USP_Register_Form_Manager extends USP_Fields_Manager {
             'structure_edit' => 1,
             'default_fields' => apply_filters( 'usp_register_form_default_fields', $this->get_default_fields() ),
             'field_options'  => apply_filters( 'usp_register_form_field_options', array(
-                array(
-                    'type'        => 'text',
-                    'slug'        => 'icon',
-                    'class'       => 'usp-iconpicker',
-                    'title'       => __( 'Icon class', 'userspace' ),
-                    'placeholder' => __( 'Example: fa-user', 'userspace' )
-                ),
+//                array(
+//                    'type'        => 'text',
+//                    'slug'        => 'icon',
+//                    'class'       => 'usp-iconpicker',
+//                    'title'       => __( 'Icon class', 'userspace' ),
+//                    'placeholder' => __( 'Example: fa-user', 'userspace' )
+//                ),
                 array(
                     'type'   => 'radio',
                     'slug'   => 'required',
@@ -27,6 +27,11 @@ class USP_Register_Form_Manager extends USP_Fields_Manager {
                         __( 'No', 'userspace' ),
                         __( 'Yes', 'userspace' )
                     ]
+                ),
+                array(
+                    'type'  => 'textarea',
+                    'slug'  => 'notice',
+                    'title' => __( 'Field description', 'userspace' ),
                 )
             ) )
         ) );

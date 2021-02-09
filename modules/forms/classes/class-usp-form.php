@@ -58,15 +58,19 @@ class USP_Form extends USP_Fields {
 
         if ( $this->onclick ) {
             $content .= usp_get_button( wp_parse_args( $this->submit_args, array(
-                'label'   => $this->submit,
-                'icon'    => $this->icon,
-                'onclick' => $this->onclick
+                'label'     => $this->submit,
+                'icon'      => $this->icon,
+                'onclick'   => $this->onclick,
+                'fullwidth' => '1',
+                'size'      => 'medium'
                 ) ) );
         } else {
             $content .= usp_get_button( wp_parse_args( $this->submit_args, array(
-                'label'  => $this->submit,
-                'icon'   => $this->icon,
-                'submit' => true
+                'label'     => $this->submit,
+                'icon'      => $this->icon,
+                'submit'    => true,
+                'fullwidth' => '1',
+                'size'      => 'medium'
                 ) ) );
         }
 

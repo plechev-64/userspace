@@ -1,20 +1,53 @@
-.usp-loginform{}
-.usp-loginform .tab-group{
-	display: flex;
-	line-height: 1;
+.usp-entry-tabs .usp-entry-tab {
+    margin: 0 !important;
+    padding: 12px 18px;
 }
-.usp-loginform .tab-group .tab{
-	display: block;
-	padding: 10px 15px;
-	color: #333;
+.usp-entry-tab:not(.usp-bttn__active) {
+    background: var(--uspGray-200);
+    border-bottom: 1px solid var(--uspGray-300);
+    color: var(--uspGray-400);
 }
-.usp-loginform .tab-group .active{
-    background: #eee;
+.usp-entry-tab:not(.usp-bttn__active):hover {
+    color: inherit;
 }
-.usp-loginform .tab-content{
-	display:none;
+.usp-entry-tab:first-child {
+    border-right: 1px solid var(--uspGray-300);
 }
-.usp-loginform .tab-content.active{
-	display:block;
+.usp-entry-tabs .usp-bttn__active {
+    outline: 0;
+    color: var(--uspGray-600);
 }
+.usp-entry-box {
+    display: none;
+}
+.usp-entry-box__active {
+    display: block;
+}
+.usp-entry-box .usp-bttn.usp-forgot {
+    margin: 0 12px 12px;
+}
+.usp-entry-box .usp-bttn.usp-forgot:hover {
+    text-decoration: underline !important;
+}
+.usp-entry-box .usp-form {
+    margin-bottom: 0;
+}
+.usp-entry-box .submit-box.usps {
+    margin: 0 6px 6px;
+}
+
+
+#usp-field-rememberme .usp-label {
+    background-color: transparent;
+    border: 0;
+    font-size: inherit;
+    padding: 0;
+}
+/*
+.strength0 {background:#ccc;width:140px;}
+.strength1 {background:#fea6a6;width:140px;}
+.strength2 {background:orange;width:55%;}
+.strength3 {background:#efed6d;width:60%;}
+.strength4 {background:#8de991;width:80%;}
+.strength5 {background:#99e3ff;width:100%;}*/
 

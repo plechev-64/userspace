@@ -197,31 +197,6 @@ function usp_add_dropzone( idzone ) {
 	} );
 }
 
-function passwordStrength( password ) {
-	var desc = [
-		USP.local.pass0,
-		USP.local.pass1,
-		USP.local.pass2,
-		USP.local.pass3,
-		USP.local.pass4,
-		USP.local.pass5
-	];
-
-	var score = 0;
-	if ( password.length > 6 )
-		score++;
-	if ( ( password.match( /[a-z]/ ) ) && ( password.match( /[A-Z]/ ) ) )
-		score++;
-	if ( password.match( /\d+/ ) )
-		score++;
-	if ( password.match( /.[!,@,#,$,%,^,&,*,?,_,~,-,(,)]/ ) )
-		score++;
-	if ( password.length > 12 )
-		score++;
-	document.getElementById( "passwordDescription" ).innerHTML = desc[score];
-	document.getElementById( "passwordStrength" ).className = "strength" + score;
-}
-
 function usp_manage_user_black_list( e, user_id, confirmText ) {
 
 	var class_i = jQuery( e ).children( 'i' ).attr( 'class' );

@@ -193,13 +193,13 @@ $options->box( 'primary' )->add_group( 'usersign', array(
       'slug'	 => 'repeat_pass',
       'title'	 => __( 'repeat password field', 'userspace' ),
       'values' => array( __( 'Disabled', 'userspace' ), __( 'Displaye', 'userspace' ) )
-      ),
-      array(
-      'type'	 => 'select',
-      'slug'	 => 'difficulty_parole',
-      'title'	 => __( 'Indicator of password complexity', 'userspace' ),
-      'values' => array( __( 'Disabled', 'userspace' ), __( 'Displaye', 'userspace' ) )
-      ) */
+      ), */
+//    array(
+//        'type'   => 'select',
+//        'slug'   => 'difficulty_parole',
+//        'title'  => __( 'Password strength indicator', 'userspace' ),
+//        'values' => array( __( 'Hide', 'userspace' ), __( 'Show', 'userspace' ) )
+//    )
 ) );
 
 $options->box( 'primary' )->add_group( 'usp_bar', array(

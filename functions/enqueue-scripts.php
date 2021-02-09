@@ -102,10 +102,6 @@ function usp_frontend_scripts() {
     usp_enqueue_style( 'usp-core', USP_URL . 'assets/css/core.css' );
     usp_enqueue_style( 'usp-users-list', USP_URL . 'assets/css/users.css' );
 
-    if ( ! is_user_logged_in() ) {
-        usp_enqueue_style( 'usp-register-form', USP_URL . 'assets/css/regform.css' );
-    }
-
     wp_enqueue_script( 'jquery' );
 
     if ( usp_is_office() ) {

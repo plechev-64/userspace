@@ -26,11 +26,11 @@ $user = get_userdata( $user_ID );
 
             <div class="rcb_right_menu usp-menu-has-child usps usps__ai-center usps__as-stretch">
                 <?php if ( ! is_user_logged_in() ) { ?>
-                    <?php echo usp_get_button( [ 'type' => 'clear', 'label' => __( 'Sign in', 'userspace' ), 'icon' => 'fa-sign-in', 'size' => 'medium', 'href' => usp_get_loginform_url( 'login' ), 'class' => 'usp-login usps__as-stretch' ] ); ?>
+                    <?php echo usp_get_button( [ 'type' => 'clear', 'label' => __( 'Sign in', 'userspace' ), 'icon' => 'fa-sign-in', 'size' => 'medium', 'href' => usp_get_loginform_url( 'login' ), 'class' => 'usp-entry-bttn usp-login usps__as-stretch' ] ); ?>
 
                     <?php if ( usp_is_register_open() ) { ?>
                         <span class="usp-bar-or">or</span>
-                        <?php echo usp_get_button( [ 'type' => 'clear', 'label' => __( 'Register', 'userspace' ), 'href' => usp_get_loginform_url( 'register' ), 'class' => 'usp-register usps__as-stretch' ] ); ?>
+                        <?php echo usp_get_button( [ 'type' => 'clear', 'label' => __( 'Register', 'userspace' ), 'href' => usp_get_loginform_url( 'register' ), 'class' => 'usp-entry-bttn usp-register usps__as-stretch' ] ); ?>
                     <?php } ?>
 
                 <?php } else { ?>

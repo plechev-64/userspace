@@ -83,7 +83,6 @@
 }
 .usp-form .submit-box {
     padding: 6px;
-    background: var(--uspGray-100);
 }
 
 @media screen and (max-width:375px) {

@@ -43,23 +43,19 @@ function usp_get_user_widget( $atts = [] ) {
 
     $buttons = [];
 
-    $content = '<div class="usp-user-widget">';
+    $content = '<div class="usp-user-widget usps">';
 
-    if ( $user_ID ) {
+    if ( is_user_logged_in() ) {
+        $avatar = get_avatar( $user_ID, 100, false, false, [ 'class' => 'usp-profile-ava usps__img-reset' ] );
 
-        $userContent = apply_filters( 'usp_widget_userdata_content', get_avatar( $user_ID, 100 ) );
+        $userContent = apply_filters( 'usp_widget_userdata_content', $avatar );
 
         if ( $userContent ) {
-
-            $content .= '<div class="userdata">';
-
-            $content .= $userContent;
-
-            $content .= '</div>';
+            $content .= '<div class="usp-user-widget__left">' . $userContent . '</div>';
         }
 
         $buttons[] = [
-            'label' => __( 'Личный кабинет', 'userspace' ),
+            'label' => __( 'My account', 'userspace' ),
             'icon'  => 'fa-home',
             'size'  => 'medium',
             'href'  => usp_get_user_url( $user_ID )
@@ -82,7 +78,8 @@ function usp_get_user_widget( $atts = [] ) {
             'icon'    => 'fa-sign-in',
             'size'    => 'medium',
             'onclick' => usp_get_option( 'usp_login_form' ) ? null : 'USP.loginform.call("login");return false;',
-            'href'    => usp_get_loginform_url( 'login' )
+            'href'    => usp_get_loginform_url( 'login' ),
+            'class'   => 'usp-entry-bttn'
         ];
 
         $buttons[] = [
@@ -90,17 +87,18 @@ function usp_get_user_widget( $atts = [] ) {
             'icon'    => 'fa-book',
             'size'    => 'medium',
             'onclick' => usp_get_option( 'usp_login_form' ) ? null : 'USP.loginform.call("register");return false;',
-            'href'    => usp_get_loginform_url( 'register' )
+            'href'    => usp_get_loginform_url( 'register' ),
+            'class'   => 'usp-entry-bttn'
         ];
     }
 
-    $buttons = apply_filters( 'usp_widget_buttons', $buttons );
+    $all_buttons = apply_filters( 'usp_widget_buttons', $buttons );
 
-    if ( $buttons ) {
+    if ( $all_buttons ) {
 
-        $content .= '<div class="usps usps__column">';
+        $content .= '<div class="usp-user-widget__right usps usps__column">';
 
-        foreach ( $buttons as $button ) {
+        foreach ( $all_buttons as $button ) {
             $content .= usp_get_button( $button );
         }
 
@@ -116,10 +114,12 @@ add_shortcode( 'loginform', 'usp_get_loginform_shortcode' );
 function usp_get_loginform_shortcode( $atts = [] ) {
     global $user_ID;
 
-    if ( $user_ID ) {
+    if ( is_user_logged_in() ) {
+        $url = '<a href="' . usp_get_user_url( $user_ID ) . '">' . __( 'personal account', 'userspace' ) . '</a>';
+
         return usp_get_notice( [
             'type' => 'success',
-            'text' => __( 'Вы уже авторизованы на сайте. Перейдите в <a href="' . usp_get_user_url( $user_ID ) . '">личный кабинет</a>, чтобы начать работу.', 'userspace' )
+            'text' => sprintf( __( 'You are already logged into the site. Go to your %s, to get started.', 'userspace' ), $url )
             ] );
     }
 

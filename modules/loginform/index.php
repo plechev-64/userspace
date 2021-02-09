@@ -4,6 +4,9 @@ require_once 'registration.php';
 require_once 'authorization.php';
 
 if ( $GLOBALS['pagenow'] === 'wp-login.php' ) {
+    wp_enqueue_style( 'usp-wploginform', USP_URL . 'modules/loginform/assets/wp-login-style.css' );
+    wp_enqueue_style( 'usp-core', USP_URL . 'assets/css/core.css' );
+
     require_once 'wp-register-form.php';
 }
 
@@ -12,39 +15,62 @@ if ( class_exists( 'ReallySimpleCaptcha' ) ) {
 }
 
 if ( is_admin() || isset( $_REQUEST['rest_route'] ) ) {
-    usp_loginform_scripts();
+    usp_loginform_assets();
 } else {
-    add_action( 'usp_enqueue_scripts', 'usp_loginform_scripts', 10 );
+    add_action( 'usp_enqueue_scripts', 'usp_loginform_assets', 10 );
 }
-function usp_loginform_scripts() {
+function usp_loginform_assets() {
     if ( ! usp_get_option( 'usp_login_form' ) )
         usp_dialog_scripts();
-    usp_enqueue_style( 'usp-loginform', USP_URL . 'modules/loginform/assets/style.css', false, false, true );
-    usp_enqueue_script( 'usp-loginform', USP_URL . 'modules/loginform/assets/scripts.js', false, false, true );
+
+    usp_enqueue_style( 'usp-entryform', USP_URL . 'modules/loginform/assets/style.css', false, false, true );
+    usp_enqueue_script( 'usp-entryform', USP_URL . 'modules/loginform/assets/scripts.js', false, false, true );
 }
 
 function usp_get_loginform( $atts = [] ) {
-    extract( shortcode_atts( array(
+    $atr = shortcode_atts( array(
         'active' => 'login',
         'forms'  => 'login,register,lostpassword'
-            ), $atts ) );
+        ), $atts );
 
-    $forms = array_map( 'trim', explode( ',', $forms ) );
+    $forms = array_map( 'trim', explode( ',', $atr['forms'] ) );
 
-    $content = '<div class="usp-loginform usps__relative">';
+    $content = '<div class="usp-entry-form usps__relative">';
 
-    $content .= '<div class="tab-group">';
-    if ( in_array( 'login', $forms ) )
-        $content .= '<a href="#login" class="tab tab-login' . ($active == 'login' ? ' active' : '') . '" onclick="USP.loginform.tabShow(\'login\',this);return false;">' . __( 'Login', 'userspace' ) . '</a>';
-    if ( in_array( 'register', $forms ) )
-        $content .= '<a href="#register" class="tab tab-register' . ($active == 'register' ? ' active' : '') . '" onclick="USP.loginform.tabShow(\'register\',this);return false;">' . __( 'Registration', 'userspace' ) . '</a>';
+    $content .= '<div class="usp-entry-tabs usps usps__line-1">';
+    if ( in_array( 'login', $forms ) ) {
+        $content .= usp_get_button( [
+            'type'      => 'clear',
+            'href'      => '#login',
+            'class'     => 'usp-entry-tab usp-entry-tab__login',
+            'status'    => ($atr['active'] == 'login') ? 'active' : '',
+            'onclick'   => 'USP.loginform.tabShow("login",this);return false;',
+            'label'     => __( 'Login', 'userspace' ),
+            'size'      => 'medium',
+            'fullwidth' => '1',
+            ] );
+    }
+
+    if ( in_array( 'register', $forms ) ) {
+        $content .= usp_get_button( [
+            'type'      => 'clear',
+            'href'      => '#register',
+            'class'     => 'usp-entry-tab usp-entry-tab__register',
+            'status'    => ($atr['active'] == 'register') ? 'active' : '',
+            'onclick'   => 'USP.loginform.tabShow("register",this);return false;',
+            'label'     => __( 'Registration', 'userspace' ),
+            'size'      => 'medium',
+            'fullwidth' => '1',
+            ] );
+    }
+
     $content .= '</div>';
 
     $content .= apply_filters( 'usp_loginform_notice', '' );
 
     if ( in_array( 'login', $forms ) ) {
 
-        $content .= '<div class="tab-content tab-login' . ($active == 'login' ? ' active' : '') . '">';
+        $content .= '<div class="usp-entry-box usp-entry-box__login' . ($atr['active'] == 'login' ? ' usp-entry-box__active' : '') . '">';
 
         $content .= usp_get_form( array(
             'submit'  => __( 'Login', 'userspace' ),
@@ -71,15 +97,23 @@ function usp_get_loginform( $atts = [] ) {
             ) )
             ) );
 
-        if ( in_array( 'lostpassword', $forms ) )
-            $content .= '<a href="#" class="forget-link" onclick="USP.loginform.tabShow(\'lostpassword\',this);return false;">' . __( 'Forgot password?', 'userspace' ) . '</a>';
+        if ( in_array( 'lostpassword', $forms ) ) {
+            $content .= usp_get_button( [
+                'type'    => 'clear',
+                'href'    => '#',
+                'class'   => 'usp-forgot',
+                'onclick' => 'USP.loginform.tabShow("lostpassword",this);return false;',
+                'label'   => __( 'Forgot password?', 'userspace' ),
+                'size'    => 'medium',
+                ] );
+        }
 
         $content .= '</div>';
     }
 
     if ( in_array( 'register', $forms ) ) {
 
-        $content .= '<div class="tab-content tab-register' . ($active == 'register' ? ' active' : '') . '">';
+        $content .= '<div class="usp-entry-box usp-entry-box__register' . ($atr['active'] == 'register' ? ' usp-entry-box__active' : '') . '">';
         $content .= usp_get_form( array(
             'submit'    => __( 'Registration', 'userspace' ),
             'onclick'   => 'USP.loginform.send("register",this);return false;',
@@ -91,7 +125,7 @@ function usp_get_loginform( $atts = [] ) {
     }
 
     if ( in_array( 'lostpassword', $forms ) ) {
-        $content .= '<div class="tab-content tab-lostpassword' . ($active == 'lostpassword' ? ' active' : '') . '">';
+        $content .= '<div class="usp-entry-box usp-entry-box__lostpassword' . ($atr['active'] == 'lostpassword' ? ' usp-entry-box__active' : '') . '">';
         $content .= usp_get_form( array(
             'submit'  => __( 'Get a new password', 'userspace' ),
             'onclick' => 'USP.loginform.send("lostpassword",this);return false;',
@@ -155,8 +189,10 @@ function usp_call_loginform() {
 
     return [
         'dialog' => [
-            'size'    => 'auto',
-            'content' => usp_get_loginform( [ 'active' => $form ] )
+            'size'        => 'auto',
+            'class'       => 'usp-entry-modal ssi-no-padding',
+            'buttonClose' => false,
+            'content'     => usp_get_loginform( [ 'active' => $form ] )
         ]
     ];
 }

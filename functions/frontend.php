@@ -39,7 +39,6 @@ function usp_api_button_inline_size( $styles ) {
     $size = usp_get_option( 'usp-button-font-size', '14' );
 
     $styles .= '
-		body .usp-bttn,
 		.usp-bttn.usp-bttn__size-small {
 			font-size: ' . round( 0.86 * $size ) . 'px;
 		}
