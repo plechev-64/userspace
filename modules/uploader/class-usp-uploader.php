@@ -141,14 +141,14 @@ class USP_Uploader {
         if ( $this->dropzone )
             $content .= $this->get_dropzone();
 
-        $content .= '<div class="usp-uploader-button-box">';
+        $content .= '<div class="usp-media__uploader">';
 
         $content .= $this->get_progress_bar();
 
         $content .= $this->get_button( $args );
 
         if ( $args['allowed_types'] )
-            $content .= '<small class="notice">' . __( 'Types of files', 'userspace' ) . ': ' . implode( ', ', $this->file_types ) . '</small>';
+            $content .= '<small class="usp-type-info">' . __( 'Types of files', 'userspace' ) . ': ' . implode( ', ', $this->file_types ) . '</small>';
 
         $content .= '</div>';
 
@@ -187,7 +187,7 @@ class USP_Uploader {
             'icon'    => $args['button_icon'],
             'type'    => $args['button_type'],
             'label'   => $args['button_label'],
-            'class'   => array( 'usp-uploader-button', 'usp-uploader-button-' . $this->uploader_id ),
+            'class'   => [ 'usp-uploader-bttn', 'usp-uploader-bttn-' . $this->uploader_id ],
             'content' => $this->get_input()
         );
 
@@ -250,7 +250,7 @@ class USP_Uploader {
                 ->get_col();
         }
 
-        $content = '<div id="usp-upload-gallery-' . $this->uploader_id . '" class="usp-upload-gallery mode-' . $this->mode_output . ' ' . ($this->manager_balloon ? 'balloon-manager' : 'simple-manager') . '">';
+        $content = '<div id="usp-media-' . $this->uploader_id . '" class="usp-media usp-media-' . $this->mode_output . ' ' . ($this->manager_balloon ? 'balloon-manager' : 'simple-manager') . ' usps__relative">';
 
         if ( $imagIds ) {
             //$content .= '<div class="ui-sortable-placeholder"></div>';
@@ -279,7 +279,7 @@ class USP_Uploader {
 
         if ( $is_image ) {
 
-            $image = wp_get_attachment_image( $attach_id, $this->image_thumb );
+            $image = wp_get_attachment_image( $attach_id, $this->image_thumb, false, [ 'class' => 'usps__img-reset' ] );
         } else {
 
             $image = wp_get_attachment_image( $attach_id, array( 100, 100 ), true );
@@ -288,11 +288,11 @@ class USP_Uploader {
         if ( ! $image )
             return false;
 
-        $content = '<div class="gallery-attachment gallery-attachment-' . $attach_id . ' ' . ($is_image ? 'type-image' : 'type-file') . '" id="gallery-' . $this->uploader_id . '-attachment-' . $attach_id . '">';
+        $content = '<div class="usp-media__item usp-media__item-' . $attach_id . ' ' . ($is_image ? 'type-image' : 'type-file') . ' usps__inline usps__relative" id="gallery-' . $this->uploader_id . '-attachment-' . $attach_id . '">';
 
         $content .= $image;
 
-        $content .= '<div class="attachment-title">';
+        $content .= '<div class="usp-file-name">';
         $content .= $this->get_attachment_title( $attach_id );
         $content .= '</div>';
 
@@ -389,10 +389,11 @@ class USP_Uploader {
         if ( ! $manager_items )
             return false;
 
-        $content = '<div class="attachment-manager ' . ($this->manager_balloon ? 'usp-balloon' : '') . '">';
+        $content = '<div class="usp-file-manager ' . ($this->manager_balloon ? 'usp-balloon' : '') . '">';
 
         foreach ( $manager_items as $item ) {
             $item['type'] = 'simple';
+            $item['size'] = 'medium';
             $content      .= usp_get_button( $item );
         }
 

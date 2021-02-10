@@ -18,6 +18,7 @@ i::before {
     --uspGray-700: #374151;
     
     --uspGeen-700: #15803d;
+    --uspGeen-500: #10B981;
     
     --uspBlue-500: #3b82f6;
     
@@ -183,10 +184,9 @@ i::before {
   11. USP pagenavi API
   12. Detailed information
   13. Post bar
-  14. TODO: old generation
-  15. New USP Notice
-  16. USP Buttons API
-  17. User Widget
+  14. New USP Notice
+  15. USP Buttons API
+  16. User Widget
 ------------------------*/
 
 
@@ -676,20 +676,7 @@ body .usp-pager > span a.usp-bttn{
 
 
 /*---------------------------
-  14. TODO: old generation
------------------------------*/
-.usp-upload-button span.progress-bar {
-    background: #36C515;
-    height: 100%;
-    left: 0;
-    position: absolute;
-    top: 0;
-    z-index: -99;
-}
-/*end*/
-
-/*---------------------------
-  15. New USP Notice
+  14. New USP Notice
 -----------------------------*/
 .usp-notice {
     box-sizing: border-box;
@@ -781,7 +768,7 @@ body .usp-pager > span a.usp-bttn{
 /**/
 
 /*---------------------------
-  16. USP Buttons API
+  15. USP Buttons API
 -----------------------------*/
 /*
 usp-bttn__type-clear	- gray fill
@@ -793,7 +780,6 @@ usp-bttn__type-primary	- usp color
 body .usp-bttn {
     align-items: center;
     border-radius: 0;
-    box-shadow: none !important;
     box-sizing: border-box;
     cursor: pointer;
     display: inline-flex;
@@ -805,11 +791,14 @@ body .usp-bttn {
     position: relative;
     text-decoration: none !important;
     text-transform: none;
-    transition: opacity .1s ease, color .1s ease;
+    transition: all .15s ease-in-out !important;
     white-space: nowrap;
     -webkit-user-select: none;
         -ms-user-select: none;
             user-select: none;
+}
+.usp-bttn:not(.usp-bttn__type-simple) {
+    box-shadow: none !important;
 }
 body :not(.usp-wrap__wiget) > .usp-bttn:not(.usp-bttn__active):hover {
     opacity: .8;
@@ -818,16 +807,9 @@ body:not(.wp-admin) .usp-bttn.usp-bttn__type-primary:not(.usp-bttn__active) {
     background: var(--uspHex);
     color: var(--uspText);
 }
-/* end */
+/* */
 
 /* cross 2-types: usp-bttn__type-simple and usp-bttn__type-primary */
-body .usp-bttn:not(.usp-bttn__type-clear):not(.usp-bttn__fullwidth) {
-	margin: 0 .25em .25em 0;
-}
-body .usps.usps__column .usp-bttn,
-body .usp-bttn:not(.usp-bttn__type-clear):last-child {
-	margin-right: 0;
-}
 .usp-bttn:not(.usp-bttn__type-clear) .usp-bttn__text,
 .usp-bttn:not(.usp-bttn__type-clear) .usp-bttn__ico-left {
 	padding: .5em .7em;
@@ -856,29 +838,26 @@ body .usp-bttn:not(.usp-bttn__type-clear):last-child {
 .usp-bttn:not(.usp-bttn__type-clear) .usp-bttn__ava + .usp-bttn__count {
 	padding: 0 .7em;
 }
-/* END пересекающие стили для 2х кнопок: usp-bttn__type-simple и usp-bttn__type-primary */
+/* */
 
 
-/* стиль clear */
-/*:not(.usps__column) > .usp-bttn:not(.usp-bttn__fullwidth).usp-bttn__type-clear {
-	margin: 0 .75em 0 0;
-}*/
+/* clear */
 .usp-bttn__type-clear .usp-bttn__text + .usp-bttn__count,
 .usp-bttn__type-clear i + span,
 .usp-bttn__type-clear span + i {
 	padding: 0 0 0 .75em;
 }
-/* END clear */
+/* */
 
-/* стиль simple */
+/* simple */
 .usp-bttn.usp-bttn__type-simple {
-	background-color: #f5f5f5;
-	box-shadow: 0 0 0 1px #e5e5e5 inset;
+    background: var(--uspGray-100);
+    box-shadow: 0 0 0 1px var(--uspGray-300) inset;
 }
 .usp-bttn.usp-bttn__type-simple:hover {
-	background-color: #fafafa;
+    background: var(--uspGray-200);
 }
-/* END simple */
+/* */
 
 
 /********************
@@ -890,7 +869,7 @@ body .usp-bttn:not(.usp-bttn__type-clear):last-child {
     display: flex;
     justify-content: center;
 }
-/* END fullwidth */
+/* */
 
 /* masked icon */
 .usp-bttn.usp-bttn__ico-mask .uspi,
@@ -904,8 +883,7 @@ body .usp-bttn:not(.usp-bttn__type-clear):last-child {
 .usp-bttn__ico-mask.usp-bttn__mod-text-rico-count .usp-bttn__ico.usp-bttn__ico-right {
     padding: .5em 0 .5em .7em;
 }
-/* END masked icon */
-
+/* */
 
 
 /* special wiget list style */
@@ -931,7 +909,7 @@ body .usp-bttn:not(.usp-bttn__type-clear):last-child {
 .usp-wrap__wiget .usp-bttn__ava_circle .usp-bttn__ava img {
 	border-radius: 50%;
 }
-/* END special wiget list style */
+/* */
 
 
 /********************
@@ -981,7 +959,7 @@ body .usp-bttn:not(.usp-bttn__type-clear):last-child {
 		transform:rotate(360deg);
 	}
 }
-/* END loader */
+/* */
 
 /* condition */
 .usp-bttn.usp-bttn__disabled {
@@ -1006,7 +984,7 @@ body .usp-bttn:not(.usp-bttn__type-clear):last-child {
 
 
 /*---------------------------
-  17. User Widget
+  16. User Widget
 -----------------------------*/
 .usp-user-widget__left {
     margin-right: 6px;

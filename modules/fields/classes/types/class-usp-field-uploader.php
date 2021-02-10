@@ -240,7 +240,7 @@ class USP_Field_Uploader extends USP_Field_Abstract {
         if ( ! $attachList )
             return false;
 
-        $content = '<div id="usp-gallery-' . $this->id . '" class="usp-upload-gallery mode-' . $this->mode_output . '">';
+        $content = '<div id="usp-gallery-' . $this->id . '" class="usp-media usp-media-' . $this->mode_output . ' usps__relative">';
         $content .= $attachList;
         $content .= '</div>';
 
@@ -253,7 +253,7 @@ class USP_Field_Uploader extends USP_Field_Abstract {
 
         if ( $is_image ) {
 
-            $image = wp_get_attachment_image( $attach_id, 'thumbnail' );
+            $image = wp_get_attachment_image( $attach_id, 'thumbnail', false, [ 'class' => 'usps__img-reset' ] );
         } else {
 
             $image = wp_get_attachment_image( $attach_id, array( 100, 100 ), true );
@@ -264,11 +264,11 @@ class USP_Field_Uploader extends USP_Field_Abstract {
 
         $url = wp_get_attachment_url( $attach_id );
 
-        $content = '<div class="gallery-attachment gallery-attachment-' . $attach_id . ' ' . ($is_image ? 'type-image' : 'type-file') . '">';
+        $content = '<div class="usp-media__item usp-media__item-' . $attach_id . ' ' . ($is_image ? 'type-image' : 'type-file') . ' usps__inline usps__relative">';
 
         $content .= '<a href="' . $url . '" target="_blank">' . $image . '</a>';
 
-        $content .= '<div class="attachment-title">';
+        $content .= '<div class="usp-file-name">';
         $content .= '<a href="' . $url . '" target="_blank">' . basename( get_post_field( 'guid', $attach_id ) ) . '</a>';
         $content .= '</div>';
 

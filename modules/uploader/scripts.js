@@ -76,7 +76,7 @@ function USPUploader( props, sk ) {
 
 	this.uploader_id = props.uploader_id;
 	this.input = jQuery( "#usp-uploader-input-" + this.uploader_id );
-	this.button = this.input.parent( ".usp-uploader-button" );
+	this.button = this.input.parent( ".usp-uploader-bttn" );
 	this.options = props;
 
 	this.getFormData = function( uploader ) {
@@ -160,8 +160,8 @@ function USPUploader( props, sk ) {
 	};
 
 	this.initSortable = function() {
-		jQuery( "#usp-upload-gallery-" + this.uploader_id ).sortable( {
-			//connectWith: "#usp-upload-gallery-" + this.uploader_id,
+		jQuery( "#usp-media-" + this.uploader_id ).sortable( {
+			//connectWith: "#usp-media-" + this.uploader_id,
 			containment: "parent",
 			//handle: ".field-control .control-move",
 			cursor: "move",
@@ -184,7 +184,7 @@ function USPUploader( props, sk ) {
 
 	this.progressall = function( e, data ) {
 		var progress = parseInt( data.loaded / data.total * 100, 10 );
-		jQuery( '#usp-uploader-' + this.uploader_id + ' .usp-uploader-progress' ).html( '<div class="progress-bar" style="width:' + progress + '%;">' + progress + '%</div>' );
+		jQuery( '#usp-uploader-' + this.uploader_id + ' .usp-uploader-progress' ).html( '<div class="usp-progress-bar usps usps__ai-center" style="width:' + progress + '%;">' + progress + '%</div>' );
 	};
 
 	this.add = function( e, data ) {
@@ -194,7 +194,7 @@ function USPUploader( props, sk ) {
 
 		var errors = [ ];
 
-		var inGalleryNow = jQuery( '#usp-upload-gallery-' + uploader.uploader_id + ' .gallery-attachment' ).length;
+		var inGalleryNow = jQuery( '#usp-media-' + uploader.uploader_id + ' .usp-media__item' ).length;
 
 		jQuery.each( data.files, function( index, file ) {
 
@@ -277,7 +277,7 @@ function USPUploader( props, sk ) {
 			} );
 		} else {
 
-			jQuery( '#usp-upload-gallery-' + this.uploader_id ).html( '' );
+			jQuery( '#usp-media-' + this.uploader_id ).html( '' );
 
 			uploader.appendInGallery( data.result, uploader );
 		}
@@ -291,9 +291,9 @@ function USPUploader( props, sk ) {
 	this.appendInGallery = function( file ) {
 
 		if ( file.html ) {
-			jQuery( '#usp-upload-gallery-' + this.uploader_id ).append( file.html );
+			jQuery( '#usp-media-' + this.uploader_id ).append( file.html );
 			jQuery( '#usp-gallery-' + this.uploader_id ).append( file.html );
-			jQuery( '#usp-upload-gallery-' + this.uploader_id + ' .gallery-attachment' ).last().animateCss( 'flipInX' );
+			jQuery( '#usp-media-' + this.uploader_id + ' .usp-media__item' ).last().animateCss( 'flipInX' );
 		}
 	};
 
@@ -490,7 +490,7 @@ function usp_init_dropzone( dropZone ) {
 function usp_delete_attachment( attachment_id, post_id, e ) {
 
 	if ( e )
-		usp_preloader_show( jQuery( e ).parents( '.gallery-attachment' ) );
+		usp_preloader_show( jQuery( e ).parents( '.usp-media__item' ) );
 
 	var objectData = {
 		action: 'usp_ajax_delete_attachment',
@@ -503,7 +503,7 @@ function usp_delete_attachment( attachment_id, post_id, e ) {
 		data: objectData,
 		success: function( data ) {
 
-			jQuery( '.gallery-attachment-' + attachment_id ).animateCss( 'flipOutX', function( e ) {
+			jQuery( '.usp-media__item-' + attachment_id ).animateCss( 'flipOutX', function( e ) {
 				jQuery( e ).remove();
 			} );
 
