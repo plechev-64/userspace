@@ -45,7 +45,7 @@
 }
 .usp-options .usp-menu .usp-bttn__active{
 	background: #b6b6b6;
-	color: #fff;
+	color: var(--uspWhite);
 }
 
 .usp-options .options-form-boxes{

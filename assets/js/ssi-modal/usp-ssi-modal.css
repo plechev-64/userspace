@@ -50,7 +50,7 @@ body.ssi-modalOpen {
 }
 .ssi-modalWindow {
     width: 100%;
-    background: #fff;
+    background: var(--uspWhite);
     position: relative;
     margin: 0 auto;
     min-width: 315px;

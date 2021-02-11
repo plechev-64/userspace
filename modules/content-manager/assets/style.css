@@ -28,7 +28,7 @@
 #usp-manager-filter .filter-content{
 	position: absolute;
 	z-index: 9;
-	background: #fff;
+	background: var(--uspWhite);
 	box-shadow: 2px 2px 2px #ccc;
 	padding: 10px;
 	left: 0;
@@ -57,7 +57,7 @@
 #usp-cols-manager .list-title{
 	text-align: center;
 	font-weight: bold;
-	background: #fff;
+	background: var(--uspWhite);
 	padding: 10px;
 }
 #usp-cols-manager .cols-list{
@@ -81,7 +81,7 @@
 
 }
 #usp-cols-manager .ui-sortable-placeholder {
-	background: #fff;
+	background: var(--uspWhite);
 	border: 2px dashed #aaa;
 	box-sizing: border-box;
 	height: 40px;

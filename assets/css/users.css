@@ -107,8 +107,7 @@
     background: transparent;
     color: #888;
 }
-.userlist.rows-list .user-content-usp::before { /* обманка на месте аватарки */
-	/*     background: #000; */ /* Посмотреть позицию */
+.userlist.rows-list .user-content-usp::before {
     content: "";
     float: left;
     height: 70px;
@@ -153,8 +152,8 @@
 /* вывод аватарками и mini start */
 .userlist.avatars-list .user-single {
     float: left;
-    margin: 5px 0.5%;
-    padding: 0.7%;
+    margin: 5px .5%;
+    padding: .7%;
     width: 13%;
 }
 .userlist.mini-list .user-single {
@@ -214,7 +213,7 @@
 .userlist.cards-list .rating-usp {
     left: 0;
     min-width: 30px;
-    opacity: 0.8;
+    opacity: .8;
     position: absolute;
     top: 0;
     z-index: 2;
@@ -248,7 +247,7 @@
     background: var(--uspBlack-04);
     bottom: 0;
     box-sizing: border-box;
-    color: #fff;
+    color: var(--uspWhite);
     padding: 5px;
     position: absolute;
     text-align: center;

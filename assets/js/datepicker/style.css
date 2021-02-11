@@ -1,17 +1,17 @@
 #ui-datepicker-div {
     box-shadow: 0 0 1px 1px #555;
     width: 250px;
-    opacity: 0.9;
+    opacity: .9;
 }
 #ui-datepicker-div .ui-datepicker-header {
     background: #5d5d5d;
-    color: #ffffff;
+    color: var(--uspWhite);
     font: 20px/1 Arial,sans-serif,tahoma;
     height: 36px;
     position: relative;
 }
 #ui-datepicker-div .ui-datepicker-header > a {
-    color: #fff;
+    color: var(--uspWhite);
     cursor: pointer;
     font: 25px/5px usp-awesome;
     padding: 0 5px;
@@ -41,7 +41,7 @@
 #ui-datepicker-div .ui-datepicker-year {
     background: #eee;
     border: 0;
-    color: #000;
+    color: var(--uspBlack);
     font-size: 15px;
     height: auto;
     margin: 0;
@@ -75,8 +75,8 @@
     background: #fdcac6;
 }
 #ui-datepicker-div .ui-datepicker-calendar tr td {
-    background: #ffffff;
-    border-color: #000 #b5b5b5 #b5b5b5 #000;
+    background: var(--uspWhite);
+    border-color: var(--uspBlack) #b5b5b5 #b5b5b5 var(--uspBlack);
     border-style: solid;
     border-width: 0 1px 1px 0;
     padding: 0;
@@ -100,7 +100,7 @@
     background: #aaa;
 }
 #ui-datepicker-div .ui-datepicker-calendar .ui-datepicker-current-day a {
-    color: #fff;
+    color: var(--uspWhite);
 }
 #ui-datepicker-div .ui-datepicker-calendar .ui-datepicker-today {
     background: #c3c3c3;

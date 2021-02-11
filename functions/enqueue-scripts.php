@@ -21,7 +21,7 @@ function usp_resizable_scripts() {
 
 function usp_multiselect_scripts() {
     wp_enqueue_script( 'jquery' );
-    usp_enqueue_style( 'f-select', USP_URL . 'assets/js/fselect/fSelect.css', false, USP_VERSION );
+    usp_enqueue_style( 'f-select', USP_URL . 'assets/js/fselect/fSelect.min.css', false, USP_VERSION );
     wp_enqueue_script( 'f-select', USP_URL . 'assets/js/fselect/fSelect-min.js', false, USP_VERSION );
 }
 
@@ -33,7 +33,7 @@ function usp_slider_scripts() {
 }
 
 function usp_datepicker_scripts() {
-    wp_enqueue_style( 'jquery-ui-datepicker', USP_URL . 'assets/js/datepicker/style.css', false, USP_VERSION );
+    wp_enqueue_style( 'jquery-ui-datepicker', USP_URL . 'assets/js/datepicker/style.min.css', false, USP_VERSION );
     wp_enqueue_script( 'jquery' );
     wp_enqueue_script( 'jquery-ui-core' );
     wp_enqueue_script( 'jquery-ui-datepicker' );

@@ -14,7 +14,7 @@
 	width: 100%;
 }
 .usp-form tr {
-	background: #fff;
+	background: var(--uspWhite);
 }
 .usp-form th,
 .usp-form td {
@@ -34,13 +34,13 @@
 	overflow: hidden;
 }
 .usp-form tr:nth-child(1) th {
-	background-color: #f5f5f5;
+	background: #f5f5f5;
 	font-size: 14px;
 	font-weight: bold;
 }
 .usp-form input[disabled] {
-	background-color: #eee;
-	opacity: 0.6;
+	background: #eee;
+	opacity: .6;
 }
 .usp-form .usp-label input[type="checkbox"] {
 	margin: 0 6px 0 0;
@@ -62,11 +62,11 @@
 }
 .usp-form label a:hover,
 .usp-form td span a:hover {
-	color: #000;
+	color: var(--uspBlack);
 	text-decoration: underline;
 }
 .usp-form td a:hover {
-	color: #000;
+	color: var(--uspBlack);
 }
 .usp-form td a:hover i {
 	color: var(--uspRed-500);

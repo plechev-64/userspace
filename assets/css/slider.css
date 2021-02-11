@@ -24,7 +24,7 @@ Help: https://www.jssor.com/development/slider-with-thumbnail-navigator.html
 */
 .usp-gallery-navigator {
     /* size of thumbnail navigator container */
-    background-color:rgb(232, 232, 232);
+    background:rgb(232, 232, 232);
     position: absolute;
 }
 .usp-gallery-navigator .p {
@@ -45,25 +45,19 @@ Help: https://www.jssor.com/development/slider-with-thumbnail-navigator.html
     opacity: 1;
 }
 .usp-gallery-navigator .o {
-    border: 1px solid #000;
+    border: 1px solid var(--uspBlack);
     box-sizing: content-box;
     left: 0;
     position: absolute;
     top: 0;
-    -webkit-transition: border-color .6s;
-	-moz-transition: border-color .6s;
-	-o-transition: border-color .6s;
-	transition: border-color .6s;
+    transition: border-color .6s;
 }
 .usp-gallery-navigator .pav .o {
     border-color: #0099ff;
 }
 .usp-gallery-navigator .p:hover .o {
-    border-color: #fff;
-    -webkit-transition: none;
-	-moz-transition: none;
-	-o-transition: none;
-	transition: none;
+    border-color: var(--uspWhite);
+    transition: none;
 }
 .usp-gallery-navigator .p.pdn .o {
     border-color: #0099ff;
@@ -79,7 +73,7 @@ Help: https://www.jssor.com/development/slider-with-arrow-navigator.html
 }
 .usp-navigator-arrow .a {
     fill: none;
-    stroke: #fff;
+    stroke: var(--uspWhite);
     stroke-width: 360;
     stroke-miterlimit: 10;
 }

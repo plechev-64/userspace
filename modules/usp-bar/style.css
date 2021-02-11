@@ -23,7 +23,7 @@
 }
 .usp-bar-white .usp-sub-menu,
 .usp-bar-white {
-    background: #fff;
+    background: var(--uspWhite);
 }
 .usp-bar-white {
     border-bottom: 1px solid #ddd;

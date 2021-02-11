@@ -2,117 +2,117 @@
 
 class USP_Image_Gallery {
 
-	public $id;
-	public $attach_ids	 = array();
-	public $image_urls	 = array();
-	public $center_align = false;
-	public $width		 = 1500;
-	public $height		 = 350;
-	public $slides		 = array();
-	public $navigator	 = array();
-	public $options		 = array();
+    public $id;
+    public $attach_ids   = array();
+    public $image_urls   = array();
+    public $center_align = false;
+    public $width        = 1500;
+    public $height       = 350;
+    public $slides       = array();
+    public $navigator    = array();
+    public $options      = array();
 
-	function __construct( $args ) {
+    function __construct( $args ) {
 
-		$this->init_properties( $args );
+        $this->init_properties( $args );
 
-		if ( $this->attach_ids ) {
+        if ( $this->attach_ids ) {
 
-			$this->image_urls = $this->get_image_urls();
-		}
+            $this->image_urls = $this->get_image_urls();
+        }
 
-		$defaultOptions = array(
-			'$AutoPlay'		 => 0,
-			//'$SlideWidth' => $this->gallery['thumbnail'][0],
-			//'$SlideHeight' => $this->gallery['thumbnail'][1],
-			'$FillMode'		 => 1,
-			//'$DragOrientation' => 3,
-			'$Idle'			 => 4000,
-			'$SlideDuration' => 500
-		);
+        $defaultOptions = array(
+            '$AutoPlay'      => 0,
+            //'$SlideWidth' => $this->gallery['thumbnail'][0],
+            //'$SlideHeight' => $this->gallery['thumbnail'][1],
+            '$FillMode'      => 1,
+            //'$DragOrientation' => 3,
+            '$Idle'          => 4000,
+            '$SlideDuration' => 500
+        );
 
-		if ( $this->navigator ) {
+        if ( $this->navigator ) {
 
-			$defaultOptions['$UISearchMode'] = 0;
+            $defaultOptions['$UISearchMode'] = 0;
 
-			if ( isset( $this->navigator['thumbnails'] ) ) {
-				$defaultOptions['$ThumbnailNavigatorOptions'] = array(
-					'$ChanceToShow'			 => 2,
-					'$Loop'					 => 1,
-					'$SpacingX'				 => 3,
-					'$SpacingY'				 => 3,
-					'$ArrowNavigatorOptions' => array(
-						'$ChanceToShow'	 => 1,
-						'$Steps'		 => 6
-					)
-				);
-			}
+            if ( isset( $this->navigator['thumbnails'] ) ) {
+                $defaultOptions['$ThumbnailNavigatorOptions'] = array(
+                    '$ChanceToShow'          => 2,
+                    '$Loop'                  => 1,
+                    '$SpacingX'              => 3,
+                    '$SpacingY'              => 3,
+                    '$ArrowNavigatorOptions' => array(
+                        '$ChanceToShow' => 1,
+                        '$Steps'        => 6
+                    )
+                );
+            }
 
-			if ( isset( $this->navigator['arrows'] ) ) {
-				$defaultOptions['$ArrowNavigatorOptions'] = array(
-					'$ChanceToShow'	 => 1,
-					'$Steps'		 => 6
-				);
-			}
-		}
+            if ( isset( $this->navigator['arrows'] ) ) {
+                $defaultOptions['$ArrowNavigatorOptions'] = array(
+                    '$ChanceToShow' => 1,
+                    '$Steps'        => 6
+                );
+            }
+        }
 
-		$this->options = wp_parse_args( $this->options, $defaultOptions );
-	}
+        $this->options = wp_parse_args( $this->options, $defaultOptions );
+    }
 
-	function init_properties( $args ) {
+    function init_properties( $args ) {
 
-		$properties = get_class_vars( get_class( $this ) );
+        $properties = get_class_vars( get_class( $this ) );
 
-		foreach ( $properties as $name => $val ) {
-			if ( isset( $args[$name] ) )
-				$this->$name = $args[$name];
-		}
-	}
+        foreach ( $properties as $name => $val ) {
+            if ( isset( $args[$name] ) )
+                $this->$name = $args[$name];
+        }
+    }
 
-	function get_image_urls( $attach_ids = false ) {
+    function get_image_urls( $attach_ids = false ) {
 
-		$attach_ids = $attach_ids ? $attach_ids : $this->attach_ids;
+        $attach_ids = $attach_ids ? $attach_ids : $this->attach_ids;
 
-		if ( ! $attach_ids )
-			return false;
+        if ( ! $attach_ids )
+            return false;
 
-		$images = array();
-		foreach ( $attach_ids as $attach_id ) {
+        $images = array();
+        foreach ( $attach_ids as $attach_id ) {
 
-			$src = wp_get_attachment_image_src( $attach_id, $this->slides['slide'] );
+            $src = wp_get_attachment_image_src( $attach_id, $this->slides['slide'] );
 
-			$images[$attach_id]			 = array();
-			$images[$attach_id]['slide'] = $src[0];
+            $images[$attach_id]          = array();
+            $images[$attach_id]['slide'] = $src[0];
 
-			if ( $this->slides['full'] ) {
-				$src						 = wp_get_attachment_image_src( $attach_id, $this->slides['full'] );
-				$images[$attach_id]['full']	 = $src[0];
-			}
+            if ( $this->slides['full'] ) {
+                $src                        = wp_get_attachment_image_src( $attach_id, $this->slides['full'] );
+                $images[$attach_id]['full'] = $src[0];
+            }
 
-			if ( isset( $this->navigator['thumbnails'] ) ) {
-				$src						 = wp_get_attachment_image_src( $attach_id, array( $this->navigator['thumbnails']['width'], $this->navigator['thumbnails']['height'] ) );
-				$images[$attach_id]['thumb'] = $src[0];
-			}
-		}
+            if ( isset( $this->navigator['thumbnails'] ) ) {
+                $src                         = wp_get_attachment_image_src( $attach_id, array( $this->navigator['thumbnails']['width'], $this->navigator['thumbnails']['height'] ) );
+                $images[$attach_id]['thumb'] = $src[0];
+            }
+        }
 
-		return $images;
-	}
+        return $images;
+    }
 
-	function get_gallery() {
+    function get_gallery() {
 
-		if ( ! $this->image_urls )
-			return false;
+        if ( ! $this->image_urls )
+            return false;
 
-		usp_image_slider_scripts();
+        usp_image_slider_scripts();
 
-		$content = '<div class="usp-slider-wrapper">';
+        $content = '<div class="usp-slider-wrapper">';
 
-		$content .= '<script>
+        $content .= '<script>
 			jQuery(document).ready(function ($) {
 
 				var options = ' . json_encode( $this->options ) . ';
 				' . (isset( $this->navigator['thumbnails'] ) ? 'options.$ThumbnailNavigatorOptions.$Class = $JssorThumbnailNavigator$;'
-				. 'options.$ThumbnailNavigatorOptions.$ArrowNavigatorOptions.$Class = $JssorArrowNavigator$' : '') . '
+            . 'options.$ThumbnailNavigatorOptions.$ArrowNavigatorOptions.$Class = $JssorArrowNavigator$' : '') . '
 				' . (isset( $this->navigator['arrows'] ) ? 'options.$ArrowNavigatorOptions.$Class = $JssorArrowNavigator$;' : '') . '
 				//options.$ThumbnailNavigatorOptions.$Class = $JssorThumbnailNavigator$;
 				//options.$ThumbnailNavigatorOptions.$ArrowNavigatorOptions.$Class = $JssorArrowNavigator$;
@@ -142,65 +142,65 @@ class USP_Image_Gallery {
 			});
 		</script>';
 
-		$content .= '<div id="' . $this->id . '" class="usp-slider" style="position: relative; top: 0px; left: 0px; width: ' . $this->width . 'px; height: ' . (isset( $this->navigator['thumbnails'] ) ? $this->height + $this->navigator['thumbnails']['height'] + 10 : $this->height) . 'px; max-width: 100%; overflow: hidden;">';
+        $content .= '<div id="' . $this->id . '" class="usp-slider" style="position: relative; top: 0; left: 0; width: ' . $this->width . 'px; height: ' . (isset( $this->navigator['thumbnails'] ) ? $this->height + $this->navigator['thumbnails']['height'] + 10 : $this->height) . 'px; max-width: 100%; overflow: hidden;">';
 
-		$content .= '<!-- Loading Screen -->
-		<div data-u="loading" class="jssorl-009-spin" style="z-index:9;position:absolute;top:0px;left:0px;width:100%;height:100%;text-align:center;background-color:rgb(232, 232, 232);">
+        $content .= '<!-- Loading Screen -->
+		<div data-u="loading" class="jssorl-009-spin" style="z-index:9;position:absolute;top:0;left:0;width:100%;height:100%;text-align:center;background-color:rgb(232, 232, 232);">
 			<img style="margin-top:-19px;position:relative;top:50%;width:38px;height:38px;" src="' . plugins_url( '/assets/js/jssor.slider/svg/loading/static-svg/spin.svg', dirname( __FILE__ ) ) . '" />
 		</div>';
 
-		$content .= $this->get_slides();
+        $content .= $this->get_slides();
 
-		if ( isset( $this->navigator['thumbnails'] ) && count( $this->image_urls ) > 1 ) {
-			$content .= $this->get_navigator_thumbnails();
-		}
+        if ( isset( $this->navigator['thumbnails'] ) && count( $this->image_urls ) > 1 ) {
+            $content .= $this->get_navigator_thumbnails();
+        }
 
-		if ( isset( $this->navigator['arrows'] ) ) {
-			$content .= $this->get_navigator_arrows();
-		}
+        if ( isset( $this->navigator['arrows'] ) ) {
+            $content .= $this->get_navigator_arrows();
+        }
 
-		$content .= '</div>';
+        $content .= '</div>';
 
-		$content .= '</div>';
+        $content .= '</div>';
 
-		return $content;
-	}
+        return $content;
+    }
 
-	function get_slides() {
+    function get_slides() {
 
-		if ( ! $this->image_urls )
-			return false;
+        if ( ! $this->image_urls )
+            return false;
 
-		$content = '<!-- Slides Container -->
-			<div data-u="slides" style="max-width: 100%; left: 0px; top: 0px; height: ' . $this->height . 'px; width: ' . $this->width . 'px; overflow: hidden;">';
+        $content = '<!-- Slides Container -->
+			<div data-u="slides" style="max-width: 100%; left: 0; top: 0; height: ' . $this->height . 'px; width: ' . $this->width . 'px; overflow: hidden;">';
 
-		foreach ( $this->image_urls as $image ) {
+        foreach ( $this->image_urls as $image ) {
 
-			$content .= '<div>';
+            $content .= '<div>';
 
-			$slide = '<img data-u="image" src="' . $image['slide'] . '" /></a>';
+            $slide = '<img data-u="image" src="' . $image['slide'] . '" /></a>';
 
-			if ( $this->slides['full'] ) {
-				$content .= sprintf( '<a href="%s">%s</a>', $image['full'], $slide );
-			} else {
-				$content .= $slide;
-			}
+            if ( $this->slides['full'] ) {
+                $content .= sprintf( '<a href="%s">%s</a>', $image['full'], $slide );
+            } else {
+                $content .= $slide;
+            }
 
-			if ( isset( $this->navigator['thumbnails'] ) ) {
-				$content .= '<img data-u="thumb" src="' . $image['thumb'] . '" />';
-			}
+            if ( isset( $this->navigator['thumbnails'] ) ) {
+                $content .= '<img data-u="thumb" src="' . $image['thumb'] . '" />';
+            }
 
-			$content .= '</div>';
-		}
+            $content .= '</div>';
+        }
 
-		$content .= '</div>';
+        $content .= '</div>';
 
-		return $content;
-	}
+        return $content;
+    }
 
-	function get_navigator_thumbnails() {
+    function get_navigator_thumbnails() {
 
-		$content = '<!-- region Thumbnail Navigator Skin Begin -->
+        $content = '<!-- region Thumbnail Navigator Skin Begin -->
 			<style>
 				.usp-gallery-navigator {
 					width: ' . $this->width . 'px;
@@ -222,7 +222,7 @@ class USP_Image_Gallery {
 				}
 			</style>
 			<!-- thumbnail navigator container -->
-			<div data-u="thumbnavigator" class="usp-gallery-navigator" style="width: ' . $this->width . 'px; height: ' . $this->navigator['thumbnails']['height'] . 'px; left: 0px; bottom: 0px;">
+			<div data-u="thumbnavigator" class="usp-gallery-navigator" style="width: ' . $this->width . 'px; height: ' . $this->navigator['thumbnails']['height'] . 'px; left: 0; bottom: 0;">
 				<!-- Thumbnail Item Skin Begin -->
 				<div data-u="slides" style="cursor: default;">
 					<div data-u="prototype" class="p">
@@ -234,12 +234,12 @@ class USP_Image_Gallery {
 			</div>
 			<!-- endregion Thumbnail Navigator Skin End -->';
 
-		return $content;
-	}
+        return $content;
+    }
 
-	function get_navigator_arrows() {
+    function get_navigator_arrows() {
 
-		$content = '<!-- Arrow Navigator -->
+        $content = '<!-- Arrow Navigator -->
 		<div data-u="arrowleft" class="usp-navigator-arrow" style="width:40px;height:40px;top:123px;left:8px;" data-autocenter="2" data-scale="0.75" data-scale-left="0.75">
 			<svg viewBox="0 0 16000 16000" style="position:absolute;top:0;left:0;width:100%;height:100%;">
 				<polyline class="a" points="11040,1920 4960,8000 11040,14080 "></polyline>
@@ -251,7 +251,7 @@ class USP_Image_Gallery {
 			</svg>
 		</div>';
 
-		return $content;
-	}
+        return $content;
+    }
 
 }

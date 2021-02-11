@@ -22,7 +22,7 @@ function usp_inline_styles() {
 // color button api
 //add_filter( 'usp_inline_styles', 'usp_api_button_inline_color', 10 );
 function usp_api_button_inline_color( $styles ) {
-    $color_button = usp_get_option( 'usp-button-text-color', '#fff' );
+    $color_button = usp_get_option( 'usp-button-text-color', 'var(--uspWhite)' );
 
     $styles .= '
             body .usp-bttn.usp-bttn__type-primary {

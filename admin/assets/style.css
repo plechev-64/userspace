@@ -20,17 +20,17 @@
     word-wrap: break-word;
 }
 #usp-notice .type-error {
-    background-color: rgb(255, 207, 207);
+    background: rgb(255, 207, 207);
     border-left: 3px solid var(--uspRed-500);
     color: var(--uspRed-500);
 }
 #usp-notice .type-warning {
-    background-color: #fff5ce;
+    background: #fff5ce;
     border-left: 3px solid #333;
     color: #333;
 }
 #usp-notice .type-success {
-    background-color: #bfffbd;
+    background: #bfffbd;
     border-left: 3px solid var(--uspGeen-700);
     color: var(--uspGeen-700);
 }
@@ -40,7 +40,7 @@
     padding: 0 5px 0 4px;
 }
 .usp_preloader {
-    background-color: var(--uspWhite-05);
+    background: var(--uspWhite-05);
     display: block;
     height: 100%;
     left: 0;
@@ -90,7 +90,7 @@ div.usp_preloader i.uspi::before {
 }
 
 .shift-extend-options > label {
-    background-color: #f5c0c0;
+    background: #f5c0c0;
     border: 1px solid #cd9898;
     display: inline-block;
     font-size: 14px;
@@ -99,7 +99,7 @@ div.usp_preloader i.uspi::before {
 }
 
 #usp-options-form .extend-options {
-    background-color: #f5f5f5;
+    background: #f5f5f5;
     border-left: 2px solid #f8d3d3;
     margin: 5px 0;
     padding: 5px 8px;
@@ -114,7 +114,7 @@ div.usp_preloader i.uspi::before {
     margin: 0 0 0 4px;
 }
 #usp-options-form .help-option .dashicons:hover {
-    opacity: 0.8;
+    opacity: .8;
 }
 .usp-help-dialog .ui-dialog-titlebar {
     font-size: 15px;
@@ -124,7 +124,7 @@ div.usp_preloader i.uspi::before {
     font-size: 26px;
 }
 .usp-help-dialog .ui-dialog-titlebar-close:hover::before {
-    opacity: 0.7;
+    opacity: .7;
 }
 .usp-help-dialog .help-content {
     font-size: 14px;
@@ -166,10 +166,10 @@ div.usp_preloader i.uspi::before {
 /* navigation Start */
 .tablenav .tablenav-pages .pagination-links a:hover,
 .tablenav .tablenav-pages .pagination-links a:focus {
-    background-color: rgb(76, 140, 189);
+    background: rgb(76, 140, 189);
 }
 .usp-pager {
-    background-color: #fff;
+    background: var(--uspWhite);
     border: 1px solid #e5e5e5;
     box-sizing: border-box;
     clear: both;
@@ -187,7 +187,7 @@ div.usp_preloader i.uspi::before {
     padding: 2px 10px;
 }
 .usp-pager .pager-item a {
-    background-color: #f5f5f5;
+    background: #f5f5f5;
     border: 1px solid #e5e5e5;
     color: rgb(76, 140, 189);
     display: inline-block;
@@ -196,9 +196,9 @@ div.usp_preloader i.uspi::before {
     text-decoration: none;
 }
 .usp-pager .pager-item a:hover {
-    background-color: #eee;
+    background: #eee;
     border: 1px solid #d5d5d5;
-    color: #000;
+    color: var(--uspBlack);
 }
 /* navigation End */
 
@@ -221,14 +221,14 @@ div.usp_preloader i.uspi::before {
     display: inline-block;
     font-size: 14px;
     line-height: 24px;
-    margin: 0 0 0 0.5em;
+    margin: 0 0 0 .5em;
 }
 .usp-custom-fields-navi li.current-item {
     border-bottom: 1px solid #f1f1f1;
     margin-bottom: -1px;
 }
 .usp-custom-fields-navi .usp-types-list li a {
-    background-color: #e5e5e5;
+    background: #e5e5e5;
     color: #333;
     display: inline-flex;
     height: 26px;
@@ -240,13 +240,13 @@ div.usp_preloader i.uspi::before {
     margin: 0 0 0 6px;
 }
 .usp-custom-fields-navi .usp-types-list li.current-item a {
-    background-color: #f1f1f1;
-    color: #000;
+    background: #f1f1f1;
+    color: var(--uspBlack);
     font-weight: bold;
 }
 .usp-custom-fields-navi .usp-types-list li:not(.current-item) a:hover {
-    background-color: #eee;
-    color: #000;
+    background: #eee;
+    color: var(--uspBlack);
 }
 .usp-custom-fields-navi + .usp-custom-fields-navi .usp-types-list {
     padding: 0 30px;
@@ -255,7 +255,7 @@ div.usp_preloader i.uspi::before {
     color: var(--uspGeen-700);
 }
 .usp-custom-fields-navi > p {
-    background-color: #eee;
+    background: #eee;
     border: 1px solid #ddd;
     display: inline-block;
     font-size: 14px;
@@ -270,7 +270,7 @@ div.usp_preloader i.uspi::before {
     font-family: dashicons;
     font-size: 30px;
     left: 5px;
-    opacity: 0.4;
+    opacity: .4;
     position: absolute;
     top: 4px;
 }
@@ -281,7 +281,7 @@ div.usp_preloader i.uspi::before {
 
 /* START custom fields box */
 .usp-custom-fields-box {
-    background-color: #f5f5f5;
+    background: #f5f5f5;
     border: 1px solid #d5d5d5;
     box-sizing: border-box;
     display: inline-block;
@@ -320,7 +320,7 @@ div.usp_preloader i.uspi::before {
     cursor: move;
 }
 .usp-custom-fields-box .field-header .field-type {
-    background-color: #f6f6f6;
+    background: #f6f6f6;
     border: 1px solid #e5e5e5;
     color: rgb(76, 140, 189);
     font-family: dashicons;
@@ -407,7 +407,7 @@ div.usp_preloader i.uspi::before {
     content: "\f140";
 }
 .usp-custom-fields-box .field-header .field-controls a:hover {
-    opacity: 0.7;
+    opacity: .7;
 }
 .usp-custom-fields-box .field-header .field-control {
     font-size: 25px;
@@ -418,14 +418,14 @@ div.usp_preloader i.uspi::before {
     text-decoration: none;
 }
 .usp-custom-fields-box .usp-custom-field .field-settings {
-    background-color: #fff;
+    background: var(--uspWhite);
     border: 1px solid #ddd;
     display: none;
     margin: 0 0 25px;
     padding: 5px;
 }
 .usp-custom-fields-box .field-settings .usp-cf-type-text {
-    background-color: rgba(224, 248, 201, .6);
+    background: rgba(224, 248, 201, .6);
     color: #555;
     float: right;
     margin: -5px -5px 0 0;
@@ -463,24 +463,24 @@ div.usp_preloader i.uspi::before {
     /*content: "\f534";*/
 }
 .usp-custom-fields-box .usp-custom-field i:hover {
-    opacity: 0.7;
+    opacity: .7;
 }
 .usp-custom-fields-box .usp-field-notice i {
     color: #ffae19;
     font-size: 14px;
-    opacity: 0.8;
+    opacity: .8;
 }
 .usp-custom-fields-box .usp-custom-field textarea {
     height: 50px;
 }
 .usp-custom-fields-box .usp-custom-field .dynamic-values {
-    background-color: #f5f5f5;
+    background: #f5f5f5;
     display: block;
     padding: 10px;
 }
 .usp-custom-fields-box .usp-custom-field .dynamic-values .dynamic-value,
 .usp-custom-fields-box .usp-custom-field .dynamic-values .ui-sortable-placeholder {
-    background-color: #ebebeb;
+    background: #ebebeb;
     border: 1px solid #dbdbdb;
     clear: both;
     display: block;
@@ -490,7 +490,7 @@ div.usp_preloader i.uspi::before {
     position: relative;
 }
 .usp-custom-fields-box .usp-custom-field .dynamic-values.ui-sortable .dynamic-value::before {
-    background-color: #f5f5f5;
+    background: #f5f5f5;
     color: rgb(76, 140, 189);
     content: "\f545";
     cursor: move;
@@ -527,7 +527,7 @@ div.usp_preloader i.uspi::before {
     width: 100%;
 }
 .usp-custom-fields-box .fields-submit .button-secondary {
-    background-color: #e6e6e6;
+    background: #e6e6e6;
     border: 1px solid #d4d4d4;
     border-radius: 0;
     box-shadow: none;
@@ -535,11 +535,11 @@ div.usp_preloader i.uspi::before {
     padding: 4px;
 }
 .usp-custom-fields-box .fields-submit .button-secondary:hover {
-    background-color: #eee;
+    background: #eee;
     border-color: #d4d4d4;
 }
 .usp-custom-fields-box .fields-submit .button-primary {
-    background-color: rgb(76, 140, 189);
+    background: rgb(76, 140, 189);
     border-radius: 0;
     border: 0;
     box-shadow: none;
@@ -549,29 +549,29 @@ div.usp_preloader i.uspi::before {
     text-shadow: none;
 }
 .usp-custom-fields-box .fields-submit .button-primary:hover {
-    background-color: rgb(76, 140, 189);
-    opacity: 0.9;
+    background: rgb(76, 140, 189);
+    opacity: .9;
 }
 .usp-inactive-fields-box {
-    opacity: 0.8;
+    opacity: .8;
     width: 350px;
 }
 .usp-inactive-fields-box .usp-custom-field {
-    opacity:0.7;
+    opacity: .7;
 }
 .usp-inactive-fields-box .usp-custom-field .field-control,
 .usp-inactive-fields-box .usp-custom-field .field-settings {
     display: none!important;
 }
 .usp-custom-fields-box .ui-sortable-placeholder {
-    background: #fff;
+    background: var(--uspWhite);
     border: 2px dashed #ccc;
     box-sizing: border-box;
     height: 45px;
     width: 100%;
 }
 .usp-custom-fields-box .usp-custom-field .dynamic-values .ui-sortable-placeholder {
-    background: #fff;
+    background: var(--uspWhite);
     height: 30px;
 }
 .options-custom-field .option-content .option-input .quicktags-toolbar .button-small {

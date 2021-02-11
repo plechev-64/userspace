@@ -206,15 +206,6 @@ i::before {
 [class*=" uspi fa-"]::before {
     padding: 0;
 }
-.uspi.usp-icon {
-    background-color: #b9c9d6;
-    box-sizing: content-box;
-    color: #fff;
-    margin-right: 5px;
-    padding: 5px;
-    text-align: center;
-    width: 15px;
-}
 :root span.required {
     font: bold 15px/1 Verdana,arial;
     padding: 0;
@@ -237,7 +228,7 @@ i::before {
   2. Notify & USP Notice
 ----------------------------*/
 .usp-office .notify-lk {
-    color: #000;
+    color: var(--uspBlack);
     font-size: 16px;
     font-weight: bold;
     line-height: 1.4;
@@ -254,7 +245,7 @@ i::before {
     z-index: 1501;
 }
 #usp-notice .notice-window {
-    animation-duration: 0.3s;
+    animation-duration: .3s;
     font-size: 14px;
     line-height: 1.2;
     margin: 5px 0;
@@ -326,7 +317,7 @@ body .usp_preloader {
     font-size: 20px;
 }
 .usp-smiles .smiles {
-    background: #fff;
+    background: var(--uspWhite);
     border-radius: 5px;
     box-shadow: 0 0 1px 1px #ccc;
     box-sizing: border-box;
@@ -401,7 +392,7 @@ span i.uspi.fa-circle {
     margin-left: 18px;
 }
 .usp-descr {
-    background: #fff;
+    background: var(--uspWhite);
     border: 1px solid var(--uspHex);
     min-width: 48px;
     padding: 6px 9px;
@@ -433,23 +424,23 @@ span i.uspi.fa-circle {
 /*new balloon*/
 .usp-balloon {
 	position: absolute;
-	background: rgb(255, 255, 255);
+	background: var(--uspWhite);
 	right: 0;
 	top: calc(100% + 1.5em);
 	z-index: 9;
 	padding: 3px 10px;
-	border: 1px solid rgb(0, 0, 0);
+	border: 1px solid var(--uspBlack);
 	display:flex;
 	opacity: 0;
 	transform: translate3d(0px, 0px, 0px);
-	transition: all 0.2s ease-in-out 0s;
+	transition: all .2s ease-in-out;
 	visibility: hidden;
 	border-radius: 3px;
 	text-align: left;
 }
 .usp-balloon::before,
 .usp-balloon::after{
-	border-width: 0px 10px 10px 10px;
+	border-width: 0 10px 10px 10px;
 	border-style: solid;
 	content: "";
 	height: 0;
@@ -459,12 +450,12 @@ span i.uspi.fa-circle {
 }
 
 .usp-balloon::before{
-	border-color: transparent transparent rgb(0, 0, 0) transparent;
+	border-color: transparent transparent var(--uspBlack) transparent;
 	top: -11px;
 }
 
 .usp-balloon::after{
-	border-color: transparent transparent rgb(255, 255, 255) transparent;
+	border-color: transparent transparent var(--uspWhite) transparent;
 	top: -10px;
 }
 .usp-balloon-hover{
@@ -482,15 +473,15 @@ span i.uspi.fa-circle {
 }
 .usp-balloon.position-top::before,
 .usp-balloon.position-top::after{
-	border-width: 10px 10px 0px 10px;
+	border-width: 10px 10px 0 10px;
 }
 .usp-balloon.position-top::before{
-	border-color: rgb(0, 0, 0) transparent transparent transparent;
+	border-color: var(--uspBlack) transparent transparent transparent;
 	bottom: -11px;
 	top:auto;
 }
 .usp-balloon.position-top::after{
-	border-color: rgb(255, 255, 255) transparent transparent transparent;
+	border-color: var(--uspWhite) transparent transparent transparent;
 	bottom: -10px;
 	top:auto;
 }
@@ -569,7 +560,7 @@ a.data-filter.filter-active:hover {
     border: 1px solid #ccc;
     box-shadow: none;
     box-sizing: border-box;
-    color: #000;
+    color: var(--uspBlack);
     display: inline-block;
     font-size: 14px;
     height: auto;
@@ -583,7 +574,7 @@ a.data-filter.filter-active:hover {
     padding: 4px 6px;
 }
 .usp-search-form form input[type="text"]:focus {
-    background-color: #fff;
+    background: var(--uspWhite);
     border-color: var(--uspBlue-500);
 }
 .usp-search-form form select {
@@ -633,7 +624,7 @@ body .usp-pager > span a.usp-bttn{
 }
 .usp-user-avatar .usp-avatar-zoom {
     background: var(--uspBlack-05);
-    color: #fff;
+    color: var(--uspWhite);
     font-size: 150px;
     height: 100%;
     opacity: .7;
@@ -701,36 +692,36 @@ body .usp-pager > span a.usp-bttn{
 }
 /* AAA accebillity color > 7 contrast*/
 .usp-notice__type-info {
-    background-color: #fff7da;
+    background: #fff7da;
     color: #56562a;
 }
-/* border is background-color down to 20 point in firefox */
+/* border is background down to 20 point in firefox */
 .usp-notice__type-info.usp-notice__border {
     border-color: #ebe3c6;
 }
 .usp-notice__type-success {
-    background-color: #e6f4cd;
+    background: #e6f4cd;
     color: #2e582e;
 }
 .usp-notice__type-success.usp-notice__border {
     border-color: #d2e0b9;
 }
 .usp-notice__type-warning {
-    background-color: #ffe0b1;
+    background: #ffe0b1;
     color: #594628;
 }
 .usp-notice__type-warning.usp-notice__border {
     border-color: #ebcc9d;
 }
 .usp-notice__type-error {
-    background-color: #f9dcdc;
+    background: #f9dcdc;
     color: #71363e;
 }
 .usp-notice__type-error.usp-notice__border {
     border-color: #e5c8c8;
 }
 .usp-notice__type-simple {
-    background-color: #eee;
+    background: #eee;
     color: #4e4e4e;
 }
 .usp-notice__type-simple.usp-notice__border {
@@ -955,7 +946,7 @@ body:not(.wp-admin) .usp-bttn.usp-bttn__type-primary:not(.usp-bttn__active) {
 .usp-bttn.usp-bttn__loading::after {
 	animation: usp-bttn-loader .8s linear;
 	animation-iteration-count: infinite;
-	border-color: #fff transparent transparent;
+	border-color: var(--uspWhite) transparent transparent;
 	transform: rotate(0deg);
 }
 @-webkit-keyframes usp-bttn-loader {
@@ -976,7 +967,7 @@ body:not(.wp-admin) .usp-bttn.usp-bttn__type-primary:not(.usp-bttn__active) {
 	pointer-events: none;
 }
 .usp-bttn.usp-bttn__type-simple.usp-bttn__disabled {
-	background-color: transparent;
+	background: transparent;
 	box-shadow: none;
 }
 .usp-bttn.usp-bttn__active {

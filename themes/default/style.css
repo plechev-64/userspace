@@ -50,7 +50,7 @@
     padding: 0 30px;
 }
 #usp-avatar {
-    border: 3px solid #fff;
+    border: 3px solid var(--uspWhite);
     box-sizing: border-box;
     height: 200px;
     width: 200px;
@@ -68,7 +68,7 @@
     width: 100%;
 }
 #usp-avatar .usp-ava-bttn {
-    background: #fff;
+    background: var(--uspWhite);
     color: #aa0400;
     font-size: 20px;
     opacity: .8;
@@ -116,10 +116,10 @@
     display: none;
 }
 .usp-user-name {
-    color: #fff;
+    color: var(--uspWhite);
     font-size: 34px;
     line-height: 1.1;
-    text-shadow: 1px 0 1px #000;
+    text-shadow: 1px 0 1px var(--uspBlack);
 }
 .usp-action {
     color: #ddd;
