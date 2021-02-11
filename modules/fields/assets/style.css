@@ -27,6 +27,12 @@
     flex-grow: 1;
     flex-basis: calc( var(--multiplier) * 999 );
     margin: 18px 0 0;
+    width: 450px;
+}
+@media screen and (max-width:480px) {
+    .usp-content > :not(#usp-group-footer) .usp-content-area {
+        width: auto;
+    }
 }
 .usp-content-area > * {
     margin: 0 18px;
