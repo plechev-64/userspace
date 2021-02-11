@@ -15,6 +15,7 @@ i::before {
     --uspBlack-07: rgba(0, 0, 0, .7);
     
     --uspWhite: #fff;
+    --uspWhite-05: rgba(255, 255, 255, .5);
     
     --uspGray-50: #fdfdfd;
     --uspGray-100: #f4f4f5;
@@ -293,7 +294,7 @@ body .preloader-parent {
     position: relative;
 }
 body .usp_preloader {
-    background: rgba(255, 255, 255, .6) !important;
+    background: var(--uspWhite-05) !important;
     display: block !important;
     height: 100% !important;
     left: 0 !important;

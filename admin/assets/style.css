@@ -40,7 +40,7 @@
     padding: 0 5px 0 4px;
 }
 .usp_preloader {
-    background-color: rgba(255, 255, 255, .5);
+    background-color: var(--uspWhite-05);
     display: block;
     height: 100%;
     left: 0;

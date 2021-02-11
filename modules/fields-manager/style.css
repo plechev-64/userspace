@@ -432,7 +432,7 @@
 	justify-content: center;
 	height: 100%;
 	align-items: center;
-	background: rgba(255, 255, 255, .5);
+	background: var(--uspWhite-05);
 }
 .usp-fields-manager .group-manager-button.add-area i{
 	color: green;
