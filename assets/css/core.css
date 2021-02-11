@@ -990,4 +990,7 @@ body:not(.wp-admin) .usp-bttn.usp-bttn__type-primary:not(.usp-bttn__active) {
     margin-right: 6px;
     width: 100px;
 }
+.usp-user-widget__right .usp-bttn {
+    margin: 0 0 6px;
+}
 /* End */
