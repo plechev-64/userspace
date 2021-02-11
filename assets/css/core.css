@@ -6,6 +6,14 @@ i::before {
 /* collect color palette */
 :root{
     --uspBlack: #000;
+    --uspBlack-01: rgba(0, 0, 0, .1);
+    --uspBlack-02: rgba(0, 0, 0, .2);
+    --uspBlack-03: rgba(0, 0, 0, .3);
+    --uspBlack-04: rgba(0, 0, 0, .4);
+    --uspBlack-05: rgba(0, 0, 0, .5);
+    --uspBlack-06: rgba(0, 0, 0, .6);
+    --uspBlack-07: rgba(0, 0, 0, .7);
+    
     --uspWhite: #fff;
     
     --uspGray-50: #fdfdfd;
@@ -212,7 +220,7 @@ i::before {
     color: var(--uspRed-500);
 }
 #usp-overlay {
-    background: rgba(0, 0, 0, .7);
+    background: var(--uspBlack-07);
     bottom: 0;
     display: none;
     left: 0;
@@ -623,7 +631,7 @@ body .usp-pager > span a.usp-bttn{
     padding: 0;
 }
 .usp-user-avatar .usp-avatar-zoom {
-    background: rgba(0, 0, 0, .5);
+    background: var(--uspBlack-05);
     color: #fff;
     font-size: 150px;
     height: 100%;
@@ -728,7 +736,7 @@ body .usp-pager > span a.usp-bttn{
     border-color: #dadada;
 }
 .usp-notice > .uspi {
-    color: rgba(0, 0, 0, .1);
+    color: var(--uspBlack-01);
     font-size: 52px;
     left: -9px;
     position: absolute;
@@ -874,7 +882,7 @@ body:not(.wp-admin) .usp-bttn.usp-bttn__type-primary:not(.usp-bttn__active) {
 /* masked icon */
 .usp-bttn.usp-bttn__ico-mask .uspi,
 .usp-bttn__ico-mask.usp-bttn__mod-text-rico-count .usp-bttn__count {
-    background-color: rgba(0, 0, 0, .1);
+    background: var(--uspBlack-01);
 }
 .usp-bttn__ico-mask.usp-bttn__mod-text-rico .usp-bttn__ico-right,
 .usp-bttn__ico-mask.usp-bttn__mod-text-rico-count .usp-bttn__count {
@@ -891,7 +899,7 @@ body:not(.wp-admin) .usp-bttn.usp-bttn__type-primary:not(.usp-bttn__active) {
 	padding: .45em .6em;
 }
 .usp-wrap__wiget .usp-bttn__type-clear:hover {
-	background-color: #e7edf0;
+	background: #e7edf0;
 	box-shadow: none;
 }
 .usp-wrap__wiget .usp-bttn__ava {
@@ -941,7 +949,7 @@ body:not(.wp-admin) .usp-bttn.usp-bttn__type-primary:not(.usp-bttn__active) {
 	width: 1.4em;
 }
 .usp-bttn.usp-bttn__loading::before {
-    border-color: rgba(0, 0, 0, .15);
+    border-color: var(--uspBlack-02);
 }
 .usp-bttn.usp-bttn__loading::after {
 	animation: usp-bttn-loader .8s linear;

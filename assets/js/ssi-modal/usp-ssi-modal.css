@@ -11,12 +11,12 @@ body.ssi-modalOpen {
     z-index: 1500;
     top: 0;
     left: 0;
-    background: rgba(0, 0, 0, .6);
+    background: var(--uspBlack-06);
     width: 100%;
     height: 100%;
 }
 .ssi-backdrop + .ssi-modalOuter + .ssi-backdrop {
-    background: rgba(0, 0, 0, .3);
+    background: var(--uspBlack-03);
 }
 .ssi-modalOuter {
     animation: .15s fadeIn .15s both;

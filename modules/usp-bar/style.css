@@ -15,7 +15,7 @@
     z-index: 99;
 }
 .usp-bar-dark {
-    background: rgba(0, 0, 0, .85);
+    background: var(--uspBlack-07);
 }
 .usp-bar-dark .uspi,
 #usp-bar.usp-bar-dark a {
@@ -73,7 +73,7 @@
 #usp-bar.usp-bar-color .rcb_line:hover,
 #usp-bar.usp-bar-color li:hover,
 #usp-bar.usp-bar-color .current-menu-item {
-    background: rgba(0, 0, 0, .3);
+    background: var(--uspBlack-03);
 }
 .usp-bar-dark .rcb_right_menu:hover .usp-bar-usershow,
 #usp-bar.usp-bar-dark .rcb_line:hover,
@@ -113,7 +113,7 @@
     top: 100%;
 }
 .usp-bar-dark .usp-sub-menu {
-    background: rgba(0, 0, 0, .7);
+    background: var(--uspBlack-07);
 }
 .rcb_menu .usp-sub-menu {
     width: 100%;

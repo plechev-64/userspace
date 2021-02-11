@@ -22,7 +22,7 @@
     max-width: 1280px;
 }
 #usp-cover-upload {
-    background: rgba(0, 0, 0, .3);
+    background: var(--uspBlack-03);
     color: #ddd;
     font-size: 24px;
     padding: 6px;

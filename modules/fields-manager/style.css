@@ -380,7 +380,7 @@
 	height: calc(100% - 50px);
 	width: 450px;
 	left: calc(50% - 1225px);
-	background: rgba(0, 0, 0, .5);
+	background: var(--uspBlack-05);
 	padding: 50px 1000px 0px 1000px;
 }
 .usp-fields-manager .manager-field.settings-edit .manager-field-settings{

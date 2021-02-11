@@ -254,7 +254,7 @@ input[type="checkbox"]:checked + .usp-label::before {
 }
 .usp-jogger-box {
     background: var(--uspWhite);
-    box-shadow: 0 1px 6px rgba(0, 0, 0, .2) inset, 0 0 1px 1px rgba(0, 0, 0, .2) inset;
+    box-shadow: 0 1px 6px var(--uspBlack-02) inset, 0 0 1px 1px var(--uspBlack-02) inset;
     height: 10px;
     max-width: 700px;
     width: 100%;
@@ -263,7 +263,7 @@ input[type="checkbox"]:checked + .usp-label::before {
 .usp-jogger .ui-slider-handle {
     background: linear-gradient(to bottom, var(--uspWhite), var(--uspGray-200));
     border-radius: 50%;
-    box-shadow: 0 0 5px rgba(0, 0, 0, .4), 0 8px 6px rgba(0, 0, 0, .1);
+    box-shadow: 0 0 5px var(--uspBlack-04), 0 8px 6px var(--uspBlack-01);
     cursor: ew-resize;
     height: 18px;
     position: absolute;
@@ -274,6 +274,6 @@ input[type="checkbox"]:checked + .usp-label::before {
     margin-left: -9px;
 }
 .usp-jogger .ui-slider-handle:focus {
-    box-shadow: 0 0 6px rgba(0, 0, 0, .6);
+    box-shadow: 0 0 6px var(--uspBlack-06);
     outline: none;
 }
