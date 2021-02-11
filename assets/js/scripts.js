@@ -114,8 +114,10 @@ function usp_load_tab( tab_id, subtab_id, e ) {
 
 			}
 
-			jQuery( box_id ).animateCss( 'fadeIn' );
-			
+                        if ( typeof animateCss !== 'undefined' ) {
+                            jQuery( box_id ).animateCss( 'fadeIn' );
+                        }
+                        
 			usp_do_action( 'usp_upload_tab', {
 				element: button,
 				result: data
