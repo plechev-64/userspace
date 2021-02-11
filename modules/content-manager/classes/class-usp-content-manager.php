@@ -151,7 +151,7 @@ class USP_Content_Manager {
     function get_no_result_notice() {
         return usp_get_notice( array(
             'type' => 'info',
-            'text' => __( 'Ничего не найдено', 'userspace' )
+            'text' => __( 'Nothing found', 'userspace' )
             ) );
     }
 
@@ -173,7 +173,7 @@ class USP_Content_Manager {
 
         if ( $this->request ) {
             $buttonsArgs[] = array(
-                'label'   => __( 'Сбросить фильтр', 'userspace' ),
+                'label'   => __( 'Reset filter', 'userspace' ),
                 'onclick' => $this->is_ajax ? 'usp_load_content_manager_state(' . $this->startstate . ', this);return false;' : null,
                 'icon'    => 'fa-refresh',
                 'href'    => $this->startpage
@@ -260,7 +260,7 @@ class USP_Content_Manager {
                     'values' => $this->get_actions()
                 )
             ),
-            'submit'  => __( 'Применить', 'userspace' ),
+            'submit'  => __( 'Apply', 'userspace' ),
             'onclick' => $this->callback_actions . ';return false;'
             ) );
 
@@ -287,7 +287,7 @@ class USP_Content_Manager {
 
         $form = new USP_Form( array(
             'fields'  => $fields,
-            'submit'  => __( 'Поиск', 'userspace' ),
+            'submit'  => __( 'Search', 'userspace' ),
             'onclick' => 'usp_content_manager_submit(this);return false;'
             )
         );
@@ -296,7 +296,7 @@ class USP_Content_Manager {
 
         if ( $this->dropdown_filter ) {
             $content .= usp_get_button( [
-                'label'     => __( 'Поиск', 'userspace' ),
+                'label'     => __( 'Search', 'userspace' ),
                 'fullwidth' => 1,
                 'size'      => 'medium',
                 'icon'      => 'fa-search',

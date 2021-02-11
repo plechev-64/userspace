@@ -29,11 +29,11 @@
 			var settings = options;
 		} else {
 			var settings = $.extend( {
-				placeholder: 'Выбрать',
+				placeholder: 'Select some options',
 				numDisplayed: 3,
-				overflowText: '{n} выбрано',
-				searchText: 'Поиск',
-				noResultsText: 'Ничего не найдено',
+				overflowText: '{n} selected',
+				searchText: 'Search',
+				noResultsText: 'No results found',
 				showSearch: true,
 				optionFormatter: false
 			},

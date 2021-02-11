@@ -22,7 +22,7 @@ function usp_resizable_scripts() {
 function usp_multiselect_scripts() {
     wp_enqueue_script( 'jquery' );
     usp_enqueue_style( 'f-select', USP_URL . 'assets/js/fselect/fSelect.css', false, USP_VERSION );
-    wp_enqueue_script( 'f-select', USP_URL . 'assets/js/fselect/fSelect.js', false, USP_VERSION );
+    wp_enqueue_script( 'f-select', USP_URL . 'assets/js/fselect/fSelect-min.js', false, USP_VERSION );
 }
 
 function usp_slider_scripts() {
