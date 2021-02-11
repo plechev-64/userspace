@@ -37,6 +37,11 @@ function usp_datepicker_scripts() {
     wp_enqueue_script( 'jquery' );
     wp_enqueue_script( 'jquery-ui-core' );
     wp_enqueue_script( 'jquery-ui-datepicker' );
+
+    // localize datepicker - exclude En
+    if ( get_locale() !== 'en_US' ) {
+        wp_localize_jquery_ui_datepicker();
+    }
 }
 
 function usp_image_slider_scripts() {
