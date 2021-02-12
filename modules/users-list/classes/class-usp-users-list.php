@@ -491,7 +491,7 @@ class USP_Users_List extends USP_Users_Query {
         return $users;
     }
 
-    function get_filters( $count_users = false ) {
+    function get_filters( $num_users = false ) {
         global $post, $user_LK;
 
         if ( ! $this->filters )
@@ -500,9 +500,9 @@ class USP_Users_List extends USP_Users_Query {
         $content = '';
 
         if ( $this->search_form )
-            $content = apply_filters( 'users_search_form_usp', $content );
+            $content = apply_filters( 'usp_users_search_form', $content );
 
-        $count_users = (false !== $count_users) ? $count_users : $this->count();
+        $count_users = (false !== $num_users) ? $num_users : $this->count();
 
         $content .= '<h3>' . __( 'Total number of users', 'userspace' ) . ': ' . $count_users . '</h3>';
 
@@ -552,11 +552,21 @@ class USP_Users_List extends USP_Users_Query {
     }
 
     function add_query_search( $query ) {
-        $search_text      = (isset( $_GET['search_text'] )) ? sanitize_user( $_GET['search_text'] ) : '';
-        $search_field     = (isset( $_GET['search_field'] )) ? $_GET['search_field'] : '';
+        $search_text  = (isset( $_GET['search_text'] )) ? sanitize_user( $_GET['search_text'] ) : '';
+        $search_field = (isset( $_GET['search_field'] )) ? sanitize_key( $_GET['search_field'] ) : '';
+
         if ( ! $search_text || ! $search_field )
             return $query;
-        $query['where'][] = "wp_users.$search_field LIKE '%$search_text%'";
+
+        if ( $search_field == 'usp_birthday' ) {
+            global $wpdb;
+
+            $query['join'][]  = "INNER JOIN $wpdb->usermeta AS wp_usermeta ON wp_users.ID=wp_usermeta.user_id";
+            $query['where'][] = "wp_usermeta.meta_key LIKE '$search_field' AND wp_usermeta.meta_value LIKE '%$search_text%'";
+        } else {
+            $query['where'][] = "wp_users.$search_field LIKE '%$search_text%'";
+        }
+
         return $query;
     }
 

@@ -81,9 +81,6 @@
 	line-height: 1;
 	margin-bottom: 5px;
 }
-.usp-form .submit-box {
-    padding: 6px;
-}
 
 @media screen and (max-width:375px) {
 	.usp-form tr th {

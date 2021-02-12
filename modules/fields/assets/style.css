@@ -1,6 +1,11 @@
+.usp-content-group:not(:last-child) {
+    margin-bottom: 30px;
+}
+.usp-content-group:not(#usp-group-footer):last-child {
+    margin-bottom: 18px;
+}
 .usp-content-group:not(#usp-group-footer) {
     border: 1px solid var(--uspGray-200);
-    margin: 30px 0;
     background: var(--uspGray-50);
     color: var(--uspGray-600);
     font-size: 16px;

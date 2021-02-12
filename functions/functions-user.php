@@ -127,7 +127,55 @@ add_action( 'usp_user_description', 'usp_filter_user_description', 10 );
 function usp_filter_user_description() {
     global $usp_user;
     $cont = '';
-    echo $cont = apply_filters( 'usp_description_user', $cont, $usp_user->ID );
+    echo apply_filters( 'usp_description_user', $cont, $usp_user->ID );
+}
+
+add_filter( 'usp_users_search_form', 'usp_default_search_form' );
+function usp_default_search_form( $content ) {
+    global $user_LK, $usp_tab;
+
+    $search_text  = ((isset( $_GET['search_text'] ))) ? $_GET['search_text'] : '';
+    $search_field = (isset( $_GET['search_field'] )) ? sanitize_key( $_GET['search_field'] ) : 'display_name';
+
+    $fields  = array(
+        array(
+            'type'    => 'text',
+            'slug'    => 'search_text',
+            'title'   => __( 'Search users', 'userspace' ),
+            'default' => $search_text,
+        ),
+        array(
+            'type'    => 'radio',
+            'slug'    => 'search_field',
+            'values'  => array(
+                'display_name' => __( 'by name', 'userspace' ),
+                'user_login'   => __( 'by login', 'userspace' ),
+                'usp_birthday' => __( 'by birthday', 'userspace' )
+            ),
+            'default' => $search_field,
+        ),
+        array(
+            'type'  => 'hidden',
+            'slug'  => 'default-search',
+            'value' => 1
+        )
+    );
+    $content .= usp_get_form( array(
+        'method' => 'get',
+        'submit' => __( 'Search', 'userspace' ),
+        'fields' => $fields
+        ) );
+
+
+//    if ( $user_LK && $usp_tab ) {
+//
+//        $get = usp_get_option( 'link_user_lk_usp', 'user' );
+//
+//        $content .= '<input type="hidden" name="' . $get . '" value="' . $user_LK . '">';
+//        $content .= '<input type="hidden" name="tab" value="' . $usp_tab->id . '">';
+//    }
+
+    return $content;
 }
 
 function usp_is_user_role( $user, $roles ) {
