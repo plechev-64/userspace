@@ -32,6 +32,7 @@ i::before {
     --uspBlue-500: #3b82f6;
     
     --uspRed-500: #ef4444;
+    --uspRed-900: #7f1d1d;
 }
 
 
@@ -187,7 +188,6 @@ i::before {
   5. User online/offline
   6. Ballun
   7. USP buttons states
-  8. TODO: data-filters buttons
   9. TODO: upload buttons
   10. Search filter
   11. USP pagenavi API
@@ -352,23 +352,18 @@ body .usp_preloader {
 --------------------------*/
 .usp-new-users p,
 .usp-online-users p {
-    margin: 5px 0;
+    margin: 6px 0;
     padding: 0;
 }
-span i.uspi.fa-circle {
-    font-size: 16px;
-    padding: 0;
-    vertical-align: inherit;
+.online.uspi {
+    animation: usp-pulse 2s linear infinite;
+    color: var(--uspGeen-500);
 }
-.online .uspi.fa-circle {
-    animation: pulsate 2s linear infinite;
-    color: #89e535;
-}
-.offline .uspi.fa-circle {
+.offline.uspi {
     color: var(--uspRed-500);
-    text-shadow: 0 0 1px #5a0d0c;
+    text-shadow: 0 0 1px var(--uspRed-900);
 }
-@keyframes pulsate {
+@keyframes usp-pulse {
     25% {transform: scale(.95);}
     50% {text-shadow: 0 0 3px #35e668;transform: scale(.75);}
     75% {transform: scale(.85);}
@@ -394,10 +389,11 @@ span i.uspi.fa-circle {
 .usp-descr {
     background: var(--uspWhite);
     border: 1px solid var(--uspHex);
+    line-height: 1.4;
     min-width: 48px;
-    padding: 6px 9px;
+    padding: 6px 12px;
     -webkit-hyphens: auto;
-    hyphens: auto;
+            hyphens: auto;
     word-wrap: break-word;
 }
 .usp-descr::before {
@@ -489,125 +485,17 @@ span i.uspi.fa-circle {
 
 
 
-
-
-/*--------------------------------
-  7. USP buttons states
-----------------------------------*/
-.usp-search-form input[type="submit"]:hover,
-.usp-upload-button input[type="file"]:hover {
-    cursor: pointer;
-}
-a.data-filter.filter-active,
-a.data-filter.filter-active:hover {
-    box-shadow: none;
-    color: rgb(30, 56, 75);
-    cursor: default;
-    opacity: 1;
-    background: rgba(var(--uspRgb), .4);
-}
-/*end*/
-
-
-
-
-/*---------------------------------
-  8. TODO: data-filters buttons
------------------------------------*/
-.usp-data-filters {
-    margin: 10px 0;
-}
-.usp-data-filters a:link {                      /*++Twenty15++*/
-    border: 0;
-    text-decoration: none;                      /*++Twenty14++*/
-}
-/*end*/
-
-
-/*----------------------------
-  9. TODO: upload buttons
-------------------------------*/
-.usp-upload-button {
-    position: relative;
-}
-.usp-upload-button input[type="file"] {
-    height: 100%;
-    left: 0;
-    margin: 0;
-    opacity: 0;
-    padding: 0;
-    position: absolute;
-    top: 0;
-    width: 100%;
-}
-/*end*/
-
-
-/*-------------------
-  10. Search filter
----------------------*/
-.usp-search-form {
-    clear: both;
-    margin-bottom: 10px;
-    text-align: right;
-}
-.usp-search-form-title {
-    padding: 0 0 3px;
-}
-.usp-search-form form input[type="text"],
-.usp-search-form form select {
-    border-radius: 0;
-    border: 1px solid #ccc;
-    box-shadow: none;
-    box-sizing: border-box;
-    color: var(--uspBlack);
-    display: inline-block;
-    font-size: 14px;
-    height: auto;
-    line-height: normal;
-    margin: 2px;
-    outline: none;
-    vertical-align: middle;
-    width: auto;
-}
-.usp-search-form form input[type="text"] {
-    padding: 4px 6px;
-}
-.usp-search-form form input[type="text"]:focus {
-    background: var(--uspWhite);
-    border-color: var(--uspBlue-500);
-}
-.usp-search-form form select {
-    padding: 3px;
-}
-.usp-search-form form input[type="submit"] {
-    border-radius: 0;
-    font-size: 14px;
-    font-weight: 400;
-    line-height: normal;
-    margin: 0;
-    padding: 5px 14px;
-    vertical-align: middle;
-}
-/*end*/
-
-
 /*-----------------------
   11. USP pagenavi API
 -------------------------*/
 .usp-pager {
-    box-shadow: 0 0 1px 1px rgba(219, 219, 219, .8);
-    box-sizing: border-box;
-    clear: both;
-    padding: 6px 5px;
-	margin: 10px 0;
-	line-height: 1;
+    padding: 6px 3px;
+    margin: 12px 0;
+    line-height: 1;
+    border: 1px solid var(--uspGray-200);
 }
-.usp-pager > span{
-	margin: 0 2px;
-}
-body .usp-pager > span a.usp-bttn{
-	margin: 0!important;
+.usp-pager > span {
+    margin: 0 3px;
 }
 /*end*/
 

@@ -25,10 +25,10 @@ function usp_get_quote_box( $user_id, $attr = false ) {
 
     $side = isset( $attr['side'] ) ? 'usp-descr-' . $attr['side'] : 'usp-descr-left';
 
-    $class = isset( $attr['class'] ) ? ' ' . $attr['class'] : '';
+    $class = isset( $attr['class'] ) ? $attr['class'] . ' ' : '';
 
-    return '<div class="usp-descr-wrap usps ' . $side . $class . '">'
-        . '<div class="usp-descr usps__relative usps__line-normal usps__radius-3">' . $descr . '</div>'
+    return '<div class="' . $class . 'usp-descr-wrap usps ' . $side . '">'
+        . '<div class="usp-descr usps__relative usps__radius-3">' . $descr . '</div>'
         . '</div>';
 }
 
@@ -287,31 +287,6 @@ function usp_is_gutenberg() {
     }
 
     return true;
-}
-
-function usp_get_author_block() {
-    global $post;
-
-    $content = '<div id="usp_block_author">';
-    $content .= "<h3>" . __( 'Publication author', 'userspace' ) . "</h3>";
-
-    if ( function_exists( 'usp_add_userlist_follow_button' ) )
-        add_action( 'usp_user_description', 'usp_add_userlist_follow_button', 90 );
-
-    $content .= usp_get_userlist( array(
-        'template' => 'rows',
-        'orderby'  => 'display_name',
-        'include'  => $post->post_author,
-        'filter'   => 0,
-        'data'     => 'rating_total,description,posts_count,user_registered,comments_count'
-        ) );
-
-    if ( function_exists( 'usp_add_userlist_follow_button' ) )
-        remove_action( 'usp_user_description', 'usp_add_userlist_follow_button', 90 );
-
-    $content .= "</div>";
-
-    return $content;
 }
 
 // set root inline css colors

@@ -504,7 +504,7 @@ class USP_Users_List extends USP_Users_Query {
 
         $count_users = (false !== $num_users) ? $num_users : $this->count();
 
-        $content .= '<h3>' . __( 'Total number of users', 'userspace' ) . ': ' . $count_users . '</h3>';
+        $content .= '<div class="usp-users__title">' . __( 'Total number of users', 'userspace' ) . ': ' . $count_users . '</div>';
 
         if ( isset( $this->add_uri['users-filter'] ) )
             unset( $this->add_uri['users-filter'] );
@@ -535,13 +535,12 @@ class USP_Users_List extends USP_Users_Query {
 
         $filters = apply_filters( 'usp_users_filter', $filters );
 
-        $content .= '<div class="usp-data-filters">' . __( 'Filter by', 'userspace' ) . ': ';
+        $content .= '<div class="usp-users__filter"><span>' . __( 'Filter by', 'userspace' ) . ':</span>';
 
         foreach ( $filters as $key => $name ) {
             $content .= usp_get_button( array(
                 'label'  => $name,
                 'href'   => $perm . 'users-filter=' . $key,
-                'class'  => 'data-filter',
                 'status' => $current_filter == $key ? 'disabled' : null
                 ) );
         }

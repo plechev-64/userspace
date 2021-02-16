@@ -131,7 +131,6 @@ add_shortcode( 'userlist', 'usp_get_userlist' );
 function usp_get_userlist( $atts = [] ) {
     global $usp_user, $usp_users_set, $user_ID;
 
-    //require_once USP_PATH . 'classes/class-usp-users-list.php';
     USP()->use_module( 'users-list' );
 
     $users = new USP_Users_List( $atts );
@@ -142,9 +141,11 @@ function usp_get_userlist( $atts = [] ) {
 
         $count_users = $users->get_count();
 
-        $id_pager = ($users->id) ? 'usp-users-' . $users->id : 'usp-users';
-
-        $pagenavi = new USP_PageNavi( $id_pager, $count_users, array( 'in_page' => $users->query['number'] ) );
+        $pagenavi = new USP_Pager( array(
+            'total'  => $count_users,
+            'number' => $users->query['number'],
+            'class'  => 'usp-users__nav',
+            ) );
 
         $users->query['offset'] = $pagenavi->offset;
     }
@@ -173,33 +174,30 @@ function usp_get_userlist( $atts = [] ) {
 
     $userlist = $users->get_filters( $count_users );
 
-    $userlist .= '<div class="usp-userlist">';
-
     if ( ! $usersdata ) {
         $userlist .= usp_get_notice( [ 'text' => __( 'Users not found', 'userspace' ) ] );
     } else {
 
-        if ( ! isset( $atts['number'] ) && $pagenavi->in_page ) {
-            $userlist .= $pagenavi->pagenavi();
+        if ( ! isset( $atts['number'] ) && $pagenavi->number ) {
+            $userlist .= $pagenavi->get_navi();
         }
 
-        $userlist .= '<div class="userlist ' . $users->template . '-list">';
+        $userlist .= '<div class="usp-users__list usps usp-users__' . $users->template . '">';
 
         $usp_users_set = $users;
 
         foreach ( $usersdata as $usp_user ) {
             $users->setup_userdata( $usp_user );
+
             $userlist .= usp_get_include_template( 'user-' . $users->template . '.php' );
         }
 
         $userlist .= '</div>';
 
-        if ( ! isset( $atts['number'] ) && $pagenavi->in_page ) {
-            $userlist .= $pagenavi->pagenavi();
+        if ( ! isset( $atts['number'] ) && $pagenavi->number ) {
+            $userlist .= $pagenavi->get_navi();
         }
     }
-
-    $userlist .= '</div>';
 
     $users->remove_filters();
 
@@ -207,7 +205,7 @@ function usp_get_userlist( $atts = [] ) {
         $usp_cache->update_cache( $userlist );
     }
 
-    return $userlist;
+    return '<div class="usp-users">' . $userlist . '</div>';
 }
 
 add_shortcode( 'usp-cache', 'usp_cache_shortcode' );

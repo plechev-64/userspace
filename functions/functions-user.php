@@ -32,102 +32,92 @@ function usp_user_url() {
     echo usp_get_user_url( $usp_user->ID );
 }
 
-function usp_user_avatar( $size = 50 ) {
+function usp_user_avatar( $size = 50, $attr = false ) {
     global $usp_user;
-    echo get_avatar( $usp_user->ID, $size );
+
+    $attr['class'] = 'usps__img-reset';
+
+    echo get_avatar( $usp_user->ID, $size, false, false, $attr );
 }
 
 function usp_user_rayting() {
-    global $usp_user, $usp_users_set;
     if ( ! in_array( 'userspace-rating-system/userspace-rating-system.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) )
-        return false;
+        return;
+
+    global $usp_user, $usp_users_set;
+
     if ( false !== array_search( 'rating_total', $usp_users_set->data ) || isset( $usp_user->rating_total ) ) {
         if ( ! isset( $usp_user->rating_total ) )
             $usp_user->rating_total = 0;
+
         echo uspr_rating_block( array( 'value' => $usp_user->rating_total ) );
     }
 }
 
-add_action( 'usp_user_description', 'usp_user_meta', 30 );
-function usp_user_meta() {
+function usp_user_custom_fields() {
     global $usp_user, $usp_users_set;
+
     if ( false !== array_search( 'profile_fields', $usp_users_set->data ) || isset( $usp_user->profile_fields ) ) {
         if ( ! isset( $usp_user->profile_fields ) )
-            $usp_user->profile_fields = array();
+            return;
 
-        if ( $usp_user->profile_fields ) {
-
-            echo '<div class="user-profile-fields">';
-            foreach ( $usp_user->profile_fields as $field_id => $field ) {
-                echo USP_Field::setup( $field )->get_field_value( 'title' );
-            }
-            echo '</div>';
+        foreach ( $usp_user->profile_fields as $field_id => $field ) {
+            echo USP_Field::setup( $field )->get_field_value( 'title' );
         }
     }
 }
 
-add_action( 'usp_user_description', 'usp_user_comments', 20 );
+add_action( 'usp_user_stats', 'usp_user_comments', 20 );
 function usp_user_comments() {
     global $usp_user, $usp_users_set;
+
     if ( false !== array_search( 'comments_count', $usp_users_set->data ) || isset( $usp_user->comments_count ) ) {
         if ( ! isset( $usp_user->comments_count ) )
             $usp_user->comments_count = 0;
-        echo '<span class="filter-data"><i class="uspi fa-comment"></i>' . __( 'Comments', 'userspace' ) . ': ' . $usp_user->comments_count . '</span>';
+
+        echo '<span class="usp-metadata usp-metadata__comm usps usps__ai-center usps__line-normal">'
+        . '<i class="uspi fa-comment"></i>'
+        . '<span>' . __( 'Comments', 'userspace' ) . ': ' . $usp_user->comments_count . '</span>'
+        . '</span>';
     }
 }
 
-add_action( 'usp_user_description', 'usp_user_posts', 20 );
+add_action( 'usp_user_stats', 'usp_user_posts', 20 );
 function usp_user_posts() {
     global $usp_user, $usp_users_set;
+
     if ( false !== array_search( 'posts_count', $usp_users_set->data ) || isset( $usp_user->posts_count ) ) {
         if ( ! isset( $usp_user->posts_count ) )
             $usp_user->posts_count = 0;
-        echo '<span class="filter-data"><i class="uspi fa-file"></i>' . __( 'Publics', 'userspace' ) . ': ' . $usp_user->posts_count . '</span>';
+
+        echo '<span class="usp-metadata usp-metadata__post usps usps__ai-center usps__line-normal">'
+        . '<i class="uspi fa-file"></i>'
+        . '<span>' . __( 'Publics', 'userspace' ) . ': ' . $usp_user->posts_count . '</span>'
+        . '</span>';
     }
 }
 
-function usp_user_action( $type = 1 ) {
-    global $usp_user;
+add_action( 'usp_user_stats', 'usp_user_register', 20 );
+function usp_user_register() {
+    global $usp_user, $usp_users_set;
 
-    $action = (isset( $usp_user->time_action )) ? $usp_user->time_action : $usp_user->user_registered;
+    if ( false !== array_search( 'user_registered', $usp_users_set->data ) || isset( $usp_user->user_registered ) ) {
+        if ( ! isset( $usp_user->user_registered ) )
+            return;
 
-    switch ( $type ) {
-        case 1: $last_action = usp_get_useraction( $action );
-            if ( ! $last_action )
-                echo '<span class="status_user online"><i class="uspi fa-circle"></i></span>';
-            else
-                echo '<span class="status_user offline" title="' . __( 'offline', 'userspace' ) . ' ' . $last_action . '"><i class="uspi fa-circle"></i></span>';
-            break;
-        case 2: echo usp_get_miniaction( $action );
-            break;
+        echo '<span class="usp-metadata usp-metadata__reg usps usps__ai-center usps__line-normal">'
+        . '<i class="uspi fa-calendar-check"></i>'
+        . '<span>' . __( 'Registration', 'userspace' ) . ': ' . mysql2date( 'd-m-Y', $usp_user->user_registered ) . '</span>'
+        . '</span>';
     }
 }
 
-function usp_user_description() {
+function usp_get_user_description() {
     global $usp_user;
 
     if ( isset( $usp_user->description ) && $usp_user->description ) {
-        echo usp_get_quote_box( $usp_user->ID, [ 'text' => $usp_user->description ] );
+        return usp_get_quote_box( $usp_user->ID, [ 'text' => $usp_user->description, 'class' => 'usp-user__description' ] );
     }
-
-    do_action( 'usp_user_description' );
-}
-
-add_action( 'usp_user_description', 'usp_user_register', 20 );
-function usp_user_register() {
-    global $usp_user, $usp_users_set;
-    if ( false !== array_search( 'user_registered', $usp_users_set->data ) || isset( $usp_user->user_registered ) ) {
-        if ( ! isset( $usp_user->user_registered ) )
-            return false;
-        echo '<span class="filter-data"><i class="uspi fa-calendar-check"></i>' . __( 'Registration', 'userspace' ) . ': ' . mysql2date( 'd-m-Y', $usp_user->user_registered ) . '</span>';
-    }
-}
-
-add_action( 'usp_user_description', 'usp_filter_user_description', 10 );
-function usp_filter_user_description() {
-    global $usp_user;
-    $cont = '';
-    echo apply_filters( 'usp_description_user', $cont, $usp_user->ID );
 }
 
 add_filter( 'usp_users_search_form', 'usp_default_search_form' );
@@ -160,11 +150,12 @@ function usp_default_search_form( $content ) {
             'value' => 1
         )
     );
-    $content .= usp_get_form( array(
+    $content .= usp_get_form( [
+        'class'  => 'usp-users__search',
         'method' => 'get',
         'submit' => __( 'Search', 'userspace' ),
         'fields' => $fields
-        ) );
+        ] );
 
 
 //    if ( $user_LK && $usp_tab ) {
@@ -192,50 +183,6 @@ function usp_is_user_role( $user, $roles ) {
             return true;
 
     return false;
-}
-
-function usp_get_useraction( $user_action = false ) {
-    global $usp_userlk_action;
-
-    if ( ! $user_action )
-        $user_action = $usp_userlk_action;
-
-    $unix_time_user = strtotime( $user_action );
-
-    if ( ! $unix_time_user || $user_action == '0000-00-00 00:00:00' )
-        return __( 'long ago', 'userspace' );
-
-    $timeout          = ($time             = usp_get_option( 'timeout' )) ? $time * 60 : 600;
-    $unix_time_action = strtotime( current_time( 'mysql' ) );
-
-    if ( $unix_time_action > $unix_time_user + $timeout ) {
-        return human_time_diff( $unix_time_user, $unix_time_action );
-    } else {
-        return false;
-    }
-}
-
-function usp_get_useraction_html( $user_id, $type = 1 ) {
-
-    $action = usp_get_time_user_action( $user_id );
-
-    switch ( $type ) {
-        case 1:
-
-            $last_action = usp_get_useraction( $action );
-
-            if ( ! $last_action )
-                return '<span class="status_user online"><i class="uspi fa-circle"></i></span>';
-            else
-                return '<span class="status_user offline" title="' . __( 'offline', 'userspace' ) . ' ' . $last_action . '"><i class="uspi fa-circle"></i></span>';
-
-            break;
-        case 2:
-
-            return usp_get_miniaction( $action );
-
-            break;
-    }
 }
 
 function usp_human_time_diff( $time_action ) {
@@ -279,6 +226,67 @@ function usp_update_timeaction_user() {
     do_action( 'usp_update_timeaction_user' );
 }
 
+function usp_user_action( $type = 1 ) {
+    global $usp_user;
+
+    $action = (isset( $usp_user->time_action )) ? $usp_user->time_action : $usp_user->user_registered;
+
+    switch ( $type ) {
+        case 1: $last_action = usp_get_useraction( $action );
+            if ( ! $last_action )
+                echo '<i class="uspi fa-circle status_user online"></i>';
+            else
+                echo '<i class="uspi fa-circle status_user offline" title="' . __( 'offline', 'userspace' ) . ' ' . $last_action . '"></i>';
+            break;
+        case 2: echo usp_get_miniaction( $action );
+            break;
+    }
+}
+
+function usp_get_useraction( $user_action = false ) {
+    global $usp_userlk_action;
+
+    if ( ! $user_action )
+        $user_action = $usp_userlk_action;
+
+    $unix_time_user = strtotime( $user_action );
+
+    if ( ! $unix_time_user || $user_action == '0000-00-00 00:00:00' )
+        return __( 'long ago', 'userspace' );
+
+    $timeout          = ($time             = usp_get_option( 'timeout' )) ? $time * 60 : 600;
+    $unix_time_action = strtotime( current_time( 'mysql' ) );
+
+    if ( $unix_time_action > $unix_time_user + $timeout ) {
+        return human_time_diff( $unix_time_user, $unix_time_action );
+    } else {
+        return false;
+    }
+}
+
+function usp_get_useraction_html( $user_id, $type = 1 ) {
+
+    $action = usp_get_time_user_action( $user_id );
+
+    switch ( $type ) {
+        case 1:
+
+            $last_action = usp_get_useraction( $action );
+
+            if ( ! $last_action )
+                return '<i class="uspi fa-circle status_user online"></i>';
+            else
+                return '<i class="uspi fa-circle status_user offline" title="' . __( 'offline', 'userspace' ) . ' ' . $last_action . '"></i>';
+
+            break;
+        case 2:
+
+            return usp_get_miniaction( $action );
+
+            break;
+    }
+}
+
 function usp_get_time_user_action( $user_id ) {
 
     $cachekey = json_encode( array( 'usp_get_time_user_action', ( int ) $user_id ) );
@@ -309,9 +317,7 @@ function usp_get_miniaction( $action ) {
 
     $content = apply_filters( 'usp_before_miniaction', '' );
 
-    $content .= ( ! $last_action && $action) ? '<i class="uspi fa-circle"></i>' : __( 'offline', 'userspace' ) . ' ' . $last_action;
-
-    $content = sprintf( '<div class="status_author_mess %s">%s</div>', $class, $content );
+    $content .= ( ! $last_action && $action) ? '<i class="uspi fa-circle status_user ' . $class . '"></i>' : '<span class="status_user offline">' . __( 'offline', 'userspace' ) . ' ' . $last_action . '</span>';
 
     return $content;
 }

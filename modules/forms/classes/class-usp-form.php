@@ -34,7 +34,7 @@ class USP_Form extends USP_Fields {
 
     function get_form( $args = false ) {
 
-        $content = '<div class="usp-form preloader-parent' . ($this->class ? ' ' . $this->class : '') . '">';
+        $content = '<div class="' . ($this->class ? $this->class . ' ' : '') . 'usp-form preloader-parent">';
 
         $content .= '<form method="' . $this->method . '" action="' . $this->action . '" target="' . $this->target . '">';
 
