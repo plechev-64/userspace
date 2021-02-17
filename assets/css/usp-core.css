@@ -284,7 +284,7 @@ i::before {
 body .preloader-parent {
     position: relative;
 }
-body .usp_preloader {
+.usp_preloader {
     background: var(--uspWhite-05) !important;
     display: block !important;
     height: 100% !important;
@@ -362,11 +362,6 @@ body .usp_preloader {
 .offline.uspi {
     color: var(--uspRed-500);
     text-shadow: 0 0 1px var(--uspRed-900);
-}
-@keyframes usp-pulse {
-    25% {transform: scale(.95);}
-    50% {text-shadow: 0 0 3px #35e668;transform: scale(.75);}
-    75% {transform: scale(.85);}
 }
 /*end*/
 
@@ -816,36 +811,25 @@ body:not(.wp-admin) .usp-bttn.usp-bttn__type-primary:not(.usp-bttn__active) {
 }
 .usp-bttn.usp-bttn__loading::before,
 .usp-bttn.usp-bttn__loading::after {
-	border-radius: 50%;
-	border-style: solid;
-	border-width: .2em;
-	box-sizing: border-box;
-	content: "";
-	height: 1.4em;
-	left: 50%;
-	margin: -.7em;
-	position: absolute;
-	top: 50%;
-	width: 1.4em;
+    border-radius: 50%;
+    border-style: solid;
+    border-width: .2em;
+    box-sizing: border-box;
+    content: "";
+    height: 1.4em;
+    left: 50%;
+    margin: -.7em;
+    position: absolute;
+    top: 50%;
+    width: 1.4em;
 }
 .usp-bttn.usp-bttn__loading::before {
     border-color: var(--uspBlack-02);
 }
 .usp-bttn.usp-bttn__loading::after {
-	animation: usp-bttn-loader .8s linear;
-	animation-iteration-count: infinite;
-	border-color: var(--uspWhite) transparent transparent;
-	transform: rotate(0deg);
-}
-@-webkit-keyframes usp-bttn-loader {
-	to {-webkit-transform:rotate(360deg);
-		transform:rotate(360deg);
-	}
-}
-@keyframes usp-bttn-loader {
-	to {-webkit-transform:rotate(360deg);
-		transform:rotate(360deg);
-	}
+    animation: fa-spin .8s linear infinite;
+    border-color: var(--uspWhite) transparent transparent;
+    transform: rotate(0deg);
 }
 /* */
 

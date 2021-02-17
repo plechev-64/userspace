@@ -83,7 +83,7 @@ function usp_rangyinputs_scripts() {
 }
 
 function usp_animate_css() {
-    usp_enqueue_style( 'animate-css', USP_URL . 'assets/css/animate-css/animate.min.css' );
+    usp_enqueue_style( 'animate-css', USP_URL . 'assets/css/usp-animate.css' );
 }
 
 add_action( 'login_enqueue_scripts', 'usp_enqueue_wp_form_scripts', 1 );
@@ -104,8 +104,8 @@ function usp_frontend_scripts() {
     usp_font_awesome_style();
     usp_animate_css();
 
-    usp_enqueue_style( 'usp-core', USP_URL . 'assets/css/core.css' );
-    usp_enqueue_style( 'usp-users-list', USP_URL . 'assets/css/users.css' );
+    usp_enqueue_style( 'usp-core', USP_URL . 'assets/css/usp-core.css' );
+    usp_enqueue_style( 'usp-users-list', USP_URL . 'assets/css/usp-users.css' );
 
     wp_enqueue_script( 'jquery' );
 
@@ -171,8 +171,8 @@ function usp_get_localize_data() {
 }
 
 function usp_admin_scripts() {
-    usp_enqueue_style( 'usp-core', USP_URL . 'assets/css/core.css' );
-    wp_enqueue_style( 'animate-css', USP_URL . 'assets/css/animate-css/animate.min.css', false, USP_VERSION );
+    usp_enqueue_style( 'usp-core', USP_URL . 'assets/css/usp-core.css' );
+    wp_enqueue_style( 'animate-css', USP_URL . 'assets/css/usp-animate.css', false, USP_VERSION );
     wp_enqueue_style( 'usp-admin-style', USP_URL . 'admin/assets/style.css', false, USP_VERSION );
     wp_enqueue_style( 'wp-color-picker' );
     wp_enqueue_script( 'jquery' );

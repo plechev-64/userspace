@@ -5,7 +5,7 @@ require_once 'authorization.php';
 
 if ( $GLOBALS['pagenow'] === 'wp-login.php' ) {
     wp_enqueue_style( 'usp-wploginform', USP_URL . 'modules/loginform/assets/wp-login-style.css' );
-    wp_enqueue_style( 'usp-core', USP_URL . 'assets/css/core.css' );
+    wp_enqueue_style( 'usp-core', USP_URL . 'assets/css/usp-core.css' );
 
     require_once 'wp-register-form.php';
 }

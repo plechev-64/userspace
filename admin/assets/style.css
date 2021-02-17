@@ -50,8 +50,7 @@
     z-index: 99;
 }
 .usp_preloader i {
-    -webkit-animation: adm_rotation 2s infinite linear;
-	animation: adm_rotation 2s infinite linear;
+    animation: fa-spin 2s infinite linear;
     color: rgb(76, 140, 189);
     left: 50%;
     line-height: 1;
@@ -67,26 +66,6 @@ div.usp_preloader i.uspi::before {
     border: 0;
     border-radius: 0;
     padding: 0;
-}
-@-webkit-keyframes adm_rotation {
-	0% {
-		-webkit-transform: rotate(0deg);
-		transform: rotate(0deg);
-	}
-	100% {
-		-webkit-transform: rotate(359deg);
-		transform: rotate(359deg);
-	}
-}
-@keyframes adm_rotation {
-	0% {
-		-webkit-transform: rotate(0deg);
-		transform: rotate(0deg);
-	}
-	100% {
-		-webkit-transform: rotate(359deg);
-		transform: rotate(359deg);
-	}
 }
 
 .shift-extend-options > label {

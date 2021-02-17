@@ -4,19 +4,9 @@
 }
 /* jssor slider loading skin spin css */
 .jssorl-009-spin img {
-    animation-duration: 1.6s;
-    animation-iteration-count: infinite;
-    animation-name: jssorl-009-spin;
-    animation-timing-function: linear;
+    animation: fa-spin 1.6s linear infinite;
 }
-@keyframes jssorl-009-spin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
-}
+
 
 /* jssor slider thumbnail navigator skin 07 css
 region Thumbnail Navigator Skin Begin

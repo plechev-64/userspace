@@ -1,0 +1,33 @@
+/* v1.0 */
+.fadeIn{animation-name:fadeIn}
+@keyframes fadeIn{0%{opacity:0}to{opacity:1}}
+.shake{animation-name:shake}
+@keyframes shake{0%,to{transform:translateZ(0)}10%,30%,50%,70%,90%{transform:translate3d(-10px,0,0)}20%,40%,60%,80%{transform:translate3d(10px,0,0)}}
+.zoomIn{animation-name:zoomIn}
+@keyframes zoomIn{0%{opacity:0;transform:scale3d(.3,.3,.3)}50%{opacity:1}}
+.slideInUp{animation-name:slideInUp}
+@keyframes slideInUp{0%{transform:translate3d(0,100%,0);visibility:visible}to{transform:translateZ(0)}}
+.slideInLeft{animation-name:slideInLeft}
+@keyframes slideInLeft{0%{transform:translate3d(-100%,0,0);visibility:visible}to{transform:translateZ(0)}}
+.flipInX{-webkit-backface-visibility:visible!important;backface-visibility:visible!important;animation-name:flipInX}
+@keyframes flipInX{0%{transform:perspective(400px) rotateX(90deg);animation-timing-function:ease-in;opacity:0}40%{transform:perspective(400px) rotateX(-20deg);animation-timing-function:ease-in}60%{transform:perspective(400px) rotateX(10deg);opacity:1}80%{transform:perspective(400px) rotateX(-5deg)}to{transform:perspective(400px)}}
+.flipOutX{animation-name:flipOutX;-webkit-backface-visibility:visible!important;backface-visibility:visible!important}
+@keyframes flipOutX{0%{transform:perspective(400px)}30%{transform:perspective(400px) rotateX(-20deg);opacity:1}to{transform:perspective(400px) rotateX(90deg);opacity:0}}
+.tada{animation-name:tada}
+@keyframes tada{0%{transform:scaleX(1)}10%,20%{transform:scale3d(.9,.9,.9) rotate(-3deg)}30%,50%,70%,90%{transform:scale3d(1.1,1.1,1.1) rotate(3deg)}40%,60%,80%{transform:scale3d(1.1,1.1,1.1) rotate(-3deg)}to{transform:scaleX(1)}}
+.fadeOutLeft{animation-name:fadeOutLeft}
+@keyframes fadeOutLeft{0%{opacity:1}to{opacity:0;transform:translate3d(-100%,0,0)}}
+.fadeOutRight{animation-name:fadeOutRight}
+@keyframes fadeOutRight{0%{opacity:1}to{opacity:0;transform:translate3d(100%,0,0)}}
+
+
+@keyframes fa-spin {
+    0%{transform:rotate(0deg)}
+    to{transform:rotate(359deg)}
+}
+
+@keyframes usp-pulse {
+    25%{transform:scale(.95)}
+    50%{text-shadow:0 0 3px #35e668;transform: scale(.75)}
+    75%{transform:scale(.85)}
+}
