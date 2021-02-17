@@ -229,7 +229,7 @@ function usp_update_timeaction_user() {
 function usp_user_action( $type = 1 ) {
     global $usp_user;
 
-    $action = (isset( $usp_user->time_action )) ? $usp_user->time_action : $usp_user->user_registered;
+    $action = (isset( $usp_user->date_action )) ? $usp_user->date_action : $usp_user->user_registered;
 
     switch ( $type ) {
         case 1: $last_action = usp_get_useraction( $action );

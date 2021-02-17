@@ -8,7 +8,7 @@ class USP_Pager {
     public $number    = 30;             //кол-во элементов на странице
     public $total     = 0;              //общее кол-во элементов
     public $id;                         //идентификатор навигации
-    public $class;                         //класс навигации
+    public $class;                      //класс навигации
     public $offset    = 0;              //отступ выборки элементов
     public $key       = 'pagenum';
     public $onclick   = false;
@@ -17,7 +17,6 @@ class USP_Pager {
     );
 
     function __construct( $args ) {
-        $this->class = $class;
 
         $this->init_properties( $args );
 

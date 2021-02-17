@@ -123,7 +123,9 @@ class USP_Users_List extends USP_Users_Query {
 
     function setup_userdata( $userdata ) {
         global $usp_user;
+
         $usp_user = ( object ) $userdata;
+
         return $usp_user;
     }
 
@@ -300,7 +302,7 @@ class USP_Users_List extends USP_Users_Query {
             $posts = $wpdb->get_results( $query );
 
             if ( $posts )
-                $users = $this->merge_objects( $users, $posts, 'time_action' );
+                $users = $this->merge_objects( $users, $posts, 'date_action' );
         }
 
         return $users;

@@ -494,12 +494,12 @@ class USP_Query {
     function get_data( $method = 'get_results', $use_cache = false, $return_as = false ) {
         global $wpdb;
 
-        if ( $this->return_as )
+        if ( isset( $this->return_as ) )
             $return_as = $this->return_as;
 
         $query = $this->get_query();
 
-        if ( $use_cache || $this->cache ) {
+        if ( $use_cache || isset( $this->cache ) ) {
             $cachekey = md5( json_encode( $query ) );
             $cache    = wp_cache_get( $cachekey );
             if ( $cache !== false )

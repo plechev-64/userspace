@@ -16,6 +16,9 @@
     line-height: 1.4;
     transition: box-shadow .2s linear;
 }
+.usp-user__ava:hover {
+    filter: contrast(110%) saturate(85%);
+}
 .usp-user__ava .usps__img-reset,
 .usp-users__list .usp-user a {
     box-shadow: none !important;
@@ -127,7 +130,7 @@
     font-size: 20px;
     text-transform: capitalize;
 }
-.usp-users__rows .status_user {
+.usp-users__rows .status_user.offline {
     font-size: 14px;
     color: var(--uspGray-500);
 }
@@ -146,6 +149,9 @@
 .usp-user__fields-after:empty,
 .usp-user__icons:empty {
     display: none;
+}
+.usp-user__fields {
+    margin: 6px 0 0;
 }
 .usp-user__fields .usp-field {
     display: inline-flex;

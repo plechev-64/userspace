@@ -398,6 +398,9 @@ class USP_Fields extends USP_Field {
         if ( ! $groupContent )
             return false;
 
+        if ( ! isset( $group['id'] ) )
+            $group['id'] = 'no-name';
+
         $content = '<div id="usp-group-' . $group['id'] . '" class="usp-content-group">';
 
         if ( isset( $group['title'] ) && $group['title'] )
