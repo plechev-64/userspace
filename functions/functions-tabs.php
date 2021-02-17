@@ -126,7 +126,7 @@ function usp_filter_custom_tab_usermetas( $content ) {
         }
 
         if ( ! $value )
-            $value = __( 'not specified', 'userspace' );
+            $value = __( 'Not selected', 'userspace' );
 
         $matchs['{USP-UM:' . $meta . '}'] = (is_array( $value )) ? implode( ', ', $value ) : $value;
     }

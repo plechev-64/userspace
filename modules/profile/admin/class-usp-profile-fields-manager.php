@@ -51,6 +51,14 @@ class USP_Profile_Fields_Manager extends USP_Fields_Manager {
                     'type'  => 'date'
                 ),
                 array(
+                    'slug'        => 'usp_sex',
+                    'title'       => __( 'Sex', 'userspace' ),
+                    'icon'        => 'fa-user',
+                    'type'        => 'radio',
+                    'values'      => [ __( 'Man', 'userspace' ), __( 'Woman', 'userspace' ) ],
+                    'empty_first' => __( 'Not selected', 'userspace' ),
+                ),
+                array(
                     'slug'     => 'user_email',
                     'title'    => __( 'E-mail', 'userspace' ),
                     'type'     => 'email',
