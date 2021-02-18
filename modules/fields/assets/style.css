@@ -1,3 +1,7 @@
+.usp-content {
+    box-sizing: border-box;
+    line-height: normal;
+}
 .usp-content-group:not(:last-child) {
     margin-bottom: 30px;
 }
@@ -193,7 +197,7 @@
     color: var(--uspRed-500);
 }
 .type-dynamic-input .fa-plus {
-    color: var(--uspGeen-700);
+    color: var(--uspGreen-700);
 }
 
 

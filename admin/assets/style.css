@@ -31,8 +31,8 @@
 }
 #usp-notice .type-success {
     background: #bfffbd;
-    border-left: 3px solid var(--uspGeen-700);
-    color: var(--uspGeen-700);
+    border-left: 3px solid var(--uspGreen-700);
+    color: var(--uspGreen-700);
 }
 #usp-notice .notice-window .close-notice {
     color: inherit;
@@ -231,7 +231,7 @@ div.usp_preloader i.uspi::before {
     padding: 0 30px;
 }
 .usp-custom-fields-navi i {
-    color: var(--uspGeen-700);
+    color: var(--uspGreen-700);
 }
 .usp-custom-fields-navi > p {
     background: #eee;

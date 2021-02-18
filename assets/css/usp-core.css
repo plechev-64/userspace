@@ -26,11 +26,13 @@ i::before {
     --uspGray-600: #4b5563;
     --uspGray-700: #374151;
     
-    --uspGeen-700: #15803d;
-    --uspGeen-500: #10B981;
+    --uspGreen-500: #10B981;
+    --uspGreen-700: #15803d;
     
+    --uspBlue-400: #60a5fa;
     --uspBlue-500: #3b82f6;
     
+    --uspRed-200: #fecaca;
     --uspRed-500: #ef4444;
     --uspRed-900: #7f1d1d;
 }
@@ -267,8 +269,8 @@ i::before {
 .notify-lk .success,
 #usp-notice .type-success {
     background: #bfffbd;
-    border-left: 3px solid var(--uspGeen-700);
-    color: var(--uspGeen-700);
+    border-left: 3px solid var(--uspGreen-700);
+    color: var(--uspGreen-700);
 }
 #usp-notice .notice-window .close-notice {
     color: inherit;
@@ -357,7 +359,7 @@ body .preloader-parent {
 }
 .online.uspi {
     animation: usp-pulse 2s linear infinite;
-    color: var(--uspGeen-500);
+    color: var(--uspGreen-500);
 }
 .offline.uspi {
     color: var(--uspRed-500);
@@ -835,19 +837,19 @@ body:not(.wp-admin) .usp-bttn.usp-bttn__type-primary:not(.usp-bttn__active) {
 
 /* condition */
 .usp-bttn.usp-bttn__disabled {
-	opacity: .6;
-	pointer-events: none;
+    opacity: .6;
+    pointer-events: none;
 }
 .usp-bttn.usp-bttn__type-simple.usp-bttn__disabled {
-	background: transparent;
-	box-shadow: none;
+    background: transparent;
+    box-shadow: none;
 }
 .usp-bttn.usp-bttn__active {
-	pointer-events: none;
+    pointer-events: none;
 }
 .usp-bttn.usp-bttn__type-primary.usp-bttn__active {
-	color: #333;
-        background: rgba(var(--uspRgb), .4);
+    color: #333;
+    background: rgba(var(--uspRgb), .4);
 }
 .usp-bttn.usp-bttn__type-simple.usp-bttn__active {
     box-shadow: 0 -5px 0 -3px var(--uspHex) inset;

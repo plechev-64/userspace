@@ -53,8 +53,8 @@
     padding: 0 6px;
     font-size: 13px;
     color: var(--uspWhite);
-    border-right: 6px solid var(--uspGeen-700);
-    background: var(--uspGeen-500);
+    border-right: 6px solid var(--uspGreen-700);
+    background: var(--uspGreen-500);
 }
 .usp-uploader-bttn {
     overflow: hidden;

@@ -33,7 +33,7 @@ function usp_slider_scripts() {
 }
 
 function usp_datepicker_scripts() {
-    wp_enqueue_style( 'jquery-ui-datepicker', USP_URL . 'assets/js/datepicker/style.min.css', false, USP_VERSION );
+    wp_enqueue_style( 'jquery-ui-datepicker', USP_URL . 'assets/js/datepicker/usp-datepicker.min.css', false, USP_VERSION );
     wp_enqueue_script( 'jquery' );
     wp_enqueue_script( 'jquery-ui-core' );
     wp_enqueue_script( 'jquery-ui-datepicker' );
