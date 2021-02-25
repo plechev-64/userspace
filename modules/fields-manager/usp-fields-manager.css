@@ -8,7 +8,7 @@
     justify-content: flex-end;
 }
 .usp-fields-manager .manager-title {
-    font-size: 22px;
+    font-size: 24px;
     margin-bottom: 18px;
 }
 .usp-fields-manager .usp-manager-box {
@@ -32,7 +32,7 @@
     width: 50%;
 }
 .usp-fields-manager.structure-edit .manager-group{
-	border: 1px solid #ccc;
+	border: 1px solid var(--uspGray-300);
 	margin: 10px 0 0 0;
 	position:relative;
 }
@@ -127,7 +127,7 @@
 	margin: -5px -5px 0 0;
 	padding: 5px 10px;
 }
-.usp-fields-manager .manager-field .field-icon::before {
+.usp-fields-manager .manager-field[data-type="custom"] .field-icon::before {
 	content: "\f111";
 }
 .usp-fields-manager .manager-field[data-type="text"] .field-icon::before {
@@ -154,8 +154,9 @@
 .usp-fields-manager .manager-field[data-type="tel"] .field-icon::before {
 	content: "\f525";
 }
-.usp-fields-manager .manager-field[data-type="pussword"] .field-icon::before {
-	content: "\f112";
+.usp-fields-manager .manager-field[data-type="password"] .field-icon::before {
+	content: "\f070";
+        font-family: usp-awesome;
 }
 .usp-fields-manager .manager-field[data-type="number"] .field-icon::before {
 	content: "123";
@@ -170,7 +171,8 @@
 	content: "\f469";
 }
 .usp-fields-manager .manager-field[data-type="url"] .field-icon::before {
-	content: "\f103";
+	content: "\f0c1";
+        font-family: usp-awesome;
 }
 .usp-fields-manager .manager-field[data-type="agree"] .field-icon::before {
 	content: "\f491";
@@ -235,22 +237,15 @@
 }
 
 .usp-fields-manager .submit-box input {
-	box-sizing: border-box;
-	width: 100%;
-	margin: 10px 0 0;
+    box-sizing: border-box;
+    width: 100%;
+    margin: 12px 0 0;
 }
 .usp-fields-manager .submit-box .button-primary {
-	background: rgb(76, 140, 189);
-	box-shadow: none;
-	font-size: 16px;
-	height: auto;
-	text-shadow: none;
-	border-width: initial;
-	border-style: none;
-	border-color: initial;
-	border-image: initial;
-	border-radius: 0;
-	padding: 5px;
+    font-size: 16px;
+    border-radius: 0;
+    border: none;
+    min-height: 42px;
 }
 .usp-fields-manager .submit-box .button-secondary {
 	background: rgb(230, 230, 230);
@@ -271,7 +266,7 @@
 .usp-fields-manager .usp-default-fields{
 	padding: 5px;
 	background: var(--uspWhite);
-	border: 3px dashed #ccc;
+	border: 3px dashed var(--uspGray-300);
 	min-width: 310px;
 }
 .default-box.fixed .usp-default-fields {
@@ -292,7 +287,7 @@
 	position: fixed;
 	top: 30px;
 	z-index: 91;
-	box-shadow: 3px 3px 6px 0 #ccc;
+	box-shadow: 3px 3px 6px 0 var(--uspGray-300);
 }
 .usp-fields-manager.structure-edit .default-box.fixed {
 	position: fixed;
@@ -329,9 +324,9 @@
 	background: var(--uspWhite);
 }
 .usp-fields-manager .manager-area .fields-box{
-	padding: 5px;
+	padding: 6px;
 	background: var(--uspWhite);
-	border: 3px dashed #ccc;
+	border: 3px dashed var(--uspGray-300);
 
 }
 .usp-fields-manager .manager-area .area-content{
@@ -339,7 +334,7 @@
 	margin: 0 auto;
 }
 .usp-fields-manager .manager-group-areas > .ui-sortable-area-placeholder {
-	background: #ccc;
+	background: var(--uspGray-300);
 	border: 2px dashed #aaa;
 	box-sizing: border-box;
 	height: 150px;
@@ -397,7 +392,7 @@
 }
 .usp-fields-manager.structure-edit .manager-area{
 	margin: 10px;
-	border: 1px solid #ccc;
+	border: 1px solid var(--uspGray-300);
 	max-width: none;
 	position: relative;
 }

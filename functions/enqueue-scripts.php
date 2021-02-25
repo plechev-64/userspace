@@ -173,11 +173,11 @@ function usp_get_localize_data() {
 function usp_admin_scripts() {
     usp_enqueue_style( 'usp-core', USP_URL . 'assets/css/usp-core.css' );
     wp_enqueue_style( 'animate-css', USP_URL . 'assets/css/usp-animate.css', false, USP_VERSION );
-    wp_enqueue_style( 'usp-admin-style', USP_URL . 'admin/assets/style.css', false, USP_VERSION );
+    wp_enqueue_style( 'usp-admin-style', USP_URL . 'admin/assets/usp-admin.css', false, USP_VERSION );
     wp_enqueue_style( 'wp-color-picker' );
     wp_enqueue_script( 'jquery' );
     wp_enqueue_script( 'usp-core-scripts', USP_URL . 'assets/js/core.js', array( 'jquery' ), USP_VERSION );
-    wp_enqueue_script( 'usp-admin-scripts', USP_URL . 'admin/assets/scripts.js', array( 'wp-color-picker' ), USP_VERSION );
+    wp_enqueue_script( 'usp-admin-scripts', USP_URL . 'admin/assets/usp-admin.js', array( 'wp-color-picker' ), USP_VERSION );
 
     if ( ! usp_is_ajax() )
         wp_localize_script( 'usp-core-scripts', 'USP', usp_get_localize_data() );
