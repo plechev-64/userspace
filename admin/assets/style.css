@@ -1,219 +1,74 @@
-.wp-admin[class*="userspace_page_"] h2 { /* h2 title on userspace page */
+.wp-admin[class*="userspace_page_"] h2 {
     font-size: 20px;
-    font-weight: 600;
     line-height: normal;
     margin: 18px 0;
     padding: 0;
 }
+.usp-bttn.usp-bttn__size-standart {
+    font-size: 14px;
+}
+.usp-bttn.usp-bttn__size-medium {
+    font-size: 16px;
+}
 #usp-notice {
-    position: fixed;
     right: 30px;
-    top: 70px;
-    width: 210px;
-    z-index: 999999;
+    left: auto;
 }
-#usp-notice .notice-window {
-    font-size: 14px;
-    line-height: 1;
-    margin: 5px 0;
-    padding: 8px 2px 8px 10px;
-    word-wrap: break-word;
-}
-#usp-notice .type-error {
-    background: rgb(255, 207, 207);
-    border-left: 3px solid var(--uspRed-500);
-    color: var(--uspRed-500);
-}
-#usp-notice .type-warning {
-    background: #fff5ce;
-    border-left: 3px solid #333;
-    color: #333;
-}
-#usp-notice .type-success {
-    background: #bfffbd;
-    border-left: 3px solid var(--uspGreen-700);
-    color: var(--uspGreen-700);
-}
-#usp-notice .notice-window .close-notice {
-    color: inherit;
-    float: right;
-    padding: 0 5px 0 4px;
-}
-.usp_preloader {
-    background: var(--uspWhite-05);
-    display: block;
-    height: 100%;
-    left: 0;
-    position: absolute;
-    top: 0;
-    width: 100%;
-    z-index: 99;
-}
-.usp_preloader i {
-    animation: fa-spin 2s infinite linear;
-    color: rgb(76, 140, 189);
-    left: 50%;
-    line-height: 1;
-    margin: -50px 0 0 -50px;
-    position: absolute;
-    top: 50%;
-}
-div.usp_preloader i.uspi::before {
-    content: "\f463";
-    font: 80px/1 dashicons;
-}
-.wp-admin .ssi-modalWindow {
-    border: 0;
-    border-radius: 0;
-    padding: 0;
-}
-
-.shift-extend-options > label {
-    background: #f5c0c0;
-    border: 1px solid #cd9898;
-    display: inline-block;
-    font-size: 14px;
-    padding: 8px;
-    width: 220px;
-}
-
-#usp-options-form .extend-options {
-    background: #f5f5f5;
-    border-left: 2px solid #f8d3d3;
-    margin: 5px 0;
-    padding: 5px 8px;
-}
-#usp-options-form .help-option {
-    display: inline-block;
-}
-.usp-options-form .help-option .dashicons,
-#usp-options-form .help-option .dashicons {
-    color: rgb(76, 140, 189);
+.usp-help-option {
+    color: var(--uspHex);
     cursor: pointer;
-    margin: 0 0 0 4px;
+    margin: 0 0 0 6px;
 }
-#usp-options-form .help-option .dashicons:hover {
-    opacity: .8;
-}
-.usp-help-dialog .ui-dialog-titlebar {
-    font-size: 15px;
+.usp-help-option .help-content {
+    display: none;
 }
 .usp-help-dialog .ui-dialog-titlebar-close::before {
-    color: #d32723;
     font-size: 26px;
+    color: var(--uspRed-500);
+    line-height: 1.5;
 }
 .usp-help-dialog .ui-dialog-titlebar-close:hover::before {
-    opacity: .7;
+    opacity: .6;
 }
 .usp-help-dialog .help-content {
-    font-size: 14px;
+    font-size: 16px;
+    padding: 12px;
+    line-height: normal;
+    color: var(--uspGray-700);
 }
-.child-select,
-.help-option .help-content{
-    display:none;
+.usp-field-notice > i + span {
+    width: calc(100% - 24px);
+    color: var(--uspGray-500);
 }
-
-
-/* START bom helper */
-.adm_warn {
-    color: #d32723;
-}
-.adm_succ {
-    color: #52ae02;
-}
-.adm_notice {
-    color: rgba(255, 174, 25, .4);
-}
-.adm_b14 {
-    font: bold 14px Arial,Georgia,Verdana;
-}
-.adm_b16 {
-    font: bold 16px Arial,Georgia,Verdana;
-}
-.adm_b18 {
-    font: bold 18px Arial,Georgia,Verdana;
-}
-/* END bom helper */
-
-
-.left-sidebar .submit-block {
-    margin-top: 50px;
-    width: 238px;
-}
-
-
-/* navigation Start */
-.tablenav .tablenav-pages .pagination-links a:hover,
-.tablenav .tablenav-pages .pagination-links a:focus {
-    background: rgb(76, 140, 189);
-}
-.usp-pager {
-    background: var(--uspWhite);
-    border: 1px solid #e5e5e5;
-    box-sizing: border-box;
-    clear: both;
-    display: inline-block;
-    font-size: 20px;
-    font-weight: bold;
-    line-height: 1.4;
-    margin: 10px 0;
-    padding: 6px;
-    text-align: right;
-    width: calc(100% - 2px);
-}
-.pager-item.type-current > span,
-.pager-item.type-separator > span {
-    padding: 2px 10px;
-}
-.usp-pager .pager-item a {
-    background: #f5f5f5;
-    border: 1px solid #e5e5e5;
-    color: rgb(76, 140, 189);
-    display: inline-block;
-    margin: 0 4px;
-    padding: 2px 10px;
-    text-decoration: none;
-}
-.usp-pager .pager-item a:hover {
-    background: #eee;
-    border: 1px solid #d5d5d5;
-    color: var(--uspBlack);
-}
-/* navigation End */
-
 
 /* START custom field navi */
 .usp-custom-fields-navi {
-    margin: 10px 10px 10px 0;
-    padding: 10px;
+    margin: 12px 0;
+    padding: 6px;
 }
 .usp-custom-fields-navi .usp-types-list {
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid var(--uspGray-300);
     list-style: none;
     margin: 0;
     padding: 0;
 }
 .usp-custom-fields-navi .usp-types-list li {
-    border-color: #ccc #ccc currentcolor;
-    border-style: solid solid none;
-    border-width: 1px 1px medium;
-    display: inline-block;
-    font-size: 14px;
-    line-height: 24px;
-    margin: 0 0 0 .5em;
+    display: inline-flex;
+    font-size: 15px;
+    margin: 0 0 -1px .5em;
+    border: 1px solid var(--uspGray-300);
 }
 .usp-custom-fields-navi li.current-item {
-    border-bottom: 1px solid #f1f1f1;
-    margin-bottom: -1px;
+    border-bottom-color: #f1f1f1;
 }
 .usp-custom-fields-navi .usp-types-list li a {
-    background: #e5e5e5;
-    color: #333;
+    color: var(--uspGray-600);
     display: inline-flex;
     height: 26px;
     padding: 6px 12px;
     text-decoration: none;
     align-items: center;
+    background: var(--uspGray-200);
 }
 .usp-custom-fields-navi .usp-types-list li .uspi + span {
     margin: 0 0 0 6px;
@@ -224,395 +79,14 @@ div.usp_preloader i.uspi::before {
     font-weight: bold;
 }
 .usp-custom-fields-navi .usp-types-list li:not(.current-item) a:hover {
-    background: #eee;
+    background: var(--uspGray-100);
     color: var(--uspBlack);
 }
 .usp-custom-fields-navi + .usp-custom-fields-navi .usp-types-list {
-    padding: 0 30px;
+    padding-left: 30px;
 }
 .usp-custom-fields-navi i {
     color: var(--uspGreen-700);
+    font-size: 24px;
 }
-.usp-custom-fields-navi > p {
-    background: #eee;
-    border: 1px solid #ddd;
-    display: inline-block;
-    font-size: 14px;
-    line-height: normal;
-    margin: 0;
-    padding: 10px 30px 10px 40px;
-    position: relative;
-}
-.usp-custom-fields-navi > p::before {
-    color: #ffae19;
-    content: "\f534";
-    font-family: dashicons;
-    font-size: 30px;
-    left: 5px;
-    opacity: .4;
-    position: absolute;
-    top: 4px;
-}
-/* END custom field navi */
-
-
-
-
-/* START custom fields box */
-.usp-custom-fields-box {
-    background: #f5f5f5;
-    border: 1px solid #d5d5d5;
-    box-sizing: border-box;
-    display: inline-block;
-    margin: 10px;
-    max-width: 500px;
-    padding: 10px;
-    position: relative;
-    vertical-align: top;
-    width: calc(100% - 20px);
-}
-#profile-page .usp-custom-fields-box {
-    max-width: 700px;
-}
-.usp-custom-fields-box > h3 {
-    font-size: 18px;
-    margin: 0;
-    padding: 5px 15px;
-}
-.usp-custom-fields-box .usp-sortable-fields {
-    min-height: 30px;
-    padding: 0;
-}
-.usp-custom-fields-box .usp-custom-field {
-    margin-bottom: 10px;
-    position: relative;
-}
-.usp-custom-fields-box .usp-custom-field .field-header {
-    align-items: center;
-    background: #eee linear-gradient(to top, #f5f5f5, #eee);
-    border: 1px solid #ddd;
-    display: flex;
-    overflow: hidden;
-    padding: 5px;
-}
-.ui-sortable .usp-custom-field .field-header {
-    cursor: move;
-}
-.usp-custom-fields-box .field-header .field-type {
-    background: #f6f6f6;
-    border: 1px solid #e5e5e5;
-    color: rgb(76, 140, 189);
-    font-family: dashicons;
-    font-size: 20px;
-    margin-right: 10px;
-    padding: 5px;
-}
-.usp-custom-fields-box [data-type="text"] .field-type::before {
-    content: "\f464";
-}
-.usp-custom-fields-box [data-type="textarea"] .field-type::before {
-    content: "\f119";
-}
-.usp-custom-fields-box [data-type="select"] .field-type::before {
-    content: "\f203";
-}
-.usp-custom-fields-box [data-type="multiselect"] .field-type::before {
-    content: "\f163";
-}
-.usp-custom-fields-box [data-type="checkbox"] .field-type::before {
-    content: "\f147";
-}
-.usp-custom-fields-box [data-type="radio"] .field-type::before {
-    content: "\f159";
-}
-.usp-custom-fields-box [data-type="email"] .field-type::before {
-    content: "\f466";
-}
-.usp-custom-fields-box [data-type="tel"] .field-type::before {
-    content: "\f525";
-}
-.usp-custom-fields-box [data-type="number"] .field-type::before {
-    content: "123";
-    font-size: 14px;
-    font-weight: bold;
-    vertical-align: super;
-}
-.usp-custom-fields-box [data-type="date"] .field-type::before {
-    content: "\f508";
-}
-.usp-custom-fields-box [data-type="time"] .field-type::before {
-    content: "\f469";
-}
-.usp-custom-fields-box [data-type="url"] .field-type::before {
-    content: "\f103";
-}
-.usp-custom-fields-box [data-type="agree"] .field-type::before {
-    content: "\f491";
-}
-.usp-custom-fields-box [data-type="file"] .field-type::before {
-    content: "\f501";
-}
-.usp-custom-fields-box [data-type="dynamic"] .field-type::before {
-    content: "\f502";
-}
-.usp-custom-fields-box [data-type="editor"] .field-type::before {
-    content: "\f212";
-}
-.usp-custom-fields-box [data-type="runner"] .field-type::before {
-    content: "\f229";
-}
-.usp-custom-fields-box [data-type="range"] .field-type::before {
-    content: "\f108";
-}
-.usp-custom-fields-box [data-type="custom"] .field-type::before {
-    content: "\f111";
-}
-.usp-custom-fields-box .field-header .field-title {
-    flex-grow: 1;
-    font-size: 14px;
-    font-weight: bold;
-}
-.usp-custom-fields-box .field-header .field-controls {
-    display: flex;
-    font-family: dashicons;
-    justify-content: flex-end;
-}
-.usp-custom-fields-box .field-header .field-delete::before {
-    color: rgba(229, 57, 53, .7);
-    content: "\f158";
-}
-.usp-custom-fields-box .field-header .field-edit::before {
-    color: rgb(76, 140, 189);
-    content: "\f140";
-}
-.usp-custom-fields-box .field-header .field-controls a:hover {
-    opacity: .7;
-}
-.usp-custom-fields-box .field-header .field-control {
-    font-size: 25px;
-    margin: 0 0 0 3px;
-}
-.usp-custom-fields-box .usp-custom-field a {
-    font-style: normal;
-    text-decoration: none;
-}
-.usp-custom-fields-box .usp-custom-field .field-settings {
-    background: var(--uspWhite);
-    border: 1px solid #ddd;
-    display: none;
-    margin: 0 0 25px;
-    padding: 5px;
-}
-.usp-custom-fields-box .field-settings .usp-cf-type-text {
-    background: rgba(224, 248, 201, .6);
-    color: #555;
-    float: right;
-    margin: -5px -5px 0 0;
-    padding: 5px 10px;
-}
-.usp-custom-fields-box .usp-custom-field .option-content {
-    padding: 5px 10px;
-}
-.usp-custom-fields-box .usp-custom-field label:not(.usp-label) {
-    display: block;
-    font-weight: bold;
-    margin: 0;
-}
-.usp-custom-fields-box .usp-custom-field input,
-.usp-custom-fields-box .usp-custom-field select,
-.usp-custom-fields-box .usp-custom-field textarea {
-    box-sizing: border-box;
-    width: 100%;
-}
-.usp-custom-fields-box .wp-editor-container input {
-    width: auto;
-}
-.usp-custom-fields-box input[type="radio"] {
-    margin: 0 0 0 5px;
-    width: initial;
-}
-.usp-custom-fields-box .usp-field-notice {
-    clear: both;
-    color: #777;
-    display: block;
-    font-size: 12px;
-    line-height: normal;
-}
-.usp-custom-fields-box .usp-custom-field .fa-info-circle::before {
-    /*content: "\f534";*/
-}
-.usp-custom-fields-box .usp-custom-field i:hover {
-    opacity: .7;
-}
-.usp-custom-fields-box .usp-field-notice i {
-    color: #ffae19;
-    font-size: 14px;
-    opacity: .8;
-}
-.usp-custom-fields-box .usp-custom-field textarea {
-    height: 50px;
-}
-.usp-custom-fields-box .usp-custom-field .dynamic-values {
-    background: #f5f5f5;
-    display: block;
-    padding: 10px;
-}
-.usp-custom-fields-box .usp-custom-field .dynamic-values .dynamic-value,
-.usp-custom-fields-box .usp-custom-field .dynamic-values .ui-sortable-placeholder {
-    background: #ebebeb;
-    border: 1px solid #dbdbdb;
-    clear: both;
-    display: block;
-    line-height: normal;
-    margin: 3px 0;
-    padding: 2px;
-    position: relative;
-}
-.usp-custom-fields-box .usp-custom-field .dynamic-values.ui-sortable .dynamic-value::before {
-    background: #f5f5f5;
-    color: rgb(76, 140, 189);
-    content: "\f545";
-    cursor: move;
-    font-family: dashicons;
-    font-size: 20px;
-    height: 20px;
-    padding: 3px;
-    position: absolute;
-    right: 4px;
-    top: 4px;
-}
-.usp-custom-fields-box .usp-custom-field .dynamic-value input {
-    width: 80%;
-}
-.usp-custom-fields-box .usp-custom-field .half-width {
-    display: inline-block;
-    float: left;
-    margin: 0 5px 0 0;
-    width: 47%;
-}
-.usp-custom-fields-box .usp-custom-field .half-width .option-content {
-    padding: 5px;
-}
-.usp-custom-fields-box .new-field .field-header .field-control {
-    float: right;
-    margin-top: 20px;
-}
-.usp-custom-fields-box .usp-custom-field.new-field .field-settings {
-    display: block;
-}
-.usp-custom-fields-box .fields-submit input {
-    box-sizing: border-box;
-    margin: 10px 0;
-    width: 100%;
-}
-.usp-custom-fields-box .fields-submit .button-secondary {
-    background: #e6e6e6;
-    border: 1px solid #d4d4d4;
-    border-radius: 0;
-    box-shadow: none;
-    height: auto;
-    padding: 4px;
-}
-.usp-custom-fields-box .fields-submit .button-secondary:hover {
-    background: #eee;
-    border-color: #d4d4d4;
-}
-.usp-custom-fields-box .fields-submit .button-primary {
-    background: rgb(76, 140, 189);
-    border-radius: 0;
-    border: 0;
-    box-shadow: none;
-    font-size: 16px;
-    height: auto;
-    padding: 5px;
-    text-shadow: none;
-}
-.usp-custom-fields-box .fields-submit .button-primary:hover {
-    background: rgb(76, 140, 189);
-    opacity: .9;
-}
-.usp-inactive-fields-box {
-    opacity: .8;
-    width: 350px;
-}
-.usp-inactive-fields-box .usp-custom-field {
-    opacity: .7;
-}
-.usp-inactive-fields-box .usp-custom-field .field-control,
-.usp-inactive-fields-box .usp-custom-field .field-settings {
-    display: none!important;
-}
-.usp-custom-fields-box .ui-sortable-placeholder {
-    background: var(--uspWhite);
-    border: 2px dashed #ccc;
-    box-sizing: border-box;
-    height: 45px;
-    width: 100%;
-}
-.usp-custom-fields-box .usp-custom-field .dynamic-values .ui-sortable-placeholder {
-    background: var(--uspWhite);
-    height: 30px;
-}
-.options-custom-field .option-content .option-input .quicktags-toolbar .button-small {
-    border-radius: 1px;
-    height: auto;
-    line-height: normal;
-    margin: 2px 2px 3px;
-    min-height: 24px;
-    min-width: 58px;
-    padding: 4px;
-    text-align: center;
-    width: auto;
-}
-.usp-custom-fields-box .usp-custom-field .type-editor-input textarea {
-    height: 150px;
-}
-/* END custom fields box */
-
-
-#usp-reg-form {
-    background: #ffdfdf;
-    margin: 10px 0 20px;
-    padding: 10px;
-}
-.usp-option.children-option {
-    display:none;
-}
-.usp-option.option-show {
-    display:block;
-}
-
-
-
-/*форма*/
-.usp-form .form-field {
-    margin: 15px 0;
-}
-.usp-form .form-field .field-title {
-    display:block;
-    font-size: 18px;
-    font-weight:bold;
-    line-height: 1;
-    margin-bottom: 5px;
-}
-.usp-form .submit-box {
-    background: #eee;
-    border: 1px solid #ddd;
-    overflow: hidden;
-    padding: 5px;
-    text-align: right;
-}
-.usp-form .submit-box a,
-.usp-form .submit-box input[type="submit"] {
-    display: inline-block;
-    font-size: 15px;
-    padding: 7px 10px;
-}
-
-
-
-@media screen and (max-width:568px) {
-    .left-sidebar .submit-block {
-        width: 100%;
-    }
-}
+/* END */

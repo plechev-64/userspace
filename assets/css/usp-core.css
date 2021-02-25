@@ -33,6 +33,8 @@ i::before {
     --uspBlue-500: #3b82f6;
     
     --uspRed-200: #fecaca;
+    --uspRed-300: #fca5a5;
+    --uspRed-400: #f87171;
     --uspRed-500: #ef4444;
     --uspRed-900: #7f1d1d;
 }

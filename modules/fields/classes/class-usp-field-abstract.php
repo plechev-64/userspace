@@ -207,7 +207,7 @@ class USP_Field_Abstract {
         if ( ! $this->help )
             return;
 
-        return '<span class="help-option" onclick="return usp_get_option_help(this);"><i class="dashicons dashicons-editor-help"></i><span class="help-content">' . $this->help . '</span></span>';
+        return '<span class="usp-help-option" onclick="return usp_get_option_help(this);"><i class="uspi fa-question-circle" aria-hidden="true"></i><span class="help-content">' . $this->help . '</span></span>';
 
 
         /* $content = '<span class="usp-balloon-hover usp-field-help">';

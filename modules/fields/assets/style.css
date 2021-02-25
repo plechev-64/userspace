@@ -51,6 +51,7 @@
 }
 .usp-field-input {
     width: 100%;
+    clear: both;
 }
 
 .usp-field + .usp-field {
@@ -62,9 +63,9 @@
     margin: 0 0 6px;
 }
 .usp-field-notice {
-    font-size: 13px;
-    font-weight: lighter;
+    font-size: 14px;
     line-height: 1.4;
+    min-height: 21px;
 }
 .usp-field-input:not(.type-checkbox-input):not(.type-radio-input) .usp-field-core + .usp-field-notice {
     margin: 6px 0 0;

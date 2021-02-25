@@ -63,11 +63,12 @@ class USP_Options_Manager {
                 'onclick' => 'usp_onclick_options_label(this);return false;',
                 'icon'    => $box->icon,
                 'type'    => 'simple',
+                'class'   => [ 'usp-options-bttn' ],
                 'status'  => $box->active ? 'active' : ''
                 ) );
         }
 
-        $content = '<div class="usp-menu menu-items">';
+        $content = '<div class="usp-options-tabs">';
 
         foreach ( $items as $item ) {
             $content .= $item;
@@ -87,21 +88,23 @@ class USP_Options_Manager {
             }
         }
 
-        $content = '<div class="usp-options-manager usp-options ' . ($this->extend_options ? 'show-extends-options' : 'hide-extends-options') . '">';
-
-        $content .= '<form method="post" class="usp-options-form" action="' . $this->action . '">';
+        $content = '<form method="post" id="usp-options" class="usp-options' . ($this->extend_options ? '' : ' usp-hide-more') . '" action="' . $this->action . '">';
 
         $content .= '<input type="hidden" name="page_options" value="' . $this->page_options . '">';
 
         $content .= wp_nonce_field( $this->nonce, '_wpnonce', true, false );
 
-        $content .= '<div class="options-menu-boxes">';
+        $content .= '<div class="usp-option-menu">';
 
         if ( $this->extends ) {
-            $content .= '<label class="usp-option-extend-switch">'
-                . '<input type="checkbox" name="extend_options" ' . checked( $this->extend_options, 1, false ) . ' onclick="return usp_enable_extend_options(this);" value="1"> '
-                . __( 'Advanced settings', 'userspace' )
-                . '</label>';
+            $content .= usp_get_button( array(
+                'label'   => __( 'Advanced settings', 'userspace' ),
+                'onclick' => 'return usp_enable_extend_options(this);',
+                'icon'    => 'fa-square',
+                'type'    => 'simple',
+                'class'   => [ 'usp-toggle-extend', $this->extend_options ? 'usp-toggle-extend-show' : '' ],
+                )
+            );
         }
 
         foreach ( $this->boxes as $box ) {
@@ -112,13 +115,12 @@ class USP_Options_Manager {
             $content .= usp_get_button( array(
                 'label'      => $box->title,
                 'onclick'    => 'usp_show_options_menu(this);return false;',
-                'icon'       => 'fa-chevron-down', //$box->icon,
+                'icon'       => 'fa-angle-down',
                 'icon_align' => 'right',
                 'type'       => 'clear',
                 'style'      => 'text-align: center;',
                 'fullwidth'  => true,
-                'class'      => array( 'button button-primary button-large active-menu-item' )
-                //'status'	 => $box->active ? 'active' : ''
+                'class'      => [ 'active-menu-item button button-primary button-large' ]
                 )
             );
         }
@@ -126,18 +128,19 @@ class USP_Options_Manager {
         $content .= $this->get_menu();
 
         $content .= usp_get_button( array(
-            'label'   => __( 'Save settings', 'userspace' ),
-            'onclick' => $this->onclick ? $this->onclick : false,
-            'submit'  => $this->onclick ? false : true,
-            'icon'    => 'fa-save',
-            'type'    => 'clear',
-            'style'   => 'text-align: center;',
-            'class'   => array( 'button button-primary button-large usp-submit-options' )
+            'label'     => __( 'Save settings', 'userspace' ),
+            'onclick'   => $this->onclick ? $this->onclick : false,
+            'submit'    => $this->onclick ? false : true,
+            'icon'      => 'fa-save',
+            'type'      => 'clear',
+            'size'      => 'medium',
+            'fullwidth' => true,
+            'class'     => [ 'usp-submit-options button button-primary' ]
             ) );
 
         $content .= '</div>';
 
-        $content .= '<div class="options-form-boxes">';
+        $content .= '<div class="usp-option-fields">';
 
         foreach ( $this->boxes as $box ) {
 
@@ -147,8 +150,6 @@ class USP_Options_Manager {
         $content .= '</div>';
 
         $content .= '</form>';
-
-        $content .= '</div>';
 
         return $content;
     }

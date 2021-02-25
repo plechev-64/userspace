@@ -1,125 +1,125 @@
-.usp-children-field{
-	display: none;
+.usp-options {
+    display: flex;
+    margin-right: 18px;
 }
-.usp-children-fields.active{
-	display: block;
+.usp-option-menu {
+    margin-right: 12px;
+    width: 260px;
 }
-.usp-option-extend-switch{
-	padding: 10px;
-	display: block;
-	border: 1px solid #ccc;
-	background: #fcc;
-	margin-bottom: 20px;
+.usp-option-menu .usp-bttn {
+    width: 100%;
+    box-shadow: none;
+    min-height: 42px;
 }
-
-.usp-options{
-	margin-right: 10px;
+.usp-option-menu .usp-bttn__ico {
+    font-size: 20px;
+    box-sizing: border-box;
 }
-
-.usp-options .extend-options{
-	border-left: 5px solid #ff8181!important;
-	padding: 5px;
+.usp-option-menu :not(.usp-submit-options) .usp-bttn__ico {
+    min-width: 50px;
 }
-
-.usp-options.hide-extends-options .extend-options{
-	display: none;
-}
-.usp-options .options-menu-boxes{
-	margin-right: 10px;
-}
-.usp-options .options-menu-boxes{
-	width: 250px;
-	float: left;
-}
-.usp-options .options-menu-boxes > a{
-	width: 100%;
-	font-size: 16px;
-}
-.usp-options .usp-menu > a{
-	padding: 5px 0;
-	display: flex;
-	white-space: unset;
-}
-.usp-options .usp-menu a > i{
-
-}
-.usp-options .usp-menu .usp-bttn__active{
-	background: #b6b6b6;
-	color: var(--uspWhite);
-}
-
-.usp-options .options-form-boxes{
-	overflow: hidden;
-}
-
-.usp-options .options-box{
-	padding: 5px;
-	border: 1px solid #ccc;
-	width: 550px;
-	display: none;
-	overflow-y: auto;
-	max-height: 800px;
-	max-width: 100%;
-	box-sizing: border-box;
-}
-
-.usp-options .options-box.active{
-	display: block;
-}
-
-.usp-options .options-group{
-	padding: 5px;
-	border: 1px solid #ccc;
-	margin-bottom: 10px;
-}
-
-.usp-options-group-title {
-	background: #ccc;
-	display: block;
-	padding: 10px;
-	font-size: 16px;
-	margin-bottom: 10px;
-}
-.usp-options .usp-option{
-	margin-bottom: 10px;
-	position:relative;
-}
-.usp-options .usp-field-help{
-	position: absolute;
-    top: 0;
-    right: 0;
-	display: block;
-}
-.usp-options .usp-field-help > i{
-	padding: 0 9px;
+.usp-option-menu .usp-bttn span {
     font-size: 16px;
 }
-.usp-options .usp-field-help .help-content{
-	min-width: 300px;
+.usp-toggle-extend {
+    background: var(--uspRed-200) !important;
+    border: 1px solid var(--uspRed-300);
+    margin: 0 0 12px;
+    color: var(--uspGray-700);
 }
-.usp-options .active-menu-item{
-	display:none;
-	margin-bottom: 5px;
+.usp-toggle-extend-show i::before {
+    content: "\f14a";
+}
+.usp-options-tabs {
+    border: 1px solid var(--uspGray-300);
+}
+.usp-options-tabs > a:not(:last-child) {
+    border-bottom: 1px solid var(--uspGray-300);
+}
+.usp-options-tabs a.usp-bttn__active {
+    background: var(--uspHex);
+    color: var(--uspText);
+    border-bottom-color: var(--uspHex);
+}
+.usp-submit-options.usp-bttn {
+    margin: 12px 0;
+}
+
+.usp-option-fields {
+    flex-grow: 1;
+    font-size: 16px;
+    color: var(--uspGray-700);
+}
+.usp-options .options-box {
+    padding: 18px 18px 0 18px;
+    display: none;
+    overflow-y: auto;
+    max-height: 800px;
+    box-sizing: border-box;
+    border: 1px solid var(--uspGray-300);
+    width: 100%;
+    max-width: 620px;
+}
+/* bottom padding on scroll fix */
+.usp-options .options-box::after {
+    content: "";
+    height: 18px;
+    width: 100%;
+    display: table;
+}
+.usp-options .options-box.active {
+    display: block;
+}
+.usp-options .options-group {
+    border: 1px solid var(--uspGray-300);
+    background: var(--uspWhite);
+}
+.usp-options .options-group:not(:last-child) {
+    margin-bottom: 18px;
+}
+.usp-options .options-group > div {
+    margin: 24px 18px;
+}
+.usp-children-field,
+.usp-options .active-menu-item,
+.usp-hide-more .extend-options {
+    display: none;
+}
+.usp-options .extend-options {
+    border-left: 3px solid var(--uspRed-300) !important;
+}
+.usp-options .usp-options-group-title {
+    display: block;
+    font-size: 24px;
+    padding: 0 0 6px;
+    margin: 18px;
+}
+.usp-options .usp-field-title {
+    display: inline-block;
+    padding: 0 3px 3px 0;
+    vertical-align: middle;
 }
 
 @media screen and (max-width:568px) {
-	.usp-options .options-menu-boxes{
-		width: 100%;
-		float: unset;
-	}
-	.usp-options .active-menu-item{
-		display:block;
-	}
-	.usp-options .usp-menu{
-		display:none;
-	}
-	.usp-options .usp-menu.active-menu{
-		display:block;
-	}
-	.usp-options .usp-submit-options{
-		position: fixed;
-		bottom: 0;
-		left: 0;
-		z-index: 9;
-	}
+    .usp-options {
+        flex-direction: column;
+    }
+    .usp-option-menu {
+        width: 100%;
+    }
+    #usp-options .active-menu-item {
+        display: flex;
+    }
+    .usp-options .usp-options-tabs {
+        display: none;
+    }
+    .usp-options .usp-options-tabs.active-menu {
+        display: block;
+    }
+    .usp-options .usp-submit-options {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        z-index: 9;
+    }
 }

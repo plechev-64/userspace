@@ -76,7 +76,7 @@ function usp_user_comments() {
             $usp_user->comments_count = 0;
 
         echo '<span class="usp-metadata usp-metadata__comm usps usps__ai-center usps__line-normal">'
-        . '<i class="uspi fa-comment"></i>'
+        . '<i class="uspi fa-comment" aria-hidden="true"></i>'
         . '<span>' . __( 'Comments', 'userspace' ) . ': ' . $usp_user->comments_count . '</span>'
         . '</span>';
     }
@@ -91,7 +91,7 @@ function usp_user_posts() {
             $usp_user->posts_count = 0;
 
         echo '<span class="usp-metadata usp-metadata__post usps usps__ai-center usps__line-normal">'
-        . '<i class="uspi fa-file"></i>'
+        . '<i class="uspi fa-file" aria-hidden="true"></i>'
         . '<span>' . __( 'Publics', 'userspace' ) . ': ' . $usp_user->posts_count . '</span>'
         . '</span>';
     }
@@ -106,7 +106,7 @@ function usp_user_register() {
             return;
 
         echo '<span class="usp-metadata usp-metadata__reg usps usps__ai-center usps__line-normal">'
-        . '<i class="uspi fa-calendar-check"></i>'
+        . '<i class="uspi fa-calendar-check" aria-hidden="true"></i>'
         . '<span>' . __( 'Registration', 'userspace' ) . ': ' . mysql2date( 'd-m-Y', $usp_user->user_registered ) . '</span>'
         . '</span>';
     }

@@ -1,4 +1,6 @@
 
+/* global tinyMCE */
+
 var USPOptionsControl = {
 	getId: function( e ) {
 		return jQuery( e ).attr( 'type' ) == 'radio' && jQuery( e ).is( ":checked" ) ? jQuery( e ).data( 'slug' ) : jQuery( e ).attr( 'id' );
@@ -41,43 +43,47 @@ var USPOptionsControl = {
 };
 
 jQuery( function( $ ) {
+    /* show children fields */
+    $( '.usp-parent-field:not(.usp-children-field)' ).find( 'input, select' ).each( function() {
+        USPOptionsControl.showChildrens( USPOptionsControl.getId( this ), $( this ).val() );
+    } );
 
-	/* показ дочерних полей */
-	$( ".usp-parent-field:not(.usp-children-field)" ).find( "input, select" ).each( function() {
-		USPOptionsControl.showChildrens( USPOptionsControl.getId( this ), $( this ).val() );
-	} );
-
-	$( '.usp-parent-field select, .usp-parent-field input' ).change( function() {
-		USPOptionsControl.hideChildrens( USPOptionsControl.getId( this ) );
-		USPOptionsControl.showChildrens( USPOptionsControl.getId( this ), $( this ).val() );
-	} );
-	/***/
-
+    $( '.usp-parent-field select, .usp-parent-field input' ).change( function() {
+        USPOptionsControl.hideChildrens( USPOptionsControl.getId( this ) );
+        USPOptionsControl.showChildrens( USPOptionsControl.getId( this ), $( this ).val() );
+    } );
 } );
 
+/* show/hide extend settings */
 function usp_enable_extend_options( e ) {
-	var extend = e.checked ? 1 : 0;
-	jQuery.cookie( 'usp_extends', extend );
-	var options = jQuery( '.usp-options-form .extend-options' );
-	if ( extend )
-		options.show();
-	else
-		options.hide();
+    var options = jQuery( '.usp-options .extend-options' );
+
+    if ( jQuery( e ).hasClass( 'usp-toggle-extend-show' ) ) {
+        options.hide();
+        jQuery( e ).removeClass( 'usp-toggle-extend-show' );
+
+        jQuery.cookie( 'usp_extends', 0 );
+    } else {
+        options.show();
+        jQuery( e ).addClass( 'usp-toggle-extend-show' );
+
+        jQuery.cookie( 'usp_extends', 1 );
+    }
 }
 
 function usp_update_options() {
 
-	usp_preloader_show( jQuery( '.usp-options-form' ) );
+    usp_preloader_show( jQuery( '.usp-options' ) );
 
-	if ( typeof tinyMCE != 'undefined' )
-		tinyMCE.triggerSave();
+    if ( typeof tinyMCE != 'undefined' )
+        tinyMCE.triggerSave();
 
-	usp_ajax( {
-		/*rest: {action: 'usp_update_options'},*/
-		data: 'action=usp_update_options&' + jQuery( '.usp-options-form' ).serialize()
-	} );
+    usp_ajax( {
+        /*rest: {action: 'usp_update_options'},*/
+        data: 'action=usp_update_options&' + jQuery( '.usp-options' ).serialize()
+    } );
 
-	return false;
+    return false;
 }
 
 function usp_get_option_help( elem ) {
@@ -105,27 +111,26 @@ function usp_get_option_help( elem ) {
 }
 
 function usp_onclick_options_label( e ) {
+    var label = jQuery( e );
 
-	var label = jQuery( e );
+    var viewBox = label.data( 'options' );
 
-	var viewBox = label.data( 'options' );
+    if ( jQuery( '#' + viewBox + '-options-box' ).hasClass( 'active' ) )
+        return false;
 
-	if ( jQuery( '#' + viewBox + '-options-box' ).hasClass( 'active' ) )
-		return false;
+    jQuery( '.usp-options .options-box' ).removeClass( 'active' );
+    jQuery( '.usp-options-bttn' ).removeClass( 'usp-bttn__active' );
 
-	jQuery( '.usp-options .options-box' ).removeClass( 'active' );
-	jQuery( '.usp-options .usp-menu > a' ).removeClass( 'usp-bttn__active' );
+    jQuery( '#' + viewBox + '-options-box' ).addClass( 'active' );
+    jQuery( e ).addClass( 'usp-bttn__active' );
 
-	jQuery( '#' + viewBox + '-options-box' ).addClass( 'active' );
-	jQuery( e ).addClass( 'usp-bttn__active' );
+    usp_update_history_url( label.attr( 'href' ) );
 
-	usp_update_history_url( label.attr( 'href' ) );
-
-	jQuery( '.usp-options .active-menu-item .usp-bttn__text' ).text( label.children( 'span.usp-bttn__text' ).text() );
-	jQuery( '.usp-options .usp-menu' ).removeClass( 'active-menu' );
+    jQuery( '.usp-options .active-menu-item .usp-bttn__text' ).text( label.children( 'span.usp-bttn__text' ).text() );
+    jQuery( '.usp-options-tabs' ).removeClass( 'active-menu' );
 
 }
 
 function usp_show_options_menu( e ) {
-	jQuery( '.usp-options .usp-menu' ).addClass( 'active-menu' );
+    jQuery( '.usp-options-tabs' ).addClass( 'active-menu' );
 }

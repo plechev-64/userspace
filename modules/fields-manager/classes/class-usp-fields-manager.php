@@ -258,20 +258,20 @@ class USP_Fields_Manager extends USP_Fields {
 
         if ( $this->template_fields ) {
             $content .= '<div class="usp-manager-box service-box">';
-            $content .= '<span class="manager-title">' . __( 'Templates', 'userspace' ) . '</span>';
+            $content .= '<div class="manager-title">' . __( 'Templates', 'userspace' ) . '</div>';
             $content .= $this->get_service_box();
             $content .= '</div>';
         }
 
         if ( $this->default_fields && $this->default_box ) {
             $content .= '<div class="usp-manager-box default-box">';
-            $content .= '<span class="manager-title">' . __( 'Inactive fields', 'userspace' ) . '</span>';
+            $content .= '<div class="manager-title">' . __( 'Inactive fields', 'userspace' ) . '</div>';
             $content .= $this->get_default_box();
             $content .= '</div>';
         }
 
         $content .= '<div class="usp-manager-box usp-custom-fields-box">';
-        $content .= '<span class="manager-title">' . __( 'Active fields', 'userspace' ) . '</span>';
+        $content .= '<div class="manager-title">' . __( 'Active fields', 'userspace' ) . '</div>';
         $content .= '<form method="post" action="" class="usp-fields-manager-form" ' . ($this->onsubmit ? 'onsubmit="' . $this->onsubmit . '();return false;"' : '') . '>';
 
         $content .= $this->get_manager_options_form();
