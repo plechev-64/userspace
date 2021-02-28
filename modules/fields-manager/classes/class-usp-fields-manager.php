@@ -250,33 +250,33 @@ class USP_Fields_Manager extends USP_Fields {
 
     function get_manager() {
 
-        $content = '<div class="usp-fields-manager ' . ($this->structure_edit ? 'structure-edit' : 'structure-simple') . '">';
+        $content = '<div class="usp-frame ' . ($this->structure_edit ? 'usp-frame-edit' : 'usp-frame-easy') . '">';
 
         if ( $this->meta_delete ) {
             $content .= '<span style="display:none" id="usp-manager-confirm-delete">' . __( 'To delete a data adding this field?', 'userspace' ) . '</span>';
         }
 
         if ( $this->template_fields ) {
-            $content .= '<div class="usp-manager-box service-box">';
-            $content .= '<div class="manager-title">' . __( 'Templates', 'userspace' ) . '</div>';
+            $content .= '<div class="usp-frame__box service-box">';
+            $content .= '<div class="usp-frame__title">' . __( 'Templates', 'userspace' ) . '</div>';
             $content .= $this->get_service_box();
             $content .= '</div>';
         }
 
         if ( $this->default_fields && $this->default_box ) {
-            $content .= '<div class="usp-manager-box default-box">';
-            $content .= '<div class="manager-title">' . __( 'Inactive fields', 'userspace' ) . '</div>';
+            $content .= '<div class="usp-frame__box usp-frame__box-default">';
+            $content .= '<div class="usp-frame__title">' . __( 'Inactive fields', 'userspace' ) . '</div>';
             $content .= $this->get_default_box();
             $content .= '</div>';
         }
 
-        $content .= '<div class="usp-manager-box usp-custom-fields-box">';
-        $content .= '<div class="manager-title">' . __( 'Active fields', 'userspace' ) . '</div>';
-        $content .= '<form method="post" action="" class="usp-fields-manager-form" ' . ($this->onsubmit ? 'onsubmit="' . $this->onsubmit . '();return false;"' : '') . '>';
+        $content .= '<div class="usp-frame__box usp-frame__box-fields">';
+        $content .= '<div class="usp-frame__title">' . __( 'Active fields', 'userspace' ) . '</div>';
+        $content .= '<form method="post" action="" class="usp-frame__form" ' . ($this->onsubmit ? 'onsubmit="' . $this->onsubmit . '();return false;"' : '') . '>';
 
         $content .= $this->get_manager_options_form();
 
-        $content .= '<div class="usp-manager-groups preloader-parent">';
+        $content .= '<div class="usp-frame__panel preloader-parent">';
 
         foreach ( $this->structure as $group_id => $group ) {
             $content .= $this->get_group_areas( $group );
@@ -323,7 +323,7 @@ class USP_Fields_Manager extends USP_Fields {
         if ( ! $fields )
             return false;
 
-        $content = '<div class="usp-manager-options">';
+        $content = '<div class="usp-frame__options">';
         foreach ( $fields as $field ) {
             $content .= $this::setup( $field )->get_field_html();
         }
@@ -349,7 +349,7 @@ class USP_Fields_Manager extends USP_Fields {
             )
             ) );
 
-        $content = '<div id="manager-group-' . $this->group_id . '" class="manager-group">';
+        $content = '<div id="usp-frame__section-' . $this->group_id . '" class="usp-frame__section usps__relative">';
 
         if ( $this->structure_edit ) {
 
@@ -357,11 +357,11 @@ class USP_Fields_Manager extends USP_Fields {
 
             $content .= '<input type="hidden" name="structure[][group_id]" value="' . $this->group_id . '">';
 
-            $content .= '<div class="group-header">';
+            $content .= '<div class="usp-frame__section-header">';
 
-            $content .= '<div class="group-primary-settings">';
+            $content .= '<div class="usp-frame__section-settings usps usps__jc-between usps__ai-center">';
 
-            $content .= '<div class="group-title-field">';
+            $content .= '<div class="usp-frame__section-name">';
             $content .= $this::setup( array(
                     'slug'        => 'group-title',
                     'type'        => 'text',
@@ -371,7 +371,7 @@ class USP_Fields_Manager extends USP_Fields {
                 ) )->get_field_html();
             $content .= '</div>';
 
-            $content .= '<div class="usp-areas-manager">';
+            $content .= '<div class="usp-frame__control usps usps__jc-between usps__relative">';
 
             //if ( count( $this->structure ) > 1 ) {
             $content .= usp_get_button( [
@@ -379,7 +379,7 @@ class USP_Fields_Manager extends USP_Fields {
                 'type'    => 'clear',
                 'title'   => __( 'Delete section', 'userspace' ),
                 'icon'    => 'fa-trash',
-                'class'   => 'group-manager-button group-delete',
+                'class'   => 'usp-frame__control-bttn usp-frame__section-bttn-delete',
                 'onclick' => 'usp_remove_manager_group("' . __( 'Are you sure?', 'userspace' ) . '",this);return false;',
                 ] );
             //}
@@ -389,7 +389,7 @@ class USP_Fields_Manager extends USP_Fields {
                 'type'    => 'clear',
                 'title'   => __( 'Settings of section', 'userspace' ),
                 'icon'    => 'fa-horizontal-sliders',
-                'class'   => 'group-manager-button group-settings',
+                'class'   => 'usp-frame__control-bttn usp-frame__section-bttn-edit',
                 'onclick' => 'usp_switch_view_settings_manager_group(this);return false;',
                 ] );
 
@@ -398,7 +398,7 @@ class USP_Fields_Manager extends USP_Fields {
                 'type'    => 'clear',
                 'label'   => __( 'Add a group of fields', 'userspace' ),
                 'icon'    => 'fa-plus',
-                'class'   => 'group-manager-button add-area',
+                'class'   => 'usp-frame__control-bttn usp-frame__section-bttn-add',
                 'onclick' => 'usp_manager_get_new_area(this);return false;',
                 ] );
 
@@ -424,7 +424,7 @@ class USP_Fields_Manager extends USP_Fields {
                 )
             );
 
-            $content .= '<div class="manager-group-settings">';
+            $content .= '<div class="usp-frame__section-more-options usps__hidden">';
             foreach ( $fields as $field ) {
                 $content .= $this::setup( $field )->get_field_html();
             }
@@ -433,7 +433,7 @@ class USP_Fields_Manager extends USP_Fields {
             $content .= '</div>';
         }
 
-        $content .= '<div class="manager-group-areas preloader-parent">';
+        $content .= '<div class="usp-frame__section-content usps usps__nowrap usps__jc-center preloader-parent">';
 
         foreach ( $group['areas'] as $area ) {
             $content .= $this->get_active_area( $area );
@@ -458,32 +458,48 @@ class USP_Fields_Manager extends USP_Fields {
 
         $widthArea = isset( $area['width'] ) && $area['width'] ? $area['width'] : 100;
 
-        $content = '<div class="manager-area preloader-parent" style="width:' . ($widthArea ? $widthArea . '%' : 'auto') . ';">';
+        $content = '<div class="usp-frame__group preloader-parent" style="width:' . ($widthArea ? $widthArea . '%' : 'auto') . ';">';
 
         if ( $this->structure_edit ) {
 
-            $content .= '<div class="area-width-content">' . $widthArea . '</div>';
+            $content .= '<div class="usp-frame__group-width usps__hidden">' . $widthArea . '</div>';
 
             $content .= '<input type="hidden" name="structure[]" value="area">';
             $content .= '<input type="hidden" class="area-width" name="structure-areas[][width]" value="' . $widthArea . '">';
         }
 
-        $content .= '<div class="area-content">';
+        $content .= '<div class="usp-frame__group-box">';
 
         if ( $this->structure_edit ) {
 
-            $content .= '<div class="usp-areas-manager">';
-            $content .= '<a href="#" title="' . __( 'Delete group of fields', 'userspace' ) . '"onclick="usp_remove_manager_area(\'' . __( 'Are you sure?', 'userspace' ) . '\',this);return false"><i class="uspi fa-trash" aria-hidden="true"></i></a>';
+            $content .= '<div class="usp-frame__control usps usps__jc-between usps__relative">';
 
-            if ( $this->sortable )
-                $content .= '<span class="area-move left-align"><i class="uspi fa-arrows" aria-hidden="true"></i></span>';
+            $content .= usp_get_button( [
+                'size'    => 'medium',
+                'type'    => 'clear',
+                'title'   => __( 'Delete group of fields', 'userspace' ),
+                'icon'    => 'fa-trash',
+                'class'   => 'usp-frame__group-bttn-delete',
+                'onclick' => 'usp_remove_manager_area("' . __( 'Are you sure?', 'userspace' ) . '",this);return false;',
+                ] );
+
+            if ( $this->sortable ) {
+                $content .= usp_get_button( [
+                    'size'  => 'medium',
+                    'type'  => 'clear',
+                    'title' => '',
+                    'icon'  => 'fa-arrows',
+                    'class' => 'usp-frame__group-bttn-move',
+                    ] );
+            }
+
             /* if ( $this->create_field ) {
-              $content .= '<a href="#" onclick="usp_manager_get_new_field(this);return false;" title="' . __( 'Добавить поле', 'userspace' ) . '" class="add-field left-align"><i class="uspi fa-plus-square" aria-hidden="true"></i> ' . __( 'Добавить поле', 'userspace' ) . '</a>';
+              $content .= '<a href="#" onclick="usp_manager_get_new_field(this);return false;" title="' . __( 'Add field', 'userspace' ) . '" class="add-field"><i class="uspi fa-plus-square" aria-hidden="true"></i> ' . __( 'Add field', 'userspace' ) . '</a>';
               } */
             $content .= '</div>';
         }
 
-        $content .= '<div class="usp-active-fields fields-box">';
+        $content .= '<div class="usp-frame__group-fields fields-box">';
 
         if ( $this->fields ) {
 
@@ -510,13 +526,21 @@ class USP_Fields_Manager extends USP_Fields {
 
         $content .= '</div>';
 
-        $content .= "<div class=submit-box>";
+        $content .= '<div class="submit-box">';
 
         if ( $this->create_field ) {
-            $content .= "<input type=button onclick='usp_manager_get_new_field(this);' class='add-field-button button-secondary right' value='+ " . __( 'Add field', 'userspace' ) . "'>";
+            $content .= usp_get_button( [
+                'size'      => 'medium',
+                'type'      => 'simple',
+                'label'     => __( 'Add new field', 'userspace' ),
+                'icon'      => 'fa-plus',
+                'class'     => [ 'add-field-button' ],
+                'fullwidth' => 1,
+                'onclick'   => 'usp_manager_get_new_field(this);',
+                ] );
         }
 
-        $content .= "</div>";
+        $content .= '</div>';
 
         $content .= '</div>';
 
@@ -527,10 +551,19 @@ class USP_Fields_Manager extends USP_Fields {
 
     function get_submit_box() {
 
-        $content = "<div class=submit-box>";
+        $content = '<div class="submit-box">';
 
-        if ( $this->structure_edit )
-            $content .= "<input type=button onclick='usp_manager_get_new_group(this);' class='add-field-button button-secondary right' value='+ " . __( 'Add new section', 'userspace' ) . "'>";
+        if ( $this->structure_edit ) {
+            $content .= usp_get_button( [
+                'size'      => 'medium',
+                'type'      => 'simple',
+                'label'     => __( 'Add new section', 'userspace' ),
+                'icon'      => 'fa-plus',
+                'class'     => [ 'add-field-button' ],
+                'fullwidth' => 1,
+                'onclick'   => 'usp_manager_get_new_group(this);',
+                ] );
+        }
 
         $content .= "<input class='button button-primary' type=submit value='" . __( 'Save', 'userspace' ) . "' name='usp_save_custom_fields'>";
 
@@ -542,7 +575,7 @@ class USP_Fields_Manager extends USP_Fields {
             $content .= "<div id='field-delete-confirm' style='display:none;'>" . __( 'To remove the data added to this field?', 'userspace' ) . "</div>";
         }
 
-        $content .= "</div>";
+        $content .= '</div>';
 
         return $content;
     }
@@ -552,7 +585,7 @@ class USP_Fields_Manager extends USP_Fields {
         if ( ! $this->default_fields )
             return false;
 
-        $content = '<div class="usp-service-fields usp-default-fields fields-box">';
+        $content = '<div class="usp-frame__service usp-frame__default fields-box">';
 
         foreach ( $this->default_fields as $field_id => $field ) {
 
@@ -572,7 +605,7 @@ class USP_Fields_Manager extends USP_Fields {
         if ( ! $this->template_fields )
             return false;
 
-        $content = '<div class="usp-service-fields usp-template-fields fields-box">';
+        $content = '<div class="usp-frame__service usp-template-fields fields-box">';
 
         foreach ( $this->template_fields as $field_id => $field ) {
             $content .= $this->get_field_manager( $field_id, 'template' );
@@ -592,7 +625,7 @@ class USP_Fields_Manager extends USP_Fields {
 
         $field = $this->get_field( $field_id, $serviceType );
 
-        $classes = array( 'manager-field' );
+        $classes = [ 'usp-frame__field' ];
 
         if ( $this->is_service_type( $field_id, 'default' ) ) {
             $classes[] = 'default-field';
@@ -604,7 +637,7 @@ class USP_Fields_Manager extends USP_Fields {
             $classes[] = 'must-meta-delete';
         }
 
-        $content = '<div id="manager-field-' . $field_id . '" class="' . implode( ' ', $classes ) . '" data-type="' . $field->type . '" data-id="' . $field_id . '">';
+        $content = '<div id="usp-frame__field-' . $field_id . '" class="' . implode( ' ', $classes ) . '" data-type="' . $field->type . '" data-id="' . $field_id . '">';
 
         if ( $this->structure_edit ) {
             $content .= '<input type="hidden" name="structure[][field_id]" value="' . $field_id . '">';
@@ -644,8 +677,8 @@ class USP_Fields_Manager extends USP_Fields {
 
         $field = $this->get_field( $field_id, $serviceType );
 
-        $content = '<div class="manager-field-header">';
-        $content .= '<span class="field-icon icon-type-' . $field->type . '"></span>';
+        $content = '<div class="usp-frame__field-header usps usps__nowrap usps__ai-center">';
+        $content .= '<span class="usp-frame__field-icon icon-type-' . $field->type . '"></span>';
 
         if ( $field->is_new() ) {
             $content .= $this::setup( array(
@@ -668,7 +701,7 @@ class USP_Fields_Manager extends USP_Fields {
         $buttons = $this->get_control_buttons( $field_id, $field );
 
         if ( $buttons ) {
-            $content .= '<span class="field-control">';
+            $content .= '<span class="usp-frame__field-control usps usps__nowrap usps__jc-end">';
 
             foreach ( $buttons as $button ) {
                 $content .= usp_get_button( $button );
@@ -689,20 +722,20 @@ class USP_Fields_Manager extends USP_Fields {
         if ( $field->must_delete && $this->fields_delete && ! $this->is_service_type( $field_id, 'default' ) && ! $field->is_new() ) {
             $buttons['delete'] = array(
                 'icon'    => 'fa-trash',
-                'class'   => 'control-delete',
+                'class'   => 'usp-frame__field-bttn-delete',
                 'onclick' => 'usp_manager_field_delete("' . $field_id . '", ' . ($this->meta_delete ? 1 : 0) . ', this);return false;',
             );
         }
 
         $buttons['edit'] = array(
-            'class'   => 'control-edit',
+            'class'   => 'usp-frame__field-bttn-edit',
             'icon'    => 'fa-horizontal-sliders',
             'onclick' => 'usp_manager_field_switch(this);return false;'
         );
 
         if ( $this->sortable )
             $buttons['sortable'] = array(
-                'class' => 'control-move',
+                'class' => 'usp-frame__field-bttn-move',
                 'icon'  => 'fa-arrows'
             );
 
@@ -715,10 +748,10 @@ class USP_Fields_Manager extends USP_Fields {
 
         $field = $this->get_field( $field_id, $serviceType );
 
-        $content = '<div class="manager-field-settings">';
+        $content = '<div class="usp-frame__field-settings usps__hidden">';
 
         if ( ! $field->is_new() ) {
-            $content .= '<span class="field-id">' . __( 'ID', 'userspace' ) . ': ' . $field_id . '</span>';
+            $content .= '<span class="usp-frame__field-id">' . __( 'ID', 'userspace' ) . ': ' . $field_id . '</span>';
         }
 
         $content .= $this->get_field_general_options_content( $field_id, $serviceType );
@@ -880,7 +913,7 @@ class USP_Fields_Manager extends USP_Fields {
 
         return '<script>
 				jQuery(function(){
-					jQuery("' . ($field_id ? "#manager-field-" . $field_id . " " : '') . '.usp-field-input .dynamic-values").sortable({
+					jQuery("' . ($field_id ? "#usp-frame__field-" . $field_id . " " : '') . '.usp-field-input .dynamic-values").sortable({
 						containment: "parent",
 						placeholder: "ui-sortable-placeholder",
 						distance: 15,

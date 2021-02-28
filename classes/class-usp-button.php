@@ -78,7 +78,7 @@ class USP_Button {
     function setup_class() {
 
         if ( $this->class && ! is_array( $this->class ) )
-            $this->class   = array( 'usp-bttn', $this->class );
+            $this->class   = array( $this->class, 'usp-bttn' );
         else
             $this->class[] = 'usp-bttn';
 

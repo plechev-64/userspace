@@ -1,204 +1,231 @@
-.usp-manager-options {
-    max-width: 400px;
-    margin: 0 0 18px;
-}
-.usp-fields-manager.structure-simple {
-    display: flex;
-    flex-direction: row-reverse;
-    justify-content: flex-end;
-}
-.usp-fields-manager .manager-title {
-    font-size: 24px;
-    margin-bottom: 18px;
-}
-.usp-fields-manager .usp-manager-box {
+.usp-frame__box {
     border: 1px solid var(--uspGray-300);
     box-sizing: border-box;
     margin: 18px 12px;
     padding: 12px;
     position: relative;
     background: var(--uspWhite);
+    font-size: 16px;
 }
-.usp-fields-manager.structure-simple .usp-manager-box {
-    display: inline-block;
-    max-width: 520px;
-    width: calc(100% - 24px);
+.usp-frame__box-default.fixed {
+    position: fixed;
+    top: 12px;
+    z-index: 91;
+    width: calc(100% - 200px);
+    box-shadow: 3px 3px 6px 0 var(--uspBlack-02);
 }
-.usp-fields-manager .fields-box {
+.usp-frame__title {
+    font-size: 24px;
+    margin-bottom: 24px;
+}
+.usp-frame__service {
     min-height: 48px;
+    box-sizing: border-box;
+    padding: 6px;
+    background: var(--uspWhite);
+    border: 3px dashed var(--uspGray-300);
+    min-width: 310px;
 }
-
-.usp-fields-manager .usp-manager-groups .manager-group-settings {
+.fixed .usp-frame__service {
+    max-height: 164px;
+    overflow: auto;
+}
+.usp-frame__service .usp-frame__field-control a:not(.usp-frame__field-bttn-move),
+.usp-frame__service .usp-frame__field-settings {
+    display: none !important;
+}
+.usp-frame__service .ui-sortable-placeholder {
+    display: inline-block;
+    width: auto;
+    min-width: 200px;
+    margin: 6px;
+    vertical-align: bottom;
+}
+.usp-frame__options {
+    max-width: 450px;
+    margin: 0 0 24px;
+}
+.usp-frame__section {
+    margin: 24px 0 0 0;
+}
+.usp-frame-edit .usp-frame__section {
+    border: 1px solid var(--uspGray-300);
+}
+.usp-frame__section-header {
+    padding: 6px;
+    background: var(--uspBlue-300);
+}
+.usp-frame__section-settings > div {
+    min-height: 36px;
+}
+.usp-frame__section-name {
     width: 50%;
 }
-.usp-fields-manager.structure-edit .manager-group{
-	border: 1px solid var(--uspGray-300);
-	margin: 10px 0 0 0;
-	position:relative;
+.usp-frame__control {
+    background: var(--uspWhite);
+    min-width: 300px;
 }
-.usp-fields-manager.structure-edit .group-header{
-	padding: 10px;
-	background: #bec6f0;
+.usp-frame__control .usp-bttn {
+    padding: 6px 9px;
 }
-.usp-fields-manager.structure-edit .group-header .group-primary-settings{
-	display: flex;
-	justify-content: space-between;
-}
-.usp-fields-manager.structure-edit .group-header .group-title-field{
-	width: 50%;
-}
-.usp-fields-manager.structure-edit .group-header .group-title-field .usp-field{
-	margin: 0;
-}
-.usp-fields-manager.structure-edit .manager-group-settings{
-	display: none;
-}
-.usp-fields-manager .manager-field{
-	margin: 5px;
-	position: relative;
-}
-.usp-fields-manager .manager-field-header{
-	align-items: center;
-	background: #eee linear-gradient(to top, #f5f5f5, #eee);
-	border: 1px solid #ddd;
-	display: flex;
-	overflow: hidden;
-	padding: 0 5px;
-}
-.usp-fields-manager .manager-field-header.ui-sortable-handle{
-	cursor:move;
-}
-.usp-fields-manager .manager-field-header .usp-field{
-	margin: 0;
-	width: 100%;
-}
-.usp-fields-manager .usp-field .usp-field-title{
-	font-weight: bold;
-}
-.usp-fields-manager .manager-field-settings{
-	background: var(--uspWhite);
-	border: 1px solid #ddd;
-	margin: 0 0 25px;
-	padding: 5px;
-	display:none;
-}
-.usp-fields-manager .manager-field-settings.show-settings-field{
-	display:block;
-}
-.usp-fields-manager .field-icon{
-	background: #f6f6f6;
-	border: 1px solid #e5e5e5;
-	color: rgb(76, 140, 189);
-	font-family: dashicons;
-	font-size: 20px;
-	margin-right: 10px;
-	padding: 5px;
-}
-.usp-fields-manager .field-title{
-	flex-grow: 1;
-	font-size: 14px;
-	font-weight: bold;
-}
-.usp-fields-manager .field-control{
-	display: flex;
-	/*font-family: dashicons;*/
-	justify-content: flex-end;
-	font-size: 20px;
-}
-.usp-fields-manager .field-control a,
-.usp-fields-manager .field-control span{
-	margin: 0!important;
-	text-decoration: none;
-}
-.usp-fields-manager .field-control i {
+.usp-frame__control i {
     font-size: 20px;
 }
-.usp-fields-manager .control-edit{
-	color: rgb(76, 140, 189);
-	/*content: "\f140";*/
+.usp-frame .fa-trash {
+    color: var(--uspRed-500);
 }
-.usp-fields-manager .control-move{
-	font-size: 18px;
+.usp-frame__section-more-options {
+    width: 50%;
 }
-.usp-fields-manager .field-id{
-	background: rgba(224, 248, 201, .6);
-	color: #555;
-	float: right;
-	margin: -5px -5px 0 0;
-	padding: 5px 10px;
+.usp-frame__section-more-options > .usp-field {
+    margin-top: 12px;
 }
-.usp-fields-manager .manager-field[data-type="custom"] .field-icon::before {
-	content: "\f111";
+.usp-frame__section-content {
+    min-height: 100px;
 }
-.usp-fields-manager .manager-field[data-type="text"] .field-icon::before {
-	content: "\f464";
+.usp-frame__group {
+    min-width: 250px;
+    padding: 6px;
 }
-.usp-fields-manager .manager-field[data-type="textarea"] .field-icon::before {
-	content: "\f119";
+.usp-frame-edit .usp-frame__group {
+    margin: 12px;
 }
-.usp-fields-manager .manager-field[data-type="select"] .field-icon::before {
-	content: "\f203";
+.usp-frame__group-box {
+    max-width: 550px;
+    margin: 0 auto;
 }
-.usp-fields-manager .manager-field[data-type="multiselect"] .field-icon::before {
-	content: "\f163";
+.usp-bttn.usp-frame__group-bttn-move {
+    background: var(--uspGray-200);
+    cursor: move;
 }
-.usp-fields-manager .manager-field[data-type="checkbox"] .field-icon::before {
-	content: "\f147";
+.usp-frame__group .fields-box {
+    padding: 6px;
+    border: 3px dashed var(--uspGray-300);
+    min-height: 40px;
+    box-sizing: border-box;
 }
-.usp-fields-manager .manager-field[data-type="radio"] .field-icon::before {
-	content: "\f159";
+.usp-frame__field {
+    position: relative;
 }
-.usp-fields-manager .manager-field[data-type="email"] .field-icon::before {
-	content: "\f466";
+.usp-frame__field:not(:last-child) {
+    margin-bottom: 6px;
 }
-.usp-fields-manager .manager-field[data-type="tel"] .field-icon::before {
-	content: "\f525";
+.usp-frame__service .usp-frame__field {
+    display: inline-flex;
+    margin-right: 6px;
 }
-.usp-fields-manager .manager-field[data-type="password"] .field-icon::before {
-	content: "\f070";
-        font-family: usp-awesome;
+.usp-frame__field-header {
+    overflow: hidden;
+    border: 1px solid var(--uspGray-300);
+    background: var(--uspGray-100);
+    min-height: 42px;
 }
-.usp-fields-manager .manager-field[data-type="number"] .field-icon::before {
-	content: "123";
-	font-size: 14px;
-	font-weight: bold;
-	vertical-align: super;
+.usp-frame__field-icon {
+    color: var(--uspGray-400);
+    font-family: dashicons;
+    font-size: 20px;
+    margin: 0 12px;
 }
-.usp-fields-manager .manager-field[data-type="date"] .field-icon::before {
-	content: "\f508";
+.usp-frame .icon-type-custom::before {
+    content: "\f111";
 }
-.usp-fields-manager .manager-field[data-type="time"] .field-icon::before {
-	content: "\f469";
+.usp-frame .icon-type-text::before {
+    content: "\f464";
 }
-.usp-fields-manager .manager-field[data-type="url"] .field-icon::before {
-	content: "\f0c1";
-        font-family: usp-awesome;
+.usp-frame .icon-type-textarea::before {
+    content: "\f119";
 }
-.usp-fields-manager .manager-field[data-type="agree"] .field-icon::before {
-	content: "\f491";
+.usp-frame .icon-type-select::before {
+    content: "\f203";
 }
-.usp-fields-manager .manager-field[data-type="uploader"] .field-icon::before{
-	content: "\f501";
+.usp-frame .icon-type-multiselect::before {
+    content: "\f163";
 }
-.usp-fields-manager .manager-field[data-type="file"] .field-icon::before {
-	content: "\f498";
+.usp-frame .icon-type-checkbox::before {
+    content: "\f147";
 }
-.usp-fields-manager .manager-field[data-type="dynamic"] .field-icon::before {
-	content: "\f502";
+.usp-frame .icon-type-radio::before {
+    content: "\f159";
 }
-.usp-fields-manager .manager-field[data-type="editor"] .field-icon::before {
-	content: "\f212";
+.usp-frame .icon-type-email::before {
+    content: "\f466";
 }
-.usp-fields-manager .manager-field[data-type="runner"] .field-icon::before {
-	content: "\f229";
+.usp-frame .icon-type-tel::before {
+    content: "\f525";
 }
-.usp-fields-manager .manager-field[data-type="range"] .field-icon::before {
-	content: "\f108";
+.usp-frame .icon-type-password::before {
+    content: "\f112";
 }
-.usp-fields-manager i.fa-trash{
-	color: rgba(229, 57, 53, .7);
+.usp-frame .icon-type-number::before {
+    content: "123";
+    font-size: 14px;
+    font-weight: bold;
+    vertical-align: super;
 }
-.usp-fields-manager .ui-sortable-placeholder {
+.usp-frame .icon-type-date::before {
+    content: "\f508";
+}
+.usp-frame .icon-type-time::before {
+    content: "\f469";
+}
+.usp-frame .icon-type-url::before {
+    content: "\f103";
+}
+.usp-frame .icon-type-agree::before {
+    content: "\f491";
+}
+.usp-frame .icon-type-uploader::before {
+    content: "\f501";
+}
+.usp-frame .icon-type-file::before {
+    content: "\f498";
+}
+.usp-frame .icon-type-dynamic::before {
+    content: "\f502";
+}
+.usp-frame .icon-type-editor::before {
+    content: "\f212";
+}
+.usp-frame .icon-type-runner::before {
+    content: "\f229";
+}
+.usp-frame .icon-type-range::before {
+    content: "\f108";
+}
+.usp-frame__field-header .usp-field {
+    width: 100%;
+}
+.usp-frame__service .usp-frame__field-header input {
+    pointer-events: none;
+}
+.usp-frame .usp-frame__field-bttn-move {
+    cursor: move;
+}
+.usp-frame__field-control i {
+    font-size: 20px;
+}
+.usp-frame__field-settings {
+    border: 1px solid var(--uspGray-300);
+    margin: 0 0 24px;
+    padding: 12px;
+}
+.usp-frame__field-settings .field-primary-options > div {
+    margin-bottom: 24px;
+}
+.usp-frame__field-id {
+    background: var(--uspGreen-100);
+    color: var(--uspGray-700);
+    float: right;
+    margin: -12px -12px 0 0;
+    padding: 6px 12px;
+    line-height: 1;
+    font-size: 14px;
+}
+.usp-frame__field-settings .usp-field {
+    width: 100%;
+    margin-bottom: 0px;
+}
+.usp-frame .ui-sortable-placeholder {
     background: var(--uspWhite);
     border: 2px dashed var(--uspGray-400);
     box-sizing: border-box;
@@ -210,230 +237,88 @@
     position: relative;
     margin: 6px 0;
 }
-.usp-fields-manager .usp-custom-field .dynamic-values {
-	background: #f5f5f5;
-	display: block;
-	padding: 10px;
+.usp-frame .dynamic-values .dynamic-value {
+    background: var(--uspGray-200);
+    border: 1px solid var(--uspGray-300);
+    clear: both;
+    line-height: normal;
+    padding: 3px;
+    position: relative;
 }
-.usp-fields-manager .dynamic-values .dynamic-value {
-	background: var(--uspGray-200);
-	border: 1px solid var(--uspGray-300);
-	clear: both;
-	line-height: normal;
-	padding: 3px;
-	position: relative;
+.usp-frame .dynamic-values.ui-sortable .dynamic-value::after {
+    color: var(--uspHex);
+    content: "\f0b2";
+    cursor: move;
+    font-family: usp-awesome;
+    align-items: center;
+    display: flex;
+    font-size: 22px;
+    justify-content: center;
+    margin: 0 0 0 6px;
+    min-width: 36px;
 }
-.usp-fields-manager .dynamic-values.ui-sortable .dynamic-value::after {
-	color: var(--uspHex);
-	content: "\f0b2";
-	cursor: move;
-	font-family: usp-awesome;
-	align-items: center;
-	display: flex;
-	font-size: 22px;
-	justify-content: center;
-	margin: 0 0 0 6px;
-	min-width: 36px;
+.usp-frame .submit-box .usp-bttn {
+    min-height: 40px;
 }
-
-.usp-fields-manager .submit-box input {
+.usp-frame__group-box .submit-box .usp-bttn {
+    margin-top: 6px;
+}
+.usp-frame__form > .submit-box .usp-bttn {
+    margin-top: 18px;
+}
+.usp-frame__group.ui-resizable:not(:last-child) .ui-resizable-e {
+    width: 3px;
+    height: 100%;
+    position: absolute;
+    right: -12px;
+    top: 0;
+    cursor: e-resize;
+    border: 2px dashed;
+    color: var(--uspWhite);
+    background: var(--uspGray-500);
+}
+.usp-frame__group.ui-sortable-helper .ui-resizable-e {
+    display: none;
+}
+.usp-frame__group.ui-sortable-helper {
+    max-width: 550px;
+}
+.resizable-area .usp-frame__group-width {
+    position: absolute;
+    z-index: 9;
+    font-size: 50px;
+    font-weight: bold;
+    left: 0;
+    top: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    height: 100%;
+    align-items: center;
+    background: var(--uspWhite-05);
+}
+.usp-frame .submit-box input {
     box-sizing: border-box;
     width: 100%;
-    margin: 12px 0 0;
+    margin: 18px 0 6px;
 }
-.usp-fields-manager .submit-box .button-primary {
-    font-size: 16px;
+.usp-frame .submit-box .button-primary {
+    font-size: 18px;
     border-radius: 0;
-    border: none;
     min-height: 42px;
 }
-.usp-fields-manager .submit-box .button-secondary {
-	background: rgb(230, 230, 230);
-	box-shadow: none;
-	height: auto;
-	border-width: 1px;
-	border-style: solid;
-	border-color: rgb(212, 212, 212);
-	border-image: initial;
-	border-radius: 0;
-	padding: 4px;
-}
-.usp-fields-manager .submit-box .button-secondary:hover {
-	background: rgb(238, 238, 238);
-	border-color: rgb(212, 212, 212);
-}
 
-.usp-fields-manager .usp-default-fields{
-	padding: 5px;
-	background: var(--uspWhite);
-	border: 3px dashed var(--uspGray-300);
-	min-width: 310px;
-}
-.default-box.fixed .usp-default-fields {
-	max-height: 145px;
-	overflow: auto;
-}
-.usp-fields-manager .usp-default-fields .manager-field-settings{
-	display: none !important;
-}
-.usp-fields-manager .usp-default-fields .manager-field-header input{
-	pointer-events: none;
-	background: #ebebeb;
-}
-.usp-fields-manager.structure-simple .default-box{
-	max-width: 350px;
-}
-.usp-fields-manager.structure-simple .default-box.fixed .usp-default-fields{
-	position: fixed;
-	top: 30px;
-	z-index: 91;
-	box-shadow: 3px 3px 6px 0 var(--uspGray-300);
-}
-.usp-fields-manager.structure-edit .default-box.fixed {
-	position: fixed;
-	top: 12px;
-	z-index: 91;
-	width: calc(100% - 200px);
-	box-shadow: 3px 3px 6px 0 var(--uspBlack-02);
-}
-.usp-fields-manager.structure-edit .usp-default-fields .manager-field{
-	display:inline-block;
-}
-.usp-fields-manager.structure-edit .usp-default-fields .ui-sortable-placeholder {
-	display: inline-block;
-	width: auto;
-	min-width: 200px;
-	margin: 5px;
-	vertical-align: bottom;
-}
-.usp-fields-manager .usp-service-fields .field-control a:not(.control-move){
-	display:none;
-}
 
-.usp-fields-manager .manager-group-areas{
-	display: flex;
-	justify-content: center;
-	min-height: 100px;
-	background: var(--uspWhite);
+.usp-frame-easy {
+    display: flex;
 }
-.usp-fields-manager .manager-area{
-	max-width: 550px;
-	min-width: 250px;
-	width: 100%;
-	padding: 5px;
-	background: var(--uspWhite);
+.usp-frame-easy .usp-frame__box {
+    max-width: 520px;
+    width: 100%;
 }
-.usp-fields-manager .manager-area .fields-box{
-	padding: 6px;
-	background: var(--uspWhite);
-	border: 3px dashed var(--uspGray-300);
-
-}
-.usp-fields-manager .manager-area .area-content{
-	max-width: 550px;
-	margin: 0 auto;
-}
-.usp-fields-manager .manager-group-areas > .ui-sortable-area-placeholder {
-	background: var(--uspGray-300);
-	border: 2px dashed #aaa;
-	box-sizing: border-box;
-	height: 150px;
-	max-width: 550px;
-	width: 100%;
-	margin: 5px;
-}
-.usp-fields-manager .usp-areas-manager{
-	padding: 0;
-	position: relative;
-	overflow: hidden;
-	font-size: 18px;
-	background: var(--uspWhite);
-}
-.usp-fields-manager .usp-areas-manager a{
-	color: #777777;
-	padding: 5px 10px;
-	display: inline-block;
-	line-height: 1;
-	text-decoration: none;
-}
-.usp-fields-manager .usp-areas-manager .left-align{
-	float: right;
-	padding: 5px;
-	background: #eaeaea;
-	margin-left: 5px;
-	color: #333;
-}
-.usp-fields-manager .usp-areas-manager .area-move{
-	cursor: move;
-}
-.usp-fields-manager .manager-group > .usp-areas-manager a{
-    margin: 0;
-    background: var(--uspWhite);
-}
-.usp-fields-manager .manager-field.settings-edit{
-	position: fixed;
-	top: 0;
-	z-index: 999;
-	height: calc(100% - 50px);
-	width: 450px;
-	left: calc(50% - 1225px);
-	background: var(--uspBlack-05);
-	padding: 50px 1000px 0 1000px;
-}
-.usp-fields-manager .manager-field.settings-edit .manager-field-settings{
-	display: block;
-	overflow: auto;
-	width: 450px;
-	max-height: 85%;
-	box-sizing: border-box;
-}
-.usp-fields-manager.structure-edit .usp-custom-fields-box {
-	max-width: unset;
-}
-.usp-fields-manager.structure-edit .manager-area{
-	margin: 10px;
-	border: 1px solid var(--uspGray-300);
-	max-width: none;
-	position: relative;
-}
-.usp-fields-manager.structure-edit .manager-area.ui-resizable:not(:last-child) .ui-resizable-e {
-	width: 3px;
-	background: #777777;
-	height: 100%;
-	position: absolute;
-	right: -15px;
-	top: 0;
-	cursor: e-resize;
-	border: 2px dashed;
-	color: var(--uspWhite);
-}
-.usp-fields-manager.structure-edit .manager-area.ui-sortable-helper .ui-resizable-e{
-	display:none;
-}
-.usp-fields-manager.structure-edit .manager-area.ui-sortable-helper{
-	max-width: 550px;
-}
-.usp-fields-manager.structure-edit .area-width-content{
-	display:none;
-}
-.usp-fields-manager.structure-edit .resizable-area .area-width-content{
-	position: absolute;
-	z-index: 9;
-	font-size: 50px;
-	font-weight: bold;
-	text-align: center;
-	left: 0;
-	top: 0;
-	width: 100%;
-	display: flex;
-	justify-content: center;
-	height: 100%;
-	align-items: center;
-	background: var(--uspWhite-05);
-}
-.usp-fields-manager .group-manager-button.add-area i{
-	color: green;
-}
-.usp-fields-manager .group-manager-button.group-settings i{
-	color: #0073aa;
+.usp-frame__section-content > .ui-sortable-area-placeholder {
+    background: var(--uspGray-300);
+    height: 150px;
+    max-width: 550px;
+    margin: 6px;
 }

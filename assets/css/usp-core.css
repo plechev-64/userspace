@@ -26,9 +26,11 @@ i::before {
     --uspGray-600: #4b5563;
     --uspGray-700: #374151;
     
+    --uspGreen-100: #dcfce7;
     --uspGreen-500: #10B981;
     --uspGreen-700: #15803d;
     
+    --uspBlue-300: #93c5fd;
     --uspBlue-400: #60a5fa;
     --uspBlue-500: #3b82f6;
     
@@ -121,14 +123,14 @@ i::before {
 }
 
 /* usps (style) helpers */
+.usps__relative {
+    position: relative;
+}
 .usps__hidden {
     display: none;
 }
 .usps__invisible {
     visibility: hidden;
-}
-.usps__relative {
-    position: relative;
 }
 .usps__fit-cover {
     object-fit: cover;

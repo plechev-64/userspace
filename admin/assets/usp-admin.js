@@ -4,7 +4,7 @@ jQuery( function( $ ) {
 
 	usp_init_cookie();
 
-	$( '.usp-custom-fields-box' ).find( '.required-checkbox' ).each( function() {
+	$( '.usp-frame__box-fields' ).find( '.required-checkbox' ).each( function() {
 		usp_update_require_checkbox( this );
 	} );
 
@@ -46,7 +46,7 @@ jQuery( function( $ ) {
 		return false;
 	} );
 
-	$( '.usp-custom-fields-box' ).on( 'click', '.field-edit', function() {
+	$( '.usp-frame__box-fields' ).on( 'click', '.field-edit', function() {
 		$( this ).parents( '.field-header' ).next( '.field-settings' ).slideToggle();
 		return false;
 	} );
