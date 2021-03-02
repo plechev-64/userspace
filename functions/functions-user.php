@@ -550,3 +550,50 @@ add_action( 'delete_user', 'usp_delete_user_avatar', 10 );
 function usp_delete_user_avatar( $user_id ) {
     array_map( "unlink", glob( USP_UPLOAD_URL . 'avatars/' . $user_id . '-*.jpg' ) );
 }
+
+/**
+ * Get user custom fields
+ *
+ * @since 1.0
+ *
+ * @param int   $user_id    id user.
+ * @param array $args       $args['class'] add some class.
+ *
+ * @return string       user custom fields
+ */
+function usp_show_user_custom_fields( $user_id, $args = false ) {
+    $get_fields = usp_get_profile_fields();
+
+    if ( ! $get_fields )
+        return;
+
+    $content = '';
+
+    USP()->use_module( 'fields' );
+
+    foreach ( ( array ) stripslashes_deep( $get_fields ) as $field ) {
+        $field = apply_filters( 'usp_custom_field_profile', $field );
+
+        if ( ! $field )
+            continue;
+
+        $slug = isset( $field['name'] ) ? $field['name'] : $field['slug'];
+
+        if ( isset( $field['req'] ) && $field['req'] ) {
+            $field['public_value'] = $field['req'];
+        }
+
+        if ( isset( $field['public_value'] ) && $field['public_value'] == 1 ) {
+            $field['value'] = get_the_author_meta( $slug, $user_id );
+
+            $content .= USP_Field::setup( $field )->get_field_value( true );
+        }
+    }
+
+    if ( ! $content )
+        return;
+
+    $class = ($args['class']) ? ' ' . $args['class'] : '';
+
+    return '<div class="usp-user-fields ' . $class . ' usps usps__column">' . $content . '</div>';
+}

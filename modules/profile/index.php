@@ -11,8 +11,8 @@ function usp_profile_scripts() {
     if ( ! usp_is_office( $user_ID ) )
         return;
 
-    //usp_enqueue_style( 'usp-profile', plugins_url( 'style.css', __FILE__ ) );
-    usp_enqueue_script( 'usp-profile-scripts', plugins_url( 'js/scripts.js', __FILE__ ) );
+    usp_enqueue_style( 'usp-profile-css', plugins_url( 'assets/profile.css', __FILE__ ) );
+    usp_enqueue_script( 'usp-profile-js', plugins_url( 'assets/scripts.js', __FILE__ ) );
 }
 
 add_filter( 'usp_init_js_variables', 'usp_init_js_profile_variables', 10 );
@@ -29,7 +29,6 @@ function usp_init_js_profile_variables( $data ) {
 
 add_action( 'usp_init_tabs', 'usp_tab_profile' );
 function usp_tab_profile() {
-
     usp_tab(
         array(
             'id'       => 'profile',
@@ -54,7 +53,7 @@ function usp_bar_add_profile_link() {
     global $user_ID;
 
     if ( ! is_user_logged_in() )
-        return false;
+        return;
 
     usp_bar_add_menu_item( 'profile-link', array(
         'url'   => usp_get_tab_permalink( $user_ID, 'profile' ),
@@ -64,69 +63,33 @@ function usp_bar_add_profile_link() {
     );
 }
 
-//add_action( 'init', 'usp_add_block_show_profile_fields' );
-function usp_add_block_show_profile_fields() {
-    usp_block( 'details', 'usp_show_custom_fields_profile', array( 'id' => 'pf-block', 'order' => 20, 'public' => 1 ) );
-}
-
-function usp_show_custom_fields_profile( $master_id ) {
-
-    $get_fields = usp_get_profile_fields();
-
-    $content = '';
-
-    if ( $get_fields ) {
-
-        USP()->use_module( 'fields' );
-
-        foreach ( ( array ) stripslashes_deep( $get_fields ) as $field ) {
-            $field = apply_filters( 'custom_field_profile', $field );
-            if ( ! $field )
-                continue;
-            $slug  = isset( $field['name'] ) ? $field['name'] : $field['slug'];
-
-            if ( isset( $field['req'] ) && $field['req'] ) {
-                $field['public_value'] = $field['req'];
-            }
-
-            if ( isset( $field['public_value'] ) && $field['public_value'] == 1 ) {
-                $field['value'] = get_the_author_meta( $slug, $master_id );
-                $content        .= USP_Field::setup( $field )->get_field_value( true );
-            }
-        }
-    }
-
-    if ( ! $content )
-        return false;
-
-    return '<div class="show-profile-fields">' . $content . '</div>';
-}
-
-if ( ! is_admin() )
+if ( ! is_admin() ) {
     add_action( 'wp', 'usp_update_profile_notice' );
+}
 function usp_update_profile_notice() {
-    if ( isset( $_GET['updated'] ) )
+    if ( isset( $_GET['usp-profile-updated'] ) ) {
         add_action( 'usp_area_notice', function() {
             echo usp_get_notice( [ 'type' => 'success', 'text' => __( 'Your profile has been updated', 'userspace' ) ] );
         } );
+    }
 }
 
-//Обновляем профиль пользователя
+// Updating the user profile
 add_action( 'wp', 'usp_edit_profile', 10 );
 function usp_edit_profile() {
+    if ( ! isset( $_POST['submit_user_profile'] ) )
+        return;
+
     global $user_ID;
 
-    if ( ! isset( $_POST['submit_user_profile'] ) )
-        return false;
-
     if ( ! wp_verify_nonce( $_POST['_wpnonce'], 'update-profile_' . $user_ID ) )
-        return false;
+        return;
 
     usp_update_profile_fields( $user_ID );
 
     do_action( 'personal_options_update', $user_ID );
 
-    $redirect_url = usp_get_tab_permalink( $user_ID, 'profile' ) . '&updated=true';
+    $redirect_url = usp_get_tab_permalink( $user_ID, 'profile' ) . '&usp-profile-updated=true';
 
     wp_redirect( $redirect_url );
 
@@ -135,7 +98,6 @@ function usp_edit_profile() {
 
 add_filter( 'usp_profile_fields', 'usp_add_office_profile_fields', 10 );
 function usp_add_office_profile_fields( $fields ) {
-
     if ( ! usp_check_access_console() )
         return $fields;
 
@@ -152,9 +114,7 @@ function usp_add_office_profile_fields( $fields ) {
         ]
     ];
 
-    $fields = ($fields) ? array_merge( $profileFields, $fields ) : $profileFields;
-
-    return $fields;
+    return ($fields) ? array_merge( $profileFields, $fields ) : $profileFields;
 }
 
 function usp_tab_profile_content( $master_id ) {
@@ -222,13 +182,16 @@ function usp_delete_user_account_activate() {
     }
 }
 
-//Удаляем аккаунт пользователя
+// User deletes their profile
 function usp_delete_user_account() {
-    global $user_ID, $wpdb;
+    global $user_ID;
+
     if ( ! wp_verify_nonce( $_POST['_wpnonce'], 'delete-user-' . $user_ID ) )
         return false;
 
     require_once(ABSPATH . 'wp-admin/includes/user.php' );
+
+    global $wpdb;
 
     $wpdb->query( $wpdb->prepare( "DELETE FROM " . USP_PREF . "user_action WHERE user ='%d'", $user_ID ) );
 
@@ -236,7 +199,7 @@ function usp_delete_user_account() {
 
     if ( $delete ) {
         wp_die( __( 'We are very sorry but your account has been deleted!', 'userspace' ) );
-        echo '<a href="/">' . __( 'Back to main page', 'userspace' ) . '</a>';
+        echo '<a href="/">' . __( 'Go back to the main page', 'userspace' ) . '</a>';
     } else {
         wp_die( __( 'Account deletion failed! Go back and try again.', 'userspace' ) );
     }

@@ -46,7 +46,7 @@
 .usp-content-area > * {
     margin: 0 18px;
 }
-.usp-field {
+.usp-content-area .usp-field {
     width: calc(100% - 36px);
 }
 .usp-field-input {
@@ -90,6 +90,7 @@
     box-sizing: border-box;
     color: var(--uspGray-700);
     float: none;
+    font-family: inherit;
     font-size: 16px;
     height: auto;
     line-height: 1.4;

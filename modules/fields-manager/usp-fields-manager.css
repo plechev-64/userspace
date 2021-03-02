@@ -193,7 +193,7 @@
     content: "\f108";
 }
 .usp-frame__field-header .usp-field {
-    width: 100%;
+    flex-grow: 1;
 }
 .usp-frame__service .usp-frame__field-header input {
     pointer-events: none;
@@ -223,7 +223,7 @@
 }
 .usp-frame__field-settings .usp-field {
     width: 100%;
-    margin-bottom: 0px;
+    margin-bottom: 0;
 }
 .usp-frame .ui-sortable-placeholder {
     background: var(--uspWhite);
