@@ -21,8 +21,8 @@ function usp_resizable_scripts() {
 
 function usp_multiselect_scripts() {
     wp_enqueue_script( 'jquery' );
-    usp_enqueue_style( 'f-select', USP_URL . 'assets/js/fselect/fSelect.min.css', false, USP_VERSION );
-    wp_enqueue_script( 'f-select', USP_URL . 'assets/js/fselect/fSelect-min.js', false, USP_VERSION );
+    usp_enqueue_style( 'f-select', USP_URL . 'assets/lib/fselect/fSelect.min.css', false, USP_VERSION );
+    wp_enqueue_script( 'f-select', USP_URL . 'assets/lib/fselect/fSelect-min.js', false, USP_VERSION );
 }
 
 function usp_slider_scripts() {
@@ -33,7 +33,7 @@ function usp_slider_scripts() {
 }
 
 function usp_datepicker_scripts() {
-    wp_enqueue_style( 'jquery-ui-datepicker', USP_URL . 'assets/js/datepicker/usp-datepicker.min.css', false, USP_VERSION );
+    wp_enqueue_style( 'jquery-ui-datepicker', USP_URL . 'assets/lib/datepicker/usp-datepicker.min.css', false, USP_VERSION );
     wp_enqueue_script( 'jquery' );
     wp_enqueue_script( 'jquery-ui-core' );
     wp_enqueue_script( 'jquery-ui-datepicker' );
@@ -45,31 +45,31 @@ function usp_datepicker_scripts() {
 }
 
 function usp_image_slider_scripts() {
-    usp_enqueue_style( 'jssor-slider', USP_URL . 'assets/css/slider.css' );
+    usp_enqueue_style( 'jssor-slider', USP_URL . 'assets/lib/jssor-slider/slider.css' );
+
     wp_enqueue_script( 'jquery' );
-    usp_enqueue_script( 'jssor-slider', USP_URL . 'assets/js/jssor.slider/js/jssor.slider.min.js' );
+    usp_enqueue_script( 'jssor-slider', USP_URL . 'assets/lib/jssor-slider/slider.min.js' );
 }
 
 function usp_dialog_scripts() {
-    usp_enqueue_style( 'ssi-modal', USP_URL . 'assets/js/ssi-modal/usp-ssi-modal.min.css' );
-    usp_enqueue_script( 'ssi-modal', USP_URL . 'assets/js/ssi-modal/ssi-modal.min.js' );
+    usp_enqueue_style( 'ssi-modal', USP_URL . 'assets/lib/ssi-modal/usp-ssi-modal.min.css' );
+    usp_enqueue_script( 'ssi-modal', USP_URL . 'assets/lib/ssi-modal/ssi-modal.min.js' );
 }
 
 function usp_webcam_scripts() {
-    usp_enqueue_script( 'say-cheese', USP_URL . 'assets/js/say-cheese/say-cheese.js', array(), true );
+    usp_enqueue_script( 'say-cheese', USP_URL . 'assets/lib/say-cheese/say-cheese.js', array(), true );
 }
 
 function usp_fileupload_scripts() {
-
     wp_enqueue_script( 'jquery' );
     wp_enqueue_script( 'jquery-ui-core' );
     wp_enqueue_script( 'jquery-ui-widget' );
 
-    usp_enqueue_script( 'fileupload-load-image-all', USP_URL . 'assets/js/fileupload/js/load-image.all.min.js', array(), true );
-    usp_enqueue_script( 'jquery-iframe-transport', USP_URL . 'assets/js/fileupload/js/jquery.iframe-transport.js', array(), true );
-    usp_enqueue_script( 'jquery-fileupload', USP_URL . 'assets/js/fileupload/js/jquery.fileupload.js', array(), true );
-    usp_enqueue_script( 'jquery-fileupload-process', USP_URL . 'assets/js/fileupload/js/jquery.fileupload-process.js', array(), true );
-    usp_enqueue_script( 'jquery-fileupload-image', USP_URL . 'assets/js/fileupload/js/jquery.fileupload-image.js', array(), true );
+    usp_enqueue_script( 'fileupload-load-image-all', USP_URL . 'assets/lib/fileupload/load-image.all.min.js', array(), true );
+    usp_enqueue_script( 'jquery-iframe-transport', USP_URL . 'assets/lib/fileupload/jquery.iframe-transport.js', array(), true );
+    usp_enqueue_script( 'jquery-fileupload', USP_URL . 'assets/lib/fileupload/jquery.fileupload.js', array(), true );
+    usp_enqueue_script( 'jquery-fileupload-process', USP_URL . 'assets/lib/fileupload/jquery.fileupload-process.js', array(), true );
+    usp_enqueue_script( 'jquery-fileupload-image', USP_URL . 'assets/lib/fileupload/jquery.fileupload-image.js', array(), true );
 }
 
 function usp_crop_scripts() {
@@ -79,7 +79,7 @@ function usp_crop_scripts() {
 }
 
 function usp_rangyinputs_scripts() {
-    usp_enqueue_script( 'rangyinputs', USP_URL . 'assets/js/rangyinputs.js' );
+    usp_enqueue_script( 'rangyinputs', USP_URL . 'assets/lib/rangyinputs/rangyinputs.js' );
 }
 
 function usp_animate_css() {
@@ -157,7 +157,7 @@ function usp_get_localize_data() {
     );
 
     //$data['mobile'] = (wp_is_mobile()) ? ( int ) 1 : ( int ) 0;
-    $data['https'] = @( ! isset( $_SERVER["HTTPS"] ) || $_SERVER["HTTPS"] != 'on' ) ? ( int ) 0 : ( int ) 1;
+    $data['https'] = ( ! is_ssl() ) ? ( int ) 0 : ( int ) 1;
 
     $data['errors']['required']      = __( 'Fill in all required fields', 'userspace' );
     $data['errors']['pattern']       = __( 'Specify the data in the required format', 'userspace' );

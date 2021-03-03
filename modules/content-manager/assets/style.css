@@ -21,7 +21,7 @@
 	display: block;
     text-align: center;
     padding: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--uspGray-300);
     border-radius: 5px;
     line-height: 1;
 }
@@ -29,14 +29,14 @@
 	position: absolute;
 	z-index: 9;
 	background: var(--uspWhite);
-	box-shadow: 2px 2px 2px #ccc;
+	box-shadow: 2px 2px 2px var(--uspGray-300);
 	padding: 10px;
 	left: 0;
 	max-height: 500px;
 	overflow-y: auto;
 	display: none;
 	width: 100%;
-	border-left: 1px solid #ccc;
+	border-left: 1px solid var(--uspGray-300);
 }
 #usp-manager-filter .form-fields{
 	/*display: flex;*/
@@ -50,7 +50,7 @@
 }
 #usp-cols-manager .cols-box{
 	width: 50%;
-	background: #ccc;
+	background: var(--uspGray-300);
 	margin: 10px;
 	padding: 5px;
 }
@@ -68,7 +68,7 @@
 	background: #ffeded;
 	padding: 10px;
 	border-radius: 3px;
-	border: 1px solid #ccc;
+	border: 1px solid var(--uspGray-300);
 }
 #usp-cols-manager .single-col:not(.disabled){
 	cursor: move;

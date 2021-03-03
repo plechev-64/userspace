@@ -17,7 +17,7 @@
 }
 #usp-wizard .step-title{
     font-size: 20px;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid var(--uspGray-300);
     line-height: 2;
 }
 #usp-wizard .step-description{

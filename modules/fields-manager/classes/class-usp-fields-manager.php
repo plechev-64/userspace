@@ -751,7 +751,7 @@ class USP_Fields_Manager extends USP_Fields {
         $content = '<div class="usp-frame__field-settings usps__hidden">';
 
         if ( ! $field->is_new() ) {
-            $content .= '<span class="usp-frame__field-id">' . __( 'ID', 'userspace' ) . ': ' . $field_id . '</span>';
+            $content .= '<span class="usp-frame__field-id usps__line-1">' . __( 'ID', 'userspace' ) . ': ' . $field_id . '</span>';
         }
 
         $content .= $this->get_field_general_options_content( $field_id, $serviceType );

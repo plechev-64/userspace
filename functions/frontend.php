@@ -69,7 +69,7 @@ function usp_api_button_inline_size( $styles ) {
 // set frontend root inline css colors
 add_filter( 'usp_inline_styles', 'usp_css_variable', 10, 2 );
 function usp_css_variable( $styles, $rgb ) {
-    $usp_color = usp_get_option( 'usp-primary-color', '#4c8cbd' );
+    $usp_color = usp_get_option( 'usp-primary-color', '#3b82f6' );
 
     list($r, $g, $b) = $rgb;
 
