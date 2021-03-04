@@ -371,14 +371,6 @@ function usp_init_check_url_params() {
     }
 }
 
-usp_add_action( 'usp_init', 'usp_init_close_notice' );
-function usp_init_close_notice() {
-	jQuery( '#usp-notice,body' ).on( 'click', 'a.close-notice', function() {
-		usp_close_notice( jQuery( this ).parent() );
-		return false;
-	} );
-}
-
 usp_add_action( 'usp_footer', 'usp_beat' );
 function usp_beat() {
 

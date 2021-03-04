@@ -149,10 +149,7 @@ class USP_Content_Manager {
     }
 
     function get_no_result_notice() {
-        return usp_get_notice( array(
-            'type' => 'info',
-            'text' => __( 'Nothing found', 'userspace' )
-            ) );
+        return usp_get_notice( [ 'text' => __( 'Nothing found', 'userspace' ) ] );
     }
 
     function get_actions() {

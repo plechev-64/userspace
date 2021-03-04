@@ -139,10 +139,7 @@ function usp_check_user_blocked( $content ) {
     global $user_ID, $user_LK;
     if ( $user_LK && $user_LK != $user_ID ) {
         if ( get_user_meta( $user_LK, 'usp_black_list:' . $user_ID ) ) {
-            $content = usp_get_notice( array(
-                'type' => 'info',
-                'text' => __( 'The user has restricted access to their page', 'userspace' )
-                ) );
+            $content = usp_get_notice( [ 'text' => __( 'The user has restricted access to their page', 'userspace' ) ] );
         }
     }
     return $content;

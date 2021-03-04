@@ -204,64 +204,65 @@ function usp_rand( min, max ) {
 
 function usp_notice( text, type, time_close ) {
 
-	time_close = time_close || false;
+    time_close = time_close || false;
 
-	var options = {
-		text: text,
-		type: type,
-		time_close: time_close
-	};
+    var options = {
+        text: text,
+        type: type,
+        time_close: time_close,
+        timeout: 1
+    };
 
-	options = usp_apply_filters( 'usp_notice_options', options );
+    options = usp_apply_filters( 'usp_notice_options', options );
 
-	var notice_id = usp_rand( 1, 1000 );
+    var notice_id = usp_rand( 1, 1000 );
 
-	var html = '<div id="notice-' + notice_id + '" class="notice-window type-' + options.type + '"><a href="#" class="close-notice"><i class="uspi fa-times"></i></a>' + options.text + '</div>';
-	if ( !jQuery( '#usp-notice' ).length ) {
-		jQuery( 'body > div' ).last().after( '<div id="usp-notice">' + html + '</div>' );
-	} else {
-		if ( jQuery( '#usp-notice > div' ).length )
-			jQuery( '#usp-notice > div:last-child' ).after( html );
-		else
-			jQuery( '#usp-notice' ).html( html );
-	}
+    var html = '<div id="notice-' + notice_id + '" class="usp-notice usps__relative usps__line-normal usp-notice__type-' + options.type + '">';
+    html += '<i class="uspi fa-times usp-notice__close" aria-hidden="true" onclick="usp_close_notice(this);return false;"></i>';
+    html += '<div class="usp-notice__text">' + options.text + '</div>';
+    html += '</div>';
 
-	jQuery( '#usp-notice > div' ).last().animateCss( 'slideInLeft' );
+    if ( !jQuery( '#usp-wrap-notices' ).length ) {
+        jQuery( 'body > div' ).last().after( '<div id="usp-wrap-notices">' + html + '</div>' );
+    } else {
+        if ( jQuery( '#usp-wrap-notices > div' ).length )
+            jQuery( '#usp-wrap-notices > div:last-child' ).after( html );
+        else
+            jQuery( '#usp-wrap-notices' ).html( html );
+    }
 
-	if ( time_close ) {
-		setTimeout( function() {
-			usp_close_notice( '#usp-notice #notice-' + notice_id )
-		}, options.time_close );
-	}
+    jQuery( '#usp-wrap-notices > div' ).last().animateCss( 'slideInLeft' );
+
+    if ( time_close ) {
+        if ( options.timeout ) {
+            jQuery( '#notice-' + notice_id ).append( '<div class="usp-notice__timeout"></div>' );
+            jQuery( '#notice-' + notice_id ).css( '--usp-notice-timeout', options.time_close );
+        }
+        setTimeout( function() {
+            usp_close_notice( '#notice-' + notice_id + ' i' );
+        }, options.time_close );
+    }
 }
 
 function usp_close_notice( e ) {
+    var timeCook = jQuery( e ).data( 'notice_time' );
 
-	var timeCook = jQuery( e ).data( 'notice_time' );
+    if ( timeCook ) {
+        var idCook = jQuery( e ).data( 'notice_id' );
 
-	if ( timeCook ) {
+        jQuery.cookie( idCook, '1', {
+            expires: timeCook,
+            path: '/'
+        } );
+    }
 
-		var idCook = jQuery( e ).data( 'notice_id' );
-		var block = jQuery( e ).parents( '.usp-notice' );
+    var block = jQuery( e ).parent();
 
-		jQuery( block ).animateCss( 'flipOutX', function() {
-			jQuery( block ).remove();
-		} );
+    jQuery( block ).animateCss( 'flipOutX', function() {
+        jQuery( block ).remove();
+    } );
 
-		jQuery.cookie( idCook, '1', {
-			expires: timeCook,
-			path: '/'
-		} );
-
-	} else {
-
-		jQuery( e ).animateCss( 'flipOutX', function( e ) {
-			jQuery( e ).hide();
-		} );
-
-	}
-
-	return false;
+    return false;
 }
 
 function usp_preloader_show( e, size ) {

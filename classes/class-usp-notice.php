@@ -2,14 +2,15 @@
 
 class USP_Notice {
 
-    public $type        = 'info'; //simple,info,error
-    public $title       = '';
-    public $text        = '';
-    public $icon        = true;
-    public $class       = '';
-    public $border      = true;
-    public $cookie      = '';
-    public $cookie_time = 30;
+    public $type        = 'info';   // info,success,warning,error,simple
+    public $title       = '';       // title text
+    public $text        = '';       // text message
+    public $text_center = true;     // true - text-align: center; false - left
+    public $icon        = true;     // left position icon; false - don't show, string - icon class. Example: 'fa-info'
+    public $class       = '';       // additional class
+    public $no_border   = false;    // hide border color
+    public $cookie      = '';       // unique cookie id
+    public $cookie_time = 30;       // lifetime cookie
 
     function __construct( $args ) {
 
@@ -38,14 +39,15 @@ class USP_Notice {
     }
 
     function setup_class() {
+        $center = ($this->text_center) ? 'usp-notice__text-center' : '';
 
-        $classes = array( 'usp-notice', 'usps__relative', 'usps__line-normal', 'usp-notice__type-' . $this->type );
+        $classes = array( 'usp-notice', 'usps__relative', 'usps__line-normal', 'usp-notice__type-' . $this->type, $center );
 
         if ( $this->class )
             $classes[] = $this->class;
 
-        if ( $this->border )
-            $classes[] = 'usp-notice__border';
+        if ( $this->no_border )
+            $classes[] = 'usp-notice__no-border';
 
         $this->class = implode( ' ', $classes );
     }
@@ -81,10 +83,10 @@ class USP_Notice {
         $content = '<div class="' . $this->class . '">';
 
         if ( ! empty( $this->icon ) )
-            $content .= '<i class="uspi ' . $this->icon . '" aria-hidden="true"></i>';
+            $content .= '<i class="uspi ' . $this->icon . ' usp-notice__ico" aria-hidden="true"></i>';
 
         if ( ! empty( $this->cookie ) ) {
-            $content .= '<div class="usp-notice__close" data-notice_id="' . $this->cookie . '" data-notice_time="' . $this->cookie_time . '" onclick="usp_close_notice(this);return false;"></div>';
+            $content .= '<i class="uspi fa-times usp-notice__close" aria-hidden="true" data-notice_id="' . $this->cookie . '" data-notice_time="' . $this->cookie_time . '" onclick="usp_close_notice(this);return false;"></i>';
         }
 
         if ( ! empty( $this->title ) )

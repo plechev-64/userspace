@@ -69,7 +69,10 @@ if ( ! is_admin() ) {
 function usp_update_profile_notice() {
     if ( isset( $_GET['usp-profile-updated'] ) ) {
         add_action( 'usp_area_notice', function() {
-            echo usp_get_notice( [ 'type' => 'success', 'text' => __( 'Your profile has been updated', 'userspace' ) ] );
+            echo usp_get_notice( [
+                'type' => 'success',
+                'text' => __( 'Your profile has been updated', 'userspace' )
+            ] );
         } );
     }
 }

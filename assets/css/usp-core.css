@@ -196,7 +196,6 @@ i::before {
 >>> Table of contents
 ------------------------
   1. General
-  2. USP Notice
   3. USP preloader
   4. USP smiles
   5. User online/offline
@@ -234,46 +233,6 @@ i::before {
     right: 0;
     top: 0;
     z-index: 999;
-}
-/*end*/
-
-
-/*--------------------------
-  2. USP Notice
-----------------------------*/
-#usp-notice {
-    left: 12px;
-    position: fixed;
-    top: 66px;
-    z-index: 1501;
-    min-width: 200px;
-    max-width: 260px;
-}
-#usp-notice .notice-window {
-    animation-duration: .3s;
-    border-left: 3px solid var(--uspBlack-015);
-    font-size: 16px;
-    line-height: 1.4;
-    margin: 6px 0;
-    padding: 6px 9px;
-    word-wrap: break-word;
-}
-#usp-notice .type-success {
-    background: var(--uspGreen-100);
-    color: var(--uspGreen-900);
-}
-#usp-notice .type-warning {
-    background: var(--uspYellow-100);
-    color: var(--uspYellow-900);
-}
-#usp-notice .type-error {
-    background: var(--uspRed-100);
-    color: var(--uspRed-900);
-}
-#usp-notice .notice-window .close-notice {
-    color: inherit;
-    float: right;
-    padding: 0 0 0 6px;
 }
 /*end*/
 
@@ -560,15 +519,24 @@ body .preloader-parent {
 /*---------------------------
   14. New USP Notice
 -----------------------------*/
+#usp-wrap-notices {
+    left: 12px;
+    position: fixed;
+    top: 66px;
+    z-index: 1501;
+    min-width: 200px;
+    max-width: 260px;
+}
 .usp-notice {
+    animation-duration: .3s;
     box-sizing: border-box;
     clear: both;
     font-size: 16px;
     margin: 12px 0 !important;
     overflow: hidden;
-    padding: 12px 36px !important;
+    padding: 12px 36px 12px 18px !important;
 }
-.usp-notice__border {
+.usp-notice:not(.usp-notice__no-border) {
     border: 1px solid var(--uspBlack-015);
 }
 .usp-notice__type-info {
@@ -591,7 +559,7 @@ body .preloader-parent {
     background: var(--uspGray-100);
     color: var(--uspGray-700);
 }
-.usp-notice > .uspi {
+.usp-notice__ico {
     color: var(--uspBlack-015);
     font-size: 52px;
     left: -9px;
@@ -599,7 +567,10 @@ body .preloader-parent {
     top: 50%;
     transform: translateY(-50%);
 }
-.usp-notice .usp-notice__text {
+.usp-notice .usp-notice__ico ~ div {
+    padding: 0 0 0 36px;
+}
+.usp-notice__text-center > div {
     text-align: center;
 }
 .usp-notice__text > p {
@@ -614,21 +585,23 @@ body .preloader-parent {
 }
 .usp-notice__close {
     cursor: pointer;
-    font-size: 15px;
-    line-height: 15px;
     position: absolute;
-    right: 2px;
-    top: 0;
+    right: 6px;
+    top: 6px;
 }
 .usp-notice__close:hover {
     opacity: .7;
 }
-.usp-notice__close::before {
-    color: currentColor;
-    content: "\f00d";
-    font-family: usp-awesome;
+.usp-notice__timeout {
+    height: 3px;
+    animation: usp-time-out calc(var(--usp-notice-timeout) * 1ms) linear forwards;
+    transform-origin: left center;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--uspBlack-02);
 }
-
 /**/
 
 /*---------------------------

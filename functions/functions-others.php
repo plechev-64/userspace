@@ -187,9 +187,29 @@ function usp_get_form( $args ) {
     return $Form->get_form();
 }
 
+/**
+ * Add notice box by type
+ *
+ * @since 1.0
+ *
+ * @param array $args                   Extra options.
+ *              $args['type']           string          type notice. Default: info. Allowed: info,success,warning,error,simple
+ *              $args['title']          string          title text
+ *              $args['text']           string          text message
+ *              $args['text_center']    bool            true - text-align: center; false - left. Default true
+ *              $args['icon']           bool,string     left position icon; false - don't show, string - icon class. Example: 'fa-info'. Default true
+ *              $args['class']          string          additional class
+ *              $args['no_border']      bool            hide border color. default false
+ *              $args['cookie']         string          unique cookie id
+ *              $args['cookie_time']    int             lifetime cookie. Default 30 days
+ *
+ * @return string   notice.
+ */
 function usp_get_notice( $args ) {
     require_once USP_PATH . '/classes/class-usp-notice.php';
+
     $Notice = new USP_Notice( $args );
+
     return $Notice->get_notice();
 }
 

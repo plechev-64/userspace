@@ -50,11 +50,6 @@ jQuery( function( $ ) {
 		$( this ).parents( '.field-header' ).next( '.field-settings' ).slideToggle();
 		return false;
 	} );
-
-	$( '#usp-notice,body' ).on( 'click', 'a.close-notice', function() {
-		usp_close_notice( jQuery( this ).parent() );
-		return false;
-	} );
 } );
 
 function usp_update_history_url( url ) {
