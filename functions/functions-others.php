@@ -83,9 +83,9 @@ function usp_get_roles_ids() {
     return $roles;
 }
 
-function usp_sanitize_string( $title, $sanitize = true ) {
+function usp_sanitize_string( $name, $sanitize = true ) {
 
-    $title = mb_strtolower( $title );
+    $title = mb_strtolower( $name );
 
     switch ( get_site_option( 'rtl_standard' ) ) {
         case 'off':
@@ -220,7 +220,7 @@ function usp_get_button( $args, $depr_url = false, $depr_args = false ) {
         return $bttn->get_button();
     }
 
-    _deprecated_argument( __FUNCTION__, '16.21.0' );
+    _deprecated_argument( __FUNCTION__, '0.1.0' );
 
     $button = '<a href="' . $depr_url . '" ';
     if ( isset( $depr_args['attr'] ) && $depr_args['attr'] )

@@ -52,7 +52,7 @@ function usp_avatar_icons() {
     return apply_filters( 'usp_avatar_icons', array() );
 }
 
-//указание url до загруженного изображения аватарки
+// specifying the url before the uploaded avatar image
 add_filter( 'pre_get_avatar_data', 'usp_avatar_data_replacement', 20, 2 );
 function usp_avatar_data_replacement( $args, $id_or_email ) {
     global $usp_user;

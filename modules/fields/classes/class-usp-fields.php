@@ -1,16 +1,5 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/**
- * Description of class-usp-fields
- *
- * @author Андрей
- */
 class USP_Fields extends USP_Field {
 
     public $fields;
@@ -57,7 +46,7 @@ class USP_Fields extends USP_Field {
                     )
                 )
             );
-        } else if ( $this->fields ) { //добавляем в структуру ничейные поля
+        } else if ( $this->fields ) { // add orphaned fields to the structure
             $structureFields = array();
 
             foreach ( $this->structure as $group_id => $group ) {

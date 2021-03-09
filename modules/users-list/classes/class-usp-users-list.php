@@ -76,19 +76,19 @@ class USP_Users_List extends USP_Users_Query {
         if ( $this->data( 'user_registered' ) || $this->orderby == 'user_registered' )
             add_filter( 'usp_users_query', array( $this, 'add_query_user_registered' ) );
 
-        //получаем данные рейитнга
+        // getting the rating data
         if ( $this->orderby == 'rating_total' )
             add_filter( 'usp_users_query', array( $this, 'add_query_rating_total' ) );
         else if ( $this->data( 'rating_total' ) )
             add_filter( 'usp_users', array( $this, 'add_rating_total' ) );
 
-        //считаем публикации
+        // count publications
         if ( $this->orderby == 'posts_count' )
             add_filter( 'usp_users_query', array( $this, 'add_query_posts_count' ) );
         else if ( $this->data( 'posts_count' ) )
             add_filter( 'usp_users', array( $this, 'add_posts_count' ) );
 
-        //считаем комментарии
+        // count comments
         if ( $this->orderby == 'comments_count' )
             add_filter( 'usp_users_query', array( $this, 'add_query_comments_count' ) );
         else if ( $this->data( 'comments_count' ) )
@@ -180,7 +180,7 @@ class USP_Users_List extends USP_Users_Query {
         return $query;
     }
 
-    //добавляем данные полей профиля, если перечислены через usergroup
+    // add profile field data if listed via usergroup
     function add_query_usergroup( $query ) {
         global $wpdb;
 
@@ -276,7 +276,7 @@ class USP_Users_List extends USP_Users_Query {
         return $query;
     }
 
-    //добавляем выборку данных активности пользователей в основной запрос
+    // add a selection of user activity data to the main query
     function add_query_time_action( $query ) {
 
         $query['select'][] = "actions.date_action";
@@ -287,7 +287,7 @@ class USP_Users_List extends USP_Users_Query {
         return $query;
     }
 
-    //добавление данных активности пользователей после основного запроса
+    // adding user activity data after the main query
     function add_time_action( $users ) {
         global $wpdb;
 
@@ -308,7 +308,7 @@ class USP_Users_List extends USP_Users_Query {
         return $users;
     }
 
-    //добавляем выборку данных постов в основной запрос
+    // adding a selection of these posts to the main query
     function add_query_posts_count( $query ) {
         global $wpdb;
 
@@ -324,7 +324,7 @@ class USP_Users_List extends USP_Users_Query {
         return $query;
     }
 
-    //добавление данных публикаций после основного запроса
+    // adding publication data after the main query
     function add_posts_count( $users ) {
         global $wpdb;
 
@@ -346,7 +346,7 @@ class USP_Users_List extends USP_Users_Query {
         return $users;
     }
 
-    //добавляем выборку данных комментариев в основной запрос
+    // adding a selection of these comments to the main query
     function add_query_comments_count( $query ) {
         global $wpdb;
 
@@ -361,7 +361,7 @@ class USP_Users_List extends USP_Users_Query {
         return $query;
     }
 
-    //добавление данных комментариев после основного запроса
+    // adding comment data after the main query
     function add_comments_count( $users ) {
         global $wpdb;
 
@@ -383,7 +383,7 @@ class USP_Users_List extends USP_Users_Query {
         return $users;
     }
 
-    //добавление данных статуса после основного запроса
+    // adding status data after the main query
     function add_descriptions( $users ) {
         global $wpdb;
 
@@ -424,7 +424,7 @@ class USP_Users_List extends USP_Users_Query {
         return $users;
     }
 
-    //добавляем выборку данных рейтинга в основной запрос
+    // adding a selection of rating data to the main query
     function add_query_rating_total( $query ) {
 
         $query['select'][] = "ratings.rating_total";
@@ -436,7 +436,7 @@ class USP_Users_List extends USP_Users_Query {
         return $query;
     }
 
-    //добавление данных рейтинга после основного запроса
+    // adding rating data after the main query
     function add_rating_total( $users ) {
         if ( ! in_array( 'userspace-rating-system/userspace-rating-system.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) )
             return $users;

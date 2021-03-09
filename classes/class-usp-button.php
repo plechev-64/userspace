@@ -1,10 +1,5 @@
 <?php
 
-/**
- * Description of class-usp-button
- *
- * @author Андрей
- */
 class USP_Button {
 
     public $id;
@@ -26,7 +21,7 @@ class USP_Button {
     public $submit;
     public $status;  // state of the button: loading, disabled, active
     public $size       = 'standart';   // small, standart, medium, large, big
-    public $attr;
+    public $attr; // deprecated
     public $attrs;
     public $fullwidth;  // 1 - is fullwidth button
     public $inset;
@@ -87,14 +82,14 @@ class USP_Button {
             if ( $this->icon_align == 'right' && $this->label ) {
 
                 if ( ! $this->counter ) {
-                    // кнопка из текста и только иконки справа
+                    // only text & icon right
                     $this->class[] = 'usp-bttn__mod-text-rico';
                 } else if ( $this->counter && ! $this->avatar ) {
-                    // текст иконка справа и счетчик
+                    // text & icon right & counter
                     $this->class[] = 'usp-bttn__mod-text-rico-count';
                 }
             } else if ( ! $this->counter && ! $this->avatar && ! $this->label ) {
-                // только иконка
+                // only icon
                 $this->class[] = 'usp-bttn__mod-only-icon';
             }
 
@@ -129,7 +124,7 @@ class USP_Button {
             $attrs[] = $name . '=\'' . $value . '\'';
         }
 
-        if ( $this->attr ) //поддержка старого указания произвольных атрибутов
+        if ( $this->attr ) // deprecated
             $attrs[] = $this->attr;
 
         return implode( ' ', $attrs );
@@ -137,7 +132,6 @@ class USP_Button {
 
     function get_icon() {
         return sprintf( '<i class="usp-bttn__ico usp-bttn__ico-%1$s uspi %2$s"></i>', $this->icon_align, $this->icon );
-        //return sprintf('<svg class="usp-bttn__ico usp-bttn__ico-%1$s uspi %2$s"><use xlink:href="#%2$s"></use></svg>', $this->icon_align, $this->icon);
     }
 
     function get_avatar() {

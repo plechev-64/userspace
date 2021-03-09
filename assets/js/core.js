@@ -10,13 +10,13 @@ jQuery( document ).ready( function( $ ) {
 		insertAtCaret: function( myValue ) {
 			return this.each( function( i ) {
 				if ( document.selection ) {
-					// Для браузеров типа Internet Explorer
+					// For Internet Explorer
 					this.focus();
 					var sel = document.selection.createRange();
 					sel.text = myValue;
 					this.focus();
 				} else if ( this.selectionStart || this.selectionStart == '0' ) {
-					// Для браузеров типа Firefox и других Webkit-ов
+					// For Firefox & Webkit
 					var startPos = this.selectionStart;
 					var endPos = this.selectionEnd;
 					var scrollTop = this.scrollTop;

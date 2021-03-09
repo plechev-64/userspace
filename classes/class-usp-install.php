@@ -14,7 +14,7 @@ class USP_Install {
 
         USP()->init();
 
-        //FIXME: Разобратся с этими глобальными. Нужны ли они тут вообще, пока не понятно.
+        //FIXME: Deal with these global ones. Whether they are needed here is still unclear.
         self::init_global();
 
         self::create_tables();
@@ -193,7 +193,7 @@ class USP_Install {
     }
 
     /**
-     * Удаляем таблицы если удалён блог (для мультисайтов)
+     * Deleting tables if the blog is deleted (for multi-sites)
      * @param  array $tables
      * @return array
      */
@@ -203,15 +203,15 @@ class USP_Install {
     }
 
     /*
-     * Сюда решил сложить не понятные для меня функции при установки плагина
-     * В дальнейшем нужно переопределить зависимости и переписать тут всё
+      Here I decided to add functions that are incomprehensible to me when installing the plugin
+      In the future, you need to redefine the dependencies and rewrite everything here
      */
     private static function any_functions() {
         global $wpdb;
 
         if ( ! usp_get_option( 'view_user_lk_usp' ) ) {
 
-            //отключаем все пользователям сайта показ админ панели, если включена
+            // disable the display of the admin panel for all users of the site, if enabled
             $wpdb->update(
                 $wpdb->prefix . 'usermeta', array( 'meta_value' => 'false' ), array( 'meta_key' => 'show_admin_bar_front' )
             );
@@ -220,7 +220,7 @@ class USP_Install {
             update_site_option( 'users_can_register', 1 );
         } else {
 
-            //устанавливаем показ аватарок на сайте
+            // setting up the display of avatars on the site
             update_site_option( 'show_avatars', 1 );
         }
 

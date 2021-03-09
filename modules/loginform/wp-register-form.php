@@ -1,6 +1,6 @@
 <?php
 
-//добавляем коды ошибок для тряски формы ВП
+// add error codes for shaking the VI form
 add_filter( 'shake_error_codes', 'usp_add_shake_error_codes' );
 function usp_add_shake_error_codes( $codes ) {
     return array_merge( $codes, array(

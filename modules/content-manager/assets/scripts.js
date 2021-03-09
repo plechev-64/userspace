@@ -88,7 +88,7 @@ function usp_table_manager_prev( prevData, e ) {
 
 function usp_load_content_manager( e, props ) {
 
-	//получаем данные формы
+	// getting the form data
 	var FormFactory = new USPForm( jQuery( e ).parents( 'form' ) );
 
 	if ( props != 'undefined' && props ) {
@@ -110,7 +110,7 @@ function usp_load_content_manager( e, props ) {
 
 	} else {
 
-		//проверяем на правильность заполнения
+		// correctness of filling
 		if ( !FormFactory.validate() )
 			return false;
 
@@ -128,7 +128,7 @@ function usp_load_content_manager( e, props ) {
 
 function usp_load_content_manager_state( state, e ) {
 
-	//получаем данные формы
+	// get form data
 	var FormFactory = new USPForm( jQuery( e ).parents( 'form' ) );
 
 	usp_preloader_show( jQuery( 'form.preloader-parent' ) );

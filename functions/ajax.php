@@ -105,7 +105,7 @@ function usp_load_tab() {
     );
 }
 
-//регистрируем биение плагина
+// registering the heartbeat of the plugin
 usp_ajax_action( 'usp_beat', true );
 function usp_beat() {
 
@@ -219,7 +219,7 @@ function usp_upload() {
     }
 }
 
-//удаление фото приложенных к публикации через загрузчик плагина
+// deleting photos attached to a post via the plugin loader
 usp_ajax_action( 'usp_ajax_delete_attachment', true );
 function usp_ajax_delete_attachment() {
     global $user_ID;

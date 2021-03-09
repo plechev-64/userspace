@@ -322,7 +322,7 @@ function usp_get_miniaction( $action ) {
     return $content;
 }
 
-//заменяем ссылку автора комментария на ссылку его ЛК
+// replace the link of the comment author with the link of his personal account
 add_filter( 'get_comment_author_url', 'usp_get_link_author_comment', 10 );
 function usp_get_link_author_comment( $url ) {
     global $comment;
@@ -335,7 +335,6 @@ function usp_is_register_open() {
     return apply_filters( 'usp_users_can_register', get_site_option( 'users_can_register' ) );
 }
 
-/* 16.0.0 */
 function usp_update_profile_fields( $user_id, $profileFields = false ) {
     global $user_ID;
 
@@ -478,7 +477,6 @@ function usp_update_profile_fields( $user_id, $profileFields = false ) {
     do_action( 'usp_update_profile_fields', $user_id );
 }
 
-/* 16.0.0 */
 function usp_get_profile_fields( $args = false ) {
 
     $fields = get_site_option( 'usp_profile_fields' );

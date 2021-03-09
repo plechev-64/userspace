@@ -1,16 +1,5 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/**
- * Description of class-usp-sub-tabs
- *
- * @author Андрей
- */
 class USP_Sub_Tab {
 
     public $id;
@@ -107,7 +96,7 @@ class USP_Sub_Tab {
             if ( function_exists( $this->callback['name'] ) ) {
                 $content .= apply_filters( 'usp_tab_content', call_user_func_array( $this->callback['name'], $args ), $this->parent_id, $this->id );
             } else {
-                $content .= usp_get_notice( [ 'text' => __( 'При загрузке вкладки произошла ошибка. Функция не найдена.', 'userspace' ) ] );
+                $content .= usp_get_notice( [ 'text' => __( 'There was an error loading the tab. Function not found.', 'userspace' ) ] );
             }
         }
 

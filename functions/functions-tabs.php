@@ -1,6 +1,6 @@
 <?php
 
-//регистрируем вкладку личного кабинета
+// registering a personal account tab
 function usp_tab( $tab_data ) {
 
     $tab_data = apply_filters( 'usp_tab', $tab_data );
@@ -11,7 +11,7 @@ function usp_tab( $tab_data ) {
     USP()->tabs()->add( $tab_data );
 }
 
-//регистрация дочерней вкладки
+// registering a child tab
 function usp_add_sub_tab( $tab_id, $subtabData ) {
 
     if ( ! $tab = USP()->tabs()->tab( $tab_id ) )
@@ -73,7 +73,7 @@ function usp_format_url( $url, $tab_id = false, $subtab_id = false ) {
     return $url;
 }
 
-//вывод контента произвольной вкладки
+// displaying the content of an arbitrary tab
 add_filter( 'usp_custom_tab_content', 'do_shortcode', 11 );
 add_filter( 'usp_custom_tab_content', 'wpautop', 10 );
 function usp_custom_tab_content( $content ) {
@@ -151,7 +151,7 @@ function usp_add_block_black_list_button() {
 
     $user_block = get_user_meta( $user_ID, 'usp_black_list:' . $user_LK );
 
-    $title = ($user_block) ? __( 'Unblock', 'userspace' ) : __( 'Заблокировать', 'userspace' );
+    $title = ($user_block) ? __( 'Unblock', 'userspace' ) : __( 'Block', 'userspace' );
 
     usp_tab(
         array(

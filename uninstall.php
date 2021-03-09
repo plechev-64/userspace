@@ -1,7 +1,7 @@
 <?php
 
 if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
-	exit;
+    exit;
 }
 
 global $wpdb;
@@ -14,33 +14,33 @@ $upload_dir = usp_get_wp_upload_dir();
 define( 'USP_UPLOAD_PATH', $upload_dir['basedir'] . '/usp-uploads/' );
 define( 'USP_TAKEPATH', WP_CONTENT_DIR . '/userspace/' );
 
-//Удаляем созданные роли
+// Deleting the created roles
 USP_Install::remove_roles();
 
-//Удаляем расписания крона
+// Deleting cron's schedules
 wp_clear_scheduled_hook( 'usp_cron_hourly_schedule' );
 wp_clear_scheduled_hook( 'usp_cron_twicedaily_schedule' );
 wp_clear_scheduled_hook( 'usp_cron_daily_schedule' );
 
-//Подчищаем на сервере
+// Cleaning up on the server
 usp_remove_dir( USP_TAKEPATH );
 usp_remove_dir( USP_UPLOAD_PATH );
 
-//Удаляем таблицы и настройки плагина
+// Deleting tables and plugin settings
 $tables = $wpdb->get_results( "SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name like '%usp_%'" );
 if ( $tables ) {
-	foreach ( $tables as $tables ) {
-		$wpdb->query( "DROP TABLE IF EXISTS " . $tables->table_name );
-	}
+    foreach ( $tables as $tables ) {
+        $wpdb->query( "DROP TABLE IF EXISTS " . $tables->table_name );
+    }
 }
 
 $wpdb->query( "DELETE FROM $wpdb->options WHERE option_name LIKE '%usp%'" );
 $wpdb->query( "DELETE FROM $wpdb->usermeta WHERE meta_key LIKE '%usp%'" );
 
-//включаем всем пользователям сайта показ админ панели
+// turn on the display of the admin panel for all users of the site
 $wpdb->update(
-	$wpdb->prefix . 'usermeta', array( 'meta_value' => 'true' ), array( 'meta_key' => 'show_admin_bar_front' )
+    $wpdb->prefix . 'usermeta', array( 'meta_value' => 'true' ), array( 'meta_key' => 'show_admin_bar_front' )
 );
 
-//удаляем все страницы плагина
+// deleting all the plugin pages
 usp_delete_plugin_pages();

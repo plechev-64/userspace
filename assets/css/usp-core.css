@@ -196,19 +196,16 @@ i::before {
 >>> Table of contents
 ------------------------
   1. General
-  3. USP preloader
-  4. USP smiles
-  5. User online/offline
-  6. Ballun
-  7. USP buttons states
-  9. TODO: upload buttons
-  10. Search filter
-  11. USP pagenavi API
-  12. Detailed information
-  13. Post bar
-  14. New USP Notice
-  15. USP Buttons API
-  16. User Widget
+  2. USP preloader
+  3. USP smiles
+  4. User online/offline
+  5. Ballun
+  6. USP pagenavi API
+  7. Detailed information
+  8. Post bar
+  9. New USP Notice
+  10. USP Buttons API
+  11. User Widget
 ------------------------*/
 
 
@@ -238,7 +235,7 @@ i::before {
 
 
 /*------------------------
-  3. USP preloader
+  2. USP preloader
 --------------------------*/
 body .preloader-parent {
     position: relative;
@@ -263,7 +260,7 @@ body .preloader-parent {
 
 
 /*------------------
-  4. USP smiles
+  3. USP smiles
 --------------------*/
 .usp-smiles {
     clear: both;
@@ -307,7 +304,7 @@ body .preloader-parent {
 
 
 /*------------------------
-  5. User online/offline
+  4. User online/offline
 --------------------------*/
 .usp-new-users p,
 .usp-online-users p {
@@ -329,7 +326,7 @@ body .preloader-parent {
 
 
 /*------------------
-  6. Ballun
+  5. Ballun
 --------------------*/
 .usp-descr-wrap {
     max-width: 400px;
@@ -440,7 +437,7 @@ body .preloader-parent {
 
 
 /*-----------------------
-  11. USP pagenavi API
+  6. USP pagenavi API
 -------------------------*/
 .usp-pager {
     padding: 6px 3px;
@@ -455,7 +452,7 @@ body .preloader-parent {
 
 
 /*----------------------------------
-  12. Detailed information
+  7. Detailed information
 ------------------------------------*/
 .usp-detailed-ava {
     border-radius: 0;
@@ -484,7 +481,7 @@ body .preloader-parent {
 
 
 /*--------------------
-  13. Post bar
+  8. Post bar
 ----------------------*/
 #usp-post-bar {
     margin: 10px 0;
@@ -517,7 +514,7 @@ body .preloader-parent {
 
 
 /*---------------------------
-  14. New USP Notice
+  9. New USP Notice
 -----------------------------*/
 #usp-wrap-notices {
     left: 12px;
@@ -605,7 +602,7 @@ body .preloader-parent {
 /**/
 
 /*---------------------------
-  15. USP Buttons API
+  10. USP Buttons API
 -----------------------------*/
 /*
 usp-bttn__type-clear	- gray fill
@@ -810,7 +807,7 @@ body:not(.wp-admin) .usp-bttn.usp-bttn__type-primary:not(.usp-bttn__active) {
 
 
 /*---------------------------
-  16. User Widget
+  11. User Widget
 -----------------------------*/
 .usp-user-widget__left {
     margin-right: 6px;

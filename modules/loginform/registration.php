@@ -21,10 +21,12 @@ function usp_get_register_form_fields() {
     return apply_filters( 'usp_register_form_fields', $registerFields );
 }
 
-/* * * регистрация через функцию register_new_user() ** */
-//отключаем регистрационное стандартное письмо с данными для входа
+/* registration via the register_new_user() function */
+//
+// disable registration mail with login information
 remove_action( 'register_new_user', 'wp_send_new_user_notifications' );
-//отправляем письмо о регистрации от плагина
+//
+// we send an email about registration from the plugin
 add_action( 'register_new_user', 'usp_process_user_register_data', 10 );
 function usp_process_user_register_data( $user_id ) {
 
@@ -34,7 +36,7 @@ function usp_process_user_register_data( $user_id ) {
         $user_pass = wp_generate_password( 12, false );
     }
 
-    //отключаем отправку письма о смене пароля
+    // disable sending a password change email
     add_filter( 'send_password_change_email', function() {
         return false;
     } );
@@ -54,7 +56,7 @@ function usp_process_user_register_data( $user_id ) {
     wp_send_new_user_notifications( $user_id, 'admin' );
 
     if ( ! isset( $_REQUEST['rest_route'] ) ) {
-        //если данные пришли с формы WP, то возвращаем на wp-login.php с нужными GET-параметрами
+        // if the data came from the WP form, then we return to wp-login.php with the necessary GET parameters
         if ( usp_get_option( 'usp_confirm_register' ) == 1 ) {
             wp_safe_redirect( wp_login_url() . '?checkemail=confirm' );
         } else {
@@ -65,7 +67,7 @@ function usp_process_user_register_data( $user_id ) {
     }
 }
 
-//сохраняем данные пользователя при создании/регистрации
+// save user data when creating / registering
 add_action( 'user_register', 'usp_register_new_user_data', 10 );
 function usp_register_new_user_data( $user_id ) {
 
@@ -92,7 +94,9 @@ function usp_register_new_user_data( $user_id ) {
     usp_update_profile_fields( $user_id );
 }
 
-/* * * регистрация через функцию register_new_user() конец ** */
+/* END registration via the register_new_user() function */
+
+/**/
 function usp_insert_user( $data ) {
 
     if ( get_user_by( 'email', $data['user_email'] ) )
@@ -105,7 +109,7 @@ function usp_insert_user( $data ) {
         'user_nicename' => ''
         , 'nickname'      => $data['user_email']
         , 'first_name'    => $data['display_name']
-        , 'rich_editing'  => 'true'  // false - выключить визуальный редактор для пользователя.
+        , 'rich_editing'  => 'true'  // false - turn off the visual editor for the user.
         ) );
 
     $user_id = wp_insert_user( $userdata );
@@ -129,7 +133,7 @@ function usp_insert_user( $data ) {
     return $user_id;
 }
 
-//принимаем данные для подтверждения регистрации
+//  accept data to confirm registration
 add_action( 'init', 'usp_confirm_user_resistration_activate', 10 );
 function usp_confirm_user_resistration_activate() {
 
@@ -140,7 +144,7 @@ function usp_confirm_user_resistration_activate() {
         add_action( 'wp', 'usp_confirm_user_registration', 10 );
 }
 
-//подтверждаем регистрацию пользователя по ссылке
+//  confirm the registration of the user by the link
 function usp_confirm_user_registration() {
     global $wpdb;
 
@@ -171,7 +175,7 @@ function usp_confirm_user_registration() {
 
             do_action( 'usp_confirm_registration', $user->ID );
 
-            //если используется форма WP
+            // if using WP form
             if ( usp_get_option( 'usp_login_form' ) == 2 ) {
                 wp_safe_redirect( wp_login_url() . '?success=checkemail' );
             } else {
@@ -197,7 +201,7 @@ function usp_confirm_user_registration() {
     exit;
 }
 
-//ошибки плагина при регистрации
+// plugin errors during registration
 add_filter( 'registration_errors', 'usp_add_user_register_errors', 10 );
 function usp_add_user_register_errors( $errors ) {
 
@@ -229,7 +233,7 @@ function usp_add_user_register_errors( $errors ) {
     return $errors;
 }
 
-//письмо высылаемое при регистрации
+// email sent during registration
 function usp_register_mail( $userdata ) {
 
     $user_login = $userdata['user_login'];

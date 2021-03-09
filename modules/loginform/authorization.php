@@ -1,6 +1,6 @@
 <?php
 
-/* проверяем подтверждение емейла, если такая настройка включена */
+// check email confirmation if this setting is enabled
 add_filter( 'wp_authenticate_user', 'usp_chek_user_authenticate', 10 );
 function usp_chek_user_authenticate( $user ) {
 
@@ -18,9 +18,9 @@ function usp_chek_user_authenticate( $user ) {
 }
 
 /**
- * получаем путь на возврат пользователя после авторизации
+ * get the path to return the user after authorization
  *
- * @param int $user_id идентификатор пользователя
+ * @param int   $user_id    user ID
  */
 function usp_get_authorize_url( $user_id ) {
 

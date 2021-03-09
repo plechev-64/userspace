@@ -817,7 +817,7 @@ class USP_Fields_Manager extends USP_Fields {
             if ( $typeList = $this->get_types_list() ) {
 
                 if ( $this->is_service_type( $field_id ) || ! isset( $typeList[$field->type] ) ) {
-                    //для дефолтных полей устанавливаем фиксированный тип
+                    // for default fields we set a fixed type
                     $options['type'] = array(
                         'slug'  => 'type',
                         'type'  => 'hidden',
@@ -883,9 +883,7 @@ class USP_Fields_Manager extends USP_Fields {
         }
 
         if ( ! $serviceType && $this->is_default_field( $field_id ) ) {
-            //для поля в активной зоне добавляем опции,
-            //которые были определены для дефолтного поля,
-            //если такое есть
+            // for the field in the active zone, add the options that were defined for the default field, if any
             $defaultField = $this->get_field( $field_id, 1 );
 
             if ( isset( $defaultField->options ) ) {

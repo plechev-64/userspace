@@ -38,10 +38,10 @@ final class UserSpace {
             return;
         }
 
-        $this->define_constants(); //Определяем константы.
-        $this->includes(); //Подключаем все нужные файлы с функциями и классами
-        $this->init_modules(); //Определяем модули.
-        $this->init_hooks(); //Тут все наши хуки
+        $this->define_constants(); // Defining constants.
+        $this->includes(); // Connecting all the necessary files with functions and classes
+        $this->init_modules(); // Defining modules.
+        $this->init_hooks(); // Defining hooks
 
         $this->use_module( 'tabs' );
         $this->use_module( 'forms' );
@@ -50,7 +50,7 @@ final class UserSpace {
 
         $this->init_theme();
 
-        do_action( 'usp_loaded' ); //Оставляем кручёк
+        do_action( 'usp_loaded' ); // Plugin in progress
 
         $hasInstance = true;
     }
@@ -142,7 +142,7 @@ final class UserSpace {
     }
 
     /*
-     * Узнаём тип запроса
+     * Find out the type of request
      */
     private function is_request( $type ) {
         switch ( $type ) {
@@ -175,8 +175,8 @@ final class UserSpace {
 
     public function includes() {
         /*
-         * Здесь подключим те фалы которые нужны глобально для плагина
-         * Остальные распихаем по соответсвующим функциям
+         * Here we will connect the files that are needed globally for the plugin
+         * The rest will be based on the corresponding functions
          */
         require_once 'classes/class-usp-module.php';
 
@@ -236,21 +236,21 @@ final class UserSpace {
     }
 
     /*
-     * Сюда складываем все файлы для админки
+     * all files for the admin panel
      */
     public function admin_includes() {
         require_once 'admin/index.php';
     }
 
     /*
-     * Сюда складываем все файлы AJAX
+     * all ajax files
      */
     public function ajax_includes() {
 
     }
 
     /*
-     * Сюда складываем все файлы для фронт-энда
+     * all files for the frontend
      */
     public function frontend_includes() {
 
@@ -302,7 +302,7 @@ final class UserSpace {
 
         $user_LK = 0;
 
-        //если вывод ЛК через шорткод
+        // if the output of the personal account via the shortcode
         if ( usp_get_option( 'view_user_lk_usp' ) == 1 ) {
 
             $get     = usp_get_option( 'link_user_lk_usp', 'user' );
@@ -314,7 +314,7 @@ final class UserSpace {
                     $user_LK = $user_ID;
                 }
             }
-        } else { //если ЛК выводим через author.php
+        } else { // if the personal account is displayed via author.php
             if ( '' == get_site_option( 'permalink_structure' ) ) {
 
                 if ( isset( $_GET[$wp_rewrite->author_base] ) )
@@ -470,7 +470,7 @@ final class UserSpace {
 
     public function mailer() {
         /*
-         * TODO: Сюда добавить подключение класса отправки сообщений
+         * TODO: Add a message sending class connection here
          */
     }
 

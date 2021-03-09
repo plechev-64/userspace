@@ -2,14 +2,14 @@
 
 class USP_Pager {
 
-    public $current   = 1;              //текущая страница
-    public $pages     = 0;              //кол-во страниц
-    public $diff      = array( 4, 4 );  //диапазон вывода отображаемых страниц
-    public $number    = 30;             //кол-во элементов на странице
-    public $total     = 0;              //общее кол-во элементов
-    public $id;                         //идентификатор навигации
-    public $class;                      //класс навигации
-    public $offset    = 0;              //отступ выборки элементов
+    public $current   = 1;              // current page
+    public $pages     = 0;              // number of pages
+    public $diff      = array( 4, 4 );  // display range of displayed pages
+    public $number    = 30;             // number of elements per page
+    public $total     = 0;              // total number of elements
+    public $id;                         // navigation id
+    public $class;                      // navigation class
+    public $offset    = 0;              // offset
     public $key       = 'pagenum';
     public $onclick   = false;
     public $page_args = array(

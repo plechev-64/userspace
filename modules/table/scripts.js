@@ -20,9 +20,9 @@ function usp_init_table( table_id ) {
             var bVal = jQuery( b ).children( '.usp-table__cell.col-' + sortby ).data( 'value' );
 
             if ( order === 'desc' )
-                return ( aVal < bVal ) - ( aVal > bVal ); //по возрастанию
+                return ( aVal < bVal ) - ( aVal > bVal ); // ascending
             else
-                return ( aVal > bVal ) - ( aVal < bVal ); //по убыванию
+                return ( aVal > bVal ) - ( aVal < bVal ); // descending
         } );
 
         sortCell.attr( 'data-order', ( order == 'desc' ? 'asc' : 'desc' ) );

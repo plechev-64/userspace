@@ -53,9 +53,9 @@ function usp_load_tab( tab_id, subtab_id, e ) {
 			var subtab_id = data.subtab_id;
 			var box_id = '';
 
-			if ( supports && supports.indexOf( 'dialog' ) >= 0 ) { //если вкладка поддерживает диалог
+			if ( supports && supports.indexOf( 'dialog' ) >= 0 ) { // if tab dialog support
 
-				if ( !subtab_id ) { //если загружается основная вкладка
+				if ( !subtab_id ) { // if load primary tab
 
 					ssi_modal.show( {
 						className: 'usp-dialog-tab ' + data.tab_id,

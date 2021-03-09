@@ -1,6 +1,6 @@
 <?php
 
-//Перечень действующих валют
+// List of current currencies
 function usp_get_currency_list() {
 
     return array(
@@ -67,7 +67,7 @@ function get_current_currency( $post_id ) {
     return usp_get_currency( $current, 1 );
 }
 
-//Вывод основной валюты сайта
+// Output of the main currency of the site
 function usp_get_primary_currency( $type = 0 ) {
     return usp_get_currency( usp_get_commerce_option( 'primary_cur', 'RUB' ), $type );
 }

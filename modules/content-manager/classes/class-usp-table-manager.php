@@ -77,7 +77,7 @@ class USP_Table_Manager extends USP_Content_Manager {
 
         return [
             [
-                'label'   => __( 'Менеджер колонок', 'userspace' ),
+                'label'   => __( 'Column manager', 'userspace' ),
                 'icon'    => 'fa-bars',
                 'onclick' => 'return usp_get_table_manager_cols("' . $this->cols_manager . '",' . json_encode( $allCols ) . ',' . json_encode( $this->active_cols ) . ',' . json_encode( $this->disabled_cols ) . ',this);return false;',
             ]
