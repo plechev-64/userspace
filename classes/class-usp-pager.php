@@ -120,7 +120,7 @@ class USP_Pager {
 
         $walker = $this->get_walker();
 
-        $content = '<div class="' . ($this->class ? $this->class . ' ' : '') . 'usp-pager usps__line-1">';
+        $content = '<div ' . ($this->id ? 'id="' . $this->id . '"' : '') . ' class="' . ($this->class ? $this->class . ' ' : '') . 'usp-pager usps__line-1">';
 
         foreach ( $walker['output'] as $item ) {
 
