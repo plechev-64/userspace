@@ -140,7 +140,8 @@ function usp_default_search_form( $content ) {
             'values'  => array(
                 'display_name' => __( 'by name', 'userspace' ),
                 'user_login'   => __( 'by login', 'userspace' ),
-                'usp_birthday' => __( 'by birthday', 'userspace' )
+                'usp_birthday' => __( 'by birthday', 'userspace' ),
+                'usp_sex'      => __( 'by sex', 'userspace' )
             ),
             'default' => $search_field,
         ),

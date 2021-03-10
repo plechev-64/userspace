@@ -559,7 +559,7 @@ class USP_Users_List extends USP_Users_Query {
         if ( ! $search_text || ! $search_field )
             return $query;
 
-        if ( $search_field == 'usp_birthday' ) {
+        if ( $search_field == 'usp_birthday' || $search_field == 'usp_sex' ) {
             global $wpdb;
 
             $query['join'][]  = "INNER JOIN $wpdb->usermeta AS wp_usermeta ON wp_users.ID=wp_usermeta.user_id";
