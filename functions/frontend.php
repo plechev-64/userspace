@@ -152,3 +152,26 @@ add_action( 'wp_footer', 'usp_overlay_contayner', 4 );
 function usp_overlay_contayner() {
     echo '<div id="usp-overlay"></div>';
 }
+
+/**
+ * Catch logout command
+ * ?usp-logout=1
+ *
+ * @since 1.0
+ *
+ * @return redirect on home page.
+ */
+add_action( 'init', 'usp_wait_logout_get' );
+function usp_wait_logout_get() {
+    if ( ! is_user_logged_in() )
+        return;
+
+    if ( isset( $_GET['usp-logout'] ) && ($_GET['usp-logout'] == '1') ) {
+        $url = apply_filters( 'usp_logout_url_redirect', get_home_url() );
+
+        wp_logout();
+
+        wp_safe_redirect( esc_url( $url ) );
+        exit;
+    }
+}

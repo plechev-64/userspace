@@ -1,8 +1,17 @@
 <?php
 
+/**
+ * Displays the user's personal account
+ *
+ * And if the output of the personal account in the settings is selected via author.php
+ * - then displays the correct link to go to the user's account
+ *
+ * @since 1.0.0
+ *
+ * @return string   HTML content to display personal account.
+ */
 add_shortcode( 'userspace', 'usp_get_userspace' );
 function usp_get_userspace() {
-
     if ( usp_get_option( 'view_user_lk_usp' ) == 1 ) {
         global $post;
 
@@ -37,15 +46,25 @@ function usp_get_variations_buttons() {
     }
 }
 
+/**
+ * Displays the logged in user control panel and login buttons to guests
+ *
+ * If it is not logged in, it will display the login and registration buttons.
+ * If logged in, it displays the avatar of the current user and the buttons to go to the personal account and exit the site
+ *
+ * @since 1.0.0
+ *
+ * @return string   HTML content to display control panel.
+ */
 add_shortcode( 'usp-user-widget', 'usp_get_user_widget' );
-function usp_get_user_widget( $atts = [] ) {
-    global $user_ID;
-
+function usp_get_user_widget() {
     $buttons = [];
 
     $content = '<div class="usp-user-widget usps">';
 
     if ( is_user_logged_in() ) {
+        global $user_ID;
+
         $avatar = get_avatar( $user_ID, 100, false, false, [ 'class' => 'usp-profile-ava usps__img-reset' ] );
 
         $userContent = apply_filters( 'usp_widget_userdata_content', $avatar );
@@ -110,11 +129,25 @@ function usp_get_user_widget( $atts = [] ) {
     return $content;
 }
 
+/**
+ * Displays login, registration, and reset password forms
+ * If logged in - displays the button to go to the personal account
+ *
+ * @since 1.0.0
+ *
+ * @param array $atts   $atts['active']     Set active tab in form.
+ *                                          Default: 'login'.
+ *                                          Available: login|register|lostpassword
+ *                      $atts['forms']      What forms to display in tabs
+ *                                          Default: login,register,lostpassword
+ *
+ * @return string       HTML content to display loginform.
+ */
 add_shortcode( 'loginform', 'usp_get_loginform_shortcode' );
 function usp_get_loginform_shortcode( $atts = [] ) {
-    global $user_ID;
-
     if ( is_user_logged_in() ) {
+        global $user_ID;
+
         $url = '<a href="' . usp_get_user_url( $user_ID ) . '">' . __( 'personal account', 'userspace' ) . '</a>';
 
         return usp_get_notice( [
@@ -127,6 +160,40 @@ function usp_get_loginform_shortcode( $atts = [] ) {
     return usp_get_loginform( $atts );
 }
 
+/**
+ * Displays registered users
+ *
+ * @since 1.0.0
+ *
+ * @param array $atts   $atts['inpage']         Set users per page
+ *                                              Default: 30
+ *                      $atts['number']         Maximum number users
+ *                      $atts['template']       User output template
+ *                                              Available: rows|cards|avatars|mini
+ *                                              Default: rows
+ *                      $atts['search_form']    Search form on top
+ *                                              Available: 0|1
+ *                                              Default: 1
+ *                      $atts['filters']        Filter buttons on top
+ *                                              Available: 0|1
+ *                                              Default: 0
+ *                      $atts['orderby']        Order by: time_action (last online)
+ *                                              Available: posts_count|comments_count|display_name|user_registered|time_action
+ *                                              Default: time_action
+ *                      $atts['order']          Sorting direction. ASC| DESC
+ *                                              Default: DESC
+ *                      $atts['data']           Output additional data comma-separated list (if template supports)
+ *                                              Available: posts_count,comments_count,description,user_registered,profile_fields
+ *                                              Default: empty
+ *                      $atts['exclude']        Exclude user by ID. Comma-separated numbers
+ *                      $atts['include']        Show only by ID
+ *                      $atts['usergroup']      Show by metakey;
+ *                                              for example:        usergroup="meta_key_1:value_1"
+ *                                              or multiple values  usergroup="meta_key_1:value_1|meta_key_2:value_2"
+ *                      $atts['only']           Set 'action_users' and see who online
+ *
+ * @return string       HTML content to display userlist.
+ */
 add_shortcode( 'userlist', 'usp_get_userlist' );
 function usp_get_userlist( $atts = [] ) {
     global $usp_user, $usp_users_set, $user_ID;
@@ -208,25 +275,38 @@ function usp_get_userlist( $atts = [] ) {
     return '<div class="usp-users">' . $userlist . '</div>';
 }
 
+/**
+ * Allows you to cache the content.
+ * As a rule, these are other shortcodes
+ * Example: [usp-cache time="3600" key="my-unique-key"]say hello shortcode[/usp-cache]
+ *
+ * @since 1.0.0
+ *
+ * @param array $atts   $atts['time']       Caching time in seconds.
+ *                      $atts['key']        String, unique key
+ *                      $atts['only_guest'] Cached for guests only
+ *
+ * @return string       HTML cached content.
+ */
 add_shortcode( 'usp-cache', 'usp_cache_shortcode' );
-function usp_cache_shortcode( $atts, $content = null ) {
+function usp_cache_shortcode( $atts, $content_in = null ) {
     global $post;
 
-    extract( shortcode_atts( array(
+    $attr = shortcode_atts( array(
         'key'        => '',
         'only_guest' => false,
         'time'       => false
-            ), $atts ) );
+        ), $atts );
 
     if ( $post->post_status == 'publish' ) {
 
-        $key = '-cache-' . $post->ID;
+        $attr['key'] .= '-cache-' . $post->ID;
 
-        $usp_cache = new USP_Cache( $time, $only_guest );
+        $usp_cache = new USP_Cache( $attr['time'], $attr['only_guest'] );
 
         if ( $usp_cache->is_cache ) {
 
-            $file = $usp_cache->get_file( $key );
+            $file = $usp_cache->get_file( $attr['key'] );
 
             if ( ! $file->need_update ) {
                 return $usp_cache->get_cache();
@@ -234,10 +314,11 @@ function usp_cache_shortcode( $atts, $content = null ) {
         }
     }
 
-    $content = do_shortcode( shortcode_unautop( $content ) );
-    if ( '</p>' == substr( $content, 0, 4 )
-        and '<p>' == substr( $content, strlen( $content ) - 3 ) )
+    $content = do_shortcode( shortcode_unautop( $content_in ) );
+
+    if ( '</p>' == substr( $content, 0, 4 ) && '<p>' == substr( $content, strlen( $content ) - 3 ) ) {
         $content = substr( $content, 4, strlen( $content ) - 7 );
+    }
 
     if ( $post->post_status == 'publish' ) {
 
@@ -247,4 +328,101 @@ function usp_cache_shortcode( $atts, $content = null ) {
     }
 
     return $content;
+}
+
+/**
+ * Shortcode of the exit button from the site
+ * The button is shown only to logged-in users
+ *
+ * @since 1.0.0
+ *
+ * @param array $attr   $attr['text']       Text on button
+ *                      $atts['redirect']   Redirect after logout.
+ *                                          Default: 'home'
+ *                                          Available: home|current
+ *                      $atts['type']       Type of button
+ *                                          Default: 'primary'
+ *                                          Available: primary|simple|clear
+ *
+ * @return string       HTML logout button.
+ */
+add_shortcode( 'usp-logout', 'usp_logout_shortcode' );
+function usp_logout_shortcode( $attr ) {
+    // the user not logged in to the site
+    if ( ! is_user_logged_in() )
+        return;
+
+    $atts = shortcode_atts( [
+        'text'     => __( 'Log Out', 'userspace' ),
+        'redirect' => 'home',
+        'type'     => 'primary',
+        ], $attr, 'usp-logout' );
+
+    return usp_logout_button( $atts );
+}
+
+function usp_logout_button( $atts ) {
+    $url = get_home_url();
+
+    if ( $atts['redirect'] == 'current' ) {
+        $url = get_the_permalink();
+    }
+
+    $args = [
+        'label' => $atts['text'],
+        'type'  => $atts['type'],
+        'size'  => 'medium',
+        'href'  => esc_url( wp_logout_url( $url ) )
+    ];
+    return usp_get_button( $args );
+}
+
+/**
+ * Shortcode displays notice box
+ *
+ * @since 1.0
+ *
+ * @param array $args                   Extra options.
+ *              $args['text']           Required. Text message
+ *              $args['title']          Title text
+ *              $args['type']           Type notice. Default: info. Allowed: info|success|warning|error|simple
+ *              $args['text_center']    1 - text-align:center; 0 - left text position. Default 1
+ *              $args['icon']           left position icon; 0 - don't show, string - icon class. Example: 'fa-info'. Default 1
+ *
+ * @return string   HTML notice box.
+ */
+add_shortcode( 'usp-notice', 'usp_notice_shortcode' );
+function usp_notice_shortcode( $args ) {
+    $atts = shortcode_atts( array(
+        'type'        => 'info',
+        'title'       => false,
+        'text'        => '',
+        'text_center' => 1,
+        'icon'        => 1,
+        ), $args, 'usp-notice' );
+
+    if ( empty( $atts['text'] ) )
+        return;
+
+    $argum = [];
+
+    if ( in_array( $atts['type'], [ 'info', 'success', 'warning', 'error', 'simple' ] ) ) {
+        $argum['type'] = $atts['type'];
+    }
+
+    if ( $atts['title'] ) {
+        $argum['title'] = wp_kses_data( $atts['title'] );
+    }
+
+    $argum['text'] = wp_kses_data( $atts['text'] );
+
+    $argum['text_center'] = ( $atts['text_center'] ) ? true : false;
+
+    if ( $atts['icon'] == 1 ) {
+        $argum['icon'] = true;
+    } else if ( is_string( $atts['icon'] ) ) {
+        $argum['icon'] = sanitize_title( $atts['icon'] );
+    }
+
+    return usp_get_notice( $argum );
 }
