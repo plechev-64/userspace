@@ -1,5 +1,9 @@
 <?php
 
+function usp_buttons_style() {
+    usp_enqueue_style( 'usp-buttons', USP_URL . 'assets/css/usp-buttons.css', false, USP_VERSION );
+}
+
 function usp_font_awesome_style() {
     wp_enqueue_style( 'usp-awesome', USP_URL . 'assets/usp-awesome/usp-awesome.min.css', false, USP_VERSION );
 }
@@ -103,6 +107,7 @@ function usp_frontend_scripts() {
 
     usp_font_awesome_style();
     usp_animate_css();
+    usp_buttons_style();
 
     usp_enqueue_style( 'usp-core', USP_URL . 'assets/css/usp-core.css' );
     usp_enqueue_style( 'usp-users-list', USP_URL . 'assets/css/usp-users.css' );
@@ -171,6 +176,7 @@ function usp_get_localize_data() {
 }
 
 function usp_admin_scripts() {
+    usp_buttons_style();
     usp_enqueue_style( 'usp-core', USP_URL . 'assets/css/usp-core.css' );
     wp_enqueue_style( 'animate-css', USP_URL . 'assets/css/usp-animate.css', false, USP_VERSION );
     wp_enqueue_style( 'usp-admin-style', USP_URL . 'admin/assets/usp-admin.css', false, USP_VERSION );

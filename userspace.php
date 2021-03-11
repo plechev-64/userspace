@@ -198,7 +198,6 @@ final class UserSpace {
         require_once 'classes/class-usp-themes.php';
         require_once 'classes/class-usp-template.php';
 
-        require_once 'functions/activate.php';
         require_once 'functions/ajax.php';
         require_once 'functions/files.php';
         require_once 'functions/plugin-pages.php';
