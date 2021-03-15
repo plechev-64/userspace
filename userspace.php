@@ -267,10 +267,6 @@ final class UserSpace {
             $this->init_frontend_globals();
         }
 
-        if ( ! usp_get_option( 'security-key' ) ) {
-            usp_update_option( 'security-key', wp_generate_password( 20, false ) );
-        }
-
         if ( ! is_user_logged_in() )
             $this->use_module( 'loginform' );
 

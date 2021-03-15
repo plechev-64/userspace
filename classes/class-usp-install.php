@@ -188,17 +188,27 @@ class USP_Install {
       In the future, you need to redefine the dependencies and rewrite everything here
      */
     private static function any_functions() {
+        global $wpdb;
+
+        if ( ! usp_get_option( 'security-key' ) ) {
+            usp_update_option( 'security-key', wp_generate_password( 20, false ) );
+        }
+
         // create autoload global options
         if ( ! is_multisite() ) {
-            add_option( 'usp_global_options', '' );
+            $wpdb->update(
+                $wpdb->options,
+                [ 'autoload' => 'yes' ],
+                [ 'option_name' => 'usp_global_options' ]
+            );
         }
 
         if ( ! usp_get_option( 'view_user_lk_usp' ) ) {
-            global $wpdb;
-
             // disable the display of the admin panel for all users of the site, if enabled
             $wpdb->update(
-                $wpdb->prefix . 'usermeta', array( 'meta_value' => 'false' ), array( 'meta_key' => 'show_admin_bar_front' )
+                $wpdb->usermeta,
+                [ 'meta_value' => 'false' ],
+                [ 'meta_key' => 'show_admin_bar_front' ]
             );
 
             update_site_option( 'default_role', 'author' );
