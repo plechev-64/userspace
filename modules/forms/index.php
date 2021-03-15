@@ -3,7 +3,7 @@
 require_once 'classes/class-usp-form.php';
 
 if ( is_admin() || isset( $_REQUEST['rest_route'] ) ) {
-    usp_forms_scripts();
+    add_action( 'admin_enqueue_scripts', 'usp_forms_scripts', 10 );
 } else {
     add_action( 'usp_enqueue_scripts', 'usp_forms_scripts', 10 );
 }

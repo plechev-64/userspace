@@ -83,14 +83,18 @@ function usp_get_mime_types( $ext_array ) {
 }
 
 // Deleting a folder with content
-function usp_remove_dir( $dir ) {
-    $dir  = untrailingslashit( $dir );
+function usp_remove_dir( $path ) {
+    $dir = untrailingslashit( $path );
     if ( ! is_dir( $dir ) )
         return false;
-    if ( $objs = glob( $dir . "/*" ) ) {
+
+    $objs = glob( "$dir/{,.}[!.,!..]*", GLOB_BRACE );
+
+    if ( $objs ) {
         foreach ( $objs as $obj ) {
             is_dir( $obj ) ? usp_remove_dir( $obj ) : unlink( $obj );
         }
     }
+
     rmdir( $dir );
 }

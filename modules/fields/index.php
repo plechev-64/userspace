@@ -22,13 +22,13 @@ require_once 'classes/types/class-usp-field-textarea.php';
 require_once 'classes/types/class-usp-field-uploader.php';
 require_once 'classes/types/class-usp-field-file.php';
 require_once 'classes/types/class-usp-field-hidden.php';
-function usp_fields_scripts() {
-	usp_enqueue_style( 'usp-fields', USP_URL . 'modules/fields/assets/style.css', false, false, true );
-	usp_enqueue_script( 'usp-fields', USP_URL . 'modules/fields/assets/scripts.js', ['usp-core-scripts' ], false, true );
-}
 
 if ( is_admin() || isset( $_REQUEST['rest_route'] ) ) {
-	usp_fields_scripts();
+    add_action( 'admin_enqueue_scripts', 'usp_fields_scripts', 10 );
 } else {
-	add_action( 'usp_enqueue_scripts', 'usp_fields_scripts', 10 );
+    add_action( 'usp_enqueue_scripts', 'usp_fields_scripts', 10 );
+}
+function usp_fields_scripts() {
+    usp_enqueue_style( 'usp-fields', USP_URL . 'modules/fields/assets/style.css', false, false, true );
+    usp_enqueue_script( 'usp-fields', USP_URL . 'modules/fields/assets/scripts.js', [ 'usp-core-scripts' ], false, true );
 }

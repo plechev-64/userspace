@@ -87,7 +87,7 @@ class USP_Install {
             'lk_page_usp' => array(
                 'name'    => 'account',
                 'title'   => __( 'User profile page', 'userspace' ),
-                'content' => '[userspace]'
+                'content' => '<!-- wp:shortcode -->[userspace]<!-- /wp:shortcode -->'
             )
             ) );
 
@@ -125,16 +125,6 @@ class USP_Install {
             ),
             array(
                 'base'    => USP_TAKEPATH,
-                'file'    => 'index.html',
-                'content' => ''
-            ),
-            array(
-                'base'    => USP_TAKEPATH . 'add-on',
-                'file'    => 'index.html',
-                'content' => ''
-            ),
-            array(
-                'base'    => USP_TAKEPATH . 'themes',
                 'file'    => 'index.html',
                 'content' => ''
             ),
@@ -183,15 +173,6 @@ class USP_Install {
         );
     }
 
-    public static function remove_roles() {
-        if ( ! class_exists( 'WP_Roles' ) ) {
-            return;
-        }
-
-        remove_role( 'need-confirm' );
-        remove_role( 'banned' );
-    }
-
     /**
      * Deleting tables if the blog is deleted (for multi-sites)
      * @param  array $tables
@@ -207,9 +188,13 @@ class USP_Install {
       In the future, you need to redefine the dependencies and rewrite everything here
      */
     private static function any_functions() {
-        global $wpdb;
+        // create autoload global options
+        if ( ! is_multisite() ) {
+            add_option( 'usp_global_options', '' );
+        }
 
         if ( ! usp_get_option( 'view_user_lk_usp' ) ) {
+            global $wpdb;
 
             // disable the display of the admin panel for all users of the site, if enabled
             $wpdb->update(
@@ -223,9 +208,6 @@ class USP_Install {
             // setting up the display of avatars on the site
             update_site_option( 'show_avatars', 1 );
         }
-
-        if ( ! get_site_option( 'rtl_standard' ) )
-            update_site_option( 'rtl_standard', '' );
 
         update_site_option( 'usp_version', USP_VERSION );
 
