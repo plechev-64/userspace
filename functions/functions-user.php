@@ -35,9 +35,64 @@ function usp_user_url() {
 function usp_user_avatar( $size = 50, $attr = false ) {
     global $usp_user;
 
-    $attr['class'] = 'usps__img-reset';
+    $attr['class'] .= ' usps__img-reset';
 
     echo get_avatar( $usp_user->ID, $size, false, false, $attr );
+}
+
+/**
+ * Get url to user cover
+ *
+ * @since 1.0
+ *
+ * @param int   $user_id        id of the user to get the avatar.
+ * @param bool  $avatar_cover   set to 'true' for return avatar for cover (if the user did not set the cover).
+ *                              Default: false
+ *
+ * @return string url cover or avatar.
+ */
+function usp_get_user_cover( $user_id = false, $avatar_cover = false ) {
+    if ( ! $user_id ) {
+        global $user_LK;
+
+        $user_id = $user_LK;
+    }
+
+    $cover = get_user_meta( $user_id, 'usp_cover', 1 );
+
+    if ( ! $cover )
+        $cover = usp_get_option( 'usp_default_cover', 0 );
+
+    if ( ! $cover ) {
+        return usp_get_default_cover( $avatar_cover, $user_id );
+    } else {
+        return wp_get_attachment_image_url( $cover, 'large' );
+    }
+}
+
+/**
+ * Get user age
+ *
+ * @since 1.0
+ *
+ * @param int   $user_id    id user.
+ *
+ * @return int|bool         age user. false - if none
+ */
+function usp_get_age_number( $user_id = false ) {
+    if ( ! $user_id ) {
+        global $user_LK;
+
+        $user_id = $user_LK;
+    }
+
+    $bip_birthday = get_user_meta( $user_id, 'usp_birthday', true );
+
+    // there is no data
+    if ( ! $bip_birthday )
+        return false;
+
+    return date_diff( date_create( $bip_birthday ), date_create( 'today' ) )->y;
 }
 
 function usp_user_rayting() {
@@ -54,16 +109,19 @@ function usp_user_rayting() {
     }
 }
 
-function usp_user_custom_fields() {
+function usp_get_user_custom_fields() {
     global $usp_user, $usp_users_set;
 
     if ( false !== array_search( 'profile_fields', $usp_users_set->data ) || isset( $usp_user->profile_fields ) ) {
         if ( ! isset( $usp_user->profile_fields ) )
             return;
 
+        $out = '';
         foreach ( $usp_user->profile_fields as $field_id => $field ) {
-            echo USP_Field::setup( $field )->get_field_value( 'title' );
+            $out .= USP_Field::setup( $field )->get_field_value( 'title' );
         }
+
+        return $out;
     }
 }
 
@@ -75,7 +133,7 @@ function usp_user_comments() {
         if ( ! isset( $usp_user->comments_count ) )
             $usp_user->comments_count = 0;
 
-        echo '<span class="usp-metadata usp-metadata__comm usps usps__ai-center usps__line-normal">'
+        echo '<span class="usp-metadata usp-metadata__comm usps usps__nowrap usps__ai-center usps__line-normal">'
         . '<i class="uspi fa-comment" aria-hidden="true"></i>'
         . '<span>' . __( 'Comments', 'userspace' ) . ': ' . $usp_user->comments_count . '</span>'
         . '</span>';
@@ -90,7 +148,7 @@ function usp_user_posts() {
         if ( ! isset( $usp_user->posts_count ) )
             $usp_user->posts_count = 0;
 
-        echo '<span class="usp-metadata usp-metadata__post usps usps__ai-center usps__line-normal">'
+        echo '<span class="usp-metadata usp-metadata__post usps usps__nowrap usps__ai-center usps__line-normal">'
         . '<i class="uspi fa-file" aria-hidden="true"></i>'
         . '<span>' . __( 'Publics', 'userspace' ) . ': ' . $usp_user->posts_count . '</span>'
         . '</span>';
@@ -105,18 +163,20 @@ function usp_user_register() {
         if ( ! isset( $usp_user->user_registered ) )
             return;
 
-        echo '<span class="usp-metadata usp-metadata__reg usps usps__ai-center usps__line-normal">'
+        echo '<span class="usp-metadata usp-metadata__reg usps usps__nowrap usps__ai-center usps__line-normal">'
         . '<i class="uspi fa-calendar-check" aria-hidden="true"></i>'
         . '<span>' . __( 'Registration', 'userspace' ) . ': ' . mysql2date( 'd-m-Y', $usp_user->user_registered ) . '</span>'
         . '</span>';
     }
 }
 
-function usp_get_user_description() {
+function usp_get_user_description( $user_id = false, $attr ) {
     global $usp_user;
 
+    $args = wp_parse_args( $attr, [ 'text' => $usp_user->description, 'class' => 'usp-user__description' ] );
+
     if ( isset( $usp_user->description ) && $usp_user->description ) {
-        return usp_get_quote_box( $usp_user->ID, [ 'text' => $usp_user->description, 'class' => 'usp-user__description' ] );
+        return usp_get_quote_box( $usp_user->ID, $args );
     }
 }
 
@@ -161,7 +221,7 @@ function usp_default_search_form( $content ) {
 
 //    if ( $user_LK && $usp_tab ) {
 //
-//        $get = usp_get_option( 'link_user_lk_usp', 'user' );
+//        $get = usp_get_option( 'usp_user_account_slug', 'user' );
 //
 //        $content .= '<input type="hidden" name="' . $get . '" value="' . $user_LK . '">';
 //        $content .= '<input type="hidden" name="tab" value="' . $usp_tab->id . '">';
@@ -245,10 +305,10 @@ function usp_user_action( $type = 1 ) {
 }
 
 function usp_get_useraction( $user_action = false ) {
-    global $usp_userlk_action;
+    global $usp_Office_Action;
 
     if ( ! $user_action )
-        $user_action = $usp_userlk_action;
+        $user_action = $usp_Office_Action;
 
     $unix_time_user = strtotime( $user_action );
 
@@ -516,8 +576,7 @@ function usp_get_profile_field( $field_id ) {
 
 add_filter( 'author_link', 'usp_author_link', 999, 2 );
 function usp_author_link( $link, $author_id ) {
-
-    if ( usp_get_option( 'view_user_lk_usp' ) != 1 )
+    if ( usp_get_option( 'usp_type_output_user_account', 'shortcode' ) == 'authorphp' )
         return $link;
 
     return usp_get_user_url( $author_id );
@@ -529,13 +588,13 @@ function usp_get_user_url( $user_id = false ) {
     if ( ! $user_id )
         $user_id = $user_ID;
 
-    if ( usp_get_option( 'view_user_lk_usp' ) != 1 )
+    if ( usp_get_option( 'usp_type_output_user_account', 'shortcode' ) == 'authorphp' )
         return get_author_posts_url( $user_id );
 
     return add_query_arg(
-        array(
-            usp_get_option( 'link_user_lk_usp', 'user' ) => $user_id
-        ), get_permalink( usp_get_option( 'lk_page_usp' ) )
+        [
+            usp_get_option( 'usp_user_account_slug', 'user' ) => $user_id
+        ], get_permalink( usp_get_option( 'usp_user_account_page' ) )
     );
 }
 
@@ -595,4 +654,28 @@ function usp_show_user_custom_fields( $user_id, $args = false ) {
     $class = ($args['class']) ? ' ' . $args['class'] : '';
 
     return '<div class="usp-user-fields ' . $class . ' usps usps__column">' . $content . '</div>';
+}
+
+add_action( 'usp_masonry_content', 'usp_masonry_age', 14 );
+function usp_masonry_age() {
+    global $usp_user;
+
+    $age = usp_get_age_number( $usp_user->ID );
+
+    if ( $age ) {
+
+        echo '<div class="usp-masonry__age">' . sprintf( _n( '%s year', '%s years', $age, 'userspace' ), $age ) . '</div>';
+    }
+}
+
+add_action( 'usp_masonry_content', 'usp_masonry_description', 18 );
+function usp_masonry_description() {
+    global $usp_user;
+
+    echo usp_get_user_description( $usp_user->ID, [ 'side' => 'top' ] );
+}
+
+add_action( 'usp_masonry_content', 'usp_masonry_custom_fields', 22 );
+function usp_masonry_custom_fields() {
+    echo '<div class="usp-masonry__fields">' . usp_get_user_custom_fields() . '</div>';
 }

@@ -20,7 +20,7 @@ class USP_Install {
         self::create_tables();
         self::create_roles();
 
-        if ( ! usp_get_option( 'view_user_lk_usp' ) ) {
+        if ( usp_get_option( 'usp_type_output_user_account', 'shortcode' ) == 'shortcode' ) {
             self::create_pages();
         }
 
@@ -84,7 +84,7 @@ class USP_Install {
     private static function create_pages() {
 
         $pages = apply_filters( 'usp_pages', array(
-            'lk_page_usp' => array(
+            'usp_user_account_page' => array(
                 'name'    => 'account',
                 'title'   => __( 'User profile page', 'userspace' ),
                 'content' => '<!-- wp:shortcode -->[userspace]<!-- /wp:shortcode -->'
@@ -203,7 +203,7 @@ class USP_Install {
             );
         }
 
-        if ( ! usp_get_option( 'view_user_lk_usp' ) ) {
+        if ( usp_get_option( 'usp_type_output_user_account', 'shortcode' ) == 'shortcode' ) {
             // disable the display of the admin panel for all users of the site, if enabled
             $wpdb->update(
                 $wpdb->usermeta,

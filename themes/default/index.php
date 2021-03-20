@@ -89,7 +89,7 @@ function usp_add_theme_cover_inline_styles( $styles ) {
     $cover = get_user_meta( $user_LK, 'usp_cover', 1 );
 
     if ( ! $cover )
-        $cover = usp_get_option( 'default_cover', 0 );
+        $cover = usp_get_option( 'usp_default_cover', 0 );
 
     $cover_url = wp_get_attachment_image_url( $cover, 'large' );
 

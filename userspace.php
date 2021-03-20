@@ -285,7 +285,7 @@ final class UserSpace {
     }
 
     function init_frontend_globals() {
-        global $wpdb, $user_LK, $usp_userlk_action, $user_ID, $usp_office, $usp_user_URL, $usp_current_action, $wp_rewrite;
+        global $wpdb, $user_LK, $usp_Office_Action, $user_ID, $usp_office, $usp_user_URL, $usp_current_action, $wp_rewrite;
 
         if ( $user_ID ) {
             $usp_user_URL       = usp_get_user_url( $user_ID );
@@ -295,14 +295,14 @@ final class UserSpace {
         $user_LK = 0;
 
         // if the output of the personal account via the shortcode
-        if ( usp_get_option( 'view_user_lk_usp' ) == 1 ) {
+        if ( usp_get_option( 'usp_type_output_user_account', 'shortcode' ) == 'shortcode' ) {
 
-            $get     = usp_get_option( 'link_user_lk_usp', 'user' );
+            $get     = usp_get_option( 'usp_user_account_slug', 'user' );
             $user_LK = (isset( $_GET[$get] )) ? intval( $_GET[$get] ) : false;
 
             if ( ! $user_LK ) {
                 $post_id = url_to_postid( $_SERVER['REQUEST_URI'] );
-                if ( usp_get_option( 'lk_page_usp' ) == $post_id ) {
+                if ( usp_get_option( 'usp_user_account_page' ) == $post_id ) {
                     $user_LK = $user_ID;
                 }
             }
@@ -340,9 +340,9 @@ final class UserSpace {
         $usp_office = $user_LK;
 
         if ( $user_LK && $user_LK != $user_ID ) {
-            $usp_userlk_action = usp_get_time_user_action( $user_LK );
+            $usp_Office_Action = usp_get_time_user_action( $user_LK );
         } else if ( $user_LK && $user_LK == $user_ID ) {
-            $usp_userlk_action = $usp_current_action;
+            $usp_Office_Action = $usp_current_action;
         }
     }
 

@@ -1,6 +1,44 @@
 <?php
 
 /**
+ * Get url to default cover
+ *
+ * @since 1.0
+ *
+ * @param bool  $avatar_cover   set to 'true' for return avatar for cover (if the user did not set the cover).
+ *                              Default: false
+ * @param int   $user_id        id of the user to get the avatar.
+ *
+ * @return string url cover or avatar.
+ */
+function usp_get_default_cover( $avatar_cover = false, $user_id = false ) {
+    $default_cover = USP_URL . 'themes/default/img/default-cover.jpg';
+
+    if ( $avatar_cover && $user_id ) {
+        $avatar = get_user_meta( $user_id, 'usp_avatar', 1 );
+        if ( $avatar ) {
+            $default_cover = get_avatar_url( $user_id, [ 'size' => 1000 ] );
+        }
+    }
+
+    $current_id = usp_get_option( 'usp-current-office' );
+
+    // default userspace theme user account
+    if ( $current_id === 'userspace/themes/default/index.php' )
+        return $default_cover;
+
+    // other theme
+    if ( in_array( $current_id, apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+        $file = dirname( plugins_url() . '/' . $current_id ) . '/img/default-cover.jpg';
+
+        if ( file_exists( $file ) )
+            return $file;
+    }
+
+    return $default_cover;
+}
+
+/**
  * Get the description block with the desired side of the quote
  *
  * @since 1.0

@@ -12,10 +12,10 @@
  */
 add_shortcode( 'userspace', 'usp_get_userspace' );
 function usp_get_userspace() {
-    if ( usp_get_option( 'view_user_lk_usp' ) == 1 ) {
+    if ( usp_get_option( 'usp_type_output_user_account', 'shortcode' ) == 'shortcode' ) {
         global $post;
 
-        if ( $post->ID == usp_get_option( 'lk_page_usp' ) && ! isset( $_GET['user'] ) ) {
+        if ( $post->ID == usp_get_option( 'usp_user_account_page' ) && ! isset( $_GET['user'] ) ) {
             return usp_get_variations_buttons();
         }
     }
@@ -169,7 +169,7 @@ function usp_get_loginform_shortcode( $atts = [] ) {
  *                                              Default: 30
  *                      $atts['number']         Maximum number users
  *                      $atts['template']       User output template
- *                                              Available: rows|cards|avatars|mini
+ *                                              Available: rows|cards|masonry|avatars|mini
  *                                              Default: rows
  *                      $atts['search_form']    Search form on top
  *                                              Available: 0|1
@@ -180,7 +180,7 @@ function usp_get_loginform_shortcode( $atts = [] ) {
  *                      $atts['orderby']        Order by: time_action (last online)
  *                                              Available: posts_count|comments_count|display_name|user_registered|time_action
  *                                              Default: time_action
- *                      $atts['order']          Sorting direction. ASC| DESC
+ *                      $atts['order']          Sorting direction. ASC|DESC
  *                                              Default: DESC
  *                      $atts['data']           Output additional data comma-separated list (if template supports)
  *                                              Available: posts_count,comments_count,description,user_registered,profile_fields
@@ -249,7 +249,9 @@ function usp_get_userlist( $atts = [] ) {
             $userlist .= $pagenavi->get_navi();
         }
 
-        $userlist .= '<div class="usp-users__list usps usp-users__' . $users->template . '">';
+        $data_masonry = ($users->template === 'masonry') ? 'data-columns' : '';
+
+        $userlist .= '<div class="usp-users__list usps usp-users__' . $users->template . '" ' . $data_masonry . '>';
 
         $usp_users_set = $users;
 

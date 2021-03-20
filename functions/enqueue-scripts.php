@@ -1,5 +1,9 @@
 <?php
 
+function usp_masonry_script() {
+    usp_enqueue_script( 'usp-masonry', USP_URL . 'assets/lib/masonry/masonry.min.js' );
+}
+
 function usp_buttons_style() {
     usp_enqueue_style( 'usp-buttons', USP_URL . 'assets/css/usp-buttons.css', false, USP_VERSION );
 }

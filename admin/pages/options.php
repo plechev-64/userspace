@@ -36,27 +36,27 @@ $options->add_box( 'primary', array(
     ) )->add_options( array(
         [
             'type'      => 'select',
-            'slug'      => 'view_user_lk_usp',
+            'slug'      => 'usp_type_output_user_account',
             'title'     => __( 'User profile page output', 'userspace' ),
             'values'    => [
-                __( 'On the author’s archive page', 'userspace' ),
-                __( 'Using shortcode [userspace]', 'userspace' )
+                'shortcode' => __( 'Using shortcode [userspace]', 'userspace' ),
+                'authorphp' => __( 'On the author’s archive page', 'userspace' ),
             ],
             'help'      => __( 'Attention! Changing this parameter is not required. '
                 . 'Detailed instructions on user profile output using author.php '
                 . 'file can be received here <a href="#" target="_blank">here</a>', 'userspace' ),
             'notice'    => __( 'If author archive page is selected, the template author.php should contain the code if(function_exists(\'userspace\')) userspace();', 'userspace' ),
             'childrens' => array(
-                1 => array(
+                'shortcode' => array(
                     [
                         'type'   => 'select',
-                        'slug'   => 'lk_page_usp',
+                        'slug'   => 'usp_user_account_page',
                         'title'  => __( 'Page with shortcode for displaying user profile page', 'userspace' ),
                         'values' => $pages
                     ],
                     [
                         'type'  => 'text',
-                        'slug'  => 'link_user_lk_usp',
+                        'slug'  => 'usp_user_account_slug',
                         'title' => __( 'Link format to user profile page', 'userspace' ),
                         'help'  => __( 'The link is formed according to principle "/slug_page/?get=ID". The parameter "get" can be set here. By default user', 'userspace' )
                     ]
@@ -101,7 +101,7 @@ $options->box( 'primary' )->add_group( 'design', array(
         'type'    => 'color',
         'slug'    => 'usp-primary-color',
         'title'   => __( 'Primary color', 'userspace' ),
-        'default' => '#3b82f6'
+        'default' => '#0369a1'
     ],
     [
         'type'    => 'radio',

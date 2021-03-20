@@ -104,6 +104,20 @@ class USP_Users_List extends USP_Users_Query {
         }
 
         $this->query = apply_filters( 'usp_users_query', $this->query );
+
+        $this->load_resources();
+    }
+
+    private function load_resources() {
+        if ( $this->template == 'rows' ) {
+            usp_users_rows_style();
+        } else if ( $this->template == 'cards' ) {
+            usp_users_cards_style();
+        } else if ( $this->template == 'masonry' ) {
+            usp_masonry_script();
+
+            usp_users_masonry_style();
+        }
     }
 
     function remove_filters() {

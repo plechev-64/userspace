@@ -270,7 +270,7 @@ class USP_Field_Abstract {
         if ( ! $value || ! $this->type )
             return false;
 
-        $content = '<div class="usp-field type-' . $this->type . '-value">';
+        $content = '<div class="usp-field type-' . $this->type . '-value usp-field-' . $this->id . '">';
 
         //$content .= $this->get_icon();
 

@@ -24,7 +24,7 @@ global $usp_user, $usp_users_set;
     <div class="usp-user__bottom">
         <div class="usp-user__fields-before"><?php do_action( 'usp_user_fields_before' ); ?></div>
 
-        <div class="usp-user__fields usps usps__column"><?php usp_user_custom_fields(); ?></div>
+        <div class="usp-user__fields usps usps__column"><?php echo usp_get_user_custom_fields(); ?></div>
 
         <div class="usp-user__fields-after"><?php do_action( 'usp_user_fields_after' ); ?></div>
     </div>

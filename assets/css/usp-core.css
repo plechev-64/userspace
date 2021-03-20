@@ -38,7 +38,8 @@ i::before {
     
     --uspBlue-300: #93c5fd;
     --uspBlue-400: #60a5fa;
-    --uspBlue-500: #3b82f6;
+    --uspBlue-500: #0ea5e9;
+    --uspBlue-700: #0369a1;
     
     --uspRed-100: #fee2e2;
     --uspRed-200: #fecaca;
@@ -149,6 +150,7 @@ i::before {
     margin: 0;
     max-width: 100%;
     width: 100%;
+    float: none;
 }
 
 .usps__text-left {
@@ -205,6 +207,7 @@ i::before {
   8. Post bar
   9. New USP Notice
   10. User Widget
+  11. USP Card
 ------------------------*/
 
 
@@ -267,7 +270,7 @@ body .preloader-parent {
     position: relative;
 }
 .usp-smiles > i {
-    color: var(--uspBlue-500);
+    color: var(--uspBlue-700);
     cursor: pointer;
     font-size: 20px;
 }
@@ -611,3 +614,69 @@ body .preloader-parent {
     margin: 0 0 6px;
 }
 /* End */
+
+/*---------------------------
+  11. USP Card (see user-masonry.php)
+-----------------------------*/
+.usp-card {
+    animation: fadeIn .5s linear .5s backwards;
+    background: var(--uspWhite);
+    border: 1px solid var(--uspGray-300);
+    box-sizing: border-box;
+    color: var(--uspGray-700);
+    font-size: 16px;
+    line-height: 1.4;
+    margin: 0 0 24px;
+    transition: all .2s linear;
+}
+.usp-card:hover {
+    border-color: var(--uspBlue-400);
+    box-shadow: 0 4px 16px var(--uspBlack-02), 0 6px 13px var(--uspBlack-02);
+}
+.usp-card:nth-child(2),.usp-card:nth-child(6){animation-delay:.8s;}
+.usp-card:nth-child(3),.usp-card:nth-child(5){animation-delay:1s;}
+.usp-card:nth-child(4){animation-delay:1.2s;}
+.usp-card__head {
+    overflow: hidden;
+    width: 100%;
+}
+.usp-card__head img {
+    height: 100%;
+}
+.usp-card__main > div:not(.usp-card__bttns) {
+    padding: 0 12px;
+}
+.usp-card__main > div {
+    text-align: center;
+}
+.usp-card__title {
+    display: block;
+    font-size: 26px;
+    line-height: normal;
+    margin: 6px 0 12px;
+    overflow: hidden;
+    word-break: break-word;
+    word-wrap:  break-word;
+    -webkit-hyphens: auto;
+        -ms-hyphens: auto;
+            hyphens: auto;
+}
+.usp-card__center > div:not(:last-child) {
+    margin-bottom: 6px;
+}
+.usp-card__content {
+    margin-top: 18px;
+}
+.usp-card__bttns:empty,
+.usp-card__content:empty {
+    display: none;
+}
+.usp-card__content > :not(:last-child) {
+    margin-bottom: 6px;
+}
+.usp-card__bttns {
+    margin: 6px 0 0;
+}
+.usp-card__bttns > div {
+    margin: 0 3px 3px;
+}

@@ -95,6 +95,7 @@ body.ssi-modalOpen {
 }
 .ssi-closeIcon::before {
     content: "×";
+    font-family: Roboto, arial, tahoma, sans-serif;
     font-size: 48px;
     font-weight: 500;
     display: flex;
