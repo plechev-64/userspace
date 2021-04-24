@@ -6,8 +6,7 @@
 global $usp_user_URL, $user_ID;
 
 $class = 'usp-bar-' . usp_get_option( 'usp_bar_color', 'dark' );
-$width = usp_get_option( 'usp_bar_width' ) ? 'style="max-width:' . usp_get_option( 'usp_bar_width' ) . 'px;"' : '';
-
+$width = usp_get_option( 'usp_bar_width' ) ? 'style="max-width:' . usp_get_option( 'usp_bar_width' ) . 'px;"' : 'style="max-width:calc(100% - 24px)"';
 
 $user = get_userdata( $user_ID );
 ?>
