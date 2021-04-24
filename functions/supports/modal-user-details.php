@@ -78,5 +78,5 @@ function usp_get_user_details( $user_id, $set_args = false ) {
         $content .= usp_show_user_custom_fields( $user_LK );
     }
 
-    return '<div id="usp-user-details">' . $content . '</div>';
+    return '<div id="usp-user-details" class="usps usps__nowrap usps__column">' . $content . '</div>';
 }
