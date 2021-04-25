@@ -196,14 +196,13 @@ class USP_Tabs {
 
         if ( $areas ) {
 
-            $initTabs = USP()->tabs;
-
             $newArray = [];
 
             foreach ( $areas as $area_id => $tabs ) {
 
-                if ( ! $tabs )
-                    continue;
+                if ( ! $tabs ){
+	                continue;
+                }
 
                 foreach ( $tabs as $tabData ) {
 
@@ -236,11 +235,12 @@ class USP_Tabs {
                     $newArray[$tab->id] = $tab;
                 }
 
-                foreach ( USP()->tabs as $tab_id => $tab ) {
-                    if ( ! isset( $newArray[$tab_id] ) )
-                        $newArray[$tab_id] = $tab;
-                }
             }
+
+	        foreach ( USP()->tabs as $tab_id => $tab ) {
+		        if ( ! isset( $newArray[$tab_id] ) )
+			        $newArray[$tab_id] = $tab;
+	        }
 
             USP()->tabs = $newArray;
         }
