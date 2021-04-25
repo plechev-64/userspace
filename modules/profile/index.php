@@ -1,8 +1,8 @@
 <?php
 
-//if ( is_admin() ) {
-require_once 'admin/index.php';
-//}
+if ( is_admin() ) {
+	require_once 'admin/index.php';
+}
 
 add_action( 'usp_enqueue_scripts', 'usp_profile_scripts', 10 );
 function usp_profile_scripts() {
