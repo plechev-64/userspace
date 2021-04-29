@@ -198,7 +198,6 @@ class USP_Field_Abstract {
 
         return '<span class="usp-help-option" onclick="return usp_get_option_help(this);"><i class="uspi fa-question-circle" aria-hidden="true"></i><span class="help-content">' . $this->help . '</span></span>';
 
-
         /* $content = '<span class="usp-balloon-hover usp-field-help">';
           $content .= '<i class="uspi fa-question-circle" aria-hidden="true"></i>';
           $content .= '<span class="usp-balloon help-content">';
@@ -275,10 +274,10 @@ class USP_Field_Abstract {
         //$content .= $this->get_icon();
 
         if ( $title )
-            $content .= '<div class="usp-field-title">'
+            $content .= '<div class="usp-field-title-box usps"><div class="usp-field-title">'
                 . $this->title
                 . '</div>'
-                . '<span class="title-colon">: </span>';
+                . '<span class="title-colon">: </span></div>';
 
         $content .= '<span class="usp-field-value">';
 

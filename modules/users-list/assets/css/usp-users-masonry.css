@@ -62,14 +62,3 @@
 .usp-masonry__stats {
     margin: 0 0 12px;
 }
-.usp-masonry .usp-metadata {
-    font-size: 14px;
-    margin: 6px 6px 0 0;
-    padding: 6px 12px;
-    background: var(--uspGray-100);
-    color: var(--uspGray-500);
-    border: 1px solid var(--uspGray-200);
-}
-.usp-masonry .usp-metadata .uspi {
-    margin: 0 6px 0 0;
-}

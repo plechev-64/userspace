@@ -208,6 +208,7 @@ i::before {
   9. New USP Notice
   10. User Widget
   11. USP Card
+  12. USP meta
 ------------------------*/
 
 
@@ -679,4 +680,19 @@ body .preloader-parent {
 }
 .usp-card__bttns > div {
     margin: 0 3px 3px;
+}
+
+/*------------------------
+  12. USP meta
+--------------------------*/
+.usp-meta {
+    font-size: 14px;
+    margin: 6px 6px 0 0;
+    padding: 6px 12px;
+    background: var(--uspGray-100);
+    color: var(--uspGray-500);
+    border: 1px solid var(--uspGray-200);
+}
+.usp-meta .uspi {
+    margin: 0 6px 0 0;
 }

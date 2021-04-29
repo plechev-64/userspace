@@ -77,7 +77,7 @@ class USP_Sub_Tab {
 
         $title = $this->title ? $this->title : $this->name;
 
-        $content = '<div id="usp-subtab-' . $this->id . '" class="usp-subtab-content">';
+        $content = '<div id="usp-subtab-' . $this->id . '" class="usp-subtab-box">';
 
         $content .= '<div class="usp-subtab-title usps usps__ai-center usps__line-1">';
         if ( $this->icon )
@@ -93,11 +93,13 @@ class USP_Sub_Tab {
                 $args = array( $user_LK );
             }
 
+            $content .= '<div class="usp-subtab-content">';
             if ( function_exists( $this->callback['name'] ) ) {
                 $content .= apply_filters( 'usp_tab_content', call_user_func_array( $this->callback['name'], $args ), $this->parent_id, $this->id );
             } else {
                 $content .= usp_get_notice( [ 'text' => __( 'There was an error loading the tab. Function not found.', 'userspace' ) ] );
             }
+            $content .= '</div>';
         }
 
         $content .= '</div>';

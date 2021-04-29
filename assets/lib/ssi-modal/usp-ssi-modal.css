@@ -127,7 +127,7 @@ body.ssi-modalOpen {
     margin-left: -12px;
     width: calc(100% + 24px);
 }
-.ssi-modalContent .usp-subtab-content p:last-child {
+.ssi-modalContent .usp-subtab-box p:last-child {
     margin-bottom: 0;
 }
 .ssi-buttons:after,

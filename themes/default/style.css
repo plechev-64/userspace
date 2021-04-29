@@ -189,6 +189,9 @@
 .usp-profile-content {
     margin: 12px 0;
 }
+.usp-subtabs-menu ~ .usp-subtab-box {
+    margin-top: 12px;
+}
 .usp-subtab-title {
     padding: 12px;
     margin-bottom: 12px;
@@ -197,6 +200,9 @@
 }
 .usp-subtab-title > span {
     margin: 0 0 0 6px;
+}
+.usp-subtab-content {
+    margin: 12px;
 }
 .usp-right-sidebar {
     min-width: 200px;

@@ -83,6 +83,9 @@ function usp_get_age_number( $user_id = false ) {
     if ( ! $user_id ) {
         global $user_LK;
 
+        if ( ! $user_LK )
+            return;
+
         $user_id = $user_LK;
     }
 
@@ -93,6 +96,26 @@ function usp_get_age_number( $user_id = false ) {
         return false;
 
     return date_diff( date_create( $bip_birthday ), date_create( 'today' ) )->y;
+}
+
+/**
+ * Get user age box
+ *
+ * @since 1.0
+ *
+ * @param int       $user_id    id user.
+ * @param string    $class      additional class.
+ *
+ * @return string   html box with user age
+ */
+function usp_get_user_age( $user_id, $class = false ) {
+    $age = usp_get_age_number( $user_id );
+
+    if ( $age ) {
+        return '<div class="usp-age ' . $class . '">' . sprintf( _n( '%s year', '%s years', $age, 'userspace' ), $age ) . '</div>';
+    }
+
+    return false;
 }
 
 function usp_user_rayting() {
@@ -133,10 +156,12 @@ function usp_user_comments() {
         if ( ! isset( $usp_user->comments_count ) )
             $usp_user->comments_count = 0;
 
-        echo '<span class="usp-metadata usp-metadata__comm usps usps__nowrap usps__ai-center usps__line-normal">'
-        . '<i class="uspi fa-comment" aria-hidden="true"></i>'
-        . '<span>' . __( 'Comments', 'userspace' ) . ': ' . $usp_user->comments_count . '</span>'
-        . '</span>';
+        $title = __( 'Comments', 'userspace' ) . ':';
+        $count = $usp_user->comments_count;
+        $icon  = 'fa-comment';
+        $class = 'usp-meta__comm';
+
+        echo usp_user_get_stat_item( $title, $count, $icon, $class );
     }
 }
 
@@ -148,10 +173,12 @@ function usp_user_posts() {
         if ( ! isset( $usp_user->posts_count ) )
             $usp_user->posts_count = 0;
 
-        echo '<span class="usp-metadata usp-metadata__post usps usps__nowrap usps__ai-center usps__line-normal">'
-        . '<i class="uspi fa-file" aria-hidden="true"></i>'
-        . '<span>' . __( 'Publics', 'userspace' ) . ': ' . $usp_user->posts_count . '</span>'
-        . '</span>';
+        $title = __( 'Publics', 'userspace' ) . ':';
+        $count = $usp_user->posts_count;
+        $icon  = 'fa-file';
+        $class = 'usp-meta__post';
+
+        echo usp_user_get_stat_item( $title, $count, $icon, $class );
     }
 }
 
@@ -163,14 +190,39 @@ function usp_user_register() {
         if ( ! isset( $usp_user->user_registered ) )
             return;
 
-        echo '<span class="usp-metadata usp-metadata__reg usps usps__nowrap usps__ai-center usps__line-normal">'
-        . '<i class="uspi fa-calendar-check" aria-hidden="true"></i>'
-        . '<span>' . __( 'Registration', 'userspace' ) . ': ' . mysql2date( 'd-m-Y', $usp_user->user_registered ) . '</span>'
-        . '</span>';
+        $title = __( 'Registration', 'userspace' ) . ':';
+        $count = mysql2date( 'd-m-Y', $usp_user->user_registered );
+        $icon  = 'fa-calendar-check';
+        $class = 'usp-meta__reg';
+
+        echo usp_user_get_stat_item( $title, $count, $icon, $class );
     }
 }
 
-function usp_get_user_description( $user_id = false, $attr ) {
+/**
+ * Get statistics item
+ *
+ * @since 1.0
+ *
+ * @param string    $title      title item.
+ * @param int       $count      counter item.
+ * @param string    $icon       uspi icon item.
+ * @param string    $class      additional class item.
+ *
+ * @return string       html item
+ */
+function usp_user_get_stat_item( $title, $count, $icon = 'fa-info-circle', $class = false ) {
+    $data = [
+        'title' => $title,
+        'count' => $count,
+        'icon'  => $icon,
+        'class' => $class,
+    ];
+
+    return usp_get_include_template( 'statistics-item.php', '', $data );
+}
+
+function usp_get_user_description( $user_id = false, $attr = false ) {
     global $usp_user;
 
     $args = wp_parse_args( $attr, [ 'text' => $usp_user->description, 'class' => 'usp-user__description' ] );
@@ -217,7 +269,6 @@ function usp_default_search_form( $content ) {
         'submit' => __( 'Search', 'userspace' ),
         'fields' => $fields
         ] );
-
 
 //    if ( $user_LK && $usp_tab ) {
 //
@@ -660,12 +711,7 @@ add_action( 'usp_masonry_content', 'usp_masonry_age', 14 );
 function usp_masonry_age() {
     global $usp_user;
 
-    $age = usp_get_age_number( $usp_user->ID );
-
-    if ( $age ) {
-
-        echo '<div class="usp-masonry__age">' . sprintf( _n( '%s year', '%s years', $age, 'userspace' ), $age ) . '</div>';
-    }
+    echo usp_get_user_age( $usp_user->ID, 'usp-masonry__age' );
 }
 
 add_action( 'usp_masonry_content', 'usp_masonry_description', 18 );
@@ -678,4 +724,76 @@ function usp_masonry_description() {
 add_action( 'usp_masonry_content', 'usp_masonry_custom_fields', 22 );
 function usp_masonry_custom_fields() {
     echo '<div class="usp-masonry__fields">' . usp_get_user_custom_fields() . '</div>';
+}
+
+/**
+ * gets a block of the number of comments of the specified user
+ *
+ * @since 1.0
+ *
+ * @param int       $user_id    id user
+ *
+ * @return string   html block
+ */
+function usp_user_count_comments( $user_id ) {
+    global $wpdb;
+    $comm_count = $wpdb->get_var( "SELECT COUNT(comment_ID) FROM " . $wpdb->comments . " WHERE user_id = " . $user_id . " AND comment_approved = 1" );
+
+    $title = __( 'Comments', 'userspace' ) . ':';
+    $count = $comm_count;
+    $icon  = 'fa-comment';
+    $class = 'usp-meta__comm';
+
+    echo usp_user_get_stat_item( $title, $count, $icon, $class );
+}
+
+/**
+ * gets a block of the number of publications of the specified user
+ *
+ * @since 1.0
+ *
+ * @param int       $user_id    id user
+ *
+ * @return string   html block
+ */
+function usp_user_count_publications( $user_id ) {
+    global $wpdb;
+
+    $exclude_post_by_type = "'page','nav_menu_item','customize_changeset','oembed_cache','custom_css','wp_block'";
+
+    $exclude_posts_type = apply_filters( 'usp_user_count_publications_exclude_post_types', $exclude_post_by_type );
+
+    $post_count = $wpdb->get_var( ""
+        . "SELECT COUNT(ID) "
+        . "FROM " . $wpdb->posts . " "
+        . "WHERE post_author = " . $user_id . " "
+        . "AND post_status IN ('publish', 'private') "
+        . "AND post_type NOT IN(" . $exclude_posts_type . ") " );
+
+    $title = __( 'Publics', 'userspace' ) . ':';
+    $count = $post_count;
+    $icon  = 'fa-file';
+    $class = 'usp-meta__post';
+
+    echo usp_user_get_stat_item( $title, $count, $icon, $class );
+}
+
+/**
+ * gets a block with the registration date of the specified user
+ *
+ * @since 1.0
+ *
+ * @param int       $user_id    id user
+ *
+ * @return string   html block
+ */
+function usp_user_get_date_registered( $user_id ) {
+    $register_date = get_userdata( $user_id );
+
+    $title = __( 'Registration', 'userspace' ) . ':';
+    $count = mysql2date( 'd-m-Y', $register_date->user_registered );
+    $icon  = 'fa-calendar-check';
+    $class = 'usp-meta__reg';
+
+    echo usp_user_get_stat_item( $title, $count, $icon, $class );
 }

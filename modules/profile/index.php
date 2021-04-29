@@ -1,18 +1,26 @@
 <?php
 
 if ( is_admin() ) {
-	require_once 'admin/index.php';
+    require_once 'admin/index.php';
 }
 
-add_action( 'usp_enqueue_scripts', 'usp_profile_scripts', 10 );
-function usp_profile_scripts() {
+add_action( 'usp_enqueue_scripts', 'usp_my_profile_resources', 10 );
+function usp_my_profile_resources() {
     global $user_ID;
 
     if ( ! usp_is_office( $user_ID ) )
         return;
 
+    usp_enqueue_style( 'usp-my-profile-css', plugins_url( 'assets/my-profile.css', __FILE__ ) );
+    usp_enqueue_script( 'usp-my-profile-js', plugins_url( 'assets/my-profile.js', __FILE__ ) );
+}
+
+add_action( 'usp_enqueue_scripts', 'usp_profile_style', 10 );
+function usp_profile_style() {
+    if ( ! usp_is_office() )
+        return;
+
     usp_enqueue_style( 'usp-profile-css', plugins_url( 'assets/profile.css', __FILE__ ) );
-    usp_enqueue_script( 'usp-profile-js', plugins_url( 'assets/scripts.js', __FILE__ ) );
 }
 
 add_filter( 'usp_init_js_variables', 'usp_init_js_profile_variables', 10 );
@@ -34,18 +42,42 @@ function usp_tab_profile() {
             'id'       => 'profile',
             'name'     => __( 'Profile', 'userspace' ),
             'title'    => __( 'User profile', 'userspace' ),
-            'supports' => array( 'ajax' ),
-            'public'   => 0,
-            'icon'     => 'fa-user',
+            'public'   => 1,
+            'supports' => [ 'ajax' ],
+            'icon'     => 'fa-address-book',
             'content'  => array(
                 array(
-                    'callback' => array(
-                        'name' => 'usp_tab_profile_content'
-                    )
+                    'id'       => 'info',
+                    'name'     => __( 'User info', 'userspace' ),
+                    'title'    => __( 'About the user', 'userspace' ),
+                    'callback' => [ 'name' => 'usp_get_profile_user_info' ]
                 )
             )
         )
     );
+}
+
+function usp_get_profile_user_info( $user_id ) {
+    return usp_get_include_template( 'profile-info.php', '', [ 'user_id' => $user_id ] );
+}
+
+add_action( 'usp_setup_tabs', 'usp_tab_profile_info', 10 );
+function usp_tab_profile_info() {
+    global $user_ID;
+
+    if ( ! usp_is_office( $user_ID ) )
+        return;
+
+    $subtab = array(
+        'id'       => 'edit',
+        'name'     => __( 'Edit profile', 'userspace' ),
+        'title'    => __( 'Personal Options', 'userspace' ),
+        'icon'     => 'fa-user-cog',
+        'supports' => [ 'ajax' ],
+        'callback' => [ 'name' => 'usp_tab_profile_content' ]
+    );
+
+    usp_add_sub_tab( 'profile', $subtab );
 }
 
 add_action( 'usp_bar_setup', 'usp_bar_add_profile_link', 10 );
@@ -57,7 +89,14 @@ function usp_bar_add_profile_link() {
 
     usp_bar_add_menu_item( 'profile-link', array(
         'url'   => usp_get_tab_permalink( $user_ID, 'profile' ),
-        'icon'  => 'fa-user-secret',
+        'icon'  => 'fa-address-book',
+        'label' => __( 'Profile info', 'userspace' )
+        )
+    );
+
+    usp_bar_add_menu_item( 'profile-edit-link', array(
+        'url'   => usp_get_tab_permalink( $user_ID, 'profile', 'edit' ),
+        'icon'  => 'fa-user-cog',
         'label' => __( 'Profile settings', 'userspace' )
         )
     );
@@ -206,4 +245,13 @@ function usp_delete_user_account() {
     } else {
         wp_die( __( 'Account deletion failed! Go back and try again.', 'userspace' ) );
     }
+}
+
+add_action( 'usp_info_stats', 'usp_user_count_comments', 20 );
+add_action( 'usp_info_stats', 'usp_user_count_publications', 20 );
+add_action( 'usp_info_stats', 'usp_user_get_date_registered', 20 );
+
+add_action( 'usp_info_meta', 'usp_user_info_age', 20 );
+function usp_user_info_age( $user_id ) {
+    echo usp_get_user_age( $user_id, 'usp-info__age' );
 }
