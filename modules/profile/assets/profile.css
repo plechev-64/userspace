@@ -15,3 +15,25 @@
 .usp-info .usp-field-title-box {
     min-width: 72px;
 }
+.usp-user-fields {
+    margin: 12px 0 0;
+}
+.usp-user-fields .usp-field + .usp-field {
+    margin: 6px 0 0;
+}
+.usp-user-fields .usp-field {
+    display: inline-flex;
+    color: var(--uspGray-600);
+    line-height: 1;
+}
+.usp-user-fields .usp-field .usp-field-title {
+    margin: 0;
+}
+.usp-user-fields .usp-field-value {
+    margin: 0 0 0 6px;
+}
+.usp-user-fields a {
+    box-shadow: none !important;
+    color: inherit;
+    text-decoration: underline;
+}

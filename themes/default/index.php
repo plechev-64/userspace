@@ -21,7 +21,8 @@ add_action( 'usp_init', 'usp_setup_template_options', 10 );
 function usp_setup_template_options() {
     usp_template_support( 'avatar-uploader' );
     usp_template_support( 'cover-uploader' );
-    usp_template_support( 'modal-user-details' );
+    usp_template_support( 'zoom-avatar' );
+    //usp_template_support( 'modal-user-details' );
 }
 
 // registering 3 widget areas

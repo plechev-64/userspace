@@ -11,7 +11,6 @@ function usp_my_profile_resources() {
     if ( ! usp_is_office( $user_ID ) )
         return;
 
-    usp_enqueue_style( 'usp-my-profile-css', plugins_url( 'assets/my-profile.css', __FILE__ ) );
     usp_enqueue_script( 'usp-my-profile-js', plugins_url( 'assets/my-profile.js', __FILE__ ) );
 }
 

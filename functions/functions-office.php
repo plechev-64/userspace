@@ -106,6 +106,10 @@ function usp_template_support( $support ) {
         case 'modal-user-details':
             include_once USP_PATH . 'functions/supports/modal-user-details.php';
             break;
+
+        case 'zoom-avatar':
+            include_once USP_PATH . 'functions/supports/zoom-avatar.php';
+            break;
     }
 }
 

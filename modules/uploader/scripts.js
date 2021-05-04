@@ -327,7 +327,7 @@ function USPUploader( props, sk ) {
 				var maxWidth = window.innerWidth * 0.9;
 				var maxHeight = window.innerHeight * 0.8;
 
-				jQuery( 'body > div' ).last().after( '<div id=usp-preview><img style="max-width:' + maxWidth + 'px;max-height:' + maxHeight + 'px;" src="' + imgUrl + '"></div>' );
+				jQuery( 'body > div' ).last().after( '<div id="usp-preview" class="usps usps__jc-center"><img style="max-width:' + maxWidth + 'px;max-height:' + maxHeight + 'px;" src="' + imgUrl + '"></div>' );
 
 				var image = jQuery( '#usp-preview img' );
 

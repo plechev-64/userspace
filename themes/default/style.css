@@ -69,13 +69,13 @@
 }
 #usp-avatar .usp-ava-bttn {
     background: var(--uspWhite);
-    color: #aa0400;
     font-size: 20px;
     opacity: .8;
     padding: 6px;
     position: absolute;
     box-shadow: none;
     cursor: pointer;
+    color: var(--uspRed-800);
 }
 #usp-avatar .usp-ava-bttn:hover {
     opacity: 1;
@@ -91,10 +91,6 @@
 #usp-avatar .icon-set-ava {
     bottom: 0;
     left: 0;
-}
-#usp-avatar .icon-user-info {
-    left: 0;
-    top: 0;
 }
 #usp-avatar .icon-set-ava input {
     cursor: pointer;
