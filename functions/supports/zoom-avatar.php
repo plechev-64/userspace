@@ -1,7 +1,7 @@
 <?php
 
 function usp_support_zoom_avatar_scripts() {
-    usp_enqueue_script( 'usp-user-info', USP_URL . 'functions/supports/js/zoom-avatar.js' );
+    usp_enqueue_script( 'usp-zoom-avatar', USP_URL . 'functions/supports/js/zoom-avatar.js' );
 }
 
 add_filter( 'usp_avatar_icons', 'usp_zoom_avatar_button', 10 );
@@ -14,7 +14,7 @@ function usp_zoom_avatar_button( $icons ) {
         usp_dialog_scripts();
         usp_support_zoom_avatar_scripts();
 
-        $icons['user-info'] = array(
+        $icons['zoom-avatar'] = array(
             'icon' => 'fa-search',
             'atts' => array(
                 'title'     => __( 'Zoom avatar', 'userspace' ),
