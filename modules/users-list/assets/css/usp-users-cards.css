@@ -4,7 +4,7 @@
     min-width: 160px;
 }
 .usp-users__cards .usp-user:hover {
-    box-shadow: 0 4px 16px var(--uspBlack-02), 0 6px 13px var(--uspBlack-02);
+    box-shadow: var(--uspBox100);
 }
 .usp-user__picture {
     width: 100%;
@@ -43,7 +43,7 @@
     width: 100%;
 }
 .usp-user__half:nth-child(2) {
-    border-left: 1px solid var(--uspGray-200);
+    border-left: var(--uspLine200);
 }
 .usp-user__half {
     font-weight: 300;

@@ -8,7 +8,6 @@
 }
 .usp-option-menu .usp-bttn {
     width: 100%;
-    box-shadow: none;
     min-height: 42px;
 }
 .usp-option-menu .usp-bttn__ico {
@@ -23,22 +22,17 @@
 }
 .usp-toggle-extend {
     background: var(--uspRed-200) !important;
-    border: 1px solid var(--uspRed-300);
+    border: var(--uspLine300);
     margin: 0 0 12px;
     color: var(--uspGray-700);
 }
 .usp-toggle-extend-show i::before {
     content: "\f14a";
 }
-.usp-options-tabs {
-    border: 1px solid var(--uspGray-300);
-}
 .usp-options-tabs > a:not(:last-child) {
-    border-bottom: 1px solid var(--uspGray-300);
+    border-bottom: 0;
 }
 .usp-options-tabs a.usp-bttn__active {
-    background: var(--uspHex);
-    color: var(--uspText);
     border-bottom-color: var(--uspHex);
 }
 .usp-submit-options.usp-bttn {
@@ -56,7 +50,7 @@
     overflow-y: auto;
     max-height: 800px;
     box-sizing: border-box;
-    border: 1px solid var(--uspGray-300);
+    border: var(--uspLine300);
     width: 100%;
     max-width: 620px;
 }
@@ -71,7 +65,7 @@
     display: block;
 }
 .usp-options .options-group {
-    border: 1px solid var(--uspGray-300);
+    border: var(--uspLine300);
     background: var(--uspWhite);
 }
 .usp-options .options-group:not(:last-child) {

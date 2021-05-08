@@ -1,0 +1,20 @@
+.usp-detailed-ava {
+    border-radius: 0;
+    display: block;
+    float: none;
+    padding: 0;
+}
+.usp-user-avatar .usp-avatar-zoom {
+    background: var(--uspBlack-05);
+    color: var(--uspWhite);
+    font-size: 150px;
+    height: 100%;
+    opacity: .7;
+    position: absolute;
+    text-decoration: none;
+    top: 0;
+    width: 100%;
+}
+.usp-user-avatar:hover .usp-avatar-zoom {
+    display: flex;
+}

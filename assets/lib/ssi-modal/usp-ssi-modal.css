@@ -104,7 +104,7 @@ body.ssi-modalOpen {
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    transition: color .2s ease-in-out;
+    transition: color var(--uspLoad);
 }
 .ssi-modalWrapper:not(.medium) .ssi-closeIcon::before {
     color: var(--uspGray-500);

@@ -79,25 +79,25 @@ function usp_tab_profile_info() {
     usp_add_sub_tab( 'profile', $subtab );
 }
 
-add_action( 'usp_bar_setup', 'usp_bar_add_profile_link', 10 );
+add_action( 'usp_bar_setup', 'usp_bar_add_profile_link', 15 );
 function usp_bar_add_profile_link() {
-    global $user_ID;
-
     if ( ! is_user_logged_in() )
         return;
 
-    usp_bar_add_menu_item( 'profile-link', array(
+    global $user_ID;
+
+    usp_bar_add_menu_item( 'profile-link', [
         'url'   => usp_get_tab_permalink( $user_ID, 'profile' ),
         'icon'  => 'fa-address-book',
         'label' => __( 'Profile info', 'userspace' )
-        )
+        ]
     );
 
-    usp_bar_add_menu_item( 'profile-edit-link', array(
+    usp_bar_add_menu_item( 'profile-edit-link', [
         'url'   => usp_get_tab_permalink( $user_ID, 'profile', 'edit' ),
         'icon'  => 'fa-user-cog',
         'label' => __( 'Profile settings', 'userspace' )
-        )
+        ]
     );
 }
 

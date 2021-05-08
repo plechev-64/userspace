@@ -35,7 +35,11 @@ function usp_user_url() {
 function usp_user_avatar( $size = 50, $attr = false ) {
     global $usp_user;
 
-    $attr['class'] .= ' usps__img-reset';
+    if ( ! $attr['class'] ) {
+        $attr['class'] = 'usps__img-reset';
+    } else {
+        $attr['class'] .= ' usps__img-reset';
+    }
 
     echo get_avatar( $usp_user->ID, $size, false, false, $attr );
 }
@@ -224,6 +228,9 @@ function usp_user_get_stat_item( $title, $count, $icon = 'fa-info-circle', $clas
 
 function usp_get_user_description( $user_id = false, $attr = false ) {
     global $usp_user;
+
+    if ( ! isset( $usp_user->description ) )
+        return;
 
     $args = wp_parse_args( $attr, [ 'text' => $usp_user->description, 'class' => 'usp-user__description' ] );
 

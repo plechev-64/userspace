@@ -43,14 +43,14 @@ Help: https://www.jssor.com/development/slider-with-thumbnail-navigator.html
     transition: border-color .6s;
 }
 .usp-gallery-navigator .pav .o {
-    border-color: #0099ff;
+    border-color: var(--uspBlue-500);
 }
 .usp-gallery-navigator .p:hover .o {
     border-color: var(--uspWhite);
     transition: none;
 }
 .usp-gallery-navigator .p.pdn .o {
-    border-color: #0099ff;
+    border-color: var(--uspBlue-500);
 }
 /*
 #region Arrow Navigator Skin Begin

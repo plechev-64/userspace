@@ -36,6 +36,7 @@ i::before {
     --uspGreen-800: #166534;
     --uspGreen-900: #14532d;
     
+    --uspBlue-50: #eff6ff;
     --uspBlue-300: #93c5fd;
     --uspBlue-400: #60a5fa;
     --uspBlue-500: #0ea5e9;
@@ -48,6 +49,17 @@ i::before {
     --uspRed-500: #ef4444;
     --uspRed-800: #991b1b;
     --uspRed-900: #7f1d1d;
+    
+    --uspLine200: 1px solid var(--uspGray-200);
+    --uspLine300: 1px solid var(--uspGray-300);
+    
+    --uspBox100: 3px 6px 12px 0 var(--uspBlack-01);
+    --uspBox200: 6px 6px 12px -6px var(--uspGray-400);
+    --uspBox300: 3px 3px 6px 0 var(--uspBlack-02);
+    --uspBox400: 3px 6px 12px 3px var(--uspBlack-02);
+    
+    --uspLoadFast: .12s ease-in-out;
+    --uspLoad: .24s ease-in-out;
 }
 
 
@@ -203,12 +215,11 @@ i::before {
   4. User online/offline
   5. Ballun
   6. USP pagenavi API
-  7. Detailed information
-  8. Post bar
-  9. New USP Notice
-  10. User Widget
-  11. USP Card
-  12. USP meta
+  7. Post bar
+  8. New USP Notice
+  9. User Widget
+  10. USP Card
+  11. USP meta
 ------------------------*/
 
 
@@ -251,7 +262,7 @@ body .preloader-parent {
     position: absolute !important;
     top: 0 !important;
     width: 100% !important;
-    z-index: 99;
+    z-index: 103;
 }
 .usp_preloader i {
     color: var(--uspHex);
@@ -278,7 +289,7 @@ body .preloader-parent {
 .usp-smiles .smiles {
     background: var(--uspWhite);
     border-radius: 5px;
-    box-shadow: 0 0 1px 1px var(--uspGray-300);
+    box-shadow: var(--uspBox400);
     box-sizing: border-box;
     padding: 3px;
     text-align: left;
@@ -371,81 +382,12 @@ body .preloader-parent {
 }
 
 
-/*new balloon*/
-.usp-balloon {
-	position: absolute;
-	background: var(--uspWhite);
-	right: 0;
-	top: calc(100% + 1.5em);
-	z-index: 9;
-	padding: 3px 10px;
-	border: 1px solid var(--uspBlack);
-	display:flex;
-	opacity: 0;
-	transform: translate3d(0px, 0px, 0px);
-	transition: all .2s ease-in-out;
-	visibility: hidden;
-	border-radius: 3px;
-	text-align: left;
-}
-.usp-balloon::before,
-.usp-balloon::after{
-	border-width: 0 10px 10px 10px;
-	border-style: solid;
-	content: "";
-	height: 0;
-	right: 5px;
-	position: absolute;
-	width: 0;
-}
-
-.usp-balloon::before{
-	border-color: transparent transparent var(--uspBlack) transparent;
-	top: -11px;
-}
-
-.usp-balloon::after{
-	border-color: transparent transparent var(--uspWhite) transparent;
-	top: -10px;
-}
-.usp-balloon-hover{
-	position:relative;
-}
-.usp-balloon-hover:hover .usp-balloon{
-	cursor: default;
-	opacity: 1;
-	transform: translateY(-18px);
-	visibility: visible;
-}
-.usp-balloon.position-top{
-	top:auto;
-	bottom: calc(100% - 1em);
-}
-.usp-balloon.position-top::before,
-.usp-balloon.position-top::after{
-	border-width: 10px 10px 0 10px;
-}
-.usp-balloon.position-top::before{
-	border-color: var(--uspBlack) transparent transparent transparent;
-	bottom: -11px;
-	top:auto;
-}
-.usp-balloon.position-top::after{
-	border-color: var(--uspWhite) transparent transparent transparent;
-	bottom: -10px;
-	top:auto;
-}
-/*end*/
-
-
 
 /*-----------------------
   6. USP pagenavi API
 -------------------------*/
 .usp-pager {
-    padding: 6px 3px;
     margin: 12px 0;
-    border: 1px solid var(--uspGray-200);
 }
 .usp-pager > span {
     margin: 0 3px;
@@ -454,37 +396,8 @@ body .preloader-parent {
 
 
 
-/*----------------------------------
-  7. Detailed information
-------------------------------------*/
-.usp-detailed-ava {
-    border-radius: 0;
-    display: block;
-    float: none;
-    padding: 0;
-}
-.usp-user-avatar .usp-avatar-zoom {
-    background: var(--uspBlack-05);
-    color: var(--uspWhite);
-    font-size: 150px;
-    height: 100%;
-    opacity: .7;
-    position: absolute;
-    text-decoration: none;
-    top: 0;
-    width: 100%;
-}
-.usp-user-avatar:hover .usp-avatar-zoom {
-    display: flex;
-}
-/*end*/
-
-
-
-
-
 /*--------------------
-  8. Post bar
+  7. Post bar
 ----------------------*/
 #usp-post-bar {
     margin: 10px 0;
@@ -517,7 +430,7 @@ body .preloader-parent {
 
 
 /*---------------------------
-  9. New USP Notice
+  8. New USP Notice
 -----------------------------*/
 #usp-wrap-notices {
     left: 12px;
@@ -559,7 +472,7 @@ body .preloader-parent {
     background: var(--uspGray-100);
     color: var(--uspGray-700);
 }
-.usp-notice__ico {
+.usp-notice .usp-notice__ico {
     color: var(--uspBlack-015);
     font-size: 52px;
     left: -9px;
@@ -605,7 +518,7 @@ body .preloader-parent {
 /**/
 
 /*---------------------------
-  10. User Widget
+  9. User Widget
 -----------------------------*/
 .usp-user-widget__left {
     margin-right: 6px;
@@ -617,22 +530,22 @@ body .preloader-parent {
 /* End */
 
 /*---------------------------
-  11. USP Card (see user-masonry.php)
+  10. USP Card (see user-masonry.php)
 -----------------------------*/
 .usp-card {
     animation: fadeIn .5s linear .5s backwards;
     background: var(--uspWhite);
-    border: 1px solid var(--uspGray-300);
+    border: var(--uspLine200);
     box-sizing: border-box;
     color: var(--uspGray-700);
     font-size: 16px;
     line-height: 1.4;
     margin: 0 0 24px;
-    transition: all .2s linear;
+    transition: var(--uspLoad);
 }
 .usp-card:hover {
     border-color: var(--uspBlue-400);
-    box-shadow: 0 4px 16px var(--uspBlack-02), 0 6px 13px var(--uspBlack-02);
+    box-shadow: var(--uspBox100);
 }
 .usp-card:nth-child(2),.usp-card:nth-child(6){animation-delay:.8s;}
 .usp-card:nth-child(3),.usp-card:nth-child(5){animation-delay:1s;}
@@ -683,15 +596,15 @@ body .preloader-parent {
 }
 
 /*------------------------
-  12. USP meta
+  11. USP meta
 --------------------------*/
 .usp-meta {
     font-size: 14px;
     margin: 6px 6px 0 0;
     padding: 6px 12px;
     background: var(--uspGray-100);
-    color: var(--uspGray-500);
-    border: 1px solid var(--uspGray-200);
+    color: var(--uspGray-600);
+    border: var(--uspLine200);
 }
 .usp-meta .uspi {
     margin: 0 6px 0 0;

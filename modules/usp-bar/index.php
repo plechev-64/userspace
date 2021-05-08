@@ -17,26 +17,33 @@ function usp_bar_setup() {
 
 add_action( 'usp_bar_setup', 'usp_setup_bar_default_data', 10 );
 function usp_setup_bar_default_data() {
+    if ( ! is_user_logged_in() )
+        return;
+
     global $usp_user_URL;
 
-    if ( ! is_user_logged_in() )
-        return false;
-
-    usp_bar_add_menu_item( 'account-link', array(
+    usp_bar_add_menu_item( 'account-link', [
         'url'   => $usp_user_URL,
         'icon'  => 'fa-user',
         'label' => __( 'Go to personal account', 'userspace' )
-        )
+        ]
     );
+}
 
-    if ( current_user_can( 'activate_plugins' ) ) {
-        usp_bar_add_menu_item( 'admin-link', array(
-            'url'   => admin_url(),
-            'icon'  => 'fa-external-link-square',
-            'label' => __( 'To admin area', 'userspace' )
-            )
-        );
-    }
+add_action( 'usp_bar_setup', 'usp_setup_bar_add_admin_link', 50 );
+function usp_setup_bar_add_admin_link() {
+    if ( ! is_user_logged_in() )
+        return;
+
+    if ( ! current_user_can( 'activate_plugins' ) )
+        return;
+
+    usp_bar_add_menu_item( 'admin-link', [
+        'url'   => admin_url(),
+        'icon'  => 'fa-external-link-square',
+        'label' => __( 'To admin area', 'userspace' )
+        ]
+    );
 }
 
 add_action( 'usp_bar_print_icons', 'usp_print_bar_icons', 10 );

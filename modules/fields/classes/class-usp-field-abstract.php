@@ -197,15 +197,6 @@ class USP_Field_Abstract {
             return;
 
         return '<span class="usp-help-option" onclick="return usp_get_option_help(this);"><i class="uspi fa-question-circle" aria-hidden="true"></i><span class="help-content">' . $this->help . '</span></span>';
-
-        /* $content = '<span class="usp-balloon-hover usp-field-help">';
-          $content .= '<i class="uspi fa-question-circle" aria-hidden="true"></i>';
-          $content .= '<span class="usp-balloon help-content">';
-          $content .= $this->help;
-          $content .= '</span>';
-          $content .= '</span>';
-
-          return $content; */
     }
 
     function get_childrens() {

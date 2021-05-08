@@ -120,7 +120,7 @@ class USP_Pager {
 
         $walker = $this->get_walker();
 
-        $content = '<div ' . ($this->id ? 'id="' . $this->id . '"' : '') . ' class="' . ($this->class ? $this->class . ' ' : '') . 'usp-pager usps__line-1">';
+        $content = '<div ' . ($this->id ? 'id="' . $this->id . '"' : '') . ' class="' . ($this->class ? $this->class . ' ' : '') . 'usp-pager usps usps__jc-end usps__line-1">';
 
         foreach ( $walker['output'] as $item ) {
 
@@ -133,6 +133,7 @@ class USP_Pager {
                         $html = usp_get_button( $this->get_page_args( $data ) );
                     } else if ( $type == 'current' ) {
                         $html = usp_get_button( [
+                            'type'   => 'simple',
                             'label'  => $data,
                             'status' => 'active',
                             'data'   => array(

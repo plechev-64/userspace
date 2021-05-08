@@ -1,5 +1,5 @@
 .usp-frame__box {
-    border: 1px solid var(--uspGray-300);
+    border: var(--uspLine300);
     box-sizing: border-box;
     margin: 18px 12px;
     padding: 12px;
@@ -12,7 +12,7 @@
     top: 12px;
     z-index: 91;
     width: calc(100% - 200px);
-    box-shadow: 3px 3px 6px 0 var(--uspBlack-02);
+    box-shadow: var(--uspBox300);
 }
 .usp-frame__title {
     font-size: 24px;
@@ -49,7 +49,7 @@
     margin: 24px 0 0 0;
 }
 .usp-frame-edit .usp-frame__section {
-    border: 1px solid var(--uspGray-300);
+    border: var(--uspLine300);
 }
 .usp-frame__section-header {
     padding: 6px;
@@ -116,7 +116,7 @@
 }
 .usp-frame__field-header {
     overflow: hidden;
-    border: 1px solid var(--uspGray-300);
+    border: var(--uspLine300);
     background: var(--uspGray-100);
     min-height: 42px;
 }
@@ -205,7 +205,7 @@
     font-size: 20px;
 }
 .usp-frame__field-settings {
-    border: 1px solid var(--uspGray-300);
+    border: var(--uspLine300);
     margin: 0 0 24px;
     padding: 12px;
 }
@@ -238,7 +238,7 @@
 }
 .usp-frame .dynamic-values .dynamic-value {
     background: var(--uspGray-200);
-    border: 1px solid var(--uspGray-300);
+    border: var(--uspLine300);
     clear: both;
     line-height: normal;
     padding: 3px;

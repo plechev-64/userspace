@@ -73,7 +73,7 @@ class USP_Button {
     function setup_class() {
 
         if ( $this->class && ! is_array( $this->class ) )
-            $this->class   = array( $this->class, 'usp-bttn' );
+            $this->class   = [ $this->class, 'usp-bttn' ];
         else
             $this->class[] = 'usp-bttn';
 
@@ -112,7 +112,7 @@ class USP_Button {
             $this->class[] = 'usp-bttn__inset';
 
         if ( $this->avatar_circle )
-            $this->class[] = 'usp-bttn__ava_circle';
+            $this->class[] = 'usp-bttn__ava_circle usps__radius-50';
     }
 
     function parse_attrs() {

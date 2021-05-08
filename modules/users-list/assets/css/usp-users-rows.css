@@ -3,7 +3,7 @@
     padding: 12px;
 }
 .usp-users__rows .usp-user:hover {
-    box-shadow: 0 4px 16px var(--uspBlack-02), 0 6px 13px var(--uspBlack-02);
+    box-shadow: var(--uspBox100);
 }
 .usp-user__left {
     width: 70px;

@@ -40,10 +40,10 @@ $user = get_userdata( $user_ID );
 
                     <div class="usp-sub-menu">
                         <?php do_action( 'usp_bar_before_print_menu' ); ?>
-                        <div class="usp-bar-usertabs usps usps__column">
+                        <div class="usp-bar-usertabs usp-wrap__wiget usps usps__column">
                             <?php do_action( 'usp_bar_print_menu' ); ?>
+                            <?php echo usp_get_button( [ 'type' => 'clear', 'size' => 'medium', 'class' => 'rcb_line usp-bar-logout usps__text-right', 'label' => __( 'Log Out', 'userspace' ), 'href' => wp_logout_url( '/' ) ] ); ?>
                         </div>
-                        <?php echo usp_get_button( [ 'type' => 'clear', 'fullwidth' => 1, 'class' => 'rcb_line usp-bar-logout', 'label' => __( 'Log Out', 'userspace' ), 'href' => wp_logout_url( '/' ) ] ); ?>
                     </div>
 
                     <i class="uspi fa-angle-down usp-bar-usershow usps usps__ai-center usps__as-stretch" aria-hidden="true"></i>

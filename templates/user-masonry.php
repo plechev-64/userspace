@@ -10,7 +10,7 @@ global $usp_user, $usp_users_set;
     </div>
 
     <div class="usp-card__main usps usps__column">
-        <a class="usp-masonry__ava usps usps__jc-center" title="<?php usp_user_name(); ?>" href="<?php usp_user_url(); ?>"><?php usp_user_avatar( 150, [ 'class' => 'usp-masonry__ava-img' ] ); ?></a>
+        <a class="usp-masonry__ava usps usps__jc-center" title="<?php usp_user_name(); ?>" href="<?php usp_user_url(); ?>"><?php usp_user_avatar( 150, [ 'class' => 'usp-masonry__ava-img usps__radius-50' ] ); ?></a>
 
         <div class="usp-card__center">
             <a class="usp-card__title" href="<?php usp_user_url(); ?>"><?php usp_user_name(); ?></a>

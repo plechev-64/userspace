@@ -78,6 +78,22 @@ function usp_css_variable( $styles, $rgb ) {
     return $styles;
 }
 
+/**
+ * add new button in UserSpace Bar
+ *
+ * @since 1.0
+ *
+ * @param string $id_icon    unique button id
+ * @param array $args   $args['icon']       fa-* icon button. Required
+ *                      $args['class']      additional class
+ *                      $args['url']        url button
+ *                                          Default: '#'
+ *                      $args['label']      label button
+ *                      $args['counter']    counter in button
+ *                      $args['onclick']    onclick attribute button
+ *
+ * @return array UserSpace Bar buttons
+ */
 function usp_bar_add_icon( $id_icon, $args ) {
     if ( ! usp_get_option( 'view_usp_bar' ) )
         return false;

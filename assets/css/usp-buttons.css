@@ -22,7 +22,7 @@ body .usp-bttn {
     position: relative;
     text-decoration: none !important;
     text-transform: none;
-    transition: all .15s ease-in-out !important;
+    transition: var(--uspLoadFast) !important;
     white-space: nowrap;
     -webkit-user-select: none;
         -ms-user-select: none;
@@ -34,7 +34,8 @@ body .usp-bttn {
 body :not(.usp-wrap__wiget) > .usp-bttn:not(.usp-bttn__active):hover {
     opacity: .8;
 }
-body:not(.wp-admin) .usp-bttn.usp-bttn__type-primary:not(.usp-bttn__active) {
+body:not(.wp-admin) .usp-bttn.usp-bttn__type-primary:not(.usp-bttn__active),
+.usp-bttn.usp-bttn__type-simple.usp-bttn__active {
     background: var(--uspHex);
     color: var(--uspText);
 }
@@ -82,8 +83,8 @@ body:not(.wp-admin) .usp-bttn.usp-bttn__type-primary:not(.usp-bttn__active) {
 
 /* simple */
 .usp-bttn.usp-bttn__type-simple {
-    background: var(--uspGray-100);
-    box-shadow: 0 0 0 1px var(--uspGray-300) inset;
+    background: var(--uspGray-50);
+    border: var(--uspLine300);
 }
 .usp-bttn.usp-bttn__type-simple:hover {
     background: var(--uspGray-200);
@@ -119,11 +120,11 @@ body:not(.wp-admin) .usp-bttn.usp-bttn__type-primary:not(.usp-bttn__active) {
 
 /* special wiget list style */
 .usp-wrap__wiget .usp-bttn__type-clear {
-    padding: .45em .6em;
+    padding: 6px 12px;
+    min-height: 40px;
 }
 .usp-wrap__wiget .usp-bttn__type-clear:hover {
-    background: #e7edf0;
-    box-shadow: none;
+    background: var(--uspGray-200);
 }
 .usp-wrap__wiget .usp-bttn__ava {
     flex-shrink: 0;
@@ -133,12 +134,7 @@ body:not(.wp-admin) .usp-bttn.usp-bttn__type-primary:not(.usp-bttn__active) {
     text-overflow: ellipsis;
     white-space: nowrap;
     width: 100%;
-}
-.usp-wrap__wiget .usp-bttn__text {
-    margin-left: .3em;
-}
-.usp-wrap__wiget .usp-bttn__ava_circle .usp-bttn__ava img {
-    border-radius: 50%;
+    line-height: normal;
 }
 /* */
 
@@ -193,10 +189,7 @@ body:not(.wp-admin) .usp-bttn.usp-bttn__type-primary:not(.usp-bttn__active) {
 .usp-bttn.usp-bttn__active {
     pointer-events: none;
 }
-.usp-bttn.usp-bttn__type-primary.usp-bttn__active {
-    color: #333;
+.usp-bttn__type-primary.usp-bttn__active {
     background: rgba(var(--uspRgb), .4);
-}
-.usp-bttn.usp-bttn__type-simple.usp-bttn__active {
-    box-shadow: 0 -5px 0 -3px var(--uspHex) inset;
+    color: var(--uspBlack);
 }

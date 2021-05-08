@@ -70,24 +70,24 @@
 }
 #usp-avatar .usp-ava-bttn {
     background: var(--uspWhite);
-    font-size: 20px;
+    font-size: 18px;
     opacity: .8;
-    padding: 6px;
     position: absolute;
     box-shadow: none;
     cursor: pointer;
     color: var(--uspRed-800);
+    width: 30px;
+    height: 30px;
 }
 #usp-avatar .usp-ava-bttn:hover {
     opacity: 1;
 }
 #usp-avatar .icon-del-ava {
-    display: none;
     right: 0;
     top: 0;
 }
-#usp-avatar:hover .icon-del-ava {
-    display: block;
+#usp-avatar:not(:hover) .icon-del-ava {
+    display: none;
 }
 #usp-avatar .icon-set-ava {
     bottom: 0;
@@ -143,6 +143,7 @@
 #usp-tabs {
     animation: 1s fadeIn 1s both;
     opacity: 0;
+    z-index: 1;
 }
 .usp-tabs-menu__row #usp-tabs {
     flex-direction: column;
@@ -157,7 +158,7 @@
     position: absolute;
     right: 0;
     top: 0;
-    transition: top .25s ease-in-out;
+    transition: top var(--uspLoad);
     z-index: -1;
 }
 #sunshine_ext_menu.bounce {
@@ -165,14 +166,14 @@
     z-index: 1000;
 }
 #sunshine_ext_menu ul {
-    background: #f8f8f8;
+    background: var(--uspGray-100);
     list-style: none;
     margin: 0;
     padding: 3px 3px 0;
     width: 200px;
 }
 #sunshine_ext_menu a {
-    border-bottom: 3px solid #f8f8f8;
+    border-bottom: 3px solid var(--uspGray-100);
     display: flex;
     margin: 0;
     padding: 0;

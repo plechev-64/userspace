@@ -1,6 +1,6 @@
 #ui-datepicker-div {
     width: 260px;
-    box-shadow: 0 4px 16px var(--uspBlack-02), 0 6px 13px var(--uspBlack-02);
+    box-shadow: var(--uspBox100);
 }
 #ui-datepicker-div .ui-datepicker-header {
     color: var(--uspWhite);
@@ -80,8 +80,8 @@
     background: var(--uspWhite);
     padding: 0;
     text-align: center;
-    border: 1px solid var(--uspGray-300);
-    transition: background .12s ease-in-out;
+    border: var(--uspLine300);
+    transition: var(--uspLoadFast);
     min-width: 36px;
 }
 #ui-datepicker-div .ui-datepicker-calendar td:not(.ui-datepicker-other-month):hover {
@@ -93,6 +93,8 @@
     text-decoration: none;
     width: 100%;
     box-sizing: border-box;
+    color: var(--uspGray-600);
+    font-weight: normal;
 }
 #ui-datepicker-div .ui-datepicker-calendar .ui-datepicker-other-month {
     background: var(--uspGray-200);

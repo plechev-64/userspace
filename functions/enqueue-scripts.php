@@ -13,7 +13,7 @@ function usp_font_awesome_style() {
 }
 
 function usp_iconpicker() {
-    wp_enqueue_style( 'usp-iconpicker', USP_URL . 'assets/usp-awesome/iconpicker/iconpicker.css', false, USP_VERSION );
+    wp_enqueue_style( 'usp-iconpicker', USP_URL . 'assets/usp-awesome/iconpicker/iconpicker.min.css', false, USP_VERSION );
     wp_enqueue_script( 'usp-iconpicker', USP_URL . 'assets/usp-awesome/iconpicker/iconpicker.js', array( 'jquery' ), USP_VERSION );
 }
 

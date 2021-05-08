@@ -1,5 +1,5 @@
 .usp-media__item {
-    border: 1px solid var(--uspGray-200);
+    border: var(--uspLine200);
     overflow: hidden;
     box-sizing: border-box;
 }

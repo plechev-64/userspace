@@ -4,14 +4,14 @@
 }
 .usp-entry-tab:not(.usp-bttn__active) {
     background: var(--uspGray-200);
-    border-bottom: 1px solid var(--uspGray-300);
+    border-bottom: var(--uspLine300);
     color: var(--uspGray-400);
 }
 .usp-entry-tab:not(.usp-bttn__active):hover {
     color: inherit;
 }
 .usp-entry-tab:first-child {
-    border-right: 1px solid var(--uspGray-300);
+    border-right: var(--uspLine300);
 }
 .usp-entry-tabs .usp-bttn__active {
     outline: 0;
@@ -43,11 +43,3 @@
     font-size: inherit;
     padding: 0;
 }
-/*
-.strength0 {background:#ccc;width:140px;}
-.strength1 {background:#fea6a6;width:140px;}
-.strength2 {background:orange;width:55%;}
-.strength3 {background:#efed6d;width:60%;}
-.strength4 {background:#8de991;width:80%;}
-.strength5 {background:#99e3ff;width:100%;}*/
-

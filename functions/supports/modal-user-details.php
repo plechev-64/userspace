@@ -8,7 +8,15 @@ function usp_support_user_info_scripts() {
         return;
 
     usp_dialog_scripts();
-    usp_enqueue_script( 'usp-user-info', USP_URL . 'functions/supports/js/user-details.js' );
+    usp_enqueue_script( 'usp-user-info-js', USP_URL . 'functions/supports/js/user-details.js' );
+}
+
+add_action( 'usp_enqueue_scripts', 'usp_support_user_info_style', 10 );
+function usp_support_user_info_style() {
+    if ( ! usp_is_office() )
+        return;
+
+    usp_enqueue_style( 'usp-user-info-css', USP_URL . 'functions/supports/css/user-details.css' );
 }
 
 add_filter( 'usp_init_js_variables', 'usp_init_js_user_info_variables', 10 );

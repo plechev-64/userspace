@@ -176,7 +176,7 @@ function usp_mail( $email, $title, $text, $from = false, $attachments = false ) 
     $from_name = (isset( $from['name'] )) ? $from['name'] : get_bloginfo( 'name' );
     $from_mail = (isset( $from['email'] )) ? $from['email'] : 'noreply@' . $_SERVER['HTTP_HOST'];
 
-    add_filter( 'wp_mail_content_type', function() {
+    add_filter( 'wp_mail_content_type', function () {
         return "text/html";
     } );
 
@@ -249,21 +249,6 @@ function usp_get_button( $args, $depr_url = false, $depr_args = false ) {
     $button .= '<span>' . $args . '</span>';
     $button .= '</a>';
     return $button;
-}
-
-function usp_get_balloon( $args ) {
-
-    $content = '<span class="usp-balloon-hover ' . (isset( $args['class'] ) ? $args['class'] : '') . '">';
-    $content .= '<i class="uspi ' . $args['icon'] . '" aria-hidden="true"></i>';
-    if ( isset( $args['label'] ) ) {
-        $content .= ' ' . $args['label'];
-    }
-    $content .= '<span class="usp-balloon ' . (isset( $args['position'] ) ? 'position-' . $args['position'] : 'position-bottom') . '">';
-    $content .= $args['content'];
-    $content .= '</span>';
-    $content .= '</span>';
-
-    return $content;
 }
 
 function usp_get_area_options() {

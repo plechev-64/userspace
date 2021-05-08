@@ -85,9 +85,11 @@ class USP_Tabs_Manager extends USP_Fields_Manager {
 
         foreach ( $areas as $type => $name ) {
 
-            $class = ($this->manager_id == $type) ? 'class="current-item"' : '';
+            $class = ($this->manager_id == $type) ? 'current-item' : '';
 
-            $content .= '<li ' . $class . '><a href="' . admin_url( 'admin.php?page=usp-tabs-manager&area-type=' . $type ) . '">' . $name . '</a></li>';
+            $content .= '<li class="usps__inline ' . $class . '">'
+                . '<a class="usps__inline usps__ai-center" href="' . admin_url( 'admin.php?page=usp-tabs-manager&area-type=' . $type ) . '">' . $name . '</a>'
+                . '</li>';
         }
 
         $content .= '</ul>';

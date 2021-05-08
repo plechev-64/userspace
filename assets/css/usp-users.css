@@ -10,12 +10,14 @@
 }
 .usp-user {
     animation: fadeIn 1s cubic-bezier(.4, 0, .2, 1);
-    box-shadow: 0 1px 3px var(--uspBlack-01), 0 0px 3px var(--uspBlack-02);
     box-sizing: border-box;
     font-size: 16px;
     line-height: 1.4;
-    transition: box-shadow .2s linear;
+    transition: var(--uspLoad);
     background: var(--uspWhite);
+}
+.usp-users__list:not(.usp-users__mini):not(.usp-users__avatars) .usp-user {
+    border: var(--uspLine200);
 }
 .usp-user__ava:hover {
     filter: contrast(110%) saturate(85%);
@@ -45,5 +47,5 @@
 }
 .usp-users__mini .usp-user:hover,
 .usp-users__avatars .usp-user:hover {
-    box-shadow: 2px 3px 8px -4px var(--uspBlack);
+    box-shadow: var(--uspBox300);
 }
