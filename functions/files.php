@@ -26,7 +26,22 @@ function usp_include_template( $temp_name, $path = false, $data = false ) {
     return USP()->template( $temp_name, $path )->include( $data );
 }
 
-// connecting the specified template file without output
+/**
+ * Connecting the specified template file without output
+ *
+ * Connects templates file from:
+ * the current WordPress theme (/wp-content/themes/your-current-theme/userspace-templates/$temp_name)
+ * or from a special plugin directory (/wp-content/userspace/templates/$temp_name)
+ * if not exist, it will connect the file from the plugin folder (/wp-content/plugins/your-plugin/templates/$temp_name)
+ *
+ * @since 1.0.0
+ *
+ * @param string $temp_name     Template file name.
+ * @param string $path          Path to file.
+ * @param array $data           Array of additional data.
+ *
+ * @return string       HTML content of a specific template.
+ */
 function usp_get_include_template( $temp_name, $path = false, $data = false ) {
     return USP()->template( $temp_name, $path )->get_content( $data );
 }

@@ -79,26 +79,30 @@ function usp_tab_profile_info() {
     usp_add_sub_tab( 'profile', $subtab );
 }
 
-add_action( 'usp_bar_setup', 'usp_bar_add_profile_link', 15 );
+add_action( 'usp_bar_profile_menu_buttons', 'usp_bar_add_profile_link', 15 );
 function usp_bar_add_profile_link() {
     if ( ! is_user_logged_in() )
         return;
 
     global $user_ID;
 
-    usp_bar_add_menu_item( 'profile-link', [
-        'url'   => usp_get_tab_permalink( $user_ID, 'profile' ),
+    echo usp_get_button( [
+        'type'  => 'clear',
+        'size'  => 'medium',
+        'class' => 'usp-bar-profile__info',
+        'href'  => usp_get_tab_permalink( $user_ID, 'profile' ),
         'icon'  => 'fa-address-book',
         'label' => __( 'Profile info', 'userspace' )
-        ]
-    );
+    ] );
 
-    usp_bar_add_menu_item( 'profile-edit-link', [
-        'url'   => usp_get_tab_permalink( $user_ID, 'profile', 'edit' ),
+    echo usp_get_button( [
+        'type'  => 'clear',
+        'size'  => 'medium',
+        'class' => 'usp-bar-profile__settings',
+        'href'  => usp_get_tab_permalink( $user_ID, 'profile', 'edit' ),
         'icon'  => 'fa-user-cog',
         'label' => __( 'Profile settings', 'userspace' )
-        ]
-    );
+    ] );
 }
 
 if ( ! is_admin() ) {

@@ -152,7 +152,7 @@ function usp_get_user_custom_fields() {
     }
 }
 
-add_action( 'usp_user_stats', 'usp_user_comments', 20 );
+add_action( 'usp_user_stats', 'usp_user_comments', 22 );
 function usp_user_comments() {
     global $usp_user, $usp_users_set;
 
@@ -169,7 +169,7 @@ function usp_user_comments() {
     }
 }
 
-add_action( 'usp_user_stats', 'usp_user_posts', 20 );
+add_action( 'usp_user_stats', 'usp_user_posts', 21 );
 function usp_user_posts() {
     global $usp_user, $usp_users_set;
 
@@ -186,7 +186,7 @@ function usp_user_posts() {
     }
 }
 
-add_action( 'usp_user_stats', 'usp_user_register', 20 );
+add_action( 'usp_user_stats', 'usp_user_register', 23 );
 function usp_user_register() {
     global $usp_user, $usp_users_set;
 

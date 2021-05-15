@@ -12,10 +12,14 @@
         content: '2 .column.size-1of2';
     }
 }
-.size-1of1 { width: 100%; }
-.size-1of2 { width: 50%; }
+.size-1of1 { 
+    width: 100%; 
+}
+.size-1of2 {
+    width: calc(50% - 9px);
+}
 .size-1of2 + .size-1of2 {
-    padding: 0 0 0 12px;
+    margin: 0 0 0 18px;
 }
 /* end */
  

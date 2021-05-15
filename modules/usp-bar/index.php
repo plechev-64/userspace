@@ -10,120 +10,41 @@ function usp_userspace_bar_menu() {
     usp_include_template( 'usp-bar.php' );
 }
 
-add_action( 'wp', 'usp_bar_setup', 10 );
-function usp_bar_setup() {
-    do_action( 'usp_bar_setup' );
-}
-
-add_action( 'usp_bar_setup', 'usp_setup_bar_default_data', 10 );
-function usp_setup_bar_default_data() {
+add_action( 'usp_bar_profile_menu_buttons', 'usp_bar_menu_go_to_profile', 10 );
+function usp_bar_menu_go_to_profile() {
     if ( ! is_user_logged_in() )
         return;
 
     global $usp_user_URL;
 
-    usp_bar_add_menu_item( 'account-link', [
-        'url'   => $usp_user_URL,
+    echo usp_get_button( [
+        'type'  => 'clear',
+        'size'  => 'medium',
+        'class' => 'usp-bar-profile__in-account',
+        'href'  => $usp_user_URL,
         'icon'  => 'fa-user',
         'label' => __( 'Go to personal account', 'userspace' )
         ]
     );
 }
 
-add_action( 'usp_bar_setup', 'usp_setup_bar_add_admin_link', 50 );
-function usp_setup_bar_add_admin_link() {
+add_action( 'usp_bar_profile_menu_buttons', 'usp_bar_menu_add_admin_link', 50 );
+function usp_bar_menu_add_admin_link() {
     if ( ! is_user_logged_in() )
         return;
 
     if ( ! current_user_can( 'activate_plugins' ) )
         return;
 
-    usp_bar_add_menu_item( 'admin-link', [
-        'url'   => admin_url(),
+    echo usp_get_button( [
+        'type'  => 'clear',
+        'size'  => 'medium',
+        'class' => 'usp-bar-profile__in-admin',
+        'href'  => admin_url(),
         'icon'  => 'fa-external-link-square',
         'label' => __( 'To admin area', 'userspace' )
         ]
     );
-}
-
-add_action( 'usp_bar_print_icons', 'usp_print_bar_icons', 10 );
-function usp_print_bar_icons() {
-    global $usp_bar;
-    if ( ! isset( $usp_bar['icons'] ) || ! $usp_bar['icons'] )
-        return false;
-
-    if ( is_array( $usp_bar['icons'] ) ) {
-
-        $usp_bar_icons = apply_filters( 'usp_bar_icons', $usp_bar['icons'] );
-
-        foreach ( $usp_bar_icons as $id_icon => $icon ) {
-            if ( ! isset( $icon['icon'] ) )
-                continue;
-
-            $class = (isset( $icon['class'] )) ? $icon['class'] : '';
-
-            echo '<div id="' . $id_icon . '" class="rcb_icon ' . $class . '">';
-
-            if ( isset( $icon['url'] ) || isset( $icon['onclick'] ) ):
-
-                $url     = isset( $icon['url'] ) ? $icon['url'] : '#';
-                $onclick = isset( $icon['onclick'] ) ? 'onclick="' . $icon['onclick'] . ';return false;"' : '';
-
-                echo '<a href="' . $url . '" ' . $onclick . '>';
-
-            endif;
-
-            echo '<i class="uspi ' . $icon['icon'] . '" aria-hidden="true"></i>';
-            echo '<span>';
-
-            if ( isset( $icon['label'] ) ):
-                echo $icon['label'];
-            endif;
-
-            echo '</span>';
-
-            if ( isset( $icon['url'] ) || isset( $icon['onclick'] ) ):
-                echo '</a>';
-            endif;
-
-            if ( isset( $icon['counter'] ) ):
-                echo '<div class="rcb_nmbr ' . ($icon['counter'] > 0 ? 'counter_not_null' : '') . '">' . $icon['counter'] . '</div>';
-            endif;
-
-            echo '</div>';
-        }
-    }
-}
-
-add_action( 'usp_bar_print_menu', 'usp_print_bar_right_menu', 10 );
-function usp_print_bar_right_menu() {
-    global $usp_bar;
-    if ( ! isset( $usp_bar['menu'] ) || ! $usp_bar['menu'] )
-        return;
-
-    if ( ! is_array( $usp_bar['menu'] ) )
-        return;
-
-    $usp_bar_menu = apply_filters( 'usp_bar_menu', $usp_bar['menu'] );
-
-    foreach ( $usp_bar_menu as $icon ) {
-        if ( ! isset( $icon['url'] ) )
-            continue;
-
-        $args = [
-            'type'  => 'clear',
-            'label' => $icon['label'],
-            'size'  => 'medium',
-            'href'  => $icon['url'],
-            'class' => 'rcb_line'
-        ];
-
-        if ( isset( $icon['icon'] ) ) {
-            $args['icon'] = $icon['icon'];
-        }
-
-        echo usp_get_button( $args );
-    }
 }
 
 // remove offset in wordpress toolbar
@@ -204,3 +125,20 @@ function usp_add_userbar_class_body( $classes ) {
 
     return $classes;
 }
+
+//add_action( 'usp_bar_buttons', 'functionName123' );
+//function functionName123() {
+//    $args = [
+//        'counter' => '67',
+//        'type'    => 'clear',
+//        'icon'    => 'fa-cog',
+//    ];
+//    echo usp_get_button( $args );
+//
+//    $args = [
+//        'counter' => '2',
+//        'type'    => 'clear',
+//        'icon'    => 'fa-cog',
+//    ];
+//    echo usp_get_button( $args );
+//}

@@ -169,7 +169,7 @@ function usp_get_loginform_shortcode( $atts = [] ) {
  *                                              Default: 30
  *                      $atts['number']         Maximum number users
  *                      $atts['template']       User output template
- *                                              Available: rows|cards|masonry|avatars|mini
+ *                                              Available: rows|masonry|avatars|mini
  *                                              Default: rows
  *                      $atts['search_form']    Search form on top
  *                                              Available: 0|1

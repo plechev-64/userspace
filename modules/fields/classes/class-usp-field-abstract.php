@@ -265,7 +265,7 @@ class USP_Field_Abstract {
         //$content .= $this->get_icon();
 
         if ( $title )
-            $content .= '<div class="usp-field-title-box usps"><div class="usp-field-title">'
+            $content .= '<div class="usp-field-title-box usps usps__nowrap"><div class="usp-field-title">'
                 . $this->title
                 . '</div>'
                 . '<span class="title-colon">: </span></div>';

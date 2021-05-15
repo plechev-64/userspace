@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * UserSpace template includer class.
+ *
+ * This class connects templates from the current WordPress theme or from a special plugin directory.
+ * If not exist, it will connect the file from the plugin folder
+ *
+ * @since 1.0
+ */
 class USP_Template {
 
     public $name;
@@ -43,7 +51,13 @@ class USP_Template {
 
     function get_path() {
 
-        $path = ($this->file) ? plugin_dir_path( $this->file ) . 'templates' : USP_PATH . '/templates';
+        if ( file_exists( get_stylesheet_directory() . '/userspace-templates/' . $this->name ) ) {
+            $path = get_stylesheet_directory() . '/userspace-templates';
+        } else if ( file_exists( USP_TAKEPATH . 'templates/' . $this->name ) ) {
+            $path = USP_TAKEPATH . 'templates';
+        } else {
+            $path = ($this->file) ? plugin_dir_path( $this->file ) . 'templates' : USP_PATH . 'templates';
+        }
 
         $path .= '/' . $this->name;
 

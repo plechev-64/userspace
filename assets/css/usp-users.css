@@ -8,27 +8,10 @@
 .usp-users__filter > * {
     margin: 0 6px 0 0;
 }
-.usp-user {
-    animation: fadeIn 1s cubic-bezier(.4, 0, .2, 1);
-    box-sizing: border-box;
-    font-size: 16px;
-    line-height: 1.4;
-    transition: var(--uspLoad);
-    background: var(--uspWhite);
-}
-.usp-users__list:not(.usp-users__mini):not(.usp-users__avatars) .usp-user {
-    border: var(--uspLine200);
-}
-.usp-user__ava:hover {
-    filter: contrast(110%) saturate(85%);
-}
 .usp-user__ava .usps__img-reset,
 .usp-users__list .usp-user a {
     box-shadow: none !important;
     color: inherit;
-}
-.usp-users__list .usp-user a:hover {
-    text-decoration: underline;
 }
 .usp-users__mini .usp-user__ava {
     width: 50px;
@@ -38,12 +21,13 @@
     right: 3px;
     top: 3px;
 }
-.usp-users__avatars .usp-user,
+.usp-users__avatars .usp-user, 
 .usp-users__mini .usp-user {
     margin: 6px 3px;
+    transition: var(--uspLoad);
 }
 .usp-users__avatars .usp-user__ava {
-    width: 70px;
+    width: 77px;
 }
 .usp-users__mini .usp-user:hover,
 .usp-users__avatars .usp-user:hover {

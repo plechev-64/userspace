@@ -1,10 +1,10 @@
 <?php
 global $usp_user, $usp_users_set;
 ?>
-<div class="usp-user usps__grow" data-user-id="<?php echo $usp_user->ID; ?>">
+<div class="usp-card usp-user usps__grow" data-user-id="<?php echo $usp_user->ID; ?>">
     <div class="usp-user__top usps usps__nowrap">
-        <div class="usp-user__left usps usps__column">
-            <a class="usp-user__ava usps" title="<?php usp_user_name(); ?>" href="<?php usp_user_url(); ?>"><?php usp_user_avatar( 70 ); ?></a>
+        <div class="usp-user__left usps usps__column usps__shrink-0">
+            <a class="usp-user__ava usps" title="<?php usp_user_name(); ?>" href="<?php usp_user_url(); ?>"><?php usp_user_avatar( 77 ); ?></a>
             <?php usp_user_rayting(); ?>
         </div>
 

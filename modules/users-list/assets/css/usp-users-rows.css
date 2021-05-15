@@ -1,36 +1,28 @@
 .usp-users__rows .usp-user {
-    margin: 0 0 24px;
     padding: 12px;
 }
-.usp-users__rows .usp-user:hover {
-    box-shadow: var(--uspBox100);
-}
 .usp-user__left {
-    width: 70px;
+    width: 77px;
 }
-.usp-user__right > * {
+.usp-user__right > :not(:last-child) {
     margin-bottom: 12px;
 }
 .usp-user__stats,
 .usp-user__general {
-    margin-left: 18px;
+    margin-left: 12px;
     line-height: 1;
 }
 .usp-user__link {
     font-size: 20px;
-    text-transform: capitalize;
+    margin: 0 0 6px;
 }
 .usp-users__rows .status_user.offline {
     font-size: 14px;
     color: var(--uspGray-500);
 }
-.usp-user__fields-before:empty,
-.usp-user__fields-after:empty,
+.usp-user__bottom > div:empty,
 .usp-user__icons:empty {
     display: none;
-}
-.usp-user__fields {
-    margin: 6px 0 0;
 }
 .usp-user__fields .usp-field {
     display: inline-flex;
@@ -42,6 +34,7 @@
 .usp-user__fields .usp-field-value {
     margin: 0 0 0 6px;
 }
+.usp-user__fields,
 .usp-user__fields .usp-field + .usp-field {
     margin: 6px 0 0;
 }
