@@ -215,7 +215,7 @@ i::before {
   4. User online/offline
   5. Ballun
   6. USP pagenavi API
-  7. Post bar
+  7. Post top/bottom buttons
   8. New USP Notice
   9. User Widget
   10. USP Card
@@ -397,35 +397,15 @@ body .preloader-parent {
 
 
 /*--------------------
-  7. Post bar
+  7. Post top/bottom buttons
 ----------------------*/
-#usp-post-bar {
-    margin: 10px 0;
-    text-align: right;
+.usp-post-bttns:empty {
+    display: none;
 }
-#usp-post-bar .post-bar-item {
-    display: inline-block;
+.usp-post-bttns {
+    margin: 18px 0;
 }
-#usp-post-bar .post-bar-item a {
-    display: inline-block;
-    font-size: 14px;
-    margin: 0 0 0 5px;
-}
-#usp-post-bar .post-bar-item span,
-#usp-post-bar .post-bar-item i {
-    vertical-align: middle;
-}
-#usp-post-bar .post-bar-item i {
-    margin: 0;
-}
-#usp-post-bar .post-bar-item i::before {
-    padding: 0 5px;
-}
-#usp-post-bar .post-bar-item .item-label {
-    padding: 0 5px;
-    margin: 0;
-}
-/*end*/
+/**/
 
 
 

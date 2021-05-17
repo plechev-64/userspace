@@ -78,48 +78,37 @@ function usp_css_variable( $styles, $rgb ) {
     return $styles;
 }
 
-//function usp_post_bar_add_item( $id_item, $args ) {
-//    global $usp_post_bar;
-//
-//    if ( isset( $args['url'] ) )
-//        $args['href'] = $args['url'];
-//
-//    $usp_post_bar['items'][$id_item] = $args;
-//
-//    return true;
-//}
-//
-//add_filter( 'the_content', 'usp_post_bar', 999 );
-//function usp_post_bar( $content ) {
-//    global $usp_post_bar;
-//
-//    if ( doing_filter( 'get_the_excerpt' ) || ! is_single() || is_front_page() )
-//        return $content;
-//
-//    $usp_bar_items = apply_filters( 'usp_post_bar_items', $usp_post_bar['items'] );
-//
-//    if ( ! isset( $usp_bar_items ) || ! $usp_bar_items )
-//        return $content;
-//
-//
-//    $bar = '<div id="usp-post-bar">';
-//
-//    foreach ( $usp_bar_items as $id_item => $item ) {
-//
-//        $bar .= '<div id="bar-item-' . $id_item . '" class="post-bar-item">';
-//
-//        $bar .= usp_get_button( $item );
-//
-//        $bar .= '</div>';
-//    }
-//
-//    $bar .= '</div>';
-//
-//    $content = $bar . $content;
-//
-//
-//    return $content;
-//}
+add_filter( 'the_content', 'usp_before_post', 999 );
+function usp_before_post( $content ) {
+    if ( doing_filter( 'get_the_excerpt' ) || ! is_single() || is_front_page() )
+        return $content;
+
+    /**
+     * Adding buttons before the content.
+     *
+     * @since 1.0
+     *
+     * @param string    added buttons before the content.
+     *                  Default: empty string
+     */
+    $before_post = apply_filters( 'usp_before_content_buttons', '' );
+
+    $before = '<div id="usp-top-post-bttns" class="usp-top-post-bttns usp-post-bttns usps usps__jc-end">' . $before_post . '</div>';
+
+    /**
+     * Adding buttons after the content.
+     *
+     * @since 1.0
+     *
+     * @param string    added buttons after the content.
+     *                  Default: empty string
+     */
+    $after_post = apply_filters( 'usp_after_content_buttons', '' );
+
+    $after = '<div id="usp-bottom-post-bttns" class="usp-bottom-post-bttns usp-post-bttns usps usps__jc-end">' . $after_post . '</div>';
+
+    return $before . $content . $after;
+}
 
 add_action( 'wp_footer', 'usp_init_footer_action', 100 );
 function usp_init_footer_action() {
