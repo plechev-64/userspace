@@ -126,13 +126,13 @@
 .usp-office-middle > div {
     margin: 12px 0 0;
 }
-#usp-tabs-menu-counters .usp-tab-button {
+#usp-nav-counters .usp-tab-button {
     background: none;
 }
-#usp-tabs-menu-counters .usp-bttn__ico {
+#usp-nav-counters .usp-bttn__ico {
     display: none;
 }
-#usp-tabs-menu-counters .usp-bttn__count {
+#usp-nav-counters .usp-bttn__count {
     display: block;
     width: 100%;
     text-align: center;
@@ -145,34 +145,53 @@
     opacity: 0;
     z-index: 1;
 }
-.usp-tabs-menu__row #usp-tabs {
+.usp-nav__row #usp-tabs {
     flex-direction: column;
 }
-.usp-tabs-menu__column #usp-tabs-menu-menu {
-    width: 180px;
-    margin: 0 12px 0 0;
+#usp-nav-menu {
+    margin: 3px 3px 0 0;
+}
+.usp-tab-button {
+    margin: 0 0 3px 3px;
+}
+.usp-nav__column #usp-nav-menu {
+    max-width: 180px;
+    min-width: 150px;
+    margin-right: 18px;
+    flex-grow: 1;
 }
 /* START for script */
-#sunshine_ext_menu {
+.usp-dropdown {
+    width: 60px;
+    justify-content: center;
+}
+#usp-overlay.usp-overlay__ext-nav {
+    background: 0 0;
+    opacity: 0 !important;
+}
+#usp-ext-nav {
     opacity: 0;
     position: absolute;
     right: 0;
-    top: 0;
-    transition: top var(--uspLoad);
+    transition: var(--uspLoadFast);
     z-index: -1;
-}
-#sunshine_ext_menu.bounce {
-    opacity: 1;
-    z-index: 1000;
-}
-#sunshine_ext_menu ul {
+    box-shadow: var(--uspBox400);
+    transform: translateY(30px);
+    max-height: 0;
+    overflow: hidden;
+    top: 90vh;
     background: var(--uspGray-100);
-    list-style: none;
-    margin: 0;
     padding: 3px 3px 0;
     width: 200px;
 }
-#sunshine_ext_menu a {
+#usp-ext-nav.usp-ext-nav__open {
+    opacity: 1;
+    z-index: 1000;
+    transform: translateY(0);
+    max-height: 100vh;
+    overflow-y: auto;
+}
+#usp-ext-nav a {
     border-bottom: 3px solid var(--uspGray-100);
     display: flex;
     margin: 0;
@@ -180,8 +199,14 @@
     white-space: normal;
     width: 100%;
 }
-#sunshine_ext_menu a .uspi {
+#usp-ext-nav a .uspi {
     font-size: 16px;
+}
+@media screen and (max-width:768px) {
+    #usp-nav-menu {
+        flex-direction: row;
+        max-width: none !important;
+    }
 }
 /*end*/
 .usp-profile-content {

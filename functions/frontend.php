@@ -36,7 +36,7 @@ function usp_api_button_inline_color( $styles ) {
 // size button api
 add_filter( 'usp_inline_styles', 'usp_api_button_inline_size', 10 );
 function usp_api_button_inline_size( $styles ) {
-    $size = usp_get_option( 'usp-button-font-size', '14' );
+    $size = usp_get_option( 'usp-button-font-size', '15' );
 
     $styles .= '
 		.usp-bttn.usp-bttn__size-small {

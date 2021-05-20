@@ -128,13 +128,13 @@ class USP_Tabs {
         if ( ! $this->current_id )
             $this->current_id = $this->get_current_id();
 
-        $classes = [ 'usp-tabs-menu', 'usps' ];
+        $classes = [ 'usp-nav', 'usps' ];
 
         if ( isset( $args['class'] ) && $args['class'] ) {
             $classes[] = $args['class'];
         }
 
-        $content = '<div id="usp-tabs-menu-' . $menu_id . '" class="' . implode( ' ', $classes ) . '">';
+        $content = '<div id="usp-nav-' . $menu_id . '" class="' . implode( ' ', $classes ) . '">';
 
         foreach ( $tab_ids as $tab_id ) {
 
@@ -200,8 +200,8 @@ class USP_Tabs {
 
             foreach ( $areas as $area_id => $tabs ) {
 
-                if ( ! $tabs ){
-	                continue;
+                if ( ! $tabs ) {
+                    continue;
                 }
 
                 foreach ( $tabs as $tabData ) {
@@ -234,13 +234,12 @@ class USP_Tabs {
 
                     $newArray[$tab->id] = $tab;
                 }
-
             }
 
-	        foreach ( USP()->tabs as $tab_id => $tab ) {
-		        if ( ! isset( $newArray[$tab_id] ) )
-			        $newArray[$tab_id] = $tab;
-	        }
+            foreach ( USP()->tabs as $tab_id => $tab ) {
+                if ( ! isset( $newArray[$tab_id] ) )
+                    $newArray[$tab_id] = $tab;
+            }
 
             USP()->tabs = $newArray;
         }

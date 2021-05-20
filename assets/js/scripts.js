@@ -78,7 +78,7 @@ function usp_load_tab( tab_id, subtab_id, e ) {
 				usp_update_history_url( data.tab_url );
 
 				if ( !subtab_id )
-					jQuery( '.usp-tabs-menu a' ).removeClass( 'usp-bttn__active' );
+					jQuery( '.usp-nav a' ).removeClass( 'usp-bttn__active' );
 
 				button.addClass( 'usp-bttn__active' );
 

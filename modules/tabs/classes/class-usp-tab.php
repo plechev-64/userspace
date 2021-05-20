@@ -136,13 +136,14 @@ class USP_Tab {
         }
 
         $args = wp_parse_args( $args, array(
-            'class'   => implode( ' ', $this->get_class_button() ),
-            'label'   => $this->name,
-            'icon'    => $this->icon,
-            'counter' => $this->counter,
-            'href'    => $this->get_permalink(),
+            'class'     => implode( ' ', $this->get_class_button() ),
+            'label'     => $this->name,
+            'icon'      => $this->icon,
+            'counter'   => $this->counter,
+            'href'      => $this->get_permalink(),
+            'icon_mask' => 1,
             //'status'	 => $status,
-            'onclick' => $this->url ? false : $onclick
+            'onclick'   => $this->url ? false : $onclick
             ) );
 
         return usp_get_button( $args );

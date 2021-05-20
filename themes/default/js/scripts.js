@@ -1,49 +1,46 @@
 ( function( $ ) {
-    var LkMenu = $( '#usp-tabs .usp-tabs-menu' );
+    var navMenu = $( '#usp-nav-menu' );
     var typeButton = $( '#usp-office' );
-    var UspOverlay = $( '#usp-overlay' );
+    var uspOverlay = $( '#usp-overlay' );
 
 // when resizing, we update it
     function moveMenu() {
-        LkMenu.append( $( '#sunshine_ext_menu ul' ).html() );
-        $( '#usp-tabs .hideshow' ).remove();
-        $( '#sunshine_ext_menu' ).remove();
+        navMenu.append( $( '#usp-ext-nav' ).html() );
+        $( '.usp-dropdown, #usp-ext-nav' ).remove();
     }
 
 // closing the menu
     function closeExtMenu() {
         // check that this is our overlay
-        if ( UspOverlay.hasClass( 'sunshine_mbl_menu' ) ) {
-            UspOverlay.fadeOut( 100 ).removeClass( 'sunshine_mbl_menu' );
+        if ( uspOverlay.hasClass( 'usp-overlay__ext-nav' ) ) {
+            uspOverlay.fadeOut().removeClass( 'usp-overlay__ext-nav' );
         }
-        $( '#sunshine_ext_menu' ).removeClass( 'bounce' ).css( {
-            'top': '',
-            'right': ''
-        } );
+        $( '#usp-ext-nav' ).removeClass( 'usp-ext-nav__open' );
+        $( '.usp-dropdown' ).removeClass( 'usp-bttn__active' );
     }
 
 // determine what type of buttons we have
-    if ( typeButton.hasClass( 'usp-tabs-menu__column' ) ) {
+    if ( typeButton.hasClass( 'usp-nav__column' ) ) {
         // screen width
         if ( $( window ).width() <= 768 ) {
-            typeButton.removeClass( 'usp-tabs-menu__column' ).addClass( 'usp-tabs-menu__row' );
-            alignMenu();
+            typeButton.removeClass( 'usp-nav__column' ).addClass( 'usp-nav__row' );
+            alignMenu( 42 );
         }
         // actions when resizing the window
         $( window ).resize( function() {
             if ( $( window ).width() <= 768 ) {
-                typeButton.removeClass( 'usp-tabs-menu__column' ).addClass( 'usp-tabs-menu__row' );
+                typeButton.removeClass( 'usp-nav__column' ).addClass( 'usp-nav__row' );
                 closeExtMenu();
                 moveMenu();
                 alignMenu();
             } else {
-                typeButton.removeClass( 'usp-tabs-menu__row' ).addClass( 'usp-tabs-menu__column' );
+                typeButton.removeClass( 'usp-nav__row' ).addClass( 'usp-nav__column' );
                 closeExtMenu();
                 moveMenu();
             }
         } );
-    } else if ( typeButton.hasClass( 'usp-tabs-menu__row' ) ) {
-        alignMenu();
+    } else if ( typeButton.hasClass( 'usp-nav__row' ) ) {
+        alignMenu( 32 );
         $( window ).resize( function() {
             closeExtMenu();
             moveMenu();
@@ -53,61 +50,56 @@
 
 // indent from the top-right to our buttons
     function menuPosition() {
-        var hUpMenu = LkMenu.offset().top + 2;
-        $( '#sunshine_ext_menu' ).css( {
-            'top': hUpMenu
-        } );
+        var hUpMenu = navMenu.offset().top + $( '.usp-dropdown' ).outerHeight( true );
 
         // consider the indent lower when the screen is wider than the content. We prevent the window from being pressed to the right edge. 
         // Now the menu is in the hamburger area
-        var wRightMenu = ( $( window ).width() - ( LkMenu.offset().left + LkMenu.outerWidth() ) ) - 100;
+        var wRightMenu = ( $( window ).width() - ( navMenu.offset().left + navMenu.outerWidth( true ) ) );
 
-        // if we have an indent and it is not negative, we move the menu
-        if ( wRightMenu > 10 ) {
-            $( '#sunshine_ext_menu' ).css( {
-                'right': wRightMenu
-            } );
-        }
+        $( '#usp-ext-nav' ).css( {
+            'top': hUpMenu,
+            'right': wRightMenu
+        } );
     }
 
 // grouping buttons
-    function alignMenu() {
-        var mw = LkMenu.outerWidth() - 30;                              // block width-indent per button
+    function alignMenu( offset = 0 ) {
+        var mw = navMenu.outerWidth( true ) - 66; // block width-indent per button
         var menuhtml = '';
         var totalWidth = 0;                                             // sum of the width of all buttons
 
-        $.each( LkMenu.children( '.usp-tab-button' ), function() {
+        $.each( navMenu.children( '.usp-tab-button' ), function() {
             totalWidth += $( this ).outerWidth( true );          // calculate the width of all buttons, taking into account the margins
-            if ( mw < totalWidth ) {                                      // if the width of the button block is less than the sum of the button widths:
+            if ( mw < ( totalWidth + offset ) ) {                                      // if the width of the button block is less than the sum of the button widths
                 menuhtml += $( '<div>' ).append( $( this ).clone() ).html();
                 $( this ).remove();
             }
         } );
-        LkMenu.append(
-            '<a class="usp-bttn usp-tab-button usp-bttn__type-primary usp-bttn__size-standart usp-tab-butt hideshow bars">'
+        navMenu.append(
+            '<a class="usp-dropdown usp-tab-button usp-bttn usp-bttn__type-primary usp-bttn__size-standart">'
             + '<i class="usp-bttn__ico usp-bttn__ico-left uspi fa-bars"></i>'
+            + '<span class="usp-bttn__count"></span>'
             + '</a>'
             );
         // creating content in the button
-        $( 'body' ).append( '<div id="sunshine_ext_menu"><ul class="usps__line-1">' + menuhtml + '</ul></div>' );
+        $( 'body' ).append( '<div id="usp-ext-nav" class="usp-nav usps__line-1">' + menuhtml + '</div>' );
 
-        var hideshow = $( '#usp-tabs .usp-tab-butt.hideshow' );
-        if ( menuhtml == '' ) {                                           // if there is no content in the button, hide it
-            hideshow.hide();
-        } else {
-            hideshow.show();
-        }
+        $( '.usp-dropdown span' ).text( $( '#usp-ext-nav > a' ).length + '' );
 
-        $( '#usp-tabs .hideshow' ).on( 'click', function() {
-            UspOverlay.fadeToggle( 100 ).toggleClass( 'sunshine_mbl_menu' ); // adding our class to the overlay. So as not to close someone else's
-            menuPosition();
-            $( '#sunshine_ext_menu' ).toggleClass( 'bounce', 100 );
+        var dropdown = $( '.usp-dropdown' );
+        // if there is no content in the button, hide it
+        ( menuhtml === '' ) ? dropdown.hide() : dropdown.show();
+
+        menuPosition();
+
+        dropdown.on( 'click', function() {
+            $( this ).addClass( 'usp-bttn__active' );
+            uspOverlay.fadeToggle( 100 ).toggleClass( 'usp-overlay__ext-nav' ); // adding our class to the overlay. So as not to close someone else's
+
+            $( '#usp-ext-nav' ).addClass( 'usp-ext-nav__open' );
         } );
 
-        UspOverlay.on( 'click', function() {
-            closeExtMenu();
-        } );
-        $( '#sunshine_ext_menu' ).on( 'click', function() {
+        $( '#usp-ext-nav' ).add( uspOverlay ).on( 'click', function() {
             closeExtMenu();
         } );
     }

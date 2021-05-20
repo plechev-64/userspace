@@ -13,6 +13,9 @@ function usp_default_theme_js() {
     if ( ! usp_is_office() )
         return;
 
+    if ( usp_get_option( 'usp-overflow-menu', 1 ) == 0 )
+        return;
+
     usp_enqueue_script( 'usp-theme-default-js', plugins_url( 'js/scripts.js', __FILE__ ), false, true );
 }
 
@@ -103,4 +106,38 @@ function usp_add_theme_cover_inline_styles( $styles ) {
     $styles .= '#usp-office-profile{background-image: url(' . $cover_url . '?vers=' . filemtime( $cover_path ) . ');}';
 
     return $styles;
+}
+
+add_filter( 'usp_options', 'usp_default_theme_settings', 12 );
+function usp_default_theme_settings( $options ) {
+
+
+    if ( $options->isset_box( 'primary' ) ) {
+
+        $options->box( 'primary' )->group( 'design' )->add_options( array(
+            [
+                'type'    => 'radio',
+                'slug'    => 'usp_office_tab_type',
+                'title'   => __( 'The location of the section buttons', 'userspace' ),
+                'values'  => [ __( 'Top', 'userspace' ), __( 'Left', 'userspace' ) ],
+                'default' => 0,
+            ],
+            [
+                'title'   => __( 'When overflowing, hide the buttons in the drop-down menu?', 'userspace' ),
+                'type'    => 'radio',
+                'slug'    => 'usp-overflow-menu',
+                'values'  => [ __( 'No', 'userspace' ), __( 'Yes', 'userspace' ) ],
+                'default' => 1,
+            ],
+        ) );
+    }
+
+    return $options;
+}
+
+add_filter( 'usp_office_class', 'usp_default_theme_add_buttons_class' );
+function usp_default_theme_add_buttons_class( $classes ) {
+    $classes .= (usp_get_option( 'usp_office_tab_type' ) == 1) ? "usp-nav__column" : "usp-nav__row";
+
+    return $classes;
 }

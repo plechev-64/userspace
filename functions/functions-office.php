@@ -66,22 +66,16 @@ function usp_is_office( $user_id = null ) {
     return false;
 }
 
-function usp_office_class() {
-    echo 'class="' . usp_get_office_class() . '"';
-}
-
 function usp_get_office_class() {
-    global $user_LK, $user_ID;
-
-    $class = [ 'usp-office' ];
-
-    if ( $user_ID ) {
-        $class[] = ($user_LK == $user_ID) ? 'usp-visitor-master' : 'usp-visitor-guest';
-    } else {
-        $class[] = 'usp-visitor-guest';
-    }
-
-    $class[] = (usp_get_option( 'usp_office_tab_type' ) == 1) ? "usp-tabs-menu__column" : "usp-tabs-menu__row";
+    /**
+     * Adding class in user office.
+     *
+     * @since 1.0
+     *
+     * @param string    added class.
+     *                  Default: empty string
+     */
+    $class[] = apply_filters( 'usp_office_class', '' );
 
     return implode( ' ', $class );
 }
@@ -123,7 +117,15 @@ function usp_add_balloon_menu( $data, $args ) {
 add_filter( 'body_class', 'usp_add_office_class_body' );
 function usp_add_office_class_body( $classes ) {
     if ( usp_is_office() ) {
-        $classes[] = usp_get_office_class();
+        global $user_LK, $user_ID;
+
+        $classes[] = 'usp-office';
+
+        if ( $user_ID ) {
+            $classes[] = ($user_LK == $user_ID) ? 'usp-visitor-master' : 'usp-visitor-guest';
+        } else {
+            $classes[] = 'usp-visitor-guest';
+        }
     }
 
     return $classes;
