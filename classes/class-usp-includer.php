@@ -19,7 +19,7 @@ class USP_Includer {
     function include_styles() {
         global $usp_styles;
 
-        $this->is_minify = usp_get_option( 'minify_css' );
+        $this->is_minify = usp_get_option( 'minify_css', 1 );
 
         $this->minify_dir = USP_UPLOAD_PATH . 'css';
 
@@ -155,19 +155,18 @@ class USP_Includer {
             $file_string = file_get_contents( $file['path'] );
 
             if ( $type == 'css' ) {
-                $urls  = array();
+                $urls = array();
                 preg_match_all( '/(?<=url\()[A-zА-я0-9\-\_\/\"\'\.\?\s]*(?=\))/iu', $file_string, $urls );
-                $addon = (usp_addon_path( $file['path'] )) ? true : false;
-
-                if ( $urls[0] ) {
-
-                    foreach ( $urls[0] as $u ) {
-                        $imgs[] = ($addon) ? usp_addon_url( trim( $u, '\',\"' ), $file['path'] ) : USP_URL . 'css/' . trim( $u, '\',\"' );
-                        $us[]   = $u;
-                    }
-
-                    $file_string = str_replace( $us, $imgs, $file_string );
-                }
+                // $addon = (usp_addon_path( $file['path'] )) ? true : false;
+//                if ( $urls[0] ) {
+//
+//                    foreach ( $urls[0] as $u ) {
+//                        $imgs[] = ($addon) ? usp_addon_url( trim( $u, '\',\"' ), $file['path'] ) : USP_URL . 'css/' . trim( $u, '\',\"' );
+//                        $us[]   = $u;
+//                    }
+//
+//                    $file_string = str_replace( $us, $imgs, $file_string );
+//                }
             }
 
             $string .= $file_string;
@@ -402,10 +401,9 @@ function usp_enqueue_style( $id, $url, $parents = false, $in_footer = false, $fo
     $url    = str_replace( '\\', '/', $url );
 
     // if we determined that the absolute path is specified, we get the URL to the style.css file
-    if ( stristr( $url, $search ) ) {
-        $url = usp_addon_url( 'style.css', $url );
-    }
-
+//    if ( stristr( $url, $search ) ) {
+//        $url = usp_addon_url( 'style.css', $url );
+//    }
     // if the style is output in the footer
     if ( $in_footer || isset( $usp_styles['header'] ) ) {
         // if no duplicate style is found in the header

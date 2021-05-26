@@ -49,8 +49,14 @@ jQuery( function( $ ) {
     } );
 
     $( '.usp-parent-field select, .usp-parent-field input' ).change( function() {
-        USPOptionsControl.hideChildrens( USPOptionsControl.getId( this ) );
-        USPOptionsControl.showChildrens( USPOptionsControl.getId( this ), $( this ).val() );
+        var el = $(this);
+        
+        if( jQuery( this ).hasClass('switch-field') ){
+            el = jQuery( this ).siblings('.switch-field-hidden');
+        }
+        
+        USPOptionsControl.hideChildrens( USPOptionsControl.getId( el ) );
+        USPOptionsControl.showChildrens( USPOptionsControl.getId( el ), $( el ).val() );
     } );
 } );
 

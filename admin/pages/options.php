@@ -45,7 +45,7 @@ $options->add_box( 'primary', array(
             'help'      => __( 'Attention! Changing this parameter is not required. '
                 . 'Detailed instructions on user profile output using author.php '
                 . 'file can be received here <a href="#" target="_blank">here</a>', 'userspace' ),
-            'notice'    => __( 'If author archive page is selected, the template author.php should contain the code if(function_exists(\'userspace\')) userspace();', 'userspace' ),
+            'notice'    => __( 'If author archive page is selected, the template author.php should contain the code <code>if(function_exists(\'userspace\')) userspace();</code>', 'userspace' ),
             'childrens' => array(
                 'shortcode' => array(
                     [
@@ -58,7 +58,7 @@ $options->add_box( 'primary', array(
                         'type'  => 'text',
                         'slug'  => 'usp_user_account_slug',
                         'title' => __( 'Link format to user profile page', 'userspace' ),
-                        'help'  => __( 'The link is formed according to principle "/slug_page/?get=ID". The parameter "get" can be set here. By default user', 'userspace' )
+                        'help'  => __( 'The link is formed according to principle "/slug_page/?get=ID". The parameter "get" can be set here. By default: "user"', 'userspace' )
                     ]
                 )
             )
@@ -153,17 +153,18 @@ $options->box( 'primary' )->add_group( 'usersign', array(
         )
     ],
     array(
-        'type'   => 'select',
-        'slug'   => 'usp_confirm_register',
-        'help'   => __( 'If you are using the registration confirmation, after registration, the user will need to confirm your email by clicking on the link in the sent email', 'userspace' ),
-        'title'  => __( 'Registration confirmation by the user', 'userspace' ),
-        'values' => [
-            __( 'Not used', 'userspace' ),
-            __( 'Used', 'userspace' )
-        ]
+        'type'    => 'switch',
+        'slug'    => 'usp_confirm_register',
+        'help'    => __( 'If this option is checked, newly registered users will receive a confirmation email to the email address specified during registration. This email contains a confirmation link that the user has to click, in order to activate the account.', 'userspace' ),
+        'title'   => __( 'Registration requires email confirmation', 'userspace' ),
+        'text'    => [
+            'off' => __( 'No', 'userspace' ),
+            'on'  => __( 'Yes', 'userspace' )
+        ],
+        'default' => 0,
     ),
     array(
-        'type'      => 'select',
+        'type'      => 'radio',
         'slug'      => 'authorize_page',
         'title'     => __( 'Redirect user after login', 'userspace' ),
         'values'    => [
@@ -171,6 +172,7 @@ $options->box( 'primary' )->add_group( 'usersign', array(
             __( 'Current page', 'userspace' ),
             __( 'Arbitrary URL', 'userspace' )
         ],
+        'default'   => 0,
         'childrens' => array(
             2 => array(
                 [
@@ -235,64 +237,68 @@ $options->box( 'primary' )->add_group( 'usp_bar', array(
 ) );
 
 $options->box( 'primary' )->add_group( 'caching', array(
-    'title'  => __( 'Caching', 'userspace' ),
+    'title'  => __( 'Performance', 'userspace' ),
     'extend' => true
 ) )->add_options( array(
     [
-        'type'      => 'select',
+        'type'      => 'switch',
         'slug'      => 'use_cache',
-        'title'     => __( 'Cache', 'userspace' ),
-        'help'      => __( 'Use the functionality of the caching UserSpace plugin. <a href="#" target="_blank">read More</a>', 'userspace' ),
-        'values'    => [
-            __( 'Disabled', 'userspace' ),
-            __( 'Enabled', 'userspace' )
+        'title'     => __( 'Enable UserSpace caching', 'userspace' ),
+        'help'      => __( 'Use the functionality of the caching UserSpace plugin. <a href="#" target="_blank">Read More</a>', 'userspace' ),
+        'text'      => [
+            'off' => __( 'No', 'userspace' ),
+            'on'  => __( 'Yes', 'userspace' )
         ],
+        'default'   => 0,
         'childrens' => [
             'cache_time', 'cache_output'
         ]
     ],
     [
-        'parent'     => [
+        'parent'  => [
             'id'    => 'use_cache',
             'value' => 1
         ],
-        'type'       => 'number',
-        'slug'       => 'cache_time',
-        'default'    => 3600,
-        'latitlebel' => __( 'Time cache (seconds)', 'userspace' ),
-        'notice'     => __( 'Default', 'userspace' ) . ': 3600'
+        'type'    => 'number',
+        'slug'    => 'cache_time',
+        'default' => 3600,
+        'title'   => __( 'Time cache (seconds)', 'userspace' ),
+        'notice'  => __( 'Default', 'userspace' ) . ': 3600'
     ],
     [
-        'parent' => [
+        'parent'  => [
             'id'    => 'use_cache',
             'value' => 1
         ],
-        'type'   => 'select',
-        'slug'   => 'cache_output',
-        'title'  => __( 'Cache output', 'userspace' ),
-        'values' => [
+        'type'    => 'radio',
+        'slug'    => 'cache_output',
+        'title'   => __( 'Cache output', 'userspace' ),
+        'values'  => [
             __( 'All users', 'userspace' ),
             __( 'Only guests', 'userspace' )
-        ]
-    ],
-    [
-        'type'   => 'select',
-        'slug'   => 'minify_css',
-        'title'  => __( 'Minimization of file styles', 'userspace' ),
-        'values' => [
-            __( 'Disabled', 'userspace' ),
-            __( 'Enabled', 'userspace' )
         ],
-        'notice' => __( 'Minimization of file styles only works in correlation with UserSpace style files and add-ons that support this feature', 'userspace' )
+        'default' => 0,
     ],
     [
-        'type'   => 'select',
-        'slug'   => 'minify_js',
-        'title'  => __( 'Minimization of scripts', 'userspace' ),
-        'values' => [
-            __( 'Disabled', 'userspace' ),
-            __( 'Enabled', 'userspace' )
-        ]
+        'type'    => 'switch',
+        'slug'    => 'minify_css',
+        'title'   => __( 'Minimization css-files', 'userspace' ),
+        'text'    => [
+            'off' => __( 'No', 'userspace' ),
+            'on'  => __( 'Yes', 'userspace' )
+        ],
+        'default' => 1,
+        'notice'  => __( 'Minimization of file styles only works in correlation with UserSpace style files and add-ons that support this feature', 'userspace' )
+    ],
+    [
+        'type'    => 'switch',
+        'slug'    => 'minify_js',
+        'title'   => __( 'Minimization js-files', 'userspace' ),
+        'text'    => [
+            'off' => __( 'No', 'userspace' ),
+            'on'  => __( 'Yes', 'userspace' )
+        ],
+        'default' => 0,
     ]
 ) );
 
@@ -313,13 +319,14 @@ $options->box( 'primary' )->add_group( 'logging', array(
     'extend' => true
 ) )->add_options( array(
     [
-        'type'   => 'select',
-        'slug'   => 'usp-log',
-        'title'  => __( 'Write background events and errors to the log-file', 'userspace' ),
-        'values' => [
-            __( 'Disabled', 'userspace' ),
-            __( 'Enabled', 'userspace' )
-        ]
+        'type'    => 'switch',
+        'slug'    => 'usp-log',
+        'title'   => __( 'Write background events and errors to the log-file', 'userspace' ),
+        'text'    => [
+            'off' => __( 'No', 'userspace' ),
+            'on'  => __( 'Yes', 'userspace' )
+        ],
+        'default' => 0,
     ]
 ) );
 

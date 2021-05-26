@@ -381,6 +381,10 @@ final class UserSpace {
                 'label' => __( 'Multi select', 'userspace' ),
                 'class' => 'USP_Field_MultiSelect'
             ),
+            'switch'      => array(
+                'label' => __( 'Switch', 'userspace' ),
+                'class' => 'USP_Field_Switch'
+            ),
             'checkbox'    => array(
                 'label' => __( 'Checkbox', 'userspace' ),
                 'class' => 'USP_Field_Checkbox'

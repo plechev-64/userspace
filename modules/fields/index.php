@@ -22,6 +22,7 @@ require_once 'classes/types/class-usp-field-textarea.php';
 require_once 'classes/types/class-usp-field-uploader.php';
 require_once 'classes/types/class-usp-field-file.php';
 require_once 'classes/types/class-usp-field-hidden.php';
+require_once 'classes/types/class-usp-field-switch.php';
 
 if ( is_admin() || isset( $_REQUEST['rest_route'] ) ) {
     add_action( 'admin_enqueue_scripts', 'usp_fields_scripts', 10 );

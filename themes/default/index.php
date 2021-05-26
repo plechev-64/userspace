@@ -124,9 +124,12 @@ function usp_default_theme_settings( $options ) {
             ],
             [
                 'title'   => __( 'When overflowing, hide the buttons in the drop-down menu?', 'userspace' ),
-                'type'    => 'radio',
+                'type'    => 'switch',
                 'slug'    => 'usp-overflow-menu',
-                'values'  => [ __( 'No', 'userspace' ), __( 'Yes', 'userspace' ) ],
+                'text'    => [
+                    'off' => __( 'No', 'userspace' ),
+                    'on'  => __( 'Yes', 'userspace' )
+                ],
                 'default' => 1,
             ],
         ) );

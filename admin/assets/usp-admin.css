@@ -7,6 +7,11 @@
 .wp-admin[class*="userspace_page_"] p {
     font-size: 16px;
 }
+#usp-options code {
+    color: var(--uspRed-800);
+    padding: 3px 6px;
+    background: var(--uspGray-100);
+}
 .usp-bttn.usp-bttn__size-standart {
     font-size: 14px;
 }
