@@ -43,7 +43,6 @@ class USP_Includer {
             usp_remove_dir( $this->minify_dir );
         }
 
-        $styles = array();
         foreach ( $usp_styles[$this->place] as $key => $url ) {
 
             // minify off. Load directly
@@ -63,7 +62,7 @@ class USP_Includer {
             $ids[] = $id . ':' . filemtime( $file['path'] );
         }
 
-        $filename = md5( implode( ',', $ids ) ) . '.css';
+        $filename = $this->place . '-' . md5( implode( ',', $ids ) ) . '.css';
         $filepath = USP_UPLOAD_PATH . 'css/' . $filename;
 
         if ( ! file_exists( wp_normalize_path( $filepath ) ) ) {
@@ -126,7 +125,7 @@ class USP_Includer {
             }
         }
 
-        $filename = md5( implode( ',', $ids ) ) . '.js';
+        $filename = $this->place . '-' . md5( implode( ',', $ids ) ) . '.js';
         $filepath = USP_UPLOAD_PATH . 'js/' . $filename;
 
         if ( ! file_exists( $filepath ) ) {
@@ -154,20 +153,20 @@ class USP_Includer {
 
             $file_string = file_get_contents( $file['path'] );
 
-            if ( $type == 'css' ) {
-                $urls = array();
-                preg_match_all( '/(?<=url\()[A-zА-я0-9\-\_\/\"\'\.\?\s]*(?=\))/iu', $file_string, $urls );
-                // $addon = (usp_addon_path( $file['path'] )) ? true : false;
-//                if ( $urls[0] ) {
-//
-//                    foreach ( $urls[0] as $u ) {
-//                        $imgs[] = ($addon) ? usp_addon_url( trim( $u, '\',\"' ), $file['path'] ) : USP_URL . 'css/' . trim( $u, '\',\"' );
-//                        $us[]   = $u;
-//                    }
-//
-//                    $file_string = str_replace( $us, $imgs, $file_string );
-//                }
-            }
+//            if ( $type == 'css' ) {
+//                $urls = array();
+//                preg_match_all( '/(?<=url\()[A-zА-я0-9\-\_\/\"\'\.\?\s]*(?=\))/iu', $file_string, $urls );
+//                // $addon = (usp_addon_path( $file['path'] )) ? true : false;
+////                if ( $urls[0] ) {
+////
+////                    foreach ( $urls[0] as $u ) {
+////                        $imgs[] = ($addon) ? usp_addon_url( trim( $u, '\',\"' ), $file['path'] ) : USP_URL . 'css/' . trim( $u, '\',\"' );
+////                        $us[]   = $u;
+////                    }
+////
+////                    $file_string = str_replace( $us, $imgs, $file_string );
+////                }
+//            }
 
             $string .= $file_string;
         }
@@ -541,9 +540,18 @@ function usp_add_src_list_includes( $result ) {
 
 // we generate our own version of the plug-in scripts when the tab is called by ajax
 function usp_ajax_edit_version_scripts( $src ) {
+    $removes = [
+        'wp-includes/js/jquery/jquery.min.js',
+        'wp-includes/js/jquery/jquery-migrate.min.js',
+        'wp-includes/js/jquery/ui/core.min.js',
+        'wp-content/plugins/userspace/assets/js/core.js',
+    ];
 
-    if ( strpos( $src, 'wp-includes/js/jquery/jquery.js' ) )
-        return false;
+    foreach ( $removes as $remove ) {
+        if ( strpos( $src, $remove ) ) {
+            return false;
+        }
+    }
 
     $srcData = explode( '?', $src );
 

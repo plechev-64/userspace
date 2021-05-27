@@ -67,12 +67,11 @@ function usp_ajax_call() {
 
 usp_ajax_action( 'usp_load_tab', true, true );
 function usp_load_tab() {
-    global $user_LK, $office_id;
+    global $office_id;
 
     $tab_id    = $_POST['tab_id'];
     $subtab_id = $_POST['subtab_id'];
     $office_id = intval( $_POST['office_id'] );
-    $page_id   = intval( $_POST['page_id'] );
 
     $tab = USP()->tabs()->tab( $tab_id );
 
@@ -85,6 +84,8 @@ function usp_load_tab() {
     if ( ! $ajax ) {
         return array( 'error' => __( 'Perhaps this add-on does not support ajax loading', 'userspace' ) );
     }
+
+    global $user_LK;
 
     $user_LK = $office_id;
 

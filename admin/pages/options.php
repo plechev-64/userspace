@@ -16,7 +16,7 @@ $pages = usp_get_pages_ids();
 
 $options = new USP_Options_Manager( [
     'option_name'  => 'usp_global_options',
-    'page_options' => 'usp-options',
+    'page_options' => 'manage-userspace',
     'extends'      => true
     ] );
 
@@ -74,18 +74,6 @@ $options->add_box( 'primary', array(
             'notice'    => __( 'Specify the time in minutes after which the user will be considered offline if you did not show activity on the website. The default is 10 minutes.', 'userspace' )
         ]
     ) )
-) );
-
-$options->box( 'primary' )->add_group( 'security', array(
-    'title'  => __( 'Security', 'userspace' ),
-    'extend' => true
-) )->add_options( array(
-    [
-        'type'     => 'password',
-        'required' => 1,
-        'slug'     => 'security-key',
-        'title'    => __( 'The key of security for ajax-requests and other', 'userspace' )
-    ]
 ) );
 
 $options->box( 'primary' )->add_group( 'design', array(
@@ -202,13 +190,13 @@ $options->box( 'primary' )->add_group( 'usp_bar', array(
     'title' => __( 'UserSpace Bar', 'userspace' )
 ) )->add_options( array(
     [
-        'type'      => 'radio',
+        'type'      => 'switch',
         'slug'      => 'view_usp_bar',
         'title'     => __( 'Show UserSpace Bar when viewing site', 'userspace' ),
         'help'      => __( 'UserSpace Bar – is he top panel UserSpace plugin through which the plugin and its add-ons can output their data and the administrator can make his menu, forming it on <a href="/wp-admin/nav-menus.php" target="_blank">page management menu of the website</a>', 'userspace' ),
-        'values'    => [
-            __( 'Hide', 'userspace' ),
-            __( 'Show', 'userspace' )
+        'text'      => [
+            'off' => __( 'No', 'userspace' ),
+            'on'  => __( 'Yes', 'userspace' )
         ],
         'default'   => 0,
         'childrens' => array(
@@ -234,6 +222,18 @@ $options->box( 'primary' )->add_group( 'usp_bar', array(
             )
         )
     ],
+) );
+
+$options->box( 'primary' )->add_group( 'access_console', array(
+    'title' => __( 'Access to the console', 'userspace' ),
+) )->add_options( array(
+    [
+        'type'   => 'checkbox',
+        'slug'   => 'consol_access_usp',
+        'title'  => __( 'Access to the console is allowed', 'userspace' ),
+        'values' => usp_get_roles_ids( [ 'administrator', 'banned', 'need-confirm' ] ),
+        'notice' => __( 'The administrator always has access the WordPress admin area', 'userspace' )
+    ]
 ) );
 
 $options->box( 'primary' )->add_group( 'caching', array(
@@ -282,40 +282,29 @@ $options->box( 'primary' )->add_group( 'caching', array(
     [
         'type'    => 'switch',
         'slug'    => 'minify_css',
-        'title'   => __( 'Minimization css-files', 'userspace' ),
+        'title'   => __( 'Combining & minimization css-files', 'userspace' ),
         'text'    => [
             'off' => __( 'No', 'userspace' ),
             'on'  => __( 'Yes', 'userspace' )
         ],
         'default' => 1,
-        'notice'  => __( 'Minimization of file styles only works in correlation with UserSpace style files and add-ons that support this feature', 'userspace' )
+        'help'    => __( 'Combining style files works if plugins support this feature', 'userspace' )
     ],
     [
         'type'    => 'switch',
         'slug'    => 'minify_js',
-        'title'   => __( 'Minimization js-files', 'userspace' ),
+        'title'   => __( 'Combining & minimization js-files', 'userspace' ),
         'text'    => [
             'off' => __( 'No', 'userspace' ),
             'on'  => __( 'Yes', 'userspace' )
         ],
         'default' => 0,
+        'help'    => __( 'Combining js-files works if plugins support this feature', 'userspace' )
     ]
 ) );
 
-$options->box( 'primary' )->add_group( 'access_console', array(
-    'title' => __( 'Access to the console', 'userspace' ),
-) )->add_options( array(
-    [
-        'type'   => 'checkbox',
-        'slug'   => 'consol_access_usp',
-        'title'  => __( 'Access to the console is allowed', 'userspace' ),
-        'values' => usp_get_roles_ids(),
-        'notice' => __( 'The administrator always has access the WordPress admin area', 'userspace' )
-    ]
-) );
-
-$options->box( 'primary' )->add_group( 'logging', array(
-    'title'  => __( 'Logging mode', 'userspace' ),
+$options->box( 'primary' )->add_group( 'system', array(
+    'title'  => __( 'System settings', 'userspace' ),
     'extend' => true
 ) )->add_options( array(
     [
@@ -327,6 +316,13 @@ $options->box( 'primary' )->add_group( 'logging', array(
             'on'  => __( 'Yes', 'userspace' )
         ],
         'default' => 0,
+        'help'    => __( 'The log file is written to the address: your-site/userspace/logs/', 'userspace' )
+    ],
+    [
+        'title'    => __( 'The key of security for ajax-requests and other', 'userspace' ),
+        'type'     => 'password',
+        'required' => 1,
+        'slug'     => 'security-key',
     ]
 ) );
 

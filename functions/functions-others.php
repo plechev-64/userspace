@@ -110,14 +110,28 @@ function usp_get_pages_ids() {
     return $pages;
 }
 
-function usp_get_roles_ids() {
+/**
+ * Gets an array of the list of roles
+ *
+ * @since 1.0
+ *
+ * @param array $exclude    excluded roles (slug).
+ *
+ * @return array Roles slug (key) & roles name (value).
+ */
+function usp_get_roles_ids( $exclude = false ) {
     $editable_roles = array_reverse( get_editable_roles() );
-    $roles          = [];
+
+    $roles = [];
+
     foreach ( $editable_roles as $role => $details ) {
-        if ( $role == 'administrator' )
+        if ( $exclude && in_array( $role, $exclude ) ) {
             continue;
+        }
+
         $roles[$role] = translate_user_role( $details['name'] );
     }
+
     return $roles;
 }
 
