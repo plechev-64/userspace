@@ -1,7 +1,7 @@
 .usp-frame__box {
     border: var(--uspLine300);
     box-sizing: border-box;
-    margin: 18px 12px;
+    margin: 0 0 18px;
     padding: 12px;
     position: relative;
     background: var(--uspWhite);
@@ -9,7 +9,7 @@
 }
 .usp-frame__box-default.fixed {
     position: fixed;
-    top: 12px;
+    top: 24px;
     z-index: 91;
     width: calc(100% - 200px);
     box-shadow: var(--uspBox300);
@@ -27,7 +27,7 @@
     min-width: 310px;
 }
 .fixed .usp-frame__service {
-    max-height: 164px;
+    max-height: 124px;
     overflow: auto;
 }
 .usp-frame__service .usp-frame__field-control a:not(.usp-frame__field-bttn-move),

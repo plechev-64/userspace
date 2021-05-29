@@ -328,8 +328,10 @@ $options->box( 'primary' )->add_group( 'system', array(
 
 $all_options = apply_filters( 'usp_options', $options );
 
-$content = $all_options->get_content();
+$title = __( 'Configure UserSpace plugin and add-ons', 'userspace' );
 
-$title = '<h2>' . __( 'Configure UserSpace plugin and add-ons', 'userspace' ) . '</h2>';
+$header = usp_get_admin_header( $title );
 
-echo $title . $content;
+$content = usp_get_admin_content( $all_options->get_content() );
+
+echo $header . $content;

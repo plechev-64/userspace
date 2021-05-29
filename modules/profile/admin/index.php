@@ -18,13 +18,15 @@ function usp_profile_fields_manager() {
 
     $Manager = new USP_Profile_Fields_Manager();
 
-    $content = '<h2>' . __( 'Manage profile fields', 'userspace' ) . '</h2>';
+    $title = __( 'Manage profile fields', 'userspace' );
 
-    $content .= '<p>' . __( 'On this page you can create custom fields of the user profile, as well as to manage already created fields', 'userspace' ) . '</p>';
+    $subtitle = __( 'On this page you can create custom fields of the user profile, as well as to manage already created fields', 'userspace' );
 
-    $content .= $Manager->get_manager();
+    $header = usp_get_admin_header( $title, $subtitle );
 
-    echo $content;
+    $content = usp_get_admin_content( $Manager->get_manager(), 'no_sidebar' );
+
+    echo $header . $content;
 }
 
 add_filter( 'usp_field_options', 'usp_setup_profile_manager_field_options', 10, 3 );

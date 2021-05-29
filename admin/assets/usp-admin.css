@@ -1,4 +1,4 @@
-.wp-admin[class*="userspace_page_"] h2 {
+.wp-admin[class*="userspace_page_"] h2:not(.usp-admin-head__title) {
     font-size: 22px;
     line-height: normal;
     margin: 18px 0 24px;
@@ -40,9 +40,9 @@
 }
 .usp-help-dialog .help-content {
     font-size: 16px;
-    padding: 12px;
-    line-height: normal;
+    padding: 12px 18px;
     color: var(--uspGray-700);
+    line-height: 1.4;
 }
 .usp-field-notice > i + span {
     width: calc(100% - 24px);
@@ -93,4 +93,75 @@
 .usp-custom-fields-navi i {
     color: var(--uspGreen-700);
     font-size: 24px;
+}
+
+/* admin header */
+.usp-admin-head {
+    margin: 20px 20px 20px 0;
+    background: var(--uspWhite);
+    padding: 18px;
+    border: var(--uspLine200);
+}
+.usp-admin-head__logo .dashicons {
+    font-size: 42px;
+    width: auto;
+    height: auto;
+    color: var(--uspGreen-700);
+}
+.usp-admin-head__name {
+    line-height: 1;
+    font-size: 32px;
+    color: var(--uspBlue-700);
+    margin: 0 6px;
+}
+.usp-admin-head__bottom > :empty {
+    display: none;
+}
+.usp-admin-head__title {
+    font-size: 22px;
+    margin: 12px 0 0;
+    padding: 0;
+    line-height: 1.4;
+    color: var(--uspGray-700);
+}
+.usp-admin-head__subtitle {
+    font-size: 16px;
+    color: var(--uspGray-600);
+    line-height: 1.4;
+}
+.usp-admin-head__right > div {
+    margin: 6px;
+}
+.usp-admin-head__right .dashicons {
+    width: auto;
+    height: 24px;
+    font-size: 30px;
+    color: var(--uspBlue-700);
+    margin: 0 6px;
+}
+.usp-admin-head__right a {
+    font-size: 16px;
+}
+.usp-admin__settings {
+    margin: 0 20px 20px 0;
+}
+.usp-admin__settings:not(.usp-admin__fullwidth) {
+    max-width: 966px;
+}
+.usp-admin__sidebar {
+    margin-right: 20px;
+}
+.usp-admin__sidebar > * {
+    max-width: 390px;
+    background: var(--uspWhite);
+    margin-bottom: 6px !important;
+}
+.usp-admin__sidebar > :nth-child(1) {
+    margin-top: 0 !important;
+}
+@media screen and (max-width:782px) {
+    .usp-admin-head,
+    .usp-admin__box > * {
+        margin-right: 10px;
+    }
 }

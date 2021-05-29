@@ -14,11 +14,13 @@ function usp_register_form_manager() {
 
     $Manager = new USP_Register_Form_Manager( );
 
-    $content = '<h2>' . __( 'Editing registration form fields', 'userspace' ) . '</h2>';
+    $title = __( 'Editing registration form fields', 'userspace' );
 
-    $content .= $Manager->get_manager();
+    $header = usp_get_admin_header( $title );
 
-    echo $content;
+    $content = usp_get_admin_content( $Manager->get_manager(), 'no_sidebar' );
+
+    echo $header . $content;
 }
 
 // Plugin settings in the admin panel

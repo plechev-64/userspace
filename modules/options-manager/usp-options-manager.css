@@ -1,14 +1,12 @@
 .usp-options {
     display: flex;
-    margin-right: 18px;
+    border: var(--uspLine200);
+    padding: 18px;
+    background: var(--uspWhite);
 }
 .usp-option-menu {
-    margin-right: 12px;
+    margin-right: 18px;
     width: 260px;
-}
-.usp-option-menu .usp-bttn {
-    width: 100%;
-    min-height: 42px;
 }
 .usp-option-menu .usp-bttn__ico {
     font-size: 20px;
@@ -19,6 +17,7 @@
 }
 .usp-option-menu .usp-bttn span {
     font-size: 16px;
+    width: auto;
 }
 .usp-toggle-extend {
     background: var(--uspRed-200) !important;
@@ -37,6 +36,8 @@
 }
 .usp-submit-options.usp-bttn {
     margin: 12px 0;
+    position: sticky;
+    top: 48px;
 }
 
 .usp-option-fields {
@@ -45,34 +46,26 @@
     color: var(--uspGray-700);
 }
 .usp-options .options-box {
-    padding: 18px 18px 0 18px;
     display: none;
-    overflow-y: auto;
-    max-height: 800px;
     box-sizing: border-box;
-    border: var(--uspLine300);
     width: 100%;
-    max-width: 620px;
-}
-/* bottom padding on scroll fix */
-.usp-options .options-box::after {
-    content: "";
-    height: 18px;
-    width: 100%;
-    display: table;
+    max-width: 650px;
 }
 .usp-options .options-box.active {
     display: block;
 }
 .usp-options .options-group {
-    border: var(--uspLine300);
-    background: var(--uspWhite);
+    border: var(--uspLine200);
+    background: var(--uspGray-50);
+    color: var(--uspGray-700);
+    font-size: 16px;
+    padding: 0 0 12px;
 }
 .usp-options .options-group:not(:last-child) {
     margin-bottom: 18px;
 }
 .usp-options .options-group > div {
-    margin: 24px 18px;
+    margin: 24px 18px 12px;
 }
 .usp-children-field,
 .usp-options .active-menu-item,
@@ -100,6 +93,9 @@
     }
     .usp-option-menu {
         width: 100%;
+        position: sticky;
+        top: -54px;
+        z-index: 2;
     }
     #usp-options .active-menu-item {
         display: flex;
@@ -115,5 +111,7 @@
         bottom: 0;
         left: 0;
         z-index: 9;
+        top: auto;
+        margin: 0;
     }
 }

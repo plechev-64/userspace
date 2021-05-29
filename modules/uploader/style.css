@@ -16,6 +16,7 @@
 .usp-media-list .usp-media__item:not(:first-child) {
     margin-top: 6px;
 }
+.usp-media:empty,
 .usp-media-grid .usp-file-name {
     display: none;
 }
@@ -24,11 +25,14 @@
     top: 0;
     left: 0;
 }
+.usp-media {
+    margin: 0 0 6px;
+}
 .usp-media .uspi.fa-trash {
     color: var(--uspRed-500);
 }
 .usp-uploader {
-    margin: 12px 0;
+    margin: 0 0 12px;
 }
 .usp-dropzone {
     padding: 18px;

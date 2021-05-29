@@ -120,10 +120,15 @@ body:not(.wp-admin) .usp-bttn.usp-bttn__type-primary:not(.usp-bttn__active),
 
 /* special wiget list style */
 .usp-wrap__wiget .usp-bttn__type-clear {
-    padding: 6px 12px;
-    min-height: 40px;
+    padding: 0 12px;
+    min-height: 42px;
+    width: 100%;
 }
-.usp-wrap__wiget .usp-bttn__type-clear:hover {
+.usp-wrap__wiget .usp-bttn__type-simple {
+    min-height: 42px;
+    width: 100%;
+}
+.usp-wrap__wiget .usp-bttn__type-clear:not(.button-primary):hover {
     background: var(--uspGray-200);
 }
 .usp-wrap__wiget .usp-bttn__ava {
