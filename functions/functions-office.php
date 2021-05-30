@@ -48,7 +48,7 @@ function usp_is_office( $user_id = null ) {
 
         if ( $post->master_id )
             $usp_office = $post->master_id;
-    } else if ( USP_Ajax()->is_rest_request() ) {
+    } else if ( USP_Ajax()->is_rest_request() && isset( $_POST['office_id'] ) ) {
         $usp_office = intval( $_POST['office_id'] );
     }
 
