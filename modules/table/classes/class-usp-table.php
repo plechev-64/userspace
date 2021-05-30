@@ -61,13 +61,14 @@ class USP_Table {
     function get_table_attrs() {
 
         $attrs = array(
-            'class' => array( 'usp-table preloader-parent' ),
-            'id'    => $this->table_id
+            'id' => $this->table_id
         );
 
         if ( $this->class ) {
             $attrs['class'][] = $this->class;
         }
+
+        $attrs['class'][] = 'usp-table preloader-parent';
 
         if ( $this->cols_number ) {
             $attrs['class'][] = 'usp-table__type-cell-' . $this->cols_number;
@@ -143,7 +144,6 @@ class USP_Table {
             }
 
             $attrs['data-value'] = trim( strip_tags( $contentCell ) );
-
 
             if ( isset( $cellProps['sort'] ) && $cellProps['sort'] ) {
                 if ( $place == 'header' ) {
