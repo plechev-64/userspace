@@ -245,6 +245,9 @@ i::before {
     top: 0;
     z-index: 999;
 }
+i.uspi.fa-trash {
+    color: var(--uspRed-500);
+}
 /*end*/
 
 

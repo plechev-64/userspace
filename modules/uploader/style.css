@@ -28,9 +28,6 @@
 .usp-media {
     margin: 0 0 6px;
 }
-.usp-media .uspi.fa-trash {
-    color: var(--uspRed-500);
-}
 .usp-uploader {
     margin: 0 0 12px;
 }

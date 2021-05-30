@@ -71,9 +71,6 @@
 .usp-frame__control i {
     font-size: 20px;
 }
-.usp-frame .fa-trash {
-    color: var(--uspRed-500);
-}
 .usp-frame__section-more-options {
     width: 50%;
 }
