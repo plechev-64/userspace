@@ -87,31 +87,35 @@ function usp_load_tab( tab_id, subtab_id, e ) {
 			}
 
 			if ( box_id ) {
+                            // remove old tab class, set new class
+                            jQuery( box_id ).removeClass( function( index, className ) {
+                                return ( className.match( /(^|\s)usp-tab-\S+/g ) || [
+                                ] ).join( ' ' );
+                            } ).addClass( 'usp-tab-' + tab_id );
 
-				jQuery( box_id ).html( data.content );
+                            jQuery( box_id ).html( data.content );
 
-				var options = usp_get_options_url_params();
+                            var options = usp_get_options_url_params();
 
-				if ( options.scroll === 1 ) {
-					var offsetTop = jQuery( box_id ).offset().top;
-					jQuery( 'body,html' ).animate( {
-						scrollTop: offsetTop - options.offset
-					},
-						1000 );
-				}
+                            if ( options.scroll === 1 ) {
+                                var offsetTop = jQuery( box_id ).offset().top;
+                                jQuery( 'body,html' ).animate( {
+                                    scrollTop: offsetTop - options.offset
+                                },
+                                    1000 );
+                            }
 
-				if ( data.includes ) {
+                            if ( data.includes ) {
 
-					var includes = data.includes;
+                                var includes = data.includes;
 
-					includes.forEach( function( src ) {
+                                includes.forEach( function( src ) {
 
-						jQuery.getScript( src );
+                                    jQuery.getScript( src );
 
-					} );
+                                } );
 
-				}
-
+                            }
 			}
 
                         if ( typeof animateCss !== 'undefined' ) {
