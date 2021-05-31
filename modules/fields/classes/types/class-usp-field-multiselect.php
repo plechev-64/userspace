@@ -47,12 +47,15 @@ class USP_Field_MultiSelect extends USP_Field_Abstract {
 
         $content .= '</select>';
 
-        $init = 'jQuery("#' . $this->input_id . '").fSelect({
-                                                        placeholder: "' . __( 'Select some options', 'userspace' ) . '",
-                                                        overflowText: "' . __( '{n} selected', 'userspace' ) . '",
-                                                        noResultsText: "' . __( 'No results found', 'userspace' ) . '",
-                                                        searchText: "' . __( 'Search', 'userspace' ) . '",
-                                                    });';
+        $init = 'jQuery("#' . $this->input_id . '").multiselect({
+    search: true,
+    maxPlaceholderOpts: 5,
+    texts: {
+        placeholder: "' . __( 'Select some options', 'userspace' ) . '",
+        search: "' . __( 'Search', 'userspace' ) . '",
+        selectedOptions: " ' . __( 'selected', 'userspace' ) . '",
+    }
+});';
 
         if ( ! usp_is_ajax() ) {
             $content .= '<script>jQuery(window).on("load", function() {' . $init . '});</script>';
