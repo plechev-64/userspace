@@ -33,6 +33,11 @@ function usp_multiselect_scripts() {
     wp_enqueue_script( 'usp-multiselect', USP_URL . 'assets/lib/multiselect/multiselect.min.js', false, USP_VERSION );
 }
 
+function usp_autocomplete_scripts() {
+    usp_enqueue_style( 'usp-autocomplete', USP_URL . 'assets/lib/magicsuggest/magicsuggest.min.css' );
+    usp_enqueue_script( 'usp-autocomplete', USP_URL . 'assets/lib/magicsuggest/magicsuggest.min.js' );
+}
+
 function usp_slider_scripts() {
     wp_enqueue_script( 'jquery' );
     wp_enqueue_script( 'jquery-ui-core' );
