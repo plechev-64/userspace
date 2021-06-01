@@ -215,6 +215,9 @@
 .usp-subtabs-menu ~ .usp-subtab-box {
     margin-top: 12px;
 }
+#usp-tab-content {
+    margin-right: 12px;
+}
 .usp-subtab-title {
     padding: 12px;
     margin-bottom: 12px;
@@ -224,13 +227,10 @@
 .usp-subtab-title > span {
     margin: 0 0 0 6px;
 }
-.usp-subtab-content {
-    margin: 12px;
-}
 .usp-right-sidebar {
     min-width: 200px;
     max-width: 300px;
-    padding: 0 0 0 12px;
+    padding: 0 12px;
 }
 #usp-tab-content + .usp-right-sidebar {
     margin: 0 0 0 12px;
