@@ -19,7 +19,9 @@ i::before {
     --uspWhite-05: rgba(255, 255, 255, .5);
     
     --uspGray-50: #fdfdfd;
+    --uspGray-75: #fafafa;
     --uspGray-100: #f4f4f5;
+    --uspGray-150: #ededee;
     --uspGray-200: #e5e5e5;
     --uspGray-300: #d1d5db;
     --uspGray-400: #9ca3af;
@@ -28,6 +30,7 @@ i::before {
     --uspGray-700: #374151;
     
     --uspYellow-100: #fef3c7;
+    --uspYellow-700: #b45309;
     --uspYellow-900: #713f12;
     
     --uspGreen-100: #dcfce7;
