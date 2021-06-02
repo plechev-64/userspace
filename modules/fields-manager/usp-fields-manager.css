@@ -195,6 +195,9 @@
 .usp-frame__service .usp-frame__field-header input {
     pointer-events: none;
 }
+.usp-frame .usp-frame__field-bttn-delete {
+    color: var(--uspRed-500);
+}
 .usp-frame .usp-frame__field-bttn-move {
     cursor: move;
 }
