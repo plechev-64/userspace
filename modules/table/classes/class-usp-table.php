@@ -14,7 +14,7 @@ class USP_Table {
 
     function __construct( $tableProps = false ) {
 
-        usp_font_awesome_style();
+        //usp_font_awesome_style();
 
         $this->init_properties( $tableProps );
 
@@ -78,7 +78,7 @@ class USP_Table {
             $attrs['class'][] = 'usp-table__zebra';
         }
 
-        if ( ! isset( $this->cols[0]['title'] ) ) {
+        if ( ! isset( reset( $this->cols )['title'] ) ) {
             $attrs['class'][] = 'usp-table__not-header';
         }
 

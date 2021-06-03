@@ -19,6 +19,7 @@ class USP_Content_Manager {
     public $custom_props     = [];
     public $query            = false;
     public $startstate       = false;
+    public $reset_filter     = true;
     protected $request       = 0;
 
     function __construct( $args ) {
@@ -168,11 +169,11 @@ class USP_Content_Manager {
 
         $buttonsArgs = $this->get_buttons_args();
 
-        if ( $this->request ) {
+        if ( $this->request && $this->reset_filter ) {
             $buttonsArgs[] = array(
                 'label'   => __( 'Reset filter', 'userspace' ),
                 'onclick' => $this->is_ajax ? 'usp_load_content_manager_state(' . $this->startstate . ', this);return false;' : null,
-                'icon'    => 'fa-refresh',
+                'icon'    => 'fa-sync',
                 'href'    => $this->startpage
             );
         }

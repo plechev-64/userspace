@@ -6,7 +6,7 @@
 
 <div id="usp-office-profile" class="usp-office-profile usps usps__column usps__nowrap usps__relative">
     <div class="usp-office-top usps usps__jc-end"><?php do_action( 'usp_area_top' ); ?></div>
-    <div class="usp-office-card usps usps__relative">
+    <div class="usp-office-card usps usps__nowrap usps__relative">
         <div class="usp-office-left usps usps__column">
             <?php usp_avatar( 200 ); ?>
             <div class="usp-under-ava"><?php do_action( 'usp_area_under_ava' ); ?></div>
@@ -33,7 +33,7 @@
     </div>
 </div>
 
-<div id="usp-tabs" class="usp-tab-area usps usps__relative">
+<div id="usp-tabs" class="usp-tab-area usps usps__nowrap usps__relative">
     <?php do_action( 'usp_area_menu' ); ?>
 
     <div class="usp-profile-content usps usps__nowrap usps__grow">

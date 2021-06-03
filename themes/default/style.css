@@ -218,6 +218,9 @@
 #usp-tab-content {
     margin-right: 12px;
 }
+.usp-nav__row #usp-tab-content {
+    margin-left: 12px;
+}
 .usp-subtab-title {
     padding: 12px;
     margin-bottom: 12px;

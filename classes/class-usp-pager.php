@@ -95,6 +95,7 @@ class USP_Pager {
     function get_page_args( $page_id, $label = false ) {
 
         $args = array(
+            'type'  => 'simple',
             'href'  => $this->get_url( $page_id ),
             'label' => $label ? $label : $page_id,
             'data'  => array(

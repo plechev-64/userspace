@@ -207,13 +207,13 @@ function usp_manage_user_black_list( e, user_id, confirmText ) {
 
 	var class_i = jQuery( e ).children( 'i' ).attr( 'class' );
 
-	if ( class_i === 'uspi fa-refresh fa-spin' )
+	if ( class_i === 'uspi fa-sync fa-spin' )
 		return false;
 
 	if ( !confirm( confirmText ) )
 		return false;
 
-	jQuery( e ).children( 'i' ).attr( 'class', 'uspi fa-refresh fa-spin' );
+	jQuery( e ).children( 'i' ).attr( 'class', 'uspi fa-sync fa-spin' );
 
 	usp_ajax( {
 		data: {
