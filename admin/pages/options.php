@@ -4,7 +4,7 @@ global $wpdb;
 
 USP()->use_module( 'options-manager' );
 
-usp_font_awesome_style();
+usp_awesome_font_style();
 
 wp_enqueue_script( 'jquery' );
 wp_enqueue_script( 'jquery-ui-dialog' );

@@ -8,7 +8,7 @@ function usp_buttons_style() {
     usp_enqueue_style( 'usp-buttons', USP_URL . 'assets/css/usp-buttons.css', false, USP_VERSION );
 }
 
-function usp_font_awesome_style() {
+function usp_awesome_font_style() {
     wp_enqueue_style( 'usp-awesome', USP_URL . 'assets/usp-awesome/usp-awesome.min.css', false, USP_VERSION );
 }
 
@@ -34,7 +34,7 @@ function usp_multiselect_scripts() {
 }
 
 function usp_autocomplete_scripts() {
-    usp_enqueue_style( 'usp-autocomplete', USP_URL . 'assets/lib/magicsuggest/magicsuggest.min.css' );
+    usp_enqueue_style( 'usp-autocomplete', USP_URL . 'assets/lib/magicsuggest/usp-magicsuggest.min.css' );
     usp_enqueue_script( 'usp-autocomplete', USP_URL . 'assets/lib/magicsuggest/magicsuggest.min.js' );
 }
 
@@ -105,7 +105,7 @@ function usp_enqueue_wp_form_scripts() {
     wp_enqueue_script( 'usp-core-scripts', USP_URL . 'assets/js/core.js', array( 'jquery' ), USP_VERSION );
     wp_enqueue_script( 'usp-primary-scripts', USP_URL . 'assets/js/scripts.js', array( 'jquery' ), USP_VERSION );
 
-    usp_font_awesome_style();
+    usp_awesome_font_style();
     usp_fields_scripts();
 
     wp_localize_script( 'usp-core-scripts', 'USP', usp_get_localize_data() );
@@ -114,7 +114,7 @@ function usp_enqueue_wp_form_scripts() {
 function usp_frontend_scripts() {
     global $user_ID;
 
-    usp_font_awesome_style();
+    usp_awesome_font_style();
     usp_animate_css();
     usp_buttons_style();
 

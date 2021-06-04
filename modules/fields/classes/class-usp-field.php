@@ -1,18 +1,18 @@
 <?php
 
 class USP_Field {
-	static function setup( $args ) {
+    static function setup( $args ) {
 
-		if ( is_admin() ) {
-			usp_font_awesome_style();
-		}
+        if ( is_admin() ) {
+            usp_awesome_font_style();
+        }
 
-		if ( isset( USP()->fields[$args['type']] ) ) {
+        if ( isset( USP()->fields[$args['type']] ) ) {
 
-			$className = USP()->fields[$args['type']]['class'];
+            $className = USP()->fields[$args['type']]['class'];
 
-			return new $className( $args );
-		}
-	}
+            return new $className( $args );
+        }
+    }
 
 }

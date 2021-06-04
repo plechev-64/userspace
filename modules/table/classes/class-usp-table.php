@@ -14,8 +14,6 @@ class USP_Table {
 
     function __construct( $tableProps = false ) {
 
-        //usp_font_awesome_style();
-
         $this->init_properties( $tableProps );
 
         if ( ! $this->table_id )
