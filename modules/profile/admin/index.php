@@ -4,9 +4,11 @@ require_once 'class-usp-profile-fields-manager.php';
 require_once 'profile-settings.php';
 
 // Profile page in WordPress admin
-add_action( 'admin_print_scripts-profile.php', 'usp_admin_profile_style' );
-function usp_admin_profile_style() {
-    usp_enqueue_style( 'usp-admin-profile', USP_URL . 'modules/profile/admin/assets/css/usp-admin-profile.css', false, false, true );
+add_action( 'admin_enqueue_scripts', 'usp_admin_profile_style' );
+function usp_admin_profile_style( $page ) {
+    if ( $page == 'user-edit.php' || $page == 'profile.php' ) {
+        usp_enqueue_style( 'usp-admin-profile', USP_URL . 'modules/profile/admin/assets/css/usp-admin-profile.css', false, false, true );
+    }
 }
 
 add_action( 'admin_menu', 'usp_profile_admin_menu', 30 );
