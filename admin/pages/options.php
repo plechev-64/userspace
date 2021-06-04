@@ -128,13 +128,13 @@ $options->box( 'primary' )->add_group( 'usersign', array(
             __( 'Widget form', 'userspace' )
         ],
         'notice'    => __( 'The form of login and registration of the plugin can be outputed with help of widget "Control panel" '
-            . 'and a shortcode [loginform], but you can use the standart login form of WordPress also', 'userspace' ),
+            . 'and a shortcode [usp-loginform], but you can use the standart login form of WordPress also', 'userspace' ),
         'childrens' => array(
             1 => array(
                 [
                     'type'   => 'select',
                     'slug'   => 'usp_id_login_page',
-                    'title'  => __( 'ID of the shortcode page [loginform]', 'userspace' ),
+                    'title'  => __( 'ID of the shortcode page [usp-loginform]', 'userspace' ),
                     'values' => $pages
                 ]
             )

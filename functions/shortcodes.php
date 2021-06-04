@@ -143,7 +143,7 @@ function usp_get_user_widget() {
  *
  * @return string       HTML content to display loginform.
  */
-add_shortcode( 'loginform', 'usp_get_loginform_shortcode' );
+add_shortcode( 'usp-loginform', 'usp_get_loginform_shortcode' );
 function usp_get_loginform_shortcode( $atts = [] ) {
     if ( is_user_logged_in() ) {
         global $user_ID;
@@ -194,7 +194,7 @@ function usp_get_loginform_shortcode( $atts = [] ) {
  *
  * @return string       HTML content to display userlist.
  */
-add_shortcode( 'userlist', 'usp_get_userlist' );
+add_shortcode( 'usp-userlist', 'usp_get_userlist' );
 function usp_get_userlist( $atts = [] ) {
     global $usp_user, $usp_users_set, $user_ID;
 
