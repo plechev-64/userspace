@@ -101,7 +101,7 @@
 .ms-options > ul > li.optgroup .label {
     display: block;
     padding: 6px 0 0 0;
-    font-weight: bold;
+    font-weight: 700;
 }
 .ms-options > ul label {
     position: relative;

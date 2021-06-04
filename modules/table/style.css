@@ -21,7 +21,7 @@
     display: flex;
 }
 .usp-table__row-header {
-    font-weight: bold;
+    font-weight: 700;
     background: var(--uspGray-150);
 }
 .usp-table__cell {

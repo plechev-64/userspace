@@ -46,7 +46,7 @@
 }
 #usp-cols-manager .list-title {
     text-align: center;
-    font-weight: bold;
+    font-weight: 700;
     background: var(--uspWhite);
     padding: 12px;
 }

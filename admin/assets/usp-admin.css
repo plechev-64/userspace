@@ -89,7 +89,7 @@
 .usp-custom-fields-navi .usp-types-list li.current-item a {
     background: #f0f0f1;
     color: var(--uspBlack);
-    font-weight: bold;
+    font-weight: 700;
 }
 .usp-custom-fields-navi .usp-types-list li:not(.current-item) a:hover {
     background: var(--uspGray-100);

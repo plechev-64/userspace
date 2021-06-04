@@ -63,6 +63,9 @@ i::before {
     
     --uspLoadFast: .12s ease-in-out;
     --uspLoad: .24s ease-in-out;
+    
+    --uspWeight2: 200;
+    --uspWeight5: 500;
 }
 
 
@@ -479,7 +482,7 @@ body .preloader-parent {
 .usp-notice__title {
     color: currentColor;
     font-size: 1.1em;
-    font-weight: bold;
+    font-weight: 700;
     margin: 0 0 6px 6px;
 }
 .usp-notice__close {

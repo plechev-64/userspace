@@ -156,7 +156,7 @@
 .usp-frame .icon-type-number::before {
     content: "123";
     font-size: 14px;
-    font-weight: bold;
+    font-weight: 700;
     vertical-align: super;
 }
 .usp-frame .icon-type-date::before {
@@ -286,7 +286,7 @@
     position: absolute;
     z-index: 9;
     font-size: 50px;
-    font-weight: bold;
+    font-weight: 700;
     left: 0;
     top: 0;
     width: 100%;
