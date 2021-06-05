@@ -354,3 +354,51 @@ function usp_get_root_colors( $r, $g, $b, $usp_color ) {
 --uspRgbFlip:' . $rf . ',' . $gf . ',' . $bf . ';
 }';
 }
+
+/**
+ * Declination by profile gender
+ * Applicable for Russian
+ *
+ * @since 1.0
+ *
+ * @param int   $user_id    id user.
+ *
+ * @param array $data = ['опубликовал','опубликовала']
+ *
+ * @return string declination result. For example: опубликовала
+ */
+function usp_declination_by_sex( $user_id, $data ) {
+    // e.g. wp_cron
+    if ( $user_id == '-1' )
+        return $data[0];
+
+    $sex = get_user_meta( $user_id, 'usp_sex', true );
+
+    $declination = $data[0];
+
+    if ( $sex ) {
+        $var = apply_filters( 'usp_declination_var', __( 'Woman', 'userspace' ) );
+
+        $declination = ($sex === $var) ? $data[1] : $data[0];
+    }
+
+    return $declination;
+}
+
+/**
+ * Fast declination for Russian: "подписчик, подписчика, подписчиков"
+ * similar to _n() & _nx() and does not depend on the translation file
+ *
+ * @since 1.0
+ *
+ * @param int $number    Passing a number from the counter.
+ *
+ * @param array $variants  [ 'подписчик', 'подписчика', 'подписчиков' ]
+ *
+ * @return string   e.g. ($number = 5) 'подписчиков'
+ */
+function usp_decline( $number, $variants = [ '', '', '' ] ) {
+    $x  = ($xx = abs( $number ) % 100) % 10;
+
+    return $variants[($xx > 10 AND $xx < 15 OR ! $x OR $x > 4 AND $x < 10) ? 2 : ($x == 1 ? 0 : 1)];
+}

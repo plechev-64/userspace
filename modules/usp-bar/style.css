@@ -1,5 +1,6 @@
 #usp-bar .usp-bttn {
     align-self: stretch;
+    padding: 0 12px;
 }
 .usp-bar ul,
 .usp-bar li {
