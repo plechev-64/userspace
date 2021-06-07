@@ -27,7 +27,7 @@ function usp_ajax_call() {
     USP_Ajax()->verify();
 
     $callback = $_POST['call_action'];
-    $modules  = $_POST['used_modules'];
+    $modules  = (isset( $_POST['used_modules'] ) ? $_POST['used_modules'] : false);
 
     if ( $modules ) {
         foreach ( $modules as $module_id ) {
@@ -246,7 +246,8 @@ function usp_ajax_delete_attachment() {
         $media = RQ::tbl( new USP_Temp_Media() )->where( [ 'media_id' => $attachment_id ] )->get_row();
 
         if ( ! $user_ID ) {
-            if ( $media->session_id != $_COOKIE['PHPSESSID'] ) {
+            $session_id = isset( $_COOKIE['PHPSESSID'] ) && $_COOKIE['PHPSESSID'] ? $_COOKIE['PHPSESSID'] : 'none';
+            if ( $media->session_id != $session_id ) {
                 return array(
                     'error' => __( 'You can`t delete this file!', 'userspace' )
                 );

@@ -146,7 +146,7 @@ class USP_Image_Gallery {
 
         $content .= '<!-- Loading Screen -->
 		<div data-u="loading" class="jssorl-009-spin" style="z-index:9;position:absolute;top:0;left:0;width:100%;height:100%;text-align:center;background-color:rgb(232, 232, 232);">
-			<img style="margin-top:-19px;position:relative;top:50%;width:38px;height:38px;" src="' . plugins_url( '/assets/js/jssor.slider/svg/loading/static-svg/spin.svg', dirname( __FILE__ ) ) . '" />
+			<img style="margin-top:-19px;position:relative;top:50%;width:38px;height:38px;" src="' . USP_URL . 'assets/lib/jssor-slider/img/spin.svg" />
 		</div>';
 
         $content .= $this->get_slides();

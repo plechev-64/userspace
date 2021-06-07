@@ -37,7 +37,7 @@ function usp_process_user_register_data( $user_id ) {
     }
 
     // disable sending a password change email
-    add_filter( 'send_password_change_email', function() {
+    add_filter( 'send_password_change_email', function () {
         return false;
     } );
 
@@ -70,24 +70,27 @@ function usp_process_user_register_data( $user_id ) {
 // save user data when creating / registering
 add_action( 'user_register', 'usp_register_new_user_data', 10 );
 function usp_register_new_user_data( $user_id ) {
+    $action = RQ::tbl( new USP_User_Action() )->select( [ 'date_action' ] )->where( [ 'user_id' => $user_id ] )->get_var();
 
-    $timeAction = '0000-00-00 00:00:00';
+    if ( ! $action ) {
+        $timeAction = '0000-00-00 00:00:00';
 
-    if ( usp_get_option( 'usp_confirm_register' ) ) {
-        wp_update_user( array(
-            'ID'   => $user_id,
-            'role' => 'need-confirm'
+        if ( usp_get_option( 'usp_confirm_register' ) ) {
+            wp_update_user( array(
+                'ID'   => $user_id,
+                'role' => 'need-confirm'
+            ) );
+        } else {
+            $timeAction = current_time( 'mysql' );
+        }
+
+        global $wpdb;
+
+        $wpdb->insert( USP_PREF . 'users_actions', array(
+            'user_id'     => $user_id,
+            'date_action' => $timeAction
         ) );
-    } else {
-        $timeAction = current_time( 'mysql' );
     }
-
-    global $wpdb;
-
-    $wpdb->insert( USP_PREF . 'users_actions', array(
-        'user'        => $user_id,
-        'time_action' => $timeAction
-    ) );
 
     update_user_meta( $user_id, 'show_admin_bar_front', 'false' );
 
@@ -123,7 +126,8 @@ function usp_insert_user( $data ) {
     usp_register_mail( array(
         'user_id'    => $user_id,
         'user_login' => isset( $_POST['user_login'] ) ? $_POST['user_login'] : $_POST['user_email'],
-        'user_email' => $_POST['user_email']
+        'user_email' => $_POST['user_email'],
+        'user_pass'  => $data['user_pass'],
     ) );
 
     wp_send_new_user_notifications( $user_id, 'admin' );

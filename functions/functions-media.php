@@ -9,11 +9,13 @@ function usp_get_image_gallery( $args ) {
 function usp_add_temp_media( $args ) {
     global $wpdb, $user_ID;
 
+    $session_id = isset( $_COOKIE['PHPSESSID'] ) && $_COOKIE['PHPSESSID'] ? $_COOKIE['PHPSESSID'] : 'none';
+
     $args = wp_parse_args( $args, array(
         'media_id'    => '',
         'user_id'     => $user_ID,
         'uploader_id' => '',
-        'session_id'  => $user_ID ? '' : ($_COOKIE['PHPSESSID'] ? $_COOKIE['PHPSESSID'] : 'none'),
+        'session_id'  => $user_ID ? '' : $session_id,
         'upload_date' => current_time( 'mysql' )
         ) );
 

@@ -229,12 +229,13 @@ class USP_Uploader {
     function get_gallery( $imagIds = false, $getTemps = false ) {
 
         if ( ! $imagIds && $getTemps ) {
+            $session_id = isset( $_COOKIE['PHPSESSID'] ) && $_COOKIE['PHPSESSID'] ? $_COOKIE['PHPSESSID'] : 'none';
 
             $imagIds = RQ::tbl( new USP_Temp_Media() )->select( [ 'media_id' ] )
                 ->where( [
                     'uploader_id' => $this->uploader_id,
                     'user_id'     => $this->user_id ? $this->user_id : 0,
-                    'session_id'  => $this->user_id ? '' : $_COOKIE['PHPSESSID'],
+                    'session_id'  => $this->user_id ? '' : $session_id,
                 ] )
                 ->get_col();
         }
@@ -490,7 +491,8 @@ class USP_Uploader {
         );
 
         if ( ! $this->user_id ) {
-            $attachment['post_content'] = $_COOKIE['PHPSESSID'];
+            $session_id                 = isset( $_COOKIE['PHPSESSID'] ) && $_COOKIE['PHPSESSID'] ? $_COOKIE['PHPSESSID'] : 'none';
+            $attachment['post_content'] = $session_id;
         }
 
         $attach_id = wp_insert_attachment( $attachment, $image['file'], $this->post_parent );
@@ -566,7 +568,6 @@ class USP_Uploader {
         $crop_y *= $cf;
         $crop_w *= $cf;
         $crop_h *= $cf;
-
 
         $image = wp_get_image_editor( $image_src );
 
