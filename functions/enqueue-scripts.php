@@ -58,7 +58,7 @@ function usp_datepicker_scripts() {
 }
 
 function usp_image_slider_scripts() {
-    usp_enqueue_style( 'jssor-slider', USP_URL . 'assets/lib/jssor-slider/slider.css' );
+    usp_enqueue_style( 'jssor-slider', USP_URL . 'assets/lib/jssor-slider/usp-slider.min.css' );
 
     wp_enqueue_script( 'jquery' );
     usp_enqueue_script( 'jssor-slider', USP_URL . 'assets/lib/jssor-slider/slider.min.js' );
