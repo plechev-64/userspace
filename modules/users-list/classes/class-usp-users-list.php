@@ -184,7 +184,7 @@ class USP_Users_List extends USP_Users_Query {
 
     function add_query_only_actions_users( $query ) {
 
-        $timeout          = usp_get_option( 'timeout', 10 );
+        $timeout          = usp_get_option( 'usp_user_timeout', 10 );
         $query['where'][] = "actions.date_action > date_sub('" . current_time( 'mysql' ) . "', interval $timeout minute)";
 
         if ( $this->orderby != 'time_action' ) {

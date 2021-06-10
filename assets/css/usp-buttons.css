@@ -194,7 +194,7 @@ body:not(.wp-admin) .usp-bttn.usp-bttn__type-primary:not(.usp-bttn__active),
 .usp-bttn.usp-bttn__active {
     pointer-events: none;
 }
-.usp-bttn__type-primary.usp-bttn__active {
+.usp-bttn.usp-bttn__type-primary.usp-bttn__active {
     background: rgba(var(--uspRgb), .4);
     color: var(--uspBlack);
 }

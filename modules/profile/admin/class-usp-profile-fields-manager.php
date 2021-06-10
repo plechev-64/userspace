@@ -118,13 +118,13 @@ class USP_Profile_Fields_Manager extends USP_Fields_Manager {
     function get_manager_options_form_fields() {
 
         $fields = array(
-            'users_page_usp' => array(
+            'usp_users_page' => array(
                 'type'    => 'custom',
                 'title'   => __( 'Users page', 'userspace' ),
                 'notice'  => __( 'This page is required to filter users by value of profile fields', 'userspace' ),
                 'content' => wp_dropdown_pages( array(
-                    'selected'         => usp_get_option( 'users_page_usp' ),
-                    'name'             => 'users_page_usp',
+                    'selected'         => usp_get_option( 'usp_users_page' ),
+                    'name'             => 'usp_users_page',
                     'show_option_none' => __( 'Not selected', 'userspace' ),
                     'echo'             => 0
                     )

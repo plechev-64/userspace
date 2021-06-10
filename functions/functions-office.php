@@ -85,7 +85,7 @@ function usp_template_support( $support ) {
     switch ( $support ) {
         case 'avatar-uploader':
 
-            if ( usp_get_option( 'avatar_weight', 1024 ) > 0 )
+            if ( usp_get_option( 'usp_avatar_weight', 1024 ) > 0 )
                 include_once USP_PATH . 'functions/supports/uploader-avatar.php';
 
             break;
@@ -93,7 +93,7 @@ function usp_template_support( $support ) {
 
             add_filter( 'usp_options', 'usp_add_cover_options', 10 );
 
-            if ( usp_get_option( 'cover_weight', 1024 ) > 0 )
+            if ( usp_get_option( 'usp_cover_weight', 1024 ) > 0 )
                 include_once USP_PATH . 'functions/supports/uploader-cover.php';
 
             break;

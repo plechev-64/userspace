@@ -12,7 +12,7 @@
  */
 add_shortcode( 'userspace', 'usp_get_userspace' );
 function usp_get_userspace() {
-    if ( usp_get_option( 'usp_type_output_user_account', 'shortcode' ) == 'shortcode' ) {
+    if ( usp_get_option( 'usp_profile_page_output', 'shortcode' ) == 'shortcode' ) {
         global $post;
 
         if ( $post->ID == usp_get_option( 'usp_user_account_page' ) && ! isset( $_GET['user'] ) ) {
@@ -217,7 +217,7 @@ function usp_get_userlist( $atts = [] ) {
         $users->query['offset'] = $pagenavi->offset;
     }
 
-    $timecache = ($user_ID && $users->query['number'] == 'time_action') ? usp_get_option( 'timeout', 600 ) : 0;
+    $timecache = ($user_ID && $users->query['number'] == 'time_action') ? usp_get_option( 'usp_user_timeout', 600 ) : 0;
 
     $usp_cache = new USP_Cache( $timecache );
 

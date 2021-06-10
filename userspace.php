@@ -256,7 +256,7 @@ final class UserSpace {
 
         if ( $this->is_request( 'frontend' ) ) {
 
-            if ( usp_get_option( 'view_usp_bar' ) ) {
+            if ( usp_get_option( 'usp_bar_show' ) ) {
                 $this->use_module( 'usp-bar' );
             }
 
@@ -292,7 +292,7 @@ final class UserSpace {
         $user_LK = 0;
 
         // if the output of the personal account via the shortcode
-        if ( usp_get_option( 'usp_type_output_user_account', 'shortcode' ) == 'shortcode' ) {
+        if ( usp_get_option( 'usp_profile_page_output', 'shortcode' ) == 'shortcode' ) {
 
             $get     = usp_get_option( 'usp_user_account_slug', 'user' );
             $user_LK = ( isset( $_GET[$get] ) ) ? intval( $_GET[$get] ) : false;

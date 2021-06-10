@@ -287,13 +287,13 @@ class USP_Field_Abstract {
 
     function get_filter_url( $val = false ) {
 
-        if ( ! usp_get_option( 'users_page_usp' ) )
+        if ( ! usp_get_option( 'usp_users_page' ) )
             return false;
 
         if ( ! $val )
             $val = $this->value;
 
-        return add_query_arg( [ 'usergroup' => $this->slug . ':' . urlencode( $val ) ], get_permalink( usp_get_option( 'users_page_usp' ) ) );
+        return add_query_arg( [ 'usergroup' => $this->slug . ':' . urlencode( $val ) ], get_permalink( usp_get_option( 'usp_users_page' ) ) );
     }
 
 }

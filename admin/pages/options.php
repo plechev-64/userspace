@@ -36,7 +36,7 @@ $options->add_box( 'primary', array(
     ) )->add_options( array(
         [
             'type'      => 'select',
-            'slug'      => 'usp_type_output_user_account',
+            'slug'      => 'usp_profile_page_output',
             'title'     => __( 'User profile page output', 'userspace' ),
             'values'    => [
                 'shortcode' => __( 'Using shortcode [userspace]', 'userspace' ),
@@ -65,7 +65,7 @@ $options->add_box( 'primary', array(
         ],
         [
             'type'      => 'runner',
-            'slug'      => 'timeout',
+            'slug'      => 'usp_user_timeout',
             'value_min' => 1,
             'value_max' => 20,
             'default'   => 10,
@@ -80,14 +80,14 @@ $options->box( 'primary' )->add_group( 'design', array(
     'title' => __( 'Design', 'userspace' ),
 ) )->add_options( array(
     [
-        'slug'   => 'usp-current-office',
+        'slug'   => 'usp_current_office',
         'type'   => 'select',
         'title'  => __( 'Select a user profile page theme', 'userspace' ),
         'values' => USP()->themes()->get_themes()
     ],
     [
         'type'    => 'color',
-        'slug'    => 'usp-primary-color',
+        'slug'    => 'usp_primary_color',
         'title'   => __( 'Primary color', 'userspace' ),
         'default' => '#0369a1'
     ],
@@ -98,7 +98,7 @@ $options->box( 'primary' )->add_group( 'design', array(
         'crop'       => 1,
         'filetitle'  => 'usp-default-avatar',
         'filename'   => 'usp-default-avatar',
-        'slug'       => 'default_avatar',
+        'slug'       => 'usp_default_avatar',
         'title'      => __( 'Default avatar', 'userspace' )
     ],
     [
@@ -107,7 +107,7 @@ $options->box( 'primary' )->add_group( 'design', array(
         'value_max'  => 5120,
         'value_step' => 256,
         'default'    => 1024,
-        'slug'       => 'avatar_weight',
+        'slug'       => 'usp_avatar_weight',
         'title'      => __( 'Max weight of avatars', 'userspace' ) . ', Kb',
         'notice'     => __( 'Set the image upload limit in kb, by default', 'userspace' ) . ' 1024Kb' .
         '. ' . __( 'If 0 is specified, download is disallowed.', 'userspace' )
@@ -153,7 +153,7 @@ $options->box( 'primary' )->add_group( 'usersign', array(
     ),
     array(
         'type'      => 'radio',
-        'slug'      => 'authorize_page',
+        'slug'      => 'usp_authorize_page',
         'title'     => __( 'Redirect user after login', 'userspace' ),
         'values'    => [
             __( 'The user profile', 'userspace' ),
@@ -165,7 +165,7 @@ $options->box( 'primary' )->add_group( 'usersign', array(
             2 => array(
                 [
                     'type'   => 'text',
-                    'slug'   => 'custom_authorize_page',
+                    'slug'   => 'usp_custom_authorize_page',
                     'title'  => __( 'URL', 'userspace' ),
                     'notice' => __( 'Enter your URL below, if you select an arbitrary URL after login', 'userspace' )
                 ]
@@ -191,7 +191,7 @@ $options->box( 'primary' )->add_group( 'usp_bar', array(
 ) )->add_options( array(
     [
         'type'      => 'switch',
-        'slug'      => 'view_usp_bar',
+        'slug'      => 'usp_bar_show',
         'title'     => __( 'Show UserSpace Bar when viewing site', 'userspace' ),
         'help'      => __( 'UserSpace Bar – is he top panel UserSpace plugin through which the plugin and its add-ons can output their data and the administrator can make his menu, forming it on <a href="/wp-admin/nav-menus.php" target="_blank">page management menu of the website</a>', 'userspace' ),
         'text'      => [
@@ -229,7 +229,7 @@ $options->box( 'primary' )->add_group( 'access_console', array(
 ) )->add_options( array(
     [
         'type'   => 'checkbox',
-        'slug'   => 'consol_access_usp',
+        'slug'   => 'usp_consol_access',
         'title'  => __( 'Access to the console is allowed', 'userspace' ),
         'values' => usp_get_roles_ids( [ 'administrator', 'banned', 'need-confirm' ] ),
         'notice' => __( 'The administrator always has access the WordPress admin area', 'userspace' )
@@ -242,7 +242,7 @@ $options->box( 'primary' )->add_group( 'caching', array(
 ) )->add_options( array(
     [
         'type'      => 'switch',
-        'slug'      => 'use_cache',
+        'slug'      => 'usp_use_cache',
         'title'     => __( 'Enable UserSpace caching', 'userspace' ),
         'help'      => __( 'Use the functionality of the caching UserSpace plugin. <a href="#" target="_blank">Read More</a>', 'userspace' ),
         'text'      => [
@@ -260,7 +260,7 @@ $options->box( 'primary' )->add_group( 'caching', array(
             'value' => 1
         ],
         'type'    => 'number',
-        'slug'    => 'cache_time',
+        'slug'    => 'usp_cache_time',
         'default' => 3600,
         'title'   => __( 'Time cache (seconds)', 'userspace' ),
         'notice'  => __( 'Default', 'userspace' ) . ': 3600'
@@ -271,7 +271,7 @@ $options->box( 'primary' )->add_group( 'caching', array(
             'value' => 1
         ],
         'type'    => 'radio',
-        'slug'    => 'cache_output',
+        'slug'    => 'usp_cache_output',
         'title'   => __( 'Cache output', 'userspace' ),
         'values'  => [
             __( 'All users', 'userspace' ),
@@ -281,7 +281,7 @@ $options->box( 'primary' )->add_group( 'caching', array(
     ],
     [
         'type'    => 'switch',
-        'slug'    => 'minify_css',
+        'slug'    => 'usp_minify_css',
         'title'   => __( 'Combining & minimization css-files', 'userspace' ),
         'text'    => [
             'off' => __( 'No', 'userspace' ),
@@ -292,7 +292,7 @@ $options->box( 'primary' )->add_group( 'caching', array(
     ],
     [
         'type'    => 'switch',
-        'slug'    => 'minify_js',
+        'slug'    => 'usp_minify_js',
         'title'   => __( 'Combining & minimization js-files', 'userspace' ),
         'text'    => [
             'off' => __( 'No', 'userspace' ),
@@ -309,7 +309,7 @@ $options->box( 'primary' )->add_group( 'system', array(
 ) )->add_options( array(
     [
         'type'    => 'switch',
-        'slug'    => 'usp-log',
+        'slug'    => 'usp_logger',
         'title'   => __( 'Write background events and errors to the log-file', 'userspace' ),
         'text'    => [
             'off' => __( 'No', 'userspace' ),
@@ -322,7 +322,7 @@ $options->box( 'primary' )->add_group( 'system', array(
         'title'    => __( 'The key of security for ajax-requests and other', 'userspace' ),
         'type'     => 'password',
         'required' => 1,
-        'slug'     => 'security-key',
+        'slug'     => 'usp_security_key',
     ]
 ) );
 

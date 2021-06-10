@@ -203,7 +203,7 @@ function usp_tab_profile_content( $master_id ) {
         )
     );
 
-    if ( usp_get_option( 'delete_user_account' ) ) {
+    if ( usp_get_option( 'usp_user_deleting_profile' ) ) {
         $content .= '
 		<form method="post" action="" name="delete_account">
 		' . wp_nonce_field( 'delete-user-' . $user_ID, '_wpnonce', true, false )
@@ -257,4 +257,21 @@ add_action( 'usp_info_stats', 'usp_user_get_date_registered', 20 );
 add_action( 'usp_info_meta', 'usp_user_info_age', 20 );
 function usp_user_info_age( $user_id ) {
     echo usp_get_user_age( $user_id, 'usp-info__age' );
+}
+
+// save users page option in global array of options
+add_action( 'usp_fields_update', 'usp_update_users_page_option', 10, 2 );
+function usp_update_users_page_option( $fields, $manager_id ) {
+    if ( $manager_id != 'profile' || ! isset( $_POST['usp_users_page'] ) )
+        return;
+
+    usp_update_option( 'usp_users_page', $_POST['usp_users_page'] );
+}
+
+// add users page value in the time of saving global options of plugin
+add_filter( 'usp_global_options_pre_update', 'usp_add_options_users_page_value', 10 );
+function usp_add_options_users_page_value( $values ) {
+    $values['usp_users_page'] = usp_get_option( 'usp_users_page', 0 );
+
+    return $values;
 }

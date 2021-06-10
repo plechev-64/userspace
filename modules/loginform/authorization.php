@@ -26,12 +26,12 @@ function usp_get_authorize_url( $user_id ) {
 
     $redirect = false;
 
-    if ( $autPage = usp_get_option( 'authorize_page' ) ) {
+    if ( $autPage = usp_get_option( 'usp_authorize_page' ) ) {
 
         if ( $autPage == 1 )
             $redirect = $_POST['redirect_to'];
         else if ( $autPage == 2 )
-            $redirect = usp_get_option( 'custom_authorize_page' );
+            $redirect = usp_get_option( 'usp_custom_authorize_page' );
     }
 
     if ( ! $redirect )

@@ -373,7 +373,8 @@ function usp_get_useraction( $user_action = false ) {
     if ( ! $unix_time_user || $user_action == '0000-00-00 00:00:00' )
         return __( 'long ago', 'userspace' );
 
-    $timeout          = ($time             = usp_get_option( 'timeout' )) ? $time * 60 : 600;
+    $timeout = usp_get_option( 'usp_user_timeout', 10 ) * 60;
+
     $unix_time_action = strtotime( current_time( 'mysql' ) );
 
     if ( $unix_time_action > $unix_time_user + $timeout ) {
@@ -419,7 +420,7 @@ function usp_get_time_user_action( $user_id ) {
         $action = '0000-00-00 00:00:00';
     }
 
-    wp_cache_add( $cachekey, $action, 'default', usp_get_option( 'timeout', 10 ) * 60 );
+    wp_cache_add( $cachekey, $action, 'default', usp_get_option( 'usp_user_timeout', 10 ) * 60 );
 
     return $action;
 }
@@ -634,7 +635,7 @@ function usp_get_profile_field( $field_id ) {
 
 add_filter( 'author_link', 'usp_author_link', 999, 2 );
 function usp_author_link( $link, $author_id ) {
-    if ( usp_get_option( 'usp_type_output_user_account', 'shortcode' ) == 'authorphp' )
+    if ( usp_get_option( 'usp_profile_page_output', 'shortcode' ) == 'authorphp' )
         return $link;
 
     return usp_get_user_url( $author_id );
@@ -646,7 +647,7 @@ function usp_get_user_url( $user_id = false ) {
     if ( ! $user_id )
         $user_id = $user_ID;
 
-    if ( usp_get_option( 'usp_type_output_user_account', 'shortcode' ) == 'authorphp' )
+    if ( usp_get_option( 'usp_profile_page_output', 'shortcode' ) == 'authorphp' )
         return get_author_posts_url( $user_id );
 
     return add_query_arg(
@@ -795,6 +796,9 @@ function usp_user_count_publications( $user_id ) {
  * @return string   html block
  */
 function usp_user_get_date_registered( $user_id ) {
+    if ( ! $user_id )
+        return;
+
     $register_date = get_userdata( $user_id );
 
     $title = __( 'Registration', 'userspace' ) . ':';

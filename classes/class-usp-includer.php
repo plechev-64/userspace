@@ -19,7 +19,7 @@ class USP_Includer {
     function include_styles() {
         global $usp_styles;
 
-        $this->is_minify = usp_get_option( 'minify_css', 1 );
+        $this->is_minify = usp_get_option( 'usp_minify_css', 1 );
 
         $this->minify_dir = USP_UPLOAD_PATH . 'css';
 
@@ -75,7 +75,7 @@ class USP_Includer {
     function include_scripts() {
         global $usp_scripts;
 
-        $this->is_minify = usp_get_option( 'minify_js' );
+        $this->is_minify = usp_get_option( 'usp_minify_js' );
 
         $this->minify_dir = USP_UPLOAD_PATH . 'js';
 

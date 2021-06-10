@@ -1,4 +1,4 @@
-<?php $site_color = usp_get_option( 'usp-primary-color', '#0369a1' ); ?>
+<?php $site_color = usp_get_option( 'usp_primary_color', '#0369a1' ); ?>
 <table style="border-collapse:collapse !important;border-spacing:0 !important;margin-bottom:0 !important;margin-left:auto !important;margin-right:auto !important;margin-top:0 !important;table-layout:fixed !important" cellspacing="0" cellpadding="0" bgcolor="#F7F3F0" height="100%" border="0" width="100%">
     <tbody>
         <tr>

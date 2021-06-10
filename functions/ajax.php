@@ -204,7 +204,7 @@ function usp_upload() {
     else
         $uploader = new $className( $options );
 
-    if ( md5( json_encode( $uploader ) . usp_get_option( 'security-key' ) ) != $_POST['sk'] )
+    if ( md5( json_encode( $uploader ) . usp_get_option( 'usp_security_key' ) ) != $_POST['sk'] )
         return [
             'error' => __( 'Error of security', 'userspace' )
         ];

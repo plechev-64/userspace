@@ -21,7 +21,7 @@ function usp_get_default_cover( $avatar_cover = false, $user_id = false ) {
         }
     }
 
-    $current_id = usp_get_option( 'usp-current-office' );
+    $current_id = usp_get_option( 'usp_current_office' );
 
     // default userspace theme user account
     if ( $current_id === 'userspace/themes/default/index.php' )
@@ -73,7 +73,7 @@ function usp_get_quote_box( $user_id, $attr = false ) {
 // register menu in userspace bar
 add_action( 'after_setup_theme', 'usp_register_userspace_menu' );
 function usp_register_userspace_menu() {
-    if ( ! usp_get_option( 'view_usp_bar' ) )
+    if ( ! usp_get_option( 'usp_bar_show' ) )
         return;
 
     register_nav_menu( 'usp-bar', __( 'UserSpace Bar', 'userspace' ) );
@@ -278,7 +278,7 @@ function usp_get_area_options() {
 
 function usp_add_log( $title, $data = false, $force = false ) {
 
-    if ( ! $force && ! usp_get_option( 'usp-log' ) )
+    if ( ! $force && ! usp_get_option( 'usp_logger' ) )
         return false;
 
     $USPLog = new USP_Log();
@@ -401,4 +401,11 @@ function usp_decline( $number, $variants = [ '', '', '' ] ) {
     $x  = ($xx = abs( $number ) % 100) % 10;
 
     return $variants[($xx > 10 AND $xx < 15 OR ! $x OR $x > 4 AND $x < 10) ? 2 : ($x == 1 ? 0 : 1)];
+}
+
+// userspace beat
+function usp_init_beat( $beatName ) {
+    global $usp_beats;
+
+    $usp_beats[$beatName] = [];
 }

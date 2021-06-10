@@ -17,8 +17,8 @@ function usp_init_js_cover_variables( $data ) {
     global $user_ID;
 
     if ( usp_is_office( $user_ID ) ) {
-        $data['cover_size']                  = usp_get_option( 'cover_weight', 1024 );
-        $data['local']['upload_size_cover']  = sprintf( __( 'Exceeds the maximum image size! Max. %s Kb', 'userspace' ), usp_get_option( 'cover_weight', 1024 ) );
+        $data['cover_size']                  = usp_get_option( 'usp_cover_weight', 1024 );
+        $data['local']['upload_size_cover']  = sprintf( __( 'Exceeds the maximum image size! Max. %s Kb', 'userspace' ), usp_get_option( 'usp_cover_weight', 1024 ) );
         $data['local']['title_image_upload'] = __( 'Image being loaded', 'userspace' );
         $data['local']['image_load_ok']      = __( 'Image uploaded successfully', 'userspace' );
     }
@@ -51,7 +51,7 @@ function usp_add_cover_uploader_button() {
             'resize'      => array( 1500, 1500 ),
             'min_height'  => 300,
             'min_width'   => 600,
-            'max_size'    => usp_get_option( 'cover_weight', 1024 )
+            'max_size'    => usp_get_option( 'usp_cover_weight', 1024 )
             ) );
 
         echo '<span id="usp-cover-upload" class="usp-cover-icon usps usps__relative usps__line-1" title="' . __( 'Upload background', 'userspace' ) . '">
@@ -59,6 +59,23 @@ function usp_add_cover_uploader_button() {
                 ' . $uploder->get_input() . '
             </span>';
     }
+}
+
+// remove standart WP sizes
+add_filter( 'intermediate_image_sizes_advanced', 'usp_remove_wp_library_sizes_for_cover', 10, 2 );
+function usp_remove_wp_library_sizes_for_cover( $sizes, $image_meta ) {
+    if ( strpos( $image_meta['file'], 'usp-uploads/covers/' ) !== false ) {
+        if ( isset( $sizes['medium'] ) )
+            unset( $sizes['medium'] );
+
+        if ( isset( $sizes['medium_large'] ) )
+            unset( $sizes['medium_large'] );
+
+        if ( isset( $sizes['large'] ) )
+            unset( $sizes['large'] );
+    }
+
+    return $sizes;
 }
 
 add_action( 'usp_upload', 'usp_cover_upload', 10, 2 );

@@ -34,7 +34,7 @@ class USP_Themes {
 
         require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 
-        $current_id = usp_get_option( 'usp-current-office' );
+        $current_id = usp_get_option( 'usp_current_office' );
 
         if ( ! is_plugin_active( $current_id ) ) {
             $current_id = 'userspace/themes/default/index.php';

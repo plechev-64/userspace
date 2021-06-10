@@ -20,7 +20,7 @@ class USP_Install {
         self::create_tables();
         self::create_roles();
 
-        if ( usp_get_option( 'usp_type_output_user_account', 'shortcode' ) == 'shortcode' ) {
+        if ( usp_get_option( 'usp_profile_page_output', 'shortcode' ) == 'shortcode' ) {
             self::create_pages();
         }
 
@@ -190,8 +190,8 @@ class USP_Install {
     private static function any_functions() {
         global $wpdb;
 
-        if ( ! usp_get_option( 'security-key' ) ) {
-            usp_update_option( 'security-key', wp_generate_password( 20, false ) );
+        if ( ! usp_get_option( 'usp_security_key' ) ) {
+            usp_update_option( 'usp_security_key', wp_generate_password( 20, false ) );
         }
 
         // create autoload global options
@@ -203,7 +203,7 @@ class USP_Install {
             );
         }
 
-        if ( usp_get_option( 'usp_type_output_user_account', 'shortcode' ) == 'shortcode' ) {
+        if ( usp_get_option( 'usp_profile_page_output', 'shortcode' ) == 'shortcode' ) {
             // disable the display of the admin panel for all users of the site, if enabled
             $wpdb->update(
                 $wpdb->usermeta,

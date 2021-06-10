@@ -139,20 +139,3 @@ function usp_get_custom_fields_profile( $user ) {
 
     echo $content;
 }
-
-// save users page option in global array of options
-add_action( 'usp_fields_update', 'usp_update_users_page_option', 10, 2 );
-function usp_update_users_page_option( $fields, $manager_id ) {
-    if ( $manager_id != 'profile' || ! isset( $_POST['users_page_usp'] ) )
-        return;
-
-    usp_update_option( 'users_page_usp', $_POST['users_page_usp'] );
-}
-
-// add users page value in the time of saving global options of plugin
-add_filter( 'usp_global_options_pre_update', 'usp_add_options_users_page_value', 10 );
-function usp_add_options_users_page_value( $values ) {
-    $values['users_page_usp'] = usp_get_option( 'users_page_usp', 0 );
-
-    return $values;
-}

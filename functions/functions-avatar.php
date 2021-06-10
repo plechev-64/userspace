@@ -87,7 +87,7 @@ function usp_avatar_data_replacement( $args, $id_or_email ) {
             $avatar_data = get_user_meta( $user_id, 'usp_avatar', 1 );
 
         if ( ! $avatar_data ) {
-            $avatar_data = usp_get_option( 'default_avatar', false );
+            $avatar_data = usp_get_option( 'usp_default_avatar', false );
         }
 
         if ( $avatar_data ) {

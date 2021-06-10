@@ -6,9 +6,9 @@ function usp_update_options() {
     $POST = $_POST;
 
     array_walk_recursive(
-        $POST, function( &$v, $k ) {
-        $v = trim( $v );
-    } );
+        $POST, function ( &$v, $k ) {
+            $v = trim( $v );
+        } );
 
     foreach ( $POST as $option_name => $values ) {
 
@@ -34,11 +34,12 @@ function usp_update_options() {
     );
 }
 
+// after save options clear temp db
 add_action( 'usp_update_options', 'usp_delete_temp_default_avatar_cover', 10 );
 function usp_delete_temp_default_avatar_cover() {
 
-    if ( isset( $_POST['usp_global_options']['default_avatar'] ) )
-        usp_delete_temp_media( $_POST['usp_global_options']['default_avatar'] );
+    if ( isset( $_POST['usp_global_options']['usp_default_avatar'] ) )
+        usp_delete_temp_media( $_POST['usp_global_options']['usp_default_avatar'] );
 
     if ( isset( $_POST['usp_global_options']['usp_default_cover'] ) )
         usp_delete_temp_media( $_POST['usp_global_options']['usp_default_cover'] );
@@ -65,7 +66,7 @@ function usp_add_cover_options( $options ) {
             'value_max'  => 5120,
             'value_step' => 256,
             'default'    => 1024,
-            'slug'       => 'cover_weight',
+            'slug'       => 'usp_cover_weight',
             'title'      => __( 'Max weight of cover', 'userspace' ) . ', Kb',
             'notice'     => __( 'Set the image upload limit in kb, by default', 'userspace' ) . ' 1024Kb' .
             '. ' . __( 'If 0 is specified, download is disallowed.', 'userspace' )

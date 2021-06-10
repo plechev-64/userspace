@@ -60,6 +60,7 @@
     max-height: 100%;
     padding: 0;
     object-fit: cover;
+    height: 100%;
 }
 .usp-ava-bttns {
     height: 100%;

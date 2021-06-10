@@ -1,5 +1,4 @@
-
-/* global usp_url_params */
+/* global usp_url_params, USP */
 
 jQuery( function() {
 	usp_do_action( 'usp_init' );

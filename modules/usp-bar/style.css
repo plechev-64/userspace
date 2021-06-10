@@ -51,6 +51,9 @@
 .usp-bar-wrap > div {
     min-height: 40px;
 }
+.usp-bar-userlink {
+    align-self: stretch;
+}
 .usp-bar-userlink span,
 .usp-bar__user-nav {
     margin: 0 0 0 12px;
@@ -163,9 +166,11 @@
     padding-left: 6px;
 }
 
-
 #usp-bar .usp-profile-ava {
     width: 40px;
+    max-height: 40px;
+    object-fit: cover;
+    height: 100%;
 }
 .usp-bar__user-nav > .uspi {
     padding: 0 6px;

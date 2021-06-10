@@ -17,8 +17,8 @@ function usp_init_js_avatar_variables( $data ) {
     global $user_ID;
 
     if ( usp_is_office( $user_ID ) ) {
-        $data['avatar_size']                 = usp_get_option( 'avatar_weight', 1024 );
-        $data['local']['upload_size_avatar'] = sprintf( __( 'Exceeds the maximum image size! Max. %s Kb', 'userspace' ), usp_get_option( 'avatar_weight', 1024 ) );
+        $data['avatar_size']                 = usp_get_option( 'usp_avatar_weight', 1024 );
+        $data['local']['upload_size_avatar'] = sprintf( __( 'Exceeds the maximum image size! Max. %s Kb', 'userspace' ), usp_get_option( 'usp_avatar_weight', 1024 ) );
         $data['local']['title_image_upload'] = __( 'Image being loaded', 'userspace' );
         //$data['local']['title_webcam_upload'] = __( 'Image from camera', 'userspace' );
     }
@@ -61,7 +61,7 @@ function usp_button_avatar_upload( $icons ) {
         'resize'      => array( 1000, 1000 ),
         'min_height'  => 150,
         'min_width'   => 150,
-        'max_size'    => usp_get_option( 'avatar_weight', 1024 )
+        'max_size'    => usp_get_option( 'usp_avatar_weight', 1024 )
         ) );
 
     $icons['set-ava'] = array(
@@ -101,6 +101,23 @@ function usp_button_avatar_upload( $icons ) {
     return $icons;
 }
 
+// remove standart WP sizes
+add_filter( 'intermediate_image_sizes_advanced', 'usp_remove_wp_library_sizes_for_avatar', 10, 2 );
+function usp_remove_wp_library_sizes_for_avatar( $sizes, $image_meta ) {
+    if ( strpos( $image_meta['file'], 'usp-uploads/avatars/' ) !== false ) {
+        if ( isset( $sizes['medium'] ) )
+            unset( $sizes['medium'] );
+
+        if ( isset( $sizes['medium_large'] ) )
+            unset( $sizes['medium_large'] );
+
+        if ( isset( $sizes['large'] ) )
+            unset( $sizes['large'] );
+    }
+
+    return $sizes;
+}
+
 add_action( 'usp_pre_upload', 'usp_avatar_pre_upload', 10 );
 function usp_avatar_pre_upload( $uploader ) {
     global $user_ID;
@@ -126,23 +143,21 @@ function usp_avatar_upload( $uploads, $uploader ) {
 
 add_action( 'wp', 'usp_delete_avatar_action' );
 function usp_delete_avatar_action() {
-    global $wpdb, $user_ID, $usp_avatar_sizes;
+    global $user_ID;
     if ( ! isset( $_GET['usp-action'] ) || $_GET['usp-action'] != 'delete_avatar' )
-        return false;
+        return;
+
     if ( ! wp_verify_nonce( $_GET['_wpnonce'], $user_ID ) )
-        wp_die( 'Error' );
+        wp_die( 'Error 101' );
+
+    $avatar_id = get_user_meta( $user_ID, 'usp_avatar', 1 );
 
     $result = delete_user_meta( $user_ID, 'usp_avatar' );
 
     if ( ! $result )
-        wp_die( 'Error' );
+        wp_die( 'Error 103' );
 
-    $dir_path = USP_UPLOAD_PATH . 'avatars/';
-    foreach ( $usp_avatar_sizes as $key => $size ) {
-        unlink( $dir_path . $user_ID . '-' . $size . '.jpg' );
-    }
-
-    unlink( $dir_path . $user_ID . '.jpg' );
+    wp_delete_attachment( $avatar_id );
 
     do_action( 'usp_delete_avatar' );
 
@@ -153,18 +168,21 @@ function usp_delete_avatar_action() {
 add_action( 'wp', 'usp_notice_avatar_deleted' );
 function usp_notice_avatar_deleted() {
     if ( isset( $_GET['usp-avatar'] ) && $_GET['usp-avatar'] == 'deleted' )
-        add_action( 'usp_area_notice', function() {
+        add_action( 'usp_area_notice', function () {
             echo usp_get_notice( [ 'type' => 'success', 'text' => __( 'Your avatar has been deleted', 'userspace' ) ] );
         } );
 }
 
 // disabling caching in chrome
-add_filter( 'get_avatar_data', 'usp_add_avatar_time_creation', 10, 2 );
-function usp_add_avatar_time_creation( $args, $id_or_email ) {
-    $dataUrl     = wp_parse_url( $args['url'] );
-    $ava_path    = untrailingslashit( ABSPATH ) . $dataUrl['path'];
+add_filter( 'get_avatar_data', 'usp_add_avatar_time_creation', 10 );
+function usp_add_avatar_time_creation( $args ) {
+    $dataUrl  = wp_parse_url( $args['url'] );
+    $ava_path = untrailingslashit( ABSPATH ) . $dataUrl['path'];
+
     if ( ! file_exists( $ava_path ) )
         return $args;
+
     $args['url'] = $args['url'] . '?ver=' . filemtime( $ava_path );
+
     return $args;
 }

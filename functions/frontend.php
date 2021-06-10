@@ -4,7 +4,7 @@
 add_action( 'wp_head', 'usp_inline_styles', 100 );
 function usp_inline_styles() {
 
-    list($r, $g, $b) = ($color = usp_get_option( 'usp-primary-color' )) ? sscanf( $color, "#%02x%02x%02x" ) : array( 76, 140, 189 );
+    list($r, $g, $b) = sscanf( usp_get_option( 'usp_primary_color', '#0369a1' ), "#%02x%02x%02x" );
 
     $inline_styles = apply_filters( 'usp_inline_styles', '', array( $r, $g, $b ) );
 
@@ -69,7 +69,7 @@ function usp_api_button_inline_size( $styles ) {
 // set frontend root inline css colors
 add_filter( 'usp_inline_styles', 'usp_css_variable', 10, 2 );
 function usp_css_variable( $styles, $rgb ) {
-    $usp_color = usp_get_option( 'usp-primary-color', '#0369a1' );
+    $usp_color = usp_get_option( 'usp_primary_color', '#0369a1' );
 
     list($r, $g, $b) = $rgb;
 

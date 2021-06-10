@@ -13,7 +13,7 @@ function usp_default_theme_js() {
     if ( ! usp_is_office() )
         return;
 
-    if ( usp_get_option( 'usp-overflow-menu', 1 ) == 0 )
+    if ( usp_get_option( 'usp_overflow_menu', 1 ) == 0 )
         return;
 
     usp_enqueue_script( 'usp-theme-default-js', plugins_url( 'js/scripts.js', __FILE__ ), false, true );
@@ -125,7 +125,7 @@ function usp_default_theme_settings( $options ) {
             [
                 'title'   => __( 'When overflowing, hide the buttons in the drop-down menu?', 'userspace' ),
                 'type'    => 'switch',
-                'slug'    => 'usp-overflow-menu',
+                'slug'    => 'usp_overflow_menu',
                 'text'    => [
                     'off' => __( 'No', 'userspace' ),
                     'on'  => __( 'Yes', 'userspace' )

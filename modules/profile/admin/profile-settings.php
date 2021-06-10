@@ -9,7 +9,7 @@ function usp_profile_options( $options ) {
     ) )->add_group( 'general' )->add_options( array(
         array(
             'type'    => 'switch',
-            'slug'    => 'delete_user_account',
+            'slug'    => 'usp_user_deleting_profile',
             'title'   => __( 'Allow users to delete their account?', 'userspace' ),
             'text'    => [
                 'off' => __( 'No', 'userspace' ),

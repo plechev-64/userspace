@@ -1,3 +1,5 @@
+/* global USP */
+
 var usp_actions =  typeof usp_actions === 'undefined'? [ ]: usp_actions;
 var usp_filters = typeof usp_filters === 'undefined'? [ ]: usp_filters;
 var usp_beats = [ ];
