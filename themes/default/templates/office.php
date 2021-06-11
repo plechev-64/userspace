@@ -39,10 +39,10 @@
     <div class="usp-profile-content usps usps__nowrap usps__grow">
         <?php do_action( 'usp_area_tabs' ); ?>
 
-        <?php
-        if ( function_exists( 'dynamic_sidebar' ) ) {
-            dynamic_sidebar( 'usp_theme_sidebar' );
-        }
-        ?>
+        <?php if ( function_exists( 'dynamic_sidebar' ) ) { ?>
+            <div class="usp-profile__sidebar">
+                <?php dynamic_sidebar( 'usp_theme_sidebar' ); ?>
+            </div>
+        <?php } ?>
     </div>
 </div>

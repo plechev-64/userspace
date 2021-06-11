@@ -119,8 +119,8 @@ function usp_default_theme_settings( $options ) {
                 'type'    => 'radio',
                 'slug'    => 'usp_office_tab_type',
                 'title'   => __( 'The location of the section buttons', 'userspace' ),
-                'values'  => [ __( 'Top', 'userspace' ), __( 'Left', 'userspace' ) ],
-                'default' => 0,
+                'values'  => [ __( 'Left', 'userspace' ), __( 'Top', 'userspace' ) ],
+                'default' => 1,
             ],
             [
                 'title'   => __( 'When overflowing, hide the buttons in the drop-down menu?', 'userspace' ),
@@ -140,7 +140,7 @@ function usp_default_theme_settings( $options ) {
 
 add_filter( 'usp_office_class', 'usp_default_theme_add_buttons_class' );
 function usp_default_theme_add_buttons_class( $classes ) {
-    $classes .= (usp_get_option( 'usp_office_tab_type' ) == 1) ? "usp-nav__column" : "usp-nav__row";
+    $classes .= (usp_get_option( 'usp_office_tab_type', 1 ) != 1) ? "usp-nav__column" : "usp-nav__row";
 
     return $classes;
 }

@@ -24,7 +24,7 @@
         // screen width
         if ( $( window ).width() <= 768 ) {
             typeButton.removeClass( 'usp-nav__column' ).addClass( 'usp-nav__row' );
-            alignMenu( 42 );
+            alignMenu( 52 );
         }
         // actions when resizing the window
         $( window ).resize( function() {
@@ -40,7 +40,7 @@
             }
         } );
     } else if ( typeButton.hasClass( 'usp-nav__row' ) ) {
-        alignMenu( 32 );
+        alignMenu( 38 );
         $( window ).resize( function() {
             closeExtMenu();
             moveMenu();
@@ -64,7 +64,7 @@
 
 // grouping buttons
     function alignMenu( offset = 0 ) {
-        var mw = navMenu.outerWidth( true ) - 66; // block width-indent per button
+        var mw = navMenu.outerWidth( true ) - 69; // block width-indent per button
         var menuhtml = '';
         var totalWidth = 0;                                             // sum of the width of all buttons
 

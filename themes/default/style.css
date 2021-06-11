@@ -152,13 +152,24 @@
 #usp-nav-menu {
     margin: 3px 3px 0 0;
 }
-.usp-tab-button {
-    margin: 0 0 3px 3px;
+.usp-nav__row .usp-tab-button:not(:first-child){
+    margin-left: 3px;
+}
+.usp-nav__column .usp-tab-button {
+    margin-bottom: 3px;
+}
+.usp-nav__column #usp-tabs .usp-bttn__text {
+    white-space: initial;
+}
+.usp-nav__column #usp-tabs .usp-bttn__ico {
+    display: flex;
+    align-self: stretch;
+    align-items: center;
 }
 .usp-nav__column #usp-nav-menu {
     max-width: 180px;
     min-width: 150px;
-    margin-right: 18px;
+    margin-right: 12px;
     flex-grow: 1;
 }
 /* START for script */
@@ -208,6 +219,10 @@
         flex-direction: row;
         max-width: none !important;
     }
+    /* if output "On the author’s archive page" */
+    .archive.author #usp-nav-menu {
+        margin-left: 3px;
+    }
 }
 /*end*/
 .usp-profile-content {
@@ -217,19 +232,23 @@
     margin-top: 12px;
 }
 #usp-tab-content {
-    margin-right: 12px;
+    margin-bottom: 12px;
 }
-.usp-nav__row #usp-tab-content {
+.archive.author .usp-nav__row #usp-tab-content {
     margin-left: 12px;
+}
+.archive.author #usp-tab-content {
+    margin-right: 12px;
 }
 .usp-subtab-title {
     padding: 12px;
     margin-bottom: 12px;
     background: var(--uspGray-100);
     font-size: 18px;
+    color: var(--uspGray-600);
 }
 .usp-subtab-title > span {
-    margin: 0 0 0 6px;
+    margin: 0 0 0 12px;
 }
 .usp-right-sidebar {
     min-width: 200px;
@@ -248,15 +267,18 @@
     }
 }
 @media screen and (max-width:568px) {
+    .usp-profile-content {
+        flex-direction: column;
+    }
     .usp-office-card {
-        margin-top: 6px;
         flex-direction: column;
         align-content: center;
+        margin: 12px;
     }
     .usp-office-left {
         padding: 0;
     }
     .usp-office-usermeta {
-        margin: 12px 0;
+        margin: 12px;
     }
 }

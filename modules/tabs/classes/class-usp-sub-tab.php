@@ -79,7 +79,7 @@ class USP_Sub_Tab {
 
         $content = '<div id="usp-subtab-' . $this->id . '" class="usp-subtab-box">';
 
-        $content .= '<div class="usp-subtab-title usps usps__ai-center usps__line-1">';
+        $content .= '<div class="usp-subtab-title usps usps__nowrap usps__ai-center usps__line-1">';
         if ( $this->icon )
             $content .= '<i class="uspi ' . $this->icon . '" aria-hidden="true"></i> ';
         $content .= '<span>' . $title . '</span>';

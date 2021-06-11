@@ -37,3 +37,6 @@
     color: inherit;
     text-decoration: underline;
 }
+.usp-tab-profile .usp-content-area {
+	width: auto !important;
+}
