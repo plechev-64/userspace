@@ -1,16 +1,23 @@
 <?php
 global $usp_user, $usp_users_set;
+
+$url = usp_get_user_url( $usp_user->ID );
+
+$args = [
+    'parent_class' => 'usp-user__ava usps',
+    'parent_title' => usp_get_username(),
+];
 ?>
 <div class="usp-card usp-user usps__grow" data-user-id="<?php echo $usp_user->ID; ?>">
     <div class="usp-user__top usps usps__nowrap">
         <div class="usp-user__left usps usps__column usps__shrink-0">
-            <a class="usp-user__ava usps" title="<?php usp_user_name(); ?>" href="<?php usp_user_url(); ?>"><?php usp_user_avatar( 77 ); ?></a>
+            <?php echo usp_get_avatar( $usp_user->ID, 70, $url, $args ); ?>
             <?php usp_user_rayting(); ?>
         </div>
 
         <div class="usp-user__right usps usps__column usps__grow">
             <div class="usp-user__general usps usps__jc-between">
-                <a class="usp-user__link" href="<?php usp_user_url(); ?>"><?php usp_user_name(); ?></a>
+                <a class="usp-user__link" href="<?php echo $url; ?>"><?php echo usp_get_username(); ?></a>
                 <div class="usp-user__icons usps__grow"><?php do_action( 'usp_user_icons' ); ?></div>
                 <?php usp_user_action( 2 ); ?>
             </div>

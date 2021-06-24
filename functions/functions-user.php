@@ -1,47 +1,139 @@
 <?php
-function usp_action() {
-    global $user_LK;
 
-    echo usp_get_useraction_html( $user_LK, $type = 2 );
-}
+/**
+ * Retrieve the avatar `<img>` tag for a user
+ * wraps it, if necessary, in the parent tag <a> or <div>
+ *
+ * @since 1.0
+ *
+ * @param mixed  $id_or_email   The Gravatar to retrieve. Accepts a user_id, gravatar md5 hash,
+ *                              user email, WP_User object, WP_Post object, or WP_Comment object.
+ * @param int    $size          Optional. Height and width of the avatar image file in pixels. Default 50.
+ * @param string $url           Optional. URL for the parent wrapper. Or # if use $args => $parent_onclick
+ * @param array  $args {
+ *     Optional. Extra arguments to retrieve the avatar.
+ *
+ *     @type string       $parent_wrap      The img tag to wrap the parent tag. <a> or <div>. Default <a>.
+ *     @type string       $parent_id        id of the parent tag
+ *     @type string       $parent_class     class of the parent tag
+ *     @type string       $parent_title     title of the parent tag
+ *     @type string       $parent_onclick   onclick of the parent tag (set $url as #)
+ *
+ *     @type string       $alt              Alternative text to use in img tag. Default empty.
+ *
+ *
+ *     @type int          $height        Display height of the avatar in pixels. Defaults to $size.
+ *     @type int          $width         Display width of the avatar in pixels. Defaults to $size.
+ *     @type bool         $force_default Whether to always show the default image, never the Gravatar. Default false.
+ *     @type string       $rating        What rating to display avatars up to. Accepts 'G', 'PG', 'R', 'X', and are
+ *                                       judged in that order. Default is the value of the 'avatar_rating' option.
+ *     @type string       $scheme        URL scheme to use. See set_url_scheme() for accepted values.
+ *                                       Default null.
+ *     @type array|string $class         Array or string of additional classes to add to the img element.
+ *                                       Default null.
+ *     @type bool         $force_display Whether to always show the avatar - ignores the show_avatars option.
+ *                                       Default false.
+ *     @type string       $loading       Value for the `loading` attribute.
+ *                                       Default null.
+ *     @type string       $extra_attr    HTML attributes to insert in the IMG element. Is not sanitized. Default empty.
+ * }
+ * @param string    $html  Optional. Some HTML content or apply_filters() after <img> tag. Is not sanitized. Default empty.
+ *
+ * @return string|false `<img>` tag or <parent_wrap><img></parent_wrap> for the user's avatar. False on failure
+ */
+function usp_get_avatar( $id_or_email, $size = 50, $url = false, $args = [], $html = false ) {
+    if ( ! $id_or_email )
+        return false;
 
-function usp_avatar( $avatar_size = 120, $attr = false ) {
-    global $user_LK;
+    $alt = (isset( $args['parent_alt'] )) ? $args['parent_alt'] : '';
 
-    $attr['class'] = 'usp-profile-ava usps__img-reset';
-    ?>
-    <div id="usp-avatar" class="usp-office-ava usps__relative">
-        <?php echo get_avatar( $user_LK, $avatar_size, false, false, $attr ); ?>
-        <?php do_action( 'usp_avatar' ); ?>
-    </div>
-    <?php
-}
+    // class for avatar userspace and class css reset for <img> tag
+    ( isset( $args['class'] ) ) ? $args['class'] .= ' usp-ava-img usps__img-reset' : $args['class'] = 'usp-ava-img usps__img-reset';
 
-function usp_username() {
-    global $user_LK;
-    echo get_the_author_meta( 'display_name', $user_LK );
-}
+    global $user_ID;
 
-function usp_user_name() {
-    global $usp_user;
-    echo $usp_user->display_name;
-}
-
-function usp_user_url() {
-    global $usp_user;
-    echo usp_get_user_url( $usp_user->ID );
-}
-
-function usp_user_avatar( $size = 50, $attr = false ) {
-    global $usp_user;
-
-    if ( ! $attr['class'] ) {
-        $attr['class'] = 'usps__img-reset';
-    } else {
-        $attr['class'] .= ' usps__img-reset';
+    // class for current user (realtime reload on avatar upload)
+    if ( is_user_logged_in() && is_numeric( $id_or_email ) && ( int ) $id_or_email == $user_ID ) {
+        $args['class'] .= ' usp-profile-ava';
     }
 
-    echo get_avatar( $usp_user->ID, $size, false, false, $attr );
+    if ( $url || isset( $args['parent_wrap'] ) && $args['parent_wrap'] == 'div' ) {
+
+        $wrap_tag = ( ! isset( $args['parent_wrap'] ) || $args['parent_wrap'] == 'a') ? 'a' : 'div';
+        $id       = (isset( $args['parent_id'] )) ? 'id="' . esc_attr( $args['parent_id'] ) . '"' : '';
+        $class    = (isset( $args['parent_class'] )) ? 'class="' . esc_attr( $args['parent_class'] ) . '"' : '';
+        $title    = (isset( $args['parent_title'] )) ? 'title="' . esc_attr( $args['parent_title'] ) . '"' : '';
+        $onclick  = (isset( $args['parent_onclick'] )) ? 'onclick="' . esc_attr( $args['parent_onclick'] ) . '"' : '';
+        $href     = ($url) ? 'href="' . esc_url( $url ) . '"' : '';
+        $nofollow = ($wrap_tag == 'a') ? 'rel="nofollow"' : '';
+
+        $parent_tag = sprintf(
+            "<{$wrap_tag} %s %s %s %s %s %s>", $id, $class, $href, $title, $onclick, $nofollow,
+        );
+
+        $parent_tag .= get_avatar( $id_or_email, $size, false, $alt, $args );
+
+        // some html or apply_filters
+        if ( isset( $html ) ) {
+            $parent_tag .= $html;
+        }
+
+        $parent_tag .= "</{$wrap_tag}>";
+
+        return $parent_tag;
+    }
+
+    return get_avatar( $id_or_email, $size, false, $alt, $args );
+}
+
+/**
+ * Get username by id
+ *
+ * @since 1.0
+ *
+ * @param int       $user_id    id user.
+ * @param string    $link       Return a name with a link to the specified url
+ *                              Default 'false'.
+ * @param array  $args {
+ *     Optional. Extra arguments to retrieve username link.
+ *
+ *     @type array|string   $class  Array or string of additional classes to add to the img element.
+ * }
+ *
+ * @return string|bool  username or 'false' - if the user for this id does not exist
+ */
+function usp_get_username( $user_id = false, $link = false, $args = false ) {
+    global $usp_user;
+
+    if ( isset( $usp_user ) && ! ($user_id) ) {
+        $name = $usp_user->display_name;
+    } else {
+        if ( ! $user_id )
+            return;
+
+        $user_data = get_userdata( $user_id );
+
+        if ( false === $user_data )
+            return false;
+
+        $name = ($user_data->display_name) ? $user_data->display_name : $user_data->user_login;
+    }
+
+    if ( false === $link ) {
+        return $name;
+    }
+
+    $class = [ 'usp_userlink' ];
+
+    if ( $args['class'] ) {
+        if ( is_array( $args['class'] ) ) {
+            $class = array_merge( $class, $args['class'] );
+        } else {
+            $class[] = $args['class'];
+        }
+    }
+
+    return '<a class="' . esc_attr( implode( ' ', $class ) ) . '" href="' . $link . '" rel="nofollow">' . $name . '</a>';
 }
 
 /**
@@ -57,9 +149,7 @@ function usp_user_avatar( $size = 50, $attr = false ) {
  */
 function usp_get_user_cover( $user_id = false, $avatar_cover = false ) {
     if ( ! $user_id ) {
-        global $user_LK;
-
-        $user_id = $user_LK;
+        $user_id = usp_office_id();
     }
 
     $cover = get_user_meta( $user_id, 'usp_cover', 1 );
@@ -343,6 +433,23 @@ function usp_update_timeaction_user() {
     }
 
     do_action( 'usp_update_timeaction_user' );
+}
+
+function usp_get_user_action( $type = 1 ) {
+    global $usp_user;
+
+    $action = (isset( $usp_user->date_action )) ? $usp_user->date_action : $usp_user->user_registered;
+
+    switch ( $type ) {
+        case 1: $last_action = usp_get_useraction( $action );
+            if ( ! $last_action ) {
+                return '<i class="uspi fa-circle status_user online"></i>';
+            } else {
+                return '<i class="uspi fa-circle status_user offline" title="' . __( 'offline', 'userspace' ) . ' ' . $last_action . '"></i>';
+            }
+            break;
+        case 2: return usp_get_miniaction( $action );
+    }
 }
 
 function usp_user_action( $type = 1 ) {
@@ -641,6 +748,16 @@ function usp_author_link( $link, $author_id ) {
     return usp_get_user_url( $author_id );
 }
 
+/**
+ * Returns the url to the account specified by the user id
+ * Takes into account the setting of the output of the user profile page
+ *
+ * @since 1.0
+ *
+ * @param int $user_id    id user.
+ *
+ * @return string   url to user.
+ */
 function usp_get_user_url( $user_id = false ) {
     global $user_ID;
 

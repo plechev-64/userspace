@@ -8,7 +8,7 @@ global $usp_user_URL, $user_ID;
 $class = 'usp-bar-' . usp_get_option( 'usp_bar_color', 'dark' );
 $width = usp_get_option( 'usp_bar_width' ) ? 'style="max-width:' . usp_get_option( 'usp_bar_width' ) . 'px;"' : 'style="max-width:calc(100% - 24px)"';
 
-$user = get_userdata( $user_ID );
+$user_name = '<span>' . usp_get_username( $user_ID ) . '</span>';
 ?>
 
 <div id="usp-bar" class="usp-bar <?php echo $class; ?> usps usps__jc-center usps__line-1">
@@ -36,10 +36,7 @@ $user = get_userdata( $user_ID );
                     <?php } ?>
 
                 <?php } else { ?>
-                    <a class="usp-bar-userlink usp-bar-usershow usps usps__ai-center" href="<?php echo $usp_user_URL; ?>">
-                        <?php echo get_avatar( $user_ID, 40, false, false, [ 'class' => 'usp-profile-ava usps__img-reset' ] ); ?>
-                        <span><?php echo $user->get( 'user_firstname' ); ?></span>
-                    </a>
+                    <?php echo usp_get_avatar( $user_ID, 40, $usp_user_URL, [ 'parent_class' => 'usp-bar-userlink usp-bar-usershow usps usps__ai-center' ], $user_name ); ?>
 
                     <div class="usp-sub-menu">
                         <?php do_action( 'usp_bar_before_print_menu' ); ?>

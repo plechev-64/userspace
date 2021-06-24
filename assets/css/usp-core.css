@@ -513,6 +513,9 @@ body .preloader-parent {
     margin-right: 6px;
     width: 100px;
 }
+.usp-user-widget__left img {
+    max-height: 100px;
+}
 .usp-user-widget__right .usp-bttn {
     margin: 0 0 6px;
 }

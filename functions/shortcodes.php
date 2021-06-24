@@ -65,7 +65,7 @@ function usp_get_user_widget() {
     if ( is_user_logged_in() ) {
         global $user_ID;
 
-        $avatar = get_avatar( $user_ID, 100, false, false, [ 'class' => 'usp-profile-ava usps__img-reset' ] );
+        $avatar = usp_get_avatar( $user_ID, 100, false, [ 'class' => 'usps__fit-cover' ] );
 
         $userContent = apply_filters( 'usp_widget_userdata_content', $avatar );
 

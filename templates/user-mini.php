@@ -1,9 +1,11 @@
 <?php
 global $usp_user, $usp_users_set;
+
+$args = [
+    'parent_class' => 'usp-user__ava usps usps__relative',
+    'parent_title' => usp_get_username(),
+];
 ?>
 <div class="usp-user usps" data-user-id="<?php echo $usp_user->ID; ?>">
-    <a class="usp-user__ava usps usps__relative" title="<?php usp_user_name(); ?>" href="<?php usp_user_url(); ?>">
-        <?php usp_user_avatar( 50 ); ?>
-        <?php usp_user_action(); ?>
-    </a>
+    <?php echo usp_get_avatar( $usp_user->ID, 50, usp_get_user_url( $usp_user->ID ), $args, usp_get_user_action() ); ?>
 </div>

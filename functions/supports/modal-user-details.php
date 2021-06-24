@@ -28,20 +28,22 @@ function usp_init_js_user_info_variables( $data ) {
     return $data;
 }
 
-add_filter( 'usp_avatar_icons', 'usp_add_user_info_button', 10 );
-function usp_add_user_info_button( $icons ) {
+add_filter( 'usp_avatar_bttns', 'usp_add_user_info_button', 10 );
+function usp_add_user_info_button( $buttons ) {
     usp_dialog_scripts();
 
-    $icons['user-info'] = array(
-        'icon' => 'fa-info-circle',
-        'atts' => array(
-            'title'   => __( 'User info', 'userspace' ),
-            'onclick' => 'usp_get_user_info(this);return false;',
-            'url'     => '#'
-        )
-    );
+    $args    = [
+        'type'    => 'simple',
+        'size'    => 'medium',
+        'class'   => 'icon-user-info usp-ava-bttn usps__jc-center',
+        'title'   => __( 'User info', 'userspace' ),
+        'onclick' => 'usp_get_user_info(this);return false;',
+        'href'    => '#',
+        'icon'    => 'fa-info-circle',
+    ];
+    $buttons .= usp_get_button( $args );
 
-    return $icons;
+    return $buttons;
 }
 
 usp_ajax_action( 'usp_return_user_details', true );
@@ -65,7 +67,7 @@ function usp_get_user_details( $user_id, $set_args = false ) {
     $args = wp_parse_args( $set_args, $defaults );
 
     $content = '<div class="usp-user-avatar usps__relative">';
-    $content .= get_avatar( $user_LK, 300, false, false, [ 'class' => 'usp-detailed-ava usps__img-reset' ] );
+    $content .= usp_get_avatar( $user_LK, 300, false, [ 'class' => 'usp-detailed-ava' ] );
 
     if ( $args['zoom'] ) {
         $avatar = get_user_meta( $user_LK, 'usp_avatar', 1 );

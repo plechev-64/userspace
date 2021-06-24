@@ -26,8 +26,8 @@ function usp_init_js_avatar_variables( $data ) {
     return $data;
 }
 
-add_filter( 'usp_avatar_icons', 'usp_button_avatar_upload', 10 );
-function usp_button_avatar_upload( $icons ) {
+add_filter( 'usp_avatar_bttns', 'usp_button_avatar_upload', 10 );
+function usp_button_avatar_upload( $buttons ) {
     global $user_ID;
 
     if ( ! usp_is_office( $user_ID ) )
@@ -64,41 +64,29 @@ function usp_button_avatar_upload( $icons ) {
         'max_size'    => usp_get_option( 'usp_avatar_weight', 1024 )
         ) );
 
-    $icons['set-ava'] = array(
-        'icon'    => 'fa-download',
+    $args_uploads = [
+        'type'    => 'simple',
+        'size'    => 'medium',
+        'class'   => 'icon-set-ava usp-ava-bttn usps__jc-center',
+        'title'   => __( 'Avatar upload', 'userspace' ),
         'content' => $uploder->get_input(),
-        'atts'    => array(
-            'title' => __( 'Avatar upload', 'userspace' ),
-            'url'   => '#'
-        )
-    );
+        'icon'    => 'fa-download',
+    ];
+    $buttons      .= usp_get_button( $args_uploads );
 
     if ( get_user_meta( $user_ID, 'usp_avatar', 1 ) ) {
-
-        $icons['del-ava'] = array(
-            'icon' => 'fa-times',
-            'atts' => array(
-                'title' => __( 'Delete avatar', 'userspace' ),
-                'href'  => wp_nonce_url( add_query_arg( [ 'usp-action' => 'delete_avatar' ], usp_get_user_url( $user_ID ) ), $user_ID )
-            )
-        );
+        $args_del = [
+            'type'  => 'simple',
+            'size'  => 'medium',
+            'class' => 'icon-del-ava usp-ava-bttn usps__jc-center',
+            'title' => __( 'Delete avatar', 'userspace' ),
+            'href'  => wp_nonce_url( add_query_arg( [ 'usp-action' => 'delete_avatar' ], usp_get_user_url( $user_ID ) ), $user_ID ),
+            'icon'  => 'fa-times',
+        ];
+        $buttons  .= usp_get_button( $args_del );
     }
 
-    if ( isset( $_SERVER["HTTPS"] ) && $_SERVER["HTTPS"] == 'on' ) {
-
-        /* usp_webcam_scripts();
-
-          $icons['webcam-upload'] = array(
-          'icon'	 => 'fa-camera',
-          'atts'	 => array(
-          'title'	 => __( 'Webcam screen', 'userspace' ),
-          'id'	 => 'webcamupload',
-          'url'	 => '#'
-          )
-          ); */
-    }
-
-    return $icons;
+    return $buttons;
 }
 
 // remove standart WP sizes

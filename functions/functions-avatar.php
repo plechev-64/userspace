@@ -12,46 +12,6 @@ function usp_register_avatar_sizes() {
     }
 }
 
-add_action( 'usp_avatar', 'usp_setup_avatar_icons', 10 );
-function usp_setup_avatar_icons() {
-
-    $icons = usp_avatar_icons();
-
-    if ( ! $icons )
-        return false;
-
-    $html = array();
-    foreach ( $icons as $icon_id => $icon ) {
-
-        $atts = array();
-
-        if ( isset( $icon['atts'] ) ) {
-            foreach ( $icon['atts'] as $attr => $val ) {
-                $val    = (is_array( $val )) ? implode( ' ', $val ) : $val;
-                $atts[] = $attr . '="' . $val . '"';
-            }
-        }
-
-        $string = '<a class="usp-ava-bttn usps usps__jc-center usps__ai-center usps__line-1 icon-' . $icon_id . '" ' . implode( ' ', $atts ) . '>';
-
-        if ( isset( $icon['icon'] ) )
-            $string .= '<i class="uspi ' . $icon['icon'] . '"></i>';
-
-        if ( isset( $icon['content'] ) )
-            $string .= $icon['content'];
-
-        $string .= '</a>';
-
-        $html[] = $string;
-    }
-
-    echo '<div class="usp-ava-bttns">' . implode( '', $html ) . '</div>';
-}
-
-function usp_avatar_icons() {
-    return apply_filters( 'usp_avatar_icons', array() );
-}
-
 // specifying the url before the uploaded avatar image
 add_filter( 'pre_get_avatar_data', 'usp_avatar_data_replacement', 20, 2 );
 function usp_avatar_data_replacement( $args, $id_or_email ) {

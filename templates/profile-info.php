@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 ?>
 <div class="usp-info">
     <div class="usp-info__top usps usps__ai-center">
-        <div class="usp-info__name"><?php usp_username(); ?></div>
+        <div class="usp-info__name"><?php echo usp_get_username( usp_office_id() ); ?></div>
         <div class="usp-info__meta"><?php do_action( 'usp_info_meta', $user_id ); ?></div>
     </div>
 

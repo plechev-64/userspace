@@ -409,3 +409,16 @@ function usp_init_beat( $beatName ) {
 
     $usp_beats[$beatName] = [];
 }
+
+/**
+ * gets the id of the current profile page
+ *
+ * @since 1.0
+ *
+ * @return int  id of the current profile page
+ */
+function usp_office_id() {
+    global $user_LK;
+
+    return ( int ) $user_LK;
+}
