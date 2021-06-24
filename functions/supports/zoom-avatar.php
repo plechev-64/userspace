@@ -15,7 +15,7 @@ function usp_zoom_avatar_button( $buttons ) {
         $args    = [
             'type'    => 'simple',
             'size'    => 'medium',
-            'class'   => 'icon-zoom-avatar usp-ava-bttn usps__jc-center',
+            'class'   => 'usp-ava__zoom usp-ava__bttn usps__jc-center',
             'title'   => __( 'Zoom avatar', 'userspace' ),
             'onclick' => 'usp_zoom_user_avatar(this);return false;',
             'href'    => '#',

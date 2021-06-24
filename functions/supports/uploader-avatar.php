@@ -67,7 +67,7 @@ function usp_button_avatar_upload( $buttons ) {
     $args_uploads = [
         'type'    => 'simple',
         'size'    => 'medium',
-        'class'   => 'icon-set-ava usp-ava-bttn usps__jc-center',
+        'class'   => 'usp-ava__uploads usp-ava__bttn usps__jc-center',
         'title'   => __( 'Avatar upload', 'userspace' ),
         'content' => $uploder->get_input(),
         'icon'    => 'fa-download',
@@ -78,7 +78,7 @@ function usp_button_avatar_upload( $buttons ) {
         $args_del = [
             'type'  => 'simple',
             'size'  => 'medium',
-            'class' => 'icon-del-ava usp-ava-bttn usps__jc-center',
+            'class' => 'usp-ava__del usp-ava__bttn usps__jc-center',
             'title' => __( 'Delete avatar', 'userspace' ),
             'href'  => wp_nonce_url( add_query_arg( [ 'usp-action' => 'delete_avatar' ], usp_get_user_url( $user_ID ) ), $user_ID ),
             'icon'  => 'fa-times',

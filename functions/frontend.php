@@ -49,7 +49,7 @@ function usp_api_button_inline_size( $styles ) {
 			font-size: ' . round( 1.14 * $size ) . 'px;
 		}
 		.usp-bttn__type-clear.usp-bttn__mod-only-icon.usp-bttn__size-medium,
-		.usp-bttn.usp-bttn__size-large {
+		.usp-bttn.usp-bttn__size-large:not(.usp-bttn__mod-only-icon) {
 			font-size: ' . round( 1.28 * $size ) . 'px;
 		}
 		.usp-bttn.usp-bttn__size-big {

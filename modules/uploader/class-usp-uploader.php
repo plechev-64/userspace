@@ -150,7 +150,7 @@ class USP_Uploader {
 
         $json = json_encode( $this );
 
-        $content = '<input id="usp-uploader-input-' . $this->uploader_id . '" class="uploader-input" '
+        $content = '<input id="usp-uploader-input-' . $this->uploader_id . '" class="usp-uploader-input" '
             . 'data-uploader_id="' . $this->uploader_id . '" name="' . ($this->multiple ? $this->input_name . '[]' : $this->input_name) . '" '
             . 'type="file" accept="' . implode( ', ', $this->accept ) . '" ' . ($this->multiple ? 'multiple' : '') . '>'
             . '<script>usp_init_uploader(' . $json . ', "' . md5( $json . usp_get_option( 'usp_security_key' ) ) . '");</script>';

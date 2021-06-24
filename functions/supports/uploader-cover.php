@@ -54,10 +54,16 @@ function usp_add_cover_uploader_button() {
             'max_size'    => usp_get_option( 'usp_cover_weight', 1024 )
             ) );
 
-        echo '<span id="usp-cover-upload" class="usp-cover-icon usps usps__relative usps__line-1" title="' . __( 'Upload background', 'userspace' ) . '">
-                <i class="uspi fa-image"></i>
-                ' . $uploder->get_input() . '
-            </span>';
+        $args_uploads = [
+            'type'    => 'clear',
+            'size'    => 'large',
+            'class'   => 'usp-cover-icon',
+            'title'   => __( 'Upload background', 'userspace' ),
+            'content' => $uploder->get_input(),
+            'icon'    => 'fa-image',
+            'id'      => 'usp-cover-upload',
+        ];
+        echo usp_get_button( $args_uploads );
     }
 }
 

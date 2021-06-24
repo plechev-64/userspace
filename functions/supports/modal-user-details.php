@@ -35,7 +35,7 @@ function usp_add_user_info_button( $buttons ) {
     $args    = [
         'type'    => 'simple',
         'size'    => 'medium',
-        'class'   => 'icon-user-info usp-ava-bttn usps__jc-center',
+        'class'   => 'usp-ava__info usp-ava__bttn usps__jc-center',
         'title'   => __( 'User info', 'userspace' ),
         'onclick' => 'usp_get_user_info(this);return false;',
         'href'    => '#',

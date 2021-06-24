@@ -35,7 +35,7 @@ function usp_default_theme_sidebar() {
         'name'          => __( 'UserSpace: Sidebar personal account content', 'userspace' ),
         'id'            => 'usp_theme_sidebar',
         'description'   => __( 'It is displayed only in user profile page. To the right of the content (sidebar)', 'userspace' ),
-        'before_title'  => '<h3 class="theme_sidebar_title">',
+        'before_title'  => '<h3 class="usp-theme__sidebar-title">',
         'after_title'   => '</h3>',
         'before_widget' => '<div class="usp-right-sidebar usps usps__column usps__shrink-0">',
         'after_widget'  => '</div>'
@@ -50,7 +50,7 @@ function usp_default_theme_sidebar_before() {
         'description'   => __( 'It is displayed only in user profile page.', 'userspace' ),
         'before_title'  => '<h3 class="theme_title_before">',
         'after_title'   => '</h3>',
-        'before_widget' => '<div class="theme_sidebar theme_sidebar_before">',
+        'before_widget' => '<div class="usp-theme__sidebar usp-theme__sidebar-before">',
         'after_widget'  => '</div>'
     ) );
 }
@@ -63,7 +63,7 @@ function usp_default_theme_sidebar_after() {
         'description'   => __( 'It is displayed only in user profile page.', 'userspace' ),
         'before_title'  => '<h3 class="theme_title_after">',
         'after_title'   => '</h3>',
-        'before_widget' => '<div class="theme_sidebar theme_sidebar_after">',
+        'before_widget' => '<div class="usp-theme__sidebar usp-theme__sidebar-after">',
         'after_widget'  => '</div>'
     ) );
 }

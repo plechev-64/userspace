@@ -1,11 +1,11 @@
-.theme_sidebar {
+.usp-theme__sidebar {
     margin: 24px 0;
 }
 #usp-office {
     box-sizing: border-box;
     line-height: 1.4;
 }
-.theme_sidebar h3,
+.usp-theme__sidebar h3,
 #usp-office h3 {
     font-size: 22px;
     line-height: 1.4;
@@ -24,10 +24,8 @@
 #usp-cover-upload {
     background: var(--uspBlack-03);
     color: var(--uspGray-300);
-    font-size: 24px;
-    padding: 6px;
-    margin: 6px;
     overflow: hidden;
+    padding: 9px;
 }
 #usp-cover-upload:hover {
     color: var(--uspGray-100);
@@ -58,16 +56,16 @@
     top: 0;
     width: 100%;
 }
-#usp-avatar .usp-ava-bttn {
+#usp-avatar .usp-ava__bttn {
     opacity: .8;
     position: absolute;
     color: var(--uspRed-800);
     max-width: 36px;
 }
-#usp-avatar .usp-ava-bttn:hover {
+#usp-avatar .usp-ava__bttn:hover {
     opacity: 1;
 }
-#usp-avatar .icon-del-ava {
+.usp-ava__del {
     right: 0;
     top: 0;
 }
@@ -75,18 +73,18 @@
 .usp-user-icons:empty,
 .usp-under-ava:empty,
 #usp-nav-counters .usp-bttn__ico,
-#usp-avatar:not(:hover) .icon-del-ava {
+#usp-avatar .usp-ava__del {
     display: none;
 }
-#usp-avatar:hover .icon-del-ava {
+#usp-avatar:hover .usp-ava__del {
     display: flex;
 }
-#usp-avatar .icon-set-ava {
+.usp-ava__uploads {
     bottom: 0;
     left: 0;
 }
 #usp-cover-upload input,
-#usp-avatar .icon-set-ava input {
+#usp-avatar .usp-ava__uploads input {
     cursor: pointer;
     display: block;
     height: 100%;
