@@ -257,84 +257,65 @@ function usp_add_preloader_tab() {
 	usp_preloader_show( '#ssi-modalContent > div' );
 }
 
-usp_add_action( 'usp_init', 'usp_init_get_smilies' );
-function usp_init_get_smilies() {
-	jQuery( document ).on( {
-		mouseenter: function() {
-			var sm_box = jQuery( this ).next();
-			var block = sm_box.children();
-			sm_box.show();
-			if ( block.html() )
-				return false;
-			block.html( USP.local.loading + '...' );
-			var dir = jQuery( this ).data( 'dir' );
+usp_add_action( 'usp_init', 'usp_init_emoji' );
+function usp_init_emoji() {
+    // load emoji__list
+    jQuery( document ).on(
+        {
+            'touchstart mouseenter': function() {
+                var sm_box = jQuery( this ).next();
+                var block = sm_box.children();
+                sm_box.show();
+                if ( block.html() )
+                    return false;
+                block.html( USP.local.loading + '...' );
+                var dir = jQuery( this ).data( 'dir' );
 
-			usp_ajax( {
-				data: {
-					action: 'usp_get_smiles_ajax',
-					area: jQuery( this ).parent().data( 'area' ),
-					dir: dir ? dir : 0
-				},
-				success: function( data ) {
-					if ( data['content'] ) {
-						block.html( data['content'] );
-					}
-				}
-			} );
+                usp_ajax( {
+                    data: {
+                        action: 'usp_get_emoji_ajax',
+                        area: jQuery( this ).parent().data( 'area' ),
+                        dir: dir ? dir : 0
+                    },
+                    success: function( data ) {
+                        if ( data['content'] ) {
+                            block.html( data['content'] );
+                        }
+                    }
+                } );
+            },
+            mouseleave: function() {
+                jQuery( this ).next().hide();
+            }
+        },
+        'body .usp-emoji > .uspi' );
 
-		},
-		mouseleave: function() {
-			jQuery( this ).next().hide();
-		}
-	},
-		"body .usp-smiles .fa-beaming-face-with-smiling-eyes" );
-}
+    // close emoji__list with a click outside
+    jQuery( document ).click( function( event ) {
+        if ( !jQuery( event.target ).closest( '.usp-emoji' ).length ) {
+            jQuery( '.usp-emoji__list' ).hide();
+        }
+    } );
 
-usp_add_action( 'usp_init', 'usp_init_hover_smilies' );
-function usp_init_hover_smilies() {
+    // open/close emoji__list
+    jQuery( document ).on(
+        {
+            mouseenter: function() {
+                jQuery( this ).show();
+            },
+            mouseleave: function() {
+                jQuery( this ).hide();
+            }
+        },
+        'body .usp-emoji > .usp-emoji__list' );
 
-	jQuery( document ).on( {
-		mouseenter: function() {
-			jQuery( this ).show();
-		},
-		mouseleave: function() {
-			jQuery( this ).hide();
-		}
-	},
-		"body .usp-smiles > .usp-smiles-list" );
-
-	jQuery( 'body' ).on( 'hover click', '.usp-smiles > img', function() {
-		var block = jQuery( this ).next().children();
-		if ( block.html() )
-			return false;
-		block.html( USP.local.loading + '...' );
-		var dir = jQuery( this ).data( 'dir' );
-
-		usp_ajax( {
-			data: {
-				action: 'usp_get_smiles_ajax',
-				area: jQuery( this ).parent().data( 'area' ),
-				dir: dir ? dir : 0
-			},
-			success: function( data ) {
-				if ( data['content'] ) {
-					block.html( data['content'] );
-				}
-			}
-		} );
-
-		return false;
-	} );
-}
-
-usp_add_action( 'usp_init', 'usp_init_click_smilies' );
-function usp_init_click_smilies() {
-	jQuery( "body" ).on( "click", '.usp-smiles-list img', function() {
-		var alt = jQuery( this ).attr( "alt" );
-		var area = jQuery( this ).parents( ".usp-smiles" ).data( "area" );
-		var box = jQuery( "#" + area );
-		box.val( box.val() + " " + alt + " " );
-	} );
+    // insert emojis in textarea
+    jQuery( 'body' ).on( 'click', '.usp-emoji__list img', function() {
+        var alt = jQuery( this ).attr( 'alt' );
+        var area = jQuery( this ).parents( '.usp-emoji' ).data( 'area' );
+        var box = jQuery( '#' + area );
+        box.val( box.val() + ' ' + alt + ' ' );
+    } );
 }
 
 usp_add_action( 'usp_init', 'usp_init_loginform_shift_tabs' );

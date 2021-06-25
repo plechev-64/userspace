@@ -217,7 +217,7 @@ i::before {
 ------------------------
   1. General
   2. USP preloader
-  3. USP smiles
+  3. USP emoji
   4. User online/offline
   5. Ballun
   6. USP pagenavi API
@@ -283,45 +283,50 @@ body .preloader-parent {
 
 
 /*------------------
-  3. USP smiles
+  3. USP emoji
 --------------------*/
-.usp-smiles {
-    clear: both;
-    float: right;
-    position: relative;
+.usp-emoji {
+    width: 100%;
 }
-.usp-smiles > i {
+.usp-emoji > i {
     color: var(--uspBlue-700);
     cursor: pointer;
-    font-size: 20px;
+    font-size: 22px;
+    line-height: 1.4;
 }
-.usp-smiles .smiles {
-    background: var(--uspWhite);
-    border-radius: 5px;
-    box-shadow: var(--uspBox400);
-    box-sizing: border-box;
-    padding: 3px;
-    text-align: left;
-    width: 350px;
-}
-.usp-smiles .usp-smiles-list {
+.usp-emoji__list {
     bottom: 0;
     display: none;
-    padding: 0 15px 20px 0;
+    padding: 0 18px 24px 0;
     position: absolute;
     right: 0;
     z-index: 9;
 }
-.usp-smiles > img:hover +.usp-smiles-list,
-.usp-smiles .usp-smiles-list:hover {
+.usp-emoji > img:hover +.usp-emoji__list,
+.usp-emoji__list:hover {
     display: block;
 }
-.usp-smiles .smiles img {
+.usp-emoji__all {
+    background: var(--uspWhite);
+    box-shadow: var(--uspBox400);
+    box-sizing: border-box;
+    float: right;
+    max-width: calc(100% - 18px);
+    min-width: 260px;
+    overflow-x: auto;
+    padding: 6px 12px 6px 6px;
+    text-align: left;
+    width: 456px;
+}
+.usp-emoji__all img {
     cursor: pointer;
-    display: inline-block;
-    height: 18px !important;
-    margin: 3px !important;
-    width: auto !important;
+    height: 26px !important;
+    margin: 6px !important;
+    width: 26px !important;
+    transition: var(--uspLoadFast);
+}
+.usp-emoji__all img:hover {
+    transform: scale(1.5);
 }
 /*end*/
 

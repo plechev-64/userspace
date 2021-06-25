@@ -158,8 +158,8 @@ function usp_manage_user_black_list() {
     );
 }
 
-usp_ajax_action( 'usp_get_smiles_ajax', false );
-function usp_get_smiles_ajax() {
+usp_ajax_action( 'usp_get_emoji_ajax', false );
+function usp_get_emoji_ajax() {
     global $wpsmiliestrans;
 
     $content = array();

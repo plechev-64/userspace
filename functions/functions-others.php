@@ -161,16 +161,22 @@ function usp_sanitize_string( $name, $sanitize = true ) {
     return $sanitize ? sanitize_title_with_dashes( $title, '', 'save' ) : $title;
 }
 
-function usp_get_smiles( $id_area ) {
+/**
+ * Retrieves the list of emojis to the specified input field
+ *
+ * @since 1.0
+ *
+ * @param string    $id_area    id of textarea to insert the emoji
+ *
+ * @return string   emoji box.
+ */
+function usp_get_emoji( $id_area ) {
+    $emoji_box = '<div class="usp-emoji usps usps__jc-end usps__relative" data-area="' . $id_area . '">';
+    $emoji_box .= '<i class="uspi fa-beaming-face-with-smiling-eyes" aria-hidden="true"></i>';
+    $emoji_box .= '<div class="usp-emoji__list"><div class="usp-emoji__all usps usps__jc-between usps__radius-3"></div></div>';
+    $emoji_box .= '</div>';
 
-    $smiles = '<div class="usp-smiles" data-area="' . $id_area . '">';
-    $smiles .= '<i class="uspi fa-beaming-face-with-smiling-eyes" aria-hidden="true"></i>';
-    $smiles .= '<div class="usp-smiles-list">
-						<div class="smiles"></div>
-					</div>';
-    $smiles .= '</div>';
-
-    return $smiles;
+    return $emoji_box;
 }
 
 /**
