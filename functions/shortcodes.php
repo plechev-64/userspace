@@ -12,10 +12,14 @@
  */
 add_shortcode( 'userspace', 'usp_get_userspace' );
 function usp_get_userspace() {
-    if ( usp_get_option( 'usp_profile_page_output', 'shortcode' ) == 'shortcode' ) {
-        global $post;
+    global $post;
 
+    if ( usp_get_option( 'usp_profile_page_output', 'shortcode' ) == 'shortcode' ) {
         if ( $post->ID == usp_get_option( 'usp_user_account_page' ) && ! isset( $_GET['user'] ) ) {
+            return usp_get_variations_buttons();
+        }
+    } else {
+        if ( $post->ID == usp_get_option( 'usp_user_account_page' ) ) {
             return usp_get_variations_buttons();
         }
     }
