@@ -81,9 +81,10 @@ body:not(.wp-admin) .usp-bttn.usp-bttn__type-primary:not(.usp-bttn__active),
 /* */
 
 /* simple */
-.usp-bttn.usp-bttn__type-simple {
+.usp-bttn.usp-bttn__type-simple:not(.usp-bttn__active) {
     background: var(--uspGray-50);
     border: var(--uspLine300);
+    color: var(--uspGray-700);
 }
 .usp-bttn.usp-bttn__type-simple:hover {
     background: var(--uspGray-200);

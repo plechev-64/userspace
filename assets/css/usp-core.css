@@ -405,8 +405,8 @@ i.usp-offline {
 .usp-pager {
     margin: 12px 0;
 }
-.usp-pager > span {
-    margin: 0 3px;
+.usp-pager > a:not(:last-child) {
+    margin-right: 3px;
 }
 /*end*/
 

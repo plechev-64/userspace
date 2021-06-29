@@ -142,7 +142,6 @@ class USP_Pager {
                             )
                             ] );
                     } else {
-
                         $html = '<span>' . $data . '</span>';
                     }
                 } else {
@@ -162,7 +161,7 @@ class USP_Pager {
                     }
                 }
 
-                $content .= '<span class="pager-item type-' . $type . '">' . $html . '</span>';
+                $content .= $html;
             }
         }
 
