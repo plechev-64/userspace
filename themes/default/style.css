@@ -13,8 +13,10 @@
 }
 #usp-office p {
     line-height: 1.4;
-    margin: 0;
-    padding: 6px 0;
+    padding: 0;
+    margin: 12px 0;
+    font-size: 16px;
+    color: var(--uspGray-700);
 }
 #usp-office-profile {
     background-position: 50% 50%;
@@ -57,9 +59,8 @@
     width: 100%;
 }
 #usp-avatar .usp-ava__bttn {
-    opacity: .8;
+    opacity: .9;
     position: absolute;
-    color: var(--uspRed-800);
     max-width: 36px;
 }
 #usp-avatar .usp-ava__bttn:hover {
@@ -69,6 +70,7 @@
     right: 0;
     top: 0;
 }
+#usp-office p:empty,
 .usp-office-box:empty,
 .usp-user-icons:empty,
 .usp-under-ava:empty,
