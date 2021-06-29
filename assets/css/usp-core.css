@@ -335,18 +335,19 @@ body .preloader-parent {
 /*------------------------
   4. User online/offline
 --------------------------*/
-.usp-new-users p,
-.usp-online-users p {
+.usp-widget__link {
     margin: 6px 0;
-    padding: 0;
 }
-.online.uspi {
+.usp-status-user {
+    font-size: 14px;
+    line-height: 1;
+}
+i.usp-online {
     animation: usp-pulse 2s linear infinite;
     color: var(--uspGreen-500);
 }
-.offline.uspi {
+i.usp-offline {
     color: var(--uspRed-500);
-    text-shadow: 0 0 1px var(--uspRed-900);
 }
 /*end*/
 

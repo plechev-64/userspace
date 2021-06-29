@@ -443,9 +443,9 @@ function usp_get_user_action( $type = 1 ) {
     switch ( $type ) {
         case 1: $last_action = usp_get_useraction( $action );
             if ( ! $last_action ) {
-                return '<i class="uspi fa-circle status_user online"></i>';
+                return '<i class="uspi fa-circle usp-status-user usp-online"></i>';
             } else {
-                return '<i class="uspi fa-circle status_user offline" title="' . __( 'offline', 'userspace' ) . ' ' . $last_action . '"></i>';
+                return '<i class="uspi fa-circle usp-status-user usp-offline" title="' . __( 'offline', 'userspace' ) . ' ' . $last_action . '"></i>';
             }
             break;
         case 2: return usp_get_miniaction( $action );
@@ -460,9 +460,9 @@ function usp_user_action( $type = 1 ) {
     switch ( $type ) {
         case 1: $last_action = usp_get_useraction( $action );
             if ( ! $last_action )
-                echo '<i class="uspi fa-circle status_user online"></i>';
+                echo '<i class="uspi fa-circle usp-status-user usp-online"></i>';
             else
-                echo '<i class="uspi fa-circle status_user offline" title="' . __( 'offline', 'userspace' ) . ' ' . $last_action . '"></i>';
+                echo '<i class="uspi fa-circle usp-status-user usp-offline" title="' . __( 'offline', 'userspace' ) . ' ' . $last_action . '"></i>';
             break;
         case 2: echo usp_get_miniaction( $action );
             break;
@@ -501,9 +501,9 @@ function usp_get_useraction_html( $user_id, $type = 1 ) {
             $last_action = usp_get_useraction( $action );
 
             if ( ! $last_action )
-                return '<i class="uspi fa-circle status_user online"></i>';
+                return '<i class="uspi fa-circle usp-status-user usp-online"></i>';
             else
-                return '<i class="uspi fa-circle status_user offline" title="' . __( 'offline', 'userspace' ) . ' ' . $last_action . '"></i>';
+                return '<i class="uspi fa-circle usp-status-user usp-offline" title="' . __( 'offline', 'userspace' ) . ' ' . $last_action . '"></i>';
 
             break;
         case 2:
@@ -540,11 +540,11 @@ function usp_get_miniaction( $action ) {
 
     $last_action = usp_get_useraction( $action );
 
-    $class = ( ! $last_action && $action) ? 'online' : 'offline';
+    $class = ( ! $last_action && $action) ? 'usp-online' : 'usp-offline';
 
     $content = apply_filters( 'usp_before_miniaction', '' );
 
-    $content .= ( ! $last_action && $action) ? '<i class="uspi fa-circle status_user ' . $class . '"></i>' : '<span class="status_user offline">' . __( 'offline', 'userspace' ) . ' ' . $last_action . '</span>';
+    $content .= ( ! $last_action && $action) ? '<i class="uspi fa-circle usp-status-user ' . $class . '"></i>' : '<span class="usp-status-user usp-offline">' . __( 'offline', 'userspace' ) . ' ' . $last_action . '</span>';
 
     return $content;
 }

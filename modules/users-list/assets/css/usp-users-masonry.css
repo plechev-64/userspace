@@ -26,16 +26,14 @@
 .usp-masonry__head {
     height: 130px;
 }
-.usp-masonry .status_user {
+.usp-masonry .usp-status-user {
     position: absolute;
     right: 3px;
     top: 3px;
 }
-.usp-masonry .status_user.offline {
+.usp-masonry .usp-status-user.usp-offline {
     padding: 6px 12px;
-    line-height: normal;
     background: var(--uspWhite-05);
-    font-size: 14px;
 }
 .usp-masonry__ava {
     margin: -84px auto 0;

@@ -16,8 +16,7 @@
     font-size: 20px;
     margin: 0 0 6px;
 }
-.usp-users__rows .status_user.offline {
-    font-size: 14px;
+.usp-users__rows .usp-status-user.usp-offline {
     color: var(--uspGray-500);
 }
 .usp-user__bottom > div:empty,

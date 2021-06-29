@@ -37,7 +37,7 @@ class Widget_new_author extends WP_Widget {
         ) );
 
         if ( $all )
-            echo '<p class="clear usps__text-right"><a href="' . get_permalink( $all ) . '">' . __( 'All users', 'userspace' ) . '</a></p>';
+            echo '<a class="usp-widget__link usps usps__jc-end" href="' . get_permalink( $all ) . '">' . __( 'All users', 'userspace' ) . '</a>';
         echo $after_widget;
     }
 
@@ -104,7 +104,7 @@ class Widget_online_users extends WP_Widget {
         echo usp_get_userlist( array( 'template' => 'mini', 'number' => 10, 'orderby' => 'time_action', 'only' => 'action_users', 'filters' => false, 'id' => 'usp-online-users' ) );
 
         if ( $all )
-            echo '<p class="clear usps__text-right"><a href="' . get_permalink( $all ) . '">' . __( 'All users', 'userspace' ) . '</a></p>';
+            echo '<a class="usp-widget__link usps usps__jc-end" href="' . get_permalink( $all ) . '">' . __( 'All users', 'userspace' ) . '</a>';
         echo $after_widget;
     }
 

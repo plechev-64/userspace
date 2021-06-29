@@ -16,7 +16,7 @@
 .usp-users__mini .usp-user__ava {
     width: 50px;
 }
-.usp-user__ava .status_user {
+.usp-user__ava .usp-status-user {
     position: absolute;
     right: 3px;
     top: 3px;
