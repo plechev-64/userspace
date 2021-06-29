@@ -136,9 +136,9 @@ function usp_manage_user_black_list() {
     $user_id = intval( $_POST['user_id'] );
 
     if ( ! $user_id ) {
-        return array(
+        return [
             'error' => __( 'Error', 'userspace' )
-        );
+        ];
     }
 
     $user_block = get_user_meta( $user_ID, 'usp_black_list:' . $user_id );
@@ -153,9 +153,9 @@ function usp_manage_user_black_list() {
 
     $new_status = $user_block ? 0 : 1;
 
-    return array(
+    return [
         'label' => ($new_status) ? __( 'Unblock', 'userspace' ) : __( 'Block', 'userspace' )
-    );
+    ];
 }
 
 usp_ajax_action( 'usp_get_emoji_ajax', false );

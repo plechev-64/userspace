@@ -147,9 +147,12 @@ function usp_check_user_blocked( $content ) {
 
 add_action( 'usp_init_tabs', 'usp_add_block_black_list_button', 10 );
 function usp_add_block_black_list_button() {
-    global $user_LK, $user_ID;
+    if ( ! is_user_logged_in() )
+        return;
 
-    $user_block = get_user_meta( $user_ID, 'usp_black_list:' . $user_LK );
+    global $user_LK;
+
+    $user_block = get_user_meta( get_current_user_id(), 'usp_black_list:' . $user_LK );
 
     $title = ($user_block) ? __( 'Unblock', 'userspace' ) : __( 'Block', 'userspace' );
 
