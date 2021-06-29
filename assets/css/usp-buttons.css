@@ -53,8 +53,7 @@ body:not(.wp-admin) .usp-bttn.usp-bttn__type-primary:not(.usp-bttn__active),
 }
 .usp-bttn:not(.usp-bttn__type-clear) .usp-bttn__text + .usp-bttn__count {
     align-self: flex-start;
-    font-size: .85em;
-    margin: .5em .5em 0 -.3em;
+    margin: .25em .5em 0 -.3em;
 }
 .usp-bttn .usp-bttn__ava img {
     border-radius: 0;

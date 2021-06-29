@@ -141,6 +141,7 @@
     margin-bottom: 3px;
 }
 .usp-nav__column #usp-tabs .usp-bttn__text {
+    flex-grow: 1;
     white-space: initial;
 }
 .usp-nav__column #usp-tabs .usp-bttn__ico {
