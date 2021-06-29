@@ -35,7 +35,7 @@ function usp_button_avatar_upload( $buttons ) {
 
     USP()->use_module( 'uploader' );
 
-    $uploder = new USP_Uploader( 'usp_avatar', array(
+    $uploader = new USP_Uploader( 'usp_avatar', array(
         'multiple'    => 0,
         'crop'        => 1,
         'filetitle'   => 'usp-user-avatar-' . $user_ID,
@@ -69,7 +69,7 @@ function usp_button_avatar_upload( $buttons ) {
         'size'    => 'medium',
         'class'   => 'usp-ava__uploads usp-ava__bttn usps__jc-center',
         'title'   => __( 'Avatar upload', 'userspace' ),
-        'content' => $uploder->get_input(),
+        'content' => $uploader->get_input(),
         'icon'    => 'fa-download',
     ];
     $buttons      .= usp_get_button( $args_uploads );

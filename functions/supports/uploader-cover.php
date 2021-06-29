@@ -33,7 +33,7 @@ function usp_add_cover_uploader_button() {
 
         USP()->use_module( 'uploader' );
 
-        $uploder = new USP_Uploader( 'usp_cover', array(
+        $uploader = new USP_Uploader( 'usp_cover', array(
             'multiple'    => 0,
             'filetitle'   => 'usp-user-cover-' . $user_ID,
             'filename'    => $user_ID,
@@ -59,7 +59,7 @@ function usp_add_cover_uploader_button() {
             'size'    => 'large',
             'class'   => 'usp-cover-icon',
             'title'   => __( 'Upload background', 'userspace' ),
-            'content' => $uploder->get_input(),
+            'content' => $uploader->get_input(),
             'icon'    => 'fa-image',
             'id'      => 'usp-cover-upload',
         ];
