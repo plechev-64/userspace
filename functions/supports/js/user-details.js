@@ -8,13 +8,13 @@ function usp_zoom_avatar( e ) {
     } );
 }
 
-function usp_get_user_info( element ) {
-    usp_preloader_show( '.usp-office-card' );
+function usp_get_user_info( e ) {
+    usp_preloader_show( '#usp-avatar img' );
 
     usp_ajax( {
         data: {
             action: 'usp_return_user_details',
-            user_id: jQuery( element ).parents( '.usp-office' ).data( 'account' )
+            user_id: jQuery( e ).parents( '#usp-office' ).data( 'account' )
         },
         success: function( data ) {
             if ( data['content'] ) {
