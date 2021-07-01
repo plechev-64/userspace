@@ -4,7 +4,7 @@ function usp_zoom_avatar( e ) {
     ssi_modal.show( {
         sizeClass: 'auto',
         className: 'usp-ava-zoom ssi-no-padding',
-        content: '<img class="usps usps__img-reset" src="' + jQuery( e ).data( 'zoom' ) + '">'
+        content: '<img class="usps usps__img-reset usps__fit-cover" src="' + jQuery( e ).data( 'zoom' ) + '">'
     } );
 }
 
