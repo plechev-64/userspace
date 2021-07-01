@@ -75,14 +75,13 @@ function usp_webcam_scripts() {
 
 function usp_fileupload_scripts() {
     wp_enqueue_script( 'jquery' );
-    wp_enqueue_script( 'jquery-ui-core' );
+    //wp_enqueue_script( 'jquery-ui-core' );
     wp_enqueue_script( 'jquery-ui-widget' );
-
-    usp_enqueue_script( 'fileupload-load-image-all', USP_URL . 'assets/lib/fileupload/load-image.all.min.js', array(), true );
-    usp_enqueue_script( 'jquery-iframe-transport', USP_URL . 'assets/lib/fileupload/jquery.iframe-transport.js', array(), true );
+    //usp_enqueue_script( 'fileupload-load-image-all', USP_URL . 'assets/lib/fileupload/load-image.all.min.js', array(), true );
+    //usp_enqueue_script( 'jquery-iframe-transport', USP_URL . 'assets/lib/fileupload/jquery.iframe-transport.js', array(), true );
     usp_enqueue_script( 'jquery-fileupload', USP_URL . 'assets/lib/fileupload/jquery.fileupload.js', array(), true );
-    usp_enqueue_script( 'jquery-fileupload-process', USP_URL . 'assets/lib/fileupload/jquery.fileupload-process.js', array(), true );
-    usp_enqueue_script( 'jquery-fileupload-image', USP_URL . 'assets/lib/fileupload/jquery.fileupload-image.js', array(), true );
+    //usp_enqueue_script( 'jquery-fileupload-process', USP_URL . 'assets/lib/fileupload/jquery.fileupload-process.js', array(), true );
+    //usp_enqueue_script( 'jquery-fileupload-image', USP_URL . 'assets/lib/fileupload/jquery.fileupload-image.js', array(), true );
 }
 
 function usp_crop_scripts() {
