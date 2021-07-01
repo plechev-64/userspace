@@ -30,7 +30,7 @@ function usp_include_template( $temp_name, $path = false, $data = false ) {
  * Connecting the specified template file without output
  *
  * Connects templates file from:
- * the current WordPress theme (/wp-content/themes/your-current-theme/userspace-templates/$temp_name)
+ * the current WordPress theme (/wp-content/themes/your-active-WP-theme/userspace/templates/$temp_name)
  * or from a special plugin directory (/wp-content/userspace/templates/$temp_name)
  * if not exist, it will connect the file from the plugin folder (/wp-content/plugins/your-plugin/templates/$temp_name)
  *

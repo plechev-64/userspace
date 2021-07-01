@@ -50,12 +50,16 @@ class USP_Template {
     }
 
     function get_path() {
-
-        if ( file_exists( get_stylesheet_directory() . '/userspace-templates/' . $this->name ) ) {
-            $path = get_stylesheet_directory() . '/userspace-templates';
-        } else if ( file_exists( USP_TAKEPATH . 'templates/' . $this->name ) ) {
+        // find in the current WordPress theme (/wp-content/themes/your-active-WP-theme/userspace/templates/$temp_name)
+        if ( file_exists( get_stylesheet_directory() . '/userspace/templates/' . $this->name ) ) {
+            $path = get_stylesheet_directory() . '/userspace/templates';
+        }
+        // or from a special plugin directory (/wp-content/userspace/templates/$temp_name)
+        else if ( file_exists( USP_TAKEPATH . 'templates/' . $this->name ) ) {
             $path = USP_TAKEPATH . 'templates';
-        } else {
+        }
+        // or connect the file from the plugin folder (/wp-content/plugins/your-plugin/templates/$temp_name)
+        else {
             $path = ($this->file) ? plugin_dir_path( $this->file ) . 'templates' : USP_PATH . 'templates';
         }
 
