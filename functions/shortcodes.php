@@ -262,7 +262,7 @@ function usp_get_userlist( $atts = [] ) {
         foreach ( $usersdata as $usp_user ) {
             $users->setup_userdata( $usp_user );
 
-            $userlist .= usp_get_include_template( 'user-' . $users->template . '.php' );
+            $userlist .= usp_get_include_template( 'usp-user-' . $users->template . '.php' );
         }
 
         $userlist .= '</div>';

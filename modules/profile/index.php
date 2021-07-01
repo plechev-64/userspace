@@ -57,7 +57,7 @@ function usp_tab_profile() {
 }
 
 function usp_get_profile_user_info( $user_id ) {
-    return usp_get_include_template( 'profile-info.php', '', [ 'user_id' => $user_id ] );
+    return usp_get_include_template( 'usp-profile-info.php', '', [ 'user_id' => $user_id ] );
 }
 
 add_action( 'usp_setup_tabs', 'usp_tab_profile_info', 10 );

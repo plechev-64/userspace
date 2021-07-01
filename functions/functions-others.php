@@ -202,7 +202,7 @@ function usp_mail( $email, $title, $text, $from = false, $attachments = false ) 
 
     $headers = 'From: ' . $from_name . ' <' . $from_mail . '>' . "\r\n";
 
-    $content = usp_get_include_template( 'mail.php', false, [
+    $content = usp_get_include_template( 'usp-mail.php', false, [
         'mail_title'   => $title,
         'mail_content' => $text
         ] );

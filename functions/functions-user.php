@@ -313,7 +313,7 @@ function usp_user_get_stat_item( $title, $count, $icon = 'fa-info-circle', $clas
         'class' => $class,
     ];
 
-    return usp_get_include_template( 'statistics-item.php', '', $data );
+    return usp_get_include_template( 'usp-statistics-item.php', '', $data );
 }
 
 function usp_get_user_description( $user_id = false, $attr = false ) {

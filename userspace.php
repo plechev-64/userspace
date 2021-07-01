@@ -516,7 +516,7 @@ function userspace() {
 
         <?php
         if ( $themePath = USP()->theme->get( 'path' ) ) {
-            USP()->template( 'office.php', $themePath )->include();
+            USP()->template( 'usp-office.php', $themePath )->include();
         } else {
             echo '<h3>' . __( 'Office templates not found!', 'userspace' ) . '</h3>';
         }
