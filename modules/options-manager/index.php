@@ -12,6 +12,6 @@ if ( is_admin() || isset( $_REQUEST['rest_route'] ) ) {
     add_action( 'usp_enqueue_scripts', 'usp_options_manager_scripts', 10 );
 }
 function usp_options_manager_scripts() {
-    usp_enqueue_style( 'usp-options-manager', USP_URL . 'modules/options-manager/usp-options-manager.css' );
-    usp_enqueue_script( 'usp-options-manager', USP_URL . 'modules/options-manager/usp-options-manager.js' );
+    usp_enqueue_style( 'usp-options-manager', USP_URL . 'modules/options-manager/assets/css/usp-options-manager.css' );
+    usp_enqueue_script( 'usp-options-manager', USP_URL . 'modules/options-manager/assets/js/usp-options-manager.js' );
 }

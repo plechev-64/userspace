@@ -2,7 +2,7 @@
 
 add_action( 'usp_enqueue_scripts', 'usp_userspace_bar_scripts', 10 );
 function usp_userspace_bar_scripts() {
-    usp_enqueue_style( 'usp-bar', USP_URL . 'modules/usp-bar/style.css', false, false, true );
+    usp_enqueue_style( 'usp-bar', USP_URL . 'modules/usp-bar/assets/css/usp-bar.css', false, false, true );
 }
 
 add_action( 'wp_footer', 'usp_userspace_bar_menu', 3 );

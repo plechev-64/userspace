@@ -1,7 +1,7 @@
 <?php
 
 function usp_support_zoom_avatar_scripts() {
-    usp_enqueue_script( 'usp-zoom-avatar', USP_URL . 'functions/supports/js/zoom-avatar.js' );
+    usp_enqueue_script( 'usp-zoom-avatar', USP_URL . 'functions/supports/assets/js/usp-zoom-avatar.js' );
 }
 
 add_filter( 'usp_avatar_bttns', 'usp_zoom_avatar_button', 10 );

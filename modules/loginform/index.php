@@ -4,7 +4,7 @@ require_once 'registration.php';
 require_once 'authorization.php';
 
 if ( $GLOBALS['pagenow'] === 'wp-login.php' ) {
-    wp_enqueue_style( 'usp-wploginform', USP_URL . 'modules/loginform/assets/wp-login-style.css' );
+    wp_enqueue_style( 'usp-wploginform', USP_URL . 'modules/loginform/assets/css/usp-loginform-wp-login.css' );
     wp_enqueue_style( 'usp-core', USP_URL . 'assets/css/usp-core.css' );
 
     require_once 'wp-register-form.php';
@@ -23,8 +23,8 @@ function usp_loginform_assets() {
     if ( ! usp_get_option( 'usp_login_form' ) )
         usp_dialog_scripts();
 
-    usp_enqueue_style( 'usp-entryform', USP_URL . 'modules/loginform/assets/style.css', false, false, true );
-    usp_enqueue_script( 'usp-entryform', USP_URL . 'modules/loginform/assets/scripts.js', false, false, true );
+    usp_enqueue_style( 'usp-entryform', USP_URL . 'modules/loginform/assets/css/usp-loginform.css', false, false, true );
+    usp_enqueue_script( 'usp-entryform', USP_URL . 'modules/loginform/assets/js/usp-loginform.js', false, false, true );
 }
 
 function usp_get_loginform( $atts = [] ) {

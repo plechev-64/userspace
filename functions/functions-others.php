@@ -12,7 +12,7 @@
  * @return string url cover or avatar.
  */
 function usp_get_default_cover( $avatar_cover = false, $user_id = false ) {
-    $default_cover = USP_URL . 'themes/default/img/default-cover.jpg';
+    $default_cover = USP_URL . 'themes/default/assets/img/usp-default-cover.jpg';
 
     if ( $avatar_cover && $user_id ) {
         $avatar = get_user_meta( $user_id, 'usp_avatar', 1 );
@@ -29,7 +29,7 @@ function usp_get_default_cover( $avatar_cover = false, $user_id = false ) {
 
     // other theme
     if ( in_array( $current_id, apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
-        $file = dirname( plugins_url() . '/' . $current_id ) . '/img/default-cover.jpg';
+        $file = dirname( plugins_url() . '/' . $current_id ) . '/assets/img/usp-default-cover.jpg';
 
         if ( file_exists( $file ) )
             return $file;

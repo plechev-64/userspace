@@ -56,7 +56,7 @@ function usp_ajax_call() {
         ] );
     }
 
-    wp_enqueue_script( 'usp-core-scripts', USP_URL . 'assets/js/core.js', array( 'jquery' ), USP_VERSION );
+    wp_enqueue_script( 'usp-core-scripts', USP_URL . 'assets/js/usp-core.js', array( 'jquery' ), USP_VERSION );
 
     $respond = $callback();
 

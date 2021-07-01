@@ -2,13 +2,10 @@
 
 USP()->use_module( 'uploader' );
 
-if ( ! is_admin() ):
-    add_action( 'usp_enqueue_scripts', 'usp_support_cover_uploader_scripts', 10 );
-endif;
+add_action( 'usp_enqueue_scripts', 'usp_support_cover_uploader_scripts', 10 );
 function usp_support_cover_uploader_scripts() {
-    global $user_ID;
-    if ( usp_is_office( $user_ID ) ) {
-        usp_enqueue_script( 'cover-uploader', USP_URL . 'functions/supports/js/uploader-cover.js', false, true );
+    if ( usp_is_office( get_current_user_id() ) ) {
+        usp_enqueue_script( 'cover-uploader', USP_URL . 'functions/supports/assets/js/usp-uploader-cover.js', false, true );
     }
 }
 

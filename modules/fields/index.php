@@ -30,6 +30,6 @@ if ( is_admin() || isset( $_REQUEST['rest_route'] ) ) {
     add_action( 'usp_enqueue_scripts', 'usp_fields_scripts', 10 );
 }
 function usp_fields_scripts() {
-    usp_enqueue_style( 'usp-fields', USP_URL . 'modules/fields/assets/style.css', false, false, true );
-    usp_enqueue_script( 'usp-fields', USP_URL . 'modules/fields/assets/scripts.js', [ 'usp-core-scripts' ], false, true );
+    usp_enqueue_style( 'usp-fields', USP_URL . 'modules/fields/assets/css/usp-fields.css', false, false, true );
+    usp_enqueue_script( 'usp-fields', USP_URL . 'modules/fields/assets/js/usp-fields.js', [ 'usp-core-scripts' ], false, true );
 }

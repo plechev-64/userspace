@@ -101,8 +101,8 @@ function usp_animate_css() {
 add_action( 'login_enqueue_scripts', 'usp_enqueue_wp_form_scripts', 1 );
 function usp_enqueue_wp_form_scripts() {
     wp_enqueue_script( 'jquery' );
-    wp_enqueue_script( 'usp-core-scripts', USP_URL . 'assets/js/core.js', array( 'jquery' ), USP_VERSION );
-    wp_enqueue_script( 'usp-primary-scripts', USP_URL . 'assets/js/scripts.js', array( 'jquery' ), USP_VERSION );
+    wp_enqueue_script( 'usp-core-scripts', USP_URL . 'assets/js/usp-core.js', array( 'jquery' ), USP_VERSION );
+    wp_enqueue_script( 'usp-primary-scripts', USP_URL . 'assets/js/usp-scripts.js', array( 'jquery' ), USP_VERSION );
 
     usp_awesome_font_style();
     usp_fields_scripts();
@@ -126,8 +126,8 @@ function usp_frontend_scripts() {
         usp_dialog_scripts();
     }
 
-    wp_enqueue_script( 'usp-core-scripts', USP_URL . 'assets/js/core.js', array( 'jquery' ), USP_VERSION );
-    usp_enqueue_script( 'usp-primary-scripts', USP_URL . 'assets/js/scripts.js' );
+    wp_enqueue_script( 'usp-core-scripts', USP_URL . 'assets/js/usp-core.js', array( 'jquery' ), USP_VERSION );
+    usp_enqueue_script( 'usp-primary-scripts', USP_URL . 'assets/js/usp-scripts.js' );
 
     $locData = usp_get_localize_data();
 
@@ -187,11 +187,13 @@ function usp_admin_scripts() {
     usp_buttons_style();
     usp_enqueue_style( 'usp-core', USP_URL . 'assets/css/usp-core.css' );
     wp_enqueue_style( 'animate-css', USP_URL . 'assets/css/usp-animate.css', false, USP_VERSION );
-    wp_enqueue_style( 'usp-admin-style', USP_URL . 'admin/assets/usp-admin.css', false, USP_VERSION );
+    wp_enqueue_style( 'usp-admin-style', USP_URL . 'admin/assets/css/usp-admin.css', false, USP_VERSION );
     wp_enqueue_style( 'wp-color-picker' );
+
     wp_enqueue_script( 'jquery' );
-    wp_enqueue_script( 'usp-core-scripts', USP_URL . 'assets/js/core.js', array( 'jquery' ), USP_VERSION );
-    wp_enqueue_script( 'usp-admin-scripts', USP_URL . 'admin/assets/usp-admin.js', array( 'wp-color-picker' ), USP_VERSION );
+
+    wp_enqueue_script( 'usp-core-scripts', USP_URL . 'assets/js/usp-core.js', array( 'jquery' ), USP_VERSION );
+    wp_enqueue_script( 'usp-admin-scripts', USP_URL . 'admin/assets/js/usp-admin.js', array( 'wp-color-picker' ), USP_VERSION );
 
     if ( ! usp_is_ajax() )
         wp_localize_script( 'usp-core-scripts', 'USP', usp_get_localize_data() );

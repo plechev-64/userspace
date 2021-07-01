@@ -544,7 +544,7 @@ function usp_ajax_edit_version_scripts( $src ) {
         'wp-includes/js/jquery/jquery.min.js',
         'wp-includes/js/jquery/jquery-migrate.min.js',
         'wp-includes/js/jquery/ui/core.min.js',
-        'wp-content/plugins/userspace/assets/js/core.js',
+        'wp-content/plugins/userspace/assets/js/usp-core.js',
     ];
 
     foreach ( $removes as $remove ) {

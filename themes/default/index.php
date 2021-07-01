@@ -5,7 +5,7 @@ function usp_default_theme_css() {
     if ( ! usp_is_office() )
         return;
 
-    usp_enqueue_style( 'usp-theme-default-css', plugins_url( 'style.css', __FILE__ ) );
+    usp_enqueue_style( 'usp-theme-default-css', plugins_url( 'assets/css/usp-default-theme.css', __FILE__ ) );
 }
 
 add_action( 'usp_enqueue_scripts', 'usp_default_theme_js' );
@@ -16,7 +16,7 @@ function usp_default_theme_js() {
     if ( usp_get_option( 'usp_overflow_menu', 1 ) == 0 )
         return;
 
-    usp_enqueue_script( 'usp-theme-default-js', plugins_url( 'js/scripts.js', __FILE__ ), false, true );
+    usp_enqueue_script( 'usp-theme-default-js', plugins_url( 'assets/js/usp-default-theme.js', __FILE__ ), false, true );
 }
 
 // support for the dashboard theme features
@@ -98,7 +98,7 @@ function usp_add_theme_cover_inline_styles( $styles ) {
     $cover_url = wp_get_attachment_image_url( $cover, 'large' );
 
     if ( ! $cover_url )
-        $cover_url = plugins_url( 'img/default-cover.jpg', __FILE__ );
+        $cover_url = plugins_url( 'assets/img/usp-default-cover.jpg', __FILE__ );
 
     $dataUrl    = wp_parse_url( $cover_url );
     $cover_path = untrailingslashit( ABSPATH ) . $dataUrl['path'];

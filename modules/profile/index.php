@@ -11,7 +11,7 @@ function usp_my_profile_resources() {
     if ( ! usp_is_office( $user_ID ) )
         return;
 
-    usp_enqueue_script( 'usp-my-profile-js', plugins_url( 'assets/my-profile.js', __FILE__ ) );
+    usp_enqueue_script( 'usp-my-profile-js', plugins_url( 'assets/js/usp-profile.js', __FILE__ ) );
 }
 
 add_action( 'usp_enqueue_scripts', 'usp_profile_style', 10 );
@@ -19,7 +19,7 @@ function usp_profile_style() {
     if ( ! usp_is_office() )
         return;
 
-    usp_enqueue_style( 'usp-profile-css', plugins_url( 'assets/profile.css', __FILE__ ) );
+    usp_enqueue_style( 'usp-profile-css', plugins_url( 'assets/css/usp-profile.css', __FILE__ ) );
 }
 
 add_filter( 'usp_init_js_variables', 'usp_init_js_profile_variables', 10 );
