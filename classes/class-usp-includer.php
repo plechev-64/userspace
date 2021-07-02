@@ -501,10 +501,22 @@ function usp_include_scripts() {
     $USP_Include->include_scripts();
 }
 
-add_action( 'wp_footer', 'usp_localize_modules_list', 10 );
-add_action( 'admin_footer', 'usp_localize_modules_list', 10 );
+add_action( 'wp_footer', 'usp_localize_modules_list_frontend', 10 );
+function usp_localize_modules_list_frontend() {
+    echo usp_localize_modules_list();
+}
+
+add_action( 'admin_footer', 'usp_localize_modules_list_admin', 10 );
+function usp_localize_modules_list_admin() {
+    $screen = get_current_screen();
+
+    if ( is_admin() && preg_match( '/(userspace_page|manage-userspace)/', $screen->base ) ) {
+        echo usp_localize_modules_list();
+    }
+}
+
 function usp_localize_modules_list() {
-    echo '<script>USP.used_modules = ' . json_encode( USP()->used_modules ) . '</script>';
+    return '<script>USP.used_modules = ' . json_encode( USP()->used_modules ) . '</script>';
 }
 
 // we reset the arrays of registered scripts and styles when calling the tab via ajax

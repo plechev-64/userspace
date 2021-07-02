@@ -66,12 +66,9 @@ final class UserSpace {
             'forms'           => new USP_Module( USP_PATH . 'modules/forms/index.php', [ 'fields' ] ),
             'fields'          => new USP_Module( USP_PATH . 'modules/fields/index.php', [ 'uploader' ] ),
             'fields-manager'  => new USP_Module( USP_PATH . 'modules/fields-manager/index.php', [ 'fields' ] ),
-            'content-manager' => new USP_Module( USP_PATH . 'modules/content-manager/index.php', [
-                'fields',
-                'table'
-                ] ),
+            'content-manager' => new USP_Module( USP_PATH . 'modules/content-manager/index.php', [ 'fields', 'table' ] ),
             'options-manager' => new USP_Module( USP_PATH . 'modules/options-manager/index.php', [ 'fields' ] ),
-            'profile'         => new USP_Module( USP_PATH . 'modules/profile/index.php', [ 'forms' ] ),
+            'profile'         => new USP_Module( USP_PATH . 'modules/profile/index.php' ),
             'users-list'      => new USP_Module( USP_PATH . 'modules/users-list/index.php' ),
         ];
     }
@@ -107,7 +104,12 @@ final class UserSpace {
 
         add_action( 'init', array( $this, 'init' ), 0 );
 
+        add_action( 'current_screen', array( $this, 'userspace_admin_init' ) );
+
+        add_action( 'usp_area_before', array( $this, 'userspace_office_load' ) );
+
         if ( ! is_admin() ) {
+            add_action( 'usp_enqueue_scripts', 'usp_core_resources', 1 );
             add_action( 'usp_enqueue_scripts', 'usp_frontend_scripts', 1 );
             add_action( 'wp_head', 'usp_update_timeaction_user', 10 );
         }
@@ -153,7 +155,6 @@ final class UserSpace {
     }
 
     function init_theme() {
-
         $this->theme = $this->themes()->get_current();
 
         do_action( 'usp_init_theme' );
@@ -217,45 +218,38 @@ final class UserSpace {
         if ( $this->is_request( 'admin' ) ) {
             $this->admin_includes();
         }
-
-        if ( $this->is_request( 'ajax' ) ) {
-            $this->ajax_includes();
-        }
-
-        if ( $this->is_request( 'frontend' ) ) {
-            $this->frontend_includes();
-        }
     }
 
-    /*
-     * all files for the admin panel
-     */
+    //all files for the admin panel
     public function admin_includes() {
         require_once 'admin/index.php';
     }
 
-    /*
-     * all ajax files
-     */
-    public function ajax_includes() {
-
+    public function userspace_office_load() {
+        if ( usp_is_office( get_current_user_id() ) ) {
+            USP()->use_module( 'forms' );
+        }
     }
 
-    /*
-     * all files for the frontend
-     */
-    public function frontend_includes() {
+    public function userspace_admin_init( $current_screen ) {
+        if ( preg_match( '/(userspace_page|manage-userspace|profile)/', $current_screen->base ) ) {
+            usp_core_resources();
+            usp_admin_scripts();
 
+            USP()->use_module( 'forms' );
+        }
+
+        if ( $current_screen->base == 'userspace_page_usp-tabs-manager' || $current_screen->base == 'userspace_page_usp-register-form-manager' ) {
+            USP()->use_module( 'fields-manager' );
+        }
     }
 
     public function init() {
-
         do_action( 'usp_before_init' );
 
         $this->fields_init();
 
         if ( $this->is_request( 'frontend' ) ) {
-
             if ( usp_get_option( 'usp_bar_show' ) ) {
                 $this->use_module( 'usp-bar' );
             }
@@ -267,11 +261,14 @@ final class UserSpace {
             $this->use_module( 'loginform' );
         }
 
+        if ( USP_Ajax()->is_rest_request() ) {
+            USP()->use_module( 'forms' );
+        }
+
         do_action( 'usp_init' );
     }
 
     function setup_tabs() {
-
         do_action( 'usp_init_tabs' );
 
         $this->tabs()->init_custom_tabs();
@@ -501,9 +498,9 @@ function USP() {
 $GLOBALS['userspace'] = USP();
 
 USP()->use_module( 'tabs' );
-USP()->use_module( 'forms' );
-USP()->use_module( 'table' );
 USP()->use_module( 'profile' );
+
+/* load user account page */
 function userspace() {
     global $user_LK;
 

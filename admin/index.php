@@ -2,8 +2,6 @@
 
 require_once "admin-menu.php";
 
-add_action( 'admin_init', 'usp_admin_scripts', 10 );
-
 add_filter( 'display_post_states', 'usp_mark_own_page', 10, 2 );
 function usp_mark_own_page( $post_states, $post ) {
 

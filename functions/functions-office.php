@@ -81,22 +81,27 @@ function usp_get_office_class() {
 }
 
 function usp_template_support( $support ) {
+    if ( ! usp_is_office() )
+        return;
+
+    // only your personal area
+    if ( usp_is_office( get_current_user_id() ) ) {
+        switch ( $support ) {
+            case 'avatar-uploader':
+                if ( usp_get_option( 'usp_avatar_weight', 1024 ) > 0 )
+                    include_once USP_PATH . 'functions/supports/uploader-avatar.php';
+                break;
+
+            case 'cover-uploader':
+                add_filter( 'usp_options', 'usp_add_cover_options', 10 );
+
+                if ( usp_get_option( 'usp_cover_weight', 1024 ) > 0 )
+                    include_once USP_PATH . 'functions/supports/uploader-cover.php';
+                break;
+        }
+    }
 
     switch ( $support ) {
-        case 'avatar-uploader':
-
-            if ( usp_get_option( 'usp_avatar_weight', 1024 ) > 0 )
-                include_once USP_PATH . 'functions/supports/uploader-avatar.php';
-
-            break;
-        case 'cover-uploader':
-
-            add_filter( 'usp_options', 'usp_add_cover_options', 10 );
-
-            if ( usp_get_option( 'usp_cover_weight', 1024 ) > 0 )
-                include_once USP_PATH . 'functions/supports/uploader-cover.php';
-
-            break;
         case 'modal-user-details':
             include_once USP_PATH . 'functions/supports/modal-user-details.php';
             break;
