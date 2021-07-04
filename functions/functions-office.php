@@ -81,35 +81,44 @@ function usp_get_office_class() {
 }
 
 function usp_template_support( $support ) {
-    if ( ! usp_is_office() )
-        return;
-
-    // only your personal area
-    if ( usp_is_office( get_current_user_id() ) ) {
+    if ( usp_is_office() || USP_Ajax()->is_rest_request() ) {
         switch ( $support ) {
             case 'avatar-uploader':
-                if ( usp_get_option( 'usp_avatar_weight', 1024 ) > 0 )
-                    include_once USP_PATH . 'functions/supports/uploader-avatar.php';
+                usp_include_uploader_avatar();
+                break;
+            case 'cover-uploader':
+                usp_include_uploader_cover();
+                break;
+            case 'modal-user-details':
+                usp_include_modal_user_details();
                 break;
 
-            case 'cover-uploader':
-                add_filter( 'usp_options', 'usp_add_cover_options', 10 );
-
-                if ( usp_get_option( 'usp_cover_weight', 1024 ) > 0 )
-                    include_once USP_PATH . 'functions/supports/uploader-cover.php';
+            case 'zoom-avatar':
+                usp_include_zoom_avatar();
                 break;
         }
     }
+}
 
-    switch ( $support ) {
-        case 'modal-user-details':
-            include_once USP_PATH . 'functions/supports/modal-user-details.php';
-            break;
-
-        case 'zoom-avatar':
-            include_once USP_PATH . 'functions/supports/zoom-avatar.php';
-            break;
+function usp_include_uploader_avatar() {
+    if ( usp_get_option( 'usp_avatar_weight', 1024 ) > 0 ) {
+        include_once USP_PATH . 'functions/supports/uploader-avatar.php';
     }
+}
+
+function usp_include_uploader_cover() {
+    add_filter( 'usp_options', 'usp_add_cover_options', 10 );
+
+    if ( usp_get_option( 'usp_cover_weight', 1024 ) > 0 )
+        include_once USP_PATH . 'functions/supports/uploader-cover.php';
+}
+
+function usp_include_modal_user_details() {
+    include_once USP_PATH . 'functions/supports/modal-user-details.php';
+}
+
+function usp_include_zoom_avatar() {
+    include_once USP_PATH . 'functions/supports/zoom-avatar.php';
 }
 
 function usp_add_balloon_menu( $data, $args ) {
