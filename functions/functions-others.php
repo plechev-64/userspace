@@ -428,3 +428,37 @@ function usp_office_id() {
 
     return ( int ) $user_LK;
 }
+
+/**
+ * Encodes the given string with base64.
+ *
+ * @since 1.0
+ *
+ * @param mixed $data    Variable (usually an array or object) to encode as base64.
+ *
+ * @return string|false The base64 encoded string, or false if it cannot be encoded.
+ */
+function usp_encode( $data ) {
+    $json = wp_json_encode( $data );
+    if ( false === $json )
+        return false;
+
+    return base64_encode( $json );
+}
+
+/**
+ * Decodes the given string with base64.
+ *
+ * @since 1.0
+ *
+ * @param string $string    string to decode from base64.
+ *
+ * @return mixed|false Decoded variable (usually an array or object), or false if it cannot be decoded.
+ */
+function usp_decode( $string ) {
+    $decode = base64_decode( $string );
+    if ( false === $decode )
+        return false;
+
+    return json_decode( $decode );
+}

@@ -44,7 +44,7 @@ function usp_is_office( $user_id = null ) {
 
     if ( isset( $_POST['action'] ) && $_POST['action'] == 'usp_ajax_tab' ) {
 
-        $post = usp_decode_post( $_POST['post'] );
+        $post = usp_decode( $_POST['post'] );
 
         if ( $post->master_id )
             $usp_office = $post->master_id;

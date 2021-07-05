@@ -156,7 +156,7 @@ function usp_confirm_user_registration() {
 
     if ( $confirmdata = urldecode( $_GET['usp-confirmdata'] ) ) {
 
-        $confirmdata = json_decode( base64_decode( $confirmdata ) );
+        $confirmdata = usp_decode( $confirmdata );
 
         if ( $user = get_user_by( 'login', $confirmdata[0] ) ) {
 
@@ -254,14 +254,7 @@ function usp_register_mail( $userdata ) {
 
         $subject = __( 'Confirm your registration!', 'userspace' );
 
-        $confirmstr = base64_encode(
-            json_encode(
-                array(
-                    $user_login,
-                    md5( $user_id )
-                )
-            )
-        );
+        $confirmstr = usp_encode( [ $user_login, md5( $user_id ) ] );
 
         $url = add_query_arg( array(
             'usp-confirmdata' => urlencode( $confirmstr )
