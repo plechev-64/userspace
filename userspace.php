@@ -22,8 +22,8 @@ final class UserSpace {
 	public $options = [];
 	public $vars = [];
 	public $varnames = array(
-		'nicename' => 'usp-nicename',
-		'tab'      => 'tid'
+		'member' => 'user',
+		'tab'    => 'tab'
 	);
 	public $used_modules = array();
 	protected static $instance = null;
@@ -63,7 +63,7 @@ final class UserSpace {
 		$this->options = get_site_option( 'usp_global_options' );
 	}
 
-	function set_rewrite_rules( ) {
+	function set_rewrite_rules() {
 		global $wp_rewrite;
 
 		if ( ! $page_id = $this->options()->get( 'account_page' ) ) {
@@ -76,14 +76,14 @@ final class UserSpace {
 			$slugmatch = 'index.php/' . $slugmatch;
 		}
 
-		add_rewrite_rule( $slugmatch . '/([^/]+)/?$', 'index.php?pagename=' . $page->post_name . '&' . $this->varnames['nicename'] . '=$matches[1]', 'top' );
+		add_rewrite_rule( $slugmatch . '/([^/]+)/?$', 'index.php?pagename=' . $page->post_name . '&' . $this->varnames['member'] . '=$matches[1]', 'top' );
 
 	}
 
 
 	function set_query_vars( $vars ) {
 
-		$vars[] = $this->varnames['nicename'];
+		$vars[] = $this->varnames['member'];
 
 		//$vars[]	 = $this->varnames['tab'];
 
@@ -94,7 +94,7 @@ final class UserSpace {
 
 		register_activation_hook( __FILE__, array( 'USP_Install', 'install' ) );
 
-		add_action( 'wp_loaded', array( $this, 'setup_tabs' ), 10 );
+		add_action( 'plugins_loaded', [ $this, 'init_vars' ] );
 
 		add_action( 'init', array( $this, 'init' ), 0 );
 
@@ -103,8 +103,6 @@ final class UserSpace {
 		add_action( 'usp_area_before', array( $this, 'userspace_office_load' ) );
 
 		add_filter( 'query_vars', array( $this, 'set_query_vars' ) );
-
-		add_filter( 'parse_query', array( $this, 'setup_office' ) );
 
 		/**
 		 * Register our extra header for themes
@@ -121,16 +119,35 @@ final class UserSpace {
 
 	}
 
-	function setup_office() {
+	function init_vars() {
 
-	    $niceName = get_query_var( $this->varnames['nicename'] );
+		if ( ! $page_id = $this->options()->get( 'account_page' ) ) {
+			return false;
+		}
+
+		if ( '' !== get_site_option( 'permalink_structure' ) ) {
+
+			$slugmatch = get_post( $page_id )->post_name;
+
+			$url = parse_url( $_SERVER['REQUEST_URI'] );
+
+			preg_match( '/\/' . $slugmatch . '\/([^\/]+)/', $url['path'], $matches );
+
+			if ( ! empty( $matches[1] ) ) {
+				$member = $matches[1];
+			}
+
+			if ( ! is_numeric( $member ) && $user = get_user_by( 'slug', $member ) ) {
+				$member = $user->ID;
+			}
+
+		} else {
+			$member = $_GET[ $this->varnames['member'] ];
+		}
 
 		$this->vars = array(
-			'nicename' => $niceName,
-			'tab'      => get_query_var( $this->varnames['tab'] )
+			'member' => $member
 		);
-
-		$this->office()->setup($niceName);
 
 	}
 
@@ -210,8 +227,11 @@ final class UserSpace {
 	public function init() {
 		do_action( 'usp_before_init' );
 
+		$this->set_rewrite_rules();
+
 		$this->fields_init();
 		$this->init_theme();
+		$this->setup_tabs();
 
 		if ( $this->is_request( 'frontend' ) ) {
 
@@ -219,9 +239,9 @@ final class UserSpace {
 				$this->use_module( 'usp-bar' );
 			}
 
-			//$this->user()->update_activity();
+			$this->office()->setup( $this->vars['member'] );
 
-            $this->set_rewrite_rules();
+			$this->user()->update_activity();
 
 		}
 

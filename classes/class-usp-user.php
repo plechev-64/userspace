@@ -73,9 +73,7 @@ class USP_User {
 			return false;
 		}
 
-		$usp_current_action = usp_get_time_user_action( $this->id );
-
-		$last_action = usp_get_useraction( $usp_current_action );
+		$last_action = usp_get_useraction( usp_get_time_user_action( $this->id ) );
 
 		if ( $last_action ) {
 

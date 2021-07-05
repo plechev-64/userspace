@@ -29,17 +29,17 @@ class USP_Office {
 		return;
 	}
 
-	function setup($niceName){
+	function setup($user_id){
 		global $user_ID;
 
 		if ( ! $this->is() ) {
 			return;
 		}
 
-		if ( ! $niceName ) {
+		if ( ! $user_id ) {
 			$this->master_id = $user_ID;
-		} else if ( $user = get_user_by( 'slug', $niceName ) ) {
-			$this->master_id = $user->ID;
+		} else {
+			$this->master_id = $user_id;
 		}
 
 		if ( $this->master_id ) {

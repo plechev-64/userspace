@@ -12,14 +12,13 @@
  */
 add_shortcode( 'userspace', 'usp_get_userspace' );
 function usp_get_userspace() {
-    global $post;
 
     if ( usp_get_option( 'usp_profile_page_output', 'shortcode' ) == 'shortcode' ) {
-        if ( USP()->office()->is() && empty(USP()->vars['nicename'])) {
+        if ( USP()->office()->is() && empty(USP()->vars['member'])) {
             return usp_get_variations_buttons();
         }
     } else {
-        if ( $post->ID == usp_get_option( 'account_page' ) ) {
+        if ( USP()->office()->is() ) {
             return usp_get_variations_buttons();
         }
     }
