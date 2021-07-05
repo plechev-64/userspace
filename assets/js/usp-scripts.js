@@ -132,15 +132,10 @@ function usp_load_tab( tab_id, subtab_id, e ) {
 }
 
 function usp_get_options_url_params() {
-
-	var options = {
-		scroll: 1,
-		offset: 120
-	};
-
-	options = usp_apply_filters( 'usp_options_url_params', options );
-
-	return options;
+    return usp_apply_filters( 'usp_options_url_params', {
+        scroll: 1,
+        offset: 120
+    } );
 }
 
 function usp_add_dropzone( idzone ) {
@@ -338,18 +333,23 @@ function usp_init_loginform_shift_tabs() {
 
 usp_add_action( 'usp_init', 'usp_init_check_url_params' );
 function usp_init_check_url_params() {
+    if ( !usp_url_params['tab'] )
+        return;
+
+    var content = jQuery( '#usp-tab-content' );
+    if ( !content.length )
+        return false;
 
     var options = usp_get_options_url_params();
 
-    if ( usp_url_params['tab'] ) {
-        var lkContent = jQuery( '#usp-tab-content' );
-        if ( !lkContent.length )
-            return false;
-
-        if ( options.scroll == 1 ) {
-            var offsetTop = lkContent.offset().top;
+    if ( options.scroll === 1 ) {
+        if ( usp_url_params['usp-profile-updated'] === 'true' ) {
             jQuery( 'body,html' ).animate( {
-                scrollTop: offsetTop - options.offset
+                scrollTop: jQuery( '.usp_profile_updated' ).offset().top - 50
+            }, 1000 );
+        } else {
+            jQuery( 'body,html' ).animate( {
+                scrollTop: content.offset().top - options.offset
             }, 1000 );
         }
     }
