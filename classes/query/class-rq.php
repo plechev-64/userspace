@@ -8,11 +8,6 @@ class RQ {
 		return $tableQuery;
 	}
 
-	static function union( $queries ) {
-		$this->queries = $queries;
-		return $this;
-	}
-
 	function get_walker() {
 		return new USP_Walker( $this->get_results() );
 	}

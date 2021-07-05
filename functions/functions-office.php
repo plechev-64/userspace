@@ -40,22 +40,21 @@ function usp_add_office_tab_content() {
  *                      If user_id is passed: true - is office by user_id, false - not.
  */
 function usp_is_office( $user_id = null ) {
-    global $usp_office;
 
     if ( isset( $_POST['action'] ) && $_POST['action'] == 'usp_ajax_tab' ) {
 
         $post = usp_decode( $_POST['post'] );
 
         if ( $post->master_id )
-            $usp_office = $post->master_id;
+            USP()->office()->set_master($post->master_id);
     } else if ( USP_Ajax()->is_rest_request() && isset( $_POST['office_id'] ) ) {
-        $usp_office = intval( $_POST['office_id'] );
+	    USP()->office()->set_master(intval( $_POST['office_id'] ));
     }
 
-    if ( $usp_office ) {
+    if ( USP()->office()->get_master_id() ) {
 
         if ( isset( $user_id ) ) {
-            if ( $user_id == $usp_office )
+            if ( USP()->office()->is_master($user_id) )
                 return true;
             return false;
         }
@@ -131,12 +130,12 @@ function usp_add_balloon_menu( $data, $args ) {
 add_filter( 'body_class', 'usp_add_office_class_body' );
 function usp_add_office_class_body( $classes ) {
     if ( usp_is_office() ) {
-        global $user_LK, $user_ID;
+        global $user_ID;
 
         $classes[] = 'usp-office';
 
         if ( $user_ID ) {
-            $classes[] = ($user_LK == $user_ID) ? 'usp-visitor-master' : 'usp-visitor-guest';
+            $classes[] = USP()->office()->is_master($user_ID) ? 'usp-visitor-master' : 'usp-visitor-guest';
         } else {
             $classes[] = 'usp-visitor-guest';
         }

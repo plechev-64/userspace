@@ -1,17 +1,5 @@
 <?php
 
-/**
- * Register our extra header for themes
- *
- * @since 1.0
- */
-add_filter( 'extra_plugin_headers', 'usp_register_theme_header' );
-function usp_register_theme_header( $extra_context_headers ) {
-    $extra_context_headers['UserSpaceTheme'] = 'UserSpaceTheme';
-
-    return $extra_context_headers;
-}
-
 class USP_Themes {
     function get_themes() {
 

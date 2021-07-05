@@ -424,9 +424,7 @@ function usp_init_beat( $beatName ) {
  * @return int  id of the current profile page
  */
 function usp_office_id() {
-    global $user_LK;
-
-    return ( int ) $user_LK;
+    USP()->office()->get_master_id();
 }
 
 /**

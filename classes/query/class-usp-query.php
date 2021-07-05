@@ -553,26 +553,18 @@ class USP_Query {
     }
 
     function get_var( $cache = false ) {
-        if ( is_array( $cache ) )
-            return parent::get_var( $cache );
         return $this->get_data( 'get_var', $cache );
     }
 
     function get_results( $cache = false, $return_as = false ) {
-        if ( is_array( $cache ) )
-            return parent::get_results( $cache );
         return $this->get_data( 'get_results', $cache, $return_as );
     }
 
     function get_row( $cache = false ) {
-        if ( is_array( $cache ) )
-            return parent::get_row( $cache );
         return $this->get_data( 'get_row', $cache );
     }
 
     function get_col( $cache = false ) {
-        if ( is_array( $cache ) )
-            return parent::get_col( $cache );
         return $this->get_data( 'get_col', $cache );
     }
 

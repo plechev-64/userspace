@@ -67,7 +67,6 @@ function usp_ajax_call() {
 
 usp_ajax_action( 'usp_load_tab', true, true );
 function usp_load_tab() {
-    global $office_id;
 
     $tab_id    = $_POST['tab_id'];
     $subtab_id = $_POST['subtab_id'];
@@ -85,9 +84,7 @@ function usp_load_tab() {
         return array( 'error' => __( 'Perhaps this add-on does not support ajax loading', 'userspace' ) );
     }
 
-    global $user_LK;
-
-    $user_LK = $office_id;
+    USP()->office()->set_master($office_id);
 
     USP()->tabs()->current_id = $tab_id;
     $tab->current_id          = $subtab_id ? $subtab_id : $tab->content[0]->id;
@@ -100,7 +97,7 @@ function usp_load_tab() {
         'content'   => $content,
         'tab'       => $tab,
         'tab_id'    => $tab->id,
-        'subtab_id' => $subtab_id ? $subtab_id : '',
+        'subtab_id' => $subtab_id ?: '',
         'tab_url'   => $tab->subtab( $subtab_id )->get_permalink(),
         'supports'  => $tab->supports
     );
@@ -243,7 +240,7 @@ function usp_ajax_delete_attachment() {
         }
     } else {
 
-        $media = RQ::tbl( new USP_Temp_Media() )->where( [ 'media_id' => $attachment_id ] )->get_row();
+        $media = ( new USP_Temp_Media() )->where( [ 'media_id' => $attachment_id ] )->get_row();
 
         if ( ! $user_ID ) {
             $session_id = isset( $_COOKIE['PHPSESSID'] ) && $_COOKIE['PHPSESSID'] ? $_COOKIE['PHPSESSID'] : 'none';

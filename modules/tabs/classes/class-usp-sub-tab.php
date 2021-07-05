@@ -42,9 +42,8 @@ class USP_Sub_Tab {
     }
 
     function get_permalink( $user_id = false ) {
-        global $user_LK;
         if ( ! $user_id )
-            $user_id = $user_LK;
+            $user_id = USP()->office()->get_master_id();
         return add_query_arg( [ 'tab' => $this->parent_id, 'subtab' => $this->id ], usp_get_user_url( $user_id ) );
     }
 
@@ -71,7 +70,7 @@ class USP_Sub_Tab {
     }
 
     function get_content() {
-        global $user_LK, $usp_tab;
+        global $usp_tab;
 
         $usp_tab = $this;
 
@@ -90,7 +89,7 @@ class USP_Sub_Tab {
             if ( isset( $this->callback['args'] ) ) {
                 $args = $this->callback['args'];
             } else {
-                $args = array( $user_LK );
+                $args = array( USP()->office()->get_master_id() );
             }
 
             $content .= '<div class="usp-subtab-content">';

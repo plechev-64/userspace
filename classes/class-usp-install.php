@@ -84,7 +84,7 @@ class USP_Install {
     private static function create_pages() {
 
         $pages = apply_filters( 'usp_pages', array(
-            'usp_user_account_page' => array(
+            'account_page' => array(
                 'name'    => 'account',
                 'title'   => __( 'User profile page', 'userspace' ),
                 'content' => '<!-- wp:shortcode -->[userspace]<!-- /wp:shortcode -->'

@@ -52,9 +52,6 @@ function usp_return_user_details() {
 }
 
 function usp_get_user_details( $user_id, $set_args = false ) {
-    global $user_LK;
-
-    $user_LK = $user_id;
 
     $defaults = [
         'zoom'          => true,
@@ -65,13 +62,13 @@ function usp_get_user_details( $user_id, $set_args = false ) {
     $args = wp_parse_args( $set_args, $defaults );
 
     $content = '<div class="usp-user-avatar usps__relative">';
-    $content .= usp_get_avatar( $user_LK, 300, false, [ 'class' => 'usp-detailed-ava' ] );
+    $content .= usp_get_avatar( $user_id, 300, false, [ 'class' => 'usp-detailed-ava' ] );
 
     if ( $args['zoom'] ) {
-        $avatar = get_user_meta( $user_LK, 'usp_avatar', 1 );
+        $avatar = get_user_meta( $user_id, 'usp_avatar', 1 );
 
         if ( $avatar ) {
-            $url_avatar = get_avatar_url( $user_LK, [ 'size' => 1000 ] );
+            $url_avatar = get_avatar_url( $user_id, [ 'size' => 1000 ] );
             $content    .= '<a title="' . __( 'Zoom avatar', 'userspace' ) . '" data-zoom="' . $url_avatar . '" onclick="usp_zoom_avatar(this);return false;" class="usp-avatar-zoom usps__hidden" href="#"><i class="uspi fa-search-plus usps usps__column usps__jc-center usps__grow"></i></a>';
         }
     }
@@ -79,11 +76,11 @@ function usp_get_user_details( $user_id, $set_args = false ) {
     $content .= '</div>';
 
     if ( $args['description'] ) {
-        $content .= usp_get_quote_box( $user_LK, [ 'side' => 'top' ] );
+        $content .= usp_get_quote_box( $user_id, [ 'side' => 'top' ] );
     }
 
     if ( $args['custom_fields'] ) {
-        $content .= usp_show_user_custom_fields( $user_LK );
+        $content .= usp_show_user_custom_fields( $user_id );
     }
 
     return '<div id="usp-user-details" class="usps usps__nowrap usps__column">' . $content . '</div>';

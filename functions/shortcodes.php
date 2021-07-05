@@ -15,11 +15,11 @@ function usp_get_userspace() {
     global $post;
 
     if ( usp_get_option( 'usp_profile_page_output', 'shortcode' ) == 'shortcode' ) {
-        if ( $post->ID == usp_get_option( 'usp_user_account_page' ) && ! isset( $_GET['user'] ) ) {
+        if ( USP()->office()->is() && empty(USP()->vars['nicename'])) {
             return usp_get_variations_buttons();
         }
     } else {
-        if ( $post->ID == usp_get_option( 'usp_user_account_page' ) ) {
+        if ( $post->ID == usp_get_option( 'account_page' ) ) {
             return usp_get_variations_buttons();
         }
     }

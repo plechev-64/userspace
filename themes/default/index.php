@@ -88,9 +88,7 @@ function usp_add_theme_cover_inline_styles( $styles ) {
     if ( ! usp_is_office() )
         return $styles;
 
-    global $user_LK;
-
-    $cover = get_user_meta( $user_LK, 'usp_cover', 1 );
+    $cover = get_user_meta( USP()->office()->get_master_id(), 'usp_cover', 1 );
 
     if ( ! $cover )
         $cover = usp_get_option( 'usp_default_cover', 0 );

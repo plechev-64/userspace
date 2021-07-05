@@ -67,9 +67,7 @@ function usp_get_avatar( $id_or_email, $size = 50, $url = false, $args = [], $ht
         $href     = ($url) ? 'href="' . esc_url( $url ) . '"' : '';
         $nofollow = ($wrap_tag == 'a') ? 'rel="nofollow"' : '';
 
-        $parent_tag = sprintf(
-            "<{$wrap_tag} %s %s %s %s %s %s>", $id, $class, $href, $title, $onclick, $nofollow,
-        );
+        $parent_tag = sprintf("<{$wrap_tag} %s %s %s %s %s %s>", $id, $class, $href, $title, $onclick, $nofollow,);
 
         $parent_tag .= get_avatar( $id_or_email, $size, false, $alt, $args );
 
@@ -175,12 +173,11 @@ function usp_get_user_cover( $user_id = false, $avatar_cover = false ) {
  */
 function usp_get_age_number( $user_id = false ) {
     if ( ! $user_id ) {
-        global $user_LK;
 
-        if ( ! $user_LK )
+        if ( ! USP()->office()->get_master_id() )
             return;
 
-        $user_id = $user_LK;
+        $user_id = USP()->office()->get_master_id();
     }
 
     $bip_birthday = get_user_meta( $user_id, 'usp_birthday', true );
@@ -331,7 +328,6 @@ function usp_get_user_description( $user_id = false, $attr = false ) {
 
 add_filter( 'usp_users_search_form', 'usp_default_search_form' );
 function usp_default_search_form( $content ) {
-    global $user_LK, $usp_tab;
 
     $search_text  = ((isset( $_GET['search_text'] ))) ? $_GET['search_text'] : '';
     $search_field = (isset( $_GET['search_field'] )) ? sanitize_key( $_GET['search_field'] ) : 'display_name';
@@ -401,38 +397,7 @@ function usp_human_time_diff( $time_action ) {
 }
 
 function usp_update_timeaction_user() {
-    global $user_ID, $wpdb;
-
-    if ( ! $user_ID )
-        return false;
-
-    $usp_current_action = usp_get_time_user_action( $user_ID );
-
-    $last_action = usp_get_useraction( $usp_current_action );
-
-    if ( $last_action ) {
-
-        $time = current_time( 'mysql' );
-
-        $res = $wpdb->update(
-            USP_PREF . 'users_actions', array( 'date_action' => $time ), array( 'user_id' => $user_ID )
-        );
-
-        if ( ! isset( $res ) || $res == 0 ) {
-            $act_user = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(date_action) FROM " . USP_PREF . "users_actions WHERE user_id ='%d'", $user_ID ) );
-            if ( $act_user == 0 ) {
-                $wpdb->insert(
-                    USP_PREF . 'users_actions', array( 'user_id'     => $user_ID,
-                    'date_action' => $time )
-                );
-            }
-            if ( $act_user > 1 ) {
-                usp_delete_user_action( $user_ID );
-            }
-        }
-    }
-
-    do_action( 'usp_update_timeaction_user' );
+    USP()->user()->update_activity();
 }
 
 function usp_get_user_action( $type = 1 ) {
@@ -764,14 +729,17 @@ function usp_get_user_url( $user_id = false ) {
     if ( ! $user_id )
         $user_id = $user_ID;
 
-    if ( usp_get_option( 'usp_profile_page_output', 'shortcode' ) == 'authorphp' )
-        return get_author_posts_url( $user_id );
+    return USP()->user($user_id)->get_url();
 
-    return add_query_arg(
+    //if ( usp_get_option( 'usp_profile_page_output', 'shortcode' ) == 'authorphp' )
+        //return get_author_posts_url( $user_id );
+
+    /*return add_query_arg(
         [
             usp_get_option( 'usp_user_account_slug', 'user' ) => $user_id
-        ], get_permalink( usp_get_option( 'usp_user_account_page' ) )
-    );
+        ], get_permalink( usp_get_option( 'account_page' ) )
+    );*/
+
 }
 
 add_action( 'delete_user', 'usp_delete_user_action', 10 );

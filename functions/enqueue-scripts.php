@@ -159,7 +159,7 @@ function usp_admin_scripts() {
 }
 
 function usp_get_localize_data() {
-    global $user_ID, $post, $user_LK;
+    global $user_ID, $post;
 
     $local = array(
         'close'   => __( 'Close', 'userspace' ),
@@ -175,7 +175,7 @@ function usp_get_localize_data() {
         'wpurl'     => get_bloginfo( 'wpurl' ),
         //'usp_url'   => USP_URL,
         'user_ID'   => ( int ) $user_ID,
-        'office_ID' => ($user_LK) ? ( int ) $user_LK : ( int ) 0,
+        'office_ID' => (USP()->office()->get_master_id()) ? ( int ) USP()->office()->get_master_id() : ( int ) 0,
         'post_ID'   => (isset( $post->ID ) && $post->ID) ? ( int ) $post->ID : ( int ) 0,
         'nonce'     => wp_create_nonce( 'wp_rest' ),
         'local'     => apply_filters( 'usp_js_localize', $local ),

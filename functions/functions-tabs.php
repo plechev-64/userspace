@@ -35,7 +35,9 @@ function usp_get_subtab( $tab_id, $subtab_id ) {
     if ( ! $tab )
         return false;
 
-    return $subtab = $tab->subtab( $subtab_id ) ? $subtab : false;
+    $subtab = $tab->subtab( $subtab_id );
+
+    return $subtab ?: false;
 }
 
 /**
@@ -82,11 +84,11 @@ function usp_custom_tab_content( $content ) {
 
 add_filter( 'usp_custom_tab_content', 'usp_filter_custom_tab_vars', 6 );
 function usp_filter_custom_tab_vars( $content ) {
-    global $user_ID, $user_LK;
+    global $user_ID;
 
     $matchs = array(
         '{USERID}'   => $user_ID,
-        '{MASTERID}' => $user_LK
+        '{MASTERID}' => USP()->office()->get_master_id()
     );
 
     $matchs = apply_filters( 'usp_custom_tab_vars', $matchs );
@@ -136,9 +138,9 @@ function usp_filter_custom_tab_usermetas( $content ) {
 
 add_filter( 'usp_tab_content', 'usp_check_user_blocked', 10 );
 function usp_check_user_blocked( $content ) {
-    global $user_ID, $user_LK;
-    if ( $user_LK && $user_LK != $user_ID ) {
-        if ( get_user_meta( $user_LK, 'usp_black_list:' . $user_ID ) ) {
+    global $user_ID;
+    if ( USP()->office()->is_master($user_ID) ) {
+        if ( get_user_meta( USP()->office()->is_master($user_ID), 'usp_black_list:' . $user_ID ) ) {
             $content = usp_get_notice( [ 'text' => __( 'The user has restricted access to their page', 'userspace' ) ] );
         }
     }
@@ -150,9 +152,7 @@ function usp_add_block_black_list_button() {
     if ( ! is_user_logged_in() )
         return;
 
-    global $user_LK;
-
-    $user_block = get_user_meta( get_current_user_id(), 'usp_black_list:' . $user_LK );
+    $user_block = get_user_meta( get_current_user_id(), 'usp_black_list:' . USP()->office()->get_master_id() );
 
     $title = ($user_block) ? __( 'Unblock', 'userspace' ) : __( 'Block', 'userspace' );
 
@@ -163,7 +163,7 @@ function usp_add_block_black_list_button() {
             'public'  => -2,
             'output'  => 'actions',
             'icon'    => 'fa-user',
-            'onclick' => 'usp_manage_user_black_list(this, ' . $user_LK . ', "' . __( 'Are you sure?', 'userspace' ) . '");return false;'
+            'onclick' => 'usp_manage_user_black_list(this, ' . USP()->office()->get_master_id() . ', "' . __( 'Are you sure?', 'userspace' ) . '");return false;'
         )
     );
 }

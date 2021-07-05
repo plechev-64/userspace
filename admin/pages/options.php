@@ -50,7 +50,7 @@ $options->add_box( 'primary', array(
                 'shortcode' => array(
                     [
                         'type'   => 'select',
-                        'slug'   => 'usp_user_account_page',
+                        'slug'   => 'account_page',
                         'title'  => __( 'Page with shortcode for displaying user profile page', 'userspace' ),
                         'values' => $pages
                     ],

@@ -158,11 +158,10 @@ class USP_Users_List extends USP_Users_Query {
     }
 
     function search_request() {
-        global $user_LK;
 
         $rqst = '';
 
-        if ( isset( $_GET['usergroup'] ) || isset( $_GET['search-user'] ) || $user_LK ) {
+        if ( isset( $_GET['usergroup'] ) || isset( $_GET['search-user'] ) || USP()->office()->get_master_id() ) {
             $rqst = array();
             foreach ( $_GET as $k => $v ) {
                 if ( $k == 'usp-page' || $k == 'users-filter' )
@@ -508,7 +507,7 @@ class USP_Users_List extends USP_Users_Query {
     }
 
     function get_filters( $num_users = false ) {
-        global $post, $user_LK;
+        global $post;
 
         if ( ! $this->filters )
             return false;
@@ -530,7 +529,7 @@ class USP_Users_List extends USP_Users_Query {
         $rqst = ($s_array) ? implode( '&', $s_array ) . '&' : '';
 
         if ( usp_is_office() ) {
-            $url = (isset( $_POST['tab_url'] )) ? $_POST['tab_url'] : usp_get_user_url( $user_LK );
+            $url = (isset( $_POST['tab_url'] )) ? $_POST['tab_url'] : usp_get_user_url( USP()->office()->get_master_id() );
         } else {
             $url = get_permalink( $post->ID );
         }
