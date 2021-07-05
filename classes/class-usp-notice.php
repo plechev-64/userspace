@@ -43,8 +43,9 @@ class USP_Notice {
 
         $classes = array( 'usp-notice', 'usps__relative', 'usps__line-normal', 'usp-notice__type-' . $this->type, $center );
 
-        if ( $this->class )
-            $classes[] = $this->class;
+        if ( $this->class ) {
+            array_unshift( $classes, $this->class );
+        }
 
         if ( $this->no_border )
             $classes[] = 'usp-notice__no-border';
