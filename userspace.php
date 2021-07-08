@@ -173,12 +173,6 @@ final class UserSpace {
 		$this->user()->update_activity();
 	}
 
-	function office_init() {
-		$this->theme = $this->themes()->get_current();
-		$this->office()->setup( $this->vars['member'] );
-		$this->setup_tabs();
-	}
-
 	function register_theme_header( $extra_context_headers ) {
 		$extra_context_headers['UserSpaceTheme'] = 'UserSpaceTheme';
 
@@ -218,7 +212,14 @@ final class UserSpace {
 		$this->set_rewrite_rules();
 
 		$this->fields_init();
-		$this->office_init();
+
+		$this->theme = $this->themes()->get_current();
+		do_action('usp_theme_init');
+
+		$this->office()->setup( $this->vars['member'] );
+		do_action('usp_office_setup');
+
+		$this->setup_tabs();
 
 		if ( $this->is_request( 'frontend' ) ) {
 			if ( $this->options()->get( 'usp_bar_show' ) ) {
