@@ -110,7 +110,7 @@ final class UserSpace {
 
 		register_activation_hook( __FILE__, array( 'USP_Install', 'install' ) );
 
-		add_action( 'plugins_loaded', [ $this, 'init_vars' ] );
+		add_action( 'plugins_loaded', [ $this, 'parse_vars' ] );
 
 		add_action( 'init', array( $this, 'init' ), 0 );
 
@@ -133,7 +133,7 @@ final class UserSpace {
 
 	}
 
-	function init_vars() {
+	function parse_vars() {
 
 		if ( ! $page_id = $this->options()->get( 'account_page' ) ) {
 			return false;
