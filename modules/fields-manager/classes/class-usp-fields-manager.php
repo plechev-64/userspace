@@ -963,9 +963,9 @@ class USP_Fields_Manager extends USP_Fields {
 
         $typesList = array();
         foreach ( $this->types as $type ) {
-            if ( ! isset( USP()->fields[$type] ) )
+            if ( ! isset( USP()->get_fields()[$type] ) )
                 continue;
-            $typesList[$type] = USP()->fields[$type]['label'];
+            $typesList[$type] = USP()->get_fields()[$type]['label'];
         }
 
         return $typesList;

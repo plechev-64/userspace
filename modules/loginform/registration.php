@@ -70,7 +70,7 @@ function usp_process_user_register_data( $user_id ) {
 // save user data when creating / registering
 add_action( 'user_register', 'usp_register_new_user_data', 10 );
 function usp_register_new_user_data( $user_id ) {
-    $action = RQ::tbl( new USP_User_Action() )->select( [ 'date_action' ] )->where( [ 'user_id' => $user_id ] )->get_var();
+    $action = ( new USP_User_Action() )->select( [ 'date_action' ] )->where( [ 'user_id' => $user_id ] )->get_var();
 
     if ( ! $action ) {
         $timeAction = '0000-00-00 00:00:00';

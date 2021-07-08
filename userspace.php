@@ -14,19 +14,16 @@
 
 final class UserSpace {
 
-	public $version = '1.0.0';
-	public $theme = null;
-	public $fields = array();
-	public $tabs = array();
-	public $modules = array();
-	public $options = [];
-	public $vars = [];
-	public $varnames = array(
-		'member' => 'user',
-		'tab'    => 'tab'
+	private $version = '1.0.0';
+	private $theme = null;
+	private $fields = array();
+	private $modules = array();
+	private $vars = [];
+	private $varnames = array(
+		'member' => 'user'
 	);
-	public $used_modules = array();
-	protected static $instance = null;
+	private $used_modules = array();
+	private static $instance = null;
 
 	public static function getInstance() {
 
@@ -59,8 +56,31 @@ final class UserSpace {
 		return;
 	}
 
+	private function define_constants() {
+		global $wpdb;
+
+		$upload_dir = $this->upload_dir();
+
+		$this->define( 'USP_VERSION', $this->version );
+
+		$this->define( 'USP_URL', trailingslashit( plugins_url( '/', __FILE__ ) ) );
+		$this->define( 'USP_PREF', $wpdb->base_prefix . 'usp_' );
+
+		$this->define( 'USP_PATH', trailingslashit( plugin_dir_path( __FILE__ ) ) );
+		$this->define( 'USP_UPLOAD_PATH', $upload_dir['basedir'] . '/usp-uploads/' );
+		$this->define( 'USP_UPLOAD_URL', $upload_dir['baseurl'] . '/usp-uploads/' );
+
+		$this->define( 'USP_TAKEPATH', WP_CONTENT_DIR . '/userspace/' );
+	}
+
+	private function define( $name, $value ) {
+		if ( ! defined( $name ) ) {
+			define( $name, $value );
+		}
+	}
+
 	private function load_options() {
-		$this->options = get_site_option( 'usp_global_options' );
+		USP_Options::getInstance();
 	}
 
 	function set_rewrite_rules() {
@@ -82,11 +102,7 @@ final class UserSpace {
 
 
 	function set_query_vars( $vars ) {
-
 		$vars[] = $this->varnames['member'];
-
-		//$vars[]	 = $this->varnames['tab'];
-
 		return $vars;
 	}
 
@@ -97,8 +113,6 @@ final class UserSpace {
 		add_action( 'plugins_loaded', [ $this, 'init_vars' ] );
 
 		add_action( 'init', array( $this, 'init' ), 0 );
-
-		add_action( 'current_screen', array( $this, 'userspace_admin_init' ) );
 
 		add_action( 'usp_area_before', array( $this, 'userspace_office_load' ) );
 
@@ -114,7 +128,7 @@ final class UserSpace {
 		if ( ! is_admin() ) {
 			add_action( 'usp_enqueue_scripts', 'usp_core_resources', 1 );
 			add_action( 'usp_enqueue_scripts', 'usp_frontend_scripts', 1 );
-			add_action( 'wp_head', 'usp_update_timeaction_user', 10 );
+			add_action( 'wp_head', [ $this, 'update_user_activity' ], 10 );
 		}
 
 	}
@@ -151,37 +165,24 @@ final class UserSpace {
 
 	}
 
-	function init_theme() {
+	function get_var($var_key){
+		return !empty($this->vars[$var_key])? $this->vars[$var_key]: false;
+	}
+
+	function update_user_activity() {
+		$this->user()->update_activity();
+	}
+
+	function office_init() {
 		$this->theme = $this->themes()->get_current();
+		$this->office()->setup( $this->vars['member'] );
+		$this->setup_tabs();
 	}
 
 	function register_theme_header( $extra_context_headers ) {
 		$extra_context_headers['UserSpaceTheme'] = 'UserSpaceTheme';
 
 		return $extra_context_headers;
-	}
-
-	private function define_constants() {
-		global $wpdb;
-
-		$upload_dir = $this->upload_dir();
-
-		$this->define( 'USP_VERSION', $this->version );
-
-		$this->define( 'USP_URL', trailingslashit( plugins_url( '/', __FILE__ ) ) );
-		$this->define( 'USP_PREF', $wpdb->base_prefix . 'usp_' );
-
-		$this->define( 'USP_PATH', trailingslashit( plugin_dir_path( __FILE__ ) ) );
-		$this->define( 'USP_UPLOAD_PATH', $upload_dir['basedir'] . '/usp-uploads/' );
-		$this->define( 'USP_UPLOAD_URL', $upload_dir['baseurl'] . '/usp-uploads/' );
-
-		$this->define( 'USP_TAKEPATH', WP_CONTENT_DIR . '/userspace/' );
-	}
-
-	private function define( $name, $value ) {
-		if ( ! defined( $name ) ) {
-			define( $name, $value );
-		}
 	}
 
 	/*
@@ -206,21 +207,8 @@ final class UserSpace {
 	}
 
 	public function userspace_office_load() {
-		if ( usp_is_office( get_current_user_id() ) ) {
-			USP()->use_module( 'forms' );
-		}
-	}
-
-	public function userspace_admin_init( $current_screen ) {
-		if ( preg_match( '/(userspace_page|manage-userspace|profile)/', $current_screen->base ) ) {
-			usp_core_resources();
-			usp_admin_scripts();
-
-			USP()->use_module( 'forms' );
-		}
-
-		if ( $current_screen->base == 'userspace_page_usp-tabs-manager' || $current_screen->base == 'userspace_page_usp-register-form-manager' ) {
-			USP()->use_module( 'fields-manager' );
+		if ( $this->office()->is_owner( get_current_user_id() ) ) {
+			$this->use_module( 'forms' );
 		}
 	}
 
@@ -230,19 +218,12 @@ final class UserSpace {
 		$this->set_rewrite_rules();
 
 		$this->fields_init();
-		$this->init_theme();
-		$this->setup_tabs();
+		$this->office_init();
 
 		if ( $this->is_request( 'frontend' ) ) {
-
-			if ( usp_get_option( 'usp_bar_show' ) ) {
+			if ( $this->options()->get( 'usp_bar_show' ) ) {
 				$this->use_module( 'usp-bar' );
 			}
-
-			$this->office()->setup( $this->vars['member'] );
-
-			$this->user()->update_activity();
-
 		}
 
 		if ( ! is_user_logged_in() ) {
@@ -250,7 +231,7 @@ final class UserSpace {
 		}
 
 		if ( USP_Ajax()->is_rest_request() ) {
-			USP()->use_module( 'forms' );
+			$this->use_module( 'forms' );
 		}
 
 		do_action( 'usp_init' );
@@ -376,8 +357,6 @@ final class UserSpace {
 		require_once 'classes/class-usp-module.php';
 
 		require_once 'classes/query/class-usp-query.php';
-		require_once 'classes/query/class-rq.php';
-
 		require_once 'classes/class-usp-query-tables.php';
 		require_once 'classes/class-usp-cache.php';
 		require_once 'classes/class-usp-ajax.php';
@@ -503,6 +482,18 @@ final class UserSpace {
 		return new USP_Template( $name, $file );
 	}
 
+	public function theme() {
+		return $this->theme;
+	}
+
+	function get_fields(){
+		return $this->fields;
+	}
+
+	function get_used_modules(){
+		return $this->used_modules;
+	}
+
 	function options() {
 		return USP_Options::getInstance();
 	}
@@ -517,28 +508,3 @@ $GLOBALS['userspace'] = USP();
 
 USP()->use_module( 'tabs' );
 USP()->use_module( 'profile' );
-
-/* load user account page */
-function userspace() {
-
-	do_action( 'usp_area_before' );
-	?>
-
-    <div id="usp-office" class="<?php echo usp_get_office_class(); ?>"
-         data-account="<?php echo USP()->office()->get_master_id(); ?>">
-
-		<?php do_action( 'usp_area_notice' ); ?>
-
-		<?php
-		if ( $themePath = USP()->theme->get( 'path' ) ) {
-			USP()->template( 'usp-office.php', $themePath )->include();
-		} else {
-			echo '<h3>' . __( 'Office templates not found!', 'userspace' ) . '</h3>';
-		}
-		?>
-
-    </div>
-
-	<?php
-	do_action( 'usp_area_after' );
-}

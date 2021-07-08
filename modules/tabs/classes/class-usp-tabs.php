@@ -3,6 +3,7 @@
 class USP_Tabs {
 
     public $current_id;
+    private array $tabs = [];
     protected static $_instance = null;
 
     public static function instance() {
@@ -11,9 +12,13 @@ class USP_Tabs {
         }
         return self::$_instance;
     }
+    
+    function get_tabs(){
+    	return $this->tabs;
+    }
 
     function isset_tab( $tab_id ) {
-        return isset( USP()->tabs[$tab_id] );
+        return isset( $this->tabs[$tab_id] );
     }
 
     function add( $tabData ) {
@@ -21,11 +26,11 @@ class USP_Tabs {
         if ( ! isset( $tabData['id'] ) )
             return false;
 
-        USP()->tabs[$tabData['id']] = new USP_Tab( $tabData );
+        $this->tabs[$tabData['id']] = new USP_Tab( $tabData );
 
-        USP()->tabs[$tabData['id']]->setup_subtabs();
+        $this->tabs[$tabData['id']]->setup_subtabs();
 
-        return USP()->tabs[$tabData['id']];
+        return $this->tabs[$tabData['id']];
     }
 
     function tab( $tab_id ) {
@@ -33,7 +38,7 @@ class USP_Tabs {
         if ( ! $this->isset_tab( $tab_id ) )
             return false;
 
-        return USP()->tabs[$tab_id];
+        return $this->tabs[$tab_id];
     }
 
     function remove_tab( $tab_id ) {
@@ -41,7 +46,7 @@ class USP_Tabs {
         if ( ! $this->isset_tab( $tab_id ) )
             return false;
 
-        unset( USP()->tabs[$tab_id] );
+        unset( $this->tabs[$tab_id] );
     }
 
     function current() {
@@ -52,14 +57,14 @@ class USP_Tabs {
 
         if ( isset( $_GET['tab'] ) ) {
             return $_GET['tab'];
-        } else if ( USP()->tabs ) {
+        } else if ( $this->tabs ) {
 
             if ( $tabs = $this->get_access_menu_items( 'menu' ) ) {
                 foreach ( $tabs as $tab_id ) {
                     return $tab_id;
                 }
             } else {
-                foreach ( USP()->tabs as $tab_id => $tab ) {
+                foreach ( $this->tabs as $tab_id => $tab ) {
 
                     if ( $tab->output == 'menu' )
                         continue;
@@ -81,11 +86,11 @@ class USP_Tabs {
 
     function get_menu_items( $menu_id ) {
 
-        if ( ! USP()->tabs )
+        if ( ! $this->tabs )
             return false;
 
         $tab_ids = array();
-        foreach ( USP()->tabs as $tab_id => $tab ) {
+        foreach ( $this->tabs as $tab_id => $tab ) {
 
             if ( $tab->output != $menu_id )
                 continue;
@@ -168,7 +173,7 @@ class USP_Tabs {
                     'id'         => $tab['slug'],
                     'name'       => $tab['title'],
                     'public'     => isset( $tab['public-tab'] ) && $tab['public-tab'] ? 1 : 0,
-                    'icon'       => $tab['icon'] ? $tab['icon'] : 'fa-cog',
+                    'icon'       => $tab['icon'] ? : 'fa-cog',
                     'output'     => $area_id,
                     'supports'   => isset( $tab['supports-tab'] ) ? $tab['supports-tab'] : array(),
                     'custom-tab' => true,
@@ -176,7 +181,7 @@ class USP_Tabs {
                         array(
                             'id'       => 'subtab-1',
                             'name'     => $tab['title'],
-                            'icon'     => ($tab['icon']) ? $tab['icon'] : 'fa-cog',
+                            'icon'     => ($tab['icon']) ? : 'fa-cog',
                             'callback' => array(
                                 'name' => 'usp_custom_tab_content',
                                 'args' => array( $tab['content'] )
@@ -206,7 +211,7 @@ class USP_Tabs {
 
                 foreach ( $tabs as $tabData ) {
 
-                    $tab = USP()->tabs()->tab( $tabData['slug'] );
+                    $tab = $this->tab( $tabData['slug'] );
 
                     if ( ! $tab )
                         continue;
@@ -236,12 +241,12 @@ class USP_Tabs {
                 }
             }
 
-            foreach ( USP()->tabs as $tab_id => $tab ) {
+            foreach ( $this->tabs as $tab_id => $tab ) {
                 if ( ! isset( $newArray[$tab_id] ) )
                     $newArray[$tab_id] = $tab;
             }
 
-            USP()->tabs = $newArray;
+            $this->tabs = $newArray;
         }
     }
 

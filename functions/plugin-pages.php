@@ -39,7 +39,7 @@ function usp_get_plugin_page( $page_id ) {
     if ( ! isset( $plugin_pages[$page_id] ) )
         return false;
 
-    return RQ::tbl( new USP_Posts_Query() )
+    return ( new USP_Posts_Query() )
             ->select( 'ID' )
             ->where( [
                 'ID'          => $plugin_pages[$page_id],

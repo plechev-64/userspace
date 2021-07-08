@@ -55,7 +55,7 @@ function usp_delete_temp_media_by_args( $args ) {
 }
 
 function usp_get_temp_media( $args = false ) {
-    return RQ::tbl( new USP_Temp_Media() )->parse( $args )->get_results();
+    return ( new USP_Temp_Media() )->parse( $args )->get_results();
 }
 
 add_action( 'delete_attachment', 'usp_delete_attachment_temp_gallery', 10 );

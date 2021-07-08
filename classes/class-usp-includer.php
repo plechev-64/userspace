@@ -516,7 +516,7 @@ function usp_localize_modules_list_admin() {
 }
 
 function usp_localize_modules_list() {
-    return '<script>USP.used_modules = ' . json_encode( USP()->used_modules ) . '</script>';
+    return '<script>USP.used_modules = ' . json_encode( USP()->get_used_modules() ) . '</script>';
 }
 
 // we reset the arrays of registered scripts and styles when calling the tab via ajax

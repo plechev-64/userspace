@@ -2,586 +2,671 @@
 
 class USP_Query {
 
-    public $table;
-    public $serialize = array();
-    public $query     = array();
-
-    function __construct( $table ) {
-
-        if ( ! isset( $table['as'] ) )
-            $table['as'] = $table['name'];
-
-        $this->table = $table;
-
-        $this->reset_query();
-    }
-
-    function reset_query() {
-        $this->query = array(
-            'select'  => array(),
-            'where'   => array(),
-            'join'    => array(),
-            'number'  => 30,
-            'offset'  => 0,
-            'orderby' => false,
-            'order'   => 'DESC',
-            'having'  => array(),
-            'groupby' => false
-        );
-    }
-
-    function get_table_data( $dataName ) {
-        return isset( $this->table[$dataName] ) ? $this->table[$dataName] : false;
-    }
-
-    function get_colname( $colname ) {
-        return $this->table['as'] . '.' . $colname;
-    }
-
-    function parse( $args = false ) {
-
-        if ( ! $args )
-            return $this;
-
-        $args = wp_unslash( $args );
-
-        if ( ! isset( $args['select'] ) && ! isset( $args['date'] ) ) {
-            foreach ( $this->table['cols'] as $col_name ) {
-                $this->query['select'][] = $this->table['as'] . '.' . $col_name;
-            }
-        }
-
-        foreach ( $args as $operator => $data ) {
-
-            switch ( $operator ) {
-                case 'select': $this->select( $data );
-                    break;
-                case 'where': $this->where( $data );
-                    break;
-                case 'date':
-                    foreach ( $data as $dateData ) {
-                        if ( ! isset( $dateData['colname'] ) || ! $dateData['colname'] )
-                            break;
-                        if ( ! isset( $dateData['compare'] ) || ! $dateData['compare'] )
-                            $dateData['compare'] = '=';
-                        $this->date( $dateData['colname'], $dateData['compare'], $dateData['data'] );
-                    }
-                    break;
-                case 'join':
-                    foreach ( $data as $joinData ) {
-                        $this->join( $joinData[0], $joinData[1] );
-                    }
-                    break;
-                case 'number': $this->number( $data );
-                    break;
-                case 'offset': $this->offset( $data );
-                    break;
-                case 'orderby': $this->orderby( $data );
-                    break;
-                case 'order': $this->order( $data );
-                    break;
-                case 'groupby': $this->groupby( $data );
-                    break;
-                case 'cache': $this->set_cache( $data );
-                    break;
-                default:
-                    $this->where( array( $operator => $data ) );
-            }
-        }
-
-        return $this;
-    }
-
-    function set_cache( $cache ) {
-        $this->cache = $cache;
-    }
-
-    function get_operator_data( $operator, $field_name = false, $use_cache = false ) {
-        global $wpdb;
-
-        $field_name = ($field_name) ? $field_name : $this->table['cols'][0];
-
-        $query = $this->get_query();
-
-        $sql = $this->get_sql( array(
-            'select'  => array( $operator . '(' . $this->table['as'] . '.' . $field_name . ')' ),
-            'join'    => $query['join'],
-            'where'   => $query['where'],
-            'groupby' => isset( $query['groupby'] ) ? $query['groupby'] : null
-            ) );
+	public $table;
+	public $serialize	 = array();
+	public $query		 = array();
+
+	function __construct( $table ) {
+
+		if ( ! isset( $table['as'] ) )
+			$table['as'] = $table['name'];
+
+		$this->table = $table;
+
+		$this->reset_query();
+	}
+
+	function reset_query() {
+		$this->query = array(
+			'select'	 => array(),
+			'where'		 => array(),
+			'join'		 => array(),
+			'number'	 => 30,
+			'offset'	 => 0,
+			'orderby'	 => false,
+			'order'		 => 'DESC',
+			'having'	 => array(),
+			'groupby'	 => false
+		);
+	}
+
+	static function tbl($tableObject){
+		return $tableObject;
+	}
+
+	function get_table_data( $dataName ) {
+		return $this->table[ $dataName ] ?? false;
+	}
+
+	function get_colname( $colname ) {
+		return $this->table['as'] . '.' . $colname;
+	}
+
+	function parse( $args = false ) {
+
+		if ( ! $args )
+			return $this;
+
+		$args = wp_unslash( $args );
+
+		if ( ! isset( $args['select'] ) && ! isset( $args['date'] ) ) {
+			foreach ( $this->table['cols'] as $col_name ) {
+				$this->query['select'][] = $this->table['as'] . '.' . $col_name;
+			}
+		}
+
+		foreach ( $args as $operator => $data ) {
+
+			switch ( $operator ) {
+				case 'select': $this->select( $data );
+					break;
+				case 'where': $this->where( $data );
+					break;
+				case 'date':
+					foreach ( $data as $dateData ) {
+						if ( ! isset( $dateData['colname'] ) || ! $dateData['colname'] )
+							break;
+						if ( ! isset( $dateData['compare'] ) || ! $dateData['compare'] )
+							$dateData['compare'] = '=';
+						$this->date( $dateData['colname'], $dateData['compare'], $dateData['data'] );
+					}
+					break;
+				case 'join':
+					foreach ( $data as $joinData ) {
+						$this->join( $joinData[0], $joinData[1] );
+					}
+					break;
+				case 'number': $this->number( $data );
+					break;
+				case 'offset': $this->offset( $data );
+					break;
+				case 'orderby': $this->orderby( $data );
+					break;
+				case 'order': $this->order( $data );
+					break;
+				case 'groupby': $this->groupby( $data );
+					break;
+				case 'cache': $this->set_cache( $data );
+					break;
+				default:
+					$this->where( array( $operator => $data ) );
+			}
+		}
+
+		return $this;
+	}
+
+	function set_cache( $cache ) {
+		$this->cache = $cache;
+	}
+
+	function get_operator_data( $operator, $field_name = false, $use_cache = false ) {
+		global $wpdb;
+
+		$field_name = ($field_name) ? : $this->table['cols'][0];
 
-        if ( $use_cache ) {
-            $cachekey = md5( $sql );
-            $cache    = wp_cache_get( $cachekey );
-            if ( $cache !== false )
-                return $cache;
-        }
+		$query = $this->get_query();
 
-        if ( isset( $query['groupby'] ) && $query['groupby'] )
-            $result = $wpdb->query( $sql );
-        else
-            $result = $wpdb->get_var( $sql );
+		$sql = $this->get_sql( array(
+			'select'	 => array( $operator . '(' . $this->table['as'] . '.' . $field_name . ')' ),
+			'join'		 => $query['join'],
+			'where'		 => $query['where'],
+			'groupby'	 => isset( $query['groupby'] ) ? $query['groupby'] : null
+		) );
 
-        if ( $use_cache )
-            wp_cache_add( $cachekey, $result );
+		if ( $use_cache ) {
+			$cachekey	 = md5( $sql );
+			$cache		 = wp_cache_get( $cachekey );
+			if ( $cache !== false )
+				return $cache;
+		}
 
-        return $result;
-    }
+		if ( isset( $query['groupby'] ) && $query['groupby'] )
+			$result	 = $wpdb->query( $sql );
+		else
+			$result	 = $wpdb->get_var( $sql );
 
-    function set_operator_query( $operator, $data ) {
+		if ( $use_cache )
+			wp_cache_add( $cachekey, $result );
 
-        $opers = explode( ' ', $operator );
+		return $result;
+	}
 
-        $operator = isset( $opers[1] ) ? $opers : $operator;
+	function set_operator_query( $operator, $data ) {
 
-        foreach ( $data as $as_value => $col_name ) {
-            $this->query['select'][] = $this->get_operator_string( $operator, $as_value, $col_name );
-        }
-    }
+		$opers = explode( ' ', $operator );
 
-    function get_operator_string( $operator, $as_value, $col_name ) {
+		$operator = isset( $opers[1] ) ? $opers : $operator;
 
-        if ( is_array( $operator ) ) {
+		foreach ( $data as $as_value => $col_name ) {
+			$this->query['select'][] = $this->get_operator_string( $operator, $as_value, $col_name );
+		}
+	}
 
-            switch ( $operator[1] ) {
-                case 'DISTINCT': return $operator[0] . '( ' . $operator[1] . ' ' . $this->table['as'] . '.' . $col_name . ')' . ( is_string( $as_value ) ? ' AS ' . $as_value : '');
-            }
-        } else {
-            return $operator . '(' . $this->table['as'] . '.' . $col_name . ')' . ( is_string( $as_value ) ? ' AS ' . $as_value : '');
-        }
-    }
+	function get_operator_string( $operator, $as_value, $col_name ) {
 
-    function distinct( $select ) {
+		if ( is_array( $operator ) ) {
 
-        foreach ( $select as $as_value => $data ) {
-            if ( in_array( $data, $this->table['cols'] ) ) {
-                $this->query['select'][] = 'DISTINCT ' . $this->table['as'] . '.' . $data . ( is_string( $as_value ) ? ' AS ' . $as_value : '');
-            } else if ( in_array( $as_value, array( 'count' ) ) ) {
-                $this->set_operator_query( strtoupper( $as_value ) . ' DISTINCT', $data );
-            }
-        }
+			switch ( $operator[1] ) {
+				case 'DISTINCT': return $operator[0] . '( ' . $operator[1] . ' ' . $this->table['as'] . '.' . $col_name . ')' . ( is_string( $as_value ) ? ' AS ' . $as_value : '');
+			}
+		} else {
+			return $operator . '(' . $this->table['as'] . '.' . $col_name . ')' . ( is_string( $as_value ) ? ' AS ' . $as_value : ' AS ' . $col_name);
+		}
+	}
 
-        return $this;
-    }
+	function distinct( $select ) {
 
-    function select( $select = false ) {
+		foreach ( $select as $as_value => $data ) {
+			if ( in_array( $data, $this->table['cols'] ) ) {
+				$this->query['select'][] = 'DISTINCT ' . $this->table['as'] . '.' . $data . ( is_string( $as_value ) ? ' AS ' . $as_value : '');
+			} else if ( in_array( $as_value, array( 'count' ) ) ) {
+				$this->set_operator_query( strtoupper( $as_value ) . ' DISTINCT', $data );
+			}
+		}
 
-        if ( ! $select )
-            return $this;
+		return $this;
+	}
 
-        if ( ! is_array( $select ) ) {
-            if ( $select ) {
-                $this->query['select'][] = $this->table['as'] . '.*';
-            }
-        } else {
+	function select( $select = false ) {
 
-            foreach ( $select as $as_value => $data ) {
-                if ( in_array( $data, $this->table['cols'] ) ) {
-                    $this->query['select'][] = $this->table['as'] . '.' . $data . ( is_string( $as_value ) ? ' AS ' . $as_value : '');
-                } else if ( in_array( $as_value, array( 'count', 'max', 'min', 'sum' ) ) ) {
-                    $this->set_operator_query( strtoupper( $as_value ), $data );
-                } else if ( is_object( $data ) ) {
-                    $this->query['select'][] = '(' . $data->limit( 0 )->get_sql() . ') AS ' . $as_value;
-                }
-            }
-        }
+		if ( ! $select )
+			return $this;
 
-        return $this;
-    }
+		if ( ! is_array( $select ) ) {
+			if ( $select ) {
+				$this->query['select'][] = $this->table['as'] . '.*';
+			}
+		} else {
 
-    function date( $col_name, $compare, $props ) {
+			foreach ( $select as $as_value => $data ) {
+				if ( in_array( $data, $this->table['cols'] ) ) {
+					$this->query['select'][] = $this->table['as'] . '.' . $data . ( is_string( $as_value ) ? ' AS ' . $as_value : '');
+				} else if ( in_array( $as_value, array( 'count', 'max', 'min', 'sum' ) ) ) {
+					$this->set_operator_query( strtoupper( $as_value ), $data );
+				} else if ( is_object( $data ) ) {
+					$this->query['select'][] = '(' . $data->limit( 0 )->get_sql() . ') AS ' . $as_value;
+				}
+			}
+		}
 
-        if ( $compare == '=' ) {
+		return $this;
+	}
 
-            if ( isset( $props['year'] ) )
-                $this->query['where'][] = "YEAR(" . $this->table['as'] . ".$col_name) = '" . $props['year'] . "'";
+	function date( $col_name, $compare, $props ) {
 
-            if ( isset( $props['month'] ) )
-                $this->query['where'][] = "MONTH(" . $this->table['as'] . ".$col_name) = '" . $props['month'] . "'";
+		if ( $compare == '=' ) {
 
-            if ( isset( $props['day'] ) )
-                $this->query['where'][] = "DAY(" . $this->table['as'] . ".$col_name) = '" . $props['day'] . "'";
+			if ( isset( $props['year'] ) )
+				$this->query['where'][] = "YEAR(" . $this->table['as'] . ".$col_name) = '" . $props['year'] . "'";
 
-            if ( isset( $props['last'] ) )
-                $this->date( $col_name, '>=', array( 'interval' => $props['last'] ) );
+			if ( isset( $props['month'] ) )
+				$this->query['where'][] = "MONTH(" . $this->table['as'] . ".$col_name) = '" . $props['month'] . "'";
 
-            if ( isset( $props['older'] ) )
-                $this->date( $col_name, '<', array( 'interval' => $props['older'] ) );
-        } else if ( $compare == 'BETWEEN' ) {
+			if ( isset( $props['day'] ) )
+				$this->query['where'][] = "DAY(" . $this->table['as'] . ".$col_name) = '" . $props['day'] . "'";
 
-            if ( $props ) {
+			if ( isset( $props['last'] ) )
+				$this->date( $col_name, '>=', array( 'interval' => $props['last'] ) );
 
-                if ( ! $props[1] )
-                    $props[1] = current_time( 'mysql' );
+			if ( isset( $props['older'] ) )
+				$this->date( $col_name, '<', array( 'interval' => $props['older'] ) );
+		} else if ( $compare == 'BETWEEN' ) {
 
-                $this->query['where'][] = "(" . $this->table['as'] . ".$col_name BETWEEN CAST('" . $props[0] . "' AS DATE) AND CAST('" . $props[1] . "' AS DATE))";
-            }
-        } else {
+			if ( $props ) {
 
-            if ( is_array( $props ) && isset( $props['interval'] ) ) {
-                $this->query['where'][] = $this->table['as'] . ".$col_name $compare DATE_SUB(NOW(), INTERVAL " . $props['interval'] . ")";
-            } else {
-                $this->query['where'][] = $this->table['as'] . ".$col_name $compare '$props'";
-            }
-        }
+				if ( ! $props[1] )
+					$props[1] = current_time( 'mysql' );
 
-        return $this;
-    }
+				$this->query['where'][] = "(" . $this->table['as'] . ".$col_name BETWEEN CAST('" . $props[0] . "' AS DATE) AND CAST('" . $props[1] . "' AS DATE))";
+			}
+		} else {
 
-    function where( $where ) {
-        foreach ( $this->table['cols'] as $col_name ) {
-            if ( isset( $where[$col_name] ) ) {
+			if ( is_array( $props ) && isset( $props['interval'] ) ) {
+				$this->query['where'][] = $this->table['as'] . ".$col_name $compare DATE_SUB(NOW(), INTERVAL " . $props['interval'] . ")";
+			} else {
+				$this->query['where'][] = $this->table['as'] . ".$col_name $compare '$props'";
+			}
+		}
 
-                $data = $where[$col_name];
+		return $this;
+	}
 
-                if ( $data === 'is_null' ) {
-                    $this->query['where'][] = $this->table['as'] . ".$col_name IS NULL";
-                } else if ( strpos( $data, '.' ) !== false ) {
-                    $this->query['where'][] = $this->table['as'] . ".$col_name = '" . esc_sql( $data ) . "'";
-                } else {
-                    $this->query['where'][] = $this->table['as'] . ".$col_name = " . (is_object( $data ) ? "(" . $data->limit( 0 )->get_sql() . ")" : "'" . esc_sql( $data ) . "'");
-                }
-            } else if ( isset( $where[$col_name . '__in'] ) && $where[$col_name . '__in'] ) {
+	function where( $where ) {
 
-                $data = $where[$col_name . '__in'];
+		foreach ( $this->table['cols'] as $col_name ) {
+			if ( isset( $where[$col_name] ) ) {
 
-                $this->query['where'][] = $this->table['as'] . ".$col_name IN (" . (is_object( $data ) ? $data->limit( 0 )->get_sql() : $this->get_string_in( esc_sql( $data ) ) ) . ")";
-            } else if ( isset( $where[$col_name . '__not_in'] ) && $where[$col_name . '__not_in'] ) {
+				$data = $where[$col_name];
 
-                $data = $where[$col_name . '__not_in'];
+				if ( $data === 'is_null' ) {
+					$this->query['where'][] = $this->table['as'] . ".$col_name IS NULL";
+				} else if ( strpos( $data, '.' ) !== false ) {
+					$this->query['where'][] = $this->table['as'] . ".$col_name = '" . esc_sql( $data ) . "'";
+				} else {
+					$this->query['where'][] = $this->table['as'] . ".$col_name = " . (is_object( $data ) ? "(" . $data->limit( 0 )->get_sql() . ")" : "'" . esc_sql( $data ) . "'");
+				}
+			} else if ( isset( $where[$col_name . '__in'] ) && $where[$col_name . '__in'] ) {
 
-                $this->query['where'][] = $this->table['as'] . ".$col_name NOT IN (" . (is_object( $data ) ? $data->limit( 0 )->get_sql() : $this->get_string_in( esc_sql( $data ) ) ) . ")";
-            } else if ( isset( $where[$col_name . '__between'] ) && $where[$col_name . '__between'] ) {
+				$data = $where[$col_name . '__in'];
 
-                $data = esc_sql( $where[$col_name . '__between'] );
+				$this->query['where'][] = $this->table['as'] . ".$col_name IN (" . (is_object( $data ) ? $data->limit( 0 )->get_sql() : $this->get_string_in( esc_sql( $data ) ) ) . ")";
+			} else if ( isset( $where[$col_name . '__not_in'] ) && $where[$col_name . '__not_in'] ) {
 
-                $this->query['where'][] = "(" . $this->table['as'] . '.' . $col_name . " BETWEEN IFNULL(" . $data[0] . ", 0) AND '" . $data[1] . "')";
-            } else if ( isset( $where[$col_name . '__like'] ) && $where[$col_name . '__like'] ) {
+				$data = $where[$col_name . '__not_in'];
 
-                $data = $where[$col_name . '__like'];
+				$this->query['where'][] = $this->table['as'] . ".$col_name NOT IN (" . (is_object( $data ) ? $data->limit( 0 )->get_sql() : $this->get_string_in( esc_sql( $data ) ) ) . ")";
+			} else if ( isset( $where[$col_name . '__between'] ) && $where[$col_name . '__between'] ) {
 
-                $this->query['where'][] = $this->table['as'] . ".$col_name LIKE '%" . esc_sql( $data ) . "%'";
-            } else if ( isset( $where[$col_name . '__to'] ) ) {
+				$data = esc_sql( $where[$col_name . '__between'] );
 
-                $data = $where[$col_name . '__to'];
+				$this->query['where'][] = "(" . $this->table['as'] . '.' . $col_name . " BETWEEN IFNULL(" . $data[0] . ", 0) AND '" . $data[1] . "')";
+			} else if ( isset( $where[$col_name . '__like'] ) && $where[$col_name . '__like'] ) {
 
-                $colName = is_numeric( $data ) ? "CAST(" . $this->table['as'] . ".$col_name AS DECIMAL)" : $this->table['as'] . "." . $col_name;
+				$data = $where[$col_name . '__like'];
 
-                $this->query['where'][] = $colName . " <= '" . esc_sql( $data ) . "'";
-            } else if ( isset( $where[$col_name . '__from'] ) ) {
+				$this->query['where'][] = $this->table['as'] . ".$col_name LIKE '%" . esc_sql( $data ) . "%'";
+			} else if ( isset( $where[$col_name . '__to'] ) ) {
 
-                $data = $where[$col_name . '__from'];
+				$data = $where[$col_name . '__to'];
 
-                $colName = is_numeric( $data ) ? "CAST(" . $this->table['as'] . ".$col_name AS DECIMAL)" : $this->table['as'] . "." . $col_name;
+				$colName = is_numeric( $data ) ? "CAST(" . $this->table['as'] . ".$col_name AS DECIMAL)" : $this->table['as'] . "." . $col_name;
 
-                $this->query['where'][] = $colName . " >= '" . esc_sql( $data ) . "'";
-            } else if ( isset( $where[$col_name . '__is'] ) ) {
+				$this->query['where'][] = $colName . " <= '" . esc_sql( $data ) . "'";
 
-                $data = $where[$col_name . '__is'];
+			} else if ( isset( $where[$col_name . '__from'] ) ) {
 
-                $this->query['where'][] = $this->table['as'] . ".$col_name IS " . $data;
-            }
-        }
-        return $this;
-    }
+				$data = $where[$col_name . '__from'];
 
-    function select_string( $string ) {
-        $this->query['select'][] = $string;
-        return $this;
-    }
+				$colName = is_numeric( $data ) ? "CAST(" . $this->table['as'] . ".$col_name AS DECIMAL)" : $this->table['as'] . "." . $col_name;
 
-    function where_string( $string ) {
-        $this->query['where'][] = $string;
-        return $this;
-    }
+				$this->query['where'][] = $colName . " >= '" . esc_sql( $data ) . "'";
+			} else if ( isset( $where[$col_name . '__is'] ) ) {
 
-    function having_string( $string ) {
-        $this->query['having'][] = $string;
-        return $this;
-    }
+				$data = $where[$col_name . '__is'];
 
-    function orderby_string( $string ) {
-        $this->query['orderby'][] = $string;
-        return $this;
-    }
+				$this->query['where'][] = $this->table['as'] . ".$col_name IS " . $data;
+			}
+		}
+		return $this;
+	}
 
-    function get_string_in( $data ) {
+	function select_string( $string ) {
+		$this->query['select'][] = $string;
+		return $this;
+	}
 
-        $vars = (is_array( $data )) ? $data : explode( ',', $data );
+	function where_string( $string ) {
+		$this->query['where'][] = $string;
+		return $this;
+	}
 
-        $vars = array_map( 'trim', $vars );
+	function having_string( $string ) {
+		$this->query['having'][] = $string;
+		return $this;
+	}
 
-        $array = array();
-        foreach ( $vars as $var ) {
+	function orderby_string( $string ) {
+		$this->query['orderby'][] = $string;
+		return $this;
+	}
 
-            if ( is_numeric( $var ) )
-                $array[] = $var;
-            else
-                $array[] = "'$var'";
-        }
+	function get_string_in( $data ) {
 
-        return implode( ',', $array );
-    }
+		$vars = (is_array( $data )) ? $data : explode( ',', $data );
 
-    function join( $joinProps, $joinQuery ) {
+		$vars = array_map( 'trim', $vars );
 
-        if ( is_array( $joinProps ) ) {
-            $joinType = isset( $joinProps[2] ) ? $joinProps[2] : 'INNER';
-        } else { //if colnames of join is the same you can convey a colname as a string
-            $joinType  = 'INNER';
-            $joinProps = [ $joinProps, $joinProps ];
-        }
+		$array = array();
+		foreach ( $vars as $var ) {
 
-        $this->query['join'][] = $joinType . " JOIN " . $joinQuery->table['name'] . " AS " . $joinQuery->table['as'] . " ON " . $this->table['as'] . "." . $joinProps[0] . " = " . $joinQuery->table['as'] . "." . $joinProps[1];
+			if ( is_numeric( $var ) )
+				$array[] = $var;
+			else
+				$array[] = "'$var'";
+		}
 
-        if ( ! $this->query['select'] ) {
-            foreach ( $this->table['cols'] as $col_name ) {
-                $this->query['select'][] = $this->table['as'] . '.' . $col_name;
-            }
-        }
+		return implode( ',', $array );
+	}
 
-        if ( $joinQuery->query['select'] )
-            $this->query['select'] = array_merge( $this->query['select'], $joinQuery->query['select'] );
-        if ( $joinQuery->query['where'] )
-            $this->query['where']  = array_merge( $this->query['where'], $joinQuery->query['where'] );
-        if ( $joinQuery->query['join'] )
-            $this->query['join']   = array_merge( $this->query['join'], $joinQuery->query['join'] );
+	function join( $joinProps, $joinQuery ) {
 
-        $joinQuery->reset_query();
+		if ( is_array( $joinProps ) ) {
+			$joinType = isset( $joinProps[2] ) ? $joinProps[2] : 'INNER';
+		} else { //if colnames of join is the same you can convey a colname as a string
+			$joinType	 = 'INNER';
+			$joinProps	 = [$joinProps, $joinProps ];
+		}
 
-        return $this;
-    }
+		$this->query['join'][] = $joinType . " JOIN " . $joinQuery->table['name'] . " AS " . $joinQuery->table['as'] . " ON " . $this->table['as'] . "." . $joinProps[0] . " = " . $joinQuery->table['as'] . "." . $joinProps[1];
 
-    function limit( $number, $offset = 0 ) {
-        $this->number( $number );
-        $this->offset( $offset );
-        return $this;
-    }
+		if ( ! $this->query['select'] ) {
+			foreach ( $this->table['cols'] as $col_name ) {
+				$this->query['select'][] = $this->table['as'] . '.' . $col_name;
+			}
+		}
 
-    function number( $number ) {
-        $this->query['number'] = $number;
-        return $this;
-    }
+		if ( $joinQuery->query['select'] )
+			$this->query['select']	 = array_merge( $this->query['select'], $joinQuery->query['select'] );
+		if ( $joinQuery->query['where'] )
+			$this->query['where']	 = array_merge( $this->query['where'], $joinQuery->query['where'] );
+		if ( $joinQuery->query['join'] )
+			$this->query['join']	 = array_merge( $this->query['join'], $joinQuery->query['join'] );
 
-    function offset( $offset ) {
-        $this->query['offset'] = $offset;
-        return $this;
-    }
+		$joinQuery->reset_query();
 
-    function groupby( $groupby ) {
+		return $this;
+	}
 
-        $this->query['groupby'] = count( explode( '.', $groupby ) ) > 1 ? $groupby : $this->table['as'] . '.' . $groupby;
+	function limit( $number, $offset = 0 ) {
+		$this->number( $number );
+		$this->offset( $offset );
+		return $this;
+	}
 
-        return $this;
-    }
+	function number( $number ) {
+		$this->query['number'] = $number;
+		return $this;
+	}
 
-    function orderby( $orderby, $order = false ) {
+	function offset( $offset ) {
+		$this->query['offset'] = $offset;
+		return $this;
+	}
 
-        if ( is_array( $orderby ) ) {
-            foreach ( $orderby as $by => $order ) {
+	function groupby( $groupby ) {
 
-                $by = count( explode( '.', $by ) ) > 1 ? $by : (in_array( $by, $this->table['cols'] ) ? $this->table['as'] . '.' . $by : $by);
+		$this->query['groupby'] = count( explode( '.', $groupby ) ) > 1 ? $groupby : $this->table['as'] . '.' . $groupby;
 
-                $this->query['orderby'][$by] = $order;
-            }
-        } else {
+		return $this;
+	}
 
-            $this->query['orderby'] = count( explode( '.', $orderby ) ) > 1 ? $orderby : (in_array( $orderby, $this->table['cols'] ) ? $this->table['as'] . '.' . $orderby : $orderby);
+	function orderby( $orderby, $order = false ) {
 
-            if ( $order )
-                $this->order( $order );
-        }
+		if ( is_array( $orderby ) ) {
+			foreach ( $orderby as $by => $order ) {
 
-        return $this;
-    }
+				$by = count( explode( '.', $by ) ) > 1 ? $by : (in_array( $by, $this->table['cols'] ) ? $this->table['as'] . '.' . $by : $by);
 
-    function order( $order ) {
-        $this->query['order'] = $order;
-        return $this;
-    }
+				$this->query['orderby'][$by] = $order;
+			}
+		} else {
 
-    function get_query() {
-        return $this->query;
-    }
+			$this->query['orderby'] = count( explode( '.', $orderby ) ) > 1 ? $orderby : (in_array( $orderby, $this->table['cols'] ) ? $this->table['as'] . '.' . $orderby : $orderby);
 
-    function get_sql( $query = false ) {
+			if ( $order )
+				$this->order( $order );
+		}
 
-        $query = $query ? $query : $this->get_query();
+		return $this;
+	}
 
-        if ( ! isset( $query['select'] ) || ! $query['select'] ) {
-            $query['select'][] = $this->table['as'] . '.*';
-        }
+	function orderby_case($columnName, $case){
 
-        $sql[] = "SELECT " . implode( ', ', $query['select'] );
+		$cases = [];
+		foreach($case as $k => $v){
+			$cases[] = "WHEN $v THEN " . ($k + 1);
+		}
 
-        $sql[] = "FROM " . $this->table['name'] . " AS " . $this->table['as'];
+		$this->query['orderby'] = "CASE ".$this->get_colname($columnName)." ".implode(" ", $cases);
+		$this->query['order'] = "END";
 
-        if ( isset( $query['join'] ) && $query['join'] ) {
-            $sql[] = implode( ' ', $query['join'] );
-        }
+		return $this;
 
-        $where = array();
+	}
 
-        if ( isset( $query['where'] ) && $query['where'] ) {
-            $where[] = implode( ' AND ', $query['where'] );
-        }
+	function orderby_as_number($columnName, $order = false){
+		$this->query['orderby'] = $columnName.' * 1';
 
-        if ( isset( $query['where_or'] ) && $query['where_or'] ) {
+		if($order){
+			$this->order($order);
+		}
 
-            if ( $query['where'] )
-                $where_or[] = 'OR';
+		return $this;
+	}
 
-            $where_or[] = implode( ' OR ', $query['where_or'] );
+	function order( $order ) {
+		$this->query['order'] = $order;
+		return $this;
+	}
 
-            $where[] = implode( ' ', $where_or );
-        }
+	function get_query() {
+		return $this->query;
+	}
 
-        if ( $where )
-            $sql[] = "WHERE " . implode( ' ', $where );
+	function get_sql( $query = false ) {
 
-        if ( isset( $query['union'] ) ) { //support old union request
-            foreach ( $query['union'] as $unionQuery ) {
+		$query = $query ? $query : $this->get_query();
 
-                $sql[] = "UNION ALL";
+		if ( ! isset( $query['select'] ) || ! $query['select'] ) {
+			$query['select'][] = $this->table['as'] . '.*';
+		}
 
-                $Query = new USP_Query( $unionQuery['table'] );
+		//$get_found_rows = isset($query['get_found_rows']) && $query['get_found_rows']? 'SQL_CALC_FOUND_ROWS ': '';
 
-                $sql[] = $Query->get_sql( $unionQuery );
-            }
-        }
+		$sql[] = "SELECT " . implode( ', ', $query['select'] );
 
-        if ( isset( $query['groupby'] ) && $query['groupby'] )
-            $sql[] = "GROUP BY " . $query['groupby'];
+		$sql[] = "FROM " . $this->table['name'] . " AS " . $this->table['as'];
 
-        if ( isset( $query['having'] ) && $query['having'] )
-            $sql[] = "HAVING " . implode( ' AND ', $query['having'] );
+		if ( isset( $query['join'] ) && $query['join'] ) {
+			$sql[] = implode( ' ', $query['join'] );
+		}
 
-        if ( isset( $query['orderby'] ) && $query['orderby'] ) {
+		$where = array();
 
-            if ( is_array( $query['orderby'] ) ) {
-                $orders = array();
-                foreach ( $query['orderby'] as $orderby => $order ) {
-                    $orders[] = $orderby . " " . $order;
-                }
-                $sql[] = "ORDER BY " . implode( ",", $orders );
-            } else {
-                $sql[] = "ORDER BY " . $query['orderby'] . " " . $query['order'];
-            }
-        } else {
-            $sql[] = "ORDER BY " . $this->table['as'] . "." . $this->table['cols'][0] . " " . (isset( $query['order'] ) ? $query['order'] : 'DESC');
-        }
+		if ( isset( $query['where'] ) && $query['where'] ) {
+			$where[] = implode( ' AND ', $query['where'] );
+		}
 
-        if ( isset( $query['number'] ) && $query['number'] ) {
+		if ( isset( $query['where_or'] ) && $query['where_or'] ) {
 
-            if ( $query['number'] < 0 ) {
-                $query['number'] = 0;
-            }
+			if ( $query['where'] )
+				$where_or[] = 'OR';
 
-            if ( isset( $query['offset'] ) && $query['offset'] ) {
-                $sql[] = "LIMIT " . $query['offset'] . "," . $query['number'];
-            } else if ( isset( $query['number'] ) && $query['number'] ) {
-                $sql[] = "LIMIT " . $query['number'];
-            }
-        } else if ( isset( $query['offset'] ) && $query['offset'] ) {
-            $sql[] = "OFFSET " . $query['offset'];
-        }
+			$where_or[] = implode( ' OR ', $query['where_or'] );
 
-        $sql = implode( ' ', $sql );
+			$where[] = implode( ' ', $where_or );
+		}
 
-        return $sql;
-    }
+		if ( $where )
+			$sql[] = "WHERE " . implode( ' ', $where );
 
-    function get_data( $method = 'get_results', $use_cache = false, $return_as = false ) {
-        global $wpdb;
+		if ( isset( $query['union'] ) ) { //support old union request
+			foreach ( $query['union'] as $unionQuery ) {
 
-        if ( isset( $this->return_as ) )
-            $return_as = $this->return_as;
+				$sql[] = "UNION ALL";
 
-        $query = $this->get_query();
+				$Query = new DBQuery( $unionQuery['table'] );
 
-        if ( $use_cache || isset( $this->cache ) ) {
-            $cachekey = md5( json_encode( $query ) );
-            $cache    = wp_cache_get( $cachekey );
-            if ( $cache !== false )
-                return $cache;
-        }
+				$sql[] = $Query->get_sql( $unionQuery );
+			}
+		}
 
-        $sql = $this->get_sql( $query );
+		if ( isset( $query['groupby'] ) && $query['groupby'] )
+			$sql[] = "GROUP BY " . $query['groupby'];
 
-        $data = $return_as ? $wpdb->$method( $sql, $return_as ) : $wpdb->$method( $sql );
+		if ( isset( $query['having'] ) && $query['having'] )
+			$sql[] = "HAVING " . implode( ' AND ', $query['having'] );
 
-        $data = $this->maybe_unserialize( $data );
+		if ( isset( $query['orderby'] ) && $query['orderby'] ) {
 
-        $data = wp_unslash( $data );
+			if ( is_array( $query['orderby'] ) ) {
+				$orders = array();
+				foreach ( $query['orderby'] as $orderby => $order ) {
+					$orders[] = $orderby . " " . $order;
+				}
+				$sql[] = "ORDER BY " . implode( ",", $orders );
+			} else {
+				$sql[] = "ORDER BY " . $query['orderby'] . " " . $query['order'];
+			}
+		} else {
+			$sql[] = "ORDER BY " . $this->table['as'] . "." . $this->table['cols'][0] . " " . (isset( $query['order'] ) ? $query['order'] : 'DESC');
+		}
 
-        if ( $use_cache )
-            wp_cache_add( $cachekey, $data );
+		if ( isset( $query['number'] ) && $query['number'] ) {
 
-        return $data;
-    }
+			if ( $query['number'] < 0 ) {
+				$query['number'] = 0;
+			}
 
-    function maybe_unserialize( $data ) {
+			if ( isset( $query['offset'] ) && $query['offset'] ) {
+				$sql[] = "LIMIT " . $query['offset'] . "," . $query['number'];
+			} else if ( isset( $query['number'] ) && $query['number'] ) {
+				$sql[] = "LIMIT " . $query['number'];
+			}
+		} else if ( isset( $query['offset'] ) && $query['offset'] ) {
+			$sql[] = "OFFSET " . $query['offset'];
+		}
 
-        if ( ! $this->serialize )
-            return $data;
+		$sql = implode( ' ', $sql );
 
-        if ( is_string( $data ) ) {
-            return maybe_unserialize( $data );
-        }
+		return $sql;
+	}
 
-        foreach ( $this->serialize as $colName ) {
-            if ( is_array( $data ) ) {
-                foreach ( $data as $k => $item ) {
-                    if ( is_object( $item ) ) {
-                        if ( isset( $item->$colName ) )
-                            $data[$k]->$colName = maybe_unserialize( $item->$colName );
-                    } else {
-                        $data[$k] = maybe_unserialize( $item );
-                    }
-                }
-            } else if ( is_object( $data ) ) {
-                if ( isset( $data->$colName ) )
-                    $data->$colName = maybe_unserialize( $data->$colName );
-            }
-        }
+	function get_data( $method = 'get_results', $use_cache = false, $return_as = false, $get_found_rows = false ) {
+		global $wpdb;
 
-        return $data;
-    }
+		$query = $this->get_query();
 
-    function get_walker() {
-        return new USP_Walker( $this->get_results() );
-    }
+		if($get_found_rows){
+			$query['get_found_rows'] = true;
+		}
 
-    function get_var( $cache = false ) {
-        return $this->get_data( 'get_var', $cache );
-    }
+		if ( $use_cache ) {
+			$cachekey	 = md5( json_encode( $query ) );
+			$cache		 = wp_cache_get( $cachekey );
+			if ( $cache !== false )
+				return $cache;
+		}
 
-    function get_results( $cache = false, $return_as = false ) {
-        return $this->get_data( 'get_results', $cache, $return_as );
-    }
+		$sql = $this->get_sql( $query );
 
-    function get_row( $cache = false ) {
-        return $this->get_data( 'get_row', $cache );
-    }
+		$data = $return_as ? $wpdb->$method( $sql, $return_as ) : $wpdb->$method( $sql );
 
-    function get_col( $cache = false ) {
-        return $this->get_data( 'get_col', $cache );
-    }
+		$data = $this->maybe_unserialize( $data );
 
-    function get_count( $field_name = false, $cache = false ) {
-        return ( ! $result = $this->get_operator_data( 'COUNT', $field_name, $cache ) ) ? 0 : $result;
-    }
+		$data = wp_unslash( $data );
 
-    function get_sum( $field_name = false, $cache = false ) {
-        return ( ! $result = $this->get_operator_data( 'SUM', $field_name, $cache ) ) ? 0 : $result;
-    }
+		//$this->found_rows = $wpdb->query( "SELECT FOUND_ROWS() AS count" );
 
-    function get_max( $field_name = false, $cache = false ) {
-        return $this->get_operator_data( 'MAX', $field_name, $cache );
-    }
+		if ( $use_cache )
+			wp_cache_add( $cachekey, $data );
 
-    function get_min( $field_name = false, $cache = false ) {
-        return $this->get_operator_data( 'MIN', $field_name, $cache );
-    }
+		return $data;
+	}
+
+	function maybe_unserialize( $data ) {
+
+		if ( ! $this->serialize )
+			return $data;
+
+		if ( is_string( $data ) ) {
+			return maybe_unserialize( $data );
+		}
+
+		foreach ( $this->serialize as $colName ) {
+			if ( is_array( $data ) ) {
+				foreach ( $data as $k => $item ) {
+					if ( is_object( $item ) ) {
+						if ( isset( $item->$colName ) )
+							$data[$k]->$colName = maybe_unserialize( $item->$colName );
+					}else {
+						$data[$k] = maybe_unserialize( $item );
+					}
+				}
+			} else if ( is_object( $data ) ) {
+				if ( isset( $data->$colName ) )
+					$data->$colName = maybe_unserialize( $data->$colName );
+			}
+		}
+
+		return $data;
+	}
+
+	function get_var( $cache = false ) {
+		return $this->get_data( 'get_var', $cache );
+	}
+
+	function get_results( $cache = false, $return_as = false, $get_found_rows = false ) {
+		return $this->get_data( 'get_results', $cache, $return_as, $get_found_rows );
+	}
+
+	function get_row( $cache = false ) {
+		return $this->get_data( 'get_row', $cache );
+	}
+
+	function get_col( $cache = false ) {
+		return $this->get_data( 'get_col', $cache );
+	}
+
+	function get_count( $field_name = false, $cache = false ) {
+		return ( ! $result = $this->get_operator_data( 'COUNT', $field_name, $cache ) ) ? 0 : $result;
+	}
+
+	function get_sum( $field_name = false, $cache = false ) {
+		return ( ! $result = $this->get_operator_data( 'SUM', $field_name, $cache ) ) ? 0 : $result;
+	}
+
+	function get_max( $field_name = false, $cache = false ) {
+		return $this->get_operator_data( 'MAX', $field_name, $cache );
+	}
+
+	function get_min( $field_name = false, $cache = false ) {
+		return $this->get_operator_data( 'MIN', $field_name, $cache );
+	}
+
+	static function insert( $objectQuery, $data ) {
+		global $wpdb;
+		return $wpdb->insert(  $objectQuery->table['name'], $data );
+	}
+
+	static function update( $objectQuery, $set ) {
+		global $wpdb;
+
+		$primaryKey = $objectQuery->table['cols'][0];
+
+		$results = $objectQuery->select( [ $primaryKey ] )->limit(-1)->get_results();
+
+		if ( empty( $results ) ) {
+			return false;
+		}
+
+		foreach ( $results as $item ) {
+			$wpdb->update(
+				$objectQuery->table['name'], $set, [
+					$primaryKey => $item->$primaryKey
+				]
+			);
+		}
+
+		return true;
+
+	}
+
+	static function delete( $objectQuery ) {
+		global $wpdb;
+
+		$primaryKey = $objectQuery->table['cols'][0];
+
+		$results = $objectQuery->select( [ $primaryKey ] )->limit(-1)->get_results();
+
+		if ( empty( $results ) ) {
+			return false;
+		}
+
+		$ids = [];
+		foreach ( $results as $item ) {
+			$ids[] = $item->$primaryKey;
+		}
+
+		if(!$ids){
+			return false;
+		}
+
+		$wpdb->query( "DELETE FROM " . $objectQuery->table['name'] . " WHERE " . $primaryKey . " IN (".(implode(',',$ids)).")" );
+
+		return true;
+
+	}
 
 }

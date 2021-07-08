@@ -21,7 +21,7 @@ function usp_add_sub_tab( $tab_id, $subtabData ) {
 }
 
 function usp_get_tabs() {
-    return USP()->tabs;
+    return USP()->get_tabs();
 }
 
 function usp_get_tab( $tab_id ) {
@@ -88,7 +88,7 @@ function usp_filter_custom_tab_vars( $content ) {
 
     $matchs = array(
         '{USERID}'   => $user_ID,
-        '{MASTERID}' => USP()->office()->get_master_id()
+        '{MASTERID}' => USP()->office()->get_owner_id()
     );
 
     $matchs = apply_filters( 'usp_custom_tab_vars', $matchs );
@@ -139,8 +139,8 @@ function usp_filter_custom_tab_usermetas( $content ) {
 add_filter( 'usp_tab_content', 'usp_check_user_blocked', 10 );
 function usp_check_user_blocked( $content ) {
     global $user_ID;
-    if ( USP()->office()->is_master($user_ID) ) {
-        if ( get_user_meta( USP()->office()->is_master($user_ID), 'usp_black_list:' . $user_ID ) ) {
+    if ( USP()->office()->is_owner($user_ID) ) {
+        if ( get_user_meta( USP()->office()->is_owner($user_ID), 'usp_black_list:' . $user_ID ) ) {
             $content = usp_get_notice( [ 'text' => __( 'The user has restricted access to their page', 'userspace' ) ] );
         }
     }
@@ -152,7 +152,7 @@ function usp_add_block_black_list_button() {
     if ( ! is_user_logged_in() )
         return;
 
-    $user_block = get_user_meta( get_current_user_id(), 'usp_black_list:' . USP()->office()->get_master_id() );
+    $user_block = get_user_meta( get_current_user_id(), 'usp_black_list:' . USP()->office()->get_owner_id() );
 
     $title = ($user_block) ? __( 'Unblock', 'userspace' ) : __( 'Block', 'userspace' );
 
@@ -163,7 +163,7 @@ function usp_add_block_black_list_button() {
             'public'  => -2,
             'output'  => 'actions',
             'icon'    => 'fa-user',
-            'onclick' => 'usp_manage_user_black_list(this, ' . USP()->office()->get_master_id() . ', "' . __( 'Are you sure?', 'userspace' ) . '");return false;'
+            'onclick' => 'usp_manage_user_black_list(this, ' . USP()->office()->get_owner_id() . ', "' . __( 'Are you sure?', 'userspace' ) . '");return false;'
         )
     );
 }

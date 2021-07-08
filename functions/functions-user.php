@@ -174,10 +174,10 @@ function usp_get_user_cover( $user_id = false, $avatar_cover = false ) {
 function usp_get_age_number( $user_id = false ) {
     if ( ! $user_id ) {
 
-        if ( ! USP()->office()->get_master_id() )
+        if ( ! USP()->office()->get_owner_id() )
             return;
 
-        $user_id = USP()->office()->get_master_id();
+        $user_id = USP()->office()->get_owner_id();
     }
 
     $bip_birthday = get_user_meta( $user_id, 'usp_birthday', true );
@@ -486,7 +486,7 @@ function usp_get_time_user_action( $user_id ) {
     if ( $cache )
         return $cache;
 
-    $action = RQ::tbl( new USP_User_Action() )->select( [ 'date_action' ] )->where( [ 'user_id' => $user_id ] )->get_var();
+    $action = ( new USP_User_Action() )->select( [ 'date_action' ] )->where( [ 'user_id' => $user_id ] )->get_var();
 
     if ( ! $action ) {
         $action = '0000-00-00 00:00:00';
@@ -787,7 +787,6 @@ function usp_show_user_custom_fields( $user_id, $args = false ) {
 
         if ( isset( $field['public_value'] ) && $field['public_value'] == 1 ) {
             $field['value'] = get_the_author_meta( $slug, $user_id );
-
             $content .= USP_Field::setup( $field )->get_field_value( true );
         }
     }

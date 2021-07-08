@@ -3,8 +3,8 @@
 
 class USP_Office {
 
-	private $master_id = 0;
-	private $master;
+	private $owner_id = 0;
+	private $owner;
 	protected static $_instance = null;
 
 	public static function getInstance() {
@@ -29,21 +29,17 @@ class USP_Office {
 		return;
 	}
 
-	function setup($user_id){
+	function setup( $user_id ) {
 		global $user_ID;
 
 		if ( ! $this->is() ) {
 			return;
 		}
 
-		if ( ! $user_id ) {
-			$this->master_id = $user_ID;
-		} else {
-			$this->master_id = $user_id;
-		}
+		$owner_id = $user_id ?: $user_ID;
 
-		if ( $this->master_id ) {
-			$this->master = USP()->user( $this->master_id );
+		if ( $owner_id ) {
+			$this->set_owner( $owner_id );
 		}
 	}
 
@@ -71,30 +67,30 @@ class USP_Office {
 		return true;
 	}
 
-	function is_master( $user_id ) {
+	function is_owner( $user_id ) {
 
 		if ( ! $user_id || ! $this->is() ) {
 			return false;
 		}
 
-		if ( $user_id != $this->master_id ) {
+		if ( $user_id != $this->owner_id ) {
 			return false;
 		}
 
 		return true;
 	}
 
-	function set_master( $user_id ) {
-		$this->master_id = $user_id;
-		$this->master    = USP()->user( $user_id );
+	function set_owner( $user_id ) {
+		$this->owner_id = $user_id;
+		$this->owner    = USP()->user( $user_id );
 	}
 
-	function get_master_id() {
-		return $this->master_id;
+	function get_owner_id() {
+		return $this->owner_id;
 	}
 
-	function get_master() {
-		return $this->master;
+	function owner() {
+		return $this->owner;
 	}
 
 }

@@ -151,7 +151,7 @@ class USP_Tab {
 
     function get_permalink( $user_id = false ) {
         if ( ! $user_id )
-            $user_id = USP()->office()->get_master_id();
+            $user_id = USP()->office()->get_owner_id();
         return $this->url ? : add_query_arg( [ 'tab' => $this->id ], usp_get_user_url( $user_id ) );
     }
 
@@ -159,13 +159,13 @@ class USP_Tab {
         global $user_ID;
 
         if ( $this->public == 0 ) {
-            if ( ! $user_ID || !USP()->office()->is_master($user_ID) )
+            if ( ! $user_ID || !USP()->office()->is_owner($user_ID) )
                 return false;
         } else if ( $this->public == -1 ) {
-            if ( ! $user_ID || USP()->office()->is_master($user_ID) )
+            if ( ! $user_ID || USP()->office()->is_owner($user_ID) )
                 return false;
         } else if ( $this->public == -2 ) {
-            if ( $user_ID && USP()->office()->is_master($user_ID) )
+            if ( $user_ID && USP()->office()->is_owner($user_ID) )
                 return false;
         }
 

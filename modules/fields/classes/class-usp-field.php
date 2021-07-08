@@ -7,9 +7,9 @@ class USP_Field {
             usp_awesome_font_style();
         }
 
-        if ( isset( USP()->fields[$args['type']] ) ) {
+        if ( isset( USP()->get_fields()[$args['type']] ) ) {
 
-            $className = USP()->fields[$args['type']]['class'];
+            $className = USP()->get_fields()[$args['type']]['class'];
 
             return new $className( $args );
         }

@@ -1,5 +1,30 @@
 <?php
 
+/* load user account page */
+function userspace() {
+
+	do_action( 'usp_area_before' );
+	?>
+
+	<div id="usp-office" class="<?php echo usp_get_office_class(); ?>"
+	     data-account="<?php echo USP()->office()->get_owner_id(); ?>">
+
+		<?php do_action( 'usp_area_notice' ); ?>
+
+		<?php
+		if ( $themePath = USP()->theme()->get( 'path' ) ) {
+			USP()->template( 'usp-office.php', $themePath )->include();
+		} else {
+			echo '<h3>' . __( 'Office templates not found!', 'userspace' ) . '</h3>';
+		}
+		?>
+
+	</div>
+
+	<?php
+	do_action( 'usp_area_after' );
+}
+
 // adding colorpicker styles and others to the header
 add_action( 'wp_head', 'usp_inline_styles', 100 );
 function usp_inline_styles() {

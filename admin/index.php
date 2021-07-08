@@ -2,6 +2,20 @@
 
 require_once "admin-menu.php";
 
+add_action( 'current_screen', 'usp_admin_init' );
+function usp_admin_init( $current_screen ) {
+	if ( preg_match( '/(userspace_page|manage-userspace|profile)/', $current_screen->base ) ) {
+		usp_core_resources();
+		usp_admin_scripts();
+
+		USP()->use_module( 'forms' );
+	}
+
+	if ( $current_screen->base == 'userspace_page_usp-tabs-manager' || $current_screen->base == 'userspace_page_usp-register-form-manager' ) {
+		USP()->use_module( 'fields-manager' );
+	}
+}
+
 add_filter( 'display_post_states', 'usp_mark_own_page', 10, 2 );
 function usp_mark_own_page( $post_states, $post ) {
 

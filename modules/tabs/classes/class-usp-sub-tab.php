@@ -43,7 +43,7 @@ class USP_Sub_Tab {
 
     function get_permalink( $user_id = false ) {
         if ( ! $user_id )
-            $user_id = USP()->office()->get_master_id();
+            $user_id = USP()->office()->get_owner_id();
         return add_query_arg( [ 'tab' => $this->parent_id, 'subtab' => $this->id ], usp_get_user_url( $user_id ) );
     }
 
@@ -89,7 +89,7 @@ class USP_Sub_Tab {
             if ( isset( $this->callback['args'] ) ) {
                 $args = $this->callback['args'];
             } else {
-                $args = array( USP()->office()->get_master_id() );
+                $args = array( USP()->office()->get_owner_id() );
             }
 
             $content .= '<div class="usp-subtab-content">';

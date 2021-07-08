@@ -99,7 +99,7 @@ endif;
 //for using in settings: ID => post_title
 function usp_get_pages_ids() {
 
-    $pages = RQ::tbl( new USP_Posts_Query() )->select( [ 'ID', 'post_title' ] )
+    $pages = ( new USP_Posts_Query() )->select( [ 'ID', 'post_title' ] )
             ->where( [ 'post_type' => 'page', 'post_status' => 'publish' ] )
             ->limit( -1 )
             ->orderby( 'post_title', 'ASC' )
@@ -424,7 +424,7 @@ function usp_init_beat( $beatName ) {
  * @return int  id of the current profile page
  */
 function usp_office_id() {
-    USP()->office()->get_master_id();
+    USP()->office()->get_owner_id();
 }
 
 /**

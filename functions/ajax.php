@@ -60,7 +60,7 @@ function usp_ajax_call() {
 
     $respond = $callback();
 
-    $respond['used_modules'] = $modules ? array_unique( $modules + USP()->used_modules ) : USP()->used_modules;
+    $respond['used_modules'] = $modules ? array_unique( $modules + USP()->get_used_modules() ) : USP()->get_used_modules();
 
     wp_send_json( $respond );
 }
@@ -84,7 +84,7 @@ function usp_load_tab() {
         return array( 'error' => __( 'Perhaps this add-on does not support ajax loading', 'userspace' ) );
     }
 
-    USP()->office()->set_master($office_id);
+    USP()->office()->set_owner($office_id);
 
     USP()->tabs()->current_id = $tab_id;
     $tab->current_id          = $subtab_id ? $subtab_id : $tab->content[0]->id;
