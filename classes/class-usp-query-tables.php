@@ -22,13 +22,35 @@ class USP_Users_Query extends USP_Query {
 
 }
 
+class USP_Users_Meta_Query extends USP_Query {
+
+	function __construct( $as = false ) {
+		global $wpdb;
+
+		$table = array(
+			'name' => $wpdb->usermeta,
+			'as'   => $as ?: 'wp_usermeta',
+			'cols' => array(
+				'umeta_id',
+				'user_id',
+				'meta_key',
+				'meta_value'
+			)
+		);
+
+		parent::__construct( $table );
+
+	}
+
+}
+
 class USP_Posts_Query extends USP_Query {
     function __construct( $as = false ) {
         global $wpdb;
 
         $table = array(
             'name' => $wpdb->posts,
-            'as'   => $as ? $as : 'wp_posts',
+            'as'   => $as ?: 'wp_posts',
             'cols' => array(
                 'ID',
                 'post_author',
@@ -50,6 +72,30 @@ class USP_Posts_Query extends USP_Query {
 
         parent::__construct( $table );
     }
+
+}
+
+class USP_Comments_Query extends USP_Query {
+
+	function __construct( $as = false ) {
+		global $wpdb;
+
+		$table = array(
+			'name' => $wpdb->comments,
+			'as'   => $as ?: 'wp_comments',
+			'cols' => array(
+				'comment_ID',
+				'comment_post_ID',
+				'comment_content',
+				'comment_approved',
+				'comment_date',
+				'comment_author',
+				'user_id'
+			)
+		);
+
+		parent::__construct( $table );
+	}
 
 }
 

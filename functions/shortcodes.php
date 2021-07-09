@@ -168,6 +168,34 @@ function usp_get_loginform_shortcode( $atts = [] ) {
  *
  * @since 1.0.0
  *
+ * @param array $atts
+ * $atts['number']
+ * $atts['orderby']
+ * $atts['order']
+ * $atts['template']
+ *
+ * @return string       HTML content to display userlist.
+ */
+add_shortcode('usp-users', 'usp_get_users');
+function usp_get_users($atts = []){
+
+	USP()->use_module( 'users-list-new' );
+
+	$manager = new USP_Users_Manager($atts);
+
+	$content = '<div class="usp-users-list">';
+	$content .= $manager->get_manager();
+	$content .= '</div>';
+
+	return $content;
+
+}
+
+/**
+ * Displays registered users
+ *
+ * @since 1.0.0
+ *
  * @param array $atts   $atts['inpage']         Set users per page
  *                                              Default: 30
  *                      $atts['number']         Maximum number users

@@ -424,7 +424,7 @@ function usp_init_beat( $beatName ) {
  * @return int  id of the current profile page
  */
 function usp_office_id() {
-    USP()->office()->get_owner_id();
+    return USP()->office()->get_owner_id();
 }
 
 /**

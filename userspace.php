@@ -103,6 +103,7 @@ final class UserSpace {
 
 	function set_query_vars( $vars ) {
 		$vars[] = $this->varnames['member'];
+
 		return $vars;
 	}
 
@@ -165,8 +166,8 @@ final class UserSpace {
 
 	}
 
-	function get_var($var_key){
-		return !empty($this->vars[$var_key])? $this->vars[$var_key]: false;
+	function get_var( $var_key ) {
+		return ! empty( $this->vars[ $var_key ] ) ? $this->vars[ $var_key ] : false;
 	}
 
 	function update_user_activity() {
@@ -214,10 +215,10 @@ final class UserSpace {
 		$this->fields_init();
 
 		$this->theme = $this->themes()->get_current();
-		do_action('usp_theme_init');
+		do_action( 'usp_theme_init' );
 
 		$this->office()->setup( $this->vars['member'] );
-		do_action('usp_office_setup');
+		do_action( 'usp_office_setup' );
 
 		$this->setup_tabs();
 
@@ -442,6 +443,7 @@ final class UserSpace {
 			'options-manager' => new USP_Module( USP_PATH . 'modules/options-manager/index.php', [ 'fields' ] ),
 			'profile'         => new USP_Module( USP_PATH . 'modules/profile/index.php' ),
 			'users-list'      => new USP_Module( USP_PATH . 'modules/users-list/index.php' ),
+			'users-list-new'  => new USP_Module( USP_PATH . 'modules/users-list-new/index.php', [ 'content-manager' ] ),
 		];
 	}
 
@@ -487,11 +489,11 @@ final class UserSpace {
 		return $this->theme;
 	}
 
-	function get_fields(){
+	function get_fields() {
 		return $this->fields;
 	}
 
-	function get_used_modules(){
+	function get_used_modules() {
 		return $this->used_modules;
 	}
 
