@@ -3,7 +3,7 @@
 class USP_Tabs {
 
     public $current_id;
-    private array $tabs = [];
+    private $tabs = [];
     protected static $_instance = null;
 
     public static function instance() {

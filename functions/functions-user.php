@@ -67,7 +67,7 @@ function usp_get_avatar( $id_or_email, $size = 50, $url = false, $args = [], $ht
         $href     = ($url) ? 'href="' . esc_url( $url ) . '"' : '';
         $nofollow = ($wrap_tag == 'a') ? 'rel="nofollow"' : '';
 
-        $parent_tag = sprintf("<{$wrap_tag} %s %s %s %s %s %s>", $id, $class, $href, $title, $onclick, $nofollow,);
+        $parent_tag = sprintf("<{$wrap_tag} %s %s %s %s %s %s>", $id, $class, $href, $title, $onclick, $nofollow);
 
         $parent_tag .= get_avatar( $id_or_email, $size, false, $alt, $args );
 
