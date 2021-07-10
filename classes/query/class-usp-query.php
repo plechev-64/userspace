@@ -583,6 +583,10 @@ class USP_Query {
 		return $data;
 	}
 
+	function get_walker() {
+		return new USP_Walker( $this->get_results() );
+	}
+
 	function get_var( $cache = false ) {
 		return $this->get_data( 'get_var', $cache );
 	}
