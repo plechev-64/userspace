@@ -141,12 +141,12 @@ class USP_Tabs_Manager extends USP_Fields_Manager {
 
     function get_default_tabs() {
 
-        if ( ! USP()->get_tabs() )
+        if ( ! USP()->tabs()->get_tabs() )
             return false;
 
         $fields = array();
 
-        foreach ( USP()->get_tabs() as $tab_id => $tab ) {
+        foreach ( USP()->tabs()->get_tabs() as $tab_id => $tab ) {
 
             if ( $tab->custom_tab )
                 continue;
