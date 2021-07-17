@@ -343,7 +343,7 @@ class USP_Content_Manager {
 
         if ( $this->custom_props ) {
             foreach ( $this->custom_props as $propName ) {
-                $content .= '<input type="hidden" id="value-' . $propName . '" name="' . $propName . '" value="' . $this->$propName . '">';
+                $content .= '<input type="hidden" id="value-' . $propName . '" name="' . $propName . '" value="' . (is_array($this->$propName)? implode(',', $this->$propName): $this->$propName) . '">';
             }
         }
 

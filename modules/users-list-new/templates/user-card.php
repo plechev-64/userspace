@@ -1,4 +1,4 @@
-<?php print_r($user); ?>
+<?php //print_r($user); ?>
 <div class="usp-card usp-user usps__grow" data-user-id="<?php echo $user->ID; ?>">
     <div class="usp-user__top usps usps__nowrap">
         <div class="usp-user__left usps usps__column usps__shrink-0">

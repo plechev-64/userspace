@@ -217,7 +217,7 @@ final class UserSpace {
 		$this->theme = $this->themes()->get_current();
 		do_action( 'usp_theme_init' );
 
-		$this->office()->setup( $this->vars['member'] );
+		$this->office()->setup();
 		do_action( 'usp_office_setup' );
 
 		$this->setup_tabs();
@@ -511,3 +511,7 @@ $GLOBALS['userspace'] = USP();
 
 USP()->use_module( 'tabs' );
 USP()->use_module( 'profile' );
+
+add_action('wp', function(){
+	print_r(USP()->office());
+});

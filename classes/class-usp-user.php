@@ -2,8 +2,8 @@
 
 class USP_User {
 
-	private $id;
-	private $time_update;
+	public $ID;
+	public $time_update;
 
 	function __construct( $user_id = false ) {
 		global $user_ID;
@@ -12,7 +12,23 @@ class USP_User {
 			$user_id = $user_ID;
 		}
 
-		$this->id = $user_id;
+		$this->ID = $user_id;
+	}
+	
+	static function setup($userObject){
+		
+		if(!$userObject){
+			return false;
+		}
+		
+		$user = new self();
+		
+		foreach($userObject as $key => $value){
+			$user->$key = $value;
+		}
+
+		return $user;
+		
 	}
 
 	function get_url() {
@@ -23,11 +39,11 @@ class USP_User {
 
 			$officeUrl = add_query_arg(
 				array(
-					'user' => $this->id
+					'user' => $this->ID
 				), $officeUrl );
 
 		}else{
-			$userData = get_userdata( $this->id );
+			$userData = get_userdata( $this->ID );
 			$officeUrl = untrailingslashit( $officeUrl ) . '/' . $userData->user_nicename;
 		}
 
@@ -69,29 +85,29 @@ class USP_User {
 	function update_activity() {
 		global $wpdb;
 
-		if ( ! $this->id ) {
+		if ( ! $this->ID ) {
 			return false;
 		}
 
-		$last_action = usp_get_useraction( usp_get_time_user_action( $this->id ) );
+		$last_action = usp_get_useraction( usp_get_time_user_action( $this->ID ) );
 
 		if ( $last_action ) {
 
 			$time = current_time( 'mysql' );
 
 			$res = $wpdb->update(
-				USP_PREF . 'users_actions', array( 'date_action' => $time ), array( 'user_id' => $this->id )
+				USP_PREF . 'users_actions', array( 'date_action' => $time ), array( 'user_id' => $this->ID )
 			);
 
 			if ( ! isset( $res ) || $res == 0 ) {
-				$act_user = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(date_action) FROM " . USP_PREF . "users_actions WHERE user_id ='%d'", $this->id ) );
+				$act_user = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(date_action) FROM " . USP_PREF . "users_actions WHERE user_id ='%d'", $this->ID ) );
 				if ( $act_user == 0 ) {
 					$wpdb->insert(
-						USP_PREF . 'users_actions', array( 'user_id' => $this->id, 'date_action' => $time )
+						USP_PREF . 'users_actions', array( 'user_id' => $this->ID, 'date_action' => $time )
 					);
 				}
 				if ( $act_user > 1 ) {
-					usp_delete_user_action( $this->id );
+					usp_delete_user_action( $this->ID );
 				}
 			}
 		}

@@ -3,7 +3,7 @@
 class USP_Users_Manager extends USP_Content_Manager {
 
 	public $template;
-	public $counters;
+	public $counter;
 	public $meta;
 
 	function __construct( $args = [] ) {
@@ -19,12 +19,12 @@ class USP_Users_Manager extends USP_Content_Manager {
 		if ( ! empty( $args['meta'] ) && ! is_array( $args['meta'] ) ) {
 			$args['meta'] = array_map( 'trim', explode( ',', $args['meta'] ) );
 		}
-		
+
 		$this->init_custom_prop( 'template', isset( $args['template'] ) ?: 'card' );
 		$this->init_custom_prop( 'counter', ! empty( $args['counter'] ) ? $args['counter'] : [] );
 		$this->init_custom_prop( 'meta', ! empty( $args['meta'] ) ? $args['meta'] : [] );
 
-		usp_enqueue_style( 'usp-users-'.$this->template, USP_URL . 'modules/users-list-new/assets/css/usp-users-'.$this->template.'.css', false, USP_VERSION );
+		usp_enqueue_style( 'usp-users-' . $this->template, USP_URL . 'modules/users-list-new/assets/css/usp-users-' . $this->template . '.css', false, USP_VERSION );
 
 		parent::
 		__construct( array(
@@ -39,7 +39,8 @@ class USP_Users_Manager extends USP_Content_Manager {
 			'ID',
 			'display_name',
 			'user_nicename',
-			'last_activity' => ( new USP_User_Action( 'action' ) )->select( ['date_action'] )->where_string( "users.ID=action.user_id" )
+			'user_registered',
+			'last_activity' => ( new USP_User_Action( 'action' ) )->select( [ 'date_action' ] )->where_string( "users.ID=action.user_id" )
 		];
 
 		if ( $this->counter ) {
@@ -64,52 +65,59 @@ class USP_Users_Manager extends USP_Content_Manager {
 		}
 
 		$query = ( new USP_Users_Query( 'users' ) )
-		->select( $select )
-		->where( [
-			'ID__in'     => $this->get_request_data_value( 'ID__in' ),
-			'ID__not_in' => $this->get_request_data_value( 'ID__not_in' )
-		] )
-		->orderby(
-			$this->get_request_data_value( 'orderby', 'user_registered' ),
-			$this->get_request_data_value( 'order', 'DESC' )
-		);
+			->select( $select )
+			->where( [
+				'display_name__like' => $this->get_request_data_value( 'display_name__like' ),
+				'ID__in'             => $this->get_request_data_value( 'ID__in' ),
+				'ID__not_in'         => $this->get_request_data_value( 'ID__not_in' )
+			] )
+			->orderby(
+				$this->get_request_data_value( 'orderby', 'user_registered' ),
+				$this->get_request_data_value( 'order', 'DESC' )
+			);
 
 		return apply_filters( 'usp_users_query', $query, $this );
 	}
 
-	function filter_data($data){
+	function filter_data( $data ) {
 
-		if(empty($data)){
+		if ( empty( $data ) ) {
 			return $data;
 		}
 
 		$user_metas = [];
-		$user_ids = [];
-		foreach($data as $user){
+		$user_ids   = [];
+		foreach ( $data as $user ) {
 			$user_ids[] = $user->ID;
 		}
 
-		if ( $this->meta ){
+		if ( $this->meta ) {
 
-			$metaData = (new USP_Users_Meta_Query())->select([
-				'meta_value', 'meta_key', 'user_id'
-			])->where([
-				'user_id__in' => $user_ids,
+			$metaData = ( new USP_Users_Meta_Query() )->select( [
+				'meta_value',
+				'meta_key',
+				'user_id'
+			] )->where( [
+				'user_id__in'  => $user_ids,
 				'meta_key__in' => $this->meta
-			])->limit(-1)->get_results();
+			] )->limit( - 1 )->get_results();
 
-			if($metaData){
-				foreach($metaData as $meta){
-					$user_metas[$meta->user_id][$meta->meta_key] = maybe_unserialize($meta->meta_value);
+			if ( $metaData ) {
+				foreach ( $metaData as $meta ) {
+					$user_metas[ $meta->user_id ][ $meta->meta_key ] = maybe_unserialize( $meta->meta_value );
+				}
+			}
+
+			foreach ( $data as $user ) {
+				if ( isset( $user_metas[ $user->ID ] ) ) {
+					$user->metadata = $user_metas[ $user->ID ];
 				}
 			}
 
 		}
 
-		foreach($data as $user){
-			if(isset($user_metas[$user->ID])){
-				$user->metadata = $user_metas[$user->ID];
-			}
+		foreach ( $data as $k => $user ) {
+			$data[ $k ] = USP_User::setup( $user );
 		}
 
 		return $data;
@@ -124,45 +132,23 @@ class USP_Users_Manager extends USP_Content_Manager {
 
 	function get_search_fields() {
 
-		return false;
-
-		/*return [
-			array(
-				'type'  => 'text',
-				'slug'  => 'post_title',
-				'title' => __( 'Наименование' ),
-				'value' => $this->get_request_data_value( 'post_title' ),
-			),
-		];*/
-
 		return array(
 			array(
 				'type'  => 'text',
-				'slug'  => 'post_title',
-				'title' => __( 'Наименование' ),
-				'value' => $this->get_request_data_value( 'post_title' ),
-			),
-			array(
-				'type'  => 'number',
-				'slug'  => 'ID',
-				'title' => __( 'ID публикации' ),
-				'value' => $this->get_request_data_value( 'ID' ),
-			),
-			array(
-				'type'  => 'number',
-				'slug'  => 'post_author',
-				'title' => __( 'Автор публикации' ),
-				'value' => $this->get_request_data_value( 'post_author' ),
+				'slug'  => 'display_name__like',
+				'title' => __( 'Поиск' ),
+				'value' => $this->get_request_data_value( 'display_name__like' ),
 			),
 			array(
 				'type'   => 'select',
 				'slug'   => 'orderby',
 				'title'  => __( 'Сортировка по' ),
 				'values' => [
-					'post_date'     => __( 'Дате создания', 'wp-recall' ),
-					'comment_count' => __( 'Количеству комментариев', 'wp-recall' )
+					'user_registered' => __( 'Дата регистрации', 'wp-recall' ),
+					'comments'        => __( 'Количеству комментариев', 'wp-recall' ),
+					'posts'           => __( 'Количеству публикаций', 'wp-recall' )
 				],
-				'value'  => $this->get_request_data_value( 'orderby', 'post_date' ),
+				'value'  => $this->get_request_data_value( 'orderby', 'user_registered' ),
 			),
 			array(
 				'type'   => 'radio',

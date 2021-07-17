@@ -13,15 +13,9 @@
 add_shortcode( 'userspace', 'usp_get_userspace' );
 function usp_get_userspace() {
 
-    if ( usp_get_option( 'usp_profile_page_output', 'shortcode' ) == 'shortcode' ) {
-        if ( USP()->office()->is() && empty(USP()->get_var('member'))) {
-            return usp_get_variations_buttons();
-        }
-    } else {
-        if ( USP()->office()->is() ) {
-            return usp_get_variations_buttons();
-        }
-    }
+	if ( USP()->office()->on_page() && empty(USP()->get_var('member'))) {
+		return usp_get_variations_buttons();
+	}
 
     ob_start();
 
