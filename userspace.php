@@ -442,6 +442,3 @@ $GLOBALS['userspace'] = USP();
 USP()->use_module( 'tabs' );
 USP()->use_module( 'profile' );
 
-add_action('wp', function(){
-	print_r(USP()->office());
-});
