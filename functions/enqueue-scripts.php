@@ -148,7 +148,10 @@ function usp_frontend_scripts() {
     wp_localize_script( 'usp-core-scripts', 'USP', $locData );
 }
 
-function usp_admin_scripts() {
+function usp_admin_resources() {
+
+	usp_core_resources();
+
     wp_enqueue_style( 'usp-admin-style', USP_URL . 'admin/assets/css/usp-admin.css', false, USP_VERSION );
     wp_enqueue_style( 'wp-color-picker' );
 

@@ -5,8 +5,8 @@ require_once "admin-menu.php";
 add_action( 'current_screen', 'usp_admin_init' );
 function usp_admin_init( $current_screen ) {
 	if ( preg_match( '/(userspace_page|manage-userspace|profile)/', $current_screen->base ) ) {
-		usp_core_resources();
-		usp_admin_scripts();
+
+		usp_admin_resources();
 
 		USP()->use_module( 'forms' );
 	}
