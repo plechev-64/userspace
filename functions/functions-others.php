@@ -296,8 +296,6 @@ function usp_add_log( $title, $data = false, $force = false ) {
 }
 
 function usp_is_gutenberg() {
-    global $post;
-
     if ( ! is_admin() ) {
         return false;
     }
