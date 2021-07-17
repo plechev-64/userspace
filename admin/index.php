@@ -1,7 +1,7 @@
 <?php
 
 require_once "admin-menu.php";
-
+/*tst*/
 add_action( 'current_screen', 'usp_admin_init' );
 function usp_admin_init( $current_screen ) {
     if ( preg_match( '/(userspace_page|manage-userspace|profile)/', $current_screen->base ) ) {
