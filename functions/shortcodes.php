@@ -13,7 +13,7 @@
 add_shortcode( 'userspace', 'usp_get_userspace' );
 function usp_get_userspace() {
 
-	if ( USP()->office()->on_page() && empty(USP()->get_var('member'))) {
+	if ( USP()->office()->on_page() && empty(USP()->office()->get_var('member'))) {
 		return usp_get_variations_buttons();
 	}
 

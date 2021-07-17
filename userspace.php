@@ -18,10 +18,6 @@ final class UserSpace {
 	private $theme = null;
 	private $fields = array();
 	private $modules = array();
-	private $vars = [];
-	private $varnames = array(
-		'member' => 'user'
-	);
 	private $used_modules = array();
 	private static $instance = null;
 
@@ -83,41 +79,13 @@ final class UserSpace {
 		USP_Options::getInstance();
 	}
 
-	function set_rewrite_rules() {
-		global $wp_rewrite;
-
-		if ( ! $page_id = $this->options()->get( 'account_page' ) ) {
-			return false;
-		}
-
-		$page      = get_post( $page_id );
-		$slugmatch = $page->post_name;
-		if ( $wp_rewrite->using_index_permalinks() && $wp_rewrite->root == 'index.php/' ) {
-			$slugmatch = 'index.php/' . $slugmatch;
-		}
-
-		add_rewrite_rule( $slugmatch . '/([^/]+)/?$', 'index.php?pagename=' . $page->post_name . '&' . $this->varnames['member'] . '=$matches[1]', 'top' );
-
-	}
-
-
-	function set_query_vars( $vars ) {
-		$vars[] = $this->varnames['member'];
-
-		return $vars;
-	}
-
 	private function init_hooks() {
 
 		register_activation_hook( __FILE__, array( 'USP_Install', 'install' ) );
 
-		add_action( 'plugins_loaded', [ $this, 'parse_vars' ] );
-
 		add_action( 'init', array( $this, 'init' ), 0 );
 
 		add_action( 'usp_area_before', array( $this, 'userspace_office_load' ) );
-
-		add_filter( 'query_vars', array( $this, 'set_query_vars' ) );
 
 		/**
 		 * Register our extra header for themes
@@ -132,42 +100,6 @@ final class UserSpace {
 			add_action( 'wp_head', [ $this, 'update_user_activity' ], 10 );
 		}
 
-	}
-
-	function parse_vars() {
-
-		if ( ! $page_id = $this->options()->get( 'account_page' ) ) {
-			return false;
-		}
-
-		if ( '' !== get_site_option( 'permalink_structure' ) ) {
-
-			$slugmatch = get_post( $page_id )->post_name;
-
-			$url = parse_url( $_SERVER['REQUEST_URI'] );
-
-			preg_match( '/\/' . $slugmatch . '\/([^\/]+)/', $url['path'], $matches );
-
-			if ( ! empty( $matches[1] ) ) {
-				$member = $matches[1];
-			}
-
-			if ( ! is_numeric( $member ) && $user = get_user_by( 'slug', $member ) ) {
-				$member = $user->ID;
-			}
-
-		} else {
-			$member = $_GET[ $this->varnames['member'] ];
-		}
-
-		$this->vars = array(
-			'member' => $member
-		);
-
-	}
-
-	function get_var( $var_key ) {
-		return ! empty( $this->vars[ $var_key ] ) ? $this->vars[ $var_key ] : false;
 	}
 
 	function update_user_activity() {
@@ -209,8 +141,6 @@ final class UserSpace {
 
 	public function init() {
 		do_action( 'usp_before_init' );
-
-		$this->set_rewrite_rules();
 
 		$this->fields_init();
 
