@@ -127,9 +127,13 @@ class USP_Content_Manager {
             $this->query->orderby( $this->orderby, $this->order );
         }
 
-        $this->data = $this->query
+        $this->data = $this->filter_data($this->query
             ->limit( $this->number, $this->pager->offset )
-            ->get_results();
+            ->get_results());
+    }
+
+    function filter_data($data){
+    	return $data;
     }
 
     function set_total_items() {
@@ -216,7 +220,7 @@ class USP_Content_Manager {
 
     function get_data_content() {
 
-        $content .= '<div class="manager-content">';
+        $content = '<div class="manager-content">';
 
         if ( ! $this->data ) {
             $content .= $this->get_no_result_notice();
@@ -339,7 +343,7 @@ class USP_Content_Manager {
 
         if ( $this->custom_props ) {
             foreach ( $this->custom_props as $propName ) {
-                $content .= '<input type="hidden" id="value-' . $propName . '" name="' . $propName . '" value="' . $this->$propName . '">';
+                $content .= '<input type="hidden" id="value-' . $propName . '" name="' . $propName . '" value="' . (is_array($this->$propName)? implode(',', $this->$propName): $this->$propName) . '">';
             }
         }
 

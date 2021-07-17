@@ -4,6 +4,7 @@
 class USP_Office {
 
 	private $owner_id = 0;
+	private $on_page = 0;
 	private $owner;
 	protected static $_instance = null;
 
@@ -29,47 +30,48 @@ class USP_Office {
 		return;
 	}
 
-	function setup( $user_id ) {
+	function setup() {
 		global $user_ID;
 
-		if ( ! $this->is() ) {
-			return;
+		if ( ! $office_page = USP()->options()->get( 'account_page' ) ) {
+			return false;
 		}
 
-		$owner_id = $user_id ?: $user_ID;
+		if ( '' !== get_site_option( 'permalink_structure' ) ) {
+			$url = parse_url( $_SERVER['REQUEST_URI'] );
+			$path_parts = explode('/',trim($url['path'], '/'));
+			if(!empty($path_parts[0])){
+				if(get_post( $office_page )->post_name == $path_parts[0]){
+					$this->on_page = 1;
+				}
+			}
+		}else{
+			if(!empty($_GET['page_id']) && $_GET['page_id'] == $office_page){
+				$this->on_page = 1;
+			}
+		}
 
-		if ( $owner_id ) {
+		$owner_id = !empty(USP()->get_var('member'))? USP()->get_var('member'): $user_ID;
+
+		if ( $this->on_page && $owner_id ) {
 			$this->set_owner( $owner_id );
 		}
+
 	}
 
-	function is() {
+	function on_page() {
 		global $wp_query;
 
-		if ( ! $office_page = USP()->options()->get( 'account_page' ) ) {
-			return;
-		}
-
 		if ( ! $wp_query->is_main_query() ) {
-			return;
+			return false;
 		}
 
-		if ( isset( $wp_query->queried_object ) ) {
-			if ( $wp_query->queried_object->ID != $office_page ) {
-				return;
-			}
-		} else if ( isset( $wp_query->query ) ) {
-			if ( ! isset( $wp_query->query['page_id'] ) || $wp_query->query['page_id'] != $office_page ) {
-				return;
-			}
-		}
-
-		return true;
+		return !empty($this->on_page);
 	}
 
 	function is_owner( $user_id ) {
 
-		if ( ! $user_id || ! $this->is() ) {
+		if ( ! $user_id ) {
 			return false;
 		}
 

@@ -13,15 +13,9 @@
 add_shortcode( 'userspace', 'usp_get_userspace' );
 function usp_get_userspace() {
 
-    if ( usp_get_option( 'usp_profile_page_output', 'shortcode' ) == 'shortcode' ) {
-        if ( USP()->office()->is() && empty(USP()->get_var('member'))) {
-            return usp_get_variations_buttons();
-        }
-    } else {
-        if ( USP()->office()->is() ) {
-            return usp_get_variations_buttons();
-        }
-    }
+	if ( USP()->office()->on_page() && empty(USP()->get_var('member'))) {
+		return usp_get_variations_buttons();
+	}
 
     ob_start();
 
@@ -161,6 +155,34 @@ function usp_get_loginform_shortcode( $atts = [] ) {
 
     //use module loginform
     return usp_get_loginform( $atts );
+}
+
+/**
+ * Displays registered users
+ *
+ * @since 1.0.0
+ *
+ * @param array $atts
+ * $atts['number']
+ * $atts['orderby']
+ * $atts['order']
+ * $atts['template']
+ *
+ * @return string       HTML content to display userlist.
+ */
+add_shortcode('usp-users', 'usp_get_users');
+function usp_get_users($atts = []){
+
+	USP()->use_module( 'users-list-new' );
+
+	$manager = new USP_Users_Manager($atts);
+
+	$content = '<div class="usp-users-list">';
+	$content .= $manager->get_manager();
+	$content .= '</div>';
+
+	return $content;
+
 }
 
 /**
