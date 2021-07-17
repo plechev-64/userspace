@@ -136,12 +136,12 @@ function usp_frontend_scripts() {
 
 	if ( usp_get_option( 'difficulty_parole' ) ) {
 		if ( ! $user_ID || usp_is_office( $user_ID ) ) {
-			$locData['local']['pass0'] = __( 'Very weak', 'userspace' );
-			$locData['local']['pass1'] = __( 'Weak', 'userspace' );
-			$locData['local']['pass2'] = __( 'Worse than average', 'userspace' );
-			$locData['local']['pass3'] = __( 'Average', 'userspace' );
-			$locData['local']['pass4'] = __( 'Reliable', 'userspace' );
-			$locData['local']['pass5'] = __( 'Strong', 'userspace' );
+			$locData['local']['pass0']	 = __( 'Very weak', 'userspace' );
+			$locData['local']['pass1']	 = __( 'Weak', 'userspace' );
+			$locData['local']['pass2']	 = __( 'Worse than average', 'userspace' );
+			$locData['local']['pass3']	 = __( 'Average', 'userspace' );
+			$locData['local']['pass4']	 = __( 'Reliable', 'userspace' );
+			$locData['local']['pass5']	 = __( 'Strong', 'userspace' );
 		}
 	}
 
@@ -166,36 +166,36 @@ function usp_get_localize_data() {
 	global $user_ID, $post;
 
 	$local = array(
-		'close'   => __( 'Close', 'userspace' ),
-		'error'   => __( 'Error', 'userspace' ),
-		'loading' => __( 'Loading', 'userspace' ),
-		'upload'  => __( 'Upload', 'userspace' ),
-		'cancel'  => __( 'Cancel', 'userspace' ),
-		'search'  => __( 'Search', 'userspace' ),
+		'close'		 => __( 'Close', 'userspace' ),
+		'error'		 => __( 'Error', 'userspace' ),
+		'loading'	 => __( 'Loading', 'userspace' ),
+		'upload'	 => __( 'Upload', 'userspace' ),
+		'cancel'	 => __( 'Cancel', 'userspace' ),
+		'search'	 => __( 'Search', 'userspace' ),
 	);
 
 	$data = array(
-		'ajaxurl'   => admin_url( 'admin-ajax.php' ),
-		'wpurl'     => get_bloginfo( 'wpurl' ),
+		'ajaxurl'	 => admin_url( 'admin-ajax.php' ),
+		'wpurl'		 => get_bloginfo( 'wpurl' ),
 		//'usp_url'   => USP_URL,
-		'user_ID'   => ( int ) $user_ID,
-		'office_ID' => ( USP()->office()->get_owner_id() ) ? ( int ) USP()->office()->get_owner_id() : ( int ) 0,
-		'post_ID'   => ( isset( $post->ID ) && $post->ID ) ? ( int ) $post->ID : ( int ) 0,
-		'nonce'     => wp_create_nonce( 'wp_rest' ),
-		'local'     => apply_filters( 'usp_js_localize', $local ),
-		'modules'   => []
+		'user_ID'	 => ( int ) $user_ID,
+		'office_ID'	 => ( USP()->office()->get_owner_id() ) ? ( int ) USP()->office()->get_owner_id() : ( int ) 0,
+		'post_ID'	 => ( isset( $post->ID ) && $post->ID ) ? ( int ) $post->ID : ( int ) 0,
+		'nonce'		 => wp_create_nonce( 'wp_rest' ),
+		'local'		 => apply_filters( 'usp_js_localize', $local ),
+		'modules'	 => []
 	);
 
 	//$data['mobile'] = (wp_is_mobile()) ? ( int ) 1 : ( int ) 0;
 	$data['https'] = ( ! is_ssl() ) ? ( int ) 0 : ( int ) 1;
 
-	$data['errors']['required']      = __( 'Fill in all required fields', 'userspace' );
-	$data['errors']['pattern']       = __( 'Specify the data in the required format', 'userspace' );
-	$data['errors']['number_range']  = __( 'Specify a number within the allowed range', 'userspace' );
+	$data['errors']['required']		 = __( 'Fill in all required fields', 'userspace' );
+	$data['errors']['pattern']		 = __( 'Specify the data in the required format', 'userspace' );
+	$data['errors']['number_range']	 = __( 'Specify a number within the allowed range', 'userspace' );
 	$data['errors']['file_max_size'] = __( 'File size is exceeded', 'userspace' );
 	$data['errors']['file_min_size'] = __( 'The insufficient size of the image', 'userspace' );
-	$data['errors']['file_max_num']  = __( 'Number of files exceeded', 'userspace' );
-	$data['errors']['file_accept']   = __( 'Invalid file type', 'userspace' );
+	$data['errors']['file_max_num']	 = __( 'Number of files exceeded', 'userspace' );
+	$data['errors']['file_accept']	 = __( 'Invalid file type', 'userspace' );
 
 	return apply_filters( 'usp_init_js_variables', $data );
 }

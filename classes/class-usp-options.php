@@ -13,8 +13,8 @@
  */
 class USP_Options {
 
-	protected static $_instance = null;
-	private $options = [];
+	protected static $_instance	 = null;
+	private $options			 = [];
 
 	public static function getInstance() {
 		if ( is_null( self::$_instance ) ) {
@@ -31,7 +31,6 @@ class USP_Options {
 		}
 
 		$this->options = get_site_option( 'usp_global_options' );
-
 	}
 
 	function get_options() {
