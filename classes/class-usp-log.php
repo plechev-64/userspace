@@ -1,7 +1,7 @@
 <?php
 
 class USP_Log {
-
+/*tst*/
 	public $log_path;
 
 	function __construct( $args = false ) {
