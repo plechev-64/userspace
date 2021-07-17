@@ -2,39 +2,48 @@
 .usp-users__masonry[data-columns]::before {
     content: '2 .column.size-1of2';
 }
-@media screen and (max-width: 480px){
+
+@media screen and (max-width: 480px) {
     .usp-users__masonry[data-columns]::before {
         content: '1 .column.size-1of1';
     }
 }
+
 @media screen and (min-width: 481px) and (max-width: 768px) {
     .usp-users__masonry[data-columns]::before {
         content: '2 .column.size-1of2';
     }
 }
-.size-1of1 { 
-    width: 100%; 
+
+.size-1of1 {
+    width: 100%;
 }
+
 .size-1of2 {
     width: calc(50% - 9px);
 }
+
 .size-1of2 + .size-1of2 {
     margin: 0 0 0 18px;
 }
+
 /* end */
- 
+
 .usp-masonry__head {
     height: 130px;
 }
+
 .usp-masonry .usp-status-user {
     position: absolute;
     right: 3px;
     top: 3px;
 }
+
 .usp-masonry .usp-status-user.usp-offline {
     padding: 6px 12px;
     background: var(--uspWhite-05);
 }
+
 .usp-masonry__ava {
     margin: -84px auto 0;
     z-index: 2;
@@ -42,24 +51,30 @@
     height: 110px;
     box-sizing: content-box;
 }
+
 .usp-masonry .usp-masonry__ava-img {
     background-color: var(--uspWhite);
     padding: 6px;
 }
+
 .usp-masonry__age {
     color: var(--uspYellow-900);
     margin-top: -12px;
 }
+
 .usp-masonry__fields {
     margin: 18px 0 6px;
 }
+
 .usp-masonry__fields div.usp-field {
     display: flex;
     margin: 0;
 }
+
 .usp-masonry__fields .usp-field-value {
     margin-left: 6px;
 }
+
 .usp-masonry__stats {
     margin: 0 0 12px;
 }

@@ -1,9 +1,11 @@
 .usp-admin-profile {
     max-width: 700px;
 }
+
 .usp-admin-profile .usp-field {
-	padding: 0 18px;
+    padding: 0 18px;
 }
+
 .usp-admin-profile .usp-field:first-child {
-	margin-top: 18px;
+    margin-top: 18px;
 }

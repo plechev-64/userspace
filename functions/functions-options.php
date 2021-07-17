@@ -3,10 +3,10 @@
 /**
  * Get UserSpace option
  *
- * @param string|array $option String - Name of the option to retrieve.
- *                              array - if option is a group of settings ('group'). [0] group, [1] name option
- *                              for example: usp_get_option( [ 'uspc_opt', 'contact_panel' ], 1 )
- * @param string $default Optional. Default value to return if the option does not exist.
+ * @param   string|array  $option   String - Name of the option to retrieve.
+ *                                  array - if option is a group of settings ('group'). [0] group, [1] name option
+ *                                  for example: usp_get_option( [ 'uspc_opt', 'contact_panel' ], 1 )
+ * @param   string        $default  Optional. Default value to return if the option does not exist.
  *
  * @return string               Option value if exist, or default in $default.
  * @since 1.0

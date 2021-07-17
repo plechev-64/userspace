@@ -3,10 +3,10 @@
   Template v1.0
  */
 $args = [
-    'parent_wrap'  => 'div',
-    'parent_id'    => 'usp-avatar',
-    'class'        => 'usps__fit-cover',
-    'parent_class' => 'usp-office-ava usps__relative',
+	'parent_wrap'  => 'div',
+	'parent_id'    => 'usp-avatar',
+	'class'        => 'usps__fit-cover',
+	'parent_class' => 'usp-office-ava usps__relative',
 ];
 $html = '<div class="usp-ava-bttns">' . apply_filters( 'usp_avatar_bttns', '' ) . '</div>';
 ?>
@@ -15,7 +15,7 @@ $html = '<div class="usp-ava-bttns">' . apply_filters( 'usp_avatar_bttns', '' ) 
     <div class="usp-office-top usps usps__jc-end"><?php do_action( 'usp_area_top' ); ?></div>
     <div class="usp-office-card usps usps__nowrap usps__relative">
         <div class="usp-office-left usps usps__column">
-            <?php echo usp_get_avatar( usp_office_id(), 200, false, $args, $html ); ?>
+			<?php echo usp_get_avatar( usp_office_id(), 200, false, $args, $html ); ?>
             <div class="usp-under-ava"><?php do_action( 'usp_area_under_ava' ); ?></div>
         </div>
 
@@ -41,15 +41,15 @@ $html = '<div class="usp-ava-bttns">' . apply_filters( 'usp_avatar_bttns', '' ) 
 </div>
 
 <div id="usp-tabs" class="usp-tab-area usps usps__nowrap usps__relative">
-    <?php do_action( 'usp_area_menu' ); ?>
+	<?php do_action( 'usp_area_menu' ); ?>
 
     <div class="usp-profile-content usps usps__nowrap usps__grow">
-        <?php do_action( 'usp_area_tabs' ); ?>
+		<?php do_action( 'usp_area_tabs' ); ?>
 
-        <?php if ( function_exists( 'dynamic_sidebar' ) ) { ?>
+		<?php if ( function_exists( 'dynamic_sidebar' ) ) { ?>
             <div class="usp-profile__sidebar">
-                <?php dynamic_sidebar( 'usp_theme_sidebar' ); ?>
+				<?php dynamic_sidebar( 'usp_theme_sidebar' ); ?>
             </div>
-        <?php } ?>
+		<?php } ?>
     </div>
 </div>

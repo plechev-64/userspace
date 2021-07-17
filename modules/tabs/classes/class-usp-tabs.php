@@ -2,252 +2,267 @@
 
 class USP_Tabs {
 
-    public $current_id;
-    private $tabs = [];
-    protected static $_instance = null;
+	public $current_id;
+	private $tabs = [];
+	protected static $_instance = null;
 
-    public static function instance() {
-        if ( is_null( self::$_instance ) ) {
-            self::$_instance = new self();
-        }
-        return self::$_instance;
-    }
-    
-    function get_tabs(){
-    	return $this->tabs;
-    }
+	public static function instance() {
+		if ( is_null( self::$_instance ) ) {
+			self::$_instance = new self();
+		}
 
-    function isset_tab( $tab_id ) {
-        return isset( $this->tabs[$tab_id] );
-    }
+		return self::$_instance;
+	}
 
-    function add( $tabData ) {
+	function get_tabs() {
+		return $this->tabs;
+	}
 
-        if ( ! isset( $tabData['id'] ) )
-            return false;
+	function isset_tab( $tab_id ) {
+		return isset( $this->tabs[ $tab_id ] );
+	}
 
-        $this->tabs[$tabData['id']] = new USP_Tab( $tabData );
+	function add( $tabData ) {
 
-        $this->tabs[$tabData['id']]->setup_subtabs();
+		if ( ! isset( $tabData['id'] ) ) {
+			return false;
+		}
 
-        return $this->tabs[$tabData['id']];
-    }
+		$this->tabs[ $tabData['id'] ] = new USP_Tab( $tabData );
 
-    function tab( $tab_id ) {
+		$this->tabs[ $tabData['id'] ]->setup_subtabs();
 
-        if ( ! $this->isset_tab( $tab_id ) )
-            return false;
+		return $this->tabs[ $tabData['id'] ];
+	}
 
-        return $this->tabs[$tab_id];
-    }
+	function tab( $tab_id ) {
 
-    function remove_tab( $tab_id ) {
+		if ( ! $this->isset_tab( $tab_id ) ) {
+			return false;
+		}
 
-        if ( ! $this->isset_tab( $tab_id ) )
-            return false;
+		return $this->tabs[ $tab_id ];
+	}
 
-        unset( $this->tabs[$tab_id] );
-    }
+	function remove_tab( $tab_id ) {
 
-    function current() {
-        return ($this->current_id = $this->get_current_id()) ? $this->tab( $this->current_id ) : false;
-    }
+		if ( ! $this->isset_tab( $tab_id ) ) {
+			return false;
+		}
 
-    function get_current_id() {
+		unset( $this->tabs[ $tab_id ] );
+	}
 
-        if ( isset( $_GET['tab'] ) ) {
-            return $_GET['tab'];
-        } else if ( $this->tabs ) {
+	function current() {
+		return ( $this->current_id = $this->get_current_id() ) ? $this->tab( $this->current_id ) : false;
+	}
 
-            if ( $tabs = $this->get_access_menu_items( 'menu' ) ) {
-                foreach ( $tabs as $tab_id ) {
-                    return $tab_id;
-                }
-            } else {
-                foreach ( $this->tabs as $tab_id => $tab ) {
+	function get_current_id() {
 
-                    if ( $tab->output == 'menu' )
-                        continue;
+		if ( isset( $_GET['tab'] ) ) {
+			return $_GET['tab'];
+		} else if ( $this->tabs ) {
 
-                    if ( ! $tab->content )
-                        continue;
+			if ( $tabs = $this->get_access_menu_items( 'menu' ) ) {
+				foreach ( $tabs as $tab_id ) {
+					return $tab_id;
+				}
+			} else {
+				foreach ( $this->tabs as $tab_id => $tab ) {
 
-                    if ( ! $tab->is_access() ) {
-                        continue;
-                    }
+					if ( $tab->output == 'menu' ) {
+						continue;
+					}
 
-                    return $tab_id;
-                }
-            }
-        }
+					if ( ! $tab->content ) {
+						continue;
+					}
 
-        return false;
-    }
+					if ( ! $tab->is_access() ) {
+						continue;
+					}
 
-    function get_menu_items( $menu_id ) {
+					return $tab_id;
+				}
+			}
+		}
 
-        if ( ! $this->tabs )
-            return false;
+		return false;
+	}
 
-        $tab_ids = array();
-        foreach ( $this->tabs as $tab_id => $tab ) {
+	function get_menu_items( $menu_id ) {
 
-            if ( $tab->output != $menu_id )
-                continue;
+		if ( ! $this->tabs ) {
+			return false;
+		}
 
-            $tab_ids[] = $tab_id;
-        }
+		$tab_ids = array();
+		foreach ( $this->tabs as $tab_id => $tab ) {
 
-        return $tab_ids;
-    }
+			if ( $tab->output != $menu_id ) {
+				continue;
+			}
 
-    function get_access_menu_items( $menu_id ) {
+			$tab_ids[] = $tab_id;
+		}
 
-        if ( ! $tab_ids = $this->get_menu_items( $menu_id ) )
-            return false;
+		return $tab_ids;
+	}
 
-        $ids = array();
-        foreach ( $tab_ids as $tab_id ) {
+	function get_access_menu_items( $menu_id ) {
 
-            if ( ! $tab = $this->tab( $tab_id ) ) {
-                continue;
-            }
+		if ( ! $tab_ids = $this->get_menu_items( $menu_id ) ) {
+			return false;
+		}
 
-            if ( ! $tab->is_access() ) {
-                continue;
-            }
+		$ids = array();
+		foreach ( $tab_ids as $tab_id ) {
 
-            $ids[] = $tab_id;
-        }
+			if ( ! $tab = $this->tab( $tab_id ) ) {
+				continue;
+			}
 
-        return $ids;
-    }
+			if ( ! $tab->is_access() ) {
+				continue;
+			}
 
-    function get_menu( $menu_id, $args = array() ) {
+			$ids[] = $tab_id;
+		}
 
-        $tab_ids = isset( $args['tab_ids'] ) && $args['tab_ids'] ? $args['tab_ids'] : $this->get_access_menu_items( $menu_id );
+		return $ids;
+	}
 
-        if ( ! $tab_ids )
-            return false;
+	function get_menu( $menu_id, $args = array() ) {
 
-        if ( ! $this->current_id )
-            $this->current_id = $this->get_current_id();
+		$tab_ids = isset( $args['tab_ids'] ) && $args['tab_ids'] ? $args['tab_ids'] : $this->get_access_menu_items( $menu_id );
 
-        $classes = [ 'usp-nav', 'usps' ];
+		if ( ! $tab_ids ) {
+			return false;
+		}
 
-        if ( isset( $args['class'] ) && $args['class'] ) {
-            $classes[] = $args['class'];
-        }
+		if ( ! $this->current_id ) {
+			$this->current_id = $this->get_current_id();
+		}
 
-        $content = '<div id="usp-nav-' . $menu_id . '" class="' . implode( ' ', $classes ) . '">';
+		$classes = [ 'usp-nav', 'usps' ];
 
-        foreach ( $tab_ids as $tab_id ) {
+		if ( isset( $args['class'] ) && $args['class'] ) {
+			$classes[] = $args['class'];
+		}
 
-            if ( ! $tab = $this->tab( $tab_id ) ) {
-                continue;
-            }
+		$content = '<div id="usp-nav-' . $menu_id . '" class="' . implode( ' ', $classes ) . '">';
 
-            $content .= $tab->get_button( $this->current_id == $tab_id ? [ 'status' => 'active' ] : [] );
-        }
+		foreach ( $tab_ids as $tab_id ) {
 
-        $content .= '</div>';
+			if ( ! $tab = $this->tab( $tab_id ) ) {
+				continue;
+			}
 
-        return $content;
-    }
+			$content .= $tab->get_button( $this->current_id == $tab_id ? [ 'status' => 'active' ] : [] );
+		}
 
-    function init_custom_tabs() {
+		$content .= '</div>';
 
-        $areas = usp_get_area_options();
+		return $content;
+	}
 
-        foreach ( $areas as $area_id => $tabs ) {
+	function init_custom_tabs() {
 
-            if ( ! $tabs )
-                continue;
+		$areas = usp_get_area_options();
 
-            foreach ( $tabs as $tab ) {
+		foreach ( $areas as $area_id => $tabs ) {
 
-                if ( isset( $tab['default-tab'] ) )
-                    continue;
+			if ( ! $tabs ) {
+				continue;
+			}
 
-                $tab_data = array(
-                    'id'         => $tab['slug'],
-                    'name'       => $tab['title'],
-                    'public'     => isset( $tab['public-tab'] ) && $tab['public-tab'] ? 1 : 0,
-                    'icon'       => $tab['icon'] ? : 'fa-cog',
-                    'output'     => $area_id,
-                    'supports'   => isset( $tab['supports-tab'] ) ? $tab['supports-tab'] : array(),
-                    'custom-tab' => true,
-                    'content'    => array(
-                        array(
-                            'id'       => 'subtab-1',
-                            'name'     => $tab['title'],
-                            'icon'     => ($tab['icon']) ? : 'fa-cog',
-                            'callback' => array(
-                                'name' => 'usp_custom_tab_content',
-                                'args' => array( $tab['content'] )
-                            )
-                        )
-                    )
-                );
+			foreach ( $tabs as $tab ) {
 
-                $this->add( $tab_data );
-            }
-        }
-    }
+				if ( isset( $tab['default-tab'] ) ) {
+					continue;
+				}
 
-    function order_tabs() {
+				$tab_data = array(
+					'id'         => $tab['slug'],
+					'name'       => $tab['title'],
+					'public'     => isset( $tab['public-tab'] ) && $tab['public-tab'] ? 1 : 0,
+					'icon'       => $tab['icon'] ?: 'fa-cog',
+					'output'     => $area_id,
+					'supports'   => isset( $tab['supports-tab'] ) ? $tab['supports-tab'] : array(),
+					'custom-tab' => true,
+					'content'    => array(
+						array(
+							'id'       => 'subtab-1',
+							'name'     => $tab['title'],
+							'icon'     => ( $tab['icon'] ) ?: 'fa-cog',
+							'callback' => array(
+								'name' => 'usp_custom_tab_content',
+								'args' => array( $tab['content'] )
+							)
+						)
+					)
+				);
 
-        $areas = usp_get_area_options();
+				$this->add( $tab_data );
+			}
+		}
+	}
 
-        if ( $areas ) {
+	function order_tabs() {
 
-            $newArray = [];
+		$areas = usp_get_area_options();
 
-            foreach ( $areas as $area_id => $tabs ) {
+		if ( $areas ) {
 
-                if ( ! $tabs ) {
-                    continue;
-                }
+			$newArray = [];
 
-                foreach ( $tabs as $tabData ) {
+			foreach ( $areas as $area_id => $tabs ) {
 
-                    $tab = $this->tab( $tabData['slug'] );
+				if ( ! $tabs ) {
+					continue;
+				}
 
-                    if ( ! $tab )
-                        continue;
+				foreach ( $tabs as $tabData ) {
 
-                    $tab->set_prop( 'name', $tabData['title'] );
-                    $tab->set_prop( 'hidden', $tabData['hidden'] );
-                    $tab->set_prop( 'icon', $tabData['icon'] ? $tabData['icon'] : 'fa-cog'  );
+					$tab = $this->tab( $tabData['slug'] );
 
-                    if ( isset( $tabData['custom-tab'] ) && $tabData['custom-tab'] ) {
-                        $tab->set_prop( 'custom_tab', 1 );
-                        $tab->set_prop( 'supports', isset( $tabData['supports-tab'] ) ? $tabData['supports-tab'] : []  );
-                        $tab->set_prop( 'public', isset( $tabData['public-tab'] ) && $tabData['public-tab'] ? 1 : 0  );
+					if ( ! $tab ) {
+						continue;
+					}
 
-                        $tab->content[0] = new USP_Sub_Tab( [
-                            'id'        => $tab->id,
-                            'name'      => $tab->name,
-                            'icon'      => $tab->icon,
-                            'parent_id' => $tab->id,
-                            'callback'  => [
-                                'name' => $tab->content[0]->callback['name'],
-                                'args' => [ $tabData['content'] ]
-                            ]
-                            ] );
-                    }
+					$tab->set_prop( 'name', $tabData['title'] );
+					$tab->set_prop( 'hidden', $tabData['hidden'] );
+					$tab->set_prop( 'icon', $tabData['icon'] ? $tabData['icon'] : 'fa-cog' );
 
-                    $newArray[$tab->id] = $tab;
-                }
-            }
+					if ( isset( $tabData['custom-tab'] ) && $tabData['custom-tab'] ) {
+						$tab->set_prop( 'custom_tab', 1 );
+						$tab->set_prop( 'supports', isset( $tabData['supports-tab'] ) ? $tabData['supports-tab'] : [] );
+						$tab->set_prop( 'public', isset( $tabData['public-tab'] ) && $tabData['public-tab'] ? 1 : 0 );
 
-            foreach ( $this->tabs as $tab_id => $tab ) {
-                if ( ! isset( $newArray[$tab_id] ) )
-                    $newArray[$tab_id] = $tab;
-            }
+						$tab->content[0] = new USP_Sub_Tab( [
+							'id'        => $tab->id,
+							'name'      => $tab->name,
+							'icon'      => $tab->icon,
+							'parent_id' => $tab->id,
+							'callback'  => [
+								'name' => $tab->content[0]->callback['name'],
+								'args' => [ $tabData['content'] ]
+							]
+						] );
+					}
 
-            $this->tabs = $newArray;
-        }
-    }
+					$newArray[ $tab->id ] = $tab;
+				}
+			}
+
+			foreach ( $this->tabs as $tab_id => $tab ) {
+				if ( ! isset( $newArray[ $tab_id ] ) ) {
+					$newArray[ $tab_id ] = $tab;
+				}
+			}
+
+			$this->tabs = $newArray;
+		}
+	}
 
 }

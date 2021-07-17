@@ -2,6 +2,7 @@
 .usp-content-manager .manager-buttons {
     text-align: right;
 }
+
 #usp-manager-filter {
     float: left;
     width: 300px;
@@ -9,11 +10,13 @@
     padding: 12px;
     position: relative;
 }
+
 #usp-manager-filter.dropdown-filter {
     float: none;
     margin: 0;
     padding: 0;
 }
+
 #usp-manager-filter .switch-button {
     display: block;
     text-align: center;
@@ -22,6 +25,7 @@
     border-radius: 5px;
     line-height: 1;
 }
+
 #usp-manager-filter .filter-content {
     position: absolute;
     z-index: 9;
@@ -35,24 +39,29 @@
     width: 100%;
     border-left: var(--uspLine300);
 }
+
 #usp-cols-manager {
     display: flex;
 }
+
 #usp-cols-manager .cols-box {
     width: 50%;
     background: var(--uspGray-300);
     margin: 12px;
     padding: 6px;
 }
+
 #usp-cols-manager .list-title {
     text-align: center;
     font-weight: 700;
     background: var(--uspWhite);
     padding: 12px;
 }
+
 #usp-cols-manager .cols-list {
     height: 100%;
 }
+
 #usp-cols-manager .single-col {
     margin: 6px 0 0 0;
     background: var(--uspRed-100);
@@ -60,13 +69,16 @@
     border-radius: 3px;
     border: var(--uspLine300);
 }
+
 #usp-cols-manager .single-col:not(.disabled) {
     cursor: move;
     background: var(--uspGreen-100);
 }
+
 #usp-cols-manager .single-col.hidden {
     display: none;
 }
+
 #usp-cols-manager .ui-sortable-placeholder {
     background: var(--uspWhite);
     border: 2px dashed var(--uspGray-400);

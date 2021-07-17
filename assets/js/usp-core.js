@@ -1,210 +1,210 @@
 /* global USP */
 
-var usp_actions =  typeof usp_actions === 'undefined'? [ ]: usp_actions;
-var usp_filters = typeof usp_filters === 'undefined'? [ ]: usp_filters;
-var usp_beats = [ ];
+var usp_actions = typeof usp_actions === 'undefined' ? [] : usp_actions;
+var usp_filters = typeof usp_filters === 'undefined' ? [] : usp_filters;
+var usp_beats = [];
 var usp_beats_delay = 0;
 var usp_url_params = usp_get_value_url_params();
 
-jQuery( document ).ready( function( $ ) {
+jQuery(document).ready(function ($) {
 
-	$.fn.extend( {
-		insertAtCaret: function( myValue ) {
-			return this.each( function( i ) {
-				if ( document.selection ) {
-					// For Internet Explorer
-					this.focus();
-					var sel = document.selection.createRange();
-					sel.text = myValue;
-					this.focus();
-				} else if ( this.selectionStart || this.selectionStart == '0' ) {
-					// For Firefox & Webkit
-					var startPos = this.selectionStart;
-					var endPos = this.selectionEnd;
-					var scrollTop = this.scrollTop;
-					this.value = this.value.substring( 0, startPos ) + myValue + this.value.substring( endPos, this.value.length );
-					this.focus();
-					this.selectionStart = startPos + myValue.length;
-					this.selectionEnd = startPos + myValue.length;
-					this.scrollTop = scrollTop;
-				} else {
-					this.value += myValue;
-					this.focus();
-				}
-			} )
-		},
-		animateCss: function( animationNameStart, functionEnd ) {
-			var animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
-			this.addClass( 'animated ' + animationNameStart ).one( animationEnd, function() {
-				jQuery( this ).removeClass( 'animated ' + animationNameStart );
+    $.fn.extend({
+        insertAtCaret: function (myValue) {
+            return this.each(function (i) {
+                if (document.selection) {
+                    // For Internet Explorer
+                    this.focus();
+                    var sel = document.selection.createRange();
+                    sel.text = myValue;
+                    this.focus();
+                } else if (this.selectionStart || this.selectionStart == '0') {
+                    // For Firefox & Webkit
+                    var startPos = this.selectionStart;
+                    var endPos = this.selectionEnd;
+                    var scrollTop = this.scrollTop;
+                    this.value = this.value.substring(0, startPos) + myValue + this.value.substring(endPos, this.value.length);
+                    this.focus();
+                    this.selectionStart = startPos + myValue.length;
+                    this.selectionEnd = startPos + myValue.length;
+                    this.scrollTop = scrollTop;
+                } else {
+                    this.value += myValue;
+                    this.focus();
+                }
+            })
+        },
+        animateCss: function (animationNameStart, functionEnd) {
+            var animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
+            this.addClass('animated ' + animationNameStart).one(animationEnd, function () {
+                jQuery(this).removeClass('animated ' + animationNameStart);
 
-				if ( functionEnd ) {
-					if ( typeof functionEnd == 'function' ) {
-						functionEnd( this );
-					} else {
-						jQuery( this ).animateCss( functionEnd );
-					}
-				}
-			} );
-			return this;
-		}
-	} );
+                if (functionEnd) {
+                    if (typeof functionEnd == 'function') {
+                        functionEnd(this);
+                    } else {
+                        jQuery(this).animateCss(functionEnd);
+                    }
+                }
+            });
+            return this;
+        }
+    });
 
-} );
+});
 
-function usp_do_action( action_name ) {
+function usp_do_action(action_name) {
 
-	var callbacks_action = usp_actions[action_name];
-	
-	if ( !callbacks_action )
-		return false;
+    var callbacks_action = usp_actions[action_name];
 
-	var args = [ ].slice.call( arguments, 1 );
+    if (!callbacks_action)
+        return false;
 
-	callbacks_action.forEach( function( callback, i, callbacks_action ) {
-		if ( window[callback] )
-			window[callback].apply( this, args );
-		if ( typeof callback === 'function' )
-			callback.apply( this, args );
-	} );
+    var args = [].slice.call(arguments, 1);
+
+    callbacks_action.forEach(function (callback, i, callbacks_action) {
+        if (window[callback])
+            window[callback].apply(this, args);
+        if (typeof callback === 'function')
+            callback.apply(this, args);
+    });
 }
 
-function usp_add_action( action_name, callback ) {
-	if ( !usp_actions[action_name] ) {
-		usp_actions[action_name] = [ callback ];
-	} else {
-		var i = usp_actions[action_name].length;
-		usp_actions[action_name][i] = callback;
-	}
+function usp_add_action(action_name, callback) {
+    if (!usp_actions[action_name]) {
+        usp_actions[action_name] = [callback];
+    } else {
+        var i = usp_actions[action_name].length;
+        usp_actions[action_name][i] = callback;
+    }
 }
 
-function usp_apply_filters( filter_name ) {
+function usp_apply_filters(filter_name) {
 
-	var args = [ ].slice.call( arguments, 1 );
+    var args = [].slice.call(arguments, 1);
 
-	var callbacks_filter = usp_filters[filter_name];
+    var callbacks_filter = usp_filters[filter_name];
 
-	if ( !callbacks_filter )
-		return args[0];
+    if (!callbacks_filter)
+        return args[0];
 
-	callbacks_filter.forEach( function( callback, i, callbacks_filter ) {
-		args[0] = window[callback].apply( this, args );
-	} );
+    callbacks_filter.forEach(function (callback, i, callbacks_filter) {
+        args[0] = window[callback].apply(this, args);
+    });
 
-	return args[0];
+    return args[0];
 }
 
-function usp_add_filter( filter_name, callback ) {
-	if ( !usp_filters[filter_name] ) {
-		usp_filters[filter_name] = [ callback ];
-	} else {
-		var i = usp_filters[filter_name].length;
-		usp_filters[filter_name][i] = callback;
-	}
+function usp_add_filter(filter_name, callback) {
+    if (!usp_filters[filter_name]) {
+        usp_filters[filter_name] = [callback];
+    } else {
+        var i = usp_filters[filter_name].length;
+        usp_filters[filter_name][i] = callback;
+    }
 }
 
 function usp_get_value_url_params() {
-	var tmp_1 = new Array();
-	var tmp_2 = new Array();
-	var usp_url_params = new Array();
-	var get = location.search;
-	if ( get !== '' ) {
-		tmp_1 = ( get.substr( 1 ) ).split( '&' );
-		for ( var i = 0; i < tmp_1.length; i++ ) {
-			tmp_2 = tmp_1[i].split( '=' );
-			usp_url_params[tmp_2[0]] = tmp_2[1];
-		}
-	}
+    var tmp_1 = new Array();
+    var tmp_2 = new Array();
+    var usp_url_params = new Array();
+    var get = location.search;
+    if (get !== '') {
+        tmp_1 = (get.substr(1)).split('&');
+        for (var i = 0; i < tmp_1.length; i++) {
+            tmp_2 = tmp_1[i].split('=');
+            usp_url_params[tmp_2[0]] = tmp_2[1];
+        }
+    }
 
-	return usp_url_params;
+    return usp_url_params;
 }
 
-function usp_is_valid_url( url ) {
-	var objRE = /http(s?):\/\/[-\w\.]{3,}\.[A-Za-z]{2,3}/;
-	return objRE.test( url );
+function usp_is_valid_url(url) {
+    var objRE = /http(s?):\/\/[-\w\.]{3,}\.[A-Za-z]{2,3}/;
+    return objRE.test(url);
 }
 
-function setAttr_usp( prmName, val ) {
-	var res = '';
-	var d = location.href.split( "#" )[0].split( "?" );
-	var base = d[0];
-	var query = d[1];
-	if ( query ) {
-		var params = query.split( "&" );
-		for ( var i = 0; i < params.length; i++ ) {
-			var keyval = params[i].split( "=" );
-			if ( keyval[0] !== prmName ) {
-				res += params[i] + '&';
-			}
-		}
-	}
-	res += prmName + '=' + val;
-	return base + '?' + res;
+function setAttr_usp(prmName, val) {
+    var res = '';
+    var d = location.href.split("#")[0].split("?");
+    var base = d[0];
+    var query = d[1];
+    if (query) {
+        var params = query.split("&");
+        for (var i = 0; i < params.length; i++) {
+            var keyval = params[i].split("=");
+            if (keyval[0] !== prmName) {
+                res += params[i] + '&';
+            }
+        }
+    }
+    res += prmName + '=' + val;
+    return base + '?' + res;
 }
 
-function usp_update_history_url( url ) {
+function usp_update_history_url(url) {
 
-	if ( url != window.location ) {
-		if ( history.pushState ) {
-			window.history.pushState( null, null, url );
-		}
-	}
+    if (url != window.location) {
+        if (history.pushState) {
+            window.history.pushState(null, null, url);
+        }
+    }
 
 }
 
 function usp_init_cookie() {
 
-	jQuery.cookie = function( name, value, options ) {
-		if ( typeof value !== 'undefined' ) {
-			options = options || { };
-			if ( value === null ) {
-				value = '';
-				options.expires = -1;
-			}
-			var expires = '';
-			if ( options.expires && ( typeof options.expires === 'number' || options.expires.toUTCString ) ) {
-				var date;
-				if ( typeof options.expires === 'number' ) {
-					date = new Date();
-					date.setTime( date.getTime() + ( options.expires * 24 * 60 * 60 * 1000 ) );
-				} else {
-					date = options.expires;
-				}
-				expires = '; expires=' + date.toUTCString();
-			}
-			var path = options.path ? '; path=' + ( options.path ) : '';
-			var domain = options.domain ? '; domain=' + ( options.domain ) : '';
-			var secure = options.secure ? '; secure' : '';
-			document.cookie = [ name, '=', encodeURIComponent( value ),
-				expires, path,
-				domain, secure ].join( '' );
-		} else {
-			var cookieValue = null;
-			if ( document.cookie && document.cookie !== '' ) {
-				var cookies = document.cookie.split( ';' );
-				for ( var i = 0; i < cookies.length; i++ ) {
-					var cookie = jQuery.trim( cookies[i] );
-					if ( cookie.substring( 0, name.length + 1 ) === ( name + '=' ) ) {
-						cookieValue = decodeURIComponent( cookie.substring( name.length + 1 ) );
-						break;
-					}
-				}
-			}
-			return cookieValue;
-		}
-	};
+    jQuery.cookie = function (name, value, options) {
+        if (typeof value !== 'undefined') {
+            options = options || {};
+            if (value === null) {
+                value = '';
+                options.expires = -1;
+            }
+            var expires = '';
+            if (options.expires && (typeof options.expires === 'number' || options.expires.toUTCString)) {
+                var date;
+                if (typeof options.expires === 'number') {
+                    date = new Date();
+                    date.setTime(date.getTime() + (options.expires * 24 * 60 * 60 * 1000));
+                } else {
+                    date = options.expires;
+                }
+                expires = '; expires=' + date.toUTCString();
+            }
+            var path = options.path ? '; path=' + (options.path) : '';
+            var domain = options.domain ? '; domain=' + (options.domain) : '';
+            var secure = options.secure ? '; secure' : '';
+            document.cookie = [name, '=', encodeURIComponent(value),
+                expires, path,
+                domain, secure].join('');
+        } else {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    };
 
 }
 
-function usp_rand( min, max ) {
-	if ( max ) {
-		return Math.floor( Math.random() * ( max - min + 1 ) ) + min;
-	} else {
-		return Math.floor( Math.random() * ( min + 1 ) );
-	}
+function usp_rand(min, max) {
+    if (max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    } else {
+        return Math.floor(Math.random() * (min + 1));
+    }
 }
 
-function usp_notice( text, type, time_close ) {
+function usp_notice(text, type, time_close) {
 
     time_close = time_close || false;
 
@@ -215,377 +215,377 @@ function usp_notice( text, type, time_close ) {
         timeout: 1
     };
 
-    options = usp_apply_filters( 'usp_notice_options', options );
+    options = usp_apply_filters('usp_notice_options', options);
 
-    var notice_id = usp_rand( 1, 1000 );
+    var notice_id = usp_rand(1, 1000);
 
     var html = '<div id="notice-' + notice_id + '" class="usp-notice usps__relative usps__line-normal usp-notice__type-' + options.type + '">';
     html += '<i class="uspi fa-times usp-notice__close" aria-hidden="true" onclick="usp_close_notice(this);return false;"></i>';
     html += '<div class="usp-notice__text">' + options.text + '</div>';
     html += '</div>';
 
-    if ( !jQuery( '#usp-wrap-notices' ).length ) {
-        jQuery( 'body > div' ).last().after( '<div id="usp-wrap-notices">' + html + '</div>' );
+    if (!jQuery('#usp-wrap-notices').length) {
+        jQuery('body > div').last().after('<div id="usp-wrap-notices">' + html + '</div>');
     } else {
-        if ( jQuery( '#usp-wrap-notices > div' ).length )
-            jQuery( '#usp-wrap-notices > div:last-child' ).after( html );
+        if (jQuery('#usp-wrap-notices > div').length)
+            jQuery('#usp-wrap-notices > div:last-child').after(html);
         else
-            jQuery( '#usp-wrap-notices' ).html( html );
+            jQuery('#usp-wrap-notices').html(html);
     }
 
-    jQuery( '#usp-wrap-notices > div' ).last().animateCss( 'slideInLeft' );
+    jQuery('#usp-wrap-notices > div').last().animateCss('slideInLeft');
 
-    if ( time_close ) {
-        if ( options.timeout ) {
-            jQuery( '#notice-' + notice_id ).append( '<div class="usp-notice__timeout"></div>' );
-            jQuery( '#notice-' + notice_id ).css( '--usp-notice-timeout', options.time_close );
+    if (time_close) {
+        if (options.timeout) {
+            jQuery('#notice-' + notice_id).append('<div class="usp-notice__timeout"></div>');
+            jQuery('#notice-' + notice_id).css('--usp-notice-timeout', options.time_close);
         }
-        setTimeout( function() {
-            usp_close_notice( '#notice-' + notice_id + ' i' );
-        }, options.time_close );
+        setTimeout(function () {
+            usp_close_notice('#notice-' + notice_id + ' i');
+        }, options.time_close);
     }
 }
 
-function usp_close_notice( e ) {
-    var timeCook = jQuery( e ).data( 'notice_time' );
+function usp_close_notice(e) {
+    var timeCook = jQuery(e).data('notice_time');
 
-    if ( timeCook ) {
-        var idCook = jQuery( e ).data( 'notice_id' );
+    if (timeCook) {
+        var idCook = jQuery(e).data('notice_id');
 
-        jQuery.cookie( idCook, '1', {
+        jQuery.cookie(idCook, '1', {
             expires: timeCook,
             path: '/'
-        } );
+        });
     }
 
-    var block = jQuery( e ).parent();
+    var block = jQuery(e).parent();
 
-    jQuery( block ).animateCss( 'flipOutX', function() {
-        jQuery( block ).remove();
-    } );
+    jQuery(block).animateCss('flipOutX', function () {
+        jQuery(block).remove();
+    });
 
     return false;
 }
 
-function usp_preloader_show( e, size ) {
+function usp_preloader_show(e, size) {
 
-	var font_size = ( size ) ? size : 80;
-	var margin = font_size / 2;
+    var font_size = (size) ? size : 80;
+    var margin = font_size / 2;
 
-	var options = {
-		size: font_size,
-		margin: margin,
-		icon: 'fa-spinner',
-		class: 'usp_preloader'
-	};
+    var options = {
+        size: font_size,
+        margin: margin,
+        icon: 'fa-spinner',
+        class: 'usp_preloader'
+    };
 
-	options = usp_apply_filters( 'usp_preloader_options', options );
+    options = usp_apply_filters('usp_preloader_options', options);
 
-	var style = 'style="font-size:' + options.size + 'px;margin: -' + options.margin + 'px 0 0 -' + options.margin + 'px;"';
+    var style = 'style="font-size:' + options.size + 'px;margin: -' + options.margin + 'px 0 0 -' + options.margin + 'px;"';
 
-	var html = '<div class="' + options.class + '"><i class="uspi ' + options.icon + ' fa-spin" ' + style + '></i></div>';
+    var html = '<div class="' + options.class + '"><i class="uspi ' + options.icon + ' fa-spin" ' + style + '></i></div>';
 
-	if ( typeof ( e ) === 'string' )
-		jQuery( e ).after( html );
-	else
-		e.append( html );
+    if (typeof (e) === 'string')
+        jQuery(e).after(html);
+    else
+        e.append(html);
 }
 
 function usp_preloader_hide() {
-	jQuery( '.usp_preloader' ).remove();
+    jQuery('.usp_preloader').remove();
 }
 
-function usp_proccess_ajax_return( result ) {
-
-	var methods = {
-		redirect: function( url ) {
+function usp_proccess_ajax_return(result) {
 
-			var urlData = url.split( '#' );
+    var methods = {
+        redirect: function (url) {
 
-			if ( window.location.origin + window.location.pathname === urlData[0] ) {
-				location.reload();
-			} else {
-				location.replace( url );
-			}
-
-		},
-		reload: function() {
-			location.reload();
-		},
-		current_url: function( url ) {
-			usp_update_history_url( url );
-		},
-		dialog: function( dialog ) {
-
-			if ( dialog.content ) {
+            var urlData = url.split('#');
 
-				if ( jQuery( '#ssi-modalContent' ).length )
-					ssi_modal.close();
-
-				var ssiOptions = {
-					className: 'usp-dialog-tab ' + ( dialog.class ? ' ' + dialog.class : '' ),
-					sizeClass: dialog.size ? dialog.size : 'auto',
-					content: dialog.content,
-					buttons: [ ]
-				};
-
-				if ( dialog.buttons ) {
-					ssiOptions.buttons = dialog.buttons;
-				}
+            if (window.location.origin + window.location.pathname === urlData[0]) {
+                location.reload();
+            } else {
+                location.replace(url);
+            }
 
-				var buttonClose = true;
+        },
+        reload: function () {
+            location.reload();
+        },
+        current_url: function (url) {
+            usp_update_history_url(url);
+        },
+        dialog: function (dialog) {
 
-				if ( 'buttonClose' in dialog ) {
-					buttonClose = dialog.buttonClose;
-				}
+            if (dialog.content) {
 
-				if ( buttonClose ) {
+                if (jQuery('#ssi-modalContent').length)
+                    ssi_modal.close();
 
-					ssiOptions.buttons.push( {
-						label: USP.local.close,
-						closeAfter: true
-					} );
-
-				}
+                var ssiOptions = {
+                    className: 'usp-dialog-tab ' + (dialog.class ? ' ' + dialog.class : ''),
+                    sizeClass: dialog.size ? dialog.size : 'auto',
+                    content: dialog.content,
+                    buttons: []
+                };
 
-				if ( 'onClose' in dialog ) {
-					ssiOptions.onClose = function( m ) {
-						window[dialog.onClose[0]].apply( this, dialog.onClose[1] );
-					};
-				}
-
-				if ( dialog.title )
-					ssiOptions.title = dialog.title;
+                if (dialog.buttons) {
+                    ssiOptions.buttons = dialog.buttons;
+                }
 
-				ssi_modal.show( ssiOptions );
+                var buttonClose = true;
 
-			}
+                if ('buttonClose' in dialog) {
+                    buttonClose = dialog.buttonClose;
+                }
 
-			if ( dialog.close ) {
-				ssi_modal.close();
-			}
+                if (buttonClose) {
 
-		}
-	};
+                    ssiOptions.buttons.push({
+                        label: USP.local.close,
+                        closeAfter: true
+                    });
 
-	for ( var method in result ) {
-		if ( methods[method] ) {
-			methods[method]( result[method] );
-		}
-	}
+                }
 
-}
+                if ('onClose' in dialog) {
+                    ssiOptions.onClose = function (m) {
+                        window[dialog.onClose[0]].apply(this, dialog.onClose[1]);
+                    };
+                }
 
-function usp_ajax( prop ) {
+                if (dialog.title)
+                    ssiOptions.title = dialog.title;
 
-	if ( prop.data.ask ) {
-		if ( !confirm( prop.data.ask ) ) {
-			usp_preloader_hide();
-			return false;
-		}
-	}
+                ssi_modal.show(ssiOptions);
 
-	if ( typeof USP != 'undefined' ) {
-		if ( typeof prop.data === 'string' ) {
-			prop.data += '&_wpnonce=' + USP.nonce;
-		} else if ( typeof prop.data === 'object' ) {
-			prop.data._wpnonce = USP.nonce;
-		}
-	}
+            }
 
-	var action = 'usp_ajax_call';
-	var callback = false;
-	if ( typeof prop.data === 'string' ) {
+            if (dialog.close) {
+                ssi_modal.close();
+            }
 
-		var propData = prop.data.split( '&' );
-		var newRequestArray = [ ];
+        }
+    };
 
-		for ( var key in propData ) {
-			if ( propData[key].split( "=" )[0] == 'action' ) {
-				callback = propData[key].split( "=" )[1];
-				newRequestArray.push( 'call_action=' + propData[key].split( "=" )[1] );
-			} else {
-				newRequestArray.push( propData[key] );
-			}
-		}
-
-		prop.data = newRequestArray.join( '&' );
-
-		USP.used_modules.forEach( function( module_id ) {
-			prop.data += '&used_modules[]=' + module_id;
-		} );
-
-		prop.data += '&action=usp_ajax_call';
-
-	} else if ( typeof prop.data === 'object' ) {
-		callback = prop.data.action;
-		prop.data.used_modules = USP.used_modules;
-		prop.data.action = action;
-		prop.data.call_action = callback;
-	}
-
-	prop.rest = {
-		action: action
-	};
-
-	var url;
-
-	if ( prop.rest ) {
-
-		var restAction = action;
-		var restRoute = restAction;
-		var restSpace = 'userspace';
-
-		if ( typeof prop.rest === 'object' ) {
-
-			if ( prop.rest.action )
-				restAction = prop.rest.action;
-			if ( prop.rest.space )
-				restSpace = prop.rest.space;
-			if ( prop.rest.route )
-				restRoute = prop.rest.route;
-			else
-				restRoute = restAction;
-
-		}
-
-		if ( USP.permalink )
-			url = USP.wpurl + '/wp-json/' + restSpace + '/' + restRoute + '/';
-		else
-			url = USP.wpurl + '/?rest_route=/' + restSpace + '/' + restRoute + '/';
-
-	} else {
-
-		url = ( typeof ajax_url !== 'undefined' ) ? ajax_url : USP.ajaxurl;
-
-	}
-
-	if ( typeof tinyMCE != 'undefined' )
-		tinyMCE.triggerSave();
-
-	jQuery.ajax( {
-		type: 'POST',
-		data: prop.data,
-		dataType: 'json',
-		url: url,
-		success: function( result, post ) {
-
-			var noticeTime = result.notice_time ? result.notice_time : 5000;
-
-			if ( !result ) {
-				usp_notice( USP.local.error, 'error', noticeTime );
-				return false;
-			}
-
-			if ( result.error || result.errors ) {
-
-				usp_preloader_hide();
-
-				if ( result.errors ) {
-					jQuery.each( result.errors, function( index, error ) {
-						usp_notice( error, 'error', noticeTime );
-					} );
-				} else {
-					usp_notice( result.error, 'error', noticeTime );
-				}
-
-				if ( prop.error )
-					prop.error( result );
-
-				return false;
-
-			}
-
-			if ( !result.preloader_live ) {
-				usp_preloader_hide();
-			}
-
-			if ( result.success ) {
-				usp_notice( result.success, 'success', noticeTime );
-			}
-
-			if ( result.warning ) {
-				usp_notice( result.warning, 'warning', noticeTime );
-			}
-
-			usp_do_action( 'usp_ajax_success', result );
-
-			if ( prop.success ) {
-
-				prop.success( result );
-
-			} else {
-
-				usp_proccess_ajax_return( result );
-
-			}
-
-			if ( prop.afterSuccess ) {
-
-				prop.afterSuccess( result );
-
-			}
-
-			usp_do_action( callback, result );
-
-			if ( result.used_modules ) {
-				USP.used_modules = result.used_modules;
-			}
-
-		}
-	} );
+    for (var method in result) {
+        if (methods[method]) {
+            methods[method](result[method]);
+        }
+    }
 
 }
 
-function usp_add_beat( beat_name, delay, data ) {
+function usp_ajax(prop) {
 
-	delay = ( delay < 10 ) ? 10 : delay;
+    if (prop.data.ask) {
+        if (!confirm(prop.data.ask)) {
+            usp_preloader_hide();
+            return false;
+        }
+    }
 
-	var data = ( data ) ? data : false;
+    if (typeof USP != 'undefined') {
+        if (typeof prop.data === 'string') {
+            prop.data += '&_wpnonce=' + USP.nonce;
+        } else if (typeof prop.data === 'object') {
+            prop.data._wpnonce = USP.nonce;
+        }
+    }
 
-	var i = usp_beats.length;
+    var action = 'usp_ajax_call';
+    var callback = false;
+    if (typeof prop.data === 'string') {
 
-	usp_beats[i] = {
-		beat_name: beat_name,
-		delay: delay,
-		data: data
-	};
+        var propData = prop.data.split('&');
+        var newRequestArray = [];
+
+        for (var key in propData) {
+            if (propData[key].split("=")[0] == 'action') {
+                callback = propData[key].split("=")[1];
+                newRequestArray.push('call_action=' + propData[key].split("=")[1]);
+            } else {
+                newRequestArray.push(propData[key]);
+            }
+        }
+
+        prop.data = newRequestArray.join('&');
+
+        USP.used_modules.forEach(function (module_id) {
+            prop.data += '&used_modules[]=' + module_id;
+        });
+
+        prop.data += '&action=usp_ajax_call';
+
+    } else if (typeof prop.data === 'object') {
+        callback = prop.data.action;
+        prop.data.used_modules = USP.used_modules;
+        prop.data.action = action;
+        prop.data.call_action = callback;
+    }
+
+    prop.rest = {
+        action: action
+    };
+
+    var url;
+
+    if (prop.rest) {
+
+        var restAction = action;
+        var restRoute = restAction;
+        var restSpace = 'userspace';
+
+        if (typeof prop.rest === 'object') {
+
+            if (prop.rest.action)
+                restAction = prop.rest.action;
+            if (prop.rest.space)
+                restSpace = prop.rest.space;
+            if (prop.rest.route)
+                restRoute = prop.rest.route;
+            else
+                restRoute = restAction;
+
+        }
+
+        if (USP.permalink)
+            url = USP.wpurl + '/wp-json/' + restSpace + '/' + restRoute + '/';
+        else
+            url = USP.wpurl + '/?rest_route=/' + restSpace + '/' + restRoute + '/';
+
+    } else {
+
+        url = (typeof ajax_url !== 'undefined') ? ajax_url : USP.ajaxurl;
+
+    }
+
+    if (typeof tinyMCE != 'undefined')
+        tinyMCE.triggerSave();
+
+    jQuery.ajax({
+        type: 'POST',
+        data: prop.data,
+        dataType: 'json',
+        url: url,
+        success: function (result, post) {
+
+            var noticeTime = result.notice_time ? result.notice_time : 5000;
+
+            if (!result) {
+                usp_notice(USP.local.error, 'error', noticeTime);
+                return false;
+            }
+
+            if (result.error || result.errors) {
+
+                usp_preloader_hide();
+
+                if (result.errors) {
+                    jQuery.each(result.errors, function (index, error) {
+                        usp_notice(error, 'error', noticeTime);
+                    });
+                } else {
+                    usp_notice(result.error, 'error', noticeTime);
+                }
+
+                if (prop.error)
+                    prop.error(result);
+
+                return false;
+
+            }
+
+            if (!result.preloader_live) {
+                usp_preloader_hide();
+            }
+
+            if (result.success) {
+                usp_notice(result.success, 'success', noticeTime);
+            }
+
+            if (result.warning) {
+                usp_notice(result.warning, 'warning', noticeTime);
+            }
+
+            usp_do_action('usp_ajax_success', result);
+
+            if (prop.success) {
+
+                prop.success(result);
+
+            } else {
+
+                usp_proccess_ajax_return(result);
+
+            }
+
+            if (prop.afterSuccess) {
+
+                prop.afterSuccess(result);
+
+            }
+
+            usp_do_action(callback, result);
+
+            if (result.used_modules) {
+                USP.used_modules = result.used_modules;
+            }
+
+        }
+    });
 
 }
 
-function usp_remove_beat( beat_name ) {
+function usp_add_beat(beat_name, delay, data) {
 
-	if ( !usp_beats )
-		return false;
+    delay = (delay < 10) ? 10 : delay;
 
-	var remove = false;
-	var all_beats = usp_beats;
+    var data = (data) ? data : false;
 
-	all_beats.forEach( function( beat, index, all_beats ) {
-		if ( beat.beat_name != beat_name )
-			return;
-		delete usp_beats[index];
-		remove = true;
-	} );
+    var i = usp_beats.length;
 
-	return remove;
+    usp_beats[i] = {
+        beat_name: beat_name,
+        delay: delay,
+        data: data
+    };
 
 }
 
-function usp_exist_beat( beat_name ) {
+function usp_remove_beat(beat_name) {
 
-	if ( !usp_beats )
-		return false;
+    if (!usp_beats)
+        return false;
 
-	var exist = false;
+    var remove = false;
+    var all_beats = usp_beats;
 
-	usp_beats.forEach( function( beat, index, usp_beats ) {
-		if ( beat.beat_name != beat_name )
-			return;
-		exist = true;
-	} );
+    all_beats.forEach(function (beat, index, all_beats) {
+        if (beat.beat_name != beat_name)
+            return;
+        delete usp_beats[index];
+        remove = true;
+    });
 
-	return exist;
+    return remove;
+
+}
+
+function usp_exist_beat(beat_name) {
+
+    if (!usp_beats)
+        return false;
+
+    var exist = false;
+
+    usp_beats.forEach(function (beat, index, usp_beats) {
+        if (beat.beat_name != beat_name)
+            return;
+        exist = true;
+    });
+
+    return exist;
 
 }
 

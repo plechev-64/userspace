@@ -4,10 +4,10 @@ class USP_Options_Box {
 
 	public $box_id;
 	public $title;
-	public $icon	 = 'fa-cog';
+	public $icon = 'fa-cog';
 	public $groups;
 	public $option_name;
-	public $active	 = false;
+	public $active = false;
 
 	function __construct( $box_id, $args, $option_name ) {
 
@@ -27,22 +27,24 @@ class USP_Options_Box {
 		$properties = get_class_vars( get_class( $this ) );
 
 		foreach ( $properties as $name => $val ) {
-			if ( isset( $args[$name] ) )
-				$this->$name = $args[$name];
+			if ( isset( $args[ $name ] ) ) {
+				$this->$name = $args[ $name ];
+			}
 		}
 	}
 
 	function add_group( $group_id, $args = false ) {
-		$this->groups[$group_id] = new USP_Options_Group( $group_id, $args, $this->option_name );
+		$this->groups[ $group_id ] = new USP_Options_Group( $group_id, $args, $this->option_name );
+
 		return $this->group( $group_id );
 	}
 
 	function isset_group( $group_id ) {
-		return isset( $this->groups[$group_id] );
+		return isset( $this->groups[ $group_id ] );
 	}
 
 	function group( $group_id ) {
-		return $this->groups[$group_id];
+		return $this->groups[ $group_id ];
 	}
 
 	function add_options( $options ) {
@@ -58,7 +60,7 @@ class USP_Options_Box {
 
 	function get_content() {
 
-		$content = '<div id="' . $this->box_id . '-options-box" class="options-box ' . ($this->active ? 'active' : '') . '" data-box="' . $this->box_id . '">';
+		$content = '<div id="' . $this->box_id . '-options-box" class="options-box ' . ( $this->active ? 'active' : '' ) . '" data-box="' . $this->box_id . '">';
 
 		foreach ( $this->groups as $group ) {
 

@@ -7,6 +7,7 @@
     background: var(--uspWhite);
     font-size: 16px;
 }
+
 .usp-frame__box-default.fixed {
     position: fixed;
     top: 24px;
@@ -14,10 +15,12 @@
     width: calc(100% - 200px);
     box-shadow: var(--uspBox300);
 }
+
 .usp-frame__title {
     font-size: 24px;
     margin-bottom: 24px;
 }
+
 .usp-frame__service {
     min-height: 48px;
     box-sizing: border-box;
@@ -26,14 +29,17 @@
     border: 3px dashed var(--uspGray-300);
     min-width: 310px;
 }
+
 .fixed .usp-frame__service {
     max-height: 124px;
     overflow: auto;
 }
+
 .usp-frame__service .usp-frame__field-control a:not(.usp-frame__field-bttn-move),
 .usp-frame__service .usp-frame__field-settings {
     display: none !important;
 }
+
 .usp-frame__service .ui-sortable-placeholder {
     display: inline-block;
     width: auto;
@@ -41,177 +47,228 @@
     margin: 6px;
     vertical-align: bottom;
 }
+
 .usp-frame__options {
     max-width: 450px;
     margin: 0 0 24px;
 }
+
 .usp-frame__section {
     margin: 24px 0 0 0;
 }
+
 .usp-frame-edit .usp-frame__section {
     border: var(--uspLine300);
 }
+
 .usp-frame__section-header {
     padding: 6px;
     background: var(--uspBlue-300);
 }
+
 .usp-frame__section-settings > div {
     min-height: 36px;
 }
+
 .usp-frame__section-name {
     width: 50%;
 }
+
 .usp-frame__control {
     background: var(--uspWhite);
     min-width: 300px;
 }
+
 .usp-frame__control .usp-bttn {
     padding: 6px 9px;
 }
+
 .usp-frame__control i {
     font-size: 20px;
 }
+
 .usp-frame__section-more-options {
     width: 50%;
 }
+
 .usp-frame__section-more-options > .usp-field {
     margin-top: 12px;
 }
+
 .usp-frame__section-content {
     min-height: 100px;
 }
+
 .usp-frame__group {
     min-width: 250px;
     padding: 6px;
 }
+
 .usp-frame-edit .usp-frame__group {
     margin: 12px;
 }
+
 .usp-frame__group-box {
     max-width: 550px;
     margin: 0 auto;
 }
+
 .usp-bttn.usp-frame__group-bttn-move {
     background: var(--uspGray-200);
     cursor: move;
 }
+
 .usp-frame__group .fields-box {
     padding: 6px;
     border: 3px dashed var(--uspGray-300);
     min-height: 40px;
     box-sizing: border-box;
 }
+
 .usp-frame__field {
     position: relative;
 }
+
 .usp-frame__field:not(:last-child) {
     margin-bottom: 6px;
 }
+
 .usp-frame__service .usp-frame__field {
     display: inline-flex;
     margin-right: 6px;
 }
+
 .usp-frame__field-header {
     overflow: hidden;
     border: var(--uspLine300);
     background: var(--uspGray-100);
     min-height: 42px;
 }
+
 .usp-frame__field-icon {
     color: var(--uspGray-400);
     font-family: dashicons;
     font-size: 20px;
     margin: 0 12px;
 }
+
 .usp-frame .icon-type-custom::before {
     content: "\f111";
 }
+
 .usp-frame .icon-type-text::before {
     content: "\f464";
 }
+
 .usp-frame .icon-type-textarea::before {
     content: "\f119";
 }
+
 .usp-frame .icon-type-select::before {
     content: "\f203";
 }
+
 .usp-frame .icon-type-multiselect::before {
     content: "\f163";
 }
+
 .usp-frame .icon-type-checkbox::before {
     content: "\f147";
 }
+
 .usp-frame .icon-type-radio::before {
     content: "\f159";
 }
+
 .usp-frame .icon-type-email::before {
     content: "\f466";
 }
+
 .usp-frame .icon-type-tel::before {
     content: "\f525";
 }
+
 .usp-frame .icon-type-password::before {
     content: "\f112";
 }
+
 .usp-frame .icon-type-number::before {
     content: "123";
     font-size: 14px;
     font-weight: 700;
     vertical-align: super;
 }
+
 .usp-frame .icon-type-date::before {
     content: "\f508";
 }
+
 .usp-frame .icon-type-time::before {
     content: "\f469";
 }
+
 .usp-frame .icon-type-url::before {
     content: "\f103";
 }
+
 .usp-frame .icon-type-agree::before {
     content: "\f491";
 }
+
 .usp-frame .icon-type-uploader::before {
     content: "\f501";
 }
+
 .usp-frame .icon-type-file::before {
     content: "\f498";
 }
+
 .usp-frame .icon-type-dynamic::before {
     content: "\f502";
 }
+
 .usp-frame .icon-type-editor::before {
     content: "\f212";
 }
+
 .usp-frame .icon-type-runner::before {
     content: "\f229";
 }
+
 .usp-frame .icon-type-range::before {
     content: "\f108";
 }
+
 .usp-frame__field-header .usp-field {
     flex-grow: 1;
 }
+
 .usp-frame__service .usp-frame__field-header input {
     pointer-events: none;
 }
+
 .usp-frame .usp-frame__field-bttn-delete {
     color: var(--uspRed-500);
 }
+
 .usp-frame .usp-frame__field-bttn-move {
     cursor: move;
 }
+
 .usp-frame__field-control i {
     font-size: 20px;
 }
+
 .usp-frame__field-settings {
     border: var(--uspLine300);
     margin: 0 0 24px;
     padding: 12px;
 }
+
 .usp-frame__field-settings .field-primary-options > div {
     margin-bottom: 24px;
 }
+
 .usp-frame__field-id {
     background: var(--uspGreen-100);
     color: var(--uspGray-700);
@@ -220,10 +277,12 @@
     padding: 6px 12px;
     font-size: 14px;
 }
+
 .usp-frame__field-settings .usp-field {
     width: 100%;
     margin-bottom: 0;
 }
+
 .usp-frame .ui-sortable-placeholder {
     background: var(--uspWhite);
     border: 2px dashed var(--uspGray-400);
@@ -236,6 +295,7 @@
     position: relative;
     margin: 6px 0;
 }
+
 .usp-frame .dynamic-values .dynamic-value {
     background: var(--uspGray-200);
     border: var(--uspLine300);
@@ -244,6 +304,7 @@
     padding: 3px;
     position: relative;
 }
+
 .usp-frame .dynamic-values.ui-sortable .dynamic-value::after {
     color: var(--uspHex);
     content: "\f0b2";
@@ -256,15 +317,19 @@
     margin: 0 0 0 6px;
     min-width: 36px;
 }
+
 .usp-frame .submit-box .usp-bttn {
     min-height: 40px;
 }
+
 .usp-frame__group-box .submit-box .usp-bttn {
     margin-top: 6px;
 }
+
 .usp-frame__form > .submit-box .usp-bttn {
     margin-top: 18px;
 }
+
 .usp-frame__group.ui-resizable:not(:last-child) .ui-resizable-e {
     width: 3px;
     height: 100%;
@@ -276,12 +341,15 @@
     color: var(--uspWhite);
     background: var(--uspGray-500);
 }
+
 .usp-frame__group.ui-sortable-helper .ui-resizable-e {
     display: none;
 }
+
 .usp-frame__group.ui-sortable-helper {
     max-width: 550px;
 }
+
 .resizable-area .usp-frame__group-width {
     position: absolute;
     z-index: 9;
@@ -296,11 +364,13 @@
     align-items: center;
     background: var(--uspWhite-05);
 }
+
 .usp-frame .submit-box input {
     box-sizing: border-box;
     width: 100%;
     margin: 18px 0 6px;
 }
+
 .usp-frame .submit-box .button-primary {
     font-size: 18px;
     border-radius: 0;
@@ -311,10 +381,12 @@
 .usp-frame-easy {
     display: flex;
 }
+
 .usp-frame-easy .usp-frame__box {
     max-width: 520px;
     width: 100%;
 }
+
 .usp-frame__section-content > .ui-sortable-area-placeholder {
     background: var(--uspGray-300);
     height: 150px;

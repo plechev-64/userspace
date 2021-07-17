@@ -1,16 +1,19 @@
 .usp-theme__sidebar {
     margin: 24px 0;
 }
+
 #usp-office {
     box-sizing: border-box;
     line-height: 1.4;
 }
+
 .usp-theme__sidebar h3,
 #usp-office h3 {
     font-size: 22px;
     line-height: 1.4;
     margin: 0 0 12px;
 }
+
 #usp-office p {
     line-height: 1.4;
     padding: 0;
@@ -18,39 +21,47 @@
     font-size: 16px;
     color: var(--uspGray-700);
 }
+
 #usp-office-profile {
     background-position: 50% 50%;
     background-size: cover;
     max-width: 1280px;
 }
+
 #usp-cover-upload {
     background: var(--uspBlack-03);
     color: var(--uspGray-300);
     overflow: hidden;
     padding: 9px;
 }
+
 #usp-cover-upload:hover {
     color: var(--uspGray-100);
 }
+
 .usp-office-card {
     margin: 30px 0 0;
     min-height: 230px;
 }
+
 .usp-office-left {
     padding: 0 30px;
 }
+
 #usp-avatar {
     border: 3px solid var(--uspWhite);
     box-sizing: border-box;
     height: 200px;
     width: 200px;
 }
+
 #usp-avatar img {
     border-radius: 0;
     max-height: 100%;
     padding: 0;
     height: 100%;
 }
+
 .usp-ava-bttns {
     height: 100%;
     left: 0;
@@ -58,18 +69,22 @@
     top: 0;
     width: 100%;
 }
+
 #usp-avatar .usp-ava__bttn {
     opacity: .9;
     position: absolute;
     max-width: 36px;
 }
+
 #usp-avatar .usp-ava__bttn:hover {
     opacity: 1;
 }
+
 .usp-ava__del {
     right: 0;
     top: 0;
 }
+
 #usp-office p:empty,
 .usp-office-box:empty,
 .usp-user-icons:empty,
@@ -78,13 +93,16 @@
 #usp-avatar .usp-ava__del {
     display: none;
 }
+
 #usp-avatar:hover .usp-ava__del {
     display: flex;
 }
+
 .usp-ava__uploads {
     bottom: 0;
     left: 0;
 }
+
 #usp-cover-upload input,
 #usp-avatar .usp-ava__uploads input {
     cursor: pointer;
@@ -99,26 +117,32 @@
     max-width: 100%;
     width: 100%;
 }
+
 .usp-under-ava {
     margin: 6px 0;
 }
+
 .usp-user-name {
     color: var(--uspWhite);
     font-size: 34px;
     line-height: 1.1;
     text-shadow: 1px 0 1px var(--uspBlack);
 }
+
 .usp-action {
     color: var(--uspGray-200);
     font-size: 14px;
     margin: 0 0 0 12px;
 }
+
 .usp-office-middle > div {
     margin: 12px 0 0;
 }
+
 #usp-nav-counters .usp-tab-button {
     background: none;
 }
+
 #usp-nav-counters .usp-bttn__count {
     display: block;
     width: 100%;
@@ -127,47 +151,58 @@
     font-weight: 700;
     margin: 0;
 }
+
 #usp-tabs {
     animation: 1s fadeIn 1s both;
     opacity: 0;
     z-index: 1;
 }
+
 .usp-nav__row #usp-tabs {
     flex-direction: column;
 }
+
 #usp-nav-menu {
     margin: 3px 3px 0 0;
 }
-.usp-nav__row .usp-tab-button:not(:first-child){
+
+.usp-nav__row .usp-tab-button:not(:first-child) {
     margin-left: 3px;
 }
+
 .usp-nav__column .usp-tab-button {
     margin-bottom: 3px;
 }
+
 .usp-nav__column #usp-tabs .usp-bttn__text {
     flex-grow: 1;
     white-space: initial;
 }
+
 .usp-nav__column #usp-tabs .usp-bttn__ico {
     display: flex;
     align-self: stretch;
     align-items: center;
 }
+
 .usp-nav__column #usp-nav-menu {
     max-width: 180px;
     min-width: 150px;
     margin-right: 12px;
     flex-grow: 1;
 }
+
 /* START for script */
 .usp-dropdown {
     width: 60px;
     justify-content: center;
 }
+
 #usp-overlay.usp-overlay__ext-nav {
     background: 0 0;
     opacity: 0 !important;
 }
+
 #usp-ext-nav {
     opacity: 0;
     position: absolute;
@@ -183,6 +218,7 @@
     padding: 3px 3px 0;
     width: 200px;
 }
+
 #usp-ext-nav.usp-ext-nav__open {
     opacity: 1;
     z-index: 1000;
@@ -190,6 +226,7 @@
     max-height: 100vh;
     overflow-y: auto;
 }
+
 #usp-ext-nav a {
     border-bottom: 3px solid var(--uspGray-100);
     display: flex;
@@ -198,35 +235,44 @@
     white-space: normal;
     width: 100%;
 }
+
 #usp-ext-nav a .uspi {
     font-size: 16px;
 }
-@media screen and (max-width:768px) {
+
+@media screen and (max-width: 768px) {
     #usp-nav-menu {
         flex-direction: row;
         max-width: none !important;
     }
+
     /* if output "On the author’s archive page" */
     .archive.author #usp-nav-menu {
         margin-left: 3px;
     }
 }
+
 /*end*/
 .usp-profile-content {
     margin: 12px 0;
 }
+
 .usp-subtabs-menu ~ .usp-subtab-box {
     margin-top: 12px;
 }
+
 #usp-tab-content {
     margin-bottom: 12px;
 }
+
 .archive.author .usp-nav__row #usp-tab-content {
     margin-left: 12px;
 }
+
 .archive.author #usp-tab-content {
     margin-right: 12px;
 }
+
 .usp-subtab-title {
     padding: 12px;
     margin-bottom: 12px;
@@ -234,37 +280,46 @@
     font-size: 18px;
     color: var(--uspGray-600);
 }
+
 .usp-subtab-title > span {
     margin: 0 0 0 12px;
 }
+
 .usp-right-sidebar {
     min-width: 200px;
     max-width: 300px;
     padding: 0 12px;
 }
+
 #usp-tab-content + .usp-right-sidebar {
     margin: 0 0 0 12px;
 }
+
 #usp-tab-content + .usp-notice {
     flex-shrink: 0;
 }
-@media screen and (max-width:800px) {
+
+@media screen and (max-width: 800px) {
     .usp-user-name {
         font-size: 26px;
     }
 }
-@media screen and (max-width:568px) {
+
+@media screen and (max-width: 568px) {
     .usp-profile-content {
         flex-direction: column;
     }
+
     .usp-office-card {
         flex-direction: column;
         align-content: center;
         margin: 12px;
     }
+
     .usp-office-left {
         padding: 0;
     }
+
     .usp-office-usermeta {
         margin: 12px;
     }

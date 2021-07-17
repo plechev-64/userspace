@@ -1,6 +1,6 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) {
-    exit;
+	exit;
 }
 ?>
 <div class="usp-info">
@@ -9,11 +9,11 @@ if ( ! defined( 'ABSPATH' ) ) {
         <div class="usp-info__meta"><?php do_action( 'usp_info_meta', $user_id ); ?></div>
     </div>
 
-    <?php echo usp_get_quote_box( $user_id, [ 'side' => 'top' ] ); ?>
+	<?php echo usp_get_quote_box( $user_id, [ 'side' => 'top' ] ); ?>
 
     <div class="usp-info__content"><?php do_action( 'usp_info_content', $user_id ); ?></div>
 
-    <?php echo usp_show_user_custom_fields( $user_id ); ?>
+	<?php echo usp_show_user_custom_fields( $user_id ); ?>
 
     <div class="usp-info__stats usps usps__line-1"><?php do_action( 'usp_info_stats', $user_id ); ?></div>
 

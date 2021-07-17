@@ -2,7 +2,7 @@
 
 require_once USP_PATH . 'admin/classes/class-usp-tabs-manager.php';
 
-$areaType = (isset( $_GET['area-type'] )) ? $_GET['area-type'] : 'area-menu';
+$areaType = ( isset( $_GET['area-type'] ) ) ? $_GET['area-type'] : 'area-menu';
 
 $tabsManager = new USP_Tabs_Manager( $areaType );
 

@@ -15,8 +15,8 @@ class USP_Wizard_Step {
 		$properties = get_class_vars( get_class( $this ) );
 
 		foreach ( $properties as $name => $val ) {
-			if ( isset( $args[$name] ) ) {
-				$this->$name = is_bool( $args[$name] ) ? ( boolean ) $args[$name] : $args[$name];
+			if ( isset( $args[ $name ] ) ) {
+				$this->$name = is_bool( $args[ $name ] ) ? ( boolean ) $args[ $name ] : $args[ $name ];
 			}
 		}
 	}

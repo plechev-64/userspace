@@ -19,16 +19,20 @@
     box-shadow: var(--uspBox400);
     border: var(--uspLine300);
 }
+
 .iconpicker-popover.popover.bottom {
     margin-top: 12px;
 }
+
 .iconpicker-popover.popover.bottom > .arrow::after {
     display: none;
 }
+
 .iconpicker-popover.popover .popover-title {
     padding: 12px;
     border-bottom: var(--uspLine200);
 }
+
 .iconpicker-popover.popover.bottom > .arrow {
     width: 0;
     height: 0;
@@ -42,13 +46,16 @@
     z-index: 10000;
     margin: 0;
 }
+
 .iconpicker {
     position: relative;
     overflow: hidden;
 }
+
 .iconpicker * {
     position: relative;
 }
+
 .iconpicker .iconpicker-items {
     clear: both;
     padding: 12px 0 0 12px;
@@ -58,6 +65,7 @@
     min-height: 60px;
     max-height: 300px;
 }
+
 .iconpicker .iconpicker-item {
     float: left;
     width: 48px;
@@ -72,9 +80,11 @@
     justify-content: center;
     align-items: center;
 }
+
 .iconpicker .iconpicker-item:hover:not(.iconpicker-selected) {
     background: var(--uspGray-100);
 }
+
 .iconpicker .iconpicker-item.iconpicker-selected {
     color: var(--uspWhite);
     background: var(--uspBlue-700);

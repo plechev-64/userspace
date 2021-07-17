@@ -4,14 +4,15 @@ class USP_Wizard {
 
 	private $title;
 	private $image;
-	private $steps		 = array();
+	private $steps = array();
 	private $current_step;
-	private $stepsArgs	 = array();
+	private $stepsArgs = array();
 
 	function __construct( $args = false ) {
 
-		if ( $args )
+		if ( $args ) {
 			$this->init_properties( $args );
+		}
 	}
 
 	function init_properties( $args ) {
@@ -19,23 +20,25 @@ class USP_Wizard {
 		$properties = get_class_vars( get_class( $this ) );
 
 		foreach ( $properties as $name => $val ) {
-			if ( isset( $args[$name] ) ) {
-				$this->$name = is_bool( $args[$name] ) ? ( boolean ) $args[$name] : $args[$name];
+			if ( isset( $args[ $name ] ) ) {
+				$this->$name = is_bool( $args[ $name ] ) ? ( boolean ) $args[ $name ] : $args[ $name ];
 			}
 		}
 	}
 
 	function get_current_step() {
 
-		if ( ! $this->steps )
+		if ( ! $this->steps ) {
 			return false;
+		}
 
 		if ( isset( $_GET['step'] ) && $stepNum = $_GET['step'] ) {
 
 			$num = 1;
 			foreach ( $this->steps as $sid => $step ) {
-				if ( $num == $stepNum )
+				if ( $num == $stepNum ) {
 					return $sid;
+				}
 				$num ++;
 			}
 		}
@@ -78,13 +81,15 @@ class USP_Wizard {
 
 	function get_number_step( $id ) {
 
-		if ( ! $this->steps )
+		if ( ! $this->steps ) {
 			return false;
+		}
 
 		$num = 1;
 		foreach ( $this->steps as $sid => $step ) {
-			if ( $id == $sid )
+			if ( $id == $sid ) {
 				return $num;
+			}
 			$num ++;
 		}
 
@@ -94,29 +99,30 @@ class USP_Wizard {
 	function get_navigation( $type ) {
 
 		$navi = new USP_Pager( array(
-			'total'		 => count( $this->steps ),
-			'number'	 => 1,
-			'onclick'	 => 'usp_get_wizard_page',
-			'key'		 => 'step'
-			) );
+			'total'   => count( $this->steps ),
+			'number'  => 1,
+			'onclick' => 'usp_get_wizard_page',
+			'key'     => 'step'
+		) );
 
 		return $navi->get_pager( $type );
 	}
 
 	function get_step_content( $id ) {
-		if ( ! $step = $this->get_step( $id ) )
+		if ( ! $step = $this->get_step( $id ) ) {
 			return false;
+		}
 
 		return $step->get_content();
 	}
 
 	function get_step( $id ) {
-		return isset( $this->steps[$id] ) ? $this->steps[$id] : false;
+		return isset( $this->steps[ $id ] ) ? $this->steps[ $id ] : false;
 	}
 
 	function add_step( $args ) {
-		$this->stepsArgs[]	 = $args;
-		$this->steps[]		 = new USP_Wizard_Step( $args );
+		$this->stepsArgs[] = $args;
+		$this->steps[]     = new USP_Wizard_Step( $args );
 	}
 
 }

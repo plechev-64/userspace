@@ -24,9 +24,9 @@ class USP_Options {
 		return self::$_instance;
 	}
 
-	private function __construct(){
+	private function __construct() {
 
-		if(isset(self::$_instance)){
+		if ( isset( self::$_instance ) ) {
 			return;
 		}
 

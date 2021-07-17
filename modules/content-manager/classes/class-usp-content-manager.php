@@ -2,380 +2,394 @@
 
 class USP_Content_Manager {
 
-    public $data             = array();
-    public $orderby          = '';
-    public $order            = '';
-    public $total_items      = 0;
-    public $number           = 30;
-    public $pagenavi         = true;
-    public $pagename         = '';
-    public $is_ajax          = 0;
-    public $dropdown_filter  = true;
-    public $callback_actions = 'usp_admin_manager_actions(this);';
-    public $actions          = array();
-    public $buttons          = array();
-    public $request_data     = [];
-    public $startpage        = '';
-    public $custom_props     = [];
-    public $query            = false;
-    public $startstate       = false;
-    public $reset_filter     = true;
-    protected $request       = 0;
-
-    function __construct( $args ) {
-
-        $this->init_properties( $args );
-
-        if ( isset( $_REQUEST['startstate'] ) )
-            $this->startstate = wp_unslash( $_REQUEST['startstate'] );
-
-        if ( $this->is_ajax && ! $this->startstate ) {
-
-            if ( $this->custom_props ) {
-                foreach ( $this->custom_props as $propName ) {
-                    $args[$propName] = $this->$propName;
-                }
-            }
-
-            $this->startstate = json_encode( [
-                'classname' => get_class( $this ),
-                'classargs' => $args
-                ] );
-        }
-
-        if ( isset( $_REQUEST['request'] ) )
-            $this->request = $_REQUEST['request'];
-
-        if ( isset( $_REQUEST['orderby'] ) )
-            $this->orderby = $_REQUEST['orderby'];
-
-        if ( isset( $_REQUEST['order'] ) )
-            $this->order = $_REQUEST['order'];
-
-        if ( isset( $_REQUEST['ajax'] ) )
-            $this->is_ajax = $_REQUEST['ajax'];
-
-        if ( isset( $_REQUEST['startpage'] ) )
-            $this->startpage = $_REQUEST['startpage'];
-
-        $this->request_data = array_merge( [
-            'order',
-            'orderby',
-            'ajax',
-            'pagenum',
-            'classname',
-            'startpage'
-            ], $this->request_data );
-
-        $this->query = $this->get_query();
-
-        $this->set_total_items();
-
-        $this->pager = new USP_Pager( array(
-            'number'    => $this->number,
-            'total'     => $this->total_items,
-            'page_args' => array(
-                'onclick' => 'usp_load_content_manager_page("page", "pagenum", this);return false;'
-            )
-            ) );
-
-        if ( $this->total_items )
-            $this->set_data();
-
-        $this->setup_startpage();
-    }
-
-    function init_properties( $args ) {
-
-        $properties = get_class_vars( get_class( $this ) );
-
-        foreach ( $properties as $name => $val ) {
-            if ( isset( $args[$name] ) )
-                $this->$name = $args[$name];
-        }
-    }
-
-    function setup_startpage() {
-
-        $cancel_url_args = [];
+	public $data = array();
+	public $orderby = '';
+	public $order = '';
+	public $total_items = 0;
+	public $number = 30;
+	public $pagenavi = true;
+	public $pagename = '';
+	public $is_ajax = 0;
+	public $dropdown_filter = true;
+	public $callback_actions = 'usp_admin_manager_actions(this);';
+	public $actions = array();
+	public $buttons = array();
+	public $request_data = [];
+	public $startpage = '';
+	public $custom_props = [];
+	public $query = false;
+	public $startstate = false;
+	public $reset_filter = true;
+	protected $request = 0;
+
+	function __construct( $args ) {
+
+		$this->init_properties( $args );
+
+		if ( isset( $_REQUEST['startstate'] ) ) {
+			$this->startstate = wp_unslash( $_REQUEST['startstate'] );
+		}
+
+		if ( $this->is_ajax && ! $this->startstate ) {
+
+			if ( $this->custom_props ) {
+				foreach ( $this->custom_props as $propName ) {
+					$args[ $propName ] = $this->$propName;
+				}
+			}
+
+			$this->startstate = json_encode( [
+				'classname' => get_class( $this ),
+				'classargs' => $args
+			] );
+		}
+
+		if ( isset( $_REQUEST['request'] ) ) {
+			$this->request = $_REQUEST['request'];
+		}
+
+		if ( isset( $_REQUEST['orderby'] ) ) {
+			$this->orderby = $_REQUEST['orderby'];
+		}
+
+		if ( isset( $_REQUEST['order'] ) ) {
+			$this->order = $_REQUEST['order'];
+		}
+
+		if ( isset( $_REQUEST['ajax'] ) ) {
+			$this->is_ajax = $_REQUEST['ajax'];
+		}
+
+		if ( isset( $_REQUEST['startpage'] ) ) {
+			$this->startpage = $_REQUEST['startpage'];
+		}
+
+		$this->request_data = array_merge( [
+			'order',
+			'orderby',
+			'ajax',
+			'pagenum',
+			'classname',
+			'startpage'
+		], $this->request_data );
+
+		$this->query = $this->get_query();
+
+		$this->set_total_items();
+
+		$this->pager = new USP_Pager( array(
+			'number'    => $this->number,
+			'total'     => $this->total_items,
+			'page_args' => array(
+				'onclick' => 'usp_load_content_manager_page("page", "pagenum", this);return false;'
+			)
+		) );
+
+		if ( $this->total_items ) {
+			$this->set_data();
+		}
+
+		$this->setup_startpage();
+	}
+
+	function init_properties( $args ) {
+
+		$properties = get_class_vars( get_class( $this ) );
+
+		foreach ( $properties as $name => $val ) {
+			if ( isset( $args[ $name ] ) ) {
+				$this->$name = $args[ $name ];
+			}
+		}
+	}
+
+	function setup_startpage() {
 
-        foreach ( $this->request_data as $data ) {
-            $cancel_url_args[$data] = false;
-        }
+		$cancel_url_args = [];
 
-        if ( ! $this->startpage ) {
-            $this->startpage = add_query_arg( $cancel_url_args );
-        }
-    }
+		foreach ( $this->request_data as $data ) {
+			$cancel_url_args[ $data ] = false;
+		}
 
-    function get_request_data_value( $dataKey, $default = null ) {
-        return isset( $_REQUEST[$dataKey] ) && $_REQUEST[$dataKey] ? $_REQUEST[$dataKey] : $default;
-    }
+		if ( ! $this->startpage ) {
+			$this->startpage = add_query_arg( $cancel_url_args );
+		}
+	}
 
-    function init_custom_prop( $varName, $defaultValue = null ) {
-        $this->$varName       = isset( $_REQUEST[$varName] ) ? $_REQUEST[$varName] : $defaultValue;
-        $this->custom_props[] = $varName;
-    }
+	function get_request_data_value( $dataKey, $default = null ) {
+		return isset( $_REQUEST[ $dataKey ] ) && $_REQUEST[ $dataKey ] ? $_REQUEST[ $dataKey ] : $default;
+	}
 
-    function set_data() {
+	function init_custom_prop( $varName, $defaultValue = null ) {
+		$this->$varName       = isset( $_REQUEST[ $varName ] ) ? $_REQUEST[ $varName ] : $defaultValue;
+		$this->custom_props[] = $varName;
+	}
 
-        if ( ! $this->query ) {
-            return false;
-        }
+	function set_data() {
 
-        if ( $this->orderby && $this->order ) {
-            $this->query->orderby( $this->orderby, $this->order );
-        }
+		if ( ! $this->query ) {
+			return false;
+		}
 
-        $this->data = $this->filter_data($this->query
-            ->limit( $this->number, $this->pager->offset )
-            ->get_results());
-    }
+		if ( $this->orderby && $this->order ) {
+			$this->query->orderby( $this->orderby, $this->order );
+		}
 
-    function filter_data($data){
-    	return $data;
-    }
+		$this->data = $this->filter_data( $this->query
+			->limit( $this->number, $this->pager->offset )
+			->get_results() );
+	}
 
-    function set_total_items() {
+	function filter_data( $data ) {
+		return $data;
+	}
 
-        if ( ! $this->query ) {
-            return 0;
-        }
+	function set_total_items() {
 
-        $this->total_items = $this->query->get_count();
-    }
+		if ( ! $this->query ) {
+			return 0;
+		}
 
-    function get_query() {
-        return false;
-    }
+		$this->total_items = $this->query->get_count();
+	}
 
-    function get_search_fields() {
-        return [];
-    }
+	function get_query() {
+		return false;
+	}
 
-    function get_no_result_notice() {
-        return usp_get_notice( [ 'text' => __( 'Nothing found', 'userspace' ) ] );
-    }
+	function get_search_fields() {
+		return [];
+	}
 
-    function get_actions() {
-        return [];
-    }
+	function get_no_result_notice() {
+		return usp_get_notice( [ 'text' => __( 'Nothing found', 'userspace' ) ] );
+	}
 
-    function get_item_content( $dataItem ) {
-        return false;
-    }
+	function get_actions() {
+		return [];
+	}
 
-    function get_buttons_args() {
-        return [];
-    }
+	function get_item_content( $dataItem ) {
+		return false;
+	}
 
-    function get_buttons() {
+	function get_buttons_args() {
+		return [];
+	}
 
-        $buttonsArgs = $this->get_buttons_args();
+	function get_buttons() {
 
-        if ( $this->request && $this->reset_filter ) {
-            $buttonsArgs[] = array(
-                'label'   => __( 'Reset filter', 'userspace' ),
-                'onclick' => $this->is_ajax ? 'usp_load_content_manager_state(' . $this->startstate . ', this);return false;' : null,
-                'icon'    => 'fa-sync',
-                'href'    => $this->startpage
-            );
-        }
+		$buttonsArgs = $this->get_buttons_args();
 
-        $content = '<div class="manager-buttons">';
-        foreach ( $buttonsArgs as $args ) {
-            $content .= usp_get_button( $args );
-        }
-        $content .= '</div>';
+		if ( $this->request && $this->reset_filter ) {
+			$buttonsArgs[] = array(
+				'label'   => __( 'Reset filter', 'userspace' ),
+				'onclick' => $this->is_ajax ? 'usp_load_content_manager_state(' . $this->startstate . ', this);return false;' : null,
+				'icon'    => 'fa-sync',
+				'href'    => $this->startpage
+			);
+		}
 
-        return $content;
-    }
+		$content = '<div class="manager-buttons">';
+		foreach ( $buttonsArgs as $args ) {
+			$content .= usp_get_button( $args );
+		}
+		$content .= '</div>';
 
-    function get_manager_content() {
+		return $content;
+	}
 
-        $content = '<div class="usp-content-manager">';
+	function get_manager_content() {
 
-        $content .= $this->get_hidden_fields();
+		$content = '<div class="usp-content-manager">';
 
-        $content .= $this->get_buttons();
+		$content .= $this->get_hidden_fields();
 
-        $content .= $this->get_search();
+		$content .= $this->get_buttons();
 
-        $content .= $this->get_actions_box();
+		$content .= $this->get_search();
 
-        if ( $this->pagenavi && $this->pager->pages > 1 ) {
-            $content .= $this->pager->get_pager();
-        }
+		$content .= $this->get_actions_box();
 
-        $content .= $this->get_data_content();
+		if ( $this->pagenavi && $this->pager->pages > 1 ) {
+			$content .= $this->pager->get_pager();
+		}
 
-        if ( $this->pagenavi && $this->pager->pages > 1 ) {
-            $content .= $this->pager->get_pager();
-        }
+		$content .= $this->get_data_content();
 
-        $content .= '</div>';
+		if ( $this->pagenavi && $this->pager->pages > 1 ) {
+			$content .= $this->pager->get_pager();
+		}
 
-        return $content;
-    }
+		$content .= '</div>';
 
-    function get_data_content() {
+		return $content;
+	}
 
-        $content = '<div class="manager-content">';
+	function get_data_content() {
 
-        if ( ! $this->data ) {
-            $content .= $this->get_no_result_notice();
-        } else {
+		$content = '<div class="manager-content">';
 
-            foreach ( $this->data as $dataItem ) {
-                $content .= $this->get_item_content( $dataItem );
-            }
-        }
-        $content .= '</div>';
+		if ( ! $this->data ) {
+			$content .= $this->get_no_result_notice();
+		} else {
 
-        return $content;
-    }
+			foreach ( $this->data as $dataItem ) {
+				$content .= $this->get_item_content( $dataItem );
+			}
+		}
+		$content .= '</div>';
 
-    function get_manager() {
+		return $content;
+	}
 
-        $content = '<form action method="get" ' . ($this->is_ajax ? 'onsubmit="usp_content_manager_submit();return false;"' : '') . ' class="preloader-parent">';
+	function get_manager() {
 
-        $content .= $this->get_manager_content();
+		$content = '<form action method="get" ' . ( $this->is_ajax ? 'onsubmit="usp_content_manager_submit();return false;"' : '' ) . ' class="preloader-parent">';
 
-        $content .= '</form>';
+		$content .= $this->get_manager_content();
 
-        return $content;
-    }
+		$content .= '</form>';
 
-    function get_actions_box() {
+		return $content;
+	}
 
-        if ( ! $this->get_actions() ) {
-            return false;
-        }
+	function get_actions_box() {
 
-        USP()->use_module( 'forms' );
+		if ( ! $this->get_actions() ) {
+			return false;
+		}
 
-        $form = new USP_Form( array(
-            'fields'  => array(
-                array(
-                    'type'   => 'select',
-                    'slug'   => 'action-items',
-                    'values' => $this->get_actions()
-                )
-            ),
-            'submit'  => __( 'Apply', 'userspace' ),
-            'onclick' => $this->callback_actions . ';return false;'
-            ) );
+		USP()->use_module( 'forms' );
 
-        $content = '<div class="items-actions-box">';
+		$form = new USP_Form( array(
+			'fields'  => array(
+				array(
+					'type'   => 'select',
+					'slug'   => 'action-items',
+					'values' => $this->get_actions()
+				)
+			),
+			'submit'  => __( 'Apply', 'userspace' ),
+			'onclick' => $this->callback_actions . ';return false;'
+		) );
 
-        $content .= $form->get_fields_list();
+		$content = '<div class="items-actions-box">';
 
-        $content .= $form->get_submit_box();
+		$content .= $form->get_fields_list();
 
-        $content .= '</div>';
+		$content .= $form->get_submit_box();
 
-        return $content;
-    }
+		$content .= '</div>';
 
-    function get_search() {
+		return $content;
+	}
 
-        if ( ! $fields = $this->get_search_fields() )
-            return false;
+	function get_search() {
 
-        if ( ! $this->request && ! $this->data )
-            return false;
+		if ( ! $fields = $this->get_search_fields() ) {
+			return false;
+		}
 
-        USP()->use_module( 'forms' );
+		if ( ! $this->request && ! $this->data ) {
+			return false;
+		}
 
-        $form = new USP_Form( array(
-            'fields'  => $fields,
-            'submit'  => __( 'Search', 'userspace' ),
-            'onclick' => 'usp_content_manager_submit(this);return false;'
-            )
-        );
+		USP()->use_module( 'forms' );
 
-        $content = '<div id="usp-manager-filter" class="usp-form' . ($this->dropdown_filter ? ' dropdown-filter' : '') . '">';
+		$form = new USP_Form( array(
+				'fields'  => $fields,
+				'submit'  => __( 'Search', 'userspace' ),
+				'onclick' => 'usp_content_manager_submit(this);return false;'
+			)
+		);
 
-        if ( $this->dropdown_filter ) {
-            $content .= usp_get_button( [
-                'label'     => __( 'Search', 'userspace' ),
-                'fullwidth' => 1,
-                'size'      => 'medium',
-                'icon'      => 'fa-search',
-                'onclick'   => 'jQuery(this).next().slideToggle(); return false;'
-                ] );
-            $content .= '<div class="filter-content">';
-        }
+		$content = '<div id="usp-manager-filter" class="usp-form' . ( $this->dropdown_filter ? ' dropdown-filter' : '' ) . '">';
 
-        $content .= '<div class="form-fields">';
-        $content .= $form->get_fields_list();
-        $content .= '</div>';
+		if ( $this->dropdown_filter ) {
+			$content .= usp_get_button( [
+				'label'     => __( 'Search', 'userspace' ),
+				'fullwidth' => 1,
+				'size'      => 'medium',
+				'icon'      => 'fa-search',
+				'onclick'   => 'jQuery(this).next().slideToggle(); return false;'
+			] );
+			$content .= '<div class="filter-content">';
+		}
 
-        $content .= $form->get_submit_box();
+		$content .= '<div class="form-fields">';
+		$content .= $form->get_fields_list();
+		$content .= '</div>';
 
-        if ( $this->dropdown_filter ) {
-            $content .= '</div>';
-        }
+		$content .= $form->get_submit_box();
 
-        $content .= '</div>';
+		if ( $this->dropdown_filter ) {
+			$content .= '</div>';
+		}
 
-        return $content;
-    }
+		$content .= '</div>';
 
-    function get_hidden_fields() {
+		return $content;
+	}
 
-        $content = '<input type="hidden" id="value-pagenum" name="pagenum" value="' . $this->pager->current . '">';
+	function get_hidden_fields() {
 
-        if ( $this->orderby )
-            $content .= '<input type="hidden" id="value-orderby" name="orderby" value="' . $this->orderby . '">';
+		$content = '<input type="hidden" id="value-pagenum" name="pagenum" value="' . $this->pager->current . '">';
 
-        if ( $this->order )
-            $content .= '<input type="hidden" id="value-order" name="order" value="' . $this->order . '">';
+		if ( $this->orderby ) {
+			$content .= '<input type="hidden" id="value-orderby" name="orderby" value="' . $this->orderby . '">';
+		}
 
-        if ( $this->is_ajax ) {
-            $content .= '<input type="hidden" id="value-request" name="request" value="1">';
-            $content .= '<input type="hidden" id="value-startstate" name="startstate" value=' . $this->startstate . '>';
-            $content .= '<input type="hidden" id="value-ajax" name="ajax" value="' . $this->is_ajax . '">';
-            $content .= '<input type="hidden" id="value-classname" name="classname" value="' . get_class( $this ) . '">';
-        } else {
-            $content .= '<input type="hidden" id="value-startpage" name="startpage" value="' . $this->startpage . '">';
-        }
+		if ( $this->order ) {
+			$content .= '<input type="hidden" id="value-order" name="order" value="' . $this->order . '">';
+		}
 
-        if ( $this->custom_props ) {
-            foreach ( $this->custom_props as $propName ) {
-                $content .= '<input type="hidden" id="value-' . $propName . '" name="' . $propName . '" value="' . (is_array($this->$propName)? implode(',', $this->$propName): $this->$propName) . '">';
-            }
-        }
+		if ( $this->is_ajax ) {
+			$content .= '<input type="hidden" id="value-request" name="request" value="1">';
+			$content .= '<input type="hidden" id="value-startstate" name="startstate" value=' . $this->startstate . '>';
+			$content .= '<input type="hidden" id="value-ajax" name="ajax" value="' . $this->is_ajax . '">';
+			$content .= '<input type="hidden" id="value-classname" name="classname" value="' . get_class( $this ) . '">';
+		} else {
+			$content .= '<input type="hidden" id="value-startpage" name="startpage" value="' . $this->startpage . '">';
+		}
 
-        if ( isset( $_POST['tail'] ) && $_POST['tail'] ) {
-            foreach ( $_POST['tail'] as $name ) {
+		if ( $this->custom_props ) {
+			foreach ( $this->custom_props as $propName ) {
+				$content .= '<input type="hidden" id="value-' . $propName . '" name="' . $propName . '" value="' . ( is_array( $this->$propName ) ? implode( ',', $this->$propName ) : $this->$propName ) . '">';
+			}
+		}
 
-                if ( ! isset( $_POST['prevs'][$name] ) )
-                    continue;
+		if ( isset( $_POST['tail'] ) && $_POST['tail'] ) {
+			foreach ( $_POST['tail'] as $name ) {
 
-                $value = $_POST['prevs'][$name];
+				if ( ! isset( $_POST['prevs'][ $name ] ) ) {
+					continue;
+				}
 
-                if ( is_array( $value ) ) {
-                    foreach ( $value as $k => $val ) {
-                        $content .= '<input type="hidden" id="value-' . $name . $k . '" name="' . $name . '[]" value="' . $val . '">';
-                    }
-                } else {
-                    $content .= '<input type="hidden" id="value-' . $name . '" name="' . $name . '" value="' . $value . '">';
-                }
-            }
-        }
+				$value = $_POST['prevs'][ $name ];
 
-        return $content;
-    }
+				if ( is_array( $value ) ) {
+					foreach ( $value as $k => $val ) {
+						$content .= '<input type="hidden" id="value-' . $name . $k . '" name="' . $name . '[]" value="' . $val . '">';
+					}
+				} else {
+					$content .= '<input type="hidden" id="value-' . $name . '" name="' . $name . '" value="' . $value . '">';
+				}
+			}
+		}
 
-    function link_manager( $linkLabel, $managerArgs ) {
+		return $content;
+	}
 
-        if ( ! $linkLabel )
-            return $linkLabel;
+	function link_manager( $linkLabel, $managerArgs ) {
 
-        $managerArgs['prevs'] = $_POST;
+		if ( ! $linkLabel ) {
+			return $linkLabel;
+		}
 
-        return '<a href="#" onclick=\'usp_load_content_manager(this, ' . json_encode( $managerArgs ) . ');return false;\'>' . $linkLabel . '</a>';
-    }
+		$managerArgs['prevs'] = $_POST;
+
+		return '<a href="#" onclick=\'usp_load_content_manager(this, ' . json_encode( $managerArgs ) . ');return false;\'>' . $linkLabel . '</a>';
+	}
 
 }

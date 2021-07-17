@@ -2,586 +2,632 @@
 
 class USP_Users_List extends USP_Users_Query {
 
-    public $id;
-    public $template    = 'rows';
-    public $usergroup   = '';
-    public $group_id    = '';
-    public $only        = false;
-    public $filters     = 0;
-    public $search_form = 1;
-    public $data;
-    public $orderby     = 'time_action';
-    public $add_uri;
-    public $width;
+	public $id;
+	public $template = 'rows';
+	public $usergroup = '';
+	public $group_id = '';
+	public $only = false;
+	public $filters = 0;
+	public $search_form = 1;
+	public $data;
+	public $orderby = 'time_action';
+	public $add_uri;
+	public $width;
+
+	function __construct( $args = array() ) {
+
+		if ( ! $args ) {
+			$args = array();
+		}
+
+		if ( isset( $args['inpage'] ) ) {
+			$args['number'] = $args['inpage'];
+		}
+
+		if ( isset( $args['include'] ) ) {
+			$args['ID__in'] = array_map( 'trim', explode( ',', $args['include'] ) );
+		}
+
+		if ( isset( $args['exclude'] ) ) {
+			$args['ID__not_in'] = array_map( 'trim', explode( ',', $args['exclude'] ) );
+		}
+
+		parent::__construct();
+
+		if ( $args ) {
+			$this->init_properties( $args );
+		}
+
+		$args['select'] = array(
+			'ID',
+			'display_name',
+			'user_nicename'
+		);
+
+		$this->parse( $args );
+
+		$this->data = ( $this->data ) ? array_map( 'trim', explode( ',', $this->data ) ) : array();
+
+		if ( isset( $_GET['usergroup'] ) ) {
+			$this->usergroup = $_GET['usergroup'];
+		}
+
+		if ( $this->filters ) {
+
+			if ( isset( $_GET['users-filter'] ) ) {
+				$this->orderby = $_GET['users-filter'];
+			}
+
+			if ( isset( $_GET['users-order'] ) ) {
+				$this->query['order'] = $_GET['users-order'];
+			}
+
+			add_filter( 'usp_users_query', array( $this, 'add_query_search' ) );
+		}
+
+		$this->add_uri['users-filter'] = $this->query['order'];
+
+		add_filter( 'usp_users', array( $this, 'add_avatar_data' ) );
+
+		if ( $this->data( 'description' ) ) {
+			add_filter( 'usp_users', array( $this, 'add_descriptions' ) );
+		}
+
+		if ( $this->data( 'profile_fields' ) ) {
+			add_filter( 'usp_users', array( $this, 'add_profile_fields' ) );
+		}
 
-    function __construct( $args = array() ) {
+		if ( $this->usergroup ) {
+			add_filter( 'usp_users_query', array( $this, 'add_query_usergroup' ) );
+		}
 
-        if ( ! $args )
-            $args = array();
+		if ( $this->data( 'user_registered' ) || $this->orderby == 'user_registered' ) {
+			add_filter( 'usp_users_query', array( $this, 'add_query_user_registered' ) );
+		}
+
+		// getting the rating data
+		if ( $this->orderby == 'rating_total' ) {
+			add_filter( 'usp_users_query', array( $this, 'add_query_rating_total' ) );
+		} else if ( $this->data( 'rating_total' ) ) {
+			add_filter( 'usp_users', array( $this, 'add_rating_total' ) );
+		}
+
+		// count publications
+		if ( $this->orderby == 'posts_count' ) {
+			add_filter( 'usp_users_query', array( $this, 'add_query_posts_count' ) );
+		} else if ( $this->data( 'posts_count' ) ) {
+			add_filter( 'usp_users', array( $this, 'add_posts_count' ) );
+		}
 
-        if ( isset( $args['inpage'] ) ) {
-            $args['number'] = $args['inpage'];
-        }
+		// count comments
+		if ( $this->orderby == 'comments_count' ) {
+			add_filter( 'usp_users_query', array( $this, 'add_query_comments_count' ) );
+		} else if ( $this->data( 'comments_count' ) ) {
+			add_filter( 'usp_users', array( $this, 'add_comments_count' ) );
+		}
 
-        if ( isset( $args['include'] ) ) {
-            $args['ID__in'] = array_map( 'trim', explode( ',', $args['include'] ) );
-        }
+		if ( $this->orderby == 'time_action' ) {
+			add_filter( 'usp_users_query', array( $this, 'add_query_time_action' ) );
+		} else {
+			add_filter( 'usp_users', array( $this, 'add_time_action' ) );
+		}
 
-        if ( isset( $args['exclude'] ) ) {
-            $args['ID__not_in'] = array_map( 'trim', explode( ',', $args['exclude'] ) );
-        }
+		if ( $this->only == 'action_users' ) {
+			add_filter( 'usp_users_query', array( $this, 'add_query_only_actions_users' ) );
+		}
 
-        parent::__construct();
+		$this->query = apply_filters( 'usp_users_query', $this->query );
 
-        if ( $args )
-            $this->init_properties( $args );
+		$this->load_resources();
+	}
 
-        $args['select'] = array(
-            'ID',
-            'display_name',
-            'user_nicename'
-        );
+	private function load_resources() {
+		if ( $this->template == 'rows' ) {
+			usp_users_rows_style();
+		} else if ( $this->template == 'cards' ) {
+			usp_users_cards_style();
+		} else if ( $this->template == 'masonry' ) {
+			usp_masonry_script();
 
-        $this->parse( $args );
+			usp_users_masonry_style();
+		}
+	}
 
-        $this->data = ($this->data) ? array_map( 'trim', explode( ',', $this->data ) ) : array();
+	function remove_filters() {
+		remove_all_filters( 'usp_users_query' );
+		remove_all_filters( 'usp_users' );
+	}
 
-        if ( isset( $_GET['usergroup'] ) )
-            $this->usergroup = $_GET['usergroup'];
+	function init_properties( $args ) {
 
-        if ( $this->filters ) {
+		$properties = get_class_vars( get_class( $this ) );
 
-            if ( isset( $_GET['users-filter'] ) )
-                $this->orderby = $_GET['users-filter'];
+		foreach ( $properties as $name => $val ) {
+			if ( isset( $args[ $name ] ) ) {
+				$this->$name = $args[ $name ];
+			}
+		}
+	}
 
-            if ( isset( $_GET['users-order'] ) )
-                $this->query['order'] = $_GET['users-order'];
+	function setup_userdata( $userdata ) {
+		global $usp_user;
 
-            add_filter( 'usp_users_query', array( $this, 'add_query_search' ) );
-        }
+		$usp_user = ( object ) $userdata;
 
-        $this->add_uri['users-filter'] = $this->query['order'];
+		return $usp_user;
+	}
 
-        add_filter( 'usp_users', array( $this, 'add_avatar_data' ) );
+	function data( $needle ) {
+		if ( ! $this->data ) {
+			return false;
+		}
+		$key = array_search( $needle, $this->data );
 
-        if ( $this->data( 'description' ) )
-            add_filter( 'usp_users', array( $this, 'add_descriptions' ) );
+		return ( false !== $key ) ? true : false;
+	}
 
-        if ( $this->data( 'profile_fields' ) )
-            add_filter( 'usp_users', array( $this, 'add_profile_fields' ) );
+	function get_users() {
 
-        if ( $this->usergroup )
-            add_filter( 'usp_users_query', array( $this, 'add_query_usergroup' ) );
+		$users = apply_filters( 'usp_users', $this->get_data() );
 
-        if ( $this->data( 'user_registered' ) || $this->orderby == 'user_registered' )
-            add_filter( 'usp_users_query', array( $this, 'add_query_user_registered' ) );
+		return $users;
+	}
 
-        // getting the rating data
-        if ( $this->orderby == 'rating_total' )
-            add_filter( 'usp_users_query', array( $this, 'add_query_rating_total' ) );
-        else if ( $this->data( 'rating_total' ) )
-            add_filter( 'usp_users', array( $this, 'add_rating_total' ) );
+	function search_request() {
 
-        // count publications
-        if ( $this->orderby == 'posts_count' )
-            add_filter( 'usp_users_query', array( $this, 'add_query_posts_count' ) );
-        else if ( $this->data( 'posts_count' ) )
-            add_filter( 'usp_users', array( $this, 'add_posts_count' ) );
+		$rqst = '';
 
-        // count comments
-        if ( $this->orderby == 'comments_count' )
-            add_filter( 'usp_users_query', array( $this, 'add_query_comments_count' ) );
-        else if ( $this->data( 'comments_count' ) )
-            add_filter( 'usp_users', array( $this, 'add_comments_count' ) );
+		if ( isset( $_GET['usergroup'] ) || isset( $_GET['search-user'] ) || USP()->office()->get_owner_id() ) {
+			$rqst = array();
+			foreach ( $_GET as $k => $v ) {
+				if ( $k == 'usp-page' || $k == 'users-filter' ) {
+					continue;
+				}
+				$rqst[ $k ] = $k . '=' . $v;
+			}
+		}
 
-        if ( $this->orderby == 'time_action' )
-            add_filter( 'usp_users_query', array( $this, 'add_query_time_action' ) );
-        else
-            add_filter( 'usp_users', array( $this, 'add_time_action' ) );
+		if ( $this->add_uri ) {
+			foreach ( $this->add_uri as $k => $v ) {
+				$rqst[ $k ] = $k . '=' . $v;
+			}
+		}
 
-        if ( $this->only == 'action_users' ) {
-            add_filter( 'usp_users_query', array( $this, 'add_query_only_actions_users' ) );
-        }
+		$rqst = apply_filters( 'usp_users_uri', $rqst );
 
-        $this->query = apply_filters( 'usp_users_query', $this->query );
+		return $rqst;
+	}
 
-        $this->load_resources();
-    }
+	function add_query_only_actions_users( $query ) {
 
-    private function load_resources() {
-        if ( $this->template == 'rows' ) {
-            usp_users_rows_style();
-        } else if ( $this->template == 'cards' ) {
-            usp_users_cards_style();
-        } else if ( $this->template == 'masonry' ) {
-            usp_masonry_script();
+		$timeout          = usp_get_option( 'usp_user_timeout', 10 );
+		$query['where'][] = "actions.date_action > date_sub('" . current_time( 'mysql' ) . "', interval $timeout minute)";
 
-            usp_users_masonry_style();
-        }
-    }
+		if ( $this->orderby != 'time_action' ) {
+			$query['join'][] = "RIGHT JOIN " . USP_PREF . "users_actions AS actions ON wp_users.ID = actions.user_id";
+		}
 
-    function remove_filters() {
-        remove_all_filters( 'usp_users_query' );
-        remove_all_filters( 'usp_users' );
-    }
+		return $query;
+	}
 
-    function init_properties( $args ) {
+	// add profile field data if listed via usergroup
+	function add_query_usergroup( $query ) {
+		global $wpdb;
 
-        $properties = get_class_vars( get_class( $this ) );
+		$usergroup = explode( '|', $this->usergroup );
+		foreach ( $usergroup as $k => $filt ) {
+			$f                = explode( ':', $filt );
+			$n                = 'metas_' . str_replace( '-', '_', $f[0] );
+			$query['join'][]  = "INNER JOIN $wpdb->usermeta AS $n ON wp_users.ID=$n.user_id";
+			$query['where'][] = "($n.meta_key='$f[0]' AND $n.meta_value LIKE '%$f[1]%')";
+		}
 
-        foreach ( $properties as $name => $val ) {
-            if ( isset( $args[$name] ) )
-                $this->$name = $args[$name];
-        }
-    }
+		return $query;
+	}
 
-    function setup_userdata( $userdata ) {
-        global $usp_user;
+	function add_profile_fields( $users ) {
+		global $wpdb;
 
-        $usp_user = ( object ) $userdata;
+		$profile_fields = usp_get_profile_fields();
 
-        return $usp_user;
-    }
+		$profile_fields = apply_filters( 'usp_userslist_custom_fields', $profile_fields );
 
-    function data( $needle ) {
-        if ( ! $this->data )
-            return false;
-        $key = array_search( $needle, $this->data );
-        return (false !== $key) ? true : false;
-    }
+		if ( ! $profile_fields ) {
+			return $users;
+		}
 
-    function get_users() {
+		$profile_fields = stripslashes_deep( $profile_fields );
 
-        $users = apply_filters( 'usp_users', $this->get_data() );
+		$slugs  = array();
+		$fields = array();
 
-        return $users;
-    }
+		foreach ( $profile_fields as $custom_field ) {
+			$custom_field = apply_filters( 'usp_userslist_custom_field', $custom_field );
+			if ( ! $custom_field ) {
+				continue;
+			}
 
-    function search_request() {
+			if ( isset( $field['req'] ) && $field['req'] ) {
+				$field['public_value'] = $field['req'];
+			}
 
-        $rqst = '';
+			if ( isset( $custom_field['public_value'] ) && $custom_field['public_value'] == 1 ) {
+				$fields[] = $custom_field;
+				$slugs[]  = $custom_field['slug'];
+			}
+		}
 
-        if ( isset( $_GET['usergroup'] ) || isset( $_GET['search-user'] ) || USP()->office()->get_owner_id() ) {
-            $rqst = array();
-            foreach ( $_GET as $k => $v ) {
-                if ( $k == 'usp-page' || $k == 'users-filter' )
-                    continue;
-                $rqst[$k] = $k . '=' . $v;
-            }
-        }
+		if ( ! $fields ) {
+			return $users;
+		}
 
-        if ( $this->add_uri ) {
-            foreach ( $this->add_uri as $k => $v ) {
-                $rqst[$k] = $k . '=' . $v;
-            }
-        }
+		$ids = $this->get_users_ids( $users );
 
-        $rqst = apply_filters( 'usp_users_uri', $rqst );
+		$fielddata = array();
+		foreach ( $fields as $k => $field ) {
 
-        return $rqst;
-    }
+			$fielddata[ $field['slug'] ]['title'] = $field['title'];
+			$fielddata[ $field['slug'] ]['type']  = $field['type'];
 
-    function add_query_only_actions_users( $query ) {
+			if ( isset( $field['filter'] ) ) {
+				$fielddata[ $field['slug'] ]['filter'] = $field['filter'];
+			}
+		}
 
-        $timeout          = usp_get_option( 'usp_user_timeout', 10 );
-        $query['where'][] = "actions.date_action > date_sub('" . current_time( 'mysql' ) . "', interval $timeout minute)";
+		$query = "SELECT meta_key,meta_value, user_id AS ID "
+		         . "FROM $wpdb->usermeta "
+		         . "WHERE user_id IN (" . implode( ',', $ids ) . ") AND meta_key IN ('" . implode( "','", $slugs ) . "')";
 
-        if ( $this->orderby != 'time_action' ) {
-            $query['join'][] = "RIGHT JOIN " . USP_PREF . "users_actions AS actions ON wp_users.ID = actions.user_id";
-        }
+		$metas = $wpdb->get_results( $query );
 
-        return $query;
-    }
+		$newmetas = array();
+		foreach ( $metas as $k => $meta ) {
+			$newmetas[ $meta->ID ]['ID']                            = $meta->ID;
+			$newmetas[ $meta->ID ]['profile_fields'][ $k ]['slug']  = $meta->meta_key;
+			$newmetas[ $meta->ID ]['profile_fields'][ $k ]['value'] = maybe_unserialize( $meta->meta_value );
+			$newmetas[ $meta->ID ]['profile_fields'][ $k ]['title'] = $fielddata[ $meta->meta_key ]['title'];
+			$newmetas[ $meta->ID ]['profile_fields'][ $k ]['type']  = $fielddata[ $meta->meta_key ]['type'];
 
-    // add profile field data if listed via usergroup
-    function add_query_usergroup( $query ) {
-        global $wpdb;
+			if ( isset( $fielddata[ $meta->meta_key ]['filter'] ) ) {
+				$newmetas[ $meta->ID ]['profile_fields'][ $k ]['filter'] = $fielddata[ $meta->meta_key ]['filter'];
+			}
 
-        $usergroup = explode( '|', $this->usergroup );
-        foreach ( $usergroup as $k => $filt ) {
-            $f                = explode( ':', $filt );
-            $n                = 'metas_' . str_replace( '-', '_', $f[0] );
-            $query['join'][]  = "INNER JOIN $wpdb->usermeta AS $n ON wp_users.ID=$n.user_id";
-            $query['where'][] = "($n.meta_key='$f[0]' AND $n.meta_value LIKE '%$f[1]%')";
-        }
+			( object ) $newmetas[ $meta->ID ];
+		}
 
-        return $query;
-    }
+		if ( $newmetas ) {
+			$users = $this->merge_objects( $users, $newmetas, 'profile_fields' );
+		}
 
-    function add_profile_fields( $users ) {
-        global $wpdb;
+		return $users;
+	}
 
-        $profile_fields = usp_get_profile_fields();
+	function add_query_user_registered( $query ) {
 
-        $profile_fields = apply_filters( 'usp_userslist_custom_fields', $profile_fields );
+		$query['select'][] = "wp_users.user_registered";
 
-        if ( ! $profile_fields )
-            return $users;
+		if ( $this->orderby ) {
+			$query['orderby'] = "wp_users.user_registered";
+		}
 
-        $profile_fields = stripslashes_deep( $profile_fields );
+		return $query;
+	}
 
-        $slugs  = array();
-        $fields = array();
+	// add a selection of user activity data to the main query
+	function add_query_time_action( $query ) {
 
-        foreach ( $profile_fields as $custom_field ) {
-            $custom_field = apply_filters( 'usp_userslist_custom_field', $custom_field );
-            if ( ! $custom_field )
-                continue;
+		$query['select'][] = "actions.date_action";
+		$query['orderby']  = "actions.date_action";
 
-            if ( isset( $field['req'] ) && $field['req'] ) {
-                $field['public_value'] = $field['req'];
-            }
+		$query['join'][] = "RIGHT JOIN " . USP_PREF . "users_actions AS actions ON wp_users.ID = actions.user_id";
 
-            if ( isset( $custom_field['public_value'] ) && $custom_field['public_value'] == 1 ) {
-                $fields[] = $custom_field;
-                $slugs[]  = $custom_field['slug'];
-            }
-        }
+		return $query;
+	}
 
-        if ( ! $fields )
-            return $users;
+	// adding user activity data after the main query
+	function add_time_action( $users ) {
+		global $wpdb;
 
-        $ids = $this->get_users_ids( $users );
+		$ids = $this->get_users_ids( $users );
 
-        $fielddata = array();
-        foreach ( $fields as $k => $field ) {
+		if ( $ids ) {
 
-            $fielddata[$field['slug']]['title'] = $field['title'];
-            $fielddata[$field['slug']]['type']  = $field['type'];
+			$query = "SELECT date_action, user_id AS ID "
+			         . "FROM " . USP_PREF . "users_actions "
+			         . "WHERE user_id IN (" . implode( ',', $ids ) . ")";
 
-            if ( isset( $field['filter'] ) )
-                $fielddata[$field['slug']]['filter'] = $field['filter'];
-        }
+			$posts = $wpdb->get_results( $query );
 
-        $query = "SELECT meta_key,meta_value, user_id AS ID "
-            . "FROM $wpdb->usermeta "
-            . "WHERE user_id IN (" . implode( ',', $ids ) . ") AND meta_key IN ('" . implode( "','", $slugs ) . "')";
+			if ( $posts ) {
+				$users = $this->merge_objects( $users, $posts, 'date_action' );
+			}
+		}
 
-        $metas = $wpdb->get_results( $query );
+		return $users;
+	}
 
-        $newmetas = array();
-        foreach ( $metas as $k => $meta ) {
-            $newmetas[$meta->ID]['ID']                          = $meta->ID;
-            $newmetas[$meta->ID]['profile_fields'][$k]['slug']  = $meta->meta_key;
-            $newmetas[$meta->ID]['profile_fields'][$k]['value'] = maybe_unserialize( $meta->meta_value );
-            $newmetas[$meta->ID]['profile_fields'][$k]['title'] = $fielddata[$meta->meta_key]['title'];
-            $newmetas[$meta->ID]['profile_fields'][$k]['type']  = $fielddata[$meta->meta_key]['type'];
+	// adding a selection of these posts to the main query
+	function add_query_posts_count( $query ) {
+		global $wpdb;
 
-            if ( isset( $fielddata[$meta->meta_key]['filter'] ) )
-                $newmetas[$meta->ID]['profile_fields'][$k]['filter'] = $fielddata[$meta->meta_key]['filter'];
+		$query['select'][] = "posts.posts_count";
+		$query['orderby']  = "posts.posts_count";
 
-            ( object ) $newmetas[$meta->ID];
-        }
+		$query['join'][] = "INNER JOIN (SELECT COUNT(post_author) AS posts_count, post_author "
+		                   . "FROM $wpdb->posts "
+		                   . "WHERE post_status IN ('publish', 'private') AND post_type NOT IN ('page','nav_menu_item') "
+		                   . "GROUP BY post_author) posts "
+		                   . "ON wp_users.ID = posts.post_author";
 
-        if ( $newmetas )
-            $users = $this->merge_objects( $users, $newmetas, 'profile_fields' );
+		return $query;
+	}
 
-        return $users;
-    }
+	// adding publication data after the main query
+	function add_posts_count( $users ) {
+		global $wpdb;
 
-    function add_query_user_registered( $query ) {
+		if ( ! $users ) {
+			return $users;
+		}
 
-        $query['select'][] = "wp_users.user_registered";
+		$ids = $this->get_users_ids( $users );
 
-        if ( $this->orderby )
-            $query['orderby'] = "wp_users.user_registered";
+		$query = "SELECT COUNT(post_author) AS posts_count, post_author AS ID "
+		         . "FROM $wpdb->posts "
+		         . "WHERE post_status IN ('publish', 'private') AND post_type NOT IN ('page','nav_menu_item') AND post_author IN (" . implode( ',', $ids ) . ") "
+		         . "GROUP BY post_author";
 
-        return $query;
-    }
+		$posts = $wpdb->get_results( $query );
 
-    // add a selection of user activity data to the main query
-    function add_query_time_action( $query ) {
+		if ( $posts ) {
+			$users = $this->merge_objects( $users, $posts, 'posts_count' );
+		}
 
-        $query['select'][] = "actions.date_action";
-        $query['orderby']  = "actions.date_action";
+		return $users;
+	}
 
-        $query['join'][] = "RIGHT JOIN " . USP_PREF . "users_actions AS actions ON wp_users.ID = actions.user_id";
+	// adding a selection of these comments to the main query
+	function add_query_comments_count( $query ) {
+		global $wpdb;
 
-        return $query;
-    }
+		$query['select'][] = "comments.comments_count";
+		$query['orderby']  = "comments.comments_count";
 
-    // adding user activity data after the main query
-    function add_time_action( $users ) {
-        global $wpdb;
+		$query['join'][] = "INNER JOIN (SELECT COUNT(user_id) AS comments_count, user_id "
+		                   . "FROM $wpdb->comments "
+		                   . "GROUP BY user_id) comments "
+		                   . "ON wp_users.ID = comments.user_id";
 
-        $ids = $this->get_users_ids( $users );
+		return $query;
+	}
 
-        if ( $ids ) {
+	// adding comment data after the main query
+	function add_comments_count( $users ) {
+		global $wpdb;
 
-            $query = "SELECT date_action, user_id AS ID "
-                . "FROM " . USP_PREF . "users_actions "
-                . "WHERE user_id IN (" . implode( ',', $ids ) . ")";
+		if ( ! $users ) {
+			return $users;
+		}
 
-            $posts = $wpdb->get_results( $query );
+		$ids = $this->get_users_ids( $users );
 
-            if ( $posts )
-                $users = $this->merge_objects( $users, $posts, 'date_action' );
-        }
+		$query = "SELECT COUNT(user_id) AS comments_count, user_id AS ID "
+		         . "FROM $wpdb->comments "
+		         . "WHERE user_id IN (" . implode( ',', $ids ) . ") "
+		         . "GROUP BY user_id";
 
-        return $users;
-    }
+		$comments = $wpdb->get_results( $query );
 
-    // adding a selection of these posts to the main query
-    function add_query_posts_count( $query ) {
-        global $wpdb;
+		if ( $comments ) {
+			$users = $this->merge_objects( $users, $comments, 'comments_count' );
+		}
 
-        $query['select'][] = "posts.posts_count";
-        $query['orderby']  = "posts.posts_count";
+		return $users;
+	}
 
-        $query['join'][] = "INNER JOIN (SELECT COUNT(post_author) AS posts_count, post_author "
-            . "FROM $wpdb->posts "
-            . "WHERE post_status IN ('publish', 'private') AND post_type NOT IN ('page','nav_menu_item') "
-            . "GROUP BY post_author) posts "
-            . "ON wp_users.ID = posts.post_author";
+	// adding status data after the main query
+	function add_descriptions( $users ) {
+		global $wpdb;
 
-        return $query;
-    }
+		if ( ! $users ) {
+			return $users;
+		}
 
-    // adding publication data after the main query
-    function add_posts_count( $users ) {
-        global $wpdb;
+		$ids = $this->get_users_ids( $users );
 
-        if ( ! $users )
-            return $users;
+		$query = "SELECT meta_value AS description, user_id AS ID "
+		         . "FROM $wpdb->usermeta "
+		         . "WHERE user_id IN (" . implode( ',', $ids ) . ") AND meta_key='description'";
 
-        $ids = $this->get_users_ids( $users );
+		$descs = $wpdb->get_results( $query );
 
-        $query = "SELECT COUNT(post_author) AS posts_count, post_author AS ID "
-            . "FROM $wpdb->posts "
-            . "WHERE post_status IN ('publish', 'private') AND post_type NOT IN ('page','nav_menu_item') AND post_author IN (" . implode( ',', $ids ) . ") "
-            . "GROUP BY post_author";
+		if ( $descs ) {
+			$users = $this->merge_objects( $users, $descs, 'description' );
+		}
 
-        $posts = $wpdb->get_results( $query );
+		return $users;
+	}
 
-        if ( $posts )
-            $users = $this->merge_objects( $users, $posts, 'posts_count' );
+	function add_avatar_data( $users ) {
+		global $wpdb;
 
-        return $users;
-    }
+		if ( ! $users ) {
+			return $users;
+		}
 
-    // adding a selection of these comments to the main query
-    function add_query_comments_count( $query ) {
-        global $wpdb;
+		$ids = $this->get_users_ids( $users );
 
-        $query['select'][] = "comments.comments_count";
-        $query['orderby']  = "comments.comments_count";
+		$query = "SELECT meta_value AS avatar_data, user_id AS ID "
+		         . "FROM $wpdb->usermeta "
+		         . "WHERE user_id IN (" . implode( ',', $ids ) . ") AND meta_key='usp_avatar'";
 
-        $query['join'][] = "INNER JOIN (SELECT COUNT(user_id) AS comments_count, user_id "
-            . "FROM $wpdb->comments "
-            . "GROUP BY user_id) comments "
-            . "ON wp_users.ID = comments.user_id";
+		$descs = $wpdb->get_results( $query );
 
-        return $query;
-    }
+		if ( $descs ) {
+			$users = $this->merge_objects( $users, $descs, 'avatar_data' );
+		}
 
-    // adding comment data after the main query
-    function add_comments_count( $users ) {
-        global $wpdb;
+		return $users;
+	}
 
-        if ( ! $users )
-            return $users;
+	// adding a selection of rating data to the main query
+	function add_query_rating_total( $query ) {
 
-        $ids = $this->get_users_ids( $users );
+		$query['select'][] = "ratings.rating_total";
+		$query['groupby']  = "ratings.user_id";
+		$query['orderby']  = "CAST(ratings.rating_total AS DECIMAL)";
 
-        $query = "SELECT COUNT(user_id) AS comments_count, user_id AS ID "
-            . "FROM $wpdb->comments "
-            . "WHERE user_id IN (" . implode( ',', $ids ) . ") "
-            . "GROUP BY user_id";
+		$query['join'][] = "INNER JOIN " . USP_PREF . "rating_users AS ratings ON wp_users.ID = ratings.user_id";
 
-        $comments = $wpdb->get_results( $query );
+		return $query;
+	}
 
-        if ( $comments )
-            $users = $this->merge_objects( $users, $comments, 'comments_count' );
+	// adding rating data after the main query
+	function add_rating_total( $users ) {
+		if ( ! in_array( 'userspace-rating-system/userspace-rating-system.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+			return $users;
+		}
 
-        return $users;
-    }
+		global $wpdb;
 
-    // adding status data after the main query
-    function add_descriptions( $users ) {
-        global $wpdb;
+		if ( ! $users ) {
+			return $users;
+		}
 
-        if ( ! $users )
-            return $users;
+		$ids = $this->get_users_ids( $users );
 
-        $ids = $this->get_users_ids( $users );
+		$query = "SELECT rating_total, user_id AS ID "
+		         . "FROM " . USP_PREF . "rating_users "
+		         . "WHERE user_id IN (" . implode( ',', $ids ) . ")";
 
-        $query = "SELECT meta_value AS description, user_id AS ID "
-            . "FROM $wpdb->usermeta "
-            . "WHERE user_id IN (" . implode( ',', $ids ) . ") AND meta_key='description'";
+		$descs = $wpdb->get_results( $query );
 
-        $descs = $wpdb->get_results( $query );
+		if ( $descs ) {
+			$users = $this->merge_objects( $users, $descs, 'rating_total' );
+		}
 
-        if ( $descs )
-            $users = $this->merge_objects( $users, $descs, 'description' );
+		return $users;
+	}
 
-        return $users;
-    }
+	function get_users_ids( $users ) {
 
-    function add_avatar_data( $users ) {
-        global $wpdb;
+		if ( ! $users ) {
+			return $users;
+		}
 
-        if ( ! $users )
-            return $users;
+		$ids = array();
 
-        $ids = $this->get_users_ids( $users );
+		foreach ( $users as $user ) {
+			if ( ! isset( $user->ID ) || ! $user->ID ) {
+				continue;
+			}
+			$ids[] = $user->ID;
+		}
 
-        $query = "SELECT meta_value AS avatar_data, user_id AS ID "
-            . "FROM $wpdb->usermeta "
-            . "WHERE user_id IN (" . implode( ',', $ids ) . ") AND meta_key='usp_avatar'";
+		return $ids;
+	}
 
-        $descs = $wpdb->get_results( $query );
+	function merge_objects( $users, $data, $key ) {
+		foreach ( $users as $k => $user ) {
+			foreach ( $data as $d ) {
+				if ( is_array( $d ) ) {
+					if ( $d['ID'] != $user->ID ) {
+						continue;
+					}
+					$users[ $k ]->$key = $d[ $key ];
+				} else {
+					if ( $d->ID != $user->ID ) {
+						continue;
+					}
+					$users[ $k ]->$key = $d->$key;
+				}
+			}
+		}
 
-        if ( $descs )
-            $users = $this->merge_objects( $users, $descs, 'avatar_data' );
+		return $users;
+	}
 
-        return $users;
-    }
+	function get_filters( $num_users = false ) {
+		global $post;
 
-    // adding a selection of rating data to the main query
-    function add_query_rating_total( $query ) {
+		if ( ! $this->filters ) {
+			return false;
+		}
 
-        $query['select'][] = "ratings.rating_total";
-        $query['groupby']  = "ratings.user_id";
-        $query['orderby']  = "CAST(ratings.rating_total AS DECIMAL)";
+		$content = '';
 
-        $query['join'][] = "INNER JOIN " . USP_PREF . "rating_users AS ratings ON wp_users.ID = ratings.user_id";
+		if ( $this->search_form ) {
+			$content = apply_filters( 'usp_users_search_form', $content );
+		}
 
-        return $query;
-    }
+		$count_users = ( false !== $num_users ) ? $num_users : $this->count();
 
-    // adding rating data after the main query
-    function add_rating_total( $users ) {
-        if ( ! in_array( 'userspace-rating-system/userspace-rating-system.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) )
-            return $users;
+		$content .= '<div class="usp-users__title">' . __( 'Total number of users', 'userspace' ) . ': ' . $count_users . '</div>';
 
-        global $wpdb;
+		if ( isset( $this->add_uri['users-filter'] ) ) {
+			unset( $this->add_uri['users-filter'] );
+		}
 
-        if ( ! $users )
-            return $users;
+		$s_array = $this->search_request();
 
-        $ids = $this->get_users_ids( $users );
+		$rqst = ( $s_array ) ? implode( '&', $s_array ) . '&' : '';
 
-        $query = "SELECT rating_total, user_id AS ID "
-            . "FROM " . USP_PREF . "rating_users "
-            . "WHERE user_id IN (" . implode( ',', $ids ) . ")";
+		if ( usp_is_office() ) {
+			$url = ( isset( $_POST['tab_url'] ) ) ? $_POST['tab_url'] : usp_get_user_url( USP()->office()->get_owner_id() );
+		} else {
+			$url = get_permalink( $post->ID );
+		}
 
-        $descs = $wpdb->get_results( $query );
+		$perm = usp_format_url( $url ) . $rqst;
 
-        if ( $descs )
-            $users = $this->merge_objects( $users, $descs, 'rating_total' );
+		$current_filter = ( isset( $_GET['users-filter'] ) ) ? $_GET['users-filter'] : 'time_action';
 
-        return $users;
-    }
+		$filters = array(
+			'time_action'     => __( 'Activity', 'userspace' ),
+			'posts_count'     => __( 'Publications', 'userspace' ),
+			'comments_count'  => __( 'Comments', 'userspace' ),
+			'user_registered' => __( 'Registration', 'userspace' ),
+		);
 
-    function get_users_ids( $users ) {
+		if ( function_exists( 'uspr_get_rating_users' ) ) {
+			$filters['rating_total'] = __( 'Rated', 'userspace' );
+		}
 
-        if ( ! $users )
-            return $users;
+		$filters = apply_filters( 'usp_users_filter', $filters );
 
-        $ids = array();
+		$content .= '<div class="usp-users__filter"><span>' . __( 'Filter by', 'userspace' ) . ':</span>';
 
-        foreach ( $users as $user ) {
-            if ( ! isset( $user->ID ) || ! $user->ID )
-                continue;
-            $ids[] = $user->ID;
-        }
+		foreach ( $filters as $key => $name ) {
+			$content .= usp_get_button( array(
+				'label'  => $name,
+				'href'   => $perm . 'users-filter=' . $key,
+				'status' => $current_filter == $key ? 'disabled' : null
+			) );
+		}
 
-        return $ids;
-    }
+		$content .= '</div>';
 
-    function merge_objects( $users, $data, $key ) {
-        foreach ( $users as $k => $user ) {
-            foreach ( $data as $d ) {
-                if ( is_array( $d ) ) {
-                    if ( $d['ID'] != $user->ID )
-                        continue;
-                    $users[$k]->$key = $d[$key];
-                } else {
-                    if ( $d->ID != $user->ID )
-                        continue;
-                    $users[$k]->$key = $d->$key;
-                }
-            }
-        }
-        return $users;
-    }
+		return $content;
+	}
 
-    function get_filters( $num_users = false ) {
-        global $post;
+	function add_query_search( $query ) {
+		$search_text  = ( isset( $_GET['search_text'] ) ) ? sanitize_user( $_GET['search_text'] ) : '';
+		$search_field = ( isset( $_GET['search_field'] ) ) ? sanitize_key( $_GET['search_field'] ) : '';
 
-        if ( ! $this->filters )
-            return false;
+		if ( ! $search_text || ! $search_field ) {
+			return $query;
+		}
 
-        $content = '';
+		if ( $search_field == 'usp_birthday' || $search_field == 'usp_sex' ) {
+			global $wpdb;
 
-        if ( $this->search_form )
-            $content = apply_filters( 'usp_users_search_form', $content );
+			$query['join'][]  = "INNER JOIN $wpdb->usermeta AS wp_usermeta ON wp_users.ID=wp_usermeta.user_id";
+			$query['where'][] = "wp_usermeta.meta_key LIKE '$search_field' AND wp_usermeta.meta_value LIKE '%$search_text%'";
+		} else {
+			$query['where'][] = "wp_users.$search_field LIKE '%$search_text%'";
+		}
 
-        $count_users = (false !== $num_users) ? $num_users : $this->count();
-
-        $content .= '<div class="usp-users__title">' . __( 'Total number of users', 'userspace' ) . ': ' . $count_users . '</div>';
-
-        if ( isset( $this->add_uri['users-filter'] ) )
-            unset( $this->add_uri['users-filter'] );
-
-        $s_array = $this->search_request();
-
-        $rqst = ($s_array) ? implode( '&', $s_array ) . '&' : '';
-
-        if ( usp_is_office() ) {
-            $url = (isset( $_POST['tab_url'] )) ? $_POST['tab_url'] : usp_get_user_url( USP()->office()->get_owner_id() );
-        } else {
-            $url = get_permalink( $post->ID );
-        }
-
-        $perm = usp_format_url( $url ) . $rqst;
-
-        $current_filter = (isset( $_GET['users-filter'] )) ? $_GET['users-filter'] : 'time_action';
-
-        $filters = array(
-            'time_action'     => __( 'Activity', 'userspace' ),
-            'posts_count'     => __( 'Publications', 'userspace' ),
-            'comments_count'  => __( 'Comments', 'userspace' ),
-            'user_registered' => __( 'Registration', 'userspace' ),
-        );
-
-        if ( function_exists( 'uspr_get_rating_users' ) )
-            $filters['rating_total'] = __( 'Rated', 'userspace' );
-
-        $filters = apply_filters( 'usp_users_filter', $filters );
-
-        $content .= '<div class="usp-users__filter"><span>' . __( 'Filter by', 'userspace' ) . ':</span>';
-
-        foreach ( $filters as $key => $name ) {
-            $content .= usp_get_button( array(
-                'label'  => $name,
-                'href'   => $perm . 'users-filter=' . $key,
-                'status' => $current_filter == $key ? 'disabled' : null
-                ) );
-        }
-
-        $content .= '</div>';
-
-        return $content;
-    }
-
-    function add_query_search( $query ) {
-        $search_text  = (isset( $_GET['search_text'] )) ? sanitize_user( $_GET['search_text'] ) : '';
-        $search_field = (isset( $_GET['search_field'] )) ? sanitize_key( $_GET['search_field'] ) : '';
-
-        if ( ! $search_text || ! $search_field )
-            return $query;
-
-        if ( $search_field == 'usp_birthday' || $search_field == 'usp_sex' ) {
-            global $wpdb;
-
-            $query['join'][]  = "INNER JOIN $wpdb->usermeta AS wp_usermeta ON wp_users.ID=wp_usermeta.user_id";
-            $query['where'][] = "wp_usermeta.meta_key LIKE '$search_field' AND wp_usermeta.meta_value LIKE '%$search_text%'";
-        } else {
-            $query['where'][] = "wp_users.$search_field LIKE '%$search_text%'";
-        }
-
-        return $query;
-    }
+		return $query;
+	}
 
 }

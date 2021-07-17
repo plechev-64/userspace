@@ -2,298 +2,314 @@
 
 class USP_Field_Abstract {
 
-    public $id;
-    public $slug;
-    public $type;
-    public $icon;
-    public $title;
-    public $value        = null;
-    public $default      = null;
-    public $notice;
-    public $filter;
-    public $input_id;
-    public $input_name;
-    public $parent;
-    public $rand;
-    public $help;
-    public $class;
-    public $required;
-    public $maxlength;
-    public $childrens;
-    public $unique_id    = false;
-    public $value_in_key = null;
-    public $must_delete  = true;
-    public $_new;
-
-    function __construct( $args ) {
-
-        if ( ! isset( $args['type'] ) )
-            $args['type'] = 'custom';
-
-        if ( ! isset( $args['slug'] ) ) {
-            if ( $args['type'] == 'custom' ) {
-                $args['slug'] = md5( current_time( 'mysql' ) );
-            } else {
-                return false;
-            }
-        }
+	public $id;
+	public $slug;
+	public $type;
+	public $icon;
+	public $title;
+	public $value = null;
+	public $default = null;
+	public $notice;
+	public $filter;
+	public $input_id;
+	public $input_name;
+	public $parent;
+	public $rand;
+	public $help;
+	public $class;
+	public $required;
+	public $maxlength;
+	public $childrens;
+	public $unique_id = false;
+	public $value_in_key = null;
+	public $must_delete = true;
+	public $_new;
+
+	function __construct( $args ) {
+
+		if ( ! isset( $args['type'] ) ) {
+			$args['type'] = 'custom';
+		}
+
+		if ( ! isset( $args['slug'] ) ) {
+			if ( $args['type'] == 'custom' ) {
+				$args['slug'] = md5( current_time( 'mysql' ) );
+			} else {
+				return false;
+			}
+		}
+
+		if ( isset( $args['name'] ) ) {
+			$args['input_name'] = $args['name'];
+		}
+
+		if ( isset( $args['req'] ) ) {
+			$args['public_value'] = $args['req'];
+		}
+
+		$this->id = $args['slug'];
+
+		$this->init_properties( $args );
+
+		$this->rand = rand( 0, 1000 );
+
+		if ( ! $this->input_name ) {
+			$this->input_name = $this->id;
+		}
+
+		if ( ! $this->input_id ) {
+			$this->input_id = $this->id;
+		}
+
+		if ( $this->unique_id ) {
+			$this->input_id .= $this->rand;
+		}
+	}
+
+	function get_options() {
+		return array();
+	}
+
+	function init_properties( $args ) {
+
+		foreach ( $args as $key => $val ) {
+			$this->$key = $val;
+		}
+
+		if ( ! isset( $this->value ) && isset( $this->default ) ) {
+			$this->value = $this->default;
+		}
+	}
+
+	function get_prop( $propName ) {
+		return $this->isset_prop( $propName ) ? $this->$propName : false;
+	}
+
+	function isset_prop( $propName ) {
+		return isset( $this->$propName );
+	}
+
+	function set_prop( $propName, $value ) {
+		$this->$propName = $value;
+	}
+
+	function get_title() {
 
-        if ( isset( $args['name'] ) )
-            $args['input_name'] = $args['name'];
+		if ( ! $this->title ) {
+			return false;
+		}
 
-        if ( isset( $args['req'] ) )
-            $args['public_value'] = $args['req'];
-
-        $this->id = $args['slug'];
+		return '<div class="usp-field-title">'
+		       . $this->title . ( $this->required ? ' <span class="required">*</span>' : '' )
+		       . '</div>';
+	}
 
-        $this->init_properties( $args );
-
-        $this->rand = rand( 0, 1000 );
+	function get_icon() {
 
-        if ( ! $this->input_name )
-            $this->input_name = $this->id;
-
-        if ( ! $this->input_id )
-            $this->input_id = $this->id;
-
-        if ( $this->unique_id ) {
-            $this->input_id .= $this->rand;
-        }
-    }
+		if ( ! $this->icon ) {
+			return false;
+		}
 
-    function get_options() {
-        return array();
-    }
+		$content = '<span class="usp-field-icon">';
+		$content .= '<i class="uspi ' . $this->icon . '" aria-hidden="true"></i> ';
+		$content .= '</span>';
 
-    function init_properties( $args ) {
+		return $content;
+	}
 
-        foreach ( $args as $key => $val ) {
-            $this->$key = $val;
-        }
+	function get_notice() {
 
-        if ( ! isset( $this->value ) && isset( $this->default ) ) {
-            $this->value = $this->default;
-        }
-    }
+		if ( ! $this->notice ) {
+			return false;
+		}
 
-    function get_prop( $propName ) {
-        return $this->isset_prop( $propName ) ? $this->$propName : false;
-    }
+		return '<div class="usp-field-notice usps usps__ai-center">'
+		       . '<i class="uspi fa-info-circle" aria-hidden="true"></i>'
+		       . '<span>' . $this->notice . '</span>'
+		       . '</div>';
+	}
 
-    function isset_prop( $propName ) {
-        return isset( $this->$propName );
-    }
+	function is_new() {
+		return $this->_new;
+	}
 
-    function set_prop( $propName, $value ) {
-        $this->$propName = $value;
-    }
+	function get_field_input() {
 
-    function get_title() {
+		if ( ! $this->type ) {
+			return false;
+		}
 
-        if ( ! $this->title )
-            return false;
+		$classes = array( 'type-' . $this->type . '-input' );
 
-        return '<div class="usp-field-title">'
-            . $this->title . ($this->required ? ' <span class="required">*</span>' : '')
-            . '</div>';
-    }
+		$classes[] = 'usp-field-input';
 
-    function get_icon() {
+		if ( isset( $this->get_value ) && $this->get_value ) {
+			$inputField = $this->get_field_value();
+		} else {
+			$inputField = $this->get_input();
+		}
 
-        if ( ! $this->icon )
-            return false;
+		if ( ! $this->title && $this->required ) {
+			$inputField .= '<span class="required">*</span>';
+		}
 
-        $content = '<span class="usp-field-icon">';
-        $content .= '<i class="uspi ' . $this->icon . '" aria-hidden="true"></i> ';
-        $content .= '</span>';
+		if ( $this->maxlength ) {
+			$inputField .= '<script>usp_init_field_maxlength("' . $this->input_id . '");</script>';
+		}
 
-        return $content;
-    }
+		$content = '<div id="usp-field-' . $this->id . '" class="' . implode( ' ', $classes ) . '">'
+		           . '<div class="usp-field-core usps__relative">'
+		           . $inputField
+		           . '</div>'
+		           . $this->get_notice()
+		           . '</div>';
 
-    function get_notice() {
+		return $content;
+	}
 
-        if ( ! $this->notice )
-            return false;
+	function get_field_html( $args = false ) {
 
-        return '<div class="usp-field-notice usps usps__ai-center">'
-            . '<i class="uspi fa-info-circle" aria-hidden="true"></i>'
-            . '<span>' . $this->notice . '</span>'
-            . '</div>';
-    }
+		if ( $this->type == 'hidden' ) {
+			return $this->get_field_input();
+		}
 
-    function is_new() {
-        return $this->_new;
-    }
+		$classes = array( 'usp-field', 'type-' . $this->type . '-field' );
 
-    function get_field_input() {
+		if ( isset( $args['classes'] ) ) {
+			$classes = array_merge( $classes, $args['classes'] );
+		}
 
-        if ( ! $this->type )
-            return false;
+		if ( $this->childrens ) {
+			$classes[] = 'usp-parent-field';
+		}
 
-        $classes = array( 'type-' . $this->type . '-input' );
+		if ( $this->parent ) {
+			$classes[] = 'usp-children-field';
+		}
 
-        $classes[] = 'usp-field-input';
+		$content = '<div id="usp-field-' . $this->id . '-wrapper" class="' . implode( ' ', $classes ) . '" ' . ( $this->parent ? 'data-parent="' . $this->parent['id'] . '" data-parent-value="' . $this->parent['value'] . '"' : '' ) . '>';
 
-        if ( isset( $this->get_value ) && $this->get_value ) {
-            $inputField = $this->get_field_value();
-        } else {
-            $inputField = $this->get_input();
-        }
+		$content .= $this->get_title();
 
-        if ( ! $this->title && $this->required ) {
-            $inputField .= '<span class="required">*</span>';
-        }
+		$content .= $this->get_help();
 
-        if ( $this->maxlength ) {
-            $inputField .= '<script>usp_init_field_maxlength("' . $this->input_id . '");</script>';
-        }
+		$content .= $this->get_field_input();
 
-        $content = '<div id="usp-field-' . $this->id . '" class="' . implode( ' ', $classes ) . '">'
-            . '<div class="usp-field-core usps__relative">'
-            . $inputField
-            . '</div>'
-            . $this->get_notice()
-            . '</div>';
+		$content .= '</div>';
 
-        return $content;
-    }
+		return $content;
+	}
 
-    function get_field_html( $args = false ) {
+	function get_help() {
 
-        if ( $this->type == 'hidden' ) {
-            return $this->get_field_input();
-        }
+		if ( ! $this->help ) {
+			return;
+		}
 
-        $classes = array( 'usp-field', 'type-' . $this->type . '-field' );
+		return '<span class="usp-help-option" onclick="return usp_get_option_help(this);"><i class="uspi fa-question-circle" aria-hidden="true"></i><span class="help-content">' . $this->help . '</span></span>';
+	}
 
-        if ( isset( $args['classes'] ) ) {
-            $classes = array_merge( $classes, $args['classes'] );
-        }
+	function get_childrens() {
+		return $this->childrens;
+	}
 
-        if ( $this->childrens ) {
-            $classes[] = 'usp-parent-field';
-        }
+	function isset_childrens() {
+		return $this->childrens ? true : false;
+	}
 
-        if ( $this->parent ) {
-            $classes[] = 'usp-children-field';
-        }
+	protected function get_required() {
+		return $this->required ? 'required="required"' : '';
+	}
 
-        $content = '<div id="usp-field-' . $this->id . '-wrapper" class="' . implode( ' ', $classes ) . '" ' . ($this->parent ? 'data-parent="' . $this->parent['id'] . '" data-parent-value="' . $this->parent['value'] . '"' : '') . '>';
+	protected function get_placeholder() {
+		return $this->placeholder !== '' ? 'placeholder="' . $this->placeholder . '"' : '';
+	}
 
-        $content .= $this->get_title();
+	protected function get_maxlength() {
+		return $this->maxlength ? 'maxlength="' . $this->maxlength . '"' : '';
+	}
 
-        $content .= $this->get_help();
+	protected function get_pattern() {
+		return $this->pattern ? 'pattern="' . $this->pattern . '"' : '';
+	}
 
-        $content .= $this->get_field_input();
+	protected function get_min() {
+		return $this->value_min !== '' ? 'min="' . $this->value_min . '"' : '';
+	}
 
-        $content .= '</div>';
+	protected function get_max() {
+		return $this->value_max !== '' ? 'max="' . $this->value_max . '"' : '';
+	}
 
-        return $content;
-    }
+	protected function get_input_id() {
+		return $this->input_id ? 'id="' . $this->input_id . '"' : '';
+	}
 
-    function get_help() {
+	function get_class() {
 
-        if ( ! $this->help )
-            return;
+		$class = array( $this->type . '-field' );
 
-        return '<span class="usp-help-option" onclick="return usp_get_option_help(this);"><i class="uspi fa-question-circle" aria-hidden="true"></i><span class="help-content">' . $this->help . '</span></span>';
-    }
+		if ( $this->class ) {
+			$class[] = $this->class;
+		}
 
-    function get_childrens() {
-        return $this->childrens;
-    }
+		return 'class="' . implode( ' ', $class ) . '"';
+	}
 
-    function isset_childrens() {
-        return $this->childrens ? true : false;
-    }
+	function get_value() {
 
-    protected function get_required() {
-        return $this->required ? 'required="required"' : '';
-    }
+		if ( ! isset( $this->value ) || $this->value == '' ) {
+			return false;
+		}
 
-    protected function get_placeholder() {
-        return $this->placeholder !== '' ? 'placeholder="' . $this->placeholder . '"' : '';
-    }
+		return $this->value;
+	}
 
-    protected function get_maxlength() {
-        return $this->maxlength ? 'maxlength="' . $this->maxlength . '"' : '';
-    }
+	function get_field_value( $title = false ) {
 
-    protected function get_pattern() {
-        return $this->pattern ? 'pattern="' . $this->pattern . '"' : '';
-    }
+		$value = $this->get_value();
 
-    protected function get_min() {
-        return $this->value_min !== '' ? 'min="' . $this->value_min . '"' : '';
-    }
+		if ( ! $value || ! $this->type ) {
+			return false;
+		}
 
-    protected function get_max() {
-        return $this->value_max !== '' ? 'max="' . $this->value_max . '"' : '';
-    }
+		$content = '<div class="usp-field type-' . $this->type . '-value usp-field-' . $this->id . '">';
 
-    protected function get_input_id() {
-        return $this->input_id ? 'id="' . $this->input_id . '"' : '';
-    }
+		//$content .= $this->get_icon();
 
-    function get_class() {
+		if ( $title ) {
+			$content .= '<div class="usp-field-title-box usps usps__nowrap"><div class="usp-field-title">'
+			            . $this->title
+			            . '</div>'
+			            . '<span class="title-colon">: </span></div>';
+		}
 
-        $class = array( $this->type . '-field' );
+		$content .= '<span class="usp-field-value">';
 
-        if ( $this->class )
-            $class[] = $this->class;
+		$content .= $this->filter ? $this->get_filter_value() : $value;
 
-        return 'class="' . implode( ' ', $class ) . '"';
-    }
+		$content .= '</span>';
 
-    function get_value() {
+		$content .= '</div>';
 
-        if ( ! isset( $this->value ) || $this->value == '' )
-            return false;
+		return $content;
+	}
 
-        return $this->value;
-    }
+	function get_filter_value() {
+		return '<a href="' . $this->get_filter_url() . '">' . $this->get_value() . '</a>';
+	}
 
-    function get_field_value( $title = false ) {
+	function get_filter_url( $val = false ) {
 
-        $value = $this->get_value();
+		if ( ! usp_get_option( 'usp_users_page' ) ) {
+			return false;
+		}
 
-        if ( ! $value || ! $this->type )
-            return false;
+		if ( ! $val ) {
+			$val = $this->value;
+		}
 
-        $content = '<div class="usp-field type-' . $this->type . '-value usp-field-' . $this->id . '">';
-
-        //$content .= $this->get_icon();
-
-        if ( $title )
-            $content .= '<div class="usp-field-title-box usps usps__nowrap"><div class="usp-field-title">'
-                . $this->title
-                . '</div>'
-                . '<span class="title-colon">: </span></div>';
-
-        $content .= '<span class="usp-field-value">';
-
-        $content .= $this->filter ? $this->get_filter_value() : $value;
-
-        $content .= '</span>';
-
-        $content .= '</div>';
-
-        return $content;
-    }
-
-    function get_filter_value() {
-        return '<a href="' . $this->get_filter_url() . '">' . $this->get_value() . '</a>';
-    }
-
-    function get_filter_url( $val = false ) {
-
-        if ( ! usp_get_option( 'usp_users_page' ) )
-            return false;
-
-        if ( ! $val )
-            $val = $this->value;
-
-        return add_query_arg( [ 'usergroup' => $this->slug . ':' . urlencode( $val ) ], get_permalink( usp_get_option( 'usp_users_page' ) ) );
-    }
+		return add_query_arg( [ 'usergroup' => $this->slug . ':' . urlencode( $val ) ], get_permalink( usp_get_option( 'usp_users_page' ) ) );
+	}
 
 }

@@ -10,7 +10,7 @@
  */
 (function ($) {
     "use strict";
-    
+
     var MagicSuggest = function (element, options) {
         var ms = this;
 
@@ -54,7 +54,8 @@
             /**
              * A function triggered just before the ajax request is sent, similar to jQuery
              */
-            beforeSend: function () { },
+            beforeSend: function () {
+            },
 
             /**
              * A custom CSS class to apply to the field's underlying element.
@@ -496,7 +497,7 @@
         };
 
         /**
-         * remove html from raw user input 
+         * remove html from raw user input
          */
         this.stripHtml = function (inputString) {
             return inputString.replace(/(<([^>]+)>)/gi, "");
@@ -775,8 +776,7 @@
                 list = ms.combobox.find(".ms-res-item:not(.ms-res-item-disabled)");
                 if (dir === 'down') {
                     start = list.eq(0);
-                }
-                else {
+                } else {
                     start = list.filter(':last');
                 }
                 active = ms.combobox.find('.ms-res-item-active:not(.ms-res-item-disabled):first');
@@ -791,8 +791,7 @@
                         if (start[0].offsetTop + start.outerHeight() > ms.combobox.height()) {
                             ms.combobox.scrollTop(scrollPos + _comboItemHeight);
                         }
-                    }
-                    else {
+                    } else {
                         start = active.prevAll('.ms-res-item:not(.ms-res-item-disabled)').first();
                         if (start.length === 0) {
                             start = list.filter(':last');
@@ -1172,9 +1171,8 @@
                             }
                         }
                         if (_groups[prop] === undefined) {
-                            _groups[prop] = { title: prop, items: [value] };
-                        }
-                        else {
+                            _groups[prop] = {title: prop, items: [value]};
+                        } else {
                             _groups[prop].items.push(value);
                         }
                     });
@@ -1530,7 +1528,7 @@
                 options.value = [];
                 $.each(this.children, function (index, child) {
                     if (child.nodeName && child.nodeName.toLowerCase() === 'option') {
-                        options.data.push({ id: child.value, name: child.text });
+                        options.data.push({id: child.value, name: child.text});
                         if ($(child).attr('selected')) {
                             options.value.push(child.value);
                         }

@@ -14,15 +14,18 @@
     margin-top: 6px;
     padding: 6px;
 }
+
 .ms-inv {
     border: 1px solid var(--uspRed-800);
 }
+
 .ms-ctn-bootstrap-focus,
 .ms-ctn-bootstrap-focus .ms-res-ctn {
     border-color: var(--uspBlue-400) !important;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
 }
+
 .ms-ctn input {
     clear: both;
     display: block;
@@ -30,16 +33,20 @@
     transition: none;
     width: 100% !important;
 }
+
 .ms-ctn input:focus {
     transition: none;
 }
+
 .ms-ctn-readonly,
 .ms-ctn .ms-input-readonly {
     cursor: pointer;
 }
+
 .ms-ctn .ms-empty-text {
     color: var(--uspGray-200);
 }
+
 .ms-ctn .ms-trigger {
     top: 0;
     width: 30px;
@@ -51,6 +58,7 @@
     background: var(--uspWhite);
     box-sizing: border-box;
 }
+
 .ms-ctn .ms-trigger .ms-trigger-ico {
     display: inline-block;
     width: 0;
@@ -63,23 +71,28 @@
     margin-left: 9px;
     margin-top: 21px;
 }
+
 .ms-ctn .ms-trigger:hover {
     background: var(--uspGray-150);
 }
+
 .ms-ctn-disabled,
 .ms-ctn-disabled input,
 .ms-ctn-disabled .ms-trigger {
     cursor: not-allowed;
     background: var(--uspGray-150);
 }
+
 .ms-ctn-bootstrap-focus {
     border-bottom: var(--uspLine300);
 }
+
 .ms-res-ctn {
     width: 100%;
     display: block;
     overflow-y: auto;
 }
+
 .ms-res-ctn .ms-res-group {
     line-height: 23px;
     text-align: left;
@@ -90,6 +103,7 @@
     background: var(--uspYellow-100);
     color: var(--uspGray-700);
 }
+
 .ms-res-ctn .ms-res-item {
     line-height: 25px;
     text-align: left;
@@ -97,36 +111,45 @@
     cursor: pointer;
     color: var(--uspGray-600);
 }
+
 .ms-res-ctn .ms-res-item-grouped {
     padding-left: 18px;
 }
+
 .ms-res-ctn .ms-res-odd {
     background: var(--uspGray-75);
 }
+
 .ms-res-ctn .ms-res-item-active {
     background: var(--uspGray-100);
 }
+
 .ms-res-ctn .ms-res-item-disabled {
     color: var(--uspGray-300);
     cursor: default;
 }
+
 .ms-sel-ctn {
     overflow: auto;
     line-height: 18px;
     padding-right: 30px;
 }
+
 .ms-no-trigger .ms-sel-ctn {
     padding-right: 0;
 }
+
 /** Outer and global tags **/
 
-.ms-sel-ctn .ms-sel-invalid{
+.ms-sel-ctn .ms-sel-invalid {
     border-color: rgb(248, 165, 165) !important;
     background: #FDF2F2 !important;
 }
-.ms-sel-ctn .ms-sel-item:hover{
+
+.ms-sel-ctn .ms-sel-item:hover {
     border: 1px solid #BBB;
 }
+
 /** For inner tags **/
 .ms-ctn .ms-sel-item {
     display: inline-block;
@@ -139,10 +162,12 @@
     border: 1px solid var(--uspGray-200);
     position: relative;
 }
+
 .ms-ctn .ms-sel-item:hover {
     border-color: var(--uspBlue-300);
     background: var(--uspBlue-50);
 }
+
 .ms-sel-ctn .ms-sel-text {
     background: var(--uspWhite);
     color: var(--uspGray-600);
@@ -151,24 +176,30 @@
     font-size: 14px;
     font-weight: 400;
 }
+
 .ms-as-string .ms-sel-text {
     border-color: transparent;
 }
+
 .ms-res-ctn .ms-res-item em {
     font-style: normal;
     background: var(--uspGray-500);
     color: var(--uspWhite);
 }
+
 .ms-sel-ctn .ms-sel-text:hover {
     background: var(--uspWhite);
 }
+
 .ms-sel-ctn .ms-sel-item-active {
     border: 1px solid var(--uspRed-500);
     background: var(--uspGray-500);
 }
+
 .ms-stacked .ms-sel-item {
     float: inherit;
 }
+
 .ms-sel-ctn .ms-sel-item .ms-close-btn {
     width: 24px;
     cursor: pointer;
@@ -180,6 +211,7 @@
     justify-content: center;
     align-items: center;
 }
+
 .ms-sel-ctn .ms-sel-item .ms-close-btn::before {
     content: "\f00d";
     font-family: usp-awesome;
@@ -189,10 +221,12 @@
 .ms-sel-ctn .ms-sel-item .ms-close-btn:hover {
     color: var(--uspRed-800);
 }
+
 .ms-stacked .ms-sel-item .ms-close-btn {
     margin-left: 0;
 }
-.ms-helper{
+
+.ms-helper {
     position: absolute;
     color: var(--uspRed-800);
     font-size: 14px;
@@ -201,25 +235,31 @@
     top: 14px;
     background: var(--uspRed-100);
 }
+
 .ms-ctn.input-lg .ms-trigger .ms-trigger-ico {
     margin-top: 17px
 }
+
 .ms-ctn.input-sm .ms-trigger .ms-trigger-ico {
     margin-top: 13px
 }
+
 .ms-ctn.input-lg .ms-sel-ctn .ms-sel-item {
     padding-top: 2px;
     padding-bottom: 3px;
 }
+
 .ms-ctn.input-sm .ms-sel-ctn {
     line-height: 15px;
 }
+
 .ms-ctn.input-sm .ms-sel-ctn .ms-sel-item {
     padding-top: 1px;
     padding-bottom: 1px;
-    margin-top:0;
+    margin-top: 0;
     margin-bottom: 0;
 }
+
 .ms-ctn.input-sm .ms-sel-ctn .ms-sel-item .ms-close-btn {
     margin-top: 4px;
 }

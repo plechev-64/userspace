@@ -2,13 +2,16 @@
     align-self: stretch;
     padding: 0 12px;
 }
+
 .usp-bar ul,
 .usp-bar li {
     list-style: none;
 }
+
 .usp-bar .uspi:not(.fa-angle-down) {
     font-size: 20px;
 }
+
 .usp-bar {
     font-size: 16px;
     min-height: 40px;
@@ -18,28 +21,35 @@
     width: 100%;
     z-index: 101;
 }
+
 .usp-bar-dark {
     background: var(--uspBlack-07);
 }
+
 .usp-bar-dark .uspi,
 #usp-bar.usp-bar-dark a {
     color: var(--uspGray-100);
 }
+
 .usp-bar-white .usp-sub-menu,
 .usp-bar-white {
     background: var(--uspWhite);
 }
+
 .usp-bar-white {
     border-bottom: var(--uspLine300);
 }
+
 .usp-bar-white .uspi,
 #usp-bar.usp-bar-white a {
     color: var(--uspGray-700);
 }
+
 .usp-bar-color .usp-sub-menu,
 .usp-bar-color {
     background: rgba(var(--uspRgb), .85);
 }
+
 .usp-bar-color .uspi,
 #usp-bar.usp-bar-color a,
 #usp-bar:not(.usp-bar-white) .usp-bar-or,
@@ -51,74 +61,88 @@
 .usp-bar-wrap > div {
     min-height: 40px;
 }
+
 .usp-bar-userlink {
     align-self: stretch;
 }
+
 .usp-bar-userlink span,
 .usp-bar__user-nav {
     margin: 0 0 0 12px;
 }
+
 .usp-bar-or {
     margin: 0 12px;
     color: var(--uspGray-500);
 }
 
 
-
 /* dropdown */
 #usp-bar__nav a {
     text-decoration: none;
 }
+
 #usp-bar ul {
     margin: 0;
     padding: 0;
 }
+
 #usp-bar.usp-bar-white .usp-bar__user-nav:hover .usp-bar-usershow,
 #usp-bar.usp-bar-white .usp-bttn:hover,
 #usp-bar.usp-bar-white li:hover,
 #usp-bar.usp-bar-white .current-menu-item {
     background: var(--uspGray-200);
 }
+
 .usp-bar__menu-nav:hover i,
-#usp-bar.usp-bar-color .usp-bar__user-nav:hover .usp-bar-usershow, 
-#usp-bar.usp-bar-color .usp-bttn:hover, 
-#usp-bar.usp-bar-color li:hover, 
+#usp-bar.usp-bar-color .usp-bar__user-nav:hover .usp-bar-usershow,
+#usp-bar.usp-bar-color .usp-bttn:hover,
+#usp-bar.usp-bar-color li:hover,
 #usp-bar.usp-bar-color .current-menu-item {
     background: var(--uspHex);
-    box-shadow: 0 0 30px 30px rgba(0,0,0,.3) inset !important;
+    box-shadow: 0 0 30px 30px rgba(0, 0, 0, .3) inset !important;
 }
+
 .usp-bar-dark .usp-bar__user-nav:hover .usp-bar-usershow,
 #usp-bar.usp-bar-dark .usp-bttn:hover,
 #usp-bar.usp-bar-dark li:hover,
 #usp-bar.usp-bar-dark .current-menu-item {
     background: rgba(120, 160, 130, .3);
 }
+
 #usp-bar .usp-menu-has-child {
     position: relative;
 }
+
 #usp-bar__nav > li > a {
     display: flex;
     margin: 0 12px;
 }
+
 #usp-bar__nav li > a {
     min-height: 40px;
     align-items: center;
 }
+
 #usp-bar .usp-menu-has-child::after {
     font-family: usp-awesome;
     font-size: 13px;
     min-width: 27px;
 }
+
 #usp-bar__nav > .usp-menu-has-child::after {
     content: "\f107";
 }
+
 .usp-sub-menu > .usp-menu-has-child::after {
     content: "\f105";
 }
+
 .usp-bar__bttns:empty,
 #usp-bar__nav > .menu-item-has-children > a::after { /* other themes fix */
     display: none;
 }
+
 .usp-sub-menu {
     opacity: 0;
     position: absolute;
@@ -129,28 +153,34 @@
     top: 100%;
     box-shadow: var(--uspBox400);
 }
+
 .usp-bar-dark .usp-sub-menu {
     background: var(--uspBlack-07);
 }
+
 .usp-bar__nav .usp-sub-menu {
     width: 100%;
 }
+
 .usp-menu-has-child:hover > a + .usp-sub-menu,
 .usp-menu-has-child:focus-within > a + .usp-sub-menu {
     opacity: 1;
     visibility: visible;
     z-index: 102;
 }
+
 #usp-bar__nav > li,
 .usp-sub-menu > li {
     display: flex;
     align-items: center;
 }
+
 .usp-sub-menu > li > a {
     display: flex;
     flex-grow: 1;
     margin: 0 12px;
 }
+
 .usp-sub-menu .usp-menu-has-child .usp-sub-menu {
     left: 100%;
     top: 0;
@@ -160,6 +190,7 @@
     align-self: stretch;
     display: flex;
 }
+
 .usp-bar__bttns > .usp-bttn .usp-bttn__count {
     align-self: flex-start;
     margin: 3px 0 0 3px;
@@ -172,25 +203,29 @@
     object-fit: cover;
     height: 100%;
 }
+
 .usp-bar__user-nav > .uspi {
     padding: 0 6px;
     font-size: 13px;
 }
+
 #usp-bar .usp-sub-menu .uspi {
     opacity: .7;
     min-width: 24px;
 }
 
-@media screen and (max-width:768px) {
+@media screen and (max-width: 768px) {
     .usp-bar-wrap {
         padding: 0 6px;
         max-width: 100% !important;
     }
+
     #usp-bar .usp-bar__mobile {
         display: flex;
         padding: 6px 12px;
         cursor: pointer;
     }
+
     #usp-bar__nav {
         position: absolute;
         top: 100%;
@@ -202,6 +237,7 @@
         right: 0;
         left: 0;
     }
+
     #usp-bar .usp-bar__menu-nav:hover #usp-bar__nav {
         opacity: 1;
         visibility: visible;

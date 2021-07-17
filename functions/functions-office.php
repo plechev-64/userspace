@@ -34,7 +34,7 @@ function usp_add_office_tab_content() {
 /**
  * Checks is the user profile page or the user profile of the specified user_id
  *
- * @param int $user_id id user.
+ * @param   int  $user_id  id user.
  *
  * @return bool         true - is office, false - not.
  *                      If user_id is passed: true - is office by user_id, false - not.
@@ -74,7 +74,7 @@ function usp_get_office_class() {
 	/**
 	 * Adding class in user office.
 	 *
-	 * @param string    added class.
+	 * @param   string    added class.
 	 *                  Default: empty string
 	 *
 	 * @since 1.0

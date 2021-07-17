@@ -2,36 +2,46 @@
     margin: 0 !important;
     padding: 12px 18px;
 }
+
 .usp-entry-tab:not(.usp-bttn__active) {
     background: var(--uspGray-200);
     border-bottom: var(--uspLine300);
     color: var(--uspGray-400);
 }
+
 .usp-entry-tab:not(.usp-bttn__active):hover {
     color: inherit;
 }
+
 .usp-entry-tab:first-child {
     border-right: var(--uspLine300);
 }
+
 .usp-entry-tabs .usp-bttn__active {
     outline: 0;
     color: var(--uspGray-600);
 }
+
 .usp-entry-box {
     display: none;
 }
+
 .usp-entry-box__active {
     display: block;
 }
+
 .usp-entry-box .usp-bttn.usp-forgot {
     margin: 0 18px 18px;
 }
+
 .usp-entry-box .usp-bttn.usp-forgot:hover {
     text-decoration: underline !important;
 }
+
 .usp-entry-box .usp-form {
     margin: 30px 0 0;
 }
+
 .usp-entry-box .submit-box.usps {
     margin: 0 18px 18px;
 }

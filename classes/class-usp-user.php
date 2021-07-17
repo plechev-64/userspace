@@ -14,21 +14,21 @@ class USP_User {
 
 		$this->ID = $user_id;
 	}
-	
-	static function setup($userObject){
-		
-		if(!$userObject){
+
+	static function setup( $userObject ) {
+
+		if ( ! $userObject ) {
 			return false;
 		}
-		
+
 		$user = new self();
-		
-		foreach($userObject as $key => $value){
+
+		foreach ( $userObject as $key => $value ) {
 			$user->$key = $value;
 		}
 
 		return $user;
-		
+
 	}
 
 	function get_url() {
@@ -42,8 +42,8 @@ class USP_User {
 					'user' => $this->ID
 				), $officeUrl );
 
-		}else{
-			$userData = get_userdata( $this->ID );
+		} else {
+			$userData  = get_userdata( $this->ID );
 			$officeUrl = untrailingslashit( $officeUrl ) . '/' . $userData->user_nicename;
 		}
 

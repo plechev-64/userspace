@@ -3,12 +3,12 @@
 final class USP_Ajax {
 
 	public $name;
-	public $nopriv			 = false;
-	public $rest			 = false;
-	public $rest_space		 = 'userspace';
-	public $rest_route		 = '';
-	public $rest_callback	 = '';
-	public $ajax_callbacks	 = array();
+	public $nopriv = false;
+	public $rest = false;
+	public $rest_space = 'userspace';
+	public $rest_route = '';
+	public $rest_callback = '';
+	public $ajax_callbacks = array();
 
 	public static function getInstance() {
 		static $instance;
@@ -36,20 +36,21 @@ final class USP_Ajax {
 
 	public function init_ajax_callback( $callback, $guest_access = false, $modules = false ) {
 
-		if ( ! $this->is_rest_request() )
+		if ( ! $this->is_rest_request() ) {
 			return false;
+		}
 
-		$this->ajax_callbacks[$callback] = ['guest' => $guest_access, 'modules' => $modules ];
+		$this->ajax_callbacks[ $callback ] = [ 'guest' => $guest_access, 'modules' => $modules ];
 	}
 
 	public function get_ajax_callback( $callback ) {
-		return isset( $this->ajax_callbacks[$callback] ) ? $this->ajax_callbacks[$callback] : false;
+		return isset( $this->ajax_callbacks[ $callback ] ) ? $this->ajax_callbacks[ $callback ] : false;
 	}
 
 	function init_rest( $rest_callback ) {
 
 		$this->rest_callback = $rest_callback;
-		$this->rest_route	 = $rest_callback;
+		$this->rest_route    = $rest_callback;
 
 		add_action( 'rest_api_init', array( $this, 'register_route' ) );
 	}
@@ -57,16 +58,17 @@ final class USP_Ajax {
 	function register_route() {
 
 		register_rest_route( $this->rest_space, '/' . $this->rest_route . '/', array(
-			'methods'	 => 'POST',
-			'callback'	 => $this->rest_callback
+			'methods'  => 'POST',
+			'callback' => $this->rest_callback
 		) );
 	}
 
 	function verify() {
 
 		if ( isset( $_POST['ajax_nonce'] ) ) {
-			if ( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX )
+			if ( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX ) {
 				return false;
+			}
 			if ( ! wp_verify_nonce( $_POST['ajax_nonce'], 'wp_rest' ) ) {
 				wp_send_json( array( 'error' => __( 'Signature verification failed', 'userspace' ) . '!' ) );
 			}

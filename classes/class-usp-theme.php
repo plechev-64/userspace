@@ -14,8 +14,9 @@ class USP_Theme {
 		$properties = get_class_vars( get_class( $this ) );
 
 		foreach ( $properties as $name => $val ) {
-			if ( isset( $args[$name] ) )
-				$this->$name = $args[$name];
+			if ( isset( $args[ $name ] ) ) {
+				$this->$name = $args[ $name ];
+			}
 		}
 	}
 
