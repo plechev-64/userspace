@@ -16,15 +16,13 @@ function usp_bar_menu_go_to_profile() {
 		return;
 	}
 
-	global $usp_user_URL;
-
 	echo usp_get_button( [
-			'type'  => 'clear',
-			'size'  => 'medium',
-			'class' => 'usp-bar-profile__in-account',
-			'href'  => $usp_user_URL,
-			'icon'  => 'fa-user',
-			'label' => __( 'Go to personal account', 'userspace' )
+		'type'	 => 'clear',
+		'size'	 => 'medium',
+		'class'	 => 'usp-bar-profile__in-account',
+		'href'	 => USP()->user( get_current_user_id() )->get_url(),
+		'icon'	 => 'fa-user',
+		'label'	 => __( 'Go to personal account', 'userspace' )
 		]
 	);
 }
@@ -40,12 +38,12 @@ function usp_bar_menu_add_admin_link() {
 	}
 
 	echo usp_get_button( [
-			'type'  => 'clear',
-			'size'  => 'medium',
-			'class' => 'usp-bar-profile__in-admin',
-			'href'  => admin_url(),
-			'icon'  => 'fa-external-link-square',
-			'label' => __( 'To admin area', 'userspace' )
+		'type'	 => 'clear',
+		'size'	 => 'medium',
+		'class'	 => 'usp-bar-profile__in-admin',
+		'href'	 => admin_url(),
+		'icon'	 => 'fa-external-link-square',
+		'label'	 => __( 'To admin area', 'userspace' )
 		]
 	);
 }
@@ -128,8 +126,8 @@ function __find_is_has_child( $item_id, $sorted_menu_items ) {
 // added class in body tag
 add_filter( 'body_class', 'usp_add_userbar_class_body' );
 function usp_add_userbar_class_body( $classes ) {
-	$classes[] = 'usp-userbar';
-	$classes[] = 'usp-userbar-' . usp_get_option( 'usp_bar_color', 'dark' );
+	$classes[]	 = 'usp-userbar';
+	$classes[]	 = 'usp-userbar-' . usp_get_option( 'usp_bar_color', 'dark' );
 
 	return $classes;
 }

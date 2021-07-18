@@ -47,27 +47,27 @@ function usp_get_avatar( $id_or_email, $size = 50, $url = false, $args = [], $ht
 		return false;
 	}
 
-	$alt = ( isset( $args['parent_alt'] ) ) ? $args['parent_alt'] : '';
+	$alt = ( isset( $args[ 'parent_alt' ] ) ) ? $args[ 'parent_alt' ] : '';
 
 	// class for avatar userspace and class css reset for <img> tag
-	( isset( $args['class'] ) ) ? $args['class'] .= ' usp-ava-img usps__img-reset' : $args['class'] = 'usp-ava-img usps__img-reset';
+	( isset( $args[ 'class' ] ) ) ? $args[ 'class' ] .= ' usp-ava-img usps__img-reset' : $args[ 'class' ] = 'usp-ava-img usps__img-reset';
 
 	global $user_ID;
 
 	// class for current user (realtime reload on avatar upload)
 	if ( is_user_logged_in() && is_numeric( $id_or_email ) && ( int ) $id_or_email == $user_ID ) {
-		$args['class'] .= ' usp-profile-ava';
+		$args[ 'class' ] .= ' usp-profile-ava';
 	}
 
-	if ( $url || isset( $args['parent_wrap'] ) && $args['parent_wrap'] == 'div' ) {
+	if ( $url || isset( $args[ 'parent_wrap' ] ) && $args[ 'parent_wrap' ] == 'div' ) {
 
-		$wrap_tag = ( ! isset( $args['parent_wrap'] ) || $args['parent_wrap'] == 'a' ) ? 'a' : 'div';
-		$id       = ( isset( $args['parent_id'] ) ) ? 'id="' . esc_attr( $args['parent_id'] ) . '"' : '';
-		$class    = ( isset( $args['parent_class'] ) ) ? 'class="' . esc_attr( $args['parent_class'] ) . '"' : '';
-		$title    = ( isset( $args['parent_title'] ) ) ? 'title="' . esc_attr( $args['parent_title'] ) . '"' : '';
-		$onclick  = ( isset( $args['parent_onclick'] ) ) ? 'onclick="' . esc_attr( $args['parent_onclick'] ) . '"' : '';
-		$href     = ( $url ) ? 'href="' . esc_url( $url ) . '"' : '';
-		$nofollow = ( $wrap_tag == 'a' ) ? 'rel="nofollow"' : '';
+		$wrap_tag	 = ( ! isset( $args[ 'parent_wrap' ] ) || $args[ 'parent_wrap' ] == 'a' ) ? 'a' : 'div';
+		$id			 = ( isset( $args[ 'parent_id' ] ) ) ? 'id="' . esc_attr( $args[ 'parent_id' ] ) . '"' : '';
+		$class		 = ( isset( $args[ 'parent_class' ] ) ) ? 'class="' . esc_attr( $args[ 'parent_class' ] ) . '"' : '';
+		$title		 = ( isset( $args[ 'parent_title' ] ) ) ? 'title="' . esc_attr( $args[ 'parent_title' ] ) . '"' : '';
+		$onclick	 = ( isset( $args[ 'parent_onclick' ] ) ) ? 'onclick="' . esc_attr( $args[ 'parent_onclick' ] ) . '"' : '';
+		$href		 = ( $url ) ? 'href="' . esc_url( $url ) . '"' : '';
+		$nofollow	 = ( $wrap_tag == 'a' ) ? 'rel="nofollow"' : '';
 
 		$parent_tag = sprintf( "<{$wrap_tag} %s %s %s %s %s %s>", $id, $class, $href, $title, $onclick, $nofollow );
 
@@ -127,11 +127,11 @@ function usp_get_username( $user_id = false, $link = false, $args = false ) {
 
 	$class = [ 'usp_userlink' ];
 
-	if ( $args['class'] ) {
-		if ( is_array( $args['class'] ) ) {
-			$class = array_merge( $class, $args['class'] );
+	if ( $args[ 'class' ] ) {
+		if ( is_array( $args[ 'class' ] ) ) {
+			$class = array_merge( $class, $args[ 'class' ] );
 		} else {
-			$class[] = $args['class'];
+			$class[] = $args[ 'class' ];
 		}
 	}
 
@@ -258,10 +258,10 @@ function usp_user_comments() {
 			$usp_user->comments_count = 0;
 		}
 
-		$title = __( 'Comments', 'userspace' ) . ':';
-		$count = $usp_user->comments_count;
-		$icon  = 'fa-comment';
-		$class = 'usp-meta__comm';
+		$title	 = __( 'Comments', 'userspace' ) . ':';
+		$count	 = $usp_user->comments_count;
+		$icon	 = 'fa-comment';
+		$class	 = 'usp-meta__comm';
 
 		echo usp_user_get_stat_item( $title, $count, $icon, $class );
 	}
@@ -276,10 +276,10 @@ function usp_user_posts() {
 			$usp_user->posts_count = 0;
 		}
 
-		$title = __( 'Publics', 'userspace' ) . ':';
-		$count = $usp_user->posts_count;
-		$icon  = 'fa-file';
-		$class = 'usp-meta__post';
+		$title	 = __( 'Publics', 'userspace' ) . ':';
+		$count	 = $usp_user->posts_count;
+		$icon	 = 'fa-file';
+		$class	 = 'usp-meta__post';
 
 		echo usp_user_get_stat_item( $title, $count, $icon, $class );
 	}
@@ -294,10 +294,10 @@ function usp_user_register() {
 			return;
 		}
 
-		$title = __( 'Registration', 'userspace' ) . ':';
-		$count = mysql2date( 'd-m-Y', $usp_user->user_registered );
-		$icon  = 'fa-calendar-check';
-		$class = 'usp-meta__reg';
+		$title	 = __( 'Registration', 'userspace' ) . ':';
+		$count	 = mysql2date( 'd-m-Y', $usp_user->user_registered );
+		$icon	 = 'fa-calendar-check';
+		$class	 = 'usp-meta__reg';
 
 		echo usp_user_get_stat_item( $title, $count, $icon, $class );
 	}
@@ -317,10 +317,10 @@ function usp_user_register() {
  */
 function usp_user_get_stat_item( $title, $count, $icon = 'fa-info-circle', $class = false ) {
 	$data = [
-		'title' => $title,
-		'count' => $count,
-		'icon'  => $icon,
-		'class' => $class,
+		'title'	 => $title,
+		'count'	 => $count,
+		'icon'	 => $icon,
+		'class'	 => $class,
 	];
 
 	return usp_get_include_template( 'usp-statistics-item.php', '', $data );
@@ -343,39 +343,39 @@ function usp_get_user_description( $user_id = false, $attr = false ) {
 add_filter( 'usp_users_search_form', 'usp_default_search_form' );
 function usp_default_search_form( $content ) {
 
-	$search_text  = ( ( isset( $_GET['search_text'] ) ) ) ? $_GET['search_text'] : '';
-	$search_field = ( isset( $_GET['search_field'] ) ) ? sanitize_key( $_GET['search_field'] ) : 'display_name';
+	$search_text	 = ( ( isset( $_GET[ 'search_text' ] ) ) ) ? $_GET[ 'search_text' ] : '';
+	$search_field	 = ( isset( $_GET[ 'search_field' ] ) ) ? sanitize_key( $_GET[ 'search_field' ] ) : 'display_name';
 
-	$fields  = array(
+	$fields	 = array(
 		array(
-			'type'    => 'text',
-			'slug'    => 'search_text',
-			'title'   => __( 'Search users', 'userspace' ),
-			'default' => $search_text,
+			'type'		 => 'text',
+			'slug'		 => 'search_text',
+			'title'		 => __( 'Search users', 'userspace' ),
+			'default'	 => $search_text,
 		),
 		array(
-			'type'    => 'radio',
-			'slug'    => 'search_field',
-			'values'  => array(
-				'display_name' => __( 'by name', 'userspace' ),
-				'user_login'   => __( 'by login', 'userspace' ),
-				'usp_birthday' => __( 'by birthday', 'userspace' ),
-				'usp_sex'      => __( 'by sex', 'userspace' )
+			'type'		 => 'radio',
+			'slug'		 => 'search_field',
+			'values'	 => array(
+				'display_name'	 => __( 'by name', 'userspace' ),
+				'user_login'	 => __( 'by login', 'userspace' ),
+				'usp_birthday'	 => __( 'by birthday', 'userspace' ),
+				'usp_sex'		 => __( 'by sex', 'userspace' )
 			),
-			'default' => $search_field,
+			'default'	 => $search_field,
 		),
 		array(
-			'type'  => 'hidden',
-			'slug'  => 'default-search',
-			'value' => 1
+			'type'	 => 'hidden',
+			'slug'	 => 'default-search',
+			'value'	 => 1
 		)
 	);
 	$content .= usp_get_form( [
-		'class'  => 'usp-users__search',
+		'class'	 => 'usp-users__search',
 		'method' => 'get',
 		'submit' => __( 'Search', 'userspace' ),
 		'fields' => $fields
-	] );
+		] );
 
 //    if ( $user_LK && $usp_tab ) {
 //
@@ -410,8 +410,8 @@ function usp_is_user_role( $user, $roles ) {
 }
 
 function usp_human_time_diff( $time_action ) {
-	$unix_current_time = strtotime( current_time( 'mysql' ) );
-	$unix_time_action  = strtotime( $time_action );
+	$unix_current_time	 = strtotime( current_time( 'mysql' ) );
+	$unix_time_action	 = strtotime( $time_action );
 
 	return human_time_diff( $unix_time_action, $unix_current_time );
 }
@@ -509,8 +509,8 @@ function usp_get_useraction_html( $user_id, $type = 1 ) {
 
 function usp_get_time_user_action( $user_id ) {
 
-	$cachekey = json_encode( array( 'usp_get_time_user_action', ( int ) $user_id ) );
-	$cache    = wp_cache_get( $cachekey );
+	$cachekey	 = json_encode( array( 'usp_get_time_user_action', ( int ) $user_id ) );
+	$cache		 = wp_cache_get( $cachekey );
 	if ( $cache ) {
 		return $cache;
 	}
@@ -587,15 +587,15 @@ function usp_update_profile_fields( $user_id, $profileFields = false ) {
 
 			$field = apply_filters( 'usp_pre_update_profile_field', $field, $user_id );
 
-			if ( ! $field || ! $field['slug'] ) {
+			if ( ! $field || ! $field[ 'slug' ] ) {
 				continue;
 			}
 
-			$slug = $field['slug'];
+			$slug = $field[ 'slug' ];
 
 			$value = ( isset( $_POST[ $slug ] ) ) ? $_POST[ $slug ] : false;
 
-			if ( isset( $field['admin'] ) && $field['admin'] == 1 && ! is_admin() && ! usp_is_user_role( $user_ID, [ 'administrator' ] ) ) {
+			if ( isset( $field[ 'admin' ] ) && $field[ 'admin' ] == 1 && ! is_admin() && ! usp_is_user_role( $user_ID, [ 'administrator' ] ) ) {
 
 				if ( in_array( $slug, array( 'display_name', 'user_url' ) ) ) {
 
@@ -610,7 +610,7 @@ function usp_update_profile_fields( $user_id, $profileFields = false ) {
 				}
 			}
 
-			if ( $field['type'] == 'file' ) {
+			if ( $field[ 'type' ] == 'file' ) {
 
 				$attach_id = get_user_meta( $user_id, $slug, 1 );
 
@@ -620,7 +620,7 @@ function usp_update_profile_fields( $user_id, $profileFields = false ) {
 				}
 			}
 
-			if ( $field['type'] != 'editor' ) {
+			if ( $field[ 'type' ] != 'editor' ) {
 
 				if ( is_array( $value ) ) {
 					$value = array_map( 'esc_html', $value );
@@ -637,7 +637,7 @@ function usp_update_profile_fields( $user_id, $profileFields = false ) {
 
 				if ( $slug == 'primary_pass' && $value ) {
 
-					if ( $value != $_POST['repeat_pass'] ) {
+					if ( $value != $_POST[ 'repeat_pass' ] ) {
 						continue;
 					}
 
@@ -662,7 +662,7 @@ function usp_update_profile_fields( $user_id, $profileFields = false ) {
 				continue;
 			}
 
-			if ( $field['type'] == 'checkbox' ) {
+			if ( $field[ 'type' ] == 'checkbox' ) {
 
 				$vals = array();
 
@@ -671,7 +671,7 @@ function usp_update_profile_fields( $user_id, $profileFields = false ) {
 					$vals = array();
 
 					foreach ( $value as $val ) {
-						if ( in_array( $val, $field['values'] ) ) {
+						if ( in_array( $val, $field[ 'values' ] ) ) {
 							$vals[] = $val;
 						}
 					}
@@ -697,11 +697,11 @@ function usp_update_profile_fields( $user_id, $profileFields = false ) {
 
 			if ( $value ) {
 
-				if ( $field['type'] == 'uploader' ) {
+				if ( $field[ 'type' ] == 'uploader' ) {
 					foreach ( $value as $val ) {
 						usp_delete_temp_media( $val );
 					}
-				} else if ( $field['type'] == 'file' ) {
+				} else if ( $field[ 'type' ] == 'file' ) {
 					usp_delete_temp_media( $value );
 				}
 			}
@@ -723,12 +723,12 @@ function usp_get_profile_fields( $args = false ) {
 
 		foreach ( $fields as $k => $field ) {
 
-			if ( isset( $args['include'] ) && ! in_array( $field['slug'], $args['include'] ) ) {
+			if ( isset( $args[ 'include' ] ) && ! in_array( $field[ 'slug' ], $args[ 'include' ] ) ) {
 
 				continue;
 			}
 
-			if ( isset( $args['exclude'] ) && in_array( $field['slug'], $args['exclude'] ) ) {
+			if ( isset( $args[ 'exclude' ] ) && in_array( $field[ 'slug' ], $args[ 'exclude' ] ) ) {
 
 				continue;
 			}
@@ -744,15 +744,11 @@ function usp_get_profile_field( $field_id ) {
 
 	$fields = usp_get_profile_fields( array( 'include' => array( $field_id ) ) );
 
-	return $fields[0];
+	return $fields[ 0 ];
 }
 
 add_filter( 'author_link', 'usp_author_link', 999, 2 );
 function usp_author_link( $link, $author_id ) {
-	if ( usp_get_option( 'usp_profile_page_output', 'shortcode' ) == 'authorphp' ) {
-		return $link;
-	}
-
 	return usp_get_user_url( $author_id );
 }
 
@@ -774,16 +770,6 @@ function usp_get_user_url( $user_id = false ) {
 	}
 
 	return USP()->user( $user_id )->get_url();
-
-	//if ( usp_get_option( 'usp_profile_page_output', 'shortcode' ) == 'authorphp' )
-	//return get_author_posts_url( $user_id );
-
-	/*return add_query_arg(
-		[
-			usp_get_option( 'usp_user_account_slug', 'user' ) => $user_id
-		], get_permalink( usp_get_option( 'account_page' ) )
-	);*/
-
 }
 
 add_action( 'delete_user', 'usp_delete_user_action', 10 );
@@ -826,15 +812,15 @@ function usp_show_user_custom_fields( $user_id, $args = false ) {
 			continue;
 		}
 
-		$slug = isset( $field['name'] ) ? $field['name'] : $field['slug'];
+		$slug = isset( $field[ 'name' ] ) ? $field[ 'name' ] : $field[ 'slug' ];
 
-		if ( isset( $field['req'] ) && $field['req'] ) {
-			$field['public_value'] = $field['req'];
+		if ( isset( $field[ 'req' ] ) && $field[ 'req' ] ) {
+			$field[ 'public_value' ] = $field[ 'req' ];
 		}
 
-		if ( isset( $field['public_value'] ) && $field['public_value'] == 1 ) {
-			$field['value'] = get_the_author_meta( $slug, $user_id );
-			$content        .= USP_Field::setup( $field )->get_field_value( true );
+		if ( isset( $field[ 'public_value' ] ) && $field[ 'public_value' ] == 1 ) {
+			$field[ 'value' ]	 = get_the_author_meta( $slug, $user_id );
+			$content			 .= USP_Field::setup( $field )->get_field_value( true );
 		}
 	}
 
@@ -842,7 +828,7 @@ function usp_show_user_custom_fields( $user_id, $args = false ) {
 		return;
 	}
 
-	$class = ( $args['class'] ) ? ' ' . $args['class'] : '';
+	$class = ( $args[ 'class' ] ) ? ' ' . $args[ 'class' ] : '';
 
 	return '<div class="usp-user-fields ' . $class . ' usps usps__column">' . $content . '</div>';
 }
@@ -879,10 +865,10 @@ function usp_user_count_comments( $user_id ) {
 	global $wpdb;
 	$comm_count = $wpdb->get_var( "SELECT COUNT(comment_ID) FROM " . $wpdb->comments . " WHERE user_id = " . $user_id . " AND comment_approved = 1" );
 
-	$title = __( 'Comments', 'userspace' ) . ':';
-	$count = $comm_count;
-	$icon  = 'fa-comment';
-	$class = 'usp-meta__comm';
+	$title	 = __( 'Comments', 'userspace' ) . ':';
+	$count	 = $comm_count;
+	$icon	 = 'fa-comment';
+	$class	 = 'usp-meta__comm';
 
 	echo usp_user_get_stat_item( $title, $count, $icon, $class );
 }
@@ -904,16 +890,16 @@ function usp_user_count_publications( $user_id ) {
 	$exclude_posts_type = apply_filters( 'usp_user_count_publications_exclude_post_types', $exclude_post_by_type );
 
 	$post_count = $wpdb->get_var( ""
-	                              . "SELECT COUNT(ID) "
-	                              . "FROM " . $wpdb->posts . " "
-	                              . "WHERE post_author = " . $user_id . " "
-	                              . "AND post_status IN ('publish', 'private') "
-	                              . "AND post_type NOT IN(" . $exclude_posts_type . ") " );
+		. "SELECT COUNT(ID) "
+		. "FROM " . $wpdb->posts . " "
+		. "WHERE post_author = " . $user_id . " "
+		. "AND post_status IN ('publish', 'private') "
+		. "AND post_type NOT IN(" . $exclude_posts_type . ") " );
 
-	$title = __( 'Publics', 'userspace' ) . ':';
-	$count = $post_count;
-	$icon  = 'fa-file';
-	$class = 'usp-meta__post';
+	$title	 = __( 'Publics', 'userspace' ) . ':';
+	$count	 = $post_count;
+	$icon	 = 'fa-file';
+	$class	 = 'usp-meta__post';
 
 	echo usp_user_get_stat_item( $title, $count, $icon, $class );
 }
@@ -934,10 +920,10 @@ function usp_user_get_date_registered( $user_id ) {
 
 	$register_date = get_userdata( $user_id );
 
-	$title = __( 'Registration', 'userspace' ) . ':';
-	$count = mysql2date( 'd-m-Y', $register_date->user_registered );
-	$icon  = 'fa-calendar-check';
-	$class = 'usp-meta__reg';
+	$title	 = __( 'Registration', 'userspace' ) . ':';
+	$count	 = mysql2date( 'd-m-Y', $register_date->user_registered );
+	$icon	 = 'fa-calendar-check';
+	$class	 = 'usp-meta__reg';
 
 	echo usp_user_get_stat_item( $title, $count, $icon, $class );
 }
