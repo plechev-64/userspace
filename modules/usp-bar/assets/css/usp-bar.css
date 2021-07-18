@@ -111,6 +111,7 @@
 }
 
 #usp-bar .usp-menu-has-child {
+    cursor: pointer;
     position: relative;
 }
 
@@ -162,8 +163,8 @@
     width: 100%;
 }
 
-.usp-menu-has-child:hover > a + .usp-sub-menu,
-.usp-menu-has-child:focus-within > a + .usp-sub-menu {
+.usp-menu-has-child:hover > * + .usp-sub-menu,
+.usp-menu-has-child:focus-within > * + .usp-sub-menu {
     opacity: 1;
     visibility: visible;
     z-index: 102;

@@ -28,7 +28,6 @@ class USP_User {
 		}
 
 		return $user;
-
 	}
 
 	function get_url() {
@@ -41,13 +40,12 @@ class USP_User {
 				array(
 					'user' => $this->ID
 				), $officeUrl );
-
 		} else {
-			$userData  = get_userdata( $this->ID );
-			$officeUrl = untrailingslashit( $officeUrl ) . '/' . $userData->user_nicename;
+			$userData	 = get_userdata( $this->ID );
+			$officeUrl	 = untrailingslashit( $officeUrl ) . '/' . $userData->user_nicename;
 		}
 
-		return $officeUrl;
+		return trailingslashit( $officeUrl );
 	}
 
 	function get_last_action() {
@@ -113,7 +111,6 @@ class USP_User {
 		}
 
 		do_action( 'usp_update_timeaction_user' );
-
 	}
 
 }
