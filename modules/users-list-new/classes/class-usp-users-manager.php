@@ -132,25 +132,31 @@ class USP_Users_Manager extends USP_Content_Manager {
 
 	function get_search_fields() {
 
-		return array(
-			array(
+		$orderby_values = [ 'user_registered' => __( 'Дата регистрации', 'wp-recall' ) ];
+
+		if ( in_array( 'comments', $this->counter ) ) {
+			$orderby_values['comments'] = __( 'Количеству комментариев', 'wp-recall' );
+		}
+
+		if ( in_array( 'posts', $this->counter ) ) {
+			$orderby_values['posts'] = __( 'Количеству публикаций', 'wp-recall' );
+		}
+
+		$search_fields = [
+			[
 				'type'  => 'text',
 				'slug'  => 'display_name__like',
 				'title' => __( 'Поиск' ),
 				'value' => $this->get_request_data_value( 'display_name__like' ),
-			),
-			array(
+			],
+			[
 				'type'   => 'select',
 				'slug'   => 'orderby',
 				'title'  => __( 'Сортировка по' ),
-				'values' => [
-					'user_registered' => __( 'Дата регистрации', 'wp-recall' ),
-					'comments'        => __( 'Количеству комментариев', 'wp-recall' ),
-					'posts'           => __( 'Количеству публикаций', 'wp-recall' )
-				],
+				'values' => $orderby_values,
 				'value'  => $this->get_request_data_value( 'orderby', 'user_registered' ),
-			),
-			array(
+			],
+			[
 				'type'   => 'radio',
 				'slug'   => 'order',
 				'title'  => __( 'Направление сортировки' ),
@@ -159,8 +165,10 @@ class USP_Users_Manager extends USP_Content_Manager {
 					'ASC'  => __( 'По возрастанию' )
 				],
 				'value'  => $this->get_request_data_value( 'order', 'DESC' ),
-			)
-		);
+			]
+		];
+
+		return apply_filters( 'usp_users_search_fields', $search_fields, $this );
 
 	}
 
