@@ -12,17 +12,17 @@ class USP_Users_Manager extends USP_Content_Manager {
 			'number' => 30
 		] );
 
-		if ( ! empty( $args['counter'] ) && ! is_array( $args['counter'] ) ) {
-			$args['counter'] = array_map( 'trim', explode( ',', $args['counter'] ) );
-		}
-
-		if ( ! empty( $args['meta'] ) && ! is_array( $args['meta'] ) ) {
-			$args['meta'] = array_map( 'trim', explode( ',', $args['meta'] ) );
-		}
-
 		$this->init_custom_prop( 'template', isset( $args['template'] ) ?: 'card' );
 		$this->init_custom_prop( 'counter', ! empty( $args['counter'] ) ? $args['counter'] : [] );
 		$this->init_custom_prop( 'meta', ! empty( $args['meta'] ) ? $args['meta'] : [] );
+
+		if ( ! is_array( $this->counter ) ) {
+			$this->counter = array_map( 'trim', explode( ',', $this->counter ) );
+		}
+
+		if ( ! is_array( $this->meta ) ) {
+			$this->meta = array_map( 'trim', explode( ',', $this->meta ) );
+		}
 
 		usp_enqueue_style( 'usp-users-' . $this->template, USP_URL . 'modules/users-list-new/assets/css/usp-users-' . $this->template . '.css', false, USP_VERSION );
 
