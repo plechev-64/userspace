@@ -311,6 +311,7 @@ function usp_init_emoji() {
         var area = jQuery(this).parents('.usp-emoji').data('area');
         var box = jQuery('#' + area);
         box.val(box.val() + ' ' + alt + ' ');
+        usp_do_action( 'usp_emoji_insert', box );
     });
 }
 
