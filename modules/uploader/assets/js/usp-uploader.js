@@ -501,7 +501,7 @@ function usp_delete_attachment(attachment_id, post_id, e) {
         rest: true,
         data: objectData,
         success: function (data) {
-
+            usp_do_action( 'usp_uploader_delete', e, attachment_id, post_id );
             jQuery('.usp-media__item-' + attachment_id).animateCss('flipOutX', function (e) {
                 jQuery(e).remove();
             });
