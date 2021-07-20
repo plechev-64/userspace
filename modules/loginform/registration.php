@@ -70,27 +70,15 @@ function usp_process_user_register_data( $user_id ) {
 // save user data when creating / registering
 add_action( 'user_register', 'usp_register_new_user_data', 10 );
 function usp_register_new_user_data( $user_id ) {
-	$action = ( new USP_User_Action() )->select( [ 'date_action' ] )->where( [ 'user_id' => $user_id ] )->get_var();
 
-	if ( ! $action ) {
-		$timeAction = '0000-00-00 00:00:00';
-
-		if ( usp_get_option( 'usp_confirm_register' ) ) {
-			wp_update_user( array(
-				'ID'   => $user_id,
-				'role' => 'need-confirm'
-			) );
-		} else {
-			$timeAction = current_time( 'mysql' );
-		}
-
-		global $wpdb;
-
-		$wpdb->insert( USP_PREF . 'users_actions', array(
-			'user_id'     => $user_id,
-			'date_action' => $timeAction
+	if ( usp_get_option( 'usp_confirm_register' ) ) {
+		wp_update_user( array(
+			'ID'   => $user_id,
+			'role' => 'need-confirm'
 		) );
 	}
+
+	USP()->user( $user_id )->update_activity();
 
 	update_user_meta( $user_id, 'show_admin_bar_front', 'false' );
 
@@ -143,11 +131,11 @@ function usp_insert_user( $data ) {
 }
 
 //  accept data to confirm registration
-add_action( 'init', 'usp_confirm_user_resistration_activate', 10 );
-function usp_confirm_user_resistration_activate() {
+add_action( 'init', 'usp_confirm_user_registration_activate', 10 );
+function usp_confirm_user_registration_activate() {
 
 	if ( ! isset( $_GET['usp-confirmdata'] ) ) {
-		return false;
+		return;
 	}
 
 	if ( usp_get_option( 'usp_confirm_register' ) ) {
@@ -157,7 +145,6 @@ function usp_confirm_user_resistration_activate() {
 
 //  confirm the registration of the user by the link
 function usp_confirm_user_registration() {
-	global $wpdb;
 
 	$type_form = usp_get_option( 'usp_login_form', 0 );
 
@@ -167,12 +154,14 @@ function usp_confirm_user_registration() {
 
 		if ( $user = get_user_by( 'login', $confirmdata[0] ) ) {
 
-			if ( md5( $user->ID ) != $confirmdata[1] ) {
-				return false;
+			$confirm_hash = md5( $user->ID . usp_get_option( 'usp_security_key' ) );
+
+			if ( $confirm_hash != $confirmdata[1] ) {
+				return;
 			}
 
 			if ( ! usp_is_user_role( $user->ID, 'need-confirm' ) ) {
-				return false;
+				return;
 			}
 
 			$defaultRole = get_site_option( 'default_role' );
@@ -183,11 +172,7 @@ function usp_confirm_user_registration() {
 
 			wp_update_user( array( 'ID' => $user->ID, 'role' => $defaultRole ) );
 
-			if ( ! usp_get_time_user_action( $user->ID ) ) {
-				$wpdb->insert( USP_PREF . 'users_actions', array( 'user_id'     => $user->ID,
-				                                                  'date_action' => current_time( 'mysql' )
-				) );
-			}
+			USP()->user( $user->ID )->update_activity();
 
 			do_action( 'usp_confirm_registration', $user->ID );
 
@@ -265,9 +250,9 @@ function usp_register_mail( $userdata ) {
 
 	if ( usp_get_option( 'usp_confirm_register' ) ) {
 
-		$subject = __( 'Confirm your registration!', 'userspace' );
-
-		$confirmstr = usp_encode( [ $user_login, md5( $user_id ) ] );
+		$subject      = __( 'Confirm your registration!', 'userspace' );
+		$confirm_hash = md5( $user_id . usp_get_option( 'usp_security_key' ) );
+		$confirmstr   = usp_encode( [ $user_login, $confirm_hash ] );
 
 		$url = add_query_arg( array(
 			'usp-confirmdata' => urlencode( $confirmstr )
