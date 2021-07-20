@@ -297,7 +297,7 @@ function USPUploader(props, sk) {
     };
 
     this.afterDone = function (e, data) {
-
+        usp_do_action( 'usp_uploader_after_done', e, data );
     };
 
     this.crop = function (e, data) {
