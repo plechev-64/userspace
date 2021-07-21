@@ -78,7 +78,7 @@ function usp_button_avatar_upload( $buttons ) {
 			'size'  => 'medium',
 			'class' => 'usp-ava__del usp-ava__bttn usps__jc-center',
 			'title' => __( 'Delete avatar', 'userspace' ),
-			'href'  => wp_nonce_url( add_query_arg( [ 'usp-action' => 'delete_avatar' ], usp_get_user_url( $user_ID ) ), $user_ID ),
+			'href'  => wp_nonce_url( add_query_arg( [ 'usp-action' => 'delete_avatar' ], usp_user_get_url( $user_ID ) ), $user_ID ),
 			'icon'  => 'fa-times',
 		];
 		$buttons  .= usp_get_button( $args_del );
@@ -156,7 +156,7 @@ function usp_delete_avatar_action() {
 
 	do_action( 'usp_delete_avatar' );
 
-	wp_redirect( add_query_arg( [ 'usp-avatar' => 'deleted' ], usp_get_user_url( $user_ID ) ) );
+	wp_redirect( add_query_arg( [ 'usp-avatar' => 'deleted' ], usp_user_get_url( $user_ID ) ) );
 	exit;
 }
 

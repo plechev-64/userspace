@@ -56,10 +56,10 @@ function usp_get_subtab( $tab_id, $subtab_id ) {
  */
 function usp_get_tab_permalink( $user_id, $tab_id = false, $subtab_id = false ) {
 	if ( ! $tab_id ) {
-		return usp_get_user_url( $user_id );
+		return usp_user_get_url( $user_id );
 	}
 
-	return add_query_arg( [ 'tab' => $tab_id, 'subtab' => $subtab_id ], usp_get_user_url( $user_id ) );
+	return add_query_arg( [ 'tab' => $tab_id, 'subtab' => $subtab_id ], usp_user_get_url( $user_id ) );
 }
 
 /* old variation */

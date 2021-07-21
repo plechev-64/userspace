@@ -19,10 +19,10 @@ $args = [
     </div>
 
     <div class="usp-card__main usps usps__column">
-		<?php echo usp_get_avatar( $user_id, 150, usp_get_user_url( $user_id ), $args ); ?>
+		<?php echo usp_get_avatar( $user_id, 150, usp_user_get_url( $user_id ), $args ); ?>
 
         <div class="usp-card__center">
-			<?php echo usp_user_get_username( false, usp_get_user_url( $user_id ), [ 'class' => 'usp-card__title' ] ); ?>
+			<?php echo usp_user_get_username( false, usp_user_get_url( $user_id ), [ 'class' => 'usp-card__title' ] ); ?>
             <div class="usp-card__content"><?php do_action( 'usp_masonry_content' ); ?></div>
             <div class="usp-masonry__stats usps usps__jc-center usps__line-1"><?php do_action( 'usp_user_stats' ); ?></div>
         </div>

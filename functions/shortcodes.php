@@ -35,7 +35,7 @@ function usp_get_variations_buttons() {
 			'label' => __( 'Go to personal account', 'userspace' ),
 			'icon'  => 'fa-user',
 			'size'  => 'medium',
-			'href'  => usp_get_user_url( $user_ID )
+			'href'  => usp_user_get_url( $user_ID )
 		];
 
 		return usp_get_button( $args );
@@ -75,7 +75,7 @@ function usp_get_user_widget() {
 			'label' => __( 'My account', 'userspace' ),
 			'icon'  => 'fa-home',
 			'size'  => 'medium',
-			'href'  => usp_get_user_url( $user_ID )
+			'href'  => usp_user_get_url( $user_ID )
 		];
 
 		$buttons[] = [
@@ -147,7 +147,7 @@ function usp_get_loginform_shortcode( $atts = [] ) {
 	if ( is_user_logged_in() ) {
 		global $user_ID;
 
-		$url = '<a href="' . usp_get_user_url( $user_ID ) . '">' . __( 'personal account', 'userspace' ) . '</a>';
+		$url = '<a href="' . usp_user_get_url( $user_ID ) . '">' . __( 'personal account', 'userspace' ) . '</a>';
 
 		return usp_get_notice( [
 			'type' => 'success',

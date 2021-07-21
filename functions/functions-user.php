@@ -409,7 +409,7 @@ function usp_get_link_author_comment( $url ) {
 		return $url;
 	}
 
-	return usp_get_user_url( $comment->user_id );
+	return usp_user_get_url( $comment->user_id );
 }
 
 function usp_is_register_open() {
@@ -606,7 +606,7 @@ function usp_get_profile_field( $field_id ) {
 
 add_filter( 'author_link', 'usp_author_link', 999, 2 );
 function usp_author_link( $link, $author_id ) {
-	return usp_get_user_url( $author_id );
+	return usp_user_get_url( $author_id );
 }
 
 /**
@@ -619,11 +619,12 @@ function usp_author_link( $link, $author_id ) {
  * @since 1.0
  *
  */
-function usp_get_user_url( $user_id = false ) {
-	global $user_ID;
+function usp_user_get_url( $user_id = false ) {
+
+	$user_id = $user_id ?: get_current_user_id();
 
 	if ( ! $user_id ) {
-		$user_id = $user_ID;
+		return '';
 	}
 
 	return USP()->user( $user_id )->get_url();

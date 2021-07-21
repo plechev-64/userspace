@@ -159,7 +159,7 @@ class USP_Tab {
 			$user_id = USP()->office()->get_owner_id();
 		}
 
-		return $this->url ?: add_query_arg( [ 'tab' => $this->id ], usp_get_user_url( $user_id ) );
+		return $this->url ?: add_query_arg( [ 'tab' => $this->id ], usp_user_get_url( $user_id ) );
 	}
 
 	function is_access() {

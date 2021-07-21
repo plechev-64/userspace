@@ -573,7 +573,7 @@ class USP_Users_List extends USP_Users_Query {
 		$rqst = ( $s_array ) ? implode( '&', $s_array ) . '&' : '';
 
 		if ( usp_is_office() ) {
-			$url = ( isset( $_POST['tab_url'] ) ) ? $_POST['tab_url'] : usp_get_user_url( USP()->office()->get_owner_id() );
+			$url = ( isset( $_POST['tab_url'] ) ) ? $_POST['tab_url'] : usp_user_get_url( USP()->office()->get_owner_id() );
 		} else {
 			$url = get_permalink( $post->ID );
 		}

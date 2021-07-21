@@ -1,7 +1,7 @@
 <?php
 global $usp_user, $usp_users_set;
 
-$url = usp_get_user_url( $usp_user->ID );
+$url = usp_user_get_url( $usp_user->ID );
 
 $args = [
 	'parent_class' => 'usp-user__ava usps',

@@ -47,7 +47,7 @@ class USP_Sub_Tab {
 			$user_id = USP()->office()->get_owner_id();
 		}
 
-		return add_query_arg( [ 'tab' => $this->parent_id, 'subtab' => $this->id ], usp_get_user_url( $user_id ) );
+		return add_query_arg( [ 'tab' => $this->parent_id, 'subtab' => $this->id ], usp_user_get_url( $user_id ) );
 	}
 
 	function get_button( $args = array() ) {

@@ -7,5 +7,5 @@ $args = [
 ];
 ?>
 <div class="usp-user usps" data-user-id="<?php echo $usp_user->ID; ?>">
-	<?php echo usp_get_avatar( $usp_user->ID, 50, usp_get_user_url( $usp_user->ID ), $args, usp_get_user_action() ); ?>
+	<?php echo usp_get_avatar( $usp_user->ID, 50, usp_user_get_url( $usp_user->ID ), $args, usp_get_user_action() ); ?>
 </div>

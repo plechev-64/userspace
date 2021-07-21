@@ -37,7 +37,7 @@ function usp_get_authorize_url( $user_id ) {
 	}
 
 	if ( ! $redirect ) {
-		$redirect = usp_get_user_url( $user_id );
+		$redirect = usp_user_get_url( $user_id );
 	}
 
 	return apply_filters( 'usp_redirect_after_login', $redirect, $user_id );
