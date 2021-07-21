@@ -229,7 +229,7 @@ function usp_send_loginform() {
 			);
 		}
 
-		usp_update_timeaction_user();
+		usp_user_update_activity();
 
 		return array(
 			'redirect' => usp_get_authorize_url( $user->ID ),

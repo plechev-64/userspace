@@ -88,7 +88,7 @@ function usp_edit_default_login_redirect( $redirect_to, $requested_redirect_to, 
 		return $redirect_to;
 	}
 
-	usp_update_timeaction_user();
+	usp_user_update_activity();
 
 	return usp_get_authorize_url( $user->ID );
 }

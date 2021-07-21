@@ -379,8 +379,30 @@ function usp_is_user_role( $user, $roles ) {
 	return false;
 }
 
-function usp_update_timeaction_user() {
-	USP()->user()->update_activity();
+/**
+ * @param int $user_id
+ * @param string $activity myslq datetime
+ * @param bool $force_update
+ *
+ * @return void
+ */
+function usp_user_update_activity( $user_id = 0, $activity = '', $force_update = false ) {
+
+	$user_id = $user_id ?: get_current_user_id();
+
+	if ( ! $user_id ) {
+		return;
+	}
+
+	if ( ! $force_update && USP()->user( $user_id )->is_online() ) {
+		return;
+	}
+
+	$activity_timestamp = strtotime( $activity );
+
+	$activity = $activity_timestamp ? date( "Y-m-d H:i:s", $activity_timestamp ) : current_time( 'mysql' );
+
+	USP()->user( $user_id )->update_activity( $activity, $force_update );
 }
 
 // replace the link of the comment author with the link of his personal account

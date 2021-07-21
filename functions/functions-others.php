@@ -543,7 +543,7 @@ function usp_decode( $string ) {
 }
 
 function usp_human_time_diff( $time_action ) {
-	$unix_current_time	 = strtotime( current_time( 'mysql' ) );
+	$unix_current_time	 = current_time( 'timestamp' );
 	$unix_time_action	 = strtotime( $time_action );
 
 	return human_time_diff( $unix_time_action, $unix_current_time );

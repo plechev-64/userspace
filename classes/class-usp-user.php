@@ -188,7 +188,15 @@ class USP_User {
 	}
 
 	function get_age() {
-		return 0;
+
+		$bip_birthday = get_user_meta( $user_id, 'usp_birthday', true );
+
+		// there is no data
+		if ( ! $bip_birthday ) {
+			return false;
+		}
+
+		return date_diff( date_create( $bip_birthday ), date_create( 'today' ) )->y;
 	}
 
 	function is_role( $role ) {
@@ -205,10 +213,15 @@ class USP_User {
 
 	/**
 	 * @param string $action_time mysql datetime of last activity
+	 * @param bool $force_update
 	 *
 	 * @return void
 	 */
-	function update_activity( $action_time = '' ) {
+	function update_activity( $action_time = '', $force_update = false ) {
+
+		if ( ! $force_update && $this->is_online() ) {
+			return;
+		}
 
 		$action_time = $action_time ?: current_time( 'mysql' );
 
@@ -234,7 +247,7 @@ class USP_User {
 		$cachekey = md5( "usp_user_{$this->ID}_last_action" );
 		wp_cache_set( $cachekey, $action_time, 'usp_users', usp_get_option( 'usp_user_timeout', 10 ) * 60 );
 
-		do_action( 'usp_update_timeaction_user', $this );
+		do_action( 'usp_user_update_activity', $this );
 	}
 
 	function __get( $property ) {

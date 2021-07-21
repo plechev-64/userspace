@@ -109,7 +109,7 @@ final class UserSpace {
 			return;
 		}
 
-		$this->user()->update_activity();
+		usp_user_update_activity();
 	}
 
 	function register_theme_header( $extra_context_headers ) {

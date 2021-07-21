@@ -77,8 +77,7 @@ function usp_register_new_user_data( $user_id ) {
 			'role' => 'need-confirm'
 		) );
 	}
-
-	USP()->user( $user_id )->update_activity();
+	usp_user_update_activity( $user_id );
 
 	update_user_meta( $user_id, 'show_admin_bar_front', 'false' );
 
@@ -172,7 +171,7 @@ function usp_confirm_user_registration() {
 
 			wp_update_user( array( 'ID' => $user->ID, 'role' => $defaultRole ) );
 
-			USP()->user( $user->ID )->update_activity();
+			usp_user_update_activity( $user->ID );
 
 			do_action( 'usp_confirm_registration', $user->ID );
 
