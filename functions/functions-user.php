@@ -102,7 +102,7 @@ function usp_get_avatar( $id_or_email, $size = 50, $url = false, $args = [], $ht
  * @since 1.0
  *
  */
-function usp_get_username( $user_id, $link = false, $args = false ) {
+function usp_get_username( $user_id = false, $link = false, $args = false ) {
 
 	return USP()->user( $user_id )->get_username( $link, $args );
 
@@ -377,13 +377,6 @@ function usp_is_user_role( $user, $roles ) {
 	}
 
 	return false;
-}
-
-function usp_human_time_diff( $time_action ) {
-	$unix_current_time = strtotime( current_time( 'mysql' ) );
-	$unix_time_action  = strtotime( $time_action );
-
-	return human_time_diff( $unix_time_action, $unix_current_time );
 }
 
 function usp_update_timeaction_user() {

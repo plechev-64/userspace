@@ -19,6 +19,7 @@ final class UserSpace {
 	private $fields = array();
 	private $modules = array();
 	private $used_modules = array();
+	private $users_cache = [];
 	private static $instance = null;
 
 	public static function getInstance() {
@@ -400,7 +401,22 @@ final class UserSpace {
 	}
 
 	function user( $user_id = false ) {
-		return new USP_User( $user_id );
+
+		$user_id = $user_id ?: get_current_user_id();
+
+		if ( ! $user_id ) {
+			return false;
+		}
+
+		if ( isset( $this->users_cache[ $user_id ] ) ) {
+			return $this->users_cache[ $user_id ];
+		}
+
+		$user = new USP_User( $user_id );
+
+		$this->users_cache[ $user_id ] = $user;
+
+		return $user;
 	}
 
 	public function themes() {

@@ -3,31 +3,32 @@
 class USP_User {
 
 	public $ID;
-	public $time_update;
+	public $metadata = [];
 
-	function __construct( $user_id = false ) {
-		global $user_ID;
-
-		if ( ! $user_id ) {
-			$user_id = $user_ID;
-		}
+	function __construct( $user_id ) {
 
 		$this->ID = $user_id;
 	}
 
-	static function setup( $userObject ) {
+	function setup( $userObject ) {
 
 		if ( ! $userObject ) {
-			return false;
+			return $this;
 		}
-
-		$user = new self();
 
 		foreach ( $userObject as $key => $value ) {
-			$user->$key = $value;
+
+			if ( $key == 'metadata' ) {
+
+				$this->$key = array_merge( $this->$key, $value );
+
+				continue;
+			}
+
+			$this->$key = $value;
 		}
 
-		return $user;
+		return $this;
 	}
 
 	function get_url() {
@@ -60,7 +61,11 @@ class USP_User {
 			return $cache;
 		}
 
-		$action = ( new USP_User_Action() )->select( [ 'date_action' ] )->where( [ 'user_id' => $this->ID ] )->get_var();
+		if ( isset( $this->last_activity ) ) {
+			$action = $this->last_activity;
+		} else {
+			$action = ( new USP_User_Action() )->select( [ 'date_action' ] )->where( [ 'user_id' => $this->ID ] )->get_var();
+		}
 
 		wp_cache_set( $cachekey, $action ?: '', 'usp_users', usp_get_option( 'usp_user_timeout', 10 ) * 60 );
 
@@ -182,6 +187,10 @@ class USP_User {
 		return apply_filters( 'usp_user_username', $username, $link, $args, $this );
 	}
 
+	function get_age() {
+		return 0;
+	}
+
 	function is_role( $role ) {
 
 	}
@@ -200,10 +209,6 @@ class USP_User {
 	 * @return void
 	 */
 	function update_activity( $action_time = '' ) {
-
-		if ( ! $this->ID ) {
-			return;
-		}
 
 		$action_time = $action_time ?: current_time( 'mysql' );
 

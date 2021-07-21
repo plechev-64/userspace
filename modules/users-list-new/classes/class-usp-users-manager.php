@@ -117,7 +117,7 @@ class USP_Users_Manager extends USP_Content_Manager {
 		}
 
 		foreach ( $data as $k => $user ) {
-			$data[ $k ] = USP_User::setup( $user );
+			$data[ $k ] = USP()->user( $user->ID )->setup( $user );
 		}
 
 		return $data;
