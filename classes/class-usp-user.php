@@ -236,4 +236,18 @@ class USP_User {
 
 		do_action( 'usp_update_timeaction_user', $this );
 	}
+
+	function __get( $property ) {
+
+		if ( isset( $this->$property ) ) {
+			return $this->$property;
+		}
+
+		if ( isset( $this->metadata[ $property ] ) ) {
+			return $this->metadata[ $property ];
+		}
+
+		return get_user_meta( $this->ID, $property, true );
+
+	}
 }
