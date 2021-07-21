@@ -130,7 +130,7 @@ class USP_Office {
 		return $this->owner_id;
 	}
 
-	function owner() {
+	function owner(): USP_User {
 		return $this->owner;
 	}
 
