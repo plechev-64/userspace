@@ -5,7 +5,7 @@ $url = usp_get_user_url( $usp_user->ID );
 
 $args = [
 	'parent_class' => 'usp-user__ava usps',
-	'parent_title' => usp_get_username(),
+	'parent_title' => usp_user_get_username(),
 ];
 ?>
 <div class="usp-card usp-user usps__grow" data-user-id="<?php echo $usp_user->ID; ?>">
@@ -17,7 +17,7 @@ $args = [
 
         <div class="usp-user__right usps usps__column usps__grow">
             <div class="usp-user__general usps usps__jc-between">
-                <a class="usp-user__link" href="<?php echo $url; ?>"><?php echo usp_get_username(); ?></a>
+                <a class="usp-user__link" href="<?php echo $url; ?>"><?php echo usp_user_get_username(); ?></a>
                 <div class="usp-user__icons usps__grow"><?php do_action( 'usp_user_icons' ); ?></div>
 				<?php usp_user_action( 2 ); ?>
             </div>

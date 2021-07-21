@@ -3,7 +3,7 @@ global $usp_user, $usp_users_set;
 
 $args = [
 	'parent_class' => 'usp-user__ava usps usps__relative',
-	'parent_title' => usp_get_username(),
+	'parent_title' => usp_user_get_username(),
 ];
 ?>
 <div class="usp-user usps" data-user-id="<?php echo $usp_user->ID; ?>">

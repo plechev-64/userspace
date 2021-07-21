@@ -102,7 +102,7 @@ function usp_get_avatar( $id_or_email, $size = 50, $url = false, $args = [], $ht
  * @since 1.0
  *
  */
-function usp_get_username( $user_id = false, $link = false, $args = false ) {
+function usp_user_get_username( $user_id = false, $link = false, $args = false ) {
 
 	return USP()->user( $user_id )->get_username( $link, $args );
 
