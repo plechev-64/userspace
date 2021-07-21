@@ -104,6 +104,11 @@ final class UserSpace {
 	}
 
 	function update_user_activity() {
+
+		if ( ! is_user_logged_in() ) {
+			return;
+		}
+
 		$this->user()->update_activity();
 	}
 
