@@ -268,7 +268,7 @@ add_action( 'usp_info_stats', 'usp_user_get_date_registered', 20 );
 
 add_action( 'usp_info_meta', 'usp_user_info_age', 20 );
 function usp_user_info_age( $user_id ) {
-	echo usp_get_user_age( $user_id, 'usp-info__age' );
+	echo usp_user_get_age_html( $user_id, 'usp-info__age' );
 }
 
 // save users page option in global array of options

@@ -146,24 +146,15 @@ function usp_get_user_cover( $user_id = false, $avatar_cover = false ) {
  * @since 1.0
  *
  */
-function usp_get_age_number( $user_id = false ) {
+function usp_user_get_age( $user_id ) {
+
+	$user_id = $user_id ?: get_current_user_id();
+
 	if ( ! $user_id ) {
-
-		if ( ! USP()->office()->get_owner_id() ) {
-			return;
-		}
-
-		$user_id = USP()->office()->get_owner_id();
-	}
-
-	$bip_birthday = get_user_meta( $user_id, 'usp_birthday', true );
-
-	// there is no data
-	if ( ! $bip_birthday ) {
 		return false;
 	}
 
-	return date_diff( date_create( $bip_birthday ), date_create( 'today' ) )->y;
+	return USP()->user( $user_id )->get_age();
 }
 
 /**
@@ -176,14 +167,15 @@ function usp_get_age_number( $user_id = false ) {
  * @since 1.0
  *
  */
-function usp_get_user_age( $user_id, $class = false ) {
-	$age = usp_get_age_number( $user_id );
+function usp_user_get_age_html( $user_id, $class = '' ) {
 
-	if ( $age ) {
-		return '<div class="usp-age ' . $class . '">' . sprintf( _n( '%s year', '%s years', $age, 'userspace' ), $age ) . '</div>';
+	$user_id = $user_id ?: get_current_user_id();
+
+	if ( ! $user_id ) {
+		return '';
 	}
 
-	return false;
+	return USP()->user( $user_id )->get_age_html( $class );
 }
 
 function usp_user_rayting() {
@@ -698,7 +690,7 @@ add_action( 'usp_masonry_content', 'usp_masonry_age', 14 );
 function usp_masonry_age() {
 	global $usp_user;
 
-	echo usp_get_user_age( $usp_user->ID, 'usp-masonry__age' );
+	echo usp_user_get_age_html( $usp_user->ID, 'usp-masonry__age' );
 }
 
 add_action( 'usp_masonry_content', 'usp_masonry_description', 18 );

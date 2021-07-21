@@ -187,16 +187,42 @@ class USP_User {
 		return apply_filters( 'usp_user_username', $username, $link, $args, $this );
 	}
 
+	/**
+	 * @return string user birthday date
+	 */
+	function get_birthday_date() {
+
+		return $this->usp_birthday;
+	}
+
+	/**
+	 * @return false|int user age or false if birthday not exist
+	 */
 	function get_age() {
 
-		$bip_birthday = get_user_meta( $user_id, 'usp_birthday', true );
+		$birthday = $this->get_birthday_date();
 
-		// there is no data
-		if ( ! $bip_birthday ) {
+		if ( ! $birthday ) {
 			return false;
 		}
 
-		return date_diff( date_create( $bip_birthday ), date_create( 'today' ) )->y;
+		return date_diff( date_create( $birthday ), date_create( 'today' ) )->y;
+	}
+
+	/**
+	 * @param string $class additional class.
+	 *
+	 * @return string   html box with user age
+	 */
+	function get_age_html( $class = '' ) {
+
+		$age = $this->get_age();
+
+		if ( $age ) {
+			return '<div class="usp-age ' . $class . '">' . sprintf( _n( '%s year', '%s years', $age, 'userspace' ), $age ) . '</div>';
+		}
+
+		return '';
 	}
 
 	function is_role( $role ) {
