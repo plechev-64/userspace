@@ -3,12 +3,8 @@
   Template v1.0
  */
 
-global $user_ID;
-
 $class	 = 'usp-bar-' . usp_get_option( 'usp_bar_color', 'dark' );
 $width	 = usp_get_option( 'usp_bar_width' ) ? 'style="max-width:' . usp_get_option( 'usp_bar_width' ) . 'px;"' : 'style="max-width:calc(100% - 24px)"';
-
-$user_name = '<span>' . usp_get_username( $user_ID ) . '</span>';
 ?>
 
 <div id="usp-bar" class="usp-bar <?php echo $class; ?> usps usps__jc-center usps__line-1">
@@ -23,7 +19,7 @@ $user_name = '<span>' . usp_get_username( $user_ID ) . '</span>';
 				'href'	 => '/'
 			] );
 			?>
-<?php do_action( 'usp_bar_left_icons' ); ?>
+			<?php do_action( 'usp_bar_left_icons' ); ?>
         </div>
 
         <div class="usp-bar-right usps usps__grow usps__ai-center usps__jc-end">
@@ -66,30 +62,33 @@ $user_name = '<span>' . usp_get_username( $user_ID ) . '</span>';
 							'class'	 => 'usp-entry-bttn usp-register usps__as-stretch'
 						] );
 						?>
-							<?php } ?>
+					<?php } ?>
 
-						<?php } else { ?>
-							<?php echo usp_get_avatar( $user_ID, 40, USP()->user( get_current_user_id() )->get_url(), [ 'parent_class' => 'usp-bar-userlink usp-bar-usershow usps usps__ai-center' ], $user_name ); ?>
+				<?php } else { ?>
+					<?php
+					$user_name = '<span>' . USP()->user( get_current_user_id() )->get_username() . '</span>';
+					echo usp_get_avatar( get_current_user_id(), 40, USP()->user( get_current_user_id() )->get_url(), [ 'parent_class' => 'usp-bar-userlink usp-bar-usershow usps usps__ai-center' ], $user_name );
+					?>
 
 					<div class="usp-sub-menu">
-							<?php do_action( 'usp_bar_before_print_menu' ); ?>
+						<?php do_action( 'usp_bar_before_print_menu' ); ?>
 						<div class="usp-bar-usertabs usp-wrap__wiget usps usps__column">
-	<?php do_action( 'usp_bar_profile_menu_buttons' ); ?>
-	<?php
-	echo usp_get_button( [
-		'type'	 => 'clear',
-		'size'	 => 'medium',
-		'class'	 => 'usp-bar-profile__logout usps__text-right',
-		'label'	 => __( 'Log Out', 'userspace' ),
-		'href'	 => wp_logout_url( '/' )
-	] );
-	?>
+							<?php do_action( 'usp_bar_profile_menu_buttons' ); ?>
+							<?php
+							echo usp_get_button( [
+								'type'	 => 'clear',
+								'size'	 => 'medium',
+								'class'	 => 'usp-bar-profile__logout usps__text-right',
+								'label'	 => __( 'Log Out', 'userspace' ),
+								'href'	 => wp_logout_url( '/' )
+							] );
+							?>
 						</div>
 					</div>
 
 					<i class="uspi fa-angle-down usp-bar-usershow usps usps__ai-center usps__as-stretch"
 					   aria-hidden="true"></i>
-<?php } ?>
+				   <?php } ?>
             </div>
         </div>
     </div>
