@@ -1,15 +1,21 @@
 <?php
+/**
+ * @var int $user_id
+ */
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
+$user = USP()->user( $user_id );
+
 ?>
 <div class="usp-info">
     <div class="usp-info__top usps usps__ai-center">
-        <div class="usp-info__name"><?php echo usp_get_username( usp_office_id() ); ?></div>
+        <div class="usp-info__name"><?php echo $user->get_username(); ?></div>
         <div class="usp-info__meta"><?php do_action( 'usp_info_meta', $user_id ); ?></div>
     </div>
 
-	<?php echo usp_get_quote_box( $user_id, [ 'side' => 'top' ] ); ?>
+	<?php echo $user->get_description_html( [ 'side' => 'top' ] ); ?>
 
     <div class="usp-info__content"><?php do_action( 'usp_info_content', $user_id ); ?></div>
 

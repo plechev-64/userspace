@@ -288,18 +288,22 @@ function usp_user_get_stat_item( $title, $count, $icon = 'fa-info-circle', $clas
 	return usp_get_include_template( 'usp-statistics-item.php', '', $data );
 }
 
-function usp_get_user_description( $user_id = false, $attr = false ) {
-	global $usp_user;
+/**
+ * @param int $user_id
+ * @param array $attr $attr['side'] left|top (default: left)
+ *                           $attr['class'] additional css class
+ *
+ * @return string user description html block
+ */
+function usp_user_get_description( $user_id = false, $attr = [] ) {
 
-	if ( ! isset( $usp_user->description ) ) {
-		return;
+	$user_id = $user_id ?: get_current_user_id();
+
+	if ( ! $user_id ) {
+		return '';
 	}
 
-	$args = wp_parse_args( $attr, [ 'text' => $usp_user->description, 'class' => 'usp-user__description' ] );
-
-	if ( isset( $usp_user->description ) && $usp_user->description ) {
-		return usp_get_quote_box( $usp_user->ID, $args );
-	}
+	return USP()->user( $user_id )->get_description_html( $attr );
 }
 
 add_filter( 'usp_users_search_form', 'usp_default_search_form' );
@@ -697,7 +701,7 @@ add_action( 'usp_masonry_content', 'usp_masonry_description', 18 );
 function usp_masonry_description() {
 	global $usp_user;
 
-	echo usp_get_user_description( $usp_user->ID, [ 'side' => 'top' ] );
+	echo usp_user_get_description( $usp_user->ID, [ 'side' => 'top' ] );
 }
 
 add_action( 'usp_masonry_content', 'usp_masonry_custom_fields', 22 );

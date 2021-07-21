@@ -40,39 +40,6 @@ function usp_get_default_cover( $avatar_cover = false, $user_id = false ) {
 	return $default_cover;
 }
 
-/**
- * Get the description block with the desired side of the quote
- *
- * @param   int    $user_id  id user.
- * @param   array  $attr     $attr['side'] left|top (default: left)
- *                           $attr['text'] text of quote
- *                           $attr['class'] additional css class
- *
- * @return string description block.
- * @since 1.0
- *
- */
-function usp_get_quote_box( $user_id, $attr = false ) {
-	if ( ! isset( $attr[ 'text' ] ) ) {
-		$user_description = get_the_author_meta( 'description', $user_id );
-		if ( ! $user_description ) {
-			return false;
-		}
-
-		$descr = nl2br( wp_strip_all_tags( $user_description ) );
-	} else {
-		$descr = $attr[ 'text' ];
-	}
-
-	$side = isset( $attr[ 'side' ] ) ? 'usp-descr-' . $attr[ 'side' ] : 'usp-descr-left';
-
-	$class = isset( $attr[ 'class' ] ) ? $attr[ 'class' ] . ' ' : '';
-
-	return '<div class="' . $class . 'usp-descr-wrap usps ' . $side . '">'
-		. '<div class="usp-descr usps__relative usps__radius-3">' . $descr . '</div>'
-		. '</div>';
-}
-
 // register menu in userspace bar
 add_action( 'after_setup_theme', 'usp_register_userspace_menu' );
 function usp_register_userspace_menu() {

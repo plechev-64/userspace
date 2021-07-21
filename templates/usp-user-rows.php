@@ -22,7 +22,7 @@ $args = [
 				<?php usp_user_action( 2 ); ?>
             </div>
 
-			<?php echo usp_get_user_description(); ?>
+			<?php echo usp_user_get_description(); ?>
 
             <div class="usp-user__stats usps"><?php do_action( 'usp_user_stats' ); ?></div>
         </div>

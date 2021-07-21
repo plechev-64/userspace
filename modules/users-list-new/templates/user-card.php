@@ -21,7 +21,7 @@ $args = [
 				<?php echo $user->get_action_html(); ?>
             </div>
 
-			<?php echo $user->description; ?>
+			<?php echo $user->get_description_html(); ?>
 
             <div class="usp-user__stats usps"><?php do_action( 'usp_user_stats' ); ?></div>
         </div>

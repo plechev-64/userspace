@@ -225,6 +225,40 @@ class USP_User {
 		return '';
 	}
 
+	/**
+	 * @return string user description
+	 */
+	function get_description() {
+		return $this->description;
+	}
+
+	/**
+	 * @param array $attr $attr['side'] left|top (default: left)
+	 *                           $attr['class'] additional css class
+	 *
+	 * @return string user description html block
+	 */
+	function get_description_html( $attr = [] ) {
+
+		$description = $this->get_description();
+
+		if ( ! $description ) {
+			return '';
+		}
+
+		$attr = wp_parse_args( $attr, [ 'side' => 'left', 'class' => '' ] );
+
+		$description = nl2br( wp_strip_all_tags( $description ) );
+		$class       = $attr['class'] ? $attr['class'] . ' ' : '';
+		$side        = 'usp-descr-' . $attr['side'];
+
+		$html = '<div class="' . $class . 'usp-descr-wrap usps ' . $side . '">'
+		        . '<div class="usp-descr usps__relative usps__radius-3">' . $description . '</div>'
+		        . '</div>';
+
+		return apply_filters( 'usp_user_description_html', $html, $attr, $this );
+	}
+
 	function is_role( $role ) {
 
 	}

@@ -78,7 +78,7 @@ function usp_get_user_details( $user_id, $set_args = false ) {
 	$content .= '</div>';
 
 	if ( $args['description'] ) {
-		$content .= usp_get_quote_box( $user_id, [ 'side' => 'top' ] );
+		$content .= USP()->user( $user_id )->get_description_html( [ 'side' => 'top' ] );
 	}
 
 	if ( $args['custom_fields'] ) {
