@@ -53,7 +53,7 @@ function usp_get_default_cover( $avatar_cover = false, $user_id = false ) {
  *
  */
 function usp_get_quote_box( $user_id, $attr = false ) {
-	if ( ! isset( $attr['text'] ) ) {
+	if ( ! isset( $attr[ 'text' ] ) ) {
 		$user_description = get_the_author_meta( 'description', $user_id );
 		if ( ! $user_description ) {
 			return false;
@@ -61,16 +61,16 @@ function usp_get_quote_box( $user_id, $attr = false ) {
 
 		$descr = nl2br( wp_strip_all_tags( $user_description ) );
 	} else {
-		$descr = $attr['text'];
+		$descr = $attr[ 'text' ];
 	}
 
-	$side = isset( $attr['side'] ) ? 'usp-descr-' . $attr['side'] : 'usp-descr-left';
+	$side = isset( $attr[ 'side' ] ) ? 'usp-descr-' . $attr[ 'side' ] : 'usp-descr-left';
 
-	$class = isset( $attr['class'] ) ? $attr['class'] . ' ' : '';
+	$class = isset( $attr[ 'class' ] ) ? $attr[ 'class' ] . ' ' : '';
 
 	return '<div class="' . $class . 'usp-descr-wrap usps ' . $side . '">'
-	       . '<div class="usp-descr usps__relative usps__radius-3">' . $descr . '</div>'
-	       . '</div>';
+		. '<div class="usp-descr usps__relative usps__radius-3">' . $descr . '</div>'
+		. '</div>';
 }
 
 // register menu in userspace bar
@@ -85,16 +85,16 @@ function usp_register_userspace_menu() {
 
 if ( ! function_exists( 'get_called_class' ) ) :
 	function get_called_class() {
-		$arr       = array();
-		$arrTraces = debug_backtrace();
+		$arr		 = array();
+		$arrTraces	 = debug_backtrace();
 		foreach ( $arrTraces as $arrTrace ) {
 			if ( ! array_key_exists( "class", $arrTrace ) ) {
 				continue;
 			}
 			if ( count( $arr ) == 0 ) {
-				$arr[] = $arrTrace['class'];
-			} else if ( get_parent_class( $arrTrace['class'] ) == end( $arr ) ) {
-				$arr[] = $arrTrace['class'];
+				$arr[] = $arrTrace[ 'class' ];
+			} else if ( get_parent_class( $arrTrace[ 'class' ] ) == end( $arr ) ) {
+				$arr[] = $arrTrace[ 'class' ];
 			}
 		}
 
@@ -107,10 +107,10 @@ endif;
 function usp_get_pages_ids() {
 
 	$pages = ( new USP_Posts_Query() )->select( [ 'ID', 'post_title' ] )
-	                                  ->where( [ 'post_type' => 'page', 'post_status' => 'publish' ] )
-	                                  ->limit( - 1 )
-	                                  ->orderby( 'post_title', 'ASC' )
-	                                  ->get_walker()->get_index_values( 'ID', 'post_title' );
+			->where( [ 'post_type' => 'page', 'post_status' => 'publish' ] )
+			->limit( - 1 )
+			->orderby( 'post_title', 'ASC' )
+			->get_walker()->get_index_values( 'ID', 'post_title' );
 
 	$pages = array( __( 'Not selected', 'userspace' ) ) + $pages;
 
@@ -136,7 +136,7 @@ function usp_get_roles_ids( $exclude = false ) {
 			continue;
 		}
 
-		$roles[ $role ] = translate_user_role( $details['name'] );
+		$roles[ $role ] = translate_user_role( $details[ 'name' ] );
 	}
 
 	return $roles;
@@ -147,84 +147,84 @@ function usp_sanitize_string( $name, $sanitize = true ) {
 	$name_lower = mb_strtolower( $name );
 
 	$title = strtr( $name_lower, apply_filters( 'usp_sanitize_iso', [
-		"Є" => "YE",
-		"І" => "I",
-		"Ѓ" => "G",
-		"і" => "i",
-		"№" => "#",
-		"є" => "ye",
-		"ѓ" => "g",
-		"А" => "A",
-		"Б" => "B",
-		"В" => "V",
-		"Г" => "G",
-		"Д" => "D",
-		"Е" => "E",
-		"Ё" => "YO",
-		"Ж" => "ZH",
-		"З" => "Z",
-		"И" => "I",
-		"Й" => "J",
-		"К" => "K",
-		"Л" => "L",
-		"М" => "M",
-		"Н" => "N",
-		"О" => "O",
-		"П" => "P",
-		"Р" => "R",
-		"С" => "S",
-		"Т" => "T",
-		"У" => "U",
-		"Ф" => "F",
-		"Х" => "H",
-		"Ц" => "CZ",
-		"Ч" => "CH",
-		"Ш" => "SH",
-		"Щ" => "SHH",
-		"Ъ" => "",
-		"Ы" => "Y",
-		"Ь" => "",
-		"Э" => "E",
-		"Ю" => "YU",
-		"Я" => "YA",
-		"а" => "a",
-		"б" => "b",
-		"в" => "v",
-		"г" => "g",
-		"д" => "d",
-		"е" => "e",
-		"ё" => "yo",
-		"ж" => "zh",
-		"з" => "z",
-		"и" => "i",
-		"й" => "j",
-		"к" => "k",
-		"л" => "l",
-		"м" => "m",
-		"н" => "n",
-		"о" => "o",
-		"п" => "p",
-		"р" => "r",
-		"с" => "s",
-		"т" => "t",
-		"у" => "u",
-		"ф" => "f",
-		"х" => "h",
-		"ц" => "cz",
-		"ч" => "ch",
-		"ш" => "sh",
-		"щ" => "shh",
-		"ъ" => "",
-		"ы" => "y",
-		"ь" => "",
-		"э" => "e",
-		"ю" => "yu",
-		"я" => "ya",
-		"—" => "-",
-		"«" => "",
-		"»" => "",
-		"…" => ""
-	] ) );
+		"Є"	 => "YE",
+		"І"	 => "I",
+		"Ѓ"	 => "G",
+		"і"	 => "i",
+		"№"	 => "#",
+		"є"	 => "ye",
+		"ѓ"	 => "g",
+		"А"	 => "A",
+		"Б"	 => "B",
+		"В"	 => "V",
+		"Г"	 => "G",
+		"Д"	 => "D",
+		"Е"	 => "E",
+		"Ё"	 => "YO",
+		"Ж"	 => "ZH",
+		"З"	 => "Z",
+		"И"	 => "I",
+		"Й"	 => "J",
+		"К"	 => "K",
+		"Л"	 => "L",
+		"М"	 => "M",
+		"Н"	 => "N",
+		"О"	 => "O",
+		"П"	 => "P",
+		"Р"	 => "R",
+		"С"	 => "S",
+		"Т"	 => "T",
+		"У"	 => "U",
+		"Ф"	 => "F",
+		"Х"	 => "H",
+		"Ц"	 => "CZ",
+		"Ч"	 => "CH",
+		"Ш"	 => "SH",
+		"Щ"	 => "SHH",
+		"Ъ"	 => "",
+		"Ы"	 => "Y",
+		"Ь"	 => "",
+		"Э"	 => "E",
+		"Ю"	 => "YU",
+		"Я"	 => "YA",
+		"а"	 => "a",
+		"б"	 => "b",
+		"в"	 => "v",
+		"г"	 => "g",
+		"д"	 => "d",
+		"е"	 => "e",
+		"ё"	 => "yo",
+		"ж"	 => "zh",
+		"з"	 => "z",
+		"и"	 => "i",
+		"й"	 => "j",
+		"к"	 => "k",
+		"л"	 => "l",
+		"м"	 => "m",
+		"н"	 => "n",
+		"о"	 => "o",
+		"п"	 => "p",
+		"р"	 => "r",
+		"с"	 => "s",
+		"т"	 => "t",
+		"у"	 => "u",
+		"ф"	 => "f",
+		"х"	 => "h",
+		"ц"	 => "cz",
+		"ч"	 => "ch",
+		"ш"	 => "sh",
+		"щ"	 => "shh",
+		"ъ"	 => "",
+		"ы"	 => "y",
+		"ь"	 => "",
+		"э"	 => "e",
+		"ю"	 => "yu",
+		"я"	 => "ya",
+		"—"	 => "-",
+		"«"	 => "",
+		"»"	 => "",
+		"…"	 => ""
+		] ) );
 
 	return $sanitize ? sanitize_title_with_dashes( $title, '', 'save' ) : $title;
 }
@@ -239,10 +239,10 @@ function usp_sanitize_string( $name, $sanitize = true ) {
  *
  */
 function usp_get_emoji( $id_area ) {
-	$emoji_box = '<div class="usp-emoji usps usps__jc-end usps__relative" data-area="' . $id_area . '">';
-	$emoji_box .= '<i class="uspi fa-beaming-face-with-smiling-eyes" aria-hidden="true"></i>';
-	$emoji_box .= '<div class="usp-emoji__list"><div class="usp-emoji__all usps usps__jc-between usps__radius-3"></div></div>';
-	$emoji_box .= '</div>';
+	$emoji_box	 = '<div class="usp-emoji usps usps__jc-end usps__relative" data-area="' . $id_area . '">';
+	$emoji_box	 .= '<i class="uspi fa-beaming-face-with-smiling-eyes" aria-hidden="true"></i>';
+	$emoji_box	 .= '<div class="usp-emoji__list"><div class="usp-emoji__all usps usps__jc-between usps__radius-3"></div></div>';
+	$emoji_box	 .= '</div>';
 
 	return $emoji_box;
 }
@@ -262,8 +262,8 @@ function usp_get_emoji( $id_area ) {
  */
 function usp_mail( $email, $title, $text, $from = false, $attachments = false ) {
 
-	$from_name = ( isset( $from['name'] ) ) ? $from['name'] : get_bloginfo( 'name' );
-	$from_mail = ( isset( $from['email'] ) ) ? $from['email'] : 'noreply@' . $_SERVER['HTTP_HOST'];
+	$from_name	 = ( isset( $from[ 'name' ] ) ) ? $from[ 'name' ] : get_bloginfo( 'name' );
+	$from_mail	 = ( isset( $from[ 'email' ] ) ) ? $from[ 'email' ] : 'noreply@' . $_SERVER[ 'HTTP_HOST' ];
 
 	add_filter( 'wp_mail_content_type', function () {
 		return "text/html";
@@ -272,9 +272,9 @@ function usp_mail( $email, $title, $text, $from = false, $attachments = false ) 
 	$headers = 'From: ' . $from_name . ' <' . $from_mail . '>' . "\r\n";
 
 	$content = usp_get_include_template( 'usp-mail.php', false, [
-		'mail_title'   => $title,
-		'mail_content' => $text
-	] );
+		'mail_title'	 => $title,
+		'mail_content'	 => $text
+		] );
 
 	$content .= '<p><small>-----------------------------------------------------<br/>
 	' . __( 'This letter was created automatically, no need to answer it.', 'userspace' ) . '<br/>
@@ -327,22 +327,22 @@ function usp_get_button( $args, $depr_url = false, $depr_args = false ) {
 	_deprecated_argument( __FUNCTION__, '0.1.0' );
 
 	$button = '<a href="' . $depr_url . '" ';
-	if ( isset( $depr_args['attr'] ) && $depr_args['attr'] ) {
-		$button .= $depr_args['attr'] . ' ';
+	if ( isset( $depr_args[ 'attr' ] ) && $depr_args[ 'attr' ] ) {
+		$button .= $depr_args[ 'attr' ] . ' ';
 	}
-	if ( isset( $depr_args['id'] ) && $depr_args['id'] ) {
-		$button .= 'id="' . $depr_args['id'] . '" ';
+	if ( isset( $depr_args[ 'id' ] ) && $depr_args[ 'id' ] ) {
+		$button .= 'id="' . $depr_args[ 'id' ] . '" ';
 	}
 	$button .= 'class="deprecated ';
-	if ( isset( $depr_args['class'] ) && $depr_args['class'] ) {
-		$button .= $depr_args['class'];
+	if ( isset( $depr_args[ 'class' ] ) && $depr_args[ 'class' ] ) {
+		$button .= $depr_args[ 'class' ];
 	}
 	$button .= '">';
-	if ( isset( $depr_args['icon'] ) && $depr_args['icon'] ) {
-		$button .= '<i class="uspi ' . $depr_args['icon'] . '"></i>';
+	if ( isset( $depr_args[ 'icon' ] ) && $depr_args[ 'icon' ] ) {
+		$button .= '<i class="uspi ' . $depr_args[ 'icon' ] . '"></i>';
 	}
-	$button .= '<span>' . $args . '</span>';
-	$button .= '</a>';
+	$button	 .= '<span>' . $args . '</span>';
+	$button	 .= '</a>';
 
 	return $button;
 }
@@ -350,9 +350,9 @@ function usp_get_button( $args, $depr_url = false, $depr_args = false ) {
 function usp_get_area_options() {
 
 	$areas = array(
-		'menu'     => get_site_option( 'usp_fields_area-menu' ),
-		'counters' => get_site_option( 'usp_fields_area-counters' ),
-		'actions'  => get_site_option( 'usp_fields_area-actions' ),
+		'menu'		 => get_site_option( 'usp_fields_area-menu' ),
+		'counters'	 => get_site_option( 'usp_fields_area-counters' ),
+		'actions'	 => get_site_option( 'usp_fields_area-actions' ),
 	);
 
 	return $areas;
@@ -388,7 +388,7 @@ function usp_is_gutenberg() {
 		return false;
 	}
 
-	if ( isset( $_GET['classic-editor'] ) ) {
+	if ( isset( $_GET[ 'classic-editor' ] ) ) {
 		return false;
 	}
 
@@ -396,7 +396,7 @@ function usp_is_gutenberg() {
 	$gutenberg = ! ( false === has_filter( 'replace_editor', 'gutenberg_init' ) );
 
 	// Block editor since 5.0.
-	$block_editor = version_compare( $GLOBALS['wp_version'], '5.0-beta', '>' );
+	$block_editor = version_compare( $GLOBALS[ 'wp_version' ], '5.0-beta', '>' );
 
 	if ( ! $gutenberg && ! $block_editor ) {
 		return false;
@@ -408,23 +408,23 @@ function usp_is_gutenberg() {
 // set root inline css colors
 function usp_get_root_colors( $r, $g, $b, $usp_color ) {
 	// darker rgb
-	$rd = round( $r * 0.45 );
-	$gd = round( $g * 0.45 );
-	$bd = round( $b * 0.45 );
+	$rd	 = round( $r * 0.45 );
+	$gd	 = round( $g * 0.45 );
+	$bd	 = round( $b * 0.45 );
 
 	// is brighter rgb
-	$rl = round( $r * 1.4 );
-	$gl = round( $g * 1.4 );
-	$bl = round( $b * 1.4 );
+	$rl	 = round( $r * 1.4 );
+	$gl	 = round( $g * 1.4 );
+	$bl	 = round( $b * 1.4 );
 
 	// inverse rgb
-	$rf = round( 0.75 * ( 255 - $r ) );
-	$gf = round( 0.75 * ( 255 - $g ) );
-	$bf = round( 0.75 * ( 255 - $b ) );
+	$rf	 = round( 0.75 * ( 255 - $r ) );
+	$gf	 = round( 0.75 * ( 255 - $g ) );
+	$bf	 = round( 0.75 * ( 255 - $b ) );
 
 	// https://stackoverflow.com/questions/3942878/how-to-decide-font-color-in-white-or-black-depending-on-background-color
-	$text_color = '#fff';
-	$threshold  = apply_filters( 'usp_text_color_threshold', 150 );
+	$text_color	 = '#fff';
+	$threshold	 = apply_filters( 'usp_text_color_threshold', 150 );
 	if ( ( $r * 0.299 + $g * 0.587 + $b * 0.114 ) > $threshold ) {
 		$text_color = '#000';
 	}
@@ -454,17 +454,17 @@ function usp_get_root_colors( $r, $g, $b, $usp_color ) {
 function usp_declination_by_sex( $user_id, $data ) {
 	// e.g. wp_cron
 	if ( $user_id == '-1' ) {
-		return $data[0];
+		return $data[ 0 ];
 	}
 
 	$sex = get_user_meta( $user_id, 'usp_sex', true );
 
-	$declination = $data[0];
+	$declination = $data[ 0 ];
 
 	if ( $sex ) {
 		$var = apply_filters( 'usp_declination_var', __( 'Woman', 'userspace' ) );
 
-		$declination = ( $sex === $var ) ? $data[1] : $data[0];
+		$declination = ( $sex === $var ) ? $data[ 1 ] : $data[ 0 ];
 	}
 
 	return $declination;
@@ -483,7 +483,7 @@ function usp_declination_by_sex( $user_id, $data ) {
  *
  */
 function usp_decline( $number, $variants = [ '', '', '' ] ) {
-	$x = ( $xx = abs( $number ) % 100 ) % 10;
+	$x	 = ( $xx	 = abs( $number ) % 100 ) % 10;
 
 	return $variants[ ( $xx > 10 and $xx < 15 or ! $x or $x > 4 and $x < 10 ) ? 2 : ( $x == 1 ? 0 : 1 ) ];
 }
@@ -540,4 +540,11 @@ function usp_decode( $string ) {
 	}
 
 	return json_decode( $decode );
+}
+
+function usp_human_time_diff( $time_action ) {
+	$unix_current_time	 = strtotime( current_time( 'mysql' ) );
+	$unix_time_action	 = strtotime( $time_action );
+
+	return human_time_diff( $unix_time_action, $unix_current_time );
 }
