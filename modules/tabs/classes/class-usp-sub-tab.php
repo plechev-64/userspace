@@ -87,7 +87,7 @@ class USP_Sub_Tab {
 		if ( $this->icon ) {
 			$content .= '<i class="uspi ' . $this->icon . '" aria-hidden="true"></i> ';
 		}
-		$content .= '<span>' . $title . '</span>';
+		$content .= '<span>' . apply_filters( 'usp_subtab_title', $title, $this->id ) . '</span>';
 		$content .= '</div>';
 
 		if ( $this->callback ) {
