@@ -19,7 +19,6 @@ final class UserSpace {
 	private $fields = array();
 	private $modules = array();
 	private $used_modules = array();
-	private $users_cache = [];
 	private static $instance = null;
 
 	public static function getInstance() {
@@ -301,6 +300,7 @@ final class UserSpace {
 
 		require_once 'classes/class-usp-options.php';
 		require_once 'classes/class-usp-pager.php';
+		require_once 'classes/class-usp-users.php';
 		require_once 'classes/class-usp-user.php';
 		require_once 'classes/class-usp-office.php';
 		require_once 'classes/class-usp-walker.php';
@@ -405,7 +405,11 @@ final class UserSpace {
 		return USP_Office::getInstance();
 	}
 
-	function user( $user_id = false ) {
+	public function users() {
+		return USP_Users::getInstance();
+	}
+
+	function user( $user_id = 0 ) {
 
 		$user_id = $user_id ?: get_current_user_id();
 
@@ -413,13 +417,13 @@ final class UserSpace {
 			return false;
 		}
 
-		if ( isset( $this->users_cache[ $user_id ] ) ) {
-			return $this->users_cache[ $user_id ];
+		if ( $this->users()->isset( $user_id ) ) {
+			return $this->users()->get( $user_id );
 		}
 
 		$user = new USP_User( $user_id );
 
-		$this->users_cache[ $user_id ] = $user;
+		$this->users()->add( $user );
 
 		return $user;
 	}
