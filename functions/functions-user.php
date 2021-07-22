@@ -111,30 +111,23 @@ function usp_user_get_username( $user_id = false, $link = false, $args = false )
 /**
  * Get url to user cover
  *
- * @param int $user_id id of the user to get the avatar.
- * @param bool $avatar_cover set to 'true' for return avatar for cover (if the user did not set the cover).
+ * @param int $user_id id of the user to get the cover.
+ * @param bool $avatar_as_cover set to 'true' for return avatar for cover (if the user did not set the cover).
  *                               Default: false
  *
  * @return string url cover or avatar.
  * @since 1.0
  *
  */
-function usp_get_user_cover( $user_id = false, $avatar_cover = false ) {
+function usp_user_get_cover( $user_id = 0, $avatar_as_cover = false ) {
+
+	$user_id = $user_id ?: usp_office_id();
+
 	if ( ! $user_id ) {
-		$user_id = usp_office_id();
+		return '';
 	}
 
-	$cover = get_user_meta( $user_id, 'usp_cover', 1 );
-
-	if ( ! $cover ) {
-		$cover = usp_get_option( 'usp_default_cover', 0 );
-	}
-
-	if ( ! $cover ) {
-		return usp_get_default_cover( $avatar_cover, $user_id );
-	} else {
-		return wp_get_attachment_image_url( $cover, 'large' );
-	}
+	return USP()->user( $user_id )->get_cover_url( $avatar_as_cover );
 }
 
 /**
@@ -146,7 +139,7 @@ function usp_get_user_cover( $user_id = false, $avatar_cover = false ) {
  * @since 1.0
  *
  */
-function usp_user_get_age( $user_id ) {
+function usp_user_get_age( $user_id = 0 ) {
 
 	$user_id = $user_id ?: get_current_user_id();
 
@@ -167,7 +160,7 @@ function usp_user_get_age( $user_id ) {
  * @since 1.0
  *
  */
-function usp_user_get_age_html( $user_id, $class = '' ) {
+function usp_user_get_age_html( $user_id = 0, $class = '' ) {
 
 	$user_id = $user_id ?: get_current_user_id();
 
@@ -295,7 +288,7 @@ function usp_user_get_stat_item( $title, $count, $icon = 'fa-info-circle', $clas
  *
  * @return string user description html block
  */
-function usp_user_get_description( $user_id = false, $attr = [] ) {
+function usp_user_get_description( $user_id = 0, $attr = [] ) {
 
 	$user_id = $user_id ?: get_current_user_id();
 
@@ -614,7 +607,7 @@ function usp_author_link( $link, $author_id ) {
  * @since 1.0
  *
  */
-function usp_user_get_url( $user_id = false ) {
+function usp_user_get_url( $user_id = 0 ) {
 
 	$user_id = $user_id ?: get_current_user_id();
 

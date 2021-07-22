@@ -13,7 +13,7 @@ $args = [
 <div class="usp-card usp-masonry">
     <div class="usp-card__head usp-masonry__head usps__relative">
         <img class="usps__img-reset usps__fit-cover"
-             src="<?php echo usp_get_user_cover( $user_id, $avatar_cover = 1 ); ?>">
+             src="<?php echo usp_user_get_cover( $user_id, $avatar_cover = 1 ); ?>">
 		<?php usp_user_action( 2 ); ?>
 		<?php do_action( 'usp_masonry_ico' ); ?>
     </div>
