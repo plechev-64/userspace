@@ -151,7 +151,7 @@ function usp_edit_profile() {
 
 add_filter( 'usp_profile_fields', 'usp_add_office_profile_fields', 10 );
 function usp_add_office_profile_fields( $fields ) {
-	if ( ! usp_check_access_console() ) {
+	if ( ! usp_user_is_access_console() ) {
 		return $fields;
 	}
 
@@ -192,7 +192,7 @@ function usp_tab_profile_content( $master_id ) {
 			$profileFields[ $k ]['value_in_key'] = true;
 		}
 
-		if ( isset( $field['admin'] ) && $field['admin'] && ! usp_is_user_role( $user_ID, 'administrator' ) ) {
+		if ( isset( $field['admin'] ) && $field['admin'] && ! usp_user_has_role( $user_ID, 'administrator' ) ) {
 			if ( $profileFields[ $k ]['value'] ) {
 				$profileFields[ $k ]['get_value'] = 1;
 			}

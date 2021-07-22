@@ -6,7 +6,7 @@ function usp_chek_user_authenticate( $user ) {
 
 	if ( isset( $user->ID ) && usp_get_option( 'usp_confirm_register' ) == 1 ) {
 
-		if ( usp_is_user_role( $user->ID, 'need-confirm' ) ) {
+		if ( usp_user_has_role( $user->ID, 'need-confirm' ) ) {
 
 			$wp_errors = new WP_Error();
 			$wp_errors->add( 'need-confirm', __( 'Your account is unconfirmed! Confirm your account by clicking on the link in the email', 'userspace' ) );

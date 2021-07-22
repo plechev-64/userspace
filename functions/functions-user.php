@@ -354,25 +354,20 @@ function usp_default_search_form( $content ) {
 	return $content;
 }
 
-function usp_is_user_role( $user, $roles ) {
-	if ( ! $user ) {
-		$user = wp_get_current_user();
-	}
-	if ( is_numeric( $user ) ) {
-		$user = get_userdata( $user );
-	}
+/**
+ * @param int $user_id
+ * @param string|array $role
+ *
+ * @return bool
+ */
+function usp_user_has_role( $user_id, $role ) {
 
-	if ( empty( $user->ID ) ) {
+	if ( ! $user_id ) {
 		return false;
 	}
 
-	foreach ( ( array ) $roles as $role ) {
-		if ( isset( $user->caps[ $role ] ) || in_array( $role, $user->roles ) ) {
-			return true;
-		}
-	}
+	return USP()->user( $user_id )->has_role( $role );
 
-	return false;
 }
 
 /**
@@ -452,7 +447,7 @@ function usp_update_profile_fields( $user_id, $profileFields = false ) {
 
 			$value = ( isset( $_POST[ $slug ] ) ) ? $_POST[ $slug ] : false;
 
-			if ( isset( $field['admin'] ) && $field['admin'] == 1 && ! is_admin() && ! usp_is_user_role( $user_ID, [ 'administrator' ] ) ) {
+			if ( isset( $field['admin'] ) && $field['admin'] == 1 && ! is_admin() && ! usp_user_has_role( $user_ID, [ 'administrator' ] ) ) {
 
 				if ( in_array( $slug, array( 'display_name', 'user_url' ) ) ) {
 
@@ -628,6 +623,22 @@ function usp_user_get_url( $user_id = false ) {
 	}
 
 	return USP()->user( $user_id )->get_url();
+}
+
+/**
+ * @param int $user_id
+ *
+ * @return bool can user access to console
+ */
+function usp_user_is_access_console( $user_id = 0 ) {
+
+	$user_id = $user_id ?: get_current_user_id();
+
+	if ( ! $user_id ) {
+		return false;
+	}
+
+	return USP()->user( $user_id )->is_access_console();
 }
 
 add_action( 'delete_user', 'usp_delete_user_action', 10 );

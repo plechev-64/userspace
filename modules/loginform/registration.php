@@ -159,7 +159,7 @@ function usp_confirm_user_registration() {
 				return;
 			}
 
-			if ( ! usp_is_user_role( $user->ID, 'need-confirm' ) ) {
+			if ( ! usp_user_has_role( $user->ID, 'need-confirm' ) ) {
 				return;
 			}
 

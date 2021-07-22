@@ -284,13 +284,28 @@ class USP_User {
 	 */
 	function has_role( $role ) {
 
+		$need_roles = (array) $role;
+
 		$userdata = get_userdata( $this->ID );
 
+		foreach ( $userdata->roles as $user_role ) {
+			if ( in_array( $user_role, $need_roles ) ) {
+				return true;
+			}
+		}
 
+		return false;
 	}
 
+	/**
+	 * @return bool can user access to console
+	 */
 	function is_access_console() {
 
+		$access_roles   = (array) usp_get_option( 'usp_consol_access', [] );
+		$access_roles[] = 'administrator';
+
+		return $this->has_role( $access_roles );
 	}
 
 	function get_cover_url() {
@@ -346,7 +361,9 @@ class USP_User {
 			return $this->metadata[ $property ];
 		}
 
-		return get_user_meta( $this->ID, $property, true );
+		$userdata = get_userdata( $this->ID );
+
+		return $userdata->$property;
 
 	}
 }

@@ -15,7 +15,7 @@ function usp_admin_access() {
 
 		global $user_ID;
 
-		$access = usp_check_access_console();
+		$access = usp_user_is_access_console();
 
 		if ( $access ) {
 			return true;
@@ -44,7 +44,7 @@ function usp_hidden_admin_panel() {
 		return show_admin_bar( false );
 	}
 
-	$access = usp_check_access_console();
+	$access = usp_user_is_access_console();
 
 	if ( $access ) {
 		return true;
@@ -61,22 +61,7 @@ function usp_banned_user_redirect() {
 		return false;
 	}
 
-	if ( usp_is_user_role( $user_ID, 'banned' ) ) {
+	if ( usp_user_has_role( $user_ID, 'banned' ) ) {
 		wp_die( __( 'Congratulations! You have been banned.', 'userspace' ) );
 	}
-}
-
-function usp_check_access_console() {
-	global $user_ID;
-
-	$roles = usp_get_option( 'usp_consol_access' );
-
-	//support old option
-	if ( ! is_array( $roles ) || ! $roles ) {
-		$roles = [ 'administrator' ];
-	} else {
-		$roles[] = 'administrator';
-	}
-
-	return usp_is_user_role( $user_ID, $roles );
 }
