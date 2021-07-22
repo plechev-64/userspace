@@ -18,7 +18,7 @@ $args = [
             <div class="usp-user__general usps usps__jc-between">
 				<?php echo $user->get_username( $user->get_url(), [ 'class' => 'usp-user__link' ] ); ?>
                 <div class="usp-user__icons usps__grow"><?php do_action( 'usp_user_icons' ); ?></div>
-				<?php echo $user->get_action_html(); ?>
+				<?php echo $user->get_action( 'mixed' ); ?>
             </div>
 
 			<?php echo $user->get_description_html(); ?>

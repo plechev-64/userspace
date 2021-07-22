@@ -21,7 +21,6 @@ class USP_User {
 			if ( $key == 'metadata' ) {
 
 				$this->$key = array_merge( $this->$key, $value );
-
 				continue;
 			}
 
@@ -91,14 +90,6 @@ class USP_User {
 	}
 
 	/**
-	 * @return string 'online' or 'offline'
-	 */
-	function get_action_status() {
-
-		return $this->is_online() ? __( 'online', 'userspace' ) : __( 'offline', 'userspace' );
-	}
-
-	/**
 	 * @return string how long user offline
 	 */
 	function get_offline_diff() {
@@ -118,7 +109,7 @@ class USP_User {
 	function get_action_html() {
 
 		$is_online     = $this->is_online();
-		$action_status = $this->get_action_status();
+		$action_status = $this->get_action( 'text' );
 		$class         = $is_online ? 'usp-online' : 'usp-offline';
 
 		if ( ! $is_online ) {
@@ -136,7 +127,7 @@ class USP_User {
 	function get_action_icon() {
 
 		$is_online     = $this->is_online();
-		$action_status = $this->get_action_status();
+		$action_status = $this->get_action( 'text' );
 		$class         = $is_online ? 'usp-online' : 'usp-offline';
 
 		if ( ! $is_online ) {
@@ -146,6 +137,33 @@ class USP_User {
 		$icon = sprintf( '<i class="uspi fa-circle usp-status-user %s" title="%s"></i>', $class, $action_status );
 
 		return apply_filters( 'usp_user_action_icon', $icon, $is_online, $this );
+	}
+
+	/**
+	 * @param string $type html|icon|mixed|text
+	 *
+	 * @return string
+	 */
+	function get_action( $type = 'html' ) {
+
+		switch ( $type ) {
+			case 'html' :
+				$action = $this->get_action_html();
+				break;
+			case 'icon' :
+				$action = $this->get_action_icon();
+				break;
+			case 'mixed' :
+				$action = $this->is_online() ? $this->get_action_icon() : $this->get_action_html();
+				break;
+			case 'text' :
+				$action = $this->is_online() ? __( 'online', 'userspace' ) : __( 'offline', 'userspace' );
+				break;
+			default:
+				$action = $this->get_action_html();
+		}
+
+		return $action;
 	}
 
 	/**
@@ -259,7 +277,15 @@ class USP_User {
 		return apply_filters( 'usp_user_description_html', $html, $attr, $this );
 	}
 
-	function is_role( $role ) {
+	/**
+	 * @param string|array $role
+	 *
+	 * @return bool
+	 */
+	function has_role( $role ) {
+
+		$userdata = get_userdata( $this->ID );
+
 
 	}
 
