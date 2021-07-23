@@ -113,7 +113,7 @@ class USP_Tab {
 
 	function get_class_button() {
 
-		$classes = array( 'usp-tab-button' );
+		$classes = apply_filters( 'usp_tab_class_button', [ 'usp-tab-button' ], $this->id );
 
 		if ( in_array( 'dialog', $this->supports ) ) {
 			$classes[] = 'usp-dialog';
