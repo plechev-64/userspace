@@ -2,17 +2,17 @@
 
 class USP_Pager {
 
-	public $current = 1;              // current page
-	public $pages = 0;              // number of pages
-	public $diff = array( 4, 4 );  // display range of displayed pages
-	public $number = 30;             // number of elements per page
-	public $total = 0;              // total number of elements
-	public $id;                         // navigation id
-	public $class;                      // navigation class
-	public $offset = 0;              // offset
-	public $key = 'pagenum';
-	public $onclick = false;
-	public $page_args = array(
+	public $current		 = 1;  // current page
+	public $pages		 = 0;  // number of pages
+	public $diff		 = array( 4, 4 );  // display range of displayed pages
+	public $number		 = 30; // number of elements per page
+	public $total		 = 0;  // total number of elements
+	public $id; // navigation id
+	public $class; // navigation class
+	public $offset		 = 0;  // offset
+	public $key			 = 'pagenum';
+	public $onclick		 = false;
+	public $page_args	 = array(
 		'type' => 'simple'
 	);
 
@@ -22,8 +22,8 @@ class USP_Pager {
 
 		$this->set_current();
 
-		$this->offset = ( $this->current - 1 ) * $this->number;
-		$this->pages  = ceil( $this->total / $this->number );
+		$this->offset	 = ( $this->current - 1 ) * $this->number;
+		$this->pages	 = ceil( $this->total / $this->number );
 	}
 
 	function init_properties( $args ) {
@@ -51,65 +51,65 @@ class USP_Pager {
 	function get_walker() {
 		$walker = array();
 
-		$walker['args']['number_left']  = ( ( $this->current - $this->diff[0] ) <= 0 ) ? $this->current - 1 : $this->diff[0];
-		$walker['args']['number_right'] = ( ( $this->current + $this->diff[1] ) > $this->pages ) ? $this->pages - $this->current : $this->diff[1];
+		$walker[ 'args' ][ 'number_left' ]	 = ( ( $this->current - $this->diff[ 0 ] ) <= 0 ) ? $this->current - 1 : $this->diff[ 0 ];
+		$walker[ 'args' ][ 'number_right' ]	 = ( ( $this->current + $this->diff[ 1 ] ) > $this->pages ) ? $this->pages - $this->current : $this->diff[ 1 ];
 
-		if ( $walker['args']['number_left'] ) {
+		if ( $walker[ 'args' ][ 'number_left' ] ) {
 
-			$start = $this->current - $walker['args']['number_left'];
+			$start = $this->current - $walker[ 'args' ][ 'number_left' ];
 
 			if ( $start > 1 ) {
-				$walker['output'][]['page'] = 1;
+				$walker[ 'output' ][][ 'page' ] = 1;
 			}
 
 			if ( $start > 2 ) {
-				$walker['output'][]['separator'] = '...';
+				$walker[ 'output' ][][ 'separator' ] = '<i class="uspi fa-horizontal-ellipsis usp-pager__dots usps usps__ai-center" aria-hidden="true"></i>';
 			}
 
 
-			for ( $num = $walker['args']['number_left']; $num > 0; $num -- ) {
-				$walker['output'][]['page'] = $this->current - $num;
-			}
-		}
-
-		$walker['output'][]['current'] = $this->current;
-
-		if ( $walker['args']['number_right'] ) {
-			for ( $num = 1; $num <= $walker['args']['number_right']; $num ++ ) {
-				$walker['output'][]['page'] = $this->current + $num;
+			for ( $num = $walker[ 'args' ][ 'number_left' ]; $num > 0; $num -- ) {
+				$walker[ 'output' ][][ 'page' ] = $this->current - $num;
 			}
 		}
 
-		$end = $this->pages - ( $this->current + $walker['args']['number_right'] );
+		$walker[ 'output' ][][ 'current' ] = $this->current;
+
+		if ( $walker[ 'args' ][ 'number_right' ] ) {
+			for ( $num = 1; $num <= $walker[ 'args' ][ 'number_right' ]; $num ++ ) {
+				$walker[ 'output' ][][ 'page' ] = $this->current + $num;
+			}
+		}
+
+		$end = $this->pages - ( $this->current + $walker[ 'args' ][ 'number_right' ] );
 
 		if ( $end > 1 ) {
-			$walker['output'][]['separator'] = '...';
+			$walker[ 'output' ][][ 'separator' ] = '<i class="uspi fa-horizontal-ellipsis usp-pager__dots usps usps__ai-center" aria-hidden="true"></i>';
 		}
 
 		if ( $end > 0 ) {
-			$walker['output'][]['page'] = $this->pages;
+			$walker[ 'output' ][][ 'page' ] = $this->pages;
 		}
 
 		return $walker;
 	}
 
 	function get_url( $page_id ) {
-		return add_query_arg( array( $this->key => $page_id ), ( isset( $_POST['tab_url'] ) ? $_POST['tab_url'] : false ) );
+		return add_query_arg( array( $this->key => $page_id ), ( isset( $_POST[ 'tab_url' ] ) ? $_POST[ 'tab_url' ] : false ) );
 	}
 
 	function get_page_args( $page_id, $label = false ) {
 
 		$args = array(
-			'type'  => 'simple',
-			'href'  => $this->get_url( $page_id ),
-			'label' => $label ? $label : $page_id,
-			'data'  => array(
+			'type'	 => 'simple',
+			'href'	 => $this->get_url( $page_id ),
+			'label'	 => $label ? $label : $page_id,
+			'data'	 => array(
 				'page' => $page_id
 			)
 		);
 
 		if ( $this->onclick ) {
-			$args['onclick'] = 'return ' . $this->onclick . '(' . $page_id . ', this);';
+			$args[ 'onclick' ] = 'return ' . $this->onclick . '(' . $page_id . ', this);';
 		}
 
 		return wp_parse_args( $args, $this->page_args );
@@ -129,7 +129,7 @@ class USP_Pager {
 
 		$content = '<div ' . ( $this->id ? 'id="' . $this->id . '"' : '' ) . ' class="' . ( $this->class ? $this->class . ' ' : '' ) . 'usp-pager usps usps__jc-end usps__line-1">';
 
-		foreach ( $walker['output'] as $item ) {
+		foreach ( $walker[ 'output' ] as $item ) {
 
 			foreach ( $item as $type => $data ) {
 
@@ -140,15 +140,15 @@ class USP_Pager {
 						$html = usp_get_button( $this->get_page_args( $data ) );
 					} else if ( $type == 'current' ) {
 						$html = usp_get_button( [
-							'type'   => 'simple',
-							'label'  => $data,
+							'type'	 => 'simple',
+							'label'	 => $data,
 							'status' => 'active',
-							'data'   => array(
+							'data'	 => array(
 								'page' => $data
 							)
-						] );
+							] );
 					} else {
-						$html = '<span>' . $data . '</span>';
+						$html = $data;
 					}
 				} else {
 

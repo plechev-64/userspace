@@ -57,6 +57,7 @@ i::before {
     --uspLine200: 1px solid var(--uspGray-200);
     --uspLine300: 1px solid var(--uspGray-300);
 
+    --uspBox50:  3px 6px 12px -6px var(--uspBlack-01);
     --uspBox100: 3px 6px 12px 0 var(--uspBlack-01);
     --uspBox200: 6px 6px 12px -6px var(--uspGray-400);
     --uspBox300: 3px 3px 6px 0 var(--uspBlack-02);
@@ -462,6 +463,10 @@ i.usp-offline {
 
 .usp-pager > a:not(:last-child) {
     margin-right: 3px;
+}
+
+.usp-pager .usp-pager__dots {
+    margin: 0 6px 0 3px;
 }
 
 /*end*/
