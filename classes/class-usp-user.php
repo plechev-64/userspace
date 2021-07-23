@@ -310,7 +310,7 @@ class USP_User {
 
 	function get_cover_url( $avatar_as_cover = false ) {
 
-		$cover_id = $this->usp_cover ?: usp_get_option( 'usp_default_cover', 0 );;
+		$cover_id = $this->usp_cover ?: usp_get_option( 'usp_default_cover', 0 );
 
 		if ( $cover_id ) {
 			return wp_get_attachment_image_url( $cover_id, 'large' );

@@ -204,58 +204,49 @@ function usp_get_user_custom_fields() {
 	}
 }
 
-add_action( 'usp_user_stats', 'usp_user_comments', 22 );
-function usp_user_comments() {
-	global $usp_user, $usp_users_set;
+add_action( 'usp_user_stats', 'usp_user_comments', 22, 2 );
+function usp_user_comments( USP_User $user, $display = [] ) {
 
-	if ( false !== array_search( 'comments_count', $usp_users_set->data ) || isset( $usp_user->comments_count ) ) {
-		if ( ! isset( $usp_user->comments_count ) ) {
-			$usp_user->comments_count = 0;
-		}
-
-		$title = __( 'Comments', 'userspace' ) . ':';
-		$count = $usp_user->comments_count;
-		$icon  = 'fa-comment';
-		$class = 'usp-meta__comm';
-
-		echo usp_user_get_stat_item( $title, $count, $icon, $class );
+	if ( ! in_array( 'comments', $display ) || ! is_numeric( $user->comments ) ) {
+		return;
 	}
+
+	$title = __( 'Comments', 'userspace' ) . ':';
+	$count = $user->comments;
+	$icon  = 'fa-comment';
+	$class = 'usp-meta__comm';
+
+	echo usp_user_get_stat_item( $title, $count, $icon, $class );
 }
 
-add_action( 'usp_user_stats', 'usp_user_posts', 21 );
-function usp_user_posts() {
-	global $usp_user, $usp_users_set;
+add_action( 'usp_user_stats', 'usp_user_posts', 21, 2 );
+function usp_user_posts( USP_User $user, $display = [] ) {
 
-	if ( false !== array_search( 'posts_count', $usp_users_set->data ) || isset( $usp_user->posts_count ) ) {
-		if ( ! isset( $usp_user->posts_count ) ) {
-			$usp_user->posts_count = 0;
-		}
-
-		$title = __( 'Publics', 'userspace' ) . ':';
-		$count = $usp_user->posts_count;
-		$icon  = 'fa-file';
-		$class = 'usp-meta__post';
-
-		echo usp_user_get_stat_item( $title, $count, $icon, $class );
+	if ( ! in_array( 'posts', $display ) || ! is_numeric( $user->posts ) ) {
+		return;
 	}
+
+	$title = __( 'Publics', 'userspace' ) . ':';
+	$count = $user->posts;
+	$icon  = 'fa-file';
+	$class = 'usp-meta__post';
+
+	echo usp_user_get_stat_item( $title, $count, $icon, $class );
 }
 
-add_action( 'usp_user_stats', 'usp_user_register', 23 );
-function usp_user_register() {
-	global $usp_user, $usp_users_set;
+add_action( 'usp_user_stats', 'usp_user_register', 23, 2 );
+function usp_user_register( USP_User $user, $display = [] ) {
 
-	if ( false !== array_search( 'user_registered', $usp_users_set->data ) || isset( $usp_user->user_registered ) ) {
-		if ( ! isset( $usp_user->user_registered ) ) {
-			return;
-		}
-
-		$title = __( 'Registration', 'userspace' ) . ':';
-		$count = mysql2date( 'd-m-Y', $usp_user->user_registered );
-		$icon  = 'fa-calendar-check';
-		$class = 'usp-meta__reg';
-
-		echo usp_user_get_stat_item( $title, $count, $icon, $class );
+	if ( ! in_array( 'user_registered', $display ) ) {
+		return;
 	}
+
+	$title = __( 'Registration', 'userspace' ) . ':';
+	$count = mysql2date( 'd-m-Y', $user->user_registered );
+	$icon  = 'fa-calendar-check';
+	$class = 'usp-meta__reg';
+
+	echo usp_user_get_stat_item( $title, $count, $icon, $class );
 }
 
 /**

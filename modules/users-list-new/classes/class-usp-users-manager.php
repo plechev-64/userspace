@@ -5,6 +5,7 @@ class USP_Users_Manager extends USP_Content_Manager {
 	public $template;
 	public $counter;
 	public $meta;
+	public $display;
 
 	function __construct( $args = [] ) {
 
@@ -15,6 +16,7 @@ class USP_Users_Manager extends USP_Content_Manager {
 		$this->init_custom_prop( 'template', isset( $args['template'] ) ?: 'card' );
 		$this->init_custom_prop( 'counter', ! empty( $args['counter'] ) ? $args['counter'] : [] );
 		$this->init_custom_prop( 'meta', ! empty( $args['meta'] ) ? $args['meta'] : [] );
+		$this->init_custom_prop( 'display', ! empty( $args['display'] ) ? $args['display'] : [] );
 
 		if ( ! is_array( $this->counter ) ) {
 			$this->counter = array_map( 'trim', explode( ',', $this->counter ) );
@@ -22,6 +24,10 @@ class USP_Users_Manager extends USP_Content_Manager {
 
 		if ( ! is_array( $this->meta ) ) {
 			$this->meta = array_map( 'trim', explode( ',', $this->meta ) );
+		}
+
+		if ( ! is_array( $this->display ) ) {
+			$this->display = array_map( 'trim', explode( ',', $this->display ) );
 		}
 
 		usp_enqueue_style( 'usp-users-' . $this->template, USP_URL . 'modules/users-list-new/assets/css/usp-users-' . $this->template . '.css', false, USP_VERSION );
@@ -126,7 +132,8 @@ class USP_Users_Manager extends USP_Content_Manager {
 
 	function get_item_content( $user ) {
 		return usp_get_include_template( 'user-' . $this->template . '.php', USP_USERS_BASE, [
-			'user' => $user
+			'user' => $user,
+			'display' => $this->display
 		] );
 	}
 

@@ -1,6 +1,7 @@
 <?php
 /**
  * @var USP_User $user
+ * @var array $display - data to display
  */
 
 $args = [
@@ -23,7 +24,7 @@ $args = [
 
 			<?php echo $user->get_description_html(); ?>
 
-            <div class="usp-user__stats usps"><?php do_action( 'usp_user_stats' ); ?></div>
+            <div class="usp-user__stats usps"><?php do_action( 'usp_user_stats', $user, $display ); ?></div>
         </div>
     </div>
 
