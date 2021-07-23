@@ -36,7 +36,7 @@
 }
 
 .usp-options-tabs > a:not(:last-child) {
-    border-bottom: 0;
+    border-bottom: 0 !important;
 }
 
 .usp-options-tabs a.usp-bttn__active {
