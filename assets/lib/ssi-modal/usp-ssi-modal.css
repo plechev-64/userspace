@@ -1,6 +1,6 @@
 /*
     sizeClass: auto, small, medium
-    className: ssi-no-padding
+    className: ssi-no-padding, ssi-dialog
 */
 body.ssi-modalOpen {
     overflow: hidden;
@@ -33,6 +33,9 @@ body.ssi-modalOpen {
     display: flex;
     opacity: 0;
 }
+.ssi-dialog {
+    pointer-events: none;
+}
 
 .ssi-modalWrapper {
     padding: 0 6px;
@@ -55,6 +58,9 @@ body.ssi-modalOpen {
     /*    max-width: 700px;*/
     width: auto;
 }
+.ssi-dialog .ssi-modalWrapper {
+    pointer-events: all;
+}
 
 .ssi-modalWindow {
     width: 100%;
@@ -74,7 +80,6 @@ body.ssi-modalOpen {
     min-height: 50px;
     padding: 12px 18px;
     font-size: 22px;
-    font-weight: 700;
     line-height: normal;
 }
 
@@ -232,10 +237,6 @@ body.ssi-modalOpen {
 
         border-bottom-left-radius: 0;
         border-top-left-radius: 0;
-    }
-
-    .ssi-modalTitle {
-        font-size: 20px;
     }
 
     #ssi-modalWrapper:not(.medium) .ssi-topIcons {
