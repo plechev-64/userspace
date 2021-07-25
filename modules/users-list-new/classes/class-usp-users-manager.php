@@ -3,9 +3,8 @@
 class USP_Users_Manager extends USP_Content_Manager {
 
 	public $template;
-	public $counter;
+	public $custom_data;
 	public $meta;
-	public $display;
 
 	function __construct( $args = [] ) {
 
@@ -14,20 +13,15 @@ class USP_Users_Manager extends USP_Content_Manager {
 		] );
 
 		$this->init_custom_prop( 'template', isset( $args['template'] ) ?: 'card' );
-		$this->init_custom_prop( 'counter', ! empty( $args['counter'] ) ? $args['counter'] : [] );
+		$this->init_custom_prop( 'custom_data', ! empty( $args['custom_data'] ) ? $args['custom_data'] : [] );
 		$this->init_custom_prop( 'meta', ! empty( $args['meta'] ) ? $args['meta'] : [] );
-		$this->init_custom_prop( 'display', ! empty( $args['display'] ) ? $args['display'] : [] );
 
-		if ( ! is_array( $this->counter ) ) {
-			$this->counter = array_map( 'trim', explode( ',', $this->counter ) );
+		if ( ! is_array( $this->custom_data ) ) {
+			$this->custom_data = array_map( 'trim', explode( ',', $this->custom_data ) );
 		}
 
 		if ( ! is_array( $this->meta ) ) {
 			$this->meta = array_map( 'trim', explode( ',', $this->meta ) );
-		}
-
-		if ( ! is_array( $this->display ) ) {
-			$this->display = array_map( 'trim', explode( ',', $this->display ) );
 		}
 
 		usp_enqueue_style( 'usp-users-' . $this->template, USP_URL . 'modules/users-list-new/assets/css/usp-users-' . $this->template . '.css', false, USP_VERSION );
@@ -49,25 +43,21 @@ class USP_Users_Manager extends USP_Content_Manager {
 			'last_activity' => ( new USP_User_Action( 'action' ) )->select( [ 'date_action' ] )->where_string( "users.ID=action.user_id" )
 		];
 
-		if ( $this->counter ) {
+		if ( in_array( 'posts', $this->custom_data ) ) {
+			$select['posts'] = ( new USP_Posts_Query( 'posts' ) )->select( [
+				'count' => [ 'ID' ]
+			] )->where_string( "users.ID=posts.post_author" )->where( [
+				'post_status'       => 'publish',
+				'post_type__not_in' => [ 'page', 'nav_menu_item' ]
+			] );
+		}
 
-			if ( in_array( 'posts', $this->counter ) ) {
-				$select['posts'] = ( new USP_Posts_Query( 'posts' ) )->select( [
-					'count' => [ 'ID' ]
-				] )->where_string( "users.ID=posts.post_author" )->where( [
-					'post_status'       => 'publish',
-					'post_type__not_in' => [ 'page', 'nav_menu_item' ]
-				] );
-			}
-
-			if ( in_array( 'comments', $this->counter ) ) {
-				$select['comments'] = ( new USP_Comments_Query( 'comments' ) )->select( [
-					'count' => [ 'comment_ID' ]
-				] )->where_string( "users.ID=comments.user_id" )->where( [
-					'comment_approved' => 1
-				] );
-			}
-
+		if ( in_array( 'comments', $this->custom_data ) ) {
+			$select['comments'] = ( new USP_Comments_Query( 'comments' ) )->select( [
+				'count' => [ 'comment_ID' ]
+			] )->where_string( "users.ID=comments.user_id" )->where( [
+				'comment_approved' => 1
+			] );
 		}
 
 		$query = ( new USP_Users_Query( 'users' ) )
@@ -132,8 +122,8 @@ class USP_Users_Manager extends USP_Content_Manager {
 
 	function get_item_content( $user ) {
 		return usp_get_include_template( 'user-' . $this->template . '.php', USP_USERS_BASE, [
-			'user' => $user,
-			'display' => $this->display
+			'user'         => $user,
+			'custom_data' => $this->custom_data
 		] );
 	}
 
@@ -141,11 +131,11 @@ class USP_Users_Manager extends USP_Content_Manager {
 
 		$orderby_values = [ 'user_registered' => __( 'Дата регистрации', 'wp-recall' ) ];
 
-		if ( in_array( 'comments', $this->counter ) ) {
+		if ( in_array( 'comments', $this->custom_data ) ) {
 			$orderby_values['comments'] = __( 'Количеству комментариев', 'wp-recall' );
 		}
 
-		if ( in_array( 'posts', $this->counter ) ) {
+		if ( in_array( 'posts', $this->custom_data ) ) {
 			$orderby_values['posts'] = __( 'Количеству публикаций', 'wp-recall' );
 		}
 

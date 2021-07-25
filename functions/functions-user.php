@@ -205,9 +205,9 @@ function usp_get_user_custom_fields() {
 }
 
 add_action( 'usp_user_stats', 'usp_user_comments', 22, 2 );
-function usp_user_comments( USP_User $user, $display = [] ) {
+function usp_user_comments( USP_User $user, $custom_data = [] ) {
 
-	if ( ! in_array( 'comments', $display ) || ! is_numeric( $user->comments ) ) {
+	if ( ! in_array( 'comments', $custom_data ) || ! is_numeric( $user->comments ) ) {
 		return;
 	}
 
@@ -220,9 +220,9 @@ function usp_user_comments( USP_User $user, $display = [] ) {
 }
 
 add_action( 'usp_user_stats', 'usp_user_posts', 21, 2 );
-function usp_user_posts( USP_User $user, $display = [] ) {
+function usp_user_posts( USP_User $user, $custom_data = [] ) {
 
-	if ( ! in_array( 'posts', $display ) || ! is_numeric( $user->posts ) ) {
+	if ( ! in_array( 'posts', $custom_data ) || ! is_numeric( $user->posts ) ) {
 		return;
 	}
 
@@ -235,9 +235,9 @@ function usp_user_posts( USP_User $user, $display = [] ) {
 }
 
 add_action( 'usp_user_stats', 'usp_user_register', 23, 2 );
-function usp_user_register( USP_User $user, $display = [] ) {
+function usp_user_register( USP_User $user, $custom_data = [] ) {
 
-	if ( ! in_array( 'user_registered', $display ) ) {
+	if ( ! in_array( 'user_registered', $custom_data ) ) {
 		return;
 	}
 
