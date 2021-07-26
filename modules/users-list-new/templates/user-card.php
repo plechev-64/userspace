@@ -8,6 +8,7 @@ $args = [
 	'parent_class' => 'usp-user__ava usps usps__relative',
 	'parent_title' => $user->get_username(),
 ];
+
 ?>
 <div class="usp-card usp-user usps__grow" data-user-id="<?php echo $user->ID; ?>">
     <div class="usp-user__top usps usps__nowrap">
@@ -31,7 +32,7 @@ $args = [
     <div class="usp-user__bottom">
         <div class="usp-user__fields-before"><?php do_action( 'usp_user_fields_before' ); ?></div>
 
-        <div class="usp-user__fields usps usps__column"><?php echo usp_get_user_custom_fields(); ?></div>
+        <div class="usp-user__fields usps usps__column"><?php echo USP()->profile_fields( $user->ID )->get_public_fields_values(); ?></div>
 
         <div class="usp-user__fields-after"><?php do_action( 'usp_user_fields_after' ); ?></div>
     </div>

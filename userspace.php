@@ -302,6 +302,7 @@ final class UserSpace {
 		require_once 'classes/class-usp-pager.php';
 		require_once 'classes/class-usp-users.php';
 		require_once 'classes/class-usp-user.php';
+		require_once 'classes/class-usp-profile-fields.php';
 		require_once 'classes/class-usp-office.php';
 		require_once 'classes/class-usp-walker.php';
 		require_once 'classes/class-usp-includer.php';
@@ -409,7 +410,7 @@ final class UserSpace {
 		return USP_Users::getInstance();
 	}
 
-	function user( $user_id = 0 ) {
+	public function user( $user_id = 0 ) {
 
 		$user_id = $user_id ?: get_current_user_id();
 
@@ -426,6 +427,13 @@ final class UserSpace {
 		$this->users()->add( $user );
 
 		return $user;
+	}
+
+	/*
+	 * TODO вызов без аргумента приводит к созданию экземпляра для текущего юзера
+	 */
+	public function profile_fields( $user_id = 0 ) {
+		return new USP_Profile_Fields( $this->user( $user_id ) );
 	}
 
 	public function themes() {

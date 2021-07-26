@@ -138,7 +138,10 @@ function usp_edit_profile() {
 		return;
 	}
 
-	usp_update_profile_fields( $user_ID );
+
+	USP()->profile_fields()->update_fields();
+
+	//usp_update_profile_fields( $user_ID );
 
 	do_action( 'personal_options_update', $user_ID );
 

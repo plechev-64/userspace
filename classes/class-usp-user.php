@@ -41,8 +41,7 @@ class USP_User {
 					'user' => $this->ID
 				], $officeUrl );
 		} else {
-			$userData  = get_userdata( $this->ID );
-			$officeUrl = untrailingslashit( $officeUrl ) . '/' . $userData->user_nicename;
+			$officeUrl = untrailingslashit( $officeUrl ) . '/' . $this->user_nicename;
 		}
 
 		return trailingslashit( $officeUrl );
@@ -183,12 +182,7 @@ class USP_User {
 	 */
 	function get_username( $link = false, $args = false ) {
 
-		if ( isset( $this->display_name ) ) {
-			$username = $this->display_name;
-		} else {
-			$userdata = get_userdata( $this->ID );
-			$username = $userdata->display_name ?: $userdata->user_login;
-		}
+		$username = $this->display_name ?: $this->user_login;
 
 		if ( $link ) {
 
