@@ -1,5 +1,5 @@
-/*  v1.1 
-    151 icons
+/*  v1.2
+    154 icons
 */
 @font-face {
     font-family: 'usp-awesome';
@@ -267,12 +267,24 @@
     content: "\f0c6";
 }
 
+.fa-volume-off:before {
+    content: "\f026";
+}
+
+.fa-volume-up:before {
+    content: "\f028";
+}
+
 .fa-check-square:before {
     content: "\f14a";
 }
 
 .fa-square:before {
     content: "\f0c8";
+}
+
+.fa-check:before {
+    content: "\f00c";
 }
 
 .fa-toggle-on:before {
@@ -487,6 +499,10 @@
     content: "\f31e";
 }
 
+.fa-arrow-left:before {
+    content: "\f060";
+}
+
 .fa-arrows-horizontal:before {
     content: "\f337";
 }
@@ -589,10 +605,6 @@
 
 .fa-balance-scale:before {
     content: "\f24e";
-}
-
-.fa-check:before {
-    content: "\f00c";
 }
 
 .fa-newspaper:before {

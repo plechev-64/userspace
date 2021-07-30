@@ -1257,6 +1257,12 @@
             title: "fa-paperclip",
             searchTerms: ["bookmark"]
         }, {
+            title: "fa-volume-off",
+            searchTerms: ["volume", "sound"]
+        }, {
+            title: "fa-volume-up",
+            searchTerms: ["volume", "sound"]
+        }, {
             title: "fa-check-square",
             searchTerms: ["checkmark", "done", "todo", "agree", "accept",
                 "confirm",
@@ -1450,6 +1456,9 @@
             searchTerms: ["expand", "enlarge", "fullscreen", "bigger",
                 "move",
                 "reorder", "resize", "arrow", "arrows"]
+        }, {
+            title: "fa-arrow-left",
+            searchTerms: ["previous", "back", "menu", "arrow", "arrows"]
         }, {
             title: "fa-arrows-horizontal",
             searchTerms: ["resize", "arrows-h"]
