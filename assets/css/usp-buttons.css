@@ -33,7 +33,7 @@ body .usp-bttn {
     box-shadow: none !important;
 }
 
-body :not(.usp-wrap__wiget) > .usp-bttn:not(.usp-bttn__active):hover {
+body :not(.usp-wrap__widget) > .usp-bttn:not(.usp-bttn__active):hover {
     opacity: .8;
 }
 
@@ -134,27 +134,27 @@ body:not(.wp-admin) .usp-bttn.usp-bttn__type-primary:not(.usp-bttn__active),
 /* */
 
 
-/* special wiget list style */
-.usp-wrap__wiget .usp-bttn__type-clear {
+/* special widget list style */
+.usp-wrap__widget .usp-bttn__type-clear {
     padding: 0 12px;
     min-height: 42px;
     width: 100%;
 }
 
-.usp-wrap__wiget .usp-bttn__type-simple {
+.usp-wrap__widget .usp-bttn__type-simple {
     min-height: 42px;
     width: 100%;
 }
 
-.usp-wrap__wiget .usp-bttn__type-clear:not(.button-primary):hover {
+.usp-wrap__widget .usp-bttn__type-clear:not(.button-primary):hover {
     background: var(--uspGray-200);
 }
 
-.usp-wrap__wiget .usp-bttn__ava {
+.usp-wrap__widget .usp-bttn__ava {
     flex-shrink: 0;
 }
 
-.usp-wrap__wiget .usp-bttn__text {
+.usp-wrap__widget .usp-bttn__text {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;

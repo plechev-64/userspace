@@ -72,7 +72,7 @@ $width	 = usp_get_option( 'usp_bar_width' ) ? 'style="max-width:' . usp_get_opti
 
 					<div class="usp-sub-menu">
 						<?php do_action( 'usp_bar_before_print_menu' ); ?>
-						<div class="usp-bar-usertabs usp-wrap__wiget usps usps__column">
+						<div class="usp-bar-usertabs usp-wrap__widget usps usps__column">
 							<?php do_action( 'usp_bar_profile_menu_buttons' ); ?>
 							<?php
 							echo usp_get_button( [

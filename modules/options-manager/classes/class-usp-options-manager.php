@@ -72,7 +72,7 @@ class USP_Options_Manager {
 			) );
 		}
 
-		$content = '<div class="usp-options-tabs usp-wrap__wiget">';
+		$content = '<div class="usp-options-tabs usp-wrap__widget">';
 
 		foreach ( $items as $item ) {
 			$content .= $item;
@@ -98,7 +98,7 @@ class USP_Options_Manager {
 
 		$content .= wp_nonce_field( $this->nonce, '_wpnonce', true, false );
 
-		$content .= '<div class="usp-option-menu usp-wrap__wiget">';
+		$content .= '<div class="usp-option-menu usp-wrap__widget">';
 
 		if ( $this->extends ) {
 			$content .= usp_get_button( array(
