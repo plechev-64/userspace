@@ -32,7 +32,7 @@ $args = [
     <div class="usp-user__bottom">
         <div class="usp-user__fields-before"><?php do_action( 'usp_user_fields_before' ); ?></div>
 
-        <div class="usp-user__fields usps usps__column"><?php echo USP()->profile_fields( $user->ID )->get_public_fields_values(); ?></div>
+        <div class="usp-user__fields usps usps__column"><?php echo $user->profile_fields()->get_public_fields_values(); ?></div>
 
         <div class="usp-user__fields-after"><?php do_action( 'usp_user_fields_after' ); ?></div>
     </div>

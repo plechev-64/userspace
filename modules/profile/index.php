@@ -128,24 +128,25 @@ function usp_update_profile_notice() {
 // Updating the user profile
 add_action( 'wp', 'usp_edit_profile', 10 );
 function usp_edit_profile() {
+
 	if ( ! isset( $_POST['submit_user_profile'] ) ) {
 		return;
 	}
 
-	global $user_ID;
+	$user_id = get_current_user_id();
 
-	if ( ! wp_verify_nonce( $_POST['_wpnonce'], 'update-profile_' . $user_ID ) ) {
+	if ( ! wp_verify_nonce( $_POST['_wpnonce'], 'update-profile_' . $user_id ) ) {
 		return;
 	}
 
+	USP()->user()->profile_fields()->update_fields();
 
-	USP()->profile_fields()->update_fields();
+	/*
+	 * TODO Нужен ли этот хук?
+	 */
+	do_action( 'personal_options_update', $user_id );
 
-	//usp_update_profile_fields( $user_ID );
-
-	do_action( 'personal_options_update', $user_ID );
-
-	$redirect_url = usp_get_tab_permalink( $user_ID, 'profile' ) . '&usp-profile-updated=true';
+	$redirect_url = usp_get_tab_permalink( $user_id, 'profile' ) . '&usp-profile-updated=true';
 
 	wp_redirect( $redirect_url );
 

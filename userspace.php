@@ -302,7 +302,6 @@ final class UserSpace {
 		require_once 'classes/class-usp-pager.php';
 		require_once 'classes/class-usp-users.php';
 		require_once 'classes/class-usp-user.php';
-		require_once 'classes/class-usp-profile-fields.php';
 		require_once 'classes/class-usp-office.php';
 		require_once 'classes/class-usp-walker.php';
 		require_once 'classes/class-usp-includer.php';
@@ -379,6 +378,7 @@ final class UserSpace {
 			] ),
 			'options-manager' => new USP_Module( USP_PATH . 'modules/options-manager/index.php', [ 'fields' ] ),
 			'profile'         => new USP_Module( USP_PATH . 'modules/profile/index.php' ),
+			'profile-fields'  => new USP_Module( USP_PATH . 'modules/profile-fields/index.php', [ 'fields' ] ),
 			'users-list'      => new USP_Module( USP_PATH . 'modules/users-list/index.php' ),
 			'users-list-new'  => new USP_Module( USP_PATH . 'modules/users-list-new/index.php', [ 'content-manager' ] ),
 		];
@@ -429,11 +429,11 @@ final class UserSpace {
 		return $user;
 	}
 
-	/*
-	 * TODO вызов без аргумента приводит к созданию экземпляра для текущего юзера
-	 */
-	public function profile_fields( $user_id = 0 ) {
-		return new USP_Profile_Fields( $this->user( $user_id ) );
+	public function profile_fields() {
+
+		$this->use_module( 'profile-fields' );
+
+		return new USP_Profile_Fields();
 	}
 
 	public function themes() {

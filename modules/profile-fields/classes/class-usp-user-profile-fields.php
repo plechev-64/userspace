@@ -1,43 +1,20 @@
 <?php
 
-USP()->use_module( 'fields' );
-
-class USP_Profile_Fields extends USP_Fields {
-
-	private $user = null;
-	private $_default_fields = [
-		'user_email',
-		'description',
-		'user_url',
-		'first_name',
-		'last_name',
-		'display_name',
-		'primary_pass',
-		'repeat_pass'
-	];
+class USP_User_Profile_Fields extends USP_Profile_Fields {
 
 	/**
-	 * USP_Profile_Fields constructor.
-	 *
-	 * @param USP_User $user
+	 * @var USP_user $user
 	 */
-	public function __construct( $user = null ) {
+	private $user;
 
+	public function __construct( USP_user $user ) {
 		$this->user = $user;
-
-		$fields = get_site_option( 'usp_profile_fields' );
-		$fields = apply_filters( 'usp_profile_fields', $fields, $this->user );
-
-		parent::__construct( $fields );
+		parent::__construct( $user->ID );
 	}
 
 	public function get_public_fields_values() {
 
-		if ( ! $this->user ) {
-			return '';
-		}
-
-		$public_fields = $this->search_by( 'public_value', 1 );
+		$public_fields = $this->get_public_fields();
 
 		if ( ! $public_fields ) {
 			return '';
@@ -60,24 +37,7 @@ class USP_Profile_Fields extends USP_Fields {
 
 	}
 
-	function get_public_fields_slugs() {
-
-		$public_fields = $this->search_by( 'public_value', 1 );
-
-		if ( ! $public_fields ) {
-			return ['description'];
-		}
-
-		$slugs = array_column( $public_fields, 'slug' );
-
-		return array_merge($slugs, ['description']);
-	}
-
 	function update_fields( $fields_to_update = [] ) {
-
-		if ( ! $this->user ) {
-			return;
-		}
 
 		require_once( ABSPATH . "wp-admin" . '/includes/image.php' );
 		require_once( ABSPATH . "wp-admin" . '/includes/file.php' );
@@ -92,10 +52,6 @@ class USP_Profile_Fields extends USP_Fields {
 		}
 
 		foreach ( $fields_to_update as $field ) {
-
-			if ( ! $field instanceof USP_Field_Abstract ) {
-				continue;
-			}
 
 			/**
 			 * @var USP_Field_Abstract $field
@@ -112,7 +68,7 @@ class USP_Profile_Fields extends USP_Fields {
 			$new_value     = ( isset( $_POST[ $slug ] ) ) ? $_POST[ $slug ] : false;
 			$edit_by_admin = $field->get_prop( 'admin' );
 
-			if ( $edit_by_admin && ! USP()->user()->has_role( 'administrator' ) ) {
+			if ( $edit_by_admin && ! is_admin() && ! USP()->user()->has_role( 'administrator' ) ) {
 
 				/*
 				 * if value exist and current user not admin - skip update
@@ -139,7 +95,7 @@ class USP_Profile_Fields extends USP_Fields {
 				}
 			}
 
-			if ( in_array( $slug, $this->_default_fields ) ) {
+			if ( in_array( $slug, $this->get_default_fields() ) ) {
 
 				if ( $slug == 'repeat_pass' ) {
 					continue;
@@ -171,7 +127,9 @@ class USP_Profile_Fields extends USP_Fields {
 			}
 
 			if ( $field->type == 'checkbox' ) {
-
+				/*
+				 * TODO проверять новое значение на валидность: если массив значений то оставлять только те что есть в $field->values
+				 */
 				$vals = array();
 
 				if ( is_array( $new_value ) ) {
@@ -190,11 +148,10 @@ class USP_Profile_Fields extends USP_Fields {
 				if ( $new_value ) {
 
 					update_user_meta( $this->user->ID, $slug, $new_value );
-				} else {
+				} else if ( $cur_value ) {
 
-					if ( $cur_value ) {
-						delete_user_meta( $this->user->ID, $slug, $cur_value );
-					}
+					delete_user_meta( $this->user->ID, $slug, $cur_value );
+
 				}
 			}
 

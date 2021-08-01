@@ -5,6 +5,8 @@ class USP_User {
 	public $ID;
 	public $metadata = [];
 
+	private $_profile_fields = null;
+
 	function __construct( $user_id ) {
 
 		$this->ID = $user_id;
@@ -28,6 +30,17 @@ class USP_User {
 		}
 
 		return $this;
+	}
+
+	function profile_fields() {
+
+		USP()->use_module( 'profile-fields' );
+
+		if ( is_null( $this->_profile_fields ) ) {
+			$this->_profile_fields = new USP_User_Profile_Fields( $this );
+		}
+
+		return $this->_profile_fields;
 	}
 
 	function get_url() {
