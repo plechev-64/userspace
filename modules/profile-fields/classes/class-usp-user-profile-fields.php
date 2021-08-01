@@ -95,7 +95,7 @@ class USP_User_Profile_Fields extends USP_Profile_Fields {
 				}
 			}
 
-			if ( in_array( $slug, $this->get_default_fields() ) ) {
+			if ( in_array( $slug, $this->get_primary_fields_slugs() ) ) {
 
 				if ( $slug == 'repeat_pass' ) {
 					continue;
