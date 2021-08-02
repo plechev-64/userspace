@@ -11,11 +11,15 @@ class USP_Users_Manager extends USP_Content_Manager {
 			'number' => 30
 		] );
 
-		$this->init_custom_prop( 'template', isset( $args['template'] ) ?: 'card' );
+		$this->init_custom_prop( 'template', $args['template'] ?? 'card' );
 		$this->init_custom_prop( 'custom_data', ! empty( $args['custom_data'] ) ? $args['custom_data'] : [] );
 
 		if ( ! is_array( $this->custom_data ) ) {
 			$this->custom_data = array_map( 'trim', explode( ',', $this->custom_data ) );
+		}
+
+		if ( $this->template == 'masonry' ) {
+			usp_masonry_script();
 		}
 
 		usp_enqueue_style( 'usp-users-' . $this->template, USP_URL . 'modules/users-list-new/assets/css/usp-users-' . $this->template . '.css', false, USP_VERSION );
@@ -111,6 +115,29 @@ class USP_Users_Manager extends USP_Content_Manager {
 
 		return apply_filters( 'usp_users_data', $data, $this );
 
+	}
+
+	function get_data_content() {
+
+		$data_masonry = ( $this->template === 'masonry' ) ? 'data-columns="3"' : '';
+
+		$content = '<div class="manager-content usp-users__list usps usp-users__' . $this->template . '" ' . $data_masonry . '>';
+
+		if ( ! $this->data ) {
+			$content .= $this->get_no_result_notice();
+		} else {
+
+			foreach ( $this->data as $dataItem ) {
+				$content .= $this->get_item_content( $dataItem );
+			}
+		}
+		$content .= '</div>';
+
+		if ( $this->template == 'masonry' && usp_is_ajax() ) {
+			$content .= "<script>salvattore.init();</script>";
+		}
+
+		return $content;
 	}
 
 	function get_item_content( $user ) {

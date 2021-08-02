@@ -3,11 +3,11 @@
 class USP_User_Profile_Fields extends USP_Profile_Fields {
 
 	/**
-	 * @var USP_user $user
+	 * @var USP_User $user
 	 */
 	private $user;
 
-	public function __construct( USP_user $user ) {
+	public function __construct( USP_User $user ) {
 		$this->user = $user;
 		parent::__construct( $user->ID );
 	}
@@ -37,6 +37,60 @@ class USP_User_Profile_Fields extends USP_Profile_Fields {
 
 	}
 
+	public function get_profile_fields_form() {
+
+		USP()->use_module( 'forms' );
+
+		$profileFields = $this->get_fields();
+
+		foreach ( $profileFields as $field ) {
+
+			/**
+			 * @var USP_Field_Abstract $field
+			 */
+
+			$field->value = $this->user->{$field->slug};
+
+			if ( $field->get_prop( 'admin' ) && ! usp_user_has_role( get_current_user_id(), 'administrator' ) ) {
+				if ( $field->get_prop( 'value' ) !== false ) {
+					$field->set_prop( 'get_value', 1 );
+				}
+			}
+		}
+
+		$profileFields['submit_user_profile'] = USP_Field::setup( [
+			'type'  => 'hidden',
+			'slug'  => 'submit_user_profile',
+			'value' => 1
+		] );
+
+		$content = usp_get_form( array(
+				'nonce_name' => 'update-profile_' . $this->user->ID,
+				'submit'     => __( 'Update profile', 'userspace' ),
+				'onclick'    => 'usp_check_profile_form() ? usp_submit_form(this): false;',
+				'fields'     => $profileFields,
+				'structure'  => $this->structure
+			)
+		);
+
+		if ( usp_get_option( 'usp_user_deleting_profile' ) ) {
+			$content .=
+				'<form method="post" action="" name="delete_account">'
+				. wp_nonce_field( 'delete-user-' . $this->user->ID, '_wpnonce', true, false )
+				. usp_get_button( [
+					'label'   => __( 'Delete your profile', 'userspace' ),
+					'id'      => 'delete_acc',
+					'icon'    => 'fa-eraser',
+					'onclick' => 'return confirm("' . __( 'Are you sure? It can’t be restaured!', 'userspace' ) . '") ? usp_submit_form(this): false;'
+				] )
+				. '<input type="hidden" value="1" name="usp_delete_user_account"/>'
+				. '</form>';
+
+		}
+
+		return $content;
+	}
+
 	function update_fields( $fields_to_update = [] ) {
 
 		require_once( ABSPATH . "wp-admin" . '/includes/image.php' );
@@ -63,10 +117,11 @@ class USP_User_Profile_Fields extends USP_Profile_Fields {
 				continue;
 			}
 
-			$slug          = $field->slug;
-			$cur_value     = $this->user->$slug;
-			$new_value     = ( isset( $_POST[ $slug ] ) ) ? $_POST[ $slug ] : false;
-			$edit_by_admin = $field->get_prop( 'admin' );
+			$slug            = $field->slug;
+			$cur_value       = $this->user->$slug;
+			$new_value       = ( isset( $_POST[ $slug ] ) ) ? $_POST[ $slug ] : false;
+			$edit_by_admin   = $field->get_prop( 'admin' );
+			$new_value_valid = $field->is_valid_value( $new_value );
 
 			if ( $edit_by_admin && ! is_admin() && ! USP()->user()->has_role( 'administrator' ) ) {
 
@@ -121,38 +176,25 @@ class USP_User_Profile_Fields extends USP_Profile_Fields {
 					}
 				}
 
-				wp_update_user( array( 'ID' => $this->user->ID, $slug => $new_value ) );
+				if ( $new_value_valid ) {
+
+					wp_update_user( array( 'ID' => $this->user->ID, $slug => $new_value ) );
+
+				}
 
 				continue;
 			}
 
-			if ( $field->type == 'checkbox' ) {
-				/*
-				 * TODO проверять новое значение на валидность: если массив значений то оставлять только те что есть в $field->values
-				 */
-				$vals = array();
+			if ( $new_value || is_numeric( $new_value ) ) {
 
-				if ( is_array( $new_value ) ) {
-
-					$vals = array_intersect( $new_value, $field->values );
-
-				}
-
-				if ( $vals ) {
-					update_user_meta( $this->user->ID, $slug, $vals );
-				} else {
-					delete_user_meta( $this->user->ID, $slug );
-				}
-			} else {
-
-				if ( $new_value ) {
-
+				if ( $new_value_valid ) {
 					update_user_meta( $this->user->ID, $slug, $new_value );
-				} else if ( $cur_value ) {
-
-					delete_user_meta( $this->user->ID, $slug, $cur_value );
-
 				}
+
+			} else if ( $cur_value || is_numeric( $cur_value ) ) {
+
+				delete_user_meta( $this->user->ID, $slug, $cur_value );
+
 			}
 
 			if ( $new_value ) {

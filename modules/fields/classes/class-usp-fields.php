@@ -16,7 +16,13 @@ class USP_Fields extends USP_Field {
 			$this->fields = array();
 
 			foreach ( $fields as $field ) {
-				if ( ! isset( $field['slug'] ) ) {
+
+				if ( $field instanceof USP_Field_Abstract ) {
+					$this->fields[ $field->slug ] = $field;
+					continue;
+				}
+
+				if ( ! is_array( $field ) || ! isset( $field['slug'] ) ) {
 					continue;
 				}
 				$this->fields[ $field['slug'] ] = is_array( $field ) ? parent::setup( $field ) : $field;

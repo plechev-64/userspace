@@ -1,6 +1,7 @@
 <?php
 
 class USP_Field_Color extends USP_Field_Abstract {
+
 	function __construct( $args ) {
 		parent::__construct( $args );
 	}
@@ -24,6 +25,13 @@ class USP_Field_Color extends USP_Field_Abstract {
 		}
 
 		return $content;
+	}
+
+	function is_valid_value( $value ) {
+		/*
+		 * TODO возможно надо проверять что это hex color
+		 */
+		return $value && $value[0] === "#";
 	}
 
 }

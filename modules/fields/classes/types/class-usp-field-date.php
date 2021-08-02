@@ -36,4 +36,8 @@ class USP_Field_Date extends USP_Field_Abstract {
 		return '<a href="' . $this->get_filter_url() . '" target="_blank">' . $this->value . '</a>';
 	}
 
+	function is_valid_value( $value ) {
+		return $value === date( "Y-m-d", strtotime( $value ) );
+	}
+
 }

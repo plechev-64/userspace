@@ -61,4 +61,13 @@ class USP_Field_Text extends USP_Field_Abstract {
 		return '<a href="' . $this->get_filter_url() . '" target="_blank">' . $this->value . '</a>';
 	}
 
+	function is_valid_value( $value ) {
+
+		if ( empty( $this->maxlength ) ) {
+			return true;
+		}
+
+		return mb_strlen( $value ) <= $this->maxlength;
+	}
+
 }

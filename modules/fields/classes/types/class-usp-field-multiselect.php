@@ -4,7 +4,6 @@ class USP_Field_MultiSelect extends USP_Field_Abstract {
 
 	public $required;
 	public $values;
-	public $value_in_key;
 
 	function __construct( $args ) {
 		parent::__construct( $args );
@@ -51,14 +50,14 @@ class USP_Field_MultiSelect extends USP_Field_Abstract {
 		$content .= '</select>';
 
 		$init = 'jQuery("#' . $this->input_id . '").multiselect({
-    search: true,
-    maxPlaceholderOpts: 5,
-    texts: {
-        placeholder: "' . __( 'Select some options', 'userspace' ) . '",
-        search: "' . __( 'Search', 'userspace' ) . '",
-        selectedOptions: " ' . __( 'selected', 'userspace' ) . '",
-    }
-});';
+				    search: true,
+				    maxPlaceholderOpts: 5,
+				    texts: {
+				        placeholder: "' . __( 'Select some options', 'userspace' ) . '",
+				        search: "' . __( 'Search', 'userspace' ) . '",
+				        selectedOptions: " ' . __( 'selected', 'userspace' ) . '",
+				    }
+				});';
 
 		if ( ! usp_is_ajax() ) {
 			$content .= '<script>jQuery(window).on("load", function() {' . $init . '});</script>';
@@ -75,7 +74,7 @@ class USP_Field_MultiSelect extends USP_Field_Abstract {
 			return false;
 		}
 
-		return implode( ', ', $this->value );
+		return implode( ', ', array_intersect_key( $this->values, array_flip( $this->value ) ) );
 	}
 
 	function get_filter_value() {
@@ -92,6 +91,13 @@ class USP_Field_MultiSelect extends USP_Field_Abstract {
 		}
 
 		return implode( ', ', $links );
+	}
+
+	function is_valid_value( $value ) {
+
+		$valid_values = $this->value_in_key ? $this->values : array_keys( $this->values );
+
+		return (bool) array_intersect( (array) $value, $valid_values );
 	}
 
 }

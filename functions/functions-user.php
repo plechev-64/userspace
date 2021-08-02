@@ -204,8 +204,8 @@ function usp_get_user_custom_fields() {
 	}
 }
 
-add_action( 'usp_user_stats', 'usp_user_comments', 22, 2 );
-function usp_user_comments( USP_User $user, $custom_data = [] ) {
+add_action( 'usp_user_stats', 'usp_user_stats_comments', 22, 2 );
+function usp_user_stats_comments( USP_User $user, $custom_data = [] ) {
 
 	if ( ! in_array( 'comments', $custom_data ) || ! is_numeric( $user->comments ) ) {
 		return;
@@ -219,8 +219,8 @@ function usp_user_comments( USP_User $user, $custom_data = [] ) {
 	echo usp_user_get_stat_item( $title, $count, $icon, $class );
 }
 
-add_action( 'usp_user_stats', 'usp_user_posts', 21, 2 );
-function usp_user_posts( USP_User $user, $custom_data = [] ) {
+add_action( 'usp_user_stats', 'usp_user_stats_posts', 21, 2 );
+function usp_user_stats_posts( USP_User $user, $custom_data = [] ) {
 
 	if ( ! in_array( 'posts', $custom_data ) || ! is_numeric( $user->posts ) ) {
 		return;
@@ -234,8 +234,8 @@ function usp_user_posts( USP_User $user, $custom_data = [] ) {
 	echo usp_user_get_stat_item( $title, $count, $icon, $class );
 }
 
-add_action( 'usp_user_stats', 'usp_user_register', 23, 2 );
-function usp_user_register( USP_User $user, $custom_data = [] ) {
+add_action( 'usp_user_stats', 'usp_user_stats_register', 23, 2 );
+function usp_user_stats_register( USP_User $user, $custom_data = [] ) {
 
 	if ( ! in_array( 'user_registered', $custom_data ) ) {
 		return;
@@ -327,14 +327,6 @@ function usp_default_search_form( $content ) {
 		'fields' => $fields
 	] );
 
-//    if ( $user_LK && $usp_tab ) {
-//
-//        $get = usp_get_option( 'usp_user_account_slug', 'user' );
-//
-//        $content .= '<input type="hidden" name="' . $get . '" value="' . $user_LK . '">';
-//        $content .= '<input type="hidden" name="tab" value="' . $usp_tab->id . '">';
-//    }
-
 	return $content;
 }
 
@@ -393,194 +385,6 @@ function usp_get_link_author_comment( $url ) {
 
 function usp_is_register_open() {
 	return apply_filters( 'usp_users_can_register', get_site_option( 'users_can_register' ) );
-}
-
-function usp_update_profile_fields( $user_id, $profileFields = false ) {
-	global $user_ID;
-
-	require_once( ABSPATH . "wp-admin" . '/includes/image.php' );
-	require_once( ABSPATH . "wp-admin" . '/includes/file.php' );
-	require_once( ABSPATH . "wp-admin" . '/includes/media.php' );
-
-	if ( ! $profileFields ) {
-		$profileFields = usp_get_profile_fields();
-	}
-
-	if ( $profileFields ) {
-
-		$defaultFields = array(
-			'user_email',
-			'description',
-			'user_url',
-			'first_name',
-			'last_name',
-			'display_name',
-			'primary_pass',
-			'repeat_pass'
-		);
-
-		foreach ( $profileFields as $field ) {
-
-			$field = apply_filters( 'usp_pre_update_profile_field', $field, $user_id );
-
-			if ( ! $field || ! $field['slug'] ) {
-				continue;
-			}
-
-			$slug = $field['slug'];
-
-			$value = ( isset( $_POST[ $slug ] ) ) ? $_POST[ $slug ] : false;
-
-			if ( isset( $field['admin'] ) && $field['admin'] == 1 && ! is_admin() && ! usp_user_has_role( $user_ID, [ 'administrator' ] ) ) {
-
-				if ( in_array( $slug, array( 'display_name', 'user_url' ) ) ) {
-
-					if ( get_the_author_meta( $slug, $user_id ) ) {
-						continue;
-					}
-				} else {
-
-					if ( get_user_meta( $user_id, $slug, $value ) ) {
-						continue;
-					}
-				}
-			}
-
-			if ( $field['type'] == 'file' ) {
-
-				$attach_id = get_user_meta( $user_id, $slug, 1 );
-
-				if ( $attach_id && $value != $attach_id ) {
-					wp_delete_attachment( $attach_id );
-					delete_user_meta( $user_id, $slug );
-				}
-			}
-
-			if ( $field['type'] != 'editor' ) {
-
-				if ( is_array( $value ) ) {
-					$value = array_map( 'esc_html', $value );
-				} else {
-					$value = esc_html( $value );
-				}
-			}
-
-			if ( in_array( $slug, $defaultFields ) ) {
-
-				if ( $slug == 'repeat_pass' ) {
-					continue;
-				}
-
-				if ( $slug == 'primary_pass' && $value ) {
-
-					if ( $value != $_POST['repeat_pass'] ) {
-						continue;
-					}
-
-					$slug = 'user_pass';
-				}
-
-				if ( $slug == 'user_email' ) {
-
-					if ( ! $value ) {
-						continue;
-					}
-
-					$currentEmail = get_the_author_meta( 'user_email', $user_id );
-
-					if ( $currentEmail == $value ) {
-						continue;
-					}
-				}
-
-				wp_update_user( array( 'ID' => $user_id, $slug => $value ) );
-
-				continue;
-			}
-
-			if ( $field['type'] == 'checkbox' ) {
-
-				$vals = array();
-
-				if ( is_array( $value ) ) {
-
-					$vals = array();
-
-					foreach ( $value as $val ) {
-						if ( in_array( $val, $field['values'] ) ) {
-							$vals[] = $val;
-						}
-					}
-				}
-
-				if ( $vals ) {
-					update_user_meta( $user_id, $slug, $vals );
-				} else {
-					delete_user_meta( $user_id, $slug );
-				}
-			} else {
-
-				if ( $value ) {
-
-					update_user_meta( $user_id, $slug, $value );
-				} else {
-
-					if ( get_user_meta( $user_id, $slug, $value ) ) {
-						delete_user_meta( $user_id, $slug, $value );
-					}
-				}
-			}
-
-			if ( $value ) {
-
-				if ( $field['type'] == 'uploader' ) {
-					foreach ( $value as $val ) {
-						usp_delete_temp_media( $val );
-					}
-				} else if ( $field['type'] == 'file' ) {
-					usp_delete_temp_media( $value );
-				}
-			}
-		}
-	}
-
-	do_action( 'usp_update_profile_fields', $user_id );
-}
-
-function usp_get_profile_fields( $args = false ) {
-
-	$fields = get_site_option( 'usp_profile_fields' );
-
-	$fields = apply_filters( 'usp_profile_fields', $fields, $args );
-
-	$profileFields = array();
-
-	if ( $fields ) {
-
-		foreach ( $fields as $k => $field ) {
-
-			if ( isset( $args['include'] ) && ! in_array( $field['slug'], $args['include'] ) ) {
-
-				continue;
-			}
-
-			if ( isset( $args['exclude'] ) && in_array( $field['slug'], $args['exclude'] ) ) {
-
-				continue;
-			}
-
-			$profileFields[] = $field;
-		}
-	}
-
-	return $profileFields;
-}
-
-function usp_get_profile_field( $field_id ) {
-
-	$fields = usp_get_profile_fields( array( 'include' => array( $field_id ) ) );
-
-	return $fields[0];
 }
 
 add_filter( 'author_link', 'usp_author_link', 999, 2 );
@@ -648,33 +452,30 @@ function usp_delete_user_avatar( $user_id ) {
  *
  */
 function usp_show_user_custom_fields( $user_id, $args = false ) {
-	$get_fields = usp_get_profile_fields();
 
-	if ( ! $get_fields ) {
+	$public_fields = USP()->user( $user_id )->profile_fields()->get_public_fields();
+
+	if ( ! $public_fields ) {
 		return;
 	}
 
 	$content = '';
 
-	USP()->use_module( 'fields' );
+	foreach ( $public_fields as $field ) {
 
-	foreach ( ( array ) stripslashes_deep( $get_fields ) as $field ) {
-		$field = apply_filters( 'usp_custom_field_profile', $field );
+		/**
+		 * @var USP_Field_Abstract $field
+		 */
+
+		$field = apply_filters( 'usp_profile_pre_display_custom_field', $field );
 
 		if ( ! $field ) {
 			continue;
 		}
 
-		$slug = isset( $field['name'] ) ? $field['name'] : $field['slug'];
+		$field->value = USP()->user( $user_id )->{$field->slug};
 
-		if ( isset( $field['req'] ) && $field['req'] ) {
-			$field['public_value'] = $field['req'];
-		}
-
-		if ( isset( $field['public_value'] ) && $field['public_value'] == 1 ) {
-			$field['value'] = get_the_author_meta( $slug, $user_id );
-			$content        .= USP_Field::setup( $field )->get_field_value( true );
-		}
+		$content .= $field->get_field_value( true );
 	}
 
 	if ( ! $content ) {
@@ -687,22 +488,18 @@ function usp_show_user_custom_fields( $user_id, $args = false ) {
 }
 
 add_action( 'usp_masonry_content', 'usp_masonry_age', 14 );
-function usp_masonry_age() {
-	global $usp_user;
-
-	echo usp_user_get_age_html( $usp_user->ID, 'usp-masonry__age' );
+function usp_masonry_age( USP_User $user ) {
+	echo $user->get_age_html( 'usp-masonry__age' );
 }
 
 add_action( 'usp_masonry_content', 'usp_masonry_description', 18 );
-function usp_masonry_description() {
-	global $usp_user;
-
-	echo usp_user_get_description( $usp_user->ID, [ 'side' => 'top' ] );
+function usp_masonry_description( USP_User $user ) {
+	echo $user->get_description_html( [ 'side' => 'top' ] );
 }
 
 add_action( 'usp_masonry_content', 'usp_masonry_custom_fields', 22 );
-function usp_masonry_custom_fields() {
-	echo '<div class="usp-masonry__fields">' . usp_get_user_custom_fields() . '</div>';
+function usp_masonry_custom_fields( USP_User $user ) {
+	echo '<div class="usp-masonry__fields">' . $user->profile_fields()->get_public_fields_values() . '</div>';
 }
 
 /**

@@ -45,10 +45,9 @@ class USP_Field_File extends USP_Field_Uploader {
 	}
 
 	function get_uploader_props() {
-		global $user_ID;
 
 		return wp_parse_args( $this->uploader_props, array(
-			'user_id'      => $user_ID,
+			'user_id'      => get_current_user_id(),
 			'multiple'     => 0,
 			'temp_media'   => 1,
 			'max_size'     => $this->max_size,

@@ -62,7 +62,7 @@ class USP_Field_Runner extends USP_Field_Abstract {
 
 		$init = 'usp_init_runner(' . json_encode( array(
 				'id'    => $this->rand,
-				'value' => $this->value ? $this->value : 0,
+				'value' => $this->value ?: 0,
 				'min'   => $this->value_min,
 				'max'   => $this->value_max,
 				'step'  => $this->value_step
@@ -79,7 +79,7 @@ class USP_Field_Runner extends USP_Field_Abstract {
 
 	function get_value() {
 
-		if ( ! $this->value ) {
+		if ( is_null( $this->value ) || $this->value == '') {
 			return false;
 		}
 
@@ -98,6 +98,31 @@ class USP_Field_Runner extends USP_Field_Abstract {
 		}
 
 		return $value;
+	}
+
+	function is_valid_value( $value ) {
+
+		if ( ! is_numeric( $value ) ) {
+			return false;
+		}
+
+		if ( ! empty( $this->value_max ) && ( $value > $this->value_max ) ) {
+			return false;
+		}
+
+		if ( ! empty( $this->value_min ) && ( $value < $this->value_min ) ) {
+			return false;
+		}
+
+		$max_precision = strlen( $this->value_step ) - strrpos( $this->value_step, '.' ) - 1;
+
+		[ , $value_fraction ] = explode( '.', $value );
+
+		if ( ! empty( $value_fraction ) && strlen( $value_fraction ) > $max_precision ) {
+			return false;
+		}
+
+		return true;
 	}
 
 }

@@ -21,7 +21,7 @@ class USP_Field_Abstract {
 	public $maxlength;
 	public $childrens;
 	public $unique_id = false;
-	public $value_in_key = null;
+	public $value_in_key = false;
 	public $must_delete = true;
 	public $_new;
 
@@ -43,15 +43,11 @@ class USP_Field_Abstract {
 			$args['input_name'] = $args['name'];
 		}
 
-		if ( isset( $args['req'] ) ) {
-			$args['public_value'] = $args['req'];
-		}
-
 		$this->id = $args['slug'];
 
 		$this->init_properties( $args );
 
-		$this->rand = rand( 0, 1000 );
+		$this->rand = uniqid();
 
 		if ( ! $this->input_name ) {
 			$this->input_name = $this->id;
@@ -269,7 +265,7 @@ class USP_Field_Abstract {
 
 		$value = $this->get_value();
 
-		if ( ! $value || ! $this->type ) {
+		if ( ! is_numeric( $value ) && ( ! $value || ! $this->type ) ) {
 			return false;
 		}
 
@@ -310,6 +306,13 @@ class USP_Field_Abstract {
 		}
 
 		return add_query_arg( [ 'usergroup' => $this->slug . ':' . urlencode( $val ) ], get_permalink( usp_get_option( 'usp_users_page' ) ) );
+	}
+
+	/*
+	 * Must be overridden in child class to validate passed value
+	 */
+	function is_valid_value( $value ) {
+		return true;
 	}
 
 }

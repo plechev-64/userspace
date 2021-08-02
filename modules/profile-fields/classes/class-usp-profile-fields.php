@@ -17,27 +17,65 @@ class USP_Profile_Fields extends USP_Fields {
 	];
 
 	/**
+	 * @var string[] fields for hide in wp-admin profile page
+	 */
+	private $_hide_in_admin = [
+		'user_email',
+		'description',
+		'user_url',
+		'first_name',
+		'last_name',
+		'display_name',
+		'primary_pass',
+		'repeat_pass',
+		'show_admin_bar_front'
+	];
+
+	private $user_id;
+
+	/**
 	 * USP_Profile_Fields constructor.
 	 *
 	 * @param int $user_id
 	 */
 	public function __construct( $user_id = 0 ) {
 
-		$fields = get_site_option( 'usp_profile_fields' );
-		$fields = apply_filters( 'usp_profile_fields', $fields, $user_id );
+		$this->user_id = $user_id;
 
-		parent::__construct( $fields );
+		$fields    = get_site_option( 'usp_profile_fields' );
+		$fields    = apply_filters( 'usp_profile_fields', $fields, $this->user_id );
+		$structure = get_site_option( 'usp_fields_profile_structure' );
+
+		parent::__construct( $fields, $structure );
 	}
 
 	public function get_primary_fields_slugs() {
 		return $this->_primary_fields;
 	}
 
+	public function get_hide_admin_fields_slugs() {
+		return $this->_hide_in_admin;
+	}
+
 	public function get_public_fields() {
 		return $this->search_by( 'public_value', 1 );
 	}
 
-	function get_public_fields_slugs() {
+	public function get_fields_for_admin_page() {
+
+		$fields        = $this->get_fields();
+		$hide_in_admin = $this->get_hide_admin_fields_slugs();
+
+		foreach ( $fields as $field_slug => $field ) {
+			if ( in_array( $field_slug, $hide_in_admin ) ) {
+				unset( $fields[ $field_slug ] );
+			}
+		}
+
+		return apply_filters( 'usp_admin_profile_fields', $fields, $this->user_id );
+	}
+
+	public function get_public_fields_slugs() {
 
 		$public_fields = $this->get_public_fields();
 
@@ -53,7 +91,7 @@ class USP_Profile_Fields extends USP_Fields {
 	/**
 	 * @return array default profile fields
 	 */
-	function get_default_fields() {
+	public function get_default_fields() {
 		return apply_filters( 'usp_default_profile_fields', array(
 				array(
 					'slug'  => 'first_name',
@@ -97,7 +135,7 @@ class USP_Profile_Fields extends USP_Fields {
 					'icon'        => 'fa-user',
 					'type'        => 'radio',
 					'values'      => [ __( 'Man', 'userspace' ), __( 'Woman', 'userspace' ) ],
-					'empty_first' => __( 'Not selected', 'userspace' ),
+					'empty_first' => __( 'Not selected', 'userspace' )
 				),
 				array(
 					'slug'     => 'user_email',
@@ -126,7 +164,7 @@ class USP_Profile_Fields extends USP_Fields {
 	/**
 	 * @return array Base options for every profile field
 	 */
-	function get_fields_options() {
+	public function get_fields_options() {
 		return apply_filters( 'usp_profile_field_options', array(
 			array(
 				'slug'  => 'notice',

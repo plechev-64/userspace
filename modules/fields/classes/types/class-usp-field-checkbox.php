@@ -5,7 +5,6 @@ class USP_Field_Checkbox extends USP_Field_Abstract {
 	public $required;
 	public $values;
 	public $display = 'inline';
-	public $value_in_key;
 	public $check_all = false;
 
 	function __construct( $args ) {
@@ -31,7 +30,7 @@ class USP_Field_Checkbox extends USP_Field_Abstract {
 			return false;
 		}
 
-		return implode( ', ', $this->value );
+		return implode( ', ', array_intersect_key( $this->values , array_flip( $this->value ) ) );
 	}
 
 	function get_filter_value() {
@@ -108,6 +107,17 @@ class USP_Field_Checkbox extends USP_Field_Abstract {
 		}
 
 		return $content;
+	}
+
+	function is_valid_value( $value ) {
+
+		if ( ! is_array( $value ) ) {
+			return false;
+		}
+
+		$valid_values = $this->value_in_key ? $this->values : array_keys( $this->values );
+
+		return (bool) array_intersect( $value, $valid_values );
 	}
 
 }

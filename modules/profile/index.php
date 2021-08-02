@@ -1,38 +1,33 @@
 <?php
 
+define( 'USP_PROFILE_BASE', __FILE__ );
+
 if ( is_admin() ) {
 	require_once 'admin/index.php';
 }
 
 add_action( 'usp_enqueue_scripts', 'usp_my_profile_resources', 10 );
 function usp_my_profile_resources() {
-	global $user_ID;
 
-	if ( ! usp_is_office( $user_ID ) ) {
-		return;
+	if ( usp_is_office( get_current_user_id() ) ) {
+		usp_enqueue_script( 'usp-my-profile-js', plugins_url( 'assets/js/usp-profile.js', __FILE__ ) );
 	}
-
-	usp_enqueue_script( 'usp-my-profile-js', plugins_url( 'assets/js/usp-profile.js', __FILE__ ) );
 }
 
 add_action( 'usp_enqueue_scripts', 'usp_profile_style', 10 );
 function usp_profile_style() {
-	if ( ! usp_is_office() ) {
-		return;
-	}
 
-	usp_enqueue_style( 'usp-profile-css', plugins_url( 'assets/css/usp-profile.css', __FILE__ ) );
+	if ( usp_is_office() ) {
+		usp_enqueue_style( 'usp-profile-css', plugins_url( 'assets/css/usp-profile.css', __FILE__ ) );
+	}
 }
 
 add_filter( 'usp_init_js_variables', 'usp_init_js_profile_variables', 10 );
 function usp_init_js_profile_variables( $data ) {
-	global $user_ID;
 
-	if ( ! usp_is_office( $user_ID ) ) {
-		return $data;
+	if ( usp_is_office( get_current_user_id() ) ) {
+		$data['local']['no_repeat_pass'] = __( 'Repeated password not correct!', 'userspace' );
 	}
-
-	$data['local']['no_repeat_pass'] = __( 'Repeated password not correct!', 'userspace' );
 
 	return $data;
 }
@@ -60,14 +55,13 @@ function usp_tab_profile() {
 }
 
 function usp_get_profile_user_info( $user_id ) {
-	return usp_get_include_template( 'usp-profile-info.php', '', [ 'user_id' => $user_id ] );
+	return usp_get_include_template( 'usp-profile-info.php', USP_PROFILE_BASE, [ 'user_id' => $user_id ] );
 }
 
 add_action( 'usp_setup_tabs', 'usp_tab_profile_info', 10 );
 function usp_tab_profile_info() {
-	global $user_ID;
 
-	if ( ! usp_is_office( $user_ID ) ) {
+	if ( ! usp_is_office( get_current_user_id() ) ) {
 		return;
 	}
 
@@ -85,17 +79,16 @@ function usp_tab_profile_info() {
 
 add_action( 'usp_bar_profile_menu_buttons', 'usp_bar_add_profile_link', 15 );
 function usp_bar_add_profile_link() {
+
 	if ( ! is_user_logged_in() ) {
 		return;
 	}
-
-	global $user_ID;
 
 	echo usp_get_button( [
 		'type'  => 'clear',
 		'size'  => 'medium',
 		'class' => 'usp-bar-profile__info',
-		'href'  => usp_get_tab_permalink( $user_ID, 'profile' ),
+		'href'  => usp_get_tab_permalink( get_current_user_id(), 'profile' ),
 		'icon'  => 'fa-address-book',
 		'label' => __( 'Profile info', 'userspace' )
 	] );
@@ -104,7 +97,7 @@ function usp_bar_add_profile_link() {
 		'type'  => 'clear',
 		'size'  => 'medium',
 		'class' => 'usp-bar-profile__settings',
-		'href'  => usp_get_tab_permalink( $user_ID, 'profile', 'edit' ),
+		'href'  => usp_get_tab_permalink( get_current_user_id(), 'profile', 'edit' ),
 		'icon'  => 'fa-user-cog',
 		'label' => __( 'Profile settings', 'userspace' )
 	] );
@@ -155,6 +148,7 @@ function usp_edit_profile() {
 
 add_filter( 'usp_profile_fields', 'usp_add_office_profile_fields', 10 );
 function usp_add_office_profile_fields( $fields ) {
+
 	if ( ! usp_user_is_access_console() ) {
 		return $fields;
 	}
@@ -168,7 +162,7 @@ function usp_add_office_profile_fields( $fields ) {
 				'false' => __( 'Disabled', 'userspace' ),
 				'true'  => __( 'Enabled', 'userspace' )
 			],
-			'default' => 'false',
+			'default' => 'false'
 		]
 	];
 
@@ -176,63 +170,8 @@ function usp_add_office_profile_fields( $fields ) {
 }
 
 function usp_tab_profile_content( $master_id ) {
-	global $userdata, $user_ID;
 
-	USP()->use_module( 'forms' );
-
-	$profileFields = usp_get_profile_fields( array( 'user_id' => $master_id ) );
-
-	foreach ( $profileFields as $k => $field ) {
-
-		$slug = $field['slug'];
-
-		$profileFields[ $k ]['value'] = isset( $userdata->$slug ) ? $userdata->$slug : false;
-
-		if ( $slug == 'email' ) {
-			$profileFields[ $k ]['value'] = get_the_author_meta( 'email', $user_ID );
-		}
-
-		if ( $slug != 'show_admin_bar_front' && ! isset( $field['value_in_key'] ) ) {
-			$profileFields[ $k ]['value_in_key'] = true;
-		}
-
-		if ( isset( $field['admin'] ) && $field['admin'] && ! usp_user_has_role( $user_ID, 'administrator' ) ) {
-			if ( $profileFields[ $k ]['value'] ) {
-				$profileFields[ $k ]['get_value'] = 1;
-			}
-		}
-	}
-
-	$profileFields[] = [
-		'type'  => 'hidden',
-		'slug'  => 'submit_user_profile',
-		'value' => 1
-	];
-
-	$content = usp_get_form( array(
-			'nonce_name' => 'update-profile_' . $user_ID,
-			'submit'     => __( 'Update profile', 'userspace' ),
-			'onclick'    => 'usp_check_profile_form()? usp_submit_form(this): false;',
-			'fields'     => $profileFields,
-			'structure'  => get_site_option( 'usp_fields_profile_structure' )
-		)
-	);
-
-	if ( usp_get_option( 'usp_user_deleting_profile' ) ) {
-		$content .= '
-		<form method="post" action="" name="delete_account">
-		' . wp_nonce_field( 'delete-user-' . $user_ID, '_wpnonce', true, false )
-		            . usp_get_button( array(
-				'label'   => __( 'Delete your profile', 'userspace' ),
-				'id'      => 'delete_acc',
-				'icon'    => 'fa-eraser',
-				'onclick' => 'return confirm("' . __( 'Are you sure? It can’t be restaured!', 'userspace' ) . '")? usp_submit_form(this): false;'
-			) )
-		            . '<input type="hidden" value="1" name="usp_delete_user_account"/>
-		</form>';
-	}
-
-	return $content;
+	return USP()->user( $master_id )->profile_fields()->get_profile_fields_form();
 }
 
 add_action( 'init', 'usp_delete_user_account_activate' );
@@ -244,9 +183,8 @@ function usp_delete_user_account_activate() {
 
 // User deletes their profile
 function usp_delete_user_account() {
-	global $user_ID;
 
-	if ( ! wp_verify_nonce( $_POST['_wpnonce'], 'delete-user-' . $user_ID ) ) {
+	if ( ! wp_verify_nonce( $_POST['_wpnonce'], 'delete-user-' . get_current_user_id() ) ) {
 		return false;
 	}
 
@@ -254,9 +192,9 @@ function usp_delete_user_account() {
 
 	global $wpdb;
 
-	$wpdb->query( $wpdb->prepare( "DELETE FROM " . USP_PREF . "user_action WHERE user ='%d'", $user_ID ) );
+	$wpdb->query( $wpdb->prepare( "DELETE FROM " . USP_PREF . "user_action WHERE user ='%d'", get_current_user_id() ) );
 
-	$delete = wp_delete_user( $user_ID );
+	$delete = wp_delete_user( get_current_user_id() );
 
 	if ( $delete ) {
 		wp_die( __( 'We are very sorry but your account has been deleted!', 'userspace' ) );

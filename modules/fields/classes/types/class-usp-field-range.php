@@ -127,4 +127,41 @@ class USP_Field_Range extends USP_Field_Abstract {
 		return __( 'from', 'userspace' ) . ' ' . $minValue . ' ' . __( 'for', 'userspace' ) . ' ' . $maxValue;
 	}
 
+	function is_valid_value( $value ) {
+		usp_add_log('tst', [$value], true);
+		if ( ! is_array( $value ) || count( $value ) !== 2 ) {
+			return false;
+		}
+
+		$minValue = $value[0];
+		$maxValue = $value[1];
+
+		if ( $minValue > $maxValue || ! is_numeric( $minValue ) || ! is_numeric( $maxValue ) ) {
+			return false;
+		}
+
+		if ( ! empty( $this->value_max ) && ( $maxValue > $this->value_max ) ) {
+			return false;
+		}
+
+		if ( ! empty( $this->value_min ) && ( $minValue < $this->value_min ) ) {
+			return false;
+		}
+
+		$max_precision = strlen( $this->value_step ) - strrpos( $this->value_step, '.' ) - 1;
+
+		[ , $min_value_fraction ] = explode( '.', $minValue );
+		[ , $max_value_fraction ] = explode( '.', $maxValue );
+
+		if ( ! empty( $min_value_fraction ) && strlen( $min_value_fraction ) > $max_precision ) {
+			return false;
+		}
+
+		if ( ! empty( $max_value_fraction ) && strlen( $max_value_fraction ) > $max_precision ) {
+			return false;
+		}
+
+		return true;
+	}
+
 }
