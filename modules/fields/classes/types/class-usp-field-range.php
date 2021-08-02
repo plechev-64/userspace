@@ -128,7 +128,7 @@ class USP_Field_Range extends USP_Field_Abstract {
 	}
 
 	function is_valid_value( $value ) {
-		usp_add_log('tst', [$value], true);
+
 		if ( ! is_array( $value ) || count( $value ) !== 2 ) {
 			return false;
 		}
