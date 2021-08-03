@@ -115,18 +115,6 @@ class USP_Field_Checkbox extends USP_Field_Abstract {
 
 	function is_valid_value( $value ) {
 
-		$tvalues = [
-			'a' => 'aaaaa',
-			'b' => 'bbbbb',
-			'c' => 'ccccc'
-		];
-
-		$tvalue = [
-			0 => 'a',
-			1 => 'b',
-			2 => 'c'
-		];
-
 		if ( ! is_array( $value ) ) {
 			return false;
 		}
