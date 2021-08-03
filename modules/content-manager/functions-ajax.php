@@ -41,8 +41,14 @@ usp_ajax_action( 'usp_load_content_manager', true, true );
 function usp_load_content_manager() {
 
 	$class     = $_REQUEST['classname'];
-	$classargs = isset( $_POST['classargs'] ) ? $_POST['classargs'] : null;
-	$tail      = isset( $_POST['tail'] ) ? $_POST['tail'] : null;
+	$classargs = $_POST['classargs'] ?? null;
+	$tail      = $_POST['tail'] ?? null;
+
+	if ( ! is_subclass_of( $class, 'USP_Content_Manager' ) ) {
+		return array(
+			'error' => __( 'Error', 'userspace' )
+		);
+	}
 
 	$Manager = new $class( $classargs );
 
@@ -55,8 +61,14 @@ usp_ajax_action( 'usp_load_content_manager_state', true, true );
 function usp_load_content_manager_state() {
 
 	$class                   = $_REQUEST['state']['classname'];
-	$classargs               = isset( $_REQUEST['state']['classargs'] ) ? $_REQUEST['state']['classargs'] : null;
+	$classargs               = $_REQUEST['state']['classargs'] ?? null;
 	$classargs['startstate'] = 0;
+
+	if ( ! is_subclass_of( $class, 'USP_Content_Manager' ) ) {
+		return array(
+			'error' => __( 'Error', 'userspace' )
+		);
+	}
 
 	$Manager = new $class( $classargs );
 

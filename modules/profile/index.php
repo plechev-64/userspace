@@ -162,7 +162,8 @@ function usp_add_office_profile_fields( $fields ) {
 				'false' => __( 'Disabled', 'userspace' ),
 				'true'  => __( 'Enabled', 'userspace' )
 			],
-			'default' => 'false'
+			'default' => 'false',
+			'value_in_key' => false
 		]
 	];
 

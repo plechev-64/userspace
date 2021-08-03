@@ -33,16 +33,18 @@ class USP_Profile_Fields extends USP_Fields {
 
 	private $user_id;
 
-	/**
-	 * USP_Profile_Fields constructor.
-	 *
-	 * @param int $user_id
-	 */
 	public function __construct( $user_id = 0 ) {
 
 		$this->user_id = $user_id;
 
-		$fields    = get_site_option( 'usp_profile_fields' );
+		$fields = get_site_option( 'usp_profile_fields', [] );
+
+		foreach ( $fields as $k => $field ) {
+			if ( ! isset( $field['value_in_key'] ) ) {
+				$fields[ $k ]['value_in_key'] = true;
+			}
+		}
+
 		$fields    = apply_filters( 'usp_profile_fields', $fields, $this->user_id );
 		$structure = get_site_option( 'usp_fields_profile_structure' );
 

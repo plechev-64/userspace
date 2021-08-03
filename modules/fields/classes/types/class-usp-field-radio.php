@@ -33,11 +33,11 @@ class USP_Field_Radio extends USP_Field_Abstract {
 				'notice'  => __( 'Name of the first blank value, for example: "Not selected"', 'userspace' )
 			),
 			array(
-				'slug'         => 'values',
-				'default'      => $this->values,
-				'type'         => 'dynamic',
-				'title'        => __( 'Specify options', 'userspace' ),
-				'notice'       => __( 'Specify each option in a separate field', 'userspace' )
+				'slug'    => 'values',
+				'default' => $this->values,
+				'type'    => 'dynamic',
+				'title'   => __( 'Specify options', 'userspace' ),
+				'notice'  => __( 'Specify each option in a separate field', 'userspace' )
 			)
 		);
 	}
@@ -46,6 +46,10 @@ class USP_Field_Radio extends USP_Field_Abstract {
 
 		if ( is_null( $this->value ) ) {
 			return false;
+		}
+
+		if ( $this->value_in_key ) {
+			$this->value;
 		}
 
 		return $this->values[ $this->value ];

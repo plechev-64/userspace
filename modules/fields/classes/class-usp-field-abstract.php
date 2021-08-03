@@ -21,7 +21,7 @@ class USP_Field_Abstract {
 	public $maxlength;
 	public $childrens;
 	public $unique_id = false;
-	public $value_in_key = false;
+	public $value_in_key = null;
 	public $must_delete = true;
 	public $_new;
 

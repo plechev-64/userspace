@@ -43,6 +43,10 @@ class USP_Field_Select extends USP_Field_Abstract {
 			return false;
 		}
 
+		if ( $this->value_in_key ) {
+			return $this->value;
+		}
+
 		return $this->values[ $this->value ];
 	}
 

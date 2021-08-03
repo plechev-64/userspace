@@ -74,6 +74,10 @@ class USP_Field_MultiSelect extends USP_Field_Abstract {
 			return false;
 		}
 
+		if ( $this->value_in_key ) {
+			return implode( ', ', array_intersect( $this->value, $this->values ) );
+		}
+
 		return implode( ', ', array_intersect_key( $this->values, array_flip( $this->value ) ) );
 	}
 

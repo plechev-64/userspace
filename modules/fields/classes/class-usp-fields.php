@@ -25,7 +25,8 @@ class USP_Fields extends USP_Field {
 				if ( ! is_array( $field ) || ! isset( $field['slug'] ) ) {
 					continue;
 				}
-				$this->fields[ $field['slug'] ] = is_array( $field ) ? parent::setup( $field ) : $field;
+
+				$this->fields[ $field['slug'] ] = parent::setup( $field );
 			}
 		}
 

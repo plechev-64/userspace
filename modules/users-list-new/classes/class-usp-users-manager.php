@@ -11,6 +11,9 @@ class USP_Users_Manager extends USP_Content_Manager {
 			'number' => 30
 		] );
 
+		/*
+		 * TODO ?custom_data=">111111111111<" в url
+		 */
 		$this->init_custom_prop( 'template', $args['template'] ?? 'card' );
 		$this->init_custom_prop( 'custom_data', ! empty( $args['custom_data'] ) ? $args['custom_data'] : [] );
 
@@ -121,15 +124,18 @@ class USP_Users_Manager extends USP_Content_Manager {
 
 		$data_masonry = ( $this->template === 'masonry' ) ? 'data-columns="3"' : '';
 
-		$content = '<div class="manager-content usp-users__list usps usp-users__' . $this->template . '" ' . $data_masonry . '>';
+		$content = '<div class="manager-content">';
 
 		if ( ! $this->data ) {
 			$content .= $this->get_no_result_notice();
 		} else {
+			$content .= '<div class="manager-content usp-users__list usps usp-users__' . $this->template . '" ' . $data_masonry . '>';
 
 			foreach ( $this->data as $dataItem ) {
 				$content .= $this->get_item_content( $dataItem );
 			}
+
+			$content .= '</div>';
 		}
 		$content .= '</div>';
 
