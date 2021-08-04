@@ -199,7 +199,7 @@ function usp_call_loginform() {
 	return [
 		'dialog' => [
 			'size'        => 'auto',
-			'class'       => 'usp-entry-modal ssi-no-padding',
+			'class'       => 'usp-entry-modal ssi-no-padding ssi-dialog',
 			'buttonClose' => false,
 			'content'     => usp_get_loginform( [ 'active' => $form ] )
 		]

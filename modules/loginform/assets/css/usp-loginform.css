@@ -1,3 +1,8 @@
+.usp-entry-modal .usp-entry-form {
+    max-height: 90vh;
+    overflow: auto;
+}
+
 .usp-entry-tabs .usp-entry-tab {
     margin: 0 !important;
     padding: 12px 18px;
