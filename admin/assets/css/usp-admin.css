@@ -203,6 +203,12 @@
     margin-top: 0 !important;
 }
 
+@media screen and (max-width: 1024px) {
+    .usp-admin__box {
+        flex-wrap: wrap;
+    }
+}
+
 @media screen and (max-width: 782px) {
     .usp-admin-head,
     .usp-admin__box > * {

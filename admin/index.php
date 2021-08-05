@@ -77,7 +77,7 @@ function usp_get_admin_header( $title = false, $subtitle = false ) {
 function usp_get_admin_content( $content, $no_sidebar = false ) {
 	$class = ( $no_sidebar ) ? 'usp-admin__fullwidth' : '';
 
-	$out = '<div class="usp-admin__box usps usps__jc-between">';
+	$out = '<div class="usp-admin__box usps usps__nowrap usps__jc-between">';
 	$out .= '<div class="usp-admin__settings usps__grow ' . $class . '">' . $content . '</div>';
 	if ( ! $no_sidebar ) {
 		/**
