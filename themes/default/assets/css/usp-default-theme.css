@@ -28,11 +28,14 @@
     max-width: 1280px;
 }
 
-#usp-cover-upload {
-    background: var(--uspBlack-03);
-    color: var(--uspGray-300);
-    overflow: hidden;
+.usp-office-top .usp-bttn.usp-bttn__type-clear {
+    background: var(--uspBlack-03) !important;
+    color: var(--uspGray-200);
     padding: 9px;
+}
+
+#usp-cover-upload {
+    overflow: hidden;
 }
 
 #usp-cover-upload:hover {
