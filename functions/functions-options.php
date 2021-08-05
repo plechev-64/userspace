@@ -17,7 +17,7 @@ function usp_get_option( $option, $default = false ) {
 }
 
 function usp_update_option( $name, $value ) {
-	return USP()->options()->set( $name, $value );
+	return USP()->options()->update( $name, $value );
 }
 
 function usp_delete_option( $name ) {
