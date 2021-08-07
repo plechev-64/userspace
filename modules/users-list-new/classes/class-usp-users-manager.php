@@ -4,7 +4,6 @@ class USP_Users_Manager extends USP_Content_Manager {
 
 	public $template;
 	public $custom_data;
-	public $meta;
 
 	function __construct( $args = [] ) {
 
@@ -12,16 +11,18 @@ class USP_Users_Manager extends USP_Content_Manager {
 			'number' => 30
 		] );
 
-		$this->init_custom_prop( 'template', isset( $args['template'] ) ?: 'card' );
+		/*
+		 * TODO ?custom_data=">111111111111<" в url
+		 */
+		$this->init_custom_prop( 'template', $args['template'] ?? 'card' );
 		$this->init_custom_prop( 'custom_data', ! empty( $args['custom_data'] ) ? $args['custom_data'] : [] );
-		$this->init_custom_prop( 'meta', ! empty( $args['meta'] ) ? $args['meta'] : [] );
 
 		if ( ! is_array( $this->custom_data ) ) {
 			$this->custom_data = array_map( 'trim', explode( ',', $this->custom_data ) );
 		}
 
-		if ( ! is_array( $this->meta ) ) {
-			$this->meta = array_map( 'trim', explode( ',', $this->meta ) );
+		if ( $this->template == 'masonry' ) {
+			usp_masonry_script();
 		}
 
 		usp_enqueue_style( 'usp-users-' . $this->template, USP_URL . 'modules/users-list-new/assets/css/usp-users-' . $this->template . '.css', false, USP_VERSION );
@@ -82,12 +83,11 @@ class USP_Users_Manager extends USP_Content_Manager {
 		}
 
 		$user_metas = [];
-		$user_ids   = [];
-		foreach ( $data as $user ) {
-			$user_ids[] = $user->ID;
-		}
+		$user_ids   = array_column( $data, 'ID' );
 
-		if ( $this->meta ) {
+		$meta_keys = USP()->profile_fields()->get_public_fields_slugs();
+
+		if ( $meta_keys ) {
 
 			$metaData = ( new USP_Users_Meta_Query() )->select( [
 				'meta_value',
@@ -95,7 +95,7 @@ class USP_Users_Manager extends USP_Content_Manager {
 				'user_id'
 			] )->where( [
 				'user_id__in'  => $user_ids,
-				'meta_key__in' => $this->meta
+				'meta_key__in' => $meta_keys
 			] )->limit( - 1 )->get_results();
 
 			if ( $metaData ) {
@@ -116,13 +116,39 @@ class USP_Users_Manager extends USP_Content_Manager {
 			$data[ $k ] = USP()->user( $user->ID )->setup( $user );
 		}
 
-		return $data;
+		return apply_filters( 'usp_users_data', $data, $this );
 
+	}
+
+	function get_data_content() {
+
+		$data_masonry = ( $this->template === 'masonry' ) ? 'data-columns="3"' : '';
+
+		$content = '<div class="manager-content">';
+
+		if ( ! $this->data ) {
+			$content .= $this->get_no_result_notice();
+		} else {
+			$content .= '<div class="manager-content usp-users__list usps usp-users__' . $this->template . '" ' . $data_masonry . '>';
+
+			foreach ( $this->data as $dataItem ) {
+				$content .= $this->get_item_content( $dataItem );
+			}
+
+			$content .= '</div>';
+		}
+		$content .= '</div>';
+
+		if ( $this->template == 'masonry' && usp_is_ajax() ) {
+			$content .= "<script>salvattore.init();</script>";
+		}
+
+		return $content;
 	}
 
 	function get_item_content( $user ) {
 		return usp_get_include_template( 'user-' . $this->template . '.php', USP_USERS_BASE, [
-			'user'         => $user,
+			'user'        => $user,
 			'custom_data' => $this->custom_data
 		] );
 	}

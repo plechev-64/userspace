@@ -7,7 +7,6 @@ class USP_Field_Select extends USP_Field_Abstract {
 	public $values;
 	public $childrens;
 	public $key_in_data;
-	public $value_in_key;
 
 	function __construct( $args ) {
 
@@ -38,6 +37,19 @@ class USP_Field_Select extends USP_Field_Abstract {
 		);
 	}
 
+	function get_value() {
+
+		if ( is_null( $this->value ) ) {
+			return false;
+		}
+
+		if ( $this->value_in_key ) {
+			return $this->value;
+		}
+
+		return $this->values[ $this->value ];
+	}
+
 	function get_input() {
 
 		$content = '<select ' . $this->get_required() . ' name="' . $this->input_name . '" id="' . $this->input_id . '" ' . $this->get_class() . '>';
@@ -66,6 +78,17 @@ class USP_Field_Select extends USP_Field_Abstract {
 
 	function get_filter_value() {
 		return '<a href="' . $this->get_filter_url() . '" target="_blank">' . $this->value . '</a>';
+	}
+
+	function is_valid_value( $value ) {
+
+		if ( is_array( $value ) ) {
+			return false;
+		}
+
+		$valid_values = $this->value_in_key ? $this->values : array_keys( $this->values );
+
+		return in_array( $value, $valid_values );
 	}
 
 }

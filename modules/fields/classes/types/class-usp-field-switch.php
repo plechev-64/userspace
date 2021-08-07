@@ -19,6 +19,15 @@ class USP_Field_Switch extends USP_Field_Abstract {
 		);
 	}
 
+	function get_value() {
+
+		if ( is_null( $this->value ) ) {
+			return false;
+		}
+
+		return $this->value ? $this->text['on'] : $this->text['off'];
+	}
+
 	function get_input() {
 
 		if ( ! $this->slug ) {
@@ -36,6 +45,10 @@ class USP_Field_Switch extends USP_Field_Abstract {
 		$content .= '</label>';
 
 		return $content;
+	}
+
+	function is_valid_value( $value ) {
+		return $value === 1 || $value === 0;
 	}
 
 }

@@ -378,6 +378,7 @@ final class UserSpace {
 			] ),
 			'options-manager' => new USP_Module( USP_PATH . 'modules/options-manager/index.php', [ 'fields' ] ),
 			'profile'         => new USP_Module( USP_PATH . 'modules/profile/index.php' ),
+			'profile-fields'  => new USP_Module( USP_PATH . 'modules/profile-fields/index.php', [ 'fields' ] ),
 			'users-list'      => new USP_Module( USP_PATH . 'modules/users-list/index.php' ),
 			'users-list-new'  => new USP_Module( USP_PATH . 'modules/users-list-new/index.php', [ 'content-manager' ] ),
 		];
@@ -409,7 +410,7 @@ final class UserSpace {
 		return USP_Users::getInstance();
 	}
 
-	function user( $user_id = 0 ) {
+	public function user( $user_id = 0 ) {
 
 		$user_id = $user_id ?: get_current_user_id();
 
@@ -426,6 +427,13 @@ final class UserSpace {
 		$this->users()->add( $user );
 
 		return $user;
+	}
+
+	public function profile_fields() {
+
+		$this->use_module( 'profile-fields' );
+
+		return new USP_Profile_Fields();
 	}
 
 	public function themes() {

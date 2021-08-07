@@ -72,7 +72,7 @@ class USP_Field_Agree extends USP_Field_Abstract {
 
 	function get_input() {
 
-		$text = $this->text_confirm ? $this->text_confirm : __( 'I agree with the text of the agreement', 'userspace' );
+		$text = $this->text_confirm ?: __( 'I agree with the text of the agreement', 'userspace' );
 
 		$input = '<span class="usp-checkbox-box usps__inline usps__relative">';
 		$input .= '<input type="checkbox" ' . checked( $this->value, 1, false ) . ' ' . $this->get_required() . ' name="' . $this->input_name . '" id="' . $this->input_id . $this->rand . '" value="1"/> ';
@@ -80,6 +80,10 @@ class USP_Field_Agree extends USP_Field_Abstract {
 		$input .= '</span>';
 
 		return $input;
+	}
+
+	function is_valid_value( $value ) {
+		return (int) $value === 1;
 	}
 
 }

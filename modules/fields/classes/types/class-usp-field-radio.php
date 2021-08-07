@@ -8,7 +8,6 @@ class USP_Field_Radio extends USP_Field_Abstract {
 	public $empty_first;
 	public $empty_value;
 	public $childrens;
-	public $value_in_key;
 
 	function __construct( $args ) {
 
@@ -41,6 +40,19 @@ class USP_Field_Radio extends USP_Field_Abstract {
 				'notice'  => __( 'Specify each option in a separate field', 'userspace' )
 			)
 		);
+	}
+
+	function get_value() {
+
+		if ( is_null( $this->value ) ) {
+			return false;
+		}
+
+		if ( $this->value_in_key ) {
+			$this->value;
+		}
+
+		return $this->values[ $this->value ];
 	}
 
 	function get_input() {
@@ -85,6 +97,17 @@ class USP_Field_Radio extends USP_Field_Abstract {
 
 	function get_filter_value() {
 		return '<a href="' . $this->get_filter_url() . '" target="_blank">' . $this->value . '</a>';
+	}
+
+	function is_valid_value( $value ) {
+
+		if ( is_array( $value ) && count( $value ) > 1 ) {
+			return false;
+		}
+
+		$valid_values = $this->value_in_key ? $this->values : array_keys( $this->values );
+
+		return (bool) array_intersect( (array) $value, $valid_values );
 	}
 
 }

@@ -68,7 +68,7 @@ function usp_save_profile_fields( $user_id ) {
 		return;
 	}
 
-	usp_update_profile_fields( $user_id );
+	USP()->user( $user_id )->profile_fields()->update_fields();
 }
 
 // Output custom profile fields on the user's page in the admin panel
@@ -78,22 +78,7 @@ if ( is_admin() ) {
 }
 function usp_get_custom_fields_profile( $user ) {
 
-	$args = array(
-		'exclude' => array(
-			'first_name',
-			'last_name',
-			'description',
-			'user_url',
-			'display_name',
-			'user_email',
-			'primary_pass',
-			'repeat_pass',
-			'show_admin_bar_front'
-		),
-		'user_id' => $user->ID
-	);
-
-	$fields = apply_filters( 'usp_admin_profile_fields', usp_get_profile_fields( $args ), $user );
+	$fields = USP()->user( $user->ID )->profile_fields()->get_fields_for_admin_page();
 
 	if ( ! $fields ) {
 		return;
@@ -106,42 +91,19 @@ function usp_get_custom_fields_profile( $user ) {
 	$content .= '<div class="usp-content">';
 	$content .= '<div class="usp-content-group">';
 
-	$hiddens = array();
 	foreach ( $fields as $field ) {
+		/**
+		 * @var USP_Field_Abstract $field
+		 */
 
-		if ( $field['type'] == 'hidden' ) {
-			$hiddens[] = $field;
-			continue;
-		}
+		$field->value = USP()->user( $user->ID )->{$field->slug};
 
-		if ( ! isset( $field['value_in_key'] ) ) {
-			$field['value_in_key'] = true;
-		}
-
-		if ( ! isset( $field['value'] ) ) {
-			$field['value'] = get_the_author_meta( $field['slug'], $user->ID );
-		}
-
-		$fieldObject = USP_Field::setup( $field );
-
-		$content .= '<div id="usp-field-' . $field['slug'] . '-wrapper" class="usp-field type-' . $field['type'] . '-field">';
-		$content .= $fieldObject->get_title();
-		$content .= $fieldObject->get_field_input();
-		$content .= '</div>';
+		$content .= $field->get_field_html();
 	}
 
 	$content .= '</div>';
 	$content .= '</div>';
 	$content .= '</div>';
-
-	foreach ( $hiddens as $field ) {
-
-		if ( ! isset( $field['value'] ) ) {
-			$field['value'] = get_the_author_meta( $field['slug'], $user->ID );
-		}
-
-		$content .= USP_Field::setup( $field )->get_field_input();
-	}
 
 	echo $content;
 }

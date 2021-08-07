@@ -61,4 +61,11 @@ class USP_Field_Hidden extends USP_Field_Abstract {
 		return '<input type="' . $this->type . '" ' . $this->get_pattern() . ' ' . $this->get_maxlength() . ' ' . $this->get_required() . ' ' . $this->get_placeholder() . ' ' . $this->get_class() . ' name="' . $this->input_name . '" id="' . $this->input_id . '" value=\'' . $this->value . '\'/>';
 	}
 
+	function is_valid_value( $value ) {
+
+		$valid_values = $this->values ?? $this->value;
+
+		return (bool) array_intersect( (array) $value, (array) $valid_values );
+	}
+
 }

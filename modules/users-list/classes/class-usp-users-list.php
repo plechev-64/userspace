@@ -247,10 +247,6 @@ class USP_Users_List extends USP_Users_Query {
 				continue;
 			}
 
-			if ( isset( $field['req'] ) && $field['req'] ) {
-				$field['public_value'] = $field['req'];
-			}
-
 			if ( isset( $custom_field['public_value'] ) && $custom_field['public_value'] == 1 ) {
 				$fields[] = $custom_field;
 				$slugs[]  = $custom_field['slug'];

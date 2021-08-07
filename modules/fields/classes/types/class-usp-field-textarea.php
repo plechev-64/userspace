@@ -42,4 +42,12 @@ class USP_Field_TextArea extends USP_Field_Abstract {
 		return nl2br( $this->value );
 	}
 
+	function is_valid_value( $value ) {
+
+		if ( empty( $this->maxlength ) ) {
+			return true;
+		}
+
+		return mb_strlen( $value ) <= $this->maxlength;
+	}
 }

@@ -357,7 +357,7 @@ class USP_Fields_Manager extends USP_Fields {
 
 		$group = wp_parse_args( $group, array(
 			'title' => '',
-			'id'    => 'section-' . rand( 100, 10000 ),
+			'id'    => 'section-' . uniqid(),
 			'type'  => 0,
 			'areas' => array(
 				array(
@@ -467,7 +467,7 @@ class USP_Fields_Manager extends USP_Fields {
 		if ( $this->empty_field ) {
 
 			$this->add_field( array(
-				'slug' => 'newField-' . rand( 1, 10000 ),
+				'slug' => 'newField-' . uniqid(),
 				'type' => $this->types[0],
 				'_new' => true
 			) );
@@ -855,7 +855,8 @@ class USP_Fields_Manager extends USP_Fields {
 						'slug'   => 'type',
 						'type'   => 'select',
 						'title'  => __( 'Type of field', 'userspace' ),
-						'values' => $typeList
+						'values' => $typeList,
+						'value_in_key' => false
 					);
 				}
 			}

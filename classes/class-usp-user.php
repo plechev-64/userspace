@@ -5,6 +5,8 @@ class USP_User {
 	public $ID;
 	public $metadata = [];
 
+	private $_profile_fields = null;
+
 	function __construct( $user_id ) {
 
 		$this->ID = $user_id;
@@ -30,6 +32,17 @@ class USP_User {
 		return $this;
 	}
 
+	function profile_fields() {
+
+		USP()->use_module( 'profile-fields' );
+
+		if ( is_null( $this->_profile_fields ) ) {
+			$this->_profile_fields = new USP_User_Profile_Fields( $this );
+		}
+
+		return $this->_profile_fields;
+	}
+
 	function get_url() {
 
 		$officeUrl = get_permalink( usp_get_option( 'account_page' ) );
@@ -41,8 +54,7 @@ class USP_User {
 					'user' => $this->ID
 				], $officeUrl );
 		} else {
-			$userData  = get_userdata( $this->ID );
-			$officeUrl = untrailingslashit( $officeUrl ) . '/' . $userData->user_nicename;
+			$officeUrl = untrailingslashit( $officeUrl ) . '/' . $this->user_nicename;
 		}
 
 		return trailingslashit( $officeUrl );
@@ -183,12 +195,7 @@ class USP_User {
 	 */
 	function get_username( $link = false, $args = false ) {
 
-		if ( isset( $this->display_name ) ) {
-			$username = $this->display_name;
-		} else {
-			$userdata = get_userdata( $this->ID );
-			$username = $userdata->display_name ?: $userdata->user_login;
-		}
+		$username = $this->display_name ?: $this->user_login;
 
 		if ( $link ) {
 

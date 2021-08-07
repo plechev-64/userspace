@@ -79,9 +79,9 @@ function usp_register_new_user_data( $user_id ) {
 	}
 	usp_user_update_activity( $user_id );
 
-	update_user_meta( $user_id, 'show_admin_bar_front', 'false' );
+	USP()->user( $user_id )->profile_fields()->update_fields();
 
-	usp_update_profile_fields( $user_id );
+	update_user_meta( $user_id, 'show_admin_bar_front', 'false' );
 }
 
 /* END registration via the register_new_user() function */

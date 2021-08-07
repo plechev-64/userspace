@@ -25,7 +25,7 @@ function usp_manager_get_new_field() {
 
 	$Manager = new USP_Fields_Manager( $managerProps['manager_id'], $managerProps );
 
-	$field_id = 'newField-' . rand( 1, 10000 );
+	$field_id = 'newField-' . uniqid();
 
 	$Manager->add_field( array(
 		'slug' => $field_id,
@@ -173,7 +173,7 @@ function usp_manager_update_data_fields() {
 				$field_id = str_replace( array(
 					'-',
 					' '
-				), '_', usp_sanitize_string( $field['title'] ) . '-' . rand( 1, 100 ) );
+				), '_', usp_sanitize_string( $field['title'] ) . '-' . uniqid() );
 			} else {
 				$field_id = $field['id'];
 			}
