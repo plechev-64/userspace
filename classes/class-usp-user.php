@@ -375,9 +375,7 @@ class USP_User {
 			return $this->metadata[ $property ];
 		}
 
-		$this->metadata[ $property ] = get_user_meta( $this->ID, $property, true );
-
-		return $this->metadata[ $property ];
+		return get_userdata( $this->ID )->$property;
 
 	}
 
