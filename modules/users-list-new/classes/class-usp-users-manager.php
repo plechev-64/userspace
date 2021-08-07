@@ -111,22 +111,22 @@ class USP_Users_Manager extends USP_Content_Manager {
 				if ( isset( $user_metas[ $user->ID ] ) ) {
 					$user->metadata = $user_metas[ $user->ID ];
 
-					if(!empty($user->metadata['usp_avatar'])){
+					if ( ! empty( $user->metadata['usp_avatar'] ) ) {
 						$avatar_ids[] = $user->metadata['usp_avatar'];
 					}
 				}
 			}
 
 			$avatars = [];
-			if(!$avatar_ids){
-				$avatars = OptAttachments::setup_attachments($avatar_ids);
+			if ( $avatar_ids ) {
+				$avatars = OptAttachments::setup_attachments( $avatar_ids );
 			}
 
 			foreach ( $data as $user ) {
 				if ( isset( $user_metas[ $user->ID ] ) ) {
 					$user->metadata = $user_metas[ $user->ID ];
-					if($avatars && !empty($user->metadata['usp_avatar']) && $avatars->is_has($user->metadata['usp_avatar'])){
-						$user->avatar = $avatars->attachment($user->metadata['usp_avatar']);
+					if ( $avatars && ! empty( $user->metadata['usp_avatar'] ) && $avatars->is_has( $user->metadata['usp_avatar'] ) ) {
+						$user->avatar = $avatars->attachment( $user->metadata['usp_avatar'] );
 					}
 				}
 			}

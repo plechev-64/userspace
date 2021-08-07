@@ -46,7 +46,7 @@ function usp_get_avatar( $user_id, $size = 50, $url = false, $args = [], $html =
 		return false;
 	}
 
-	return (new USP_User($user_id))->get_avatar($size, $url, $args, $html);
+	return USP()->user( $user_id )->get_avatar( $size, $url, $args, $html );
 
 }
 

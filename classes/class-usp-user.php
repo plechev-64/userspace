@@ -375,9 +375,7 @@ class USP_User {
 			return $this->metadata[ $property ];
 		}
 
-		$userdata = get_userdata( $this->ID );
-
-		return $userdata->$property;
+		return get_user_meta($this->ID, $property, true);
 
 	}
 
@@ -388,10 +386,8 @@ class USP_User {
 		// class for avatar userspace and class css reset for <img> tag
 		( isset( $args['class'] ) ) ? $args['class'] .= ' usp-ava-img usps__img-reset' : $args['class'] = 'usp-ava-img usps__img-reset';
 
-		global $user_ID;
-
 		// class for current user (realtime reload on avatar upload)
-		if ( is_user_logged_in() && is_numeric( $this->ID ) && ( int ) $this->ID == $user_ID ) {
+		if ( $this->ID == get_current_user_id() ) {
 			$args['class'] .= ' usp-profile-ava';
 		}
 
