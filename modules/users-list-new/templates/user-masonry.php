@@ -21,7 +21,7 @@ $args = [
 
     <div class="usp-card__main usps usps__column">
 
-		<?php echo usp_get_avatar( $user->ID, 70, $user->get_url(), $args ); ?>
+		<?php echo $user->get_avatar(70, $user->get_url(), $args ); ?>
 
         <div class="usp-card__center">
 			<?php echo $user->get_username( $user->get_url(), [ 'class' => 'usp-card__title' ] ); ?>

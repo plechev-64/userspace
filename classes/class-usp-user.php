@@ -380,4 +380,45 @@ class USP_User {
 		return $userdata->$property;
 
 	}
+
+	function get_avatar( $size = 50, $url = false, $args = [], $html = false ) {
+
+		$alt = ( isset( $args['parent_alt'] ) ) ? $args['parent_alt'] : '';
+
+		// class for avatar userspace and class css reset for <img> tag
+		( isset( $args['class'] ) ) ? $args['class'] .= ' usp-ava-img usps__img-reset' : $args['class'] = 'usp-ava-img usps__img-reset';
+
+		global $user_ID;
+
+		// class for current user (realtime reload on avatar upload)
+		if ( is_user_logged_in() && is_numeric( $this->ID ) && ( int ) $this->ID == $user_ID ) {
+			$args['class'] .= ' usp-profile-ava';
+		}
+
+		if ( $url || isset( $args['parent_wrap'] ) && $args['parent_wrap'] == 'div' ) {
+
+			$wrap_tag = ( ! isset( $args['parent_wrap'] ) || $args['parent_wrap'] == 'a' ) ? 'a' : 'div';
+			$id       = ( isset( $args['parent_id'] ) ) ? 'id="' . esc_attr( $args['parent_id'] ) . '"' : '';
+			$class    = ( isset( $args['parent_class'] ) ) ? 'class="' . esc_attr( $args['parent_class'] ) . '"' : '';
+			$title    = ( isset( $args['parent_title'] ) ) ? 'title="' . esc_attr( $args['parent_title'] ) . '"' : '';
+			$onclick  = ( isset( $args['parent_onclick'] ) ) ? 'onclick="' . esc_attr( $args['parent_onclick'] ) . '"' : '';
+			$href     = ( $url ) ? 'href="' . esc_url( $url ) . '"' : '';
+			$nofollow = ( $wrap_tag == 'a' ) ? 'rel="nofollow"' : '';
+
+			$parent_tag = sprintf( "<{$wrap_tag} %s %s %s %s %s %s>", $id, $class, $href, $title, $onclick, $nofollow );
+
+			$parent_tag .= !empty($this->avatar)? $this->avatar->get_image([$size, $size], $args): get_avatar( $this->ID, $size, false, $alt, $args );
+
+			// some html or apply_filters
+			if ( isset( $html ) ) {
+				$parent_tag .= $html;
+			}
+
+			$parent_tag .= "</{$wrap_tag}>";
+
+			return $parent_tag;
+		}
+
+		return !empty($this->avatar)? $this->avatar->get_image([$size, $size], $args): get_avatar( $this->ID, $size, false, $alt, $args );
+	}
 }

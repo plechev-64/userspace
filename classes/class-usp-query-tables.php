@@ -75,6 +75,28 @@ class USP_Posts_Query extends USP_Query {
 
 }
 
+class USP_Posts_Meta_Query extends USP_Query {
+
+	public $serialize = [ 'meta_value' ];
+
+	function __construct( $as = false ) {
+		global $wpdb;
+
+		$table = array(
+			'name' => $wpdb->postmeta,
+			'as'   => $as ?: 'wp_postmeta',
+			'cols' => array(
+				'post_id',
+				'meta_key',
+				'meta_value'
+			)
+		);
+
+		parent::__construct( $table );
+	}
+
+}
+
 class USP_Comments_Query extends USP_Query {
 
 	function __construct( $as = false ) {

@@ -4,8 +4,7 @@
  * Retrieve the avatar `<img>` tag for a user
  * wraps it, if necessary, in the parent tag <a> or <div>
  *
- * @param mixed $id_or_email The Gravatar to retrieve. Accepts a user_id, gravatar md5 hash,
- *                                    user email, WP_User object, WP_Post object, or WP_Comment object.
+ * @param int $user_id id of an user
  * @param int $size Optional. Height and width of the avatar image file in pixels. Default 50.
  * @param string $url Optional. URL for the parent wrapper. Or # if use $args => $parent_onclick
  * @param array $args {
@@ -42,48 +41,13 @@
  * @since 1.0
  *
  */
-function usp_get_avatar( $id_or_email, $size = 50, $url = false, $args = [], $html = false ) {
-	if ( ! $id_or_email ) {
+function usp_get_avatar( $user_id, $size = 50, $url = false, $args = [], $html = false ) {
+	if ( ! $user_id ) {
 		return false;
 	}
 
-	$alt = ( isset( $args['parent_alt'] ) ) ? $args['parent_alt'] : '';
+	return (new USP_User($user_id))->get_avatar($size, $url, $args, $html);
 
-	// class for avatar userspace and class css reset for <img> tag
-	( isset( $args['class'] ) ) ? $args['class'] .= ' usp-ava-img usps__img-reset' : $args['class'] = 'usp-ava-img usps__img-reset';
-
-	global $user_ID;
-
-	// class for current user (realtime reload on avatar upload)
-	if ( is_user_logged_in() && is_numeric( $id_or_email ) && ( int ) $id_or_email == $user_ID ) {
-		$args['class'] .= ' usp-profile-ava';
-	}
-
-	if ( $url || isset( $args['parent_wrap'] ) && $args['parent_wrap'] == 'div' ) {
-
-		$wrap_tag = ( ! isset( $args['parent_wrap'] ) || $args['parent_wrap'] == 'a' ) ? 'a' : 'div';
-		$id       = ( isset( $args['parent_id'] ) ) ? 'id="' . esc_attr( $args['parent_id'] ) . '"' : '';
-		$class    = ( isset( $args['parent_class'] ) ) ? 'class="' . esc_attr( $args['parent_class'] ) . '"' : '';
-		$title    = ( isset( $args['parent_title'] ) ) ? 'title="' . esc_attr( $args['parent_title'] ) . '"' : '';
-		$onclick  = ( isset( $args['parent_onclick'] ) ) ? 'onclick="' . esc_attr( $args['parent_onclick'] ) . '"' : '';
-		$href     = ( $url ) ? 'href="' . esc_url( $url ) . '"' : '';
-		$nofollow = ( $wrap_tag == 'a' ) ? 'rel="nofollow"' : '';
-
-		$parent_tag = sprintf( "<{$wrap_tag} %s %s %s %s %s %s>", $id, $class, $href, $title, $onclick, $nofollow );
-
-		$parent_tag .= get_avatar( $id_or_email, $size, false, $alt, $args );
-
-		// some html or apply_filters
-		if ( isset( $html ) ) {
-			$parent_tag .= $html;
-		}
-
-		$parent_tag .= "</{$wrap_tag}>";
-
-		return $parent_tag;
-	}
-
-	return get_avatar( $id_or_email, $size, false, $alt, $args );
 }
 
 /**
