@@ -14,7 +14,7 @@ class USP_Users_Manager extends USP_Content_Manager {
 		/*
 		 * TODO ?custom_data=">111111111111<" в url
 		 */
-		$this->init_custom_prop( 'template', $args['template'] ?? 'card' );
+		$this->init_custom_prop( 'template', $args['template'] ?? 'rows' );
 		$this->init_custom_prop( 'custom_data', ! empty( $args['custom_data'] ) ? $args['custom_data'] : [] );
 
 		if ( ! is_array( $this->custom_data ) ) {
