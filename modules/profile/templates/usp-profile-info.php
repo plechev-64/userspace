@@ -19,7 +19,7 @@ $user = USP()->user( $user_id );
 
     <div class="usp-info__content"><?php do_action( 'usp_info_content', $user_id ); ?></div>
 
-	<?php echo usp_show_user_custom_fields( $user_id ); ?>
+	<?php echo $user->profile_fields()->get_public_fields_values(); ?>
 
     <div class="usp-info__stats usps usps__line-1"><?php do_action( 'usp_info_stats', $user_id ); ?></div>
 

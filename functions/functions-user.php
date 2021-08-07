@@ -405,52 +405,6 @@ function usp_delete_user_avatar( $user_id ) {
 	array_map( "unlink", glob( USP_UPLOAD_URL . 'avatars/' . $user_id . '-*.jpg' ) );
 }
 
-/**
- * Get user custom fields
- *
- * @param int $user_id id user.
- * @param array $args $args['class'] add some class.
- *
- * @return string       user custom fields
- * @since 1.0
- *
- */
-function usp_show_user_custom_fields( $user_id, $args = false ) {
-
-	$public_fields = USP()->user( $user_id )->profile_fields()->get_public_fields();
-
-	if ( ! $public_fields ) {
-		return;
-	}
-
-	$content = '';
-
-	foreach ( $public_fields as $field ) {
-
-		/**
-		 * @var USP_Field_Abstract $field
-		 */
-
-		$field = apply_filters( 'usp_profile_pre_display_custom_field', $field );
-
-		if ( ! $field ) {
-			continue;
-		}
-
-		$field->value = USP()->user( $user_id )->{$field->slug};
-
-		$content .= $field->get_field_value( true );
-	}
-
-	if ( ! $content ) {
-		return;
-	}
-
-	$class = ( $args['class'] ) ? ' ' . $args['class'] : '';
-
-	return '<div class="usp-user-fields ' . $class . ' usps usps__column">' . $content . '</div>';
-}
-
 add_action( 'usp_masonry_content', 'usp_masonry_age', 14 );
 function usp_masonry_age( USP_User $user ) {
 	echo $user->get_age_html( 'usp-masonry__age' );

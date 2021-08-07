@@ -375,7 +375,9 @@ class USP_User {
 			return $this->metadata[ $property ];
 		}
 
-		return get_user_meta($this->ID, $property, true);
+		$this->metadata[ $property ] = get_user_meta( $this->ID, $property, true );
+
+		return $this->metadata[ $property ];
 
 	}
 
@@ -403,7 +405,10 @@ class USP_User {
 
 			$parent_tag = sprintf( "<{$wrap_tag} %s %s %s %s %s %s>", $id, $class, $href, $title, $onclick, $nofollow );
 
-			$parent_tag .= !empty($this->avatar)? $this->avatar->get_image([$size, $size], $args): get_avatar( $this->ID, $size, false, $alt, $args );
+			$parent_tag .= ! empty( $this->avatar ) ? $this->avatar->get_image( [
+				$size,
+				$size
+			], $args ) : get_avatar( $this->ID, $size, false, $alt, $args );
 
 			// some html or apply_filters
 			if ( isset( $html ) ) {
@@ -415,6 +420,9 @@ class USP_User {
 			return $parent_tag;
 		}
 
-		return !empty($this->avatar)? $this->avatar->get_image([$size, $size], $args): get_avatar( $this->ID, $size, false, $alt, $args );
+		return ! empty( $this->avatar ) ? $this->avatar->get_image( [
+			$size,
+			$size
+		], $args ) : get_avatar( $this->ID, $size, false, $alt, $args );
 	}
 }

@@ -25,7 +25,6 @@ class USP_User_Profile_Fields extends USP_Profile_Fields {
 		foreach ( $public_fields as $field ) {
 
 			$field->value = $this->user->{$field->slug};
-
 			$html .= $field->get_field_value( true );
 		}
 

@@ -205,6 +205,9 @@ function usp_delete_user_account() {
 	}
 }
 
+/*
+ * TODO надо сделать совместимыми с функциями usp_user_stats_comments, usp_user_stats_posts... и удалить те что на хуках ниже
+ */
 add_action( 'usp_info_stats', 'usp_user_count_comments', 20 );
 add_action( 'usp_info_stats', 'usp_user_count_publications', 20 );
 add_action( 'usp_info_stats', 'usp_user_get_date_registered', 20 );

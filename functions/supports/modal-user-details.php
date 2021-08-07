@@ -82,7 +82,7 @@ function usp_get_user_details( $user_id, $set_args = false ) {
 	}
 
 	if ( $args['custom_fields'] ) {
-		$content .= usp_show_user_custom_fields( $user_id );
+		$content .= USP()->user( $user_id )->profile_fields()->get_public_fields_values();
 	}
 
 	return '<div id="usp-user-details" class="usps usps__nowrap usps__column">' . $content . '</div>';
