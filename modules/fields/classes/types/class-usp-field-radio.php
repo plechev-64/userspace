@@ -49,7 +49,7 @@ class USP_Field_Radio extends USP_Field_Abstract {
 		}
 
 		if ( $this->value_in_key ) {
-			$this->value;
+			return $this->value;
 		}
 
 		return $this->values[ $this->value ];

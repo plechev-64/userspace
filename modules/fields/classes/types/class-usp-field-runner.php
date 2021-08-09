@@ -79,12 +79,12 @@ class USP_Field_Runner extends USP_Field_Abstract {
 
 	function get_value() {
 
-		if ( is_null( $this->value ) || $this->value == '') {
+		if ( is_null( $this->value ) || $this->value == '' ) {
 			return false;
 		}
 
 		if ( $this->unit ) {
-			$this->value .= ' ' . $this->unit;
+			return $this->value . ' ' . $this->unit;
 		}
 
 		return $this->value;
