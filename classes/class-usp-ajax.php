@@ -59,7 +59,8 @@ final class USP_Ajax {
 
 		register_rest_route( $this->rest_space, '/' . $this->rest_route . '/', array(
 			'methods'  => 'POST',
-			'callback' => $this->rest_callback
+			'callback' => $this->rest_callback,
+			'permission_callback' => '__return_true'
 		) );
 	}
 
