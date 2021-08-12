@@ -2,35 +2,71 @@
 
 class USP_Users_Manager extends USP_Content_Manager {
 
-	public $template;
-	public $custom_data;
+	private $_default_select_cols = [
+		'ID',
+		'display_name',
+		'user_nicename',
+		'user_registered',
+		'last_activity'
+	];
+
+	private $_default_args = [
+		'number'          => 10,
+		'template'        => 'rows',
+		'custom_data'     => [],
+		'dropdown_filter' => 0,
+		'pagenavi'        => 1,
+		'orderby'         => 'user_registered',
+		'order'           => 'DESC',
+		'search'          => 1,
+		'exclude'         => [],
+		'include'         => []
+	];
 
 	function __construct( $args = [] ) {
 
-		$args = wp_parse_args( $args, [
-			'number' => 30
-		] );
+		$args = wp_parse_args( $args, $this->_default_args );
 
-		$this->init_params( $args );
+		foreach ( $args as $param => $value ) {
+			$this->init_custom_prop( $param, $value );
+		}
+
+		$this->prepare_params();
+		$this->enqueue_assets();
 
 		parent::
 		__construct( array(
-			'number'  => $args['number'],
 			'is_ajax' => 1,
 		) );
 	}
 
-	function init_params( $args ) {
-		/*
-		 * TODO ?custom_data=">111111111111<" в url
-		 */
-		$this->init_custom_prop( 'template', $args['template'] ?? 'rows' );
-		$this->init_custom_prop( 'custom_data', ! empty( $args['custom_data'] ) ? $args['custom_data'] : [] );
-		$this->init_custom_prop( 'dropdown_filter', $args['dropdown_filter'] ?? 0 );
+	function prepare_params() {
 
-		if ( ! is_array( $this->custom_data ) ) {
-			$this->custom_data = array_map( 'trim', explode( ',', $this->custom_data ) );
+		$filter_params = [ 'custom_data', 'exclude', 'include' ];
+
+		foreach ( $filter_params as $param ) {
+			if ( $this->$param && ! is_array( $this->$param ) ) {
+				$this->$param = array_map( 'trim', explode( ',', $this->$param ) );
+			}
 		}
+
+		if ( ! in_array( $this->orderby, $this->_default_select_cols ) && ! in_array( $this->orderby, $this->custom_data ) ) {
+			$this->orderby = $this->_default_args['orderby'];
+		}
+
+		if ( $this->include ) {
+			$this->exclude  = [];
+			$this->pagenavi = 0;
+			$this->number   = count( $this->include );
+		}
+
+		if ( ! $this->search ) {
+			$this->reset_filter = false;
+		}
+
+	}
+
+	function enqueue_assets() {
 
 		if ( $this->template == 'masonry' ) {
 			usp_masonry_script();
@@ -38,9 +74,8 @@ class USP_Users_Manager extends USP_Content_Manager {
 
 		if ( in_array( $this->template, [ 'rows', 'masonry' ] ) ) {
 			usp_enqueue_style(
-				'usp-users-' . $this->template, USP_URL . 'modules/users-list-new/assets/css/usp-users-' . $this->template . '.css',
-				false,
-				USP_VERSION
+				'usp-users-' . $this->template,
+				USP_URL . 'modules/users-list-new/assets/css/usp-users-' . $this->template . '.css'
 			);
 		}
 
@@ -48,13 +83,9 @@ class USP_Users_Manager extends USP_Content_Manager {
 
 	function get_query() {
 
-		$select = [
-			'ID',
-			'display_name',
-			'user_nicename',
-			'user_registered',
+		$select = array_merge( $this->_default_select_cols, [
 			'last_activity' => ( new USP_User_Action( 'action' ) )->select( [ 'date_action' ] )->where_string( "users.ID=action.user_id" )
-		];
+		] );
 
 		if ( in_array( 'posts', $this->custom_data ) ) {
 			$select['posts'] = ( new USP_Posts_Query( 'posts' ) )->select( [
@@ -77,12 +108,12 @@ class USP_Users_Manager extends USP_Content_Manager {
 			->select( $select )
 			->where( [
 				'display_name__like' => $this->get_request_data_value( 'display_name__like' ),
-				'ID__in'             => $this->get_request_data_value( 'ID__in' ),
-				'ID__not_in'         => $this->get_request_data_value( 'ID__not_in' )
+				'ID__in'             => $this->include,
+				'ID__not_in'         => $this->exclude
 			] )
 			->orderby(
-				$this->get_request_data_value( 'orderby', 'user_registered' ),
-				$this->get_request_data_value( 'order', 'DESC' )
+				$this->orderby,
+				$this->order
 			);
 
 		return apply_filters( 'usp_users_query', $query, $this );
@@ -188,37 +219,41 @@ class USP_Users_Manager extends USP_Content_Manager {
 
 	function get_search_fields() {
 
-		$orderby_values = [ 'user_registered' => __( 'Дата регистрации', 'wp-recall' ) ];
+		if ( ! $this->search ) {
+			return [];
+		}
+
+		$orderby_values = [ 'user_registered' => __( 'Registration date', 'userspace' ) ];
 
 		if ( in_array( 'comments', $this->custom_data ) ) {
-			$orderby_values['comments'] = __( 'Количеству комментариев', 'wp-recall' );
+			$orderby_values['comments'] = __( 'Comments count', 'userspace' );
 		}
 
 		if ( in_array( 'posts', $this->custom_data ) ) {
-			$orderby_values['posts'] = __( 'Количеству публикаций', 'wp-recall' );
+			$orderby_values['posts'] = __( 'Publics count', 'userspace' );
 		}
 
 		$search_fields = [
 			[
 				'type'  => 'text',
 				'slug'  => 'display_name__like',
-				'title' => __( 'Поиск' ),
+				'title' => __( 'Search', 'userspace' ),
 				'value' => $this->get_request_data_value( 'display_name__like' ),
 			],
 			[
 				'type'   => 'select',
 				'slug'   => 'orderby',
-				'title'  => __( 'Сортировка по' ),
+				'title'  => __( 'Sort by', 'userspace' ),
 				'values' => $orderby_values,
 				'value'  => $this->get_request_data_value( 'orderby', 'user_registered' ),
 			],
 			[
 				'type'   => 'radio',
 				'slug'   => 'order',
-				'title'  => __( 'Направление сортировки' ),
+				'title'  => __( 'Sorting direction', 'userspace' ),
 				'values' => [
-					'DESC' => __( 'По убыванию' ),
-					'ASC'  => __( 'По возрастанию' )
+					'DESC' => __( 'Descending', 'userspace' ),
+					'ASC'  => __( 'Ascending', 'userspace' )
 				],
 				'value'  => $this->get_request_data_value( 'order', 'DESC' ),
 			]

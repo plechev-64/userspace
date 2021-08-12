@@ -288,6 +288,11 @@ class USP_Content_Manager {
 	function get_search() {
 
 		if ( ! $fields = $this->get_search_fields() ) {
+
+			if ( $this->is_ajax ) {
+				USP()->use_module( 'forms' );
+			}
+
 			return false;
 		}
 
