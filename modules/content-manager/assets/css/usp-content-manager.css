@@ -1,23 +1,24 @@
+.usp-content-manager {
+    padding: 12px;
+}
+
 .usp-content-manager .usp-pager,
 .usp-content-manager .manager-buttons {
     text-align: right;
 }
 
-#usp-manager-filter {
-    float: left;
-    width: 300px;
-    margin-right: 12px;
-    padding: 12px;
+.usp-manager__filter-block {
+    margin: 12px 0;
     position: relative;
 }
 
-#usp-manager-filter.dropdown-filter {
-    float: none;
-    margin: 0;
-    padding: 0;
+.usp-manager__filter-dropdown {
+    width: 300px;
+    position: relative;
+    margin: 12px 0;
 }
 
-#usp-manager-filter .switch-button {
+.usp-manager__filter .switch-button {
     display: block;
     text-align: center;
     padding: 12px;
@@ -26,7 +27,7 @@
     line-height: 1;
 }
 
-#usp-manager-filter .filter-content {
+.usp-manager__filter .filter-content {
     position: absolute;
     z-index: 9;
     background: var(--uspWhite);

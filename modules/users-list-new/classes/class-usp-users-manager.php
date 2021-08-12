@@ -11,11 +11,22 @@ class USP_Users_Manager extends USP_Content_Manager {
 			'number' => 30
 		] );
 
+		$this->init_params( $args );
+
+		parent::
+		__construct( array(
+			'number'  => $args['number'],
+			'is_ajax' => 1,
+		) );
+	}
+
+	function init_params( $args ) {
 		/*
 		 * TODO ?custom_data=">111111111111<" в url
 		 */
 		$this->init_custom_prop( 'template', $args['template'] ?? 'rows' );
 		$this->init_custom_prop( 'custom_data', ! empty( $args['custom_data'] ) ? $args['custom_data'] : [] );
+		$this->init_custom_prop( 'dropdown_filter', $args['dropdown_filter'] ?? 0 );
 
 		if ( ! is_array( $this->custom_data ) ) {
 			$this->custom_data = array_map( 'trim', explode( ',', $this->custom_data ) );
@@ -25,13 +36,14 @@ class USP_Users_Manager extends USP_Content_Manager {
 			usp_masonry_script();
 		}
 
-		usp_enqueue_style( 'usp-users-' . $this->template, USP_URL . 'modules/users-list-new/assets/css/usp-users-' . $this->template . '.css', false, USP_VERSION );
+		if ( in_array( $this->template, [ 'rows', 'masonry' ] ) ) {
+			usp_enqueue_style(
+				'usp-users-' . $this->template, USP_URL . 'modules/users-list-new/assets/css/usp-users-' . $this->template . '.css',
+				false,
+				USP_VERSION
+			);
+		}
 
-		parent::
-		__construct( array(
-			'number'  => $args['number'],
-			'is_ajax' => 1,
-		) );
 	}
 
 	function get_query() {
@@ -150,7 +162,7 @@ class USP_Users_Manager extends USP_Content_Manager {
 		if ( ! $this->data ) {
 			$content .= $this->get_no_result_notice();
 		} else {
-			$content .= '<div class="manager-content usp-users__list usps usp-users__' . $this->template . '" ' . $data_masonry . '>';
+			$content .= '<div class="usp-users__list usps usp-users__' . $this->template . '" ' . $data_masonry . '>';
 
 			foreach ( $this->data as $dataItem ) {
 				$content .= $this->get_item_content( $dataItem );

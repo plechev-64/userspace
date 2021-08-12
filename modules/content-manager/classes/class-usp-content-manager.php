@@ -304,28 +304,40 @@ class USP_Content_Manager {
 			)
 		);
 
-		$content = '<div id="usp-manager-filter" class="usp-form' . ( $this->dropdown_filter ? ' dropdown-filter' : '' ) . '">';
+		$search_form = '<div class="form-fields">';
+		$search_form .= $form->get_fields_list();
+		$search_form .= '</div>';
+		$search_form .= $form->get_submit_box();
 
 		if ( $this->dropdown_filter ) {
-			$content .= usp_get_button( [
-				'label'     => __( 'Search', 'userspace' ),
-				'fullwidth' => 1,
-				'size'      => 'medium',
-				'icon'      => 'fa-search',
-				'onclick'   => 'jQuery(this).next().slideToggle(); return false;'
-			] );
-			$content .= '<div class="filter-content">';
+			$search_form = $this->wrap_search_form_dropdown( $search_form );
 		}
 
-		$content .= '<div class="form-fields">';
-		$content .= $form->get_fields_list();
-		$content .= '</div>';
+		$filter_classes = implode( ' ', [
+			'usp-form',
+			'usp-manager__filter',
+			$this->dropdown_filter ? 'usp-manager__filter-dropdown' : 'usp-manager__filter-block'
+		] );
 
-		$content .= $form->get_submit_box();
+		$search_form_wrapper = '<div id="usp-manager-filter" class="' . $filter_classes . '">';
+		$search_form_wrapper .= $search_form;
+		$search_form_wrapper .= '</div>';
 
-		if ( $this->dropdown_filter ) {
-			$content .= '</div>';
-		}
+		return $search_form_wrapper;
+	}
+
+	function wrap_search_form_dropdown( $search_form ) {
+
+		$content = usp_get_button( [
+			'label'     => __( 'Search', 'userspace' ),
+			'fullwidth' => 1,
+			'size'      => 'medium',
+			'icon'      => 'fa-search',
+			'onclick'   => 'jQuery(this).next().slideToggle(); return false;'
+		] );
+		$content .= '<div class="filter-content">';
+
+		$content .= $search_form;
 
 		$content .= '</div>';
 
