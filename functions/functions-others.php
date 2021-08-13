@@ -305,10 +305,22 @@ function usp_get_area_options() {
 	return $areas;
 }
 
+/**
+ * Writes logs by date
+ * and puts them in the directory: site/wp-content/userspace/logs/
+ *
+ * @since 1.0.0
+ *
+ * @param string $title Event title.
+ * @param array $data Array of recorded data.
+ * @param bool $force if it is necessary to ignore the settings in the admin panel and write it down forcibly.
+ *
+ * @return void
+ */
 function usp_add_log( $title, $data = false, $force = false ) {
 
 	if ( ! $force && ! usp_get_option( 'usp_logger' ) ) {
-		return false;
+		return;
 	}
 
 	$USPLog = new USP_Log();
@@ -489,9 +501,74 @@ function usp_decode( $string ) {
 	return json_decode( $decode );
 }
 
+/**
+ * Determines the difference between the transmitted time and the current time.
+ *
+ * Is returned in a human-readable format such as "1 hour",
+ * "5 mins", "2 days".
+ *
+ * @since 1.0.0
+ *
+ * @param string $time_action mysql datetime format.
+ * @return string Human-readable time difference.
+ */
 function usp_human_time_diff( $time_action ) {
 	$unix_current_time = current_time( 'timestamp' );
 	$unix_time_action  = strtotime( $time_action );
 
 	return human_time_diff( $unix_time_action, $unix_current_time );
+}
+
+/**
+ * Shows in a human-readable format such as "27 june" or "27 june 2021"
+ *
+ * @since 1.0.0
+ *
+ * @param string $date mysql datetime format
+ * @param bool $year Optional. Output the year as well
+ *
+ * @return string Human-readable date
+ */
+function usp_human_date_format( $date, $year = false ) {
+	global $wp_locale;
+	$months = $wp_locale->month_genitive;
+
+	$newDatetime = new Datetime( $date );
+	$month       = $newDatetime->format( 'm' );
+
+	$human = $newDatetime->format( 'j ' );
+	$human .= $months[ $month ] . ' ';
+	if ( $year ) {
+		$human .= $newDatetime->format( 'Y' );
+	}
+
+	return $human;
+}
+
+/**
+ * Returned in a human-readable format such as "Today", "Yesterday",
+ * "Two days ago" or "27 june 2021".
+ *
+ * @since 1.0.0
+ *
+ * @param string $date mysql datetime format.
+ * @param bool $year if necessary, output the year as well.
+ *
+ * @return string Human-readable date.
+ */
+function usp_human_days( $date, $year = false ) {
+	$current_date         = get_date_from_gmt( date( 'Y-m-d H:i:s' ), 'Y-m-d' );
+	$yesterday        = date( 'Y-m-d', strtotime( "-1 days", strtotime( $current_date ) ) );
+	$before_yesterday = date( 'Y-m-d', strtotime( "-2 days", strtotime( $current_date ) ) );
+
+	$action_date = date( 'Y-m-d', strtotime( $date ) );
+	if ( $current_date == $action_date ) {
+		return __( 'Today', 'userspace' );
+	} else if ( $yesterday == $action_date ) {
+		return __( 'Yesterday', 'userspace' );
+	} else if ( $before_yesterday == $action_date ) {
+		return __( 'Two days ago', 'userspace' );
+	}
+
+	return usp_human_date_format( $date, $year );
 }
