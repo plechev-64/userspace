@@ -11,6 +11,7 @@ $args = [
 $html = '<div class="usp-ava-bttns">' . apply_filters( 'usp_avatar_bttns', '' ) . '</div>';
 
 $office_owner = USP()->office()->owner();
+$has_sidebar =  ( is_active_sidebar( 'usp_theme_sidebar' ) ) ? 'usp-profile__has-sidebar':'';
 ?>
 
 <div id="usp-office-profile" class="usp-office-profile usps usps__column usps__nowrap usps__relative">
@@ -45,10 +46,10 @@ $office_owner = USP()->office()->owner();
 <div id="usp-tabs" class="usp-tab-area usps usps__nowrap usps__relative">
 	<?php do_action( 'usp_area_menu' ); ?>
 
-    <div class="usp-profile-content usps usps__nowrap usps__grow">
+    <div class="usp-profile-content <?php echo $has_sidebar; ?> usps usps__nowrap usps__grow">
 		<?php do_action( 'usp_area_tabs' ); ?>
 
-		<?php if ( function_exists( 'dynamic_sidebar' ) ) { ?>
+		<?php if ( function_exists( 'dynamic_sidebar' ) && is_active_sidebar( 'usp_theme_sidebar' ) ) { ?>
             <div class="usp-profile__sidebar">
 				<?php dynamic_sidebar( 'usp_theme_sidebar' ); ?>
             </div>
