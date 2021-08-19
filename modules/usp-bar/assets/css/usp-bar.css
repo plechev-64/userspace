@@ -71,9 +71,13 @@
     margin: 0 0 0 12px;
 }
 
+.usp-bar-userlink__name {
+    max-width: 100px;
+}
+
 .usp-bar-or {
-    margin: 0 12px;
     color: var(--uspGray-500);
+    font-size: 15px;
 }
 
 
@@ -243,5 +247,11 @@
         opacity: 1;
         visibility: visible;
         z-index: 102;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .usp-bar__home > span {
+        display: none;
     }
 }

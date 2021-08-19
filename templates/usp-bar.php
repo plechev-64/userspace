@@ -12,11 +12,12 @@ $width	 = usp_get_option( 'usp_bar_width' ) ? 'style="max-width:' . usp_get_opti
         <div class="usp-bar-left usps usps__ai-center">
 			<?php
 			echo usp_get_button( [
-				'type'	 => 'clear',
-				'label'	 => __( 'Home', 'userspace' ),
-				'icon'	 => 'fa-home',
-				'size'	 => 'medium',
-				'href'	 => '/'
+				'type'  => 'clear',
+				'label' => __( 'Home', 'userspace' ),
+				'icon'  => 'fa-home',
+				'size'  => 'medium',
+				'class' => 'usp-bar__home',
+				'href'  => '/',
 			] );
 			?>
 			<?php do_action( 'usp_bar_left_icons' ); ?>
@@ -46,7 +47,6 @@ $width	 = usp_get_option( 'usp_bar_width' ) ? 'style="max-width:' . usp_get_opti
 						'type'	 => 'clear',
 						'label'	 => __( 'Sign in', 'userspace' ),
 						'icon'	 => 'fa-sign-in',
-						'size'	 => 'medium',
 						'href'	 => usp_get_loginform_url( 'login' ),
 						'class'	 => 'usp-entry-bttn usp-login usps__as-stretch'
 					] );
@@ -66,7 +66,7 @@ $width	 = usp_get_option( 'usp_bar_width' ) ? 'style="max-width:' . usp_get_opti
 
 				<?php } else { ?>
 					<?php
-					$user_name = '<span>' . USP()->user( get_current_user_id() )->get_username() . '</span>';
+					$user_name = '<span class="usp-bar-userlink__name usps__text-cut">' . USP()->user( get_current_user_id() )->get_username() . '</span>';
 					echo usp_get_avatar( get_current_user_id(), 40, USP()->user( get_current_user_id() )->get_url(), [ 'parent_class' => 'usp-bar-userlink usp-bar-usershow usps usps__ai-center' ], $user_name );
 					?>
 
