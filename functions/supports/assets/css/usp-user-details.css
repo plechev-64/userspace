@@ -5,6 +5,11 @@
     padding: 0;
 }
 
+.usp-user-avatar img[src*="gravatar"] {
+    max-height: 60vh;
+    object-fit: cover;
+}
+
 .usp-user-avatar .usp-avatar-zoom {
     background: var(--uspBlack-05);
     color: var(--uspWhite);

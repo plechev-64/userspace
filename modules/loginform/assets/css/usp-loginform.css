@@ -58,3 +58,13 @@
     font-size: inherit;
     padding: 0;
 }
+
+@media screen and (max-width: 568px) {
+    .usp-entry-tabs {
+        min-height: 50px;
+    }
+
+    .usp-entry-tab:first-child {
+        margin-left: 50px !important;
+    }
+}

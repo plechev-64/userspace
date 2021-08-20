@@ -55,7 +55,6 @@ body.ssi-modalOpen {
 }
 
 .ssi-modalWrapper.auto {
-    /*    max-width: 700px;*/
     width: auto;
 }
 .ssi-dialog .ssi-modalWrapper {
@@ -71,6 +70,8 @@ body.ssi-modalOpen {
     overflow: hidden;
     border-radius: 3px;
     max-width: 100%;
+    color: var(--uspGray-700);
+    font-size: 16px;
 }
 
 .ssi-modalTitle {
@@ -79,7 +80,7 @@ body.ssi-modalOpen {
     display: flex;
     min-height: 50px;
     padding: 12px 18px;
-    font-size: 22px;
+    font-size: 18px;
     line-height: normal;
 }
 
@@ -227,27 +228,47 @@ body.ssi-modalOpen {
         opacity: 1;
     }
 
-    .ssi-modalOuter:not(.medium) #ssi-modalWrapper {
-
-        margin-left: 0;
-        padding-left: 0;
+    .ssi-modalOuter #ssi-modalWrapper {
+        margin: 0;
+        padding: 0;
+        width: 100vw;
     }
 
     .ssi-modalOuter #ssi-modalWindow {
-
-        border-bottom-left-radius: 0;
-        border-top-left-radius: 0;
+        border-radius: 0;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
     }
 
-    #ssi-modalWrapper:not(.medium) .ssi-topIcons {
+    .ssi-modalWrapper .ssi-modalTitle {
+        padding: 0 18px 0 62px !important;
+    }
+
+    .ssi-modalContent {
+        flex-grow: 1;
+    }
+
+    #ssi-modalWrapper .ssi-topIcons {
         animation: .15s fadeIn .6s both;
         opacity: 0;
-        right: 6px;
         position: fixed;
-        top: 6px;
+        top: 0;
+        right: auto;
+        left: 0;
+    }
+
+    .ssi-topIcons .ssi-closeIcon {
+        width: auto;
+        height: auto;
     }
 
     #ssi-modalWrapper .ssi-closeIcon::before {
-        color: var(--uspGray-300);
+        background: var(--uspHex);
+        color: var(--uspText);
+        min-width: 50px;
+        font-family: 'usp-awesome';
+        content: '\f060';
+        font-size: 24px;
     }
 }

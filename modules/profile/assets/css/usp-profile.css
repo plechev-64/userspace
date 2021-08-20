@@ -42,9 +42,9 @@
     margin: 0 0 0 6px;
 }
 
-.usp-user-fields a {
+.usp-user-fields a:link {
     box-shadow: none !important;
-    color: inherit;
+    color: var(--uspBlue-700);
     text-decoration: underline;
 }
 
