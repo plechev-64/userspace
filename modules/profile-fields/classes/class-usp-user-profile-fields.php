@@ -29,7 +29,7 @@ class USP_User_Profile_Fields extends USP_Profile_Fields {
 		}
 
 		if ( $html ) {
-			$html = '<div class="usp-user-fields usps usps__column">' . $html . '</div>';
+			$html = '<div class="usp-user__fields usps usps__column">' . $html . '</div>';
 		}
 
 		return $html;

@@ -14,14 +14,6 @@ function usp_my_profile_resources() {
 	}
 }
 
-add_action( 'usp_enqueue_scripts', 'usp_profile_style', 10 );
-function usp_profile_style() {
-
-	if ( usp_is_office() ) {
-		usp_enqueue_style( 'usp-profile-css', plugins_url( 'assets/css/usp-profile.css', __FILE__ ) );
-	}
-}
-
 add_filter( 'usp_init_js_variables', 'usp_init_js_profile_variables', 10 );
 function usp_init_js_profile_variables( $data ) {
 
@@ -55,7 +47,18 @@ function usp_tab_profile() {
 }
 
 function usp_get_profile_user_info( $user_id ) {
-	return usp_get_include_template( 'usp-profile-info.php', USP_PROFILE_BASE, [ 'user_id' => $user_id ] );
+
+	USP()->use_module( 'users-list-new' );
+
+	$manager = new USP_Users_Manager([
+		'include' => $user_id,
+		'search' => 0,
+		'template' => 'full',
+		'custom_data' => 'posts, comments, user_registered'
+	]);
+
+	return $manager->get_manager();
+
 }
 
 add_action( 'usp_setup_tabs', 'usp_tab_profile_info', 10 );
@@ -203,18 +206,6 @@ function usp_delete_user_account() {
 	} else {
 		wp_die( __( 'Account deletion failed! Go back and try again.', 'userspace' ) );
 	}
-}
-
-/*
- * TODO надо сделать совместимыми с функциями usp_user_stats_comments, usp_user_stats_posts... и удалить те что на хуках ниже
- */
-add_action( 'usp_info_stats', 'usp_user_count_comments', 20 );
-add_action( 'usp_info_stats', 'usp_user_count_publications', 20 );
-add_action( 'usp_info_stats', 'usp_user_get_date_registered', 20 );
-
-add_action( 'usp_info_meta', 'usp_user_info_age', 20 );
-function usp_user_info_age( $user_id ) {
-	echo usp_user_get_age_html( $user_id, 'usp-info__age' );
 }
 
 // save users page option in global array of options

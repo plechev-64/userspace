@@ -72,7 +72,7 @@ class USP_Users_Manager extends USP_Content_Manager {
 			usp_masonry_script();
 		}
 
-		if ( in_array( $this->template, [ 'rows', 'masonry' ] ) ) {
+		if ( in_array( $this->template, [ 'rows', 'masonry', 'full' ] ) ) {
 			usp_enqueue_style(
 				'usp-users-' . $this->template,
 				USP_URL . 'modules/users-list-new/assets/css/usp-users-' . $this->template . '.css'
