@@ -5,32 +5,6 @@ function usp_add_office_menu_options() {
 	echo USP()->tabs()->get_menu( 'options' );
 }
 
-add_action( 'usp_area_actions', 'usp_add_office_menu_actions', 10 );
-function usp_add_office_menu_actions() {
-	echo USP()->tabs()->get_menu( 'actions' );
-}
-
-add_action( 'usp_area_counters', 'usp_add_office_menu_counters', 10 );
-function usp_add_office_menu_counters() {
-	echo USP()->tabs()->get_menu( 'counters' );
-}
-
-add_action( 'usp_area_menu', 'usp_add_office_menu_menu', 10 );
-function usp_add_office_menu_menu() {
-	echo USP()->tabs()->get_menu( 'menu', [
-		'class' => usp_get_option( 'usp_office_tab_type', 1 ) ? false : 'usps__column'
-	] );
-}
-
-add_action( 'usp_area_tabs', 'usp_add_office_tab_content', 10 );
-function usp_add_office_tab_content() {
-	if ( $current = USP()->tabs()->current() ) {
-		echo $current->get_content();
-	}
-
-	return false;
-}
-
 /**
  * Checks is the user profile page or the user profile of the specified user_id
  *

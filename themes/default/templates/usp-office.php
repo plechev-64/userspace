@@ -32,22 +32,26 @@ $has_sidebar =  ( is_active_sidebar( 'usp_theme_sidebar' ) ) ? 'usp-profile__has
             </div>
 
             <div class="usp-office-middle usps usps__column usps__grow">
-                <div class="usp-office-bttn-act"><?php do_action( 'usp_area_actions' ); ?></div>
+                <div class="usp-office-bttn-act"><?php echo USP()->tabs()->get_menu( 'actions' ); ?></div>
                 <div class="usp-office-box"><?php do_action( 'usp_area_box' ); ?></div>
             </div>
 
             <div class="usp-office-bottom">
-                <div class="usp-office-bttn-lite usps usps__jc-end"><?php do_action( 'usp_area_counters' ); ?></div>
+                <div class="usp-office-bttn-lite usps usps__jc-end"><?php echo USP()->tabs()->get_menu( 'counters' ); ?></div>
             </div>
         </div>
     </div>
 </div>
 
 <div id="usp-tabs" class="usp-tab-area usps usps__nowrap usps__relative">
-	<?php do_action( 'usp_area_menu' ); ?>
+	<?php echo USP()->tabs()->get_menu( 'menu', [
+		'class' => usp_get_option( 'usp_office_tab_type', 1 ) ? FALSE : 'usps__column',
+	] ); ?>
 
     <div class="usp-profile-content <?php echo $has_sidebar; ?> usps usps__nowrap usps__grow">
-		<?php do_action( 'usp_area_tabs' ); ?>
+	    <?php if ( $current = USP()->tabs()->current() ) {
+		    echo $current->get_content();
+	    } ?>
 
 		<?php if ( function_exists( 'dynamic_sidebar' ) && is_active_sidebar( 'usp_theme_sidebar' ) ) { ?>
             <div class="usp-profile__sidebar">
