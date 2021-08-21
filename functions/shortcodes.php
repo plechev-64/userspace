@@ -188,6 +188,51 @@ function usp_get_users( $atts = [] ) {
 }
 
 /**
+ * Last registered users
+ */
+add_shortcode( 'usp-users-new', 'usp_users_new_shortcode' );
+function usp_users_new_shortcode( $args ) {
+
+	$atts = shortcode_atts( array(
+		'template'        => 'mini',
+		'number'       => 10,
+		'search'        => 0,
+		'custom_data' => 'user_registered',
+		'orderby' => 'user_registered',
+		'order' => 'DESC',
+		'pagenavi' => 0
+	), $args );
+
+	USP()->use_module( 'users-list-new' );
+
+	$manager = new USP_Users_Manager($atts);
+
+	return $manager->get_manager();
+}
+
+/**
+ * Last online users
+ */
+add_shortcode( 'usp-users-online', 'usp_users_online_shortcode' );
+function usp_users_online_shortcode( $args ) {
+
+	$atts = shortcode_atts( array(
+		'template'        => 'mini',
+		'number'       => 10,
+		'search'        => 0,
+		'orderby' => 'last_activity',
+		'order' => 'DESC',
+		'pagenavi' => 0
+	), $args );
+
+	USP()->use_module( 'users-list-new' );
+
+	$manager = new USP_Users_Manager($atts);
+
+	return $manager->get_manager();
+}
+
+/**
  * Displays registered users
  *
  * @param   array  $atts                        $atts['inpage']         Set users per page
