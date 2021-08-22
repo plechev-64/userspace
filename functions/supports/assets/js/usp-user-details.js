@@ -21,7 +21,7 @@ function usp_get_user_info(e) {
                 ssi_modal.show({
                     title: USP.local.title_user_info,
                     sizeClass: 'auto',
-                    className: 'usp-user-getails',
+                    className: 'usp-user-details',
                     buttons: [{
                         label: USP.local.close,
                         closeAfter: true
