@@ -48,7 +48,7 @@ function usp_tab_profile() {
 
 function usp_get_profile_user_info( $user_id ) {
 
-	USP()->use_module( 'users-list-new' );
+	USP()->use_module( 'users-list' );
 
 	$manager = new USP_Users_Manager([
 		'include' => $user_id,

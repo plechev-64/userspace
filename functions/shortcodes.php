@@ -175,7 +175,7 @@ function usp_get_loginform_shortcode( $atts = [] ) {
 add_shortcode( 'usp-users', 'usp_get_users' );
 function usp_get_users( $atts = [] ) {
 
-	USP()->use_module( 'users-list-new' );
+	USP()->use_module( 'users-list' );
 
 	$manager = new USP_Users_Manager( $atts );
 
@@ -203,7 +203,7 @@ function usp_users_new_shortcode( $args ) {
 		'pagenavi' => 0
 	), $args );
 
-	USP()->use_module( 'users-list-new' );
+	USP()->use_module( 'users-list' );
 
 	$manager = new USP_Users_Manager($atts);
 
@@ -222,10 +222,11 @@ function usp_users_online_shortcode( $args ) {
 		'search'        => 0,
 		'orderby' => 'last_activity',
 		'order' => 'DESC',
-		'pagenavi' => 0
+		'pagenavi' => 0,
+		'where' => 'last_activity__from '
 	), $args );
 
-	USP()->use_module( 'users-list-new' );
+	USP()->use_module( 'users-list' );
 
 	$manager = new USP_Users_Manager($atts);
 
