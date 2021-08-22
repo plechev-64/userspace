@@ -1,4 +1,4 @@
-.usp-users__rows .usp-user {
+.usp-users-rows .usp-user {
     padding: 12px;
 }
 
@@ -21,7 +21,7 @@
     margin: 0 0 6px;
 }
 
-.usp-users__rows .usp-status-user.usp-offline {
+.usp-users-rows .usp-status-user.usp-offline {
     color: var(--uspGray-500);
 }
 

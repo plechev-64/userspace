@@ -193,7 +193,7 @@ class USP_Users_Manager extends USP_Content_Manager {
 		if ( ! $this->data ) {
 			$content .= $this->get_no_result_notice();
 		} else {
-			$content .= '<div class="usp-users__list usps usp-users__' . $this->template . '" ' . $data_masonry . '>';
+			$content .= '<div class="usp-users usps usp-users-' . $this->template . '" ' . $data_masonry . '>';
 
 			foreach ( $this->data as $dataItem ) {
 				$content .= $this->get_item_content( $dataItem );

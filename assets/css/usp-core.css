@@ -619,8 +619,8 @@ i.usp-offline {
     color: var(--uspGray-700);
     font-size: 16px;
     line-height: 1.4;
-    margin: 0 0 18px;
-    transition: var(--uspLoad);
+    margin: 0 9px 18px;
+    transition: var(--uspLoadFast);
 }
 
 .usp-card:hover {

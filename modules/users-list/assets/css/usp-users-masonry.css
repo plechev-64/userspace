@@ -1,16 +1,16 @@
 /* init masonry script */
-.usp-users__masonry[data-columns]::before {
+.usp-users-masonry[data-columns]::before {
     content: '2 .column.size-1of2';
 }
 
 @media screen and (max-width: 480px) {
-    .usp-users__masonry[data-columns]::before {
+    .usp-users-masonry[data-columns]::before {
         content: '1 .column.size-1of1';
     }
 }
 
 @media screen and (min-width: 481px) and (max-width: 768px) {
-    .usp-users__masonry[data-columns]::before {
+    .usp-users-masonry[data-columns]::before {
         content: '2 .column.size-1of2';
     }
 }

@@ -12,7 +12,7 @@
 }
 
 .usp-user__ava .usps__img-reset,
-.usp-users__list .usp-user a {
+.usp-users .usp-user a {
     box-shadow: none !important;
     color: inherit;
 }

@@ -162,11 +162,32 @@ function usp_get_loginform_shortcode( $atts = [] ) {
 /**
  * Displays registered users
  *
- * @param   array  $atts
- * $atts['number']
- * $atts['orderby']
- * $atts['order']
- * $atts['template']
+ * @param   array  $atts                        $atts['inpage']         Set users per page
+ *                                              Default: 30
+ *                                              $atts['number']         Maximum number users
+ *                                              $atts['template']       User output template
+ *                                              Available: rows|masonry|avatars|mini
+ *                                              Default: rows
+ *                                              $atts['search_form']    Search form on top
+ *                                              Available: 0|1
+ *                                              Default: 1
+ *                                              $atts['filters']        Filter buttons on top
+ *                                              Available: 0|1
+ *                                              Default: 0
+ *                                              $atts['orderby']        Order by: time_action (last online)
+ *                                              Available: posts_count|comments_count|display_name|user_registered|time_action
+ *                                              Default: time_action
+ *                                              $atts['order']          Sorting direction. ASC|DESC
+ *                                              Default: DESC
+ *                                              $atts['data']           Output additional data comma-separated list (if template supports)
+ *                                              Available: posts_count,comments_count,description,user_registered,profile_fields
+ *                                              Default: empty
+ *                                              $atts['exclude']        Exclude user by ID. Comma-separated numbers
+ *                                              $atts['include']        Show only by ID
+ *                                              $atts['usergroup']      Show by metakey;
+ *                                              for example:        usergroup="meta_key_1:value_1"
+ *                                              or multiple values  usergroup="meta_key_1:value_1|meta_key_2:value_2"
+ *                                              $atts['only']           Set 'action_users' and see who online
  *
  * @return string       HTML content to display userlist.
  * @since 1.0.0
@@ -231,124 +252,6 @@ function usp_users_online_shortcode( $args ) {
 	$manager = new USP_Users_Manager($atts);
 
 	return $manager->get_manager();
-}
-
-/**
- * Displays registered users
- *
- * @param   array  $atts                        $atts['inpage']         Set users per page
- *                                              Default: 30
- *                                              $atts['number']         Maximum number users
- *                                              $atts['template']       User output template
- *                                              Available: rows|masonry|avatars|mini
- *                                              Default: rows
- *                                              $atts['search_form']    Search form on top
- *                                              Available: 0|1
- *                                              Default: 1
- *                                              $atts['filters']        Filter buttons on top
- *                                              Available: 0|1
- *                                              Default: 0
- *                                              $atts['orderby']        Order by: time_action (last online)
- *                                              Available: posts_count|comments_count|display_name|user_registered|time_action
- *                                              Default: time_action
- *                                              $atts['order']          Sorting direction. ASC|DESC
- *                                              Default: DESC
- *                                              $atts['data']           Output additional data comma-separated list (if template supports)
- *                                              Available: posts_count,comments_count,description,user_registered,profile_fields
- *                                              Default: empty
- *                                              $atts['exclude']        Exclude user by ID. Comma-separated numbers
- *                                              $atts['include']        Show only by ID
- *                                              $atts['usergroup']      Show by metakey;
- *                                              for example:        usergroup="meta_key_1:value_1"
- *                                              or multiple values  usergroup="meta_key_1:value_1|meta_key_2:value_2"
- *                                              $atts['only']           Set 'action_users' and see who online
- *
- * @return string       HTML content to display userlist.
- * @since 1.0.0
- *
- */
-add_shortcode( 'usp-userlist', 'usp_get_userlist' );
-function usp_get_userlist( $atts = [] ) {
-	global $usp_user, $usp_users_set, $user_ID;
-
-	USP()->use_module( 'users-list' );
-
-	$users = new USP_Users_List( $atts );
-
-	$count_users = false;
-
-	if ( ! isset( $atts['number'] ) ) {
-
-		$count_users = $users->get_count();
-
-		$pagenavi = new USP_Pager( array(
-			'total'  => $count_users,
-			'number' => $users->query['number'],
-			'class'  => 'usp-users__nav',
-		) );
-
-		$users->query['offset'] = $pagenavi->offset;
-	}
-
-	$timecache = ( $user_ID && $users->query['number'] == 'time_action' ) ? usp_get_option( 'usp_user_timeout', 600 ) : 0;
-
-	$usp_cache = new USP_Cache( $timecache );
-
-	if ( $usp_cache->is_cache ) {
-		if ( isset( $users->id ) && $users->id == 'usp-online-users' ) {
-			$string = json_encode( $users );
-		} else {
-			$string = json_encode( $users->query );
-		}
-
-		$file = $usp_cache->get_file( $string );
-
-		if ( ! $file->need_update ) {
-
-			$users->remove_filters();
-
-			return $usp_cache->get_cache();
-		}
-	}
-
-	$usersdata = $users->get_users();
-
-	$userlist = $users->get_filters( $count_users );
-
-	if ( ! $usersdata ) {
-		$userlist .= usp_get_notice( [ 'text' => __( 'Users not found', 'userspace' ) ] );
-	} else {
-
-		if ( ! isset( $atts['number'] ) && $pagenavi->number ) {
-			$userlist .= $pagenavi->get_navi();
-		}
-
-		$data_masonry = ( $users->template === 'masonry' ) ? 'data-columns' : '';
-
-		$userlist .= '<div class="usp-users__list usps usp-users__' . $users->template . '" ' . $data_masonry . '>';
-
-		$usp_users_set = $users;
-
-		foreach ( $usersdata as $usp_user ) {
-			$users->setup_userdata( $usp_user );
-
-			$userlist .= usp_get_include_template( 'usp-user-' . $users->template . '.php' );
-		}
-
-		$userlist .= '</div>';
-
-		if ( ! isset( $atts['number'] ) && $pagenavi->number ) {
-			$userlist .= $pagenavi->get_navi();
-		}
-	}
-
-	$users->remove_filters();
-
-	if ( $usp_cache->is_cache ) {
-		$usp_cache->update_cache( $userlist );
-	}
-
-	return '<div class="usp-users">' . $userlist . '</div>';
 }
 
 /**
