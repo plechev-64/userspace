@@ -86,6 +86,10 @@ function usp_load_tab(tab_id, subtab_id, e) {
             }
 
             if (box_id) {
+                // close notice
+                if (jQuery('.usp_profile_updated').length) {
+                    jQuery('.usp_profile_updated').hide();
+                }
                 // remove old tab class, set new class
                 jQuery(box_id).removeClass(function (index, className) {
                     return (className.match(/(^|\s)usp-tab-\S+/g) || []).join(' ');
@@ -96,9 +100,9 @@ function usp_load_tab(tab_id, subtab_id, e) {
                 var options = usp_get_options_url_params();
 
                 if (options.scroll === 1) {
-                    var offsetTop = jQuery(box_id).offset().top;
+                    let uspOffice = jQuery('#usp-office');
                     jQuery('body,html').animate({
-                            scrollTop: offsetTop - options.offset
+                            scrollTop: uspOffice.offset().top - options.offset
                         },
                         1000);
                 }
@@ -133,7 +137,7 @@ function usp_load_tab(tab_id, subtab_id, e) {
 function usp_get_options_url_params() {
     return usp_apply_filters('usp_options_url_params', {
         scroll: 1,
-        offset: 120
+        offset: 40
     });
 }
 
@@ -311,7 +315,7 @@ function usp_init_emoji() {
         var area = jQuery(this).parents('.usp-emoji').data('area');
         var box = jQuery('#' + area);
         box.val(box.val() + ' ' + alt + ' ');
-        usp_do_action( 'usp_emoji_insert', box );
+        usp_do_action('usp_emoji_insert', box);
     });
 }
 
@@ -340,14 +344,14 @@ function usp_init_check_url_params() {
     if (!usp_url_params['tab'])
         return;
 
-    var content = jQuery('#usp-tab-content');
+    var content = jQuery('#usp-office');
     if (!content.length)
         return false;
 
     var options = usp_get_options_url_params();
 
     if (options.scroll === 1) {
-        if (usp_url_params['usp-profile-updated'] === 'true') {
+        if (USP.user_ID > 0 && usp_url_params['usp-profile-updated'] === 'true') {
             jQuery('body,html').animate({
                 scrollTop: jQuery('.usp_profile_updated').offset().top - 50
             }, 1000);

@@ -45,6 +45,7 @@
 .usp-office-card {
     margin: 30px 0 0;
     min-height: 230px;
+    transition: var(--uspLoad);
 }
 
 .usp-office-left {
@@ -156,13 +157,13 @@
 }
 
 #usp-tabs {
-    animation: 1s fadeIn 1s both;
-    opacity: 0;
     z-index: 1;
 }
 
 .usp-nav__row #usp-tabs {
+    animation: .6s fadeIn .6s both;
     flex-direction: column;
+    opacity: 0;
 }
 
 #usp-nav-menu {
@@ -311,6 +312,66 @@
 #usp-tab-content + .usp-notice {
     flex-shrink: 0;
 }
+
+/* small office */
+.usp-office-small .usp-office-shift {
+    position: absolute;
+    right: 0;
+    top: 0;
+    max-height: 42px;
+    z-index: 1;
+}
+
+.usp-office-shift i {
+    font-size: 22px;
+}
+
+.usp-office-small .usp-office-card {
+    min-height: auto;
+    margin: 0;
+    flex-direction: row;
+}
+
+.usp-office-small .usp-office-left {
+    padding: 0;
+}
+
+.usp-office-small #usp-avatar {
+    width: 42px;
+    height: 42px;
+    border: 0;
+}
+
+.usp-office-small .usp-office-top > *:not(.usp-office-shift),
+.usp-office-small .usp-under-ava,
+.usp-office-small .usp-ava-bttns,
+.usp-office-small .usp-user-icons,
+.usp-office-small .usp-office-middle,
+.usp-office-small .usp-office-bottom {
+    display: none;
+}
+
+.usp-office-small .usp-office-usermeta {
+    margin: 9px 12px;
+}
+
+.usp-office-small .usp-office-title {
+    overflow: hidden;
+}
+
+.usp-office-small .usp-user-name {
+    display: grid;
+    max-width: calc(100% - 80px);
+}
+
+.usp-office-small .usp-user-name div {
+    font-size: 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/*end*/
 
 @media screen and (max-width: 800px) {
     .usp-user-name {

@@ -27,22 +27,22 @@ function usp_init_js_profile_variables( $data ) {
 add_action( 'usp_init_tabs', 'usp_tab_profile' );
 function usp_tab_profile() {
 	usp_tab(
-		array(
+		[
 			'id'       => 'profile',
 			'name'     => __( 'Profile', 'userspace' ),
 			'title'    => __( 'User profile', 'userspace' ),
 			'public'   => 1,
 			'supports' => [ 'ajax' ],
 			'icon'     => 'fa-address-book',
-			'content'  => array(
-				array(
+			'content'  => [
+				[
 					'id'       => 'info',
 					'name'     => __( 'User info', 'userspace' ),
 					'title'    => __( 'About the user', 'userspace' ),
-					'callback' => [ 'name' => 'usp_get_profile_user_info' ]
-				)
-			)
-		)
+					'callback' => [ 'name' => 'usp_get_profile_user_info' ],
+				],
+			],
+		]
 	);
 }
 
@@ -50,12 +50,12 @@ function usp_get_profile_user_info( $user_id ) {
 
 	USP()->use_module( 'users-list' );
 
-	$manager = new USP_Users_Manager([
-		'include' => $user_id,
-		'search' => 0,
-		'template' => 'full',
-		'custom_data' => 'posts, comments, user_registered'
-	]);
+	$manager = new USP_Users_Manager( [
+		'include'     => $user_id,
+		'search'      => 0,
+		'template'    => 'full',
+		'custom_data' => 'posts, comments, user_registered',
+	] );
 
 	return $manager->get_manager();
 
@@ -68,14 +68,14 @@ function usp_tab_profile_info() {
 		return;
 	}
 
-	$subtab = array(
+	$subtab = [
 		'id'       => 'edit',
 		'name'     => __( 'Edit profile', 'userspace' ),
 		'title'    => __( 'Personal Options', 'userspace' ),
 		'icon'     => 'fa-user-cog',
 		'supports' => [ 'ajax' ],
-		'callback' => [ 'name' => 'usp_tab_profile_content' ]
-	);
+		'callback' => [ 'name' => 'usp_tab_profile_content' ],
+	];
 
 	usp_add_sub_tab( 'profile', $subtab );
 }
@@ -93,7 +93,7 @@ function usp_bar_add_profile_link() {
 		'class' => 'usp-bar-profile__info',
 		'href'  => usp_get_tab_permalink( get_current_user_id(), 'profile' ),
 		'icon'  => 'fa-address-book',
-		'label' => __( 'Profile info', 'userspace' )
+		'label' => __( 'Profile info', 'userspace' ),
 	] );
 
 	echo usp_get_button( [
@@ -102,7 +102,7 @@ function usp_bar_add_profile_link() {
 		'class' => 'usp-bar-profile__settings',
 		'href'  => usp_get_tab_permalink( get_current_user_id(), 'profile', 'edit' ),
 		'icon'  => 'fa-user-cog',
-		'label' => __( 'Profile settings', 'userspace' )
+		'label' => __( 'Profile settings', 'userspace' ),
 	] );
 }
 
@@ -110,12 +110,12 @@ if ( ! is_admin() ) {
 	add_action( 'wp', 'usp_update_profile_notice' );
 }
 function usp_update_profile_notice() {
-	if ( isset( $_GET['usp-profile-updated'] ) ) {
+	if ( is_user_logged_in() && isset( $_GET['usp-profile-updated'] ) ) {
 		add_action( 'usp_area_notice', function () {
 			echo usp_get_notice( [
 				'type'  => 'success',
 				'class' => 'usp_profile_updated',
-				'text'  => __( 'Your profile has been updated', 'userspace' )
+				'text'  => __( 'Your profile has been updated', 'userspace' ),
 			] );
 		} );
 	}
@@ -158,16 +158,16 @@ function usp_add_office_profile_fields( $fields ) {
 
 	$profileFields = [
 		[
-			'slug'    => 'show_admin_bar_front',
-			'title'   => __( 'Admin toolbar', 'userspace' ),
-			'type'    => 'radio',
-			'values'  => [
+			'slug'         => 'show_admin_bar_front',
+			'title'        => __( 'Admin toolbar', 'userspace' ),
+			'type'         => 'radio',
+			'values'       => [
 				'false' => __( 'Disabled', 'userspace' ),
-				'true'  => __( 'Enabled', 'userspace' )
+				'true'  => __( 'Enabled', 'userspace' ),
 			],
-			'default' => 'false',
-			'value_in_key' => false
-		]
+			'default'      => 'false',
+			'value_in_key' => FALSE,
+		],
 	];
 
 	return ( $fields ) ? array_merge( $profileFields, $fields ) : $profileFields;
@@ -175,7 +175,10 @@ function usp_add_office_profile_fields( $fields ) {
 
 function usp_tab_profile_content( $master_id ) {
 
-	return USP()->user( $master_id )->profile_fields()->get_profile_fields_form();
+	return USP()
+		->user( $master_id )
+		->profile_fields()
+		->get_profile_fields_form();
 }
 
 add_action( 'init', 'usp_delete_user_account_activate' );
@@ -189,7 +192,7 @@ function usp_delete_user_account_activate() {
 function usp_delete_user_account() {
 
 	if ( ! wp_verify_nonce( $_POST['_wpnonce'], 'delete-user-' . get_current_user_id() ) ) {
-		return false;
+		return FALSE;
 	}
 
 	require_once( ABSPATH . 'wp-admin/includes/user.php' );

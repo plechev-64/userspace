@@ -6,21 +6,27 @@ function usp_default_theme_css() {
 		return;
 	}
 
-	usp_enqueue_style( 'usp-theme-default-css', plugins_url( 'assets/css/usp-default-theme.css', __FILE__ ) );
+	usp_enqueue_style( 'usp-theme', plugins_url( 'assets/css/usp-default-theme.css', __FILE__ ) );
 }
 
-add_action( 'usp_enqueue_scripts', 'usp_default_theme_js' );
-function usp_default_theme_js() {
-	if ( ! usp_is_office() ) {
+add_action( 'usp_enqueue_scripts', 'usp_default_theme_menu_js' );
+function usp_default_theme_menu_js() {
+	if ( ! usp_is_office() || usp_get_option( 'usp_overflow_menu', 1 ) == 0 ) {
 		return;
 	}
 
-	if ( usp_get_option( 'usp_overflow_menu', 1 ) == 0 ) {
+	usp_enqueue_script( 'usp-theme', plugins_url( 'assets/js/usp-default-theme-menu.js', __FILE__ ), FALSE, TRUE );
+}
+
+add_action( 'init', 'usp_default_theme_compact_js' );
+function usp_default_theme_compact_js() {
+	if ( ! usp_is_office() || ! usp_get_option( 'usp_office_compact', 1 ) ) {
 		return;
 	}
 
-	usp_enqueue_script( 'usp-theme-default-js', plugins_url( 'assets/js/usp-default-theme.js', __FILE__ ), false, true );
+	usp_enqueue_script( 'usp-theme-compact', plugins_url( 'assets/js/usp-default-theme-compact.js', __FILE__ ), FALSE, TRUE );
 }
+
 
 // support for the dashboard theme features
 add_action( 'usp_init', 'usp_setup_template_options', 10 );
@@ -34,41 +40,41 @@ function usp_setup_template_options() {
 // registering 3 widget areas
 add_action( 'widgets_init', 'usp_default_theme_sidebar' );
 function usp_default_theme_sidebar() {
-	register_sidebar( array(
+	register_sidebar( [
 		'name'          => __( 'UserSpace: Sidebar personal account content', 'userspace' ),
 		'id'            => 'usp_theme_sidebar',
 		'description'   => __( 'It is displayed only in user profile page. To the right of the content (sidebar)', 'userspace' ),
 		'before_title'  => '<h3 class="usp-theme__sidebar-title">',
 		'after_title'   => '</h3>',
 		'before_widget' => '<div class="usp-right-sidebar usps usps__column usps__shrink-0">',
-		'after_widget'  => '</div>'
-	) );
+		'after_widget'  => '</div>',
+	] );
 }
 
 add_action( 'widgets_init', 'usp_default_theme_sidebar_before' );
 function usp_default_theme_sidebar_before() {
-	register_sidebar( array(
+	register_sidebar( [
 		'name'          => __( 'UserSpace: Sidebar above personal account', 'userspace' ),
 		'id'            => 'usp_theme_sidebar_before',
 		'description'   => __( 'It is displayed only in user profile page.', 'userspace' ),
 		'before_title'  => '<h3 class="theme_title_before">',
 		'after_title'   => '</h3>',
 		'before_widget' => '<div class="usp-theme__sidebar usp-theme__sidebar-before">',
-		'after_widget'  => '</div>'
-	) );
+		'after_widget'  => '</div>',
+	] );
 }
 
 add_action( 'widgets_init', 'usp_default_theme_sidebar_after' );
 function usp_default_theme_sidebar_after() {
-	register_sidebar( array(
+	register_sidebar( [
 		'name'          => __( 'UserSpace: Sidebar under personal account', 'userspace' ),
 		'id'            => 'usp_theme_sidebar_after',
 		'description'   => __( 'It is displayed only in user profile page.', 'userspace' ),
 		'before_title'  => '<h3 class="theme_title_after">',
 		'after_title'   => '</h3>',
 		'before_widget' => '<div class="usp-theme__sidebar usp-theme__sidebar-after">',
-		'after_widget'  => '</div>'
-	) );
+		'after_widget'  => '</div>',
+	] );
 }
 
 add_action( 'usp_area_before', 'usp_add_sidebar_theme_area_before' );
@@ -114,16 +120,17 @@ function usp_add_theme_cover_inline_styles( $styles ) {
 
 add_filter( 'usp_options', 'usp_default_theme_settings', 12 );
 function usp_default_theme_settings( $options ) {
-
-
 	if ( $options->isset_box( 'primary' ) ) {
 
-		$options->box( 'primary' )->group( 'design' )->add_options( array(
+		$options->box( 'primary' )->group( 'design' )->add_options( [
 			[
 				'type'    => 'radio',
 				'slug'    => 'usp_office_tab_type',
 				'title'   => __( 'The location of the section buttons', 'userspace' ),
-				'values'  => [ __( 'Left', 'userspace' ), __( 'Top', 'userspace' ) ],
+				'values'  => [
+					__( 'Left', 'userspace' ),
+					__( 'Top', 'userspace' ),
+				],
 				'default' => 1,
 			],
 			[
@@ -132,11 +139,21 @@ function usp_default_theme_settings( $options ) {
 				'slug'    => 'usp_overflow_menu',
 				'text'    => [
 					'off' => __( 'No', 'userspace' ),
-					'on'  => __( 'Yes', 'userspace' )
+					'on'  => __( 'Yes', 'userspace' ),
 				],
 				'default' => 1,
 			],
-		) );
+			[
+				'title'   => __( 'When navigating through tabs - use a compact view?', 'userspace' ),
+				'type'    => 'switch',
+				'slug'    => 'usp_office_compact',
+				'text'    => [
+					'off' => __( 'No', 'userspace' ),
+					'on'  => __( 'Yes', 'userspace' ),
+				],
+				'default' => 1,
+			],
+		] );
 	}
 
 	return $options;
@@ -156,4 +173,13 @@ function usp_add_office_logout() {
 	}
 
 	echo usp_logout_shortcode( [ 'type' => 'clear' ] );
+}
+
+add_filter( 'usp_office_class', 'usp_office_compact_view' );
+function usp_office_compact_view( $class ) {
+	if ( isset( $_GET['tab'] ) && usp_get_option( 'usp_office_compact', 1 ) ) {
+		return $class . ' usp-office-small';
+	}
+
+	return $class;
 }
