@@ -6,7 +6,7 @@
 // when resizing, we update it
     function moveMenu() {
         navMenu.append($('#usp-ext-nav').html());
-        $('.usp-dropdown, #usp-ext-nav').remove();
+        $('.usp-expand, #usp-ext-nav').remove();
     }
 
 // closing the menu
@@ -16,7 +16,7 @@
             uspOverlay.fadeOut().removeClass('usp-overlay__ext-nav');
         }
         $('#usp-ext-nav').removeClass('usp-ext-nav__open');
-        $('.usp-dropdown').removeClass('usp-bttn__active');
+        $('.usp-expand').removeClass('usp-bttn__active');
     }
 
 // determine what type of buttons we have
@@ -50,7 +50,7 @@
 
 // indent from the top-right to our buttons
     function menuPosition() {
-        var hUpMenu = navMenu.offset().top + $('.usp-dropdown').outerHeight(true);
+        var hUpMenu = navMenu.offset().top + $('.usp-expand').outerHeight(true);
 
         // consider the indent lower when the screen is wider than the content. We prevent the window from being pressed to the right edge. 
         // Now the menu is in the hamburger area
@@ -76,7 +76,7 @@
             }
         });
         navMenu.append(
-            '<a class="usp-dropdown usp-tab-button usp-bttn usp-bttn__type-primary usp-bttn__size-standart">'
+            '<a class="usp-expand usp-tab-button usp-bttn usp-bttn__type-primary usp-bttn__size-standart">'
             + '<i class="usp-bttn__ico usp-bttn__ico-left uspi fa-bars"></i>'
             + '<span class="usp-bttn__count"></span>'
             + '</a>'
@@ -84,9 +84,9 @@
         // creating content in the button
         $('body').append('<div id="usp-ext-nav" class="usp-nav usps__line-1">' + menuhtml + '</div>');
 
-        $('.usp-dropdown span').text($('#usp-ext-nav > a').length + '');
+        $('.usp-expand span').text($('#usp-ext-nav > a').length + '');
 
-        var dropdown = $('.usp-dropdown');
+        var dropdown = $('.usp-expand');
         // if there is no content in the button, hide it
         (menuhtml === '') ? dropdown.hide() : dropdown.show();
 

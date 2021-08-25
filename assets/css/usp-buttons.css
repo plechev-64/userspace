@@ -141,6 +141,10 @@ body:not(.wp-admin) .usp-bttn.usp-bttn__type-primary:not(.usp-bttn__active),
     width: 100%;
 }
 
+.usp-wrap__widget:not(.usp-bar-usertabs) .usp-bttn__type-clear > * {
+    color: var(--uspGray-700);
+}
+
 .usp-wrap__widget .usp-bttn__type-simple {
     min-height: 42px;
     width: 100%;
@@ -160,6 +164,7 @@ body:not(.wp-admin) .usp-bttn.usp-bttn__type-primary:not(.usp-bttn__active),
     white-space: nowrap;
     width: 100%;
     line-height: normal;
+    text-align: left;
 }
 
 /* */

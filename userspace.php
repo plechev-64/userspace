@@ -2,7 +2,7 @@
 /*
   Plugin Name: UserSpace
   Plugin URI: http://user-space.com/
-  Description: Login & registration form, profile fields, front-end profile, user account and core for wordpress membership.
+  Description: Login & registration form, profile fields, front-end profile, user account and core for WordPress membership.
   Version: 0.1
   Author: Plechev Andrey
   Author URI: http://user-space.com/
@@ -16,13 +16,12 @@ final class UserSpace {
 
 	private $version = '1.0.0';
 	private $theme = null;
-	private $fields = array();
-	private $modules = array();
-	private $used_modules = array();
+	private $fields = [];
+	private $modules = [];
+	private $used_modules = [];
 	private static $instance = null;
 
 	public static function getInstance() {
-
 		if ( null === self::$instance ) {
 			self::$instance = new self();
 		}
@@ -31,7 +30,6 @@ final class UserSpace {
 	}
 
 	private function __construct() {
-
 		if ( self::$instance ) {
 			return;
 		}
@@ -80,30 +78,27 @@ final class UserSpace {
 	}
 
 	private function init_hooks() {
+		register_activation_hook( __FILE__, [ 'USP_Install', 'install' ] );
 
-		register_activation_hook( __FILE__, array( 'USP_Install', 'install' ) );
+		add_action( 'init', [ $this, 'init' ], 0 );
 
-		add_action( 'init', array( $this, 'init' ), 0 );
-
-		add_action( 'usp_area_before', array( $this, 'userspace_office_load' ) );
+		add_action( 'usp_area_before', [ $this, 'userspace_office_load' ] );
 
 		/**
 		 * Register our extra header for themes
 		 *
 		 * @since 1.0
 		 */
-		add_filter( 'extra_plugin_headers', array( $this, 'register_theme_header' ) );
+		add_filter( 'extra_plugin_headers', [ $this, 'register_theme_header' ] );
 
 		if ( ! is_admin() ) {
 			add_action( 'usp_enqueue_scripts', 'usp_core_resources', 1 );
 			add_action( 'usp_enqueue_scripts', 'usp_frontend_scripts', 1 );
 			add_action( 'wp_head', [ $this, 'update_user_activity' ], 10 );
 		}
-
 	}
 
 	function update_user_activity() {
-
 		if ( ! is_user_logged_in() ) {
 			return;
 		}
@@ -185,105 +180,104 @@ final class UserSpace {
 	}
 
 	function fields_init() {
-
-		$this->fields = apply_filters( 'usp_fields', array(
-			'text'        => array(
+		$this->fields = apply_filters( 'usp_fields', [
+			'text'        => [
 				'label' => __( 'Text', 'userspace' ),
-				'class' => 'USP_Field_Text'
-			),
-			'time'        => array(
+				'class' => 'USP_Field_Text',
+			],
+			'time'        => [
 				'label' => __( 'Time', 'userspace' ),
-				'class' => 'USP_Field_Text'
-			),
-			'hidden'      => array(
+				'class' => 'USP_Field_Text',
+			],
+			'hidden'      => [
 				'label' => __( 'Hidden field', 'userspace' ),
-				'class' => 'USP_Field_Hidden'
-			),
-			'password'    => array(
+				'class' => 'USP_Field_Hidden',
+			],
+			'password'    => [
 				'label' => __( 'Password', 'userspace' ),
-				'class' => 'USP_Field_Text'
-			),
-			'url'         => array(
+				'class' => 'USP_Field_Text',
+			],
+			'url'         => [
 				'label' => __( 'Url', 'userspace' ),
-				'class' => 'USP_Field_Text'
-			),
-			'textarea'    => array(
+				'class' => 'USP_Field_Text',
+			],
+			'textarea'    => [
 				'label' => __( 'Multiline text area', 'userspace' ),
-				'class' => 'USP_Field_TextArea'
-			),
-			'select'      => array(
+				'class' => 'USP_Field_TextArea',
+			],
+			'select'      => [
 				'label' => __( 'Select', 'userspace' ),
-				'class' => 'USP_Field_Select'
-			),
-			'multiselect' => array(
+				'class' => 'USP_Field_Select',
+			],
+			'multiselect' => [
 				'label' => __( 'Multi select', 'userspace' ),
-				'class' => 'USP_Field_MultiSelect'
-			),
-			'switch'      => array(
+				'class' => 'USP_Field_MultiSelect',
+			],
+			'switch'      => [
 				'label' => __( 'Switch', 'userspace' ),
-				'class' => 'USP_Field_Switch'
-			),
-			'checkbox'    => array(
+				'class' => 'USP_Field_Switch',
+			],
+			'checkbox'    => [
 				'label' => __( 'Checkbox', 'userspace' ),
-				'class' => 'USP_Field_Checkbox'
-			),
-			'radio'       => array(
+				'class' => 'USP_Field_Checkbox',
+			],
+			'radio'       => [
 				'label' => __( 'Radio button', 'userspace' ),
-				'class' => 'USP_Field_Radio'
-			),
-			'email'       => array(
+				'class' => 'USP_Field_Radio',
+			],
+			'email'       => [
 				'label' => __( 'E-mail', 'userspace' ),
-				'class' => 'USP_Field_Text'
-			),
-			'tel'         => array(
+				'class' => 'USP_Field_Text',
+			],
+			'tel'         => [
 				'label' => __( 'Phone', 'userspace' ),
-				'class' => 'USP_Field_Tel'
-			),
-			'number'      => array(
+				'class' => 'USP_Field_Tel',
+			],
+			'number'      => [
 				'label' => __( 'Number', 'userspace' ),
-				'class' => 'USP_Field_Number'
-			),
-			'date'        => array(
+				'class' => 'USP_Field_Number',
+			],
+			'date'        => [
 				'label' => __( 'Date', 'userspace' ),
-				'class' => 'USP_Field_Date'
-			),
-			'agree'       => array(
+				'class' => 'USP_Field_Date',
+			],
+			'agree'       => [
 				'label' => __( 'Agreement', 'userspace' ),
-				'class' => 'USP_Field_Agree'
-			),
-			'file'        => array(
+				'class' => 'USP_Field_Agree',
+			],
+			'file'        => [
 				'label' => __( 'File', 'userspace' ),
-				'class' => 'USP_Field_File'
-			),
-			'dynamic'     => array(
+				'class' => 'USP_Field_File',
+			],
+			'dynamic'     => [
 				'label' => __( 'Dynamic', 'userspace' ),
-				'class' => 'USP_Field_Dynamic'
-			),
-			'runner'      => array(
+				'class' => 'USP_Field_Dynamic',
+			],
+			'runner'      => [
 				'label' => __( 'Runner', 'userspace' ),
-				'class' => 'USP_Field_Runner'
-			),
-			'range'       => array(
+				'class' => 'USP_Field_Runner',
+			],
+			'range'       => [
 				'label' => __( 'Range', 'userspace' ),
-				'class' => 'USP_Field_Range'
-			),
-			'color'       => array(
+				'class' => 'USP_Field_Range',
+			],
+			'color'       => [
 				'label' => __( 'Color', 'userspace' ),
-				'class' => 'USP_Field_Color'
-			),
-			'custom'      => array(
+				'class' => 'USP_Field_Color',
+			],
+			'custom'      => [
 				'label' => __( 'Custom content', 'userspace' ),
-				'class' => 'USP_Field_Custom'
-			),
-			'editor'      => array(
+				'class' => 'USP_Field_Custom',
+			],
+			'editor'      => [
 				'label' => __( 'Text editor', 'userspace' ),
-				'class' => 'USP_Field_Editor'
-			),
-			'uploader'    => array(
+				'class' => 'USP_Field_Editor',
+			],
+			'uploader'    => [
 				'label' => __( 'File uploader', 'userspace' ),
-				'class' => 'USP_Field_Uploader'
-			)
-		) );
+				'class' => 'USP_Field_Uploader',
+			],
+		] );
 	}
 
 	public function includes() {
@@ -312,6 +306,7 @@ final class UserSpace {
 		require_once 'classes/class-usp-theme.php';
 		require_once 'classes/class-usp-themes.php';
 		require_once 'classes/class-usp-template.php';
+		require_once 'classes/class-usp-dropdown.php';
 
 		require_once 'functions/ajax.php';
 		require_once 'functions/files.php';
@@ -343,7 +338,6 @@ final class UserSpace {
 	}
 
 	function use_module( $module_id ) {
-
 		if ( $this->used_modules && in_array( $module_id, $this->used_modules ) ) {
 			return;
 		}
@@ -362,7 +356,6 @@ final class UserSpace {
 	}
 
 	private function init_modules() {
-
 		$this->modules = [
 			'loginform'       => new USP_Module( USP_PATH . 'modules/loginform/index.php', [ 'forms' ] ),
 			'usp-bar'         => new USP_Module( USP_PATH . 'modules/usp-bar/index.php' ),
@@ -373,24 +366,20 @@ final class UserSpace {
 			'forms'           => new USP_Module( USP_PATH . 'modules/forms/index.php', [ 'fields' ] ),
 			'fields'          => new USP_Module( USP_PATH . 'modules/fields/index.php', [ 'uploader' ] ),
 			'fields-manager'  => new USP_Module( USP_PATH . 'modules/fields-manager/index.php', [ 'fields' ] ),
-			'content-manager' => new USP_Module( USP_PATH . 'modules/content-manager/index.php', [
-				'fields',
-				'table'
-			] ),
+			'content-manager' => new USP_Module( USP_PATH . 'modules/content-manager/index.php', [ 'fields', 'table' ] ),
 			'options-manager' => new USP_Module( USP_PATH . 'modules/options-manager/index.php', [ 'fields' ] ),
 			'profile'         => new USP_Module( USP_PATH . 'modules/profile/index.php' ),
 			'profile-fields'  => new USP_Module( USP_PATH . 'modules/profile-fields/index.php', [ 'fields' ] ),
-			'users-list'  => new USP_Module( USP_PATH . 'modules/users-list/index.php', [ 'content-manager' ] ),
+			'users-list'      => new USP_Module( USP_PATH . 'modules/users-list/index.php', [ 'content-manager' ] ),
 		];
 	}
 
 	public function upload_dir() {
-
 		if ( defined( 'MULTISITE' ) ) {
-			$upload_dir = array(
+			$upload_dir = [
 				'basedir' => WP_CONTENT_DIR . '/uploads',
-				'baseurl' => WP_CONTENT_URL . '/uploads'
-			);
+				'baseurl' => WP_CONTENT_URL . '/uploads',
+			];
 		} else {
 			$upload_dir = wp_upload_dir();
 		}
@@ -411,7 +400,6 @@ final class UserSpace {
 	}
 
 	public function user( $user_id = 0 ) {
-
 		$user_id = $user_id ?: get_current_user_id();
 
 		if ( ! $user_id ) {
@@ -430,7 +418,6 @@ final class UserSpace {
 	}
 
 	public function profile_fields() {
-
 		$this->use_module( 'profile-fields' );
 
 		return new USP_Profile_Fields();
@@ -474,4 +461,3 @@ $GLOBALS['userspace'] = USP();
 
 USP()->use_module( 'tabs' );
 USP()->use_module( 'profile' );
-

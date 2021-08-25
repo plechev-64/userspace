@@ -57,6 +57,9 @@
     color: var(--uspText);
 }
 
+.usp-bar-profile__logout span.usp-bttn__text {
+    text-align: right;
+}
 
 .usp-bar-wrap > div {
     min-height: 40px;
