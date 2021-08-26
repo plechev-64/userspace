@@ -10,7 +10,7 @@ $args = [
 ];
 
 ?>
-<div class="usp-card usp-user usps__grow" data-user-id="<?php echo $user->ID; ?>">
+<div class="usp-user usp-card usps__grow" data-user-id="<?php echo $user->ID; ?>">
     <div class="usp-user__top usps usps__nowrap">
         <div class="usp-user__left usps usps__column usps__shrink-0">
 			<?php echo $user->get_avatar( 70, $user->get_url(), $args ); ?>
@@ -30,10 +30,10 @@ $args = [
     </div>
 
     <div class="usp-user__bottom">
-        <div class="usp-user__fields-before"><?php do_action( 'usp_user_fields_before', $user, $custom_data ); ?></div>
+        <div class="usp-user-fields-before"><?php do_action( 'usp_user_fields_before', $user, $custom_data ); ?></div>
 
 		<?php echo $user->profile_fields()->get_public_fields_values(); ?>
 
-        <div class="usp-user__fields-after"><?php do_action( 'usp_user_fields_after', $user, $custom_data ); ?></div>
+        <div class="usp-user-fields-after"><?php do_action( 'usp_user_fields_after', $user, $custom_data ); ?></div>
     </div>
 </div>

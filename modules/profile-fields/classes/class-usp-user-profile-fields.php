@@ -25,11 +25,11 @@ class USP_User_Profile_Fields extends USP_Profile_Fields {
 		foreach ( $public_fields as $field ) {
 
 			$field->value = $this->user->{$field->slug};
-			$html .= $field->get_field_value( true );
+			$html         .= $field->get_field_value( true );
 		}
 
 		if ( $html ) {
-			$html = '<div class="usp-user__fields usps usps__column">' . $html . '</div>';
+			$html = '<div class="usp-user-fields usps usps__column">' . $html . '</div>';
 		}
 
 		return $html;

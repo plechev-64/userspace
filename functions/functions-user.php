@@ -151,23 +151,6 @@ function usp_user_rayting() {
 	}
 }
 
-function usp_get_user_custom_fields() {
-	global $usp_user, $usp_users_set;
-
-	if ( false !== array_search( 'profile_fields', $usp_users_set->data ) || isset( $usp_user->profile_fields ) ) {
-		if ( ! isset( $usp_user->profile_fields ) ) {
-			return;
-		}
-
-		$out = '';
-		foreach ( $usp_user->profile_fields as $field_id => $field ) {
-			$out .= USP_Field::setup( $field )->get_field_value( 'title' );
-		}
-
-		return $out;
-	}
-}
-
 add_action( 'usp_user_stats', 'usp_user_stats_comments', 22, 2 );
 function usp_user_stats_comments( USP_User $user, $custom_data = [] ) {
 
@@ -422,5 +405,5 @@ function usp_masonry_custom_fields( USP_User $user ) {
 
 add_action( 'usp_user_meta', 'usp_user_meta_age', 20 );
 function usp_user_meta_age( USP_User $user ) {
-	echo $user->get_age_html('usp-user__age');
+	echo $user->get_age_html( 'usp-user__age' );
 }

@@ -12,7 +12,7 @@ $args = [
 ];
 ?>
 
-<div class="usp-card usp-masonry">
+<div class="usp-user usp-card usp-masonry">
     <div class="usp-card__head usp-masonry__head usps__relative">
         <img class="usps__img-reset usps__fit-cover" src="<?php echo $user->get_cover_url( true ); ?>">
 		<?php echo $user->get_action( 'mixed' ); ?>
@@ -21,7 +21,7 @@ $args = [
 
     <div class="usp-card__main usps usps__column">
 
-		<?php echo $user->get_avatar(70, $user->get_url(), $args ); ?>
+		<?php echo $user->get_avatar( 110, $user->get_url(), $args ); ?>
 
         <div class="usp-card__center">
 			<?php echo $user->get_username( $user->get_url(), [ 'class' => 'usp-card__title' ] ); ?>

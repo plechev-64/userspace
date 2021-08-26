@@ -46,9 +46,9 @@ function usp_get_subtab( $tab_id, $subtab_id ) {
 /**
  * Gets a link to the personal account by the user ID
  *
- * @param   int     $user_id    id user.
- * @param   string  $tab_id     Optional. Slug tab.
- * @param   string  $subtab_id  Optional. Slug subtab.
+ * @param int $user_id id user.
+ * @param string $tab_id Optional. Slug tab.
+ * @param string $subtab_id Optional. Slug subtab.
  *
  * @return string New URL query string (unescaped).
  * @since 1.0
@@ -149,6 +149,9 @@ function usp_filter_custom_tab_usermetas( $content ) {
 add_filter( 'usp_tab_content', 'usp_check_user_blocked', 10 );
 function usp_check_user_blocked( $content ) {
 	global $user_ID;
+	/*
+	 * TODO не понятно
+	 */
 	if ( USP()->office()->is_owner( $user_ID ) ) {
 		if ( get_user_meta( USP()->office()->is_owner( $user_ID ), 'usp_black_list:' . $user_ID ) ) {
 			$content = usp_get_notice( [ 'text' => __( 'The user has restricted access to their page', 'userspace' ) ] );

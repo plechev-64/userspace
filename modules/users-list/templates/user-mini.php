@@ -10,6 +10,6 @@ $args = [
 	'parent_title' => $user->get_username(),
 ];
 ?>
-<div class="usp-user usps" data-user-id="<?php echo $user->ID; ?>">
+<div class="usp-user usps usps__mb-6 usps__mr-6" data-user-id="<?php echo $user->ID; ?>">
 	<?php echo $user->get_avatar( 50, $user->get_url(), $args, $user->get_action( 'icon' ) ); ?>
 </div>

@@ -246,6 +246,22 @@ i::before {
     line-height: normal;
 }
 
+.usps__ml-6 {
+    margin-left: 6px;
+}
+
+.usps__mt-6 {
+    margin-top: 6px;
+}
+
+.usps__mr-6 {
+    margin-right: 6px;
+}
+
+.usps__mb-6 {
+    margin-bottom: 6px;
+}
+
 /* END */
 
 /*----------------------
@@ -263,6 +279,8 @@ i::before {
   10. USP Card
   11. USP meta
   12. USP dropdown
+  13. USP User avatar
+  14. USP User fields
 ------------------------*/
 
 
@@ -629,16 +647,28 @@ i.usp-offline {
     box-shadow: var(--uspBox100);
 }
 
-.usp-card:nth-child(2), .usp-card:nth-child(6) {
+.usp-card {
     animation-delay: .8s;
 }
 
-.usp-card:nth-child(3), .usp-card:nth-child(5) {
-    animation-delay: 1s;
+.usp-card:nth-child(1) {
+    animation-delay: .2s;
+}
+
+.usp-card:nth-child(2) {
+    animation-delay: .3s;
+}
+
+.usp-card:nth-child(3) {
+    animation-delay: .4s;
 }
 
 .usp-card:nth-child(4) {
-    animation-delay: 1.2s;
+    animation-delay: .5s;
+}
+
+.usp-card:nth-child(5) {
+    animation-delay: .6s;
 }
 
 .usp-card__head {
@@ -772,4 +802,29 @@ i.usp-offline {
     opacity: 1;
     visibility: visible;
     box-shadow: var(--uspBox200);
+}
+
+/*------------------------
+  13. USP User avatar
+--------------------------*/
+.usp-user__ava .usps__img-reset {
+    box-shadow: none !important;
+    color: inherit;
+}
+
+.usp-user__ava .usp-status-user {
+    position: absolute;
+    right: 3px;
+    top: 3px;
+}
+
+/*------------------------
+  14. USP User fields
+--------------------------*/
+.usp-user-fields {
+    margin: 12px 0;
+}
+
+.usp-user-fields > .usp-field:not(:first-child) {
+    margin: 6px 0 0 0;
 }

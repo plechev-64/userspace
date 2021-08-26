@@ -132,7 +132,7 @@ function usp_get_user_widget() {
  * Displays login, registration, and reset password forms
  * If logged in - displays the button to go to the personal account
  *
- * @param   array  $atts                    $atts['active']     Set active tab in form.
+ * @param array $atts $atts['active']     Set active tab in form.
  *                                          Default: 'login'.
  *                                          Available: login|register|lostpassword
  *                                          $atts['forms']      What forms to display in tabs
@@ -162,7 +162,7 @@ function usp_get_loginform_shortcode( $atts = [] ) {
 /**
  * Displays registered users
  *
- * @param   array  $atts                        $atts['inpage']         Set users per page
+ * @param array $atts $atts['inpage']         Set users per page
  *                                              Default: 30
  *                                              $atts['number']         Maximum number users
  *                                              $atts['template']       User output template
@@ -215,18 +215,18 @@ add_shortcode( 'usp-users-new', 'usp_users_new_shortcode' );
 function usp_users_new_shortcode( $args ) {
 
 	$atts = shortcode_atts( array(
-		'template'        => 'mini',
-		'number'       => 10,
-		'search'        => 0,
+		'template'    => 'mini',
+		'number'      => 10,
+		'search'      => 0,
 		'custom_data' => 'user_registered',
-		'orderby' => 'user_registered',
-		'order' => 'DESC',
-		'pagenavi' => 0
+		'orderby'     => 'user_registered',
+		'order'       => 'DESC',
+		'pagenavi'    => 0
 	), $args );
 
 	USP()->use_module( 'users-list' );
 
-	$manager = new USP_Users_Manager($atts);
+	$manager = new USP_Users_Manager( $atts );
 
 	return $manager->get_manager();
 }
@@ -238,18 +238,17 @@ add_shortcode( 'usp-users-online', 'usp_users_online_shortcode' );
 function usp_users_online_shortcode( $args ) {
 
 	$atts = shortcode_atts( array(
-		'template'        => 'mini',
-		'number'       => 10,
-		'search'        => 0,
-		'orderby' => 'last_activity',
-		'order' => 'DESC',
-		'pagenavi' => 0,
-		'where' => 'last_activity__from '
+		'template' => 'mini',
+		'number'   => 10,
+		'search'   => 0,
+		'orderby'  => 'last_activity',
+		'order'    => 'DESC',
+		'pagenavi' => 0
 	), $args );
 
 	USP()->use_module( 'users-list' );
 
-	$manager = new USP_Users_Manager($atts);
+	$manager = new USP_Users_Manager( $atts );
 
 	return $manager->get_manager();
 }
@@ -259,7 +258,7 @@ function usp_users_online_shortcode( $args ) {
  * As a rule, these are other shortcodes
  * Example: [usp-cache time="3600" key="my-unique-key"]say hello shortcode[/usp-cache]
  *
- * @param   array  $atts  $atts['time']       Caching time in seconds.
+ * @param array $atts $atts['time']       Caching time in seconds.
  *                        $atts['key']        String, unique key
  *                        $atts['only_guest'] Cached for guests only
  *
@@ -313,7 +312,7 @@ function usp_cache_shortcode( $atts, $content_in = null ) {
  * Shortcode of the exit button from the site
  * The button is shown only to logged-in users
  *
- * @param   array  $attr                    $attr['text']       Text on button
+ * @param array $attr $attr['text']       Text on button
  *                                          $atts['redirect']   Redirect after logout.
  *                                          Default: 'home'
  *                                          Available: home|current
@@ -361,7 +360,7 @@ function usp_logout_button( $atts ) {
 /**
  * Shortcode displays notice box
  *
- * @param   array  $args  Extra options.
+ * @param array $args Extra options.
  *                        $args['text']           Required. Text message
  *                        $args['title']          Title text
  *                        $args['type']           Type notice. Default: info. Allowed: info|success|warning|error|simple
@@ -398,7 +397,7 @@ function usp_notice_shortcode( $args ) {
 
 	$argum['text'] = wp_kses_data( $atts['text'] );
 
-	$argum['text_center'] = ( $atts['text_center'] ) ? true : false;
+	$argum['text_center'] = (bool) $atts['text_center'];
 
 	if ( $atts['icon'] == 1 ) {
 		$argum['icon'] = true;

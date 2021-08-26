@@ -5,7 +5,7 @@
  */
 
 ?>
-<div class="usp-user usp-user-full">
+<div class="usp-user">
     <div class="usp-user__top usps usps__ai-center">
         <div class="usp-user__name"><?php echo $user->get_username(); ?></div>
         <div class="usp-user__meta"><?php do_action( 'usp_user_meta', $user, $custom_data ); ?></div>
@@ -17,10 +17,10 @@
 
     <div class="usp-user__stats usps"><?php do_action( 'usp_user_stats', $user, $custom_data ); ?></div>
     <div class="usp-user__bottom">
-        <div class="usp-user__fields-before"><?php do_action( 'usp_user_fields_before', $user, $custom_data ); ?></div>
+        <div class="usp-user-fields-before"><?php do_action( 'usp_user_fields_before', $user, $custom_data ); ?></div>
 
 		<?php echo $user->profile_fields()->get_public_fields_values(); ?>
 
-        <div class="usp-user__fields-after"><?php do_action( 'usp_user_fields_after', $user, $custom_data ); ?></div>
+        <div class="usp-user-fields-after"><?php do_action( 'usp_user_fields_after', $user, $custom_data ); ?></div>
     </div>
 </div>

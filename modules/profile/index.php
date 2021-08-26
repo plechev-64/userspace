@@ -39,9 +39,9 @@ function usp_tab_profile() {
 					'id'       => 'info',
 					'name'     => __( 'User info', 'userspace' ),
 					'title'    => __( 'About the user', 'userspace' ),
-					'callback' => [ 'name' => 'usp_get_profile_user_info' ],
-				],
-			],
+					'callback' => [ 'name' => 'usp_get_profile_user_info' ]
+				]
+			]
 		]
 	);
 }
@@ -51,10 +51,10 @@ function usp_get_profile_user_info( $user_id ) {
 	USP()->use_module( 'users-list' );
 
 	$manager = new USP_Users_Manager( [
-		'include'     => $user_id,
+		'ID__in'      => $user_id,
 		'search'      => 0,
 		'template'    => 'full',
-		'custom_data' => 'posts, comments, user_registered',
+		'custom_data' => 'posts, comments, user_registered'
 	] );
 
 	return $manager->get_manager();
@@ -74,7 +74,7 @@ function usp_tab_profile_info() {
 		'title'    => __( 'Personal Options', 'userspace' ),
 		'icon'     => 'fa-user-cog',
 		'supports' => [ 'ajax' ],
-		'callback' => [ 'name' => 'usp_tab_profile_content' ],
+		'callback' => [ 'name' => 'usp_tab_profile_content' ]
 	];
 
 	usp_add_sub_tab( 'profile', $subtab );
@@ -93,7 +93,7 @@ function usp_bar_add_profile_link() {
 		'class' => 'usp-bar-profile__info',
 		'href'  => usp_get_tab_permalink( get_current_user_id(), 'profile' ),
 		'icon'  => 'fa-address-book',
-		'label' => __( 'Profile info', 'userspace' ),
+		'label' => __( 'Profile info', 'userspace' )
 	] );
 
 	echo usp_get_button( [
@@ -102,7 +102,7 @@ function usp_bar_add_profile_link() {
 		'class' => 'usp-bar-profile__settings',
 		'href'  => usp_get_tab_permalink( get_current_user_id(), 'profile', 'edit' ),
 		'icon'  => 'fa-user-cog',
-		'label' => __( 'Profile settings', 'userspace' ),
+		'label' => __( 'Profile settings', 'userspace' )
 	] );
 }
 
@@ -115,7 +115,7 @@ function usp_update_profile_notice() {
 			echo usp_get_notice( [
 				'type'  => 'success',
 				'class' => 'usp_profile_updated',
-				'text'  => __( 'Your profile has been updated', 'userspace' ),
+				'text'  => __( 'Your profile has been updated', 'userspace' )
 			] );
 		} );
 	}
@@ -163,11 +163,11 @@ function usp_add_office_profile_fields( $fields ) {
 			'type'         => 'radio',
 			'values'       => [
 				'false' => __( 'Disabled', 'userspace' ),
-				'true'  => __( 'Enabled', 'userspace' ),
+				'true'  => __( 'Enabled', 'userspace' )
 			],
 			'default'      => 'false',
-			'value_in_key' => FALSE,
-		],
+			'value_in_key' => false
+		]
 	];
 
 	return ( $fields ) ? array_merge( $profileFields, $fields ) : $profileFields;
@@ -192,13 +192,16 @@ function usp_delete_user_account_activate() {
 function usp_delete_user_account() {
 
 	if ( ! wp_verify_nonce( $_POST['_wpnonce'], 'delete-user-' . get_current_user_id() ) ) {
-		return FALSE;
+		return false;
 	}
 
 	require_once( ABSPATH . 'wp-admin/includes/user.php' );
 
 	global $wpdb;
 
+	/*
+	 * TODO вероятно это надо делать на хуке delete_user
+	 */
 	$wpdb->query( $wpdb->prepare( "DELETE FROM " . USP_PREF . "user_action WHERE user ='%d'", get_current_user_id() ) );
 
 	$delete = wp_delete_user( get_current_user_id() );

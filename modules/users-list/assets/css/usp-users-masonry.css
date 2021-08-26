@@ -15,36 +15,36 @@
     }
 }
 
-.size-1of1 {
+.usp-users-masonry .size-1of1 {
     width: 100%;
 }
 
-.size-1of2 {
+.usp-users-masonry .size-1of2 {
     width: calc(50% - 9px);
 }
 
-.size-1of2 + .size-1of2 {
+.usp-users-masonry .size-1of2 + .size-1of2 {
     margin: 0 0 0 18px;
 }
 
 /* end */
 
-.usp-masonry__head {
+.usp-users-masonry .usp-masonry__head {
     height: 130px;
 }
 
-.usp-masonry .usp-status-user {
+.usp-users-masonry .usp-status-user {
     position: absolute;
     right: 3px;
     top: 3px;
 }
 
-.usp-masonry .usp-status-user.usp-offline {
+.usp-users-masonry .usp-status-user.usp-offline {
     padding: 6px 12px;
     background: var(--uspWhite-05);
 }
 
-.usp-masonry__ava {
+.usp-users-masonry .usp-masonry__ava {
     margin: -84px auto 0;
     z-index: 2;
     width: 110px;
@@ -52,29 +52,29 @@
     box-sizing: content-box;
 }
 
-.usp-masonry .usp-masonry__ava-img {
+.usp-users-masonry .usp-masonry__ava-img {
     background-color: var(--uspWhite);
     padding: 6px;
 }
 
-.usp-masonry__age {
+.usp-users-masonry .usp-masonry__age {
     color: var(--uspYellow-900);
     margin-top: -12px;
 }
 
-.usp-masonry__fields {
+.usp-users-masonry .usp-user-fields {
     margin: 18px 0 6px;
 }
 
-.usp-masonry__fields div.usp-field {
+.usp-users-masonry .usp-user-fields div.usp-field {
     display: flex;
     margin: 0;
 }
 
-.usp-masonry__fields .usp-field-value {
+.usp-users-masonry .usp-user-fields .usp-field-value {
     margin-left: 6px;
 }
 
-.usp-masonry__stats {
+.usp-users-masonry .usp-masonry__stats {
     margin: 0 0 12px;
 }

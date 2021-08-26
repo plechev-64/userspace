@@ -1,49 +1,51 @@
 .usp-users-rows .usp-user {
+    flex: 1 1 100%;
     padding: 12px;
+    margin: 0 0 12px 0;
 }
 
-.usp-user__left {
+.usp-users-rows .usp-user__left {
     width: 77px;
 }
 
-.usp-user__right > :not(:last-child) {
+.usp-users-rows .usp-user__right > :not(:last-child) {
     margin-bottom: 12px;
 }
 
-.usp-user__stats,
-.usp-user__general {
+.usp-users-rows .usp-user__stats,
+.usp-users-rows .usp-user__general {
     margin-left: 12px;
     line-height: 1;
 }
 
-.usp-user__link {
+.usp-users-rows .usp-user__link {
     font-size: 20px;
     margin: 0 0 6px;
 }
 
-.usp-users-rows .usp-status-user.usp-offline {
+.usp-users-rows .usp-users-rows .usp-status-user.usp-offline {
     color: var(--uspGray-500);
 }
 
-.usp-user__bottom > div:empty,
-.usp-user__icons:empty {
+.usp-users-rows .usp-user__bottom > div:empty,
+.usp-users-rows .usp-user__icons:empty {
     display: none;
 }
 
-.usp-user__fields .usp-field {
+.usp-users-rows .usp-user-fields .usp-field {
     display: inline-flex;
     color: var(--uspGray-600);
 }
 
-.usp-user__fields .usp-field .usp-field-title {
+.usp-users-rows .usp-user-fields .usp-field .usp-field-title {
     margin: 0;
 }
 
-.usp-user__fields .usp-field-value {
+.usp-users-rows .usp-user-fields .usp-field-value {
     margin: 0 0 0 6px;
 }
 
-.usp-user__fields,
-.usp-user__fields .usp-field + .usp-field {
+.usp-users-rows .usp-user-fields,
+.usp-users-rows .usp-user-fields .usp-field + .usp-field {
     margin: 6px 0 0;
 }

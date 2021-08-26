@@ -1,14 +1,7 @@
 <?php
 
-class USP_Users_Manager extends USP_Content_Manager {
 
-	private $_default_select_cols = [
-		'ID',
-		'display_name',
-		'user_nicename',
-		'user_registered',
-		'last_activity'
-	];
+class USP_Users_Manager extends USP_Content_Manager {
 
 	private $_default_args = [
 		'number'          => 10,
@@ -19,8 +12,8 @@ class USP_Users_Manager extends USP_Content_Manager {
 		'orderby'         => 'user_registered',
 		'order'           => 'DESC',
 		'search'          => 1,
-		'exclude'         => [],
-		'include'         => []
+		'ID__not_in'      => [],
+		'ID__in'          => []
 	];
 
 	function __construct( $args = [] ) {
@@ -28,7 +21,15 @@ class USP_Users_Manager extends USP_Content_Manager {
 		$args = wp_parse_args( $args, $this->_default_args );
 
 		foreach ( $args as $param => $value ) {
+
 			$this->init_custom_prop( $param, $value );
+
+			/*
+			 * if default value for param - array, convert to array
+			 */
+			if ( is_array( $this->_default_args[ $param ] ) && ! is_array( $this->$param ) ) {
+				$this->$param = $this->$param ? array_map( 'trim', explode( ',', $this->$param ) ) : [];
+			}
 		}
 
 		$this->prepare_params();
@@ -42,22 +43,9 @@ class USP_Users_Manager extends USP_Content_Manager {
 
 	function prepare_params() {
 
-		$filter_params = [ 'custom_data', 'exclude', 'include' ];
-
-		foreach ( $filter_params as $param ) {
-			if ( $this->$param && ! is_array( $this->$param ) ) {
-				$this->$param = array_map( 'trim', explode( ',', $this->$param ) );
-			}
-		}
-
-		if ( ! in_array( $this->orderby, $this->_default_select_cols ) && ! in_array( $this->orderby, $this->custom_data ) ) {
-			$this->orderby = $this->_default_args['orderby'];
-		}
-
-		if ( $this->include ) {
-			$this->exclude  = [];
+		if ( $this->ID__in ) {
 			$this->pagenavi = 0;
-			$this->number   = count( $this->include );
+			$this->number   = count( $this->ID__in );
 		}
 
 		if ( ! $this->search ) {
@@ -72,7 +60,7 @@ class USP_Users_Manager extends USP_Content_Manager {
 			usp_masonry_script();
 		}
 
-		if ( in_array( $this->template, [ 'rows', 'masonry', 'full' ] ) ) {
+		if ( in_array( $this->template, [ 'rows', 'masonry', 'full', 'card' ] ) ) {
 			usp_enqueue_style(
 				'usp-users-' . $this->template,
 				USP_URL . 'modules/users-list/assets/css/usp-users-' . $this->template . '.css'
@@ -83,9 +71,13 @@ class USP_Users_Manager extends USP_Content_Manager {
 
 	function get_query() {
 
-		$select = array_merge( $this->_default_select_cols, [
+		$select = [
+			'ID',
+			'display_name',
+			'user_nicename',
+			'user_registered',
 			'last_activity' => ( new USP_User_Action( 'action' ) )->select( [ 'date_action' ] )->where_string( "users.ID=action.user_id" )
-		] );
+		];
 
 		if ( in_array( 'posts', $this->custom_data ) ) {
 			$select['posts'] = ( new USP_Posts_Query( 'posts' ) )->select( [
@@ -108,13 +100,14 @@ class USP_Users_Manager extends USP_Content_Manager {
 			->select( $select )
 			->where( [
 				'display_name__like' => $this->get_request_data_value( 'display_name__like' ),
-				'ID__in'             => $this->include,
-				'ID__not_in'         => $this->exclude
+				'ID__in'             => $this->ID__in,
+				'ID__not_in'         => $this->ID__not_in
 			] )
 			->orderby(
 				$this->orderby,
 				$this->order
 			);
+
 
 		return apply_filters( 'usp_users_query', $query, $this );
 	}
@@ -245,7 +238,7 @@ class USP_Users_Manager extends USP_Content_Manager {
 				'slug'   => 'orderby',
 				'title'  => __( 'Sort by', 'userspace' ),
 				'values' => $orderby_values,
-				'value'  => $this->get_request_data_value( 'orderby', 'user_registered' ),
+				'value'  => $this->get_request_data_value( 'orderby', $this->orderby ),
 			],
 			[
 				'type'   => 'radio',
@@ -255,7 +248,7 @@ class USP_Users_Manager extends USP_Content_Manager {
 					'DESC' => __( 'Descending', 'userspace' ),
 					'ASC'  => __( 'Ascending', 'userspace' )
 				],
-				'value'  => $this->get_request_data_value( 'order', 'DESC' ),
+				'value'  => $this->get_request_data_value( 'order', $this->order ),
 			]
 		];
 

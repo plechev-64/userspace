@@ -269,7 +269,7 @@ class USP_Field_Abstract {
 			return false;
 		}
 
-		$content = '<div class="usp-field type-' . $this->type . '-value usp-field-' . $this->id . '">';
+		$content = '<div class="usp-field usps type-' . $this->type . '-value usp-field-' . $this->id . '">';
 
 		//$content .= $this->get_icon();
 
@@ -280,7 +280,7 @@ class USP_Field_Abstract {
 			            . '<span class="title-colon">: </span></div>';
 		}
 
-		$content .= '<span class="usp-field-value">';
+		$content .= '<span class="usp-field-value usps__ml-6">';
 
 		$content .= $this->filter ? $this->get_filter_value() : $value;
 
