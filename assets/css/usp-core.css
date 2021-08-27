@@ -515,6 +515,23 @@ i.usp-offline {
     z-index: 1501;
     min-width: 200px;
     max-width: 260px;
+    max-height: 50vh;
+    overflow: hidden;
+}
+
+#usp-wrap-notices[data-x="center"] {
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#usp-wrap-notices[data-x="right"] {
+    right: 12px;
+    left: unset;
+}
+
+#usp-wrap-notices[data-y="bottom"] {
+    top: unset;
+    bottom: 66px;
 }
 
 .usp-notice {

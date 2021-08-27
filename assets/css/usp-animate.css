@@ -70,6 +70,20 @@
     }
 }
 
+.slideInRight {
+    animation-name: slideInRight
+}
+
+@keyframes slideInRight {
+    0% {
+        transform: translate3d(+100%, 0, 0);
+        visibility: visible
+    }
+    to {
+        transform: translateZ(0)
+    }
+}
+
 .flipInX {
     -webkit-backface-visibility: visible !important;
     backface-visibility: visible !important;

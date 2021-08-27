@@ -211,7 +211,11 @@ function usp_notice(text, type, time_close) {
         text: '',
         type: '',
         time_close: 0,
-        timeout: 1
+        timeout: 1,
+        posX: 'left',
+        posY: 'top',
+        closeAnim: 'auto',
+        openAnim: 'auto'
     };
 
     if (typeof text === 'object') {
@@ -220,15 +224,31 @@ function usp_notice(text, type, time_close) {
         options = {...options, ...{text, type, time_close}};
     }
 
+    options = usp_apply_filters('usp_notice_options', options);
+
+    if (options.closeAnim === 'auto') {
+        options.closeAnim = {
+            left: 'fadeOutLeft',
+            right: 'fadeOutRight',
+            center: 'flipOutX'
+        }[options.posX];
+    }
+
+    if (options.openAnim === 'auto') {
+        options.openAnim = {
+            left: 'slideInLeft',
+            right: 'slideInRight',
+            center: 'flipInX'
+        }[options.posX];
+    }
+
     const $ = jQuery;
     let closeTimeout = null;
 
-    options = usp_apply_filters('usp_notice_options', options);
-
-    let noticeWrapper = $('#usp-wrap-notices');
+    let noticeWrapper = $('#usp-wrap-notices[data-x="' + options.posX + '"][data-y="' + options.posY + '"]');
 
     if (!noticeWrapper.length) {
-        noticeWrapper = $('<div id="usp-wrap-notices"></div>');
+        noticeWrapper = $(`<div id="usp-wrap-notices" data-x="${options.posX}" data-y="${options.posY}"></div>`);
         $('body > *').last().after(noticeWrapper);
     }
 
@@ -244,13 +264,15 @@ function usp_notice(text, type, time_close) {
     }
 
     const closeNotice = () => {
-        usp_close_notice($noticeCloser);
+        $noticeBody.animateCss(options.closeAnim, function () {
+            $noticeBody.remove();
+        });
         clearTimeout(closeTimeout);
     }
 
     $noticeCloser.on('click', closeNotice);
 
-    $noticeBody.animateCss('slideInLeft', function () {
+    $noticeBody.animateCss(options.openAnim, function () {
         if (options.time_close) {
             closeTimeout = setTimeout(closeNotice, options.time_close);
         }
