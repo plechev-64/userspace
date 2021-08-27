@@ -34,8 +34,9 @@ jQuery(document).ready(function ($) {
             })
         },
         animateCss: function (animationNameStart, functionEnd) {
-            var animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
-            this.addClass('animated ' + animationNameStart).one(animationEnd, function () {
+            //var animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
+            let animationEnd = 'animationend';
+            this.addClass('animated ' + animationNameStart).one(animationEnd, function (l) {
                 jQuery(this).removeClass('animated ' + animationNameStart);
 
                 if (functionEnd) {
@@ -206,44 +207,60 @@ function usp_rand(min, max) {
 
 function usp_notice(text, type, time_close) {
 
-    time_close = time_close || false;
-
-    var options = {
-        text: text,
-        type: type,
-        time_close: time_close,
+    let options = {
+        text: '',
+        type: '',
+        time_close: 0,
         timeout: 1
     };
 
+    if (typeof text === 'object') {
+        options = {...options, ...text};
+    } else {
+        options = {...options, ...{text, type, time_close}};
+    }
+
+    const $ = jQuery;
+    let closeTimeout = null;
+
     options = usp_apply_filters('usp_notice_options', options);
 
-    var notice_id = usp_rand(1, 1000);
+    let noticeWrapper = $('#usp-wrap-notices');
 
-    var html = '<div id="notice-' + notice_id + '" class="usp-notice usps__relative usps__line-normal usp-notice__type-' + options.type + '">';
-    html += '<i class="uspi fa-times usp-notice__close" aria-hidden="true" onclick="usp_close_notice(this);return false;"></i>';
-    html += '<div class="usp-notice__text">' + options.text + '</div>';
-    html += '</div>';
-
-    if (!jQuery('#usp-wrap-notices').length) {
-        jQuery('body > div').last().after('<div id="usp-wrap-notices">' + html + '</div>');
-    } else {
-        if (jQuery('#usp-wrap-notices > div').length)
-            jQuery('#usp-wrap-notices > div:last-child').after(html);
-        else
-            jQuery('#usp-wrap-notices').html(html);
+    if (!noticeWrapper.length) {
+        noticeWrapper = $('<div id="usp-wrap-notices"></div>');
+        $('body > *').last().after(noticeWrapper);
     }
 
-    jQuery('#usp-wrap-notices > div').last().animateCss('slideInLeft');
+    let $noticeBody = $(`<div id="notice" class="usp-notice usps__relative usps__line-normal usp-notice__type-${options.type}"></div>`);
+    let $noticeCloser = $(`<i class="uspi fa-times usp-notice__close" aria-hidden="true"></i>`);
+    let $noticeContent = $(`<div class="usp-notice__text">${options.text}</div>`);
 
-    if (time_close) {
-        if (options.timeout) {
-            jQuery('#notice-' + notice_id).append('<div class="usp-notice__timeout"></div>');
-            jQuery('#notice-' + notice_id).css('--usp-notice-timeout', options.time_close);
+    $noticeBody.append($noticeCloser, $noticeContent);
+
+    if (options.time_close && options.timeout) {
+        $noticeBody.append('<div class="usp-notice__timeout"></div>');
+        $noticeBody.css('--usp-notice-timeout', options.time_close);
+    }
+
+    const closeNotice = () => {
+        usp_close_notice($noticeCloser);
+        clearTimeout(closeTimeout);
+    }
+
+    $noticeCloser.on('click', closeNotice);
+
+    $noticeBody.animateCss('slideInLeft', function () {
+        if (options.time_close) {
+            closeTimeout = setTimeout(closeNotice, options.time_close);
         }
-        setTimeout(function () {
-            usp_close_notice('#notice-' + notice_id + ' i');
-        }, options.time_close);
-    }
+    });
+
+    $(noticeWrapper).append($noticeBody);
+
+    return {
+        close: closeNotice
+    };
 }
 
 function usp_close_notice(e) {
