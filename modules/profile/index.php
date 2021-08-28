@@ -122,7 +122,7 @@ function usp_user_update_profile() {
 		'notice' => [
 			'text' => __( 'Your profile has been updated', 'userspace' ),
 			'type' => 'success',
-			'time_close' => 100000
+			'time_close' => 10000
 		]
 	];
 }
