@@ -64,9 +64,8 @@ class USP_User_Profile_Fields extends USP_Profile_Fields {
 		] );
 
 		$content = usp_get_form( array(
-				'nonce_name' => 'update-profile_' . $this->user->ID,
 				'submit'     => __( 'Update profile', 'userspace' ),
-				'onclick'    => 'usp_check_profile_form() ? usp_submit_form(this): false;',
+				'onclick'    => 'usp_send_form_data("usp_user_update_profile", this);',
 				'fields'     => $profileFields,
 				'structure'  => $this->structure
 			)
@@ -91,6 +90,10 @@ class USP_User_Profile_Fields extends USP_Profile_Fields {
 	}
 
 	function update_fields( $fields_to_update = [] ) {
+
+		/*
+		 * TODO возможно при обновлении из админки надо сделать какой то фикс, что бы 2 раза не обновлять одни и те же поля
+		 */
 
 		require_once( ABSPATH . "wp-admin" . '/includes/image.php' );
 		require_once( ABSPATH . "wp-admin" . '/includes/file.php' );

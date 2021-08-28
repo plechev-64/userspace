@@ -207,6 +207,9 @@ function usp_rand(min, max) {
 
 function usp_notice(text, type, time_close) {
 
+    const $ = jQuery;
+    let closeTimeout = null;
+
     let options = {
         text: '',
         type: '',
@@ -222,6 +225,10 @@ function usp_notice(text, type, time_close) {
         options = {...options, ...text};
     } else {
         options = {...options, ...{text, type, time_close}};
+    }
+
+    if($(document).width() < 600) {
+        options.posX = 'center';
     }
 
     options = usp_apply_filters('usp_notice_options', options);
@@ -242,10 +249,7 @@ function usp_notice(text, type, time_close) {
         }[options.posX];
     }
 
-    const $ = jQuery;
-    let closeTimeout = null;
-
-    let noticeWrapper = $('#usp-wrap-notices[data-x="' + options.posX + '"][data-y="' + options.posY + '"]');
+    let noticeWrapper = $(`#usp-wrap-notices[data-x="${options.posX}"][data-y="${options.posY}"]`);
 
     if (!noticeWrapper.length) {
         noticeWrapper = $(`<div id="usp-wrap-notices" data-x="${options.posX}" data-y="${options.posY}"></div>`);
@@ -354,6 +358,7 @@ function usp_proccess_ajax_return(result) {
         current_url: function (url) {
             usp_update_history_url(url);
         },
+        notice: param => usp_notice(param),
         dialog: function (dialog) {
 
             if (dialog.content) {

@@ -106,47 +106,25 @@ function usp_bar_add_profile_link() {
 	] );
 }
 
-if ( ! is_admin() ) {
-	add_action( 'wp', 'usp_update_profile_notice' );
-}
-function usp_update_profile_notice() {
-	if ( is_user_logged_in() && isset( $_GET['usp-profile-updated'] ) ) {
-		add_action( 'usp_area_notice', function () {
-			echo usp_get_notice( [
-				'type'  => 'success',
-				'class' => 'usp_profile_updated',
-				'text'  => __( 'Your profile has been updated', 'userspace' )
-			] );
-		} );
-	}
-}
-
 // Updating the user profile
-add_action( 'wp', 'usp_edit_profile', 10 );
-function usp_edit_profile() {
+usp_ajax_action( 'usp_user_update_profile' );
+function usp_user_update_profile() {
 
 	if ( ! isset( $_POST['submit_user_profile'] ) ) {
-		return;
-	}
-
-	$user_id = get_current_user_id();
-
-	if ( ! wp_verify_nonce( $_POST['_wpnonce'], 'update-profile_' . $user_id ) ) {
-		return;
+		return [
+			'error' => __( 'Something has been wrong', 'userspace' )
+		];
 	}
 
 	USP()->user()->profile_fields()->update_fields();
 
-	/*
-	 * TODO Нужен ли этот хук?
-	 */
-	do_action( 'personal_options_update', $user_id );
-
-	$redirect_url = usp_get_tab_permalink( $user_id, 'profile' ) . '&usp-profile-updated=true';
-
-	wp_redirect( $redirect_url );
-
-	exit;
+	return [
+		'notice' => [
+			'text' => __( 'Your profile has been updated', 'userspace' ),
+			'type' => 'success',
+			'time_close' => 100000
+		]
+	];
 }
 
 add_filter( 'usp_profile_fields', 'usp_add_office_profile_fields', 10 );

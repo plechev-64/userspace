@@ -196,6 +196,9 @@ function usp_upload() {
 		];
 	}
 
+	/*
+	 * TODO Вероятно тут можно через ajax запрос инициализировать любой класс с любыми параметрами
+	 */
 	$className = $options['class_name'];
 
 	if ( $className == 'USP_Uploader' ) {

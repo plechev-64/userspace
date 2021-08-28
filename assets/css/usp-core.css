@@ -522,6 +522,8 @@ i.usp-offline {
 #usp-wrap-notices[data-x="center"] {
     left: 50%;
     transform: translateX(-50%);
+    max-width: 320px;
+    width: 100%;
 }
 
 #usp-wrap-notices[data-x="right"] {

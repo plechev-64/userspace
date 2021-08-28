@@ -60,7 +60,7 @@ function usp_setup_profile_manager_field_options( $options, $field, $manager_id 
 	return $options;
 }
 
-// Save changes in custom profile fields from the user's page
+// Save changes in custom profile fields from the admin user's page
 add_action( 'personal_options_update', 'usp_save_profile_fields' );
 add_action( 'edit_user_profile_update', 'usp_save_profile_fields' );
 function usp_save_profile_fields( $user_id ) {
