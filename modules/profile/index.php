@@ -51,7 +51,7 @@ function usp_get_profile_user_info( $user_id ) {
 	USP()->use_module( 'users-list' );
 
 	$manager = new USP_Users_Manager( [
-		'ID__in'      => $user_id,
+		'id__in'      => $user_id,
 		'search'      => 0,
 		'template'    => 'full',
 		'custom_data' => 'posts, comments, user_registered'

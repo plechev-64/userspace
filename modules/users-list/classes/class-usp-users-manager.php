@@ -4,16 +4,18 @@
 class USP_Users_Manager extends USP_Content_Manager {
 
 	private $_default_args = [
-		'number'          => 10,
-		'template'        => 'rows',
-		'custom_data'     => [],
-		'dropdown_filter' => 0,
-		'pagenavi'        => 1,
-		'orderby'         => 'user_registered',
-		'order'           => 'DESC',
-		'search'          => 1,
-		'ID__not_in'      => [],
-		'ID__in'          => []
+		'number'                => 10,
+		'template'              => 'rows',
+		'custom_data'           => [],
+		'dropdown_filter'       => 0,
+		'pagenavi'              => 1,
+		'orderby'               => 'user_registered',
+		'order'                 => 'DESC',
+		'search'                => 1,
+		'id__not_in'            => [],
+		'id__in'                => [],
+		'user_registered__from' => null,
+		'user_registered__to'   => null
 	];
 
 	function __construct( $args = [] ) {
@@ -43,9 +45,9 @@ class USP_Users_Manager extends USP_Content_Manager {
 
 	function prepare_params() {
 
-		if ( $this->ID__in ) {
+		if ( $this->id__in ) {
 			$this->pagenavi = 0;
-			$this->number   = count( $this->ID__in );
+			$this->number   = count( $this->id__in );
 		}
 
 		if ( ! $this->search ) {
@@ -99,82 +101,65 @@ class USP_Users_Manager extends USP_Content_Manager {
 		$query = ( new USP_Users_Query( 'users' ) )
 			->select( $select )
 			->where( [
-				'display_name__like' => $this->get_request_data_value( 'display_name__like' ),
-				'ID__in'             => $this->ID__in,
-				'ID__not_in'         => $this->ID__not_in
-			] )
-			->orderby(
-				$this->orderby,
-				$this->order
-			);
-
+				'display_name__like'    => $this->get_request_data_value( 'display_name__like' ),
+				'ID__in'                => $this->id__in ?: null,
+				'ID__not_in'            => $this->id__not_in ?: null,
+				'user_registered__from' => $this->user_registered__from ?: null,
+				'user_registered__to'   => $this->user_registered__to ?: null
+			] );
 
 		return apply_filters( 'usp_users_query', $query, $this );
 	}
 
-	function filter_data( $data ) {
+	function filter_data( $users ) {
 
-		if ( empty( $data ) ) {
-			return $data;
+		if ( empty( $users ) ) {
+			return $users;
 		}
 
 		$user_metas = [];
-		$user_ids   = array_column( $data, 'ID' );
+		$avatar_ids = [];
+		$user_ids   = array_column( $users, 'ID' );
 
-		$meta_keys = USP()->profile_fields()->get_public_fields_slugs();
-
+		$meta_keys   = USP()->profile_fields()->get_public_fields_slugs();
 		$meta_keys[] = 'usp_avatar';
 
-		if ( $meta_keys ) {
+		$metaData = ( new USP_Users_Meta_Query() )->select( [
+			'meta_value',
+			'meta_key',
+			'user_id'
+		] )->where( [
+			'user_id__in'  => $user_ids,
+			'meta_key__in' => $meta_keys
+		] )->limit( - 1 )->get_results();
 
-			$metaData = ( new USP_Users_Meta_Query() )->select( [
-				'meta_value',
-				'meta_key',
-				'user_id'
-			] )->where( [
-				'user_id__in'  => $user_ids,
-				'meta_key__in' => $meta_keys
-			] )->limit( - 1 )->get_results();
-
-			if ( $metaData ) {
-				foreach ( $metaData as $meta ) {
-					$user_metas[ $meta->user_id ][ $meta->meta_key ] = maybe_unserialize( $meta->meta_value );
+		if ( $metaData ) {
+			foreach ( $metaData as $meta ) {
+				$user_metas[ $meta->user_id ][ $meta->meta_key ] = maybe_unserialize( $meta->meta_value );
+				if ( $meta->meta_key === 'usp_avatar' ) {
+					$avatar_ids[] = $meta->meta_value;
 				}
 			}
-
-			$avatar_ids = [];
-			foreach ( $data as $user ) {
-				if ( isset( $user_metas[ $user->ID ] ) ) {
-					$user->metadata = $user_metas[ $user->ID ];
-
-					if ( ! empty( $user->metadata['usp_avatar'] ) ) {
-						$avatar_ids[] = $user->metadata['usp_avatar'];
-					}
-				}
-			}
-
-			$avatars = [];
-			if ( $avatar_ids ) {
-				$avatars = OptAttachments::setup_attachments( $avatar_ids );
-			}
-
-			foreach ( $data as $user ) {
-				if ( isset( $user_metas[ $user->ID ] ) ) {
-					$user->metadata = $user_metas[ $user->ID ];
-					if ( $avatars && ! empty( $user->metadata['usp_avatar'] ) && $avatars->is_has( $user->metadata['usp_avatar'] ) ) {
-						$user->avatar = $avatars->attachment( $user->metadata['usp_avatar'] );
-					}
-				}
-			}
-
 		}
 
-		foreach ( $data as $k => $user ) {
-			$data[ $k ] = USP()->user( $user->ID )->setup( $user );
+		$avatars          = $avatar_ids ? OptAttachments::setup_attachments( $avatar_ids ) : [];
+		$default_metaData = array_fill_keys( $meta_keys, '' );
+
+		foreach ( $users as $user ) {
+			$user->metadata = $default_metaData;
+			if ( isset( $user_metas[ $user->ID ] ) ) {
+				$user->metadata = array_merge( $user->metadata, $user_metas[ $user->ID ] );
+				if ( $avatars && ! empty( $user->metadata['usp_avatar'] ) && $avatars->is_has( $user->metadata['usp_avatar'] ) ) {
+					$user->avatar = $avatars->attachment( $user->metadata['usp_avatar'] );
+				}
+			}
 		}
 
-		return apply_filters( 'usp_users_data', $data, $this );
+		foreach ( $users as $k => $user ) {
+			$users[ $k ] = USP()->user( $user->ID )->setup( $user );
+		}
 
+		return apply_filters( 'usp_users_data', $users, $this );
 	}
 
 	function get_data_content() {

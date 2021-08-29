@@ -135,22 +135,6 @@ function usp_user_get_age_html( $user_id = 0, $class = '' ) {
 	return USP()->user( $user_id )->get_age_html( $class );
 }
 
-function usp_user_rayting() {
-	if ( ! in_array( 'userspace-rating-system/userspace-rating-system.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
-		return;
-	}
-
-	global $usp_user, $usp_users_set;
-
-	if ( false !== array_search( 'rating_total', $usp_users_set->data ) || isset( $usp_user->rating_total ) ) {
-		if ( ! isset( $usp_user->rating_total ) ) {
-			$usp_user->rating_total = 0;
-		}
-
-		echo uspr_rating_block( array( 'value' => $usp_user->rating_total ) );
-	}
-}
-
 add_action( 'usp_user_stats', 'usp_user_stats_comments', 22, 2 );
 function usp_user_stats_comments( USP_User $user, $custom_data = [] ) {
 
@@ -237,46 +221,6 @@ function usp_user_get_description( $user_id = 0, $attr = [] ) {
 	return USP()->user( $user_id )->get_description_html( $attr );
 }
 
-add_filter( 'usp_users_search_form', 'usp_default_search_form' );
-function usp_default_search_form( $content ) {
-
-	$search_text  = ( ( isset( $_GET['search_text'] ) ) ) ? $_GET['search_text'] : '';
-	$search_field = ( isset( $_GET['search_field'] ) ) ? sanitize_key( $_GET['search_field'] ) : 'display_name';
-
-	$fields  = array(
-		array(
-			'type'    => 'text',
-			'slug'    => 'search_text',
-			'title'   => __( 'Search users', 'userspace' ),
-			'default' => $search_text,
-		),
-		array(
-			'type'    => 'radio',
-			'slug'    => 'search_field',
-			'values'  => array(
-				'display_name' => __( 'by name', 'userspace' ),
-				'user_login'   => __( 'by login', 'userspace' ),
-				'usp_birthday' => __( 'by birthday', 'userspace' ),
-				'usp_sex'      => __( 'by sex', 'userspace' )
-			),
-			'default' => $search_field,
-		),
-		array(
-			'type'  => 'hidden',
-			'slug'  => 'default-search',
-			'value' => 1
-		)
-	);
-	$content .= usp_get_form( [
-		'class'  => 'usp-users__search',
-		'method' => 'get',
-		'submit' => __( 'Search', 'userspace' ),
-		'fields' => $fields
-	] );
-
-	return $content;
-}
-
 /**
  * @param int $user_id
  * @param string|array $role
@@ -295,7 +239,7 @@ function usp_user_has_role( $user_id, $role ) {
 
 /**
  * @param int $user_id
- * @param string $activity myslq datetime
+ * @param string $activity mysql datetime
  * @param bool $force_update
  *
  * @return void
@@ -320,14 +264,10 @@ function usp_user_update_activity( $user_id = 0, $activity = '', $force_update =
 }
 
 // replace the link of the comment author with the link of his personal account
-add_filter( 'get_comment_author_url', 'usp_get_link_author_comment', 10 );
-function usp_get_link_author_comment( $url ) {
-	global $comment;
-	if ( ! isset( $comment ) || $comment->user_id == 0 ) {
-		return $url;
-	}
+add_filter( 'get_comment_author_url', 'usp_get_link_author_comment', 10, 3 );
+function usp_get_link_author_comment( $url, $id, $comment ) {
 
-	return usp_user_get_url( $comment->user_id );
+	return ! $comment->user_id ? $url : usp_user_get_url( $comment->user_id );
 }
 
 function usp_is_register_open() {
