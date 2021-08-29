@@ -327,6 +327,12 @@ class USP_Query {
 		return $this;
 	}
 
+	function join_string( $string ) {
+		$this->query['join'][] = $string;
+
+		return $this;
+	}
+
 	function having_string( $string ) {
 		$this->query['having'][] = $string;
 

@@ -4,18 +4,42 @@
 class USP_Users_Manager extends USP_Content_Manager {
 
 	private $_default_args = [
-		'number'                => 10,
-		'template'              => 'rows',
-		'custom_data'           => [],
-		'dropdown_filter'       => 0,
-		'pagenavi'              => 1,
-		'orderby'               => 'user_registered',
-		'order'                 => 'DESC',
-		'search'                => 1,
-		'id__not_in'            => [],
-		'id__in'                => [],
-		'user_registered__from' => null,
-		'user_registered__to'   => null
+		'number'                  => 10,
+		'template'                => 'rows',
+		'custom_data'             => [],
+		'dropdown_filter'         => 0,
+		'pagenavi'                => 1,
+		'orderby'                 => 'user_registered',
+		'order'                   => 'DESC',
+		'search'                  => 1,
+		/*
+		 * Main query where
+		 */
+		'id__not_in'              => [],
+		'id__in'                  => [],
+		'user_registered__from'   => null,
+		'user_registered__to'     => null,
+		'posts__from'             => null,
+		'posts__to'               => null,
+		'comments__from'          => null,
+		'comments__to'            => null,
+		'last_activity__from'     => null,
+		'last_activity__to'       => null,
+		'online_only'             => null,
+		/*
+		 * Calc post count query
+		 */
+		'post_type__in'           => [],
+		'post_type__not_in'       => [ 'page', 'nav_menu_item' ],
+		'post_status__in'         => [ 'publish' ],
+		'post_status__not_in'     => [],
+		/*
+		 * Calc comments count query
+		 */
+		'comment_type__in'        => [],
+		'comment_type__not_in'    => [],
+		'comment_post_id__in'     => [],
+		'comment_post_id__not_in' => []
 	];
 
 	function __construct( $args = [] ) {
@@ -77,26 +101,8 @@ class USP_Users_Manager extends USP_Content_Manager {
 			'ID',
 			'display_name',
 			'user_nicename',
-			'user_registered',
-			'last_activity' => ( new USP_User_Action( 'action' ) )->select( [ 'date_action' ] )->where_string( "users.ID=action.user_id" )
+			'user_registered'
 		];
-
-		if ( in_array( 'posts', $this->custom_data ) ) {
-			$select['posts'] = ( new USP_Posts_Query( 'posts' ) )->select( [
-				'count' => [ 'ID' ]
-			] )->where_string( "users.ID=posts.post_author" )->where( [
-				'post_status'       => 'publish',
-				'post_type__not_in' => [ 'page', 'nav_menu_item' ]
-			] );
-		}
-
-		if ( in_array( 'comments', $this->custom_data ) ) {
-			$select['comments'] = ( new USP_Comments_Query( 'comments' ) )->select( [
-				'count' => [ 'comment_ID' ]
-			] )->where_string( "users.ID=comments.user_id" )->where( [
-				'comment_approved' => 1
-			] );
-		}
 
 		$query = ( new USP_Users_Query( 'users' ) )
 			->select( $select )
@@ -108,7 +114,111 @@ class USP_Users_Manager extends USP_Content_Manager {
 				'user_registered__to'   => $this->user_registered__to ?: null
 			] );
 
+		$query = $this->join_last_activity( $query );
+
+		if ( $this->online_only ) {
+
+			$timeout          = usp_get_option( 'usp_user_timeout', 10 ) * 60;
+			$online_only_date = date( "Y-m-d h:i:s", current_time( 'timestamp' ) - $timeout );
+			$query->where_string( "action.date_action > '{$online_only_date}'" );
+
+		} else {
+
+			if ( $this->last_activity__from ) {
+				$query->where_string( 'action.date_action > "' . date( "Y-m-d h:i:s", strtotime( $this->last_activity__from ) ) . '"' );
+			}
+			if ( $this->last_activity__to ) {
+				$query->where_string( 'action.date_action < "' . date( "Y-m-d h:i:s", strtotime( $this->last_activity__to ) ) . '"' );
+			}
+		}
+
+		if ( in_array( 'posts', $this->custom_data ) ) {
+			$query = $this->join_posts( $query );
+
+			if ( $this->posts__from ) {
+				$query->where_string( "wp_posts.posts_count > " . ( (int) $this->posts__from ) );
+			}
+			if ( $this->posts__to ) {
+				$query->where_string( "wp_posts.posts_count < " . ( (int) $this->posts__to ) );
+			}
+		}
+
+		if ( in_array( 'comments', $this->custom_data ) ) {
+			$query = $this->join_comments( $query );
+
+			if ( $this->comments__from ) {
+				$query->where_string( "wp_comments.comments_count > " . ( (int) $this->comments__from ) );
+			}
+			if ( $this->comments__to ) {
+				$query->where_string( "wp_comments.comments_count < " . ( (int) $this->comments__to ) );
+			}
+		}
+
 		return apply_filters( 'usp_users_query', $query, $this );
+	}
+
+	private function join_last_activity( $query ) {
+
+		$query->join(
+			[ 'ID', 'user_id', 'LEFT' ],
+			( new USP_User_Action( 'action' ) )
+				->select( [ 'last_activity' => 'date_action' ] )
+		);
+
+		return $query;
+	}
+
+	private function join_posts( USP_Query $query ) {
+
+		$posts_query = ( new USP_Posts_Query( 'wp_posts' ) )
+			->select( [
+				'count'       => [ 'posts_count' => 'ID' ],
+				'post_author' => 'post_author'
+			] )
+			->where( [
+				'post_status__in'     => $this->post_status__in ?: null,
+				'post_status__not_in' => $this->post_status__not_in ?: null,
+				'post_type__in'       => $this->post_type__in ?: null,
+				'post_type__not_in'   => $this->post_type__not_in ?: null,
+				'post_author__in'     => $this->id__in ?: null,
+				'post_author__not_in' => $this->id__not_in ?: null
+			] )
+			->groupby( 'post_author' )
+			->limit( - 1 );
+
+		$posts_sql = $posts_query->get_sql();
+
+		$query->select_string( 'IFNULL(wp_posts.posts_count, 0) as posts' );
+		$query->join_string( "LEFT JOIN ({$posts_sql}) as wp_posts ON users.ID = wp_posts.post_author" );
+
+		return $query;
+	}
+
+	private function join_comments( USP_Query $query ) {
+
+		$comments_query = ( new USP_Comments_Query( 'wp_comments' ) )
+			->select( [
+				'count'          => [ 'comments_count' => 'comment_ID' ],
+				'comment_author' => 'user_id'
+			] )
+			->where( [
+				'comment_approved'        => 1,
+				'comment_type__not_in'    => $this->comment_type__not_in ?: null,
+				'comment_post_ID__in'     => $this->comment_post_id__in ?: null,
+				'comment_post_ID__not_in' => $this->comment_post_id__not_in ?: null,
+				'user_id__in'             => $this->id__in ?: null,
+				'user_id__not_in'         => $this->id__not_in ?: null
+			] )
+			->groupby( 'user_id' )
+			->limit( - 1 );
+
+
+		$comments_sql = $comments_query->get_sql();
+
+		$query->select_string( 'IFNULL(wp_comments.comments_count, 0) as comments' );
+		$query->join_string( "LEFT JOIN ({$comments_sql}) as wp_comments ON users.ID = wp_comments.comment_author" );
+
+		return $query;
 	}
 
 	function filter_data( $users ) {

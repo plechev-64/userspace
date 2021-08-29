@@ -238,12 +238,13 @@ add_shortcode( 'usp-users-online', 'usp_users_online_shortcode' );
 function usp_users_online_shortcode( $args ) {
 
 	$atts = shortcode_atts( array(
-		'template' => 'mini',
-		'number'   => 10,
-		'search'   => 0,
-		'orderby'  => 'last_activity',
-		'order'    => 'DESC',
-		'pagenavi' => 0
+		'template'    => 'mini',
+		'number'      => 10,
+		'search'      => 0,
+		'orderby'     => 'last_activity',
+		'order'       => 'DESC',
+		'online_only' => 1,
+		'pagenavi'    => 0
 	), $args );
 
 	USP()->use_module( 'users-list' );
