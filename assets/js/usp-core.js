@@ -227,7 +227,7 @@ function usp_notice(text, type, time_close) {
         options = {...options, ...{text, type, time_close}};
     }
 
-    if($(document).width() < 600) {
+    if ($(document).width() < 600) {
         options.posX = 'center';
     }
 
@@ -633,6 +633,15 @@ function usp_exist_beat(beat_name) {
 
 }
 
-/** new uploader scripts **/
+function usp_dropdown_open(e) {
+    jQuery(e).toggleClass('usp-dropdown__open');
+}
 
-/** new uploader scripts end **/
+jQuery(function ($) {
+    $(document).on('click', function (event) {
+        let bttn = $('.usp-dropdown__bttn');
+        if (!$(event.target).closest('.usp-dropdown__bttn').length && bttn.hasClass('usp-dropdown__open')) {
+            bttn.removeClass('usp-dropdown__open');
+        }
+    });
+});

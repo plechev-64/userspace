@@ -1,18 +1,86 @@
 <?php
 
-
+/**
+ * Drop-down (menu) component
+ *
+ * @return string html menu.
+ * @since 1.0
+ *
+ */
 class USP_Dropdown {
 
-	public $id;
-	public $class = '';
-	public $icon = 'fa-vertical-ellipsis';
-	public $left = false; // before icon
-	public $border = true; // wrap on border
+	/**
+	 * Menu position: right|left (optional)
+	 *
+	 * @var string
+	 * @since 1.0
+	 */
+	public $position = 'right';
 
-	function __construct( $args ) {
-		if ( ! isset( $args['id'] ) ) {
-			return false;
+	/**
+	 * Wrap on border (optional)
+	 *
+	 * @var bool
+	 * @since 1.0
+	 */
+	public $border = true;
+
+	/**
+	 * Unique id for the menu (required)
+	 * This id will be registered as the corresponding WordPress filter
+	 *
+	 * @var string
+	 * @since 1.0
+	 */
+	public $id = false;
+
+	/**
+	 * Additional class of menu (optional)
+	 *
+	 * @var string
+	 * @since 1.0
+	 */
+	public $class = '';
+
+	/**
+	 * html|text before icon (optional)
+	 *
+	 * @var string
+	 * @since 1.0
+	 */
+	public $left = false;
+
+	/**
+	 * Drop-down menu icon (optional)
+	 *
+	 * @var string
+	 * @since 1.0
+	 */
+	public $icon = 'fa-vertical-ellipsis';
+
+	/**
+	 * Add to filter arguments (optional)
+	 *
+	 * @var string
+	 * @since 1.0
+	 */
+	public $filter_arg = false;
+
+	/**
+	 * Constructor.
+	 *
+	 * @param string $id unique id for the menu (required)
+	 * @param array $args Optional array of values.
+	 *
+	 * @since 1.0.0
+	 *
+	 */
+	public function __construct( $id, $args ) {
+		if ( ! isset( $id ) ) {
+			return;
 		}
+
+		$this->id = $id;
 
 		$this->init_properties( $args );
 	}
@@ -27,21 +95,55 @@ class USP_Dropdown {
 		}
 	}
 
+	/**
+	 * Get html dropdown menu
+	 *
+	 * @return string html menu.
+	 *
+	 * @since 1.0
+	 */
 	public function get_dropdown() {
-		$class = ( $this->border ) ? ' usp-dropdown__border' : '';
-		$class .= ( $this->class ) ? ' ' . $this->class : '';
-
-		$dropdown = '<div id="' . $this->id . '" class="usp-dropdown-box usps usps__ai-center' . $class . '">';
+		$args     = $this->filter_arg ?? false;
+		$dropdown = '<div id="' . $this->id . '" class="usp-dropdown-box' . $this->get_class() . ' usps usps__ai-center usps__relative">';
 		if ( $this->left ) {
 			$dropdown .= '<div class="usp-dropdown__left">' . $this->left . '</div>';
 		}
-		$dropdown .= '<div class="usp-dropdown__menu usps usps__ai-center usps__jc-center usps__relative usps__text-center">';
+		$dropdown .= '<div class="usp-dropdown__menu usps__relative usps__text-center">';
+		$dropdown .= '<a class="usp-dropdown__bttn usps usps__ai-center usps__jc-center usps__focus" href="javascript:void(0);" onclick="usp_dropdown_open(this); return false;">';
 		$dropdown .= '<i class="uspi ' . $this->icon . '" aria-hidden="true"></i>';
-		$dropdown .= '<div class="usp-dropdown__hidden usp-wrap__widget usps usps__column">' . apply_filters( $this->id, '' ) . '</div>';
+		$dropdown .= '</a>';
+		/**
+		 * Filters to add menu items.
+		 * filter name - unique $id (first argument) for the menu on __constructor
+		 *
+		 * @param string menu items
+		 * @param string $args additional data
+		 *
+		 * @since 1.0.0
+		 *
+		 */
+		$dropdown .= '<div class="usp-dropdown__hidden usp-wrap__widget usps usps__column">'
+		             . apply_filters( $this->id, '', $args ) .
+		             '</div>';
 		$dropdown .= '</div>';
 		$dropdown .= '</div>';
 
 		return $dropdown;
+	}
+
+	/**
+	 * Get additional class on wrapper menu.
+	 *
+	 * @return string additional classes.
+	 * @since 1.0
+	 *
+	 */
+	private function get_class() {
+		$class = ( $this->border ) ? ' usp-dropdown-border' : '';
+		$class .= ( $this->class ) ? ' ' . $this->class : '';
+		$class .= ( $this->position == 'left' ) ? ' usp-dropdown-left' : '';
+
+		return $class;
 	}
 
 }
