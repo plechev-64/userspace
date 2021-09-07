@@ -84,7 +84,7 @@ class USP_Dropdown_New {
 		$html = '<div class="usp-menu-items">';
 
 		foreach ( $this->groups as $group ) {
-			$html .= $group->get_content();
+			$html .= $group->get_html();
 		}
 
 		$html .= '</div>';

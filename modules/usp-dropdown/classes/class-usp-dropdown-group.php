@@ -41,7 +41,7 @@ class USP_Dropdown_Group {
 		return $this->id;
 	}
 
-	public function get_content() {
+	public function get_html() {
 
 		if ( ! $this->items ) {
 			return '';
