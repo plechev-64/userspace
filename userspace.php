@@ -371,6 +371,7 @@ final class UserSpace {
 			'profile'         => new USP_Module( USP_PATH . 'modules/profile/index.php' ),
 			'profile-fields'  => new USP_Module( USP_PATH . 'modules/profile-fields/index.php', [ 'fields' ] ),
 			'users-list'      => new USP_Module( USP_PATH . 'modules/users-list/index.php', [ 'content-manager' ] ),
+			'dropdown-menu'      => new USP_Module( USP_PATH . 'modules/usp-dropdown/index.php' ),
 		];
 	}
 
@@ -461,3 +462,4 @@ $GLOBALS['userspace'] = USP();
 
 USP()->use_module( 'tabs' );
 USP()->use_module( 'profile' );
+USP()->use_module( 'dropdown-menu' );
