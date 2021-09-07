@@ -10,42 +10,52 @@ function usp_userspace_bar_menu() {
 	usp_include_template( 'usp-bar.php' );
 }
 
-add_action( 'usp_bar_profile_menu_buttons', 'usp_bar_menu_go_to_profile', 10 );
-function usp_bar_menu_go_to_profile() {
-	if ( ! is_user_logged_in() ) {
-		return;
-	}
-
-	echo usp_get_button( [
-		'type'	 => 'clear',
-		'size'	 => 'medium',
-		'class'	 => 'usp-bar-profile__in-account',
-		'href'	 => USP()->user( get_current_user_id() )->get_url(),
-		'icon'	 => 'fa-user',
-		'label'	 => __( 'Go to personal account', 'userspace' )
+add_filter( 'usp_bar_profile_menu', 'usp_bar_menu_go_to_profile', 10 );
+function usp_bar_menu_go_to_profile( $menu ) {
+	$menu .= usp_get_button( [
+			'type'  => 'clear',
+			'size'  => 'medium',
+			'class' => 'usp-bar-profile__in-account',
+			'href'  => USP()->user( get_current_user_id() )->get_url(),
+			'icon'  => 'fa-user',
+			'label' => __( 'Go to personal account', 'userspace' ),
 		]
 	);
+
+	return $menu;
 }
 
-add_action( 'usp_bar_profile_menu_buttons', 'usp_bar_menu_add_admin_link', 50 );
-function usp_bar_menu_add_admin_link() {
-	if ( ! is_user_logged_in() ) {
-		return;
-	}
-
+add_filter( 'usp_bar_profile_menu', 'usp_bar_menu_add_admin_link', 50 );
+function usp_bar_menu_add_admin_link( $menu ) {
 	if ( ! current_user_can( 'activate_plugins' ) ) {
-		return;
+		return $menu;
 	}
 
-	echo usp_get_button( [
-		'type'	 => 'clear',
-		'size'	 => 'medium',
-		'class'	 => 'usp-bar-profile__in-admin',
-		'href'	 => admin_url(),
-		'icon'	 => 'fa-external-link-square',
-		'label'	 => __( 'To admin area', 'userspace' )
+	$menu .= usp_get_button( [
+			'type'  => 'clear',
+			'size'  => 'medium',
+			'class' => 'usp-bar-profile__in-admin',
+			'href'  => admin_url(),
+			'icon'  => 'fa-external-link-square',
+			'label' => __( 'To admin area', 'userspace' ),
 		]
 	);
+
+	return $menu;
+}
+
+add_filter( 'usp_bar_profile_menu', 'usp_bar_menu_logout', 100 );
+function usp_bar_menu_logout( $menu ) {
+	$menu .= usp_get_button( [
+			'type'  => 'clear',
+			'size'  => 'medium',
+			'class' => 'usp-bar-profile__logout usps__text-right',
+			'href'  => wp_logout_url( '/' ),
+			'label' => __( 'Log Out', 'userspace' ),
+		]
+	);
+
+	return $menu;
 }
 
 // remove offset in wordpress toolbar
@@ -89,7 +99,7 @@ function usp_bar_rename_submenu_class( $classes, $args ) {
 
 	foreach ( $classes as $key => $class ) {
 		if ( $class == 'sub-menu' ) {
-			$classes[ $key ] = 'usp-sub-menu';
+			$classes[ $key ] = 'usp-dropdown__hidden';
 		}
 	}
 
@@ -105,7 +115,7 @@ function usp_bar_add_class_in_parent_item( $sorted_menu_items, $args ) {
 
 	foreach ( $sorted_menu_items as $item ) {
 		if ( __find_is_has_child( $item->ID, $sorted_menu_items ) ) {
-			$item->classes[] = 'usp-menu-has-child';
+			$item->classes[] = 'usp-menu-has-child usps__relative';
 		}
 	}
 
@@ -126,8 +136,8 @@ function __find_is_has_child( $item_id, $sorted_menu_items ) {
 // added class in body tag
 add_filter( 'body_class', 'usp_add_userbar_class_body' );
 function usp_add_userbar_class_body( $classes ) {
-	$classes[]	 = 'usp-userbar';
-	$classes[]	 = 'usp-userbar-' . usp_get_option( 'usp_bar_color', 'dark' );
+	$classes[] = 'usp-userbar';
+	$classes[] = 'usp-userbar-' . usp_get_option( 'usp_bar_color', 'dark' );
 
 	return $classes;
 }

@@ -8,7 +8,6 @@ if ( is_admin() ) {
 
 add_action( 'usp_enqueue_scripts', 'usp_my_profile_resources', 10 );
 function usp_my_profile_resources() {
-
 	if ( usp_is_office( get_current_user_id() ) ) {
 		usp_enqueue_script( 'usp-my-profile-js', plugins_url( 'assets/js/usp-profile.js', __FILE__ ) );
 	}
@@ -16,7 +15,6 @@ function usp_my_profile_resources() {
 
 add_filter( 'usp_init_js_variables', 'usp_init_js_profile_variables', 10 );
 function usp_init_js_profile_variables( $data ) {
-
 	if ( usp_is_office( get_current_user_id() ) ) {
 		$data['local']['no_repeat_pass'] = __( 'Repeated password not correct!', 'userspace' );
 	}
@@ -39,31 +37,28 @@ function usp_tab_profile() {
 					'id'       => 'info',
 					'name'     => __( 'User info', 'userspace' ),
 					'title'    => __( 'About the user', 'userspace' ),
-					'callback' => [ 'name' => 'usp_get_profile_user_info' ]
-				]
-			]
+					'callback' => [ 'name' => 'usp_get_profile_user_info' ],
+				],
+			],
 		]
 	);
 }
 
 function usp_get_profile_user_info( $user_id ) {
-
 	USP()->use_module( 'users-list' );
 
 	$manager = new USP_Users_Manager( [
 		'id__in'      => $user_id,
 		'search'      => 0,
 		'template'    => 'full',
-		'custom_data' => 'posts, comments, user_registered'
+		'custom_data' => 'posts, comments, user_registered',
 	] );
 
 	return $manager->get_manager();
-
 }
 
 add_action( 'usp_setup_tabs', 'usp_tab_profile_info', 10 );
 function usp_tab_profile_info() {
-
 	if ( ! usp_is_office( get_current_user_id() ) ) {
 		return;
 	}
@@ -74,45 +69,41 @@ function usp_tab_profile_info() {
 		'title'    => __( 'Personal Options', 'userspace' ),
 		'icon'     => 'fa-user-cog',
 		'supports' => [ 'ajax' ],
-		'callback' => [ 'name' => 'usp_tab_profile_content' ]
+		'callback' => [ 'name' => 'usp_tab_profile_content' ],
 	];
 
 	usp_add_sub_tab( 'profile', $subtab );
 }
 
-add_action( 'usp_bar_profile_menu_buttons', 'usp_bar_add_profile_link', 15 );
-function usp_bar_add_profile_link() {
-
-	if ( ! is_user_logged_in() ) {
-		return;
-	}
-
-	echo usp_get_button( [
+add_filter( 'usp_bar_profile_menu', 'usp_bar_add_profile_link', 15 );
+function usp_bar_add_profile_link( $menu ) {
+	$menu .= usp_get_button( [
 		'type'  => 'clear',
 		'size'  => 'medium',
 		'class' => 'usp-bar-profile__info',
 		'href'  => usp_get_tab_permalink( get_current_user_id(), 'profile' ),
 		'icon'  => 'fa-address-book',
-		'label' => __( 'Profile info', 'userspace' )
+		'label' => __( 'Profile info', 'userspace' ),
 	] );
 
-	echo usp_get_button( [
+	$menu .= usp_get_button( [
 		'type'  => 'clear',
 		'size'  => 'medium',
 		'class' => 'usp-bar-profile__settings',
 		'href'  => usp_get_tab_permalink( get_current_user_id(), 'profile', 'edit' ),
 		'icon'  => 'fa-user-cog',
-		'label' => __( 'Profile settings', 'userspace' )
+		'label' => __( 'Profile settings', 'userspace' ),
 	] );
+
+	return $menu;
 }
 
 // Updating the user profile
 usp_ajax_action( 'usp_user_update_profile' );
 function usp_user_update_profile() {
-
 	if ( ! isset( $_POST['submit_user_profile'] ) ) {
 		return [
-			'error' => __( 'Something has been wrong', 'userspace' )
+			'error' => __( 'Something has been wrong', 'userspace' ),
 		];
 	}
 
@@ -120,16 +111,15 @@ function usp_user_update_profile() {
 
 	return [
 		'notice' => [
-			'text' => __( 'Your profile has been updated', 'userspace' ),
-			'type' => 'success',
-			'time_close' => 10000
-		]
+			'text'       => __( 'Your profile has been updated', 'userspace' ),
+			'type'       => 'success',
+			'time_close' => 10000,
+		],
 	];
 }
 
 add_filter( 'usp_profile_fields', 'usp_add_office_profile_fields', 10 );
 function usp_add_office_profile_fields( $fields ) {
-
 	if ( ! usp_user_is_access_console() ) {
 		return $fields;
 	}
@@ -141,18 +131,17 @@ function usp_add_office_profile_fields( $fields ) {
 			'type'         => 'radio',
 			'values'       => [
 				'false' => __( 'Disabled', 'userspace' ),
-				'true'  => __( 'Enabled', 'userspace' )
+				'true'  => __( 'Enabled', 'userspace' ),
 			],
 			'default'      => 'false',
-			'value_in_key' => false
-		]
+			'value_in_key' => false,
+		],
 	];
 
 	return ( $fields ) ? array_merge( $profileFields, $fields ) : $profileFields;
 }
 
 function usp_tab_profile_content( $master_id ) {
-
 	return USP()
 		->user( $master_id )
 		->profile_fields()
@@ -168,7 +157,6 @@ function usp_delete_user_account_activate() {
 
 // User deletes their profile
 function usp_delete_user_account() {
-
 	if ( ! wp_verify_nonce( $_POST['_wpnonce'], 'delete-user-' . get_current_user_id() ) ) {
 		return false;
 	}

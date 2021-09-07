@@ -104,11 +104,11 @@ class USP_Dropdown {
 	 */
 	public function get_dropdown() {
 		$args     = $this->filter_arg ?? false;
-		$dropdown = '<div id="' . $this->id . '" class="usp-dropdown-box' . $this->get_class() . ' usps usps__ai-center usps__relative">';
+		$dropdown = '<div id="' . $this->id . '" class="' . $this->get_class() . ' usps usps__ai-stretch usps__relative">';
 		if ( $this->left ) {
-			$dropdown .= '<div class="usp-dropdown__left">' . $this->left . '</div>';
+			$dropdown .= '<div class="usp-dropdown__left usps__as-center">' . $this->left . '</div>';
 		}
-		$dropdown .= '<div class="usp-dropdown__menu usps__relative usps__text-center">';
+		$dropdown .= '<div class="usp-dropdown__menu usp-menu-has-child usps__relative usps__text-center">';
 		$dropdown .= '<a class="usp-dropdown__bttn usps usps__ai-center usps__jc-center usps__focus" href="javascript:void(0);" onclick="usp_dropdown_open(this); return false;">';
 		$dropdown .= '<i class="uspi ' . $this->icon . '" aria-hidden="true"></i>';
 		$dropdown .= '</a>';
@@ -139,8 +139,9 @@ class USP_Dropdown {
 	 *
 	 */
 	private function get_class() {
-		$class = ( $this->border ) ? ' usp-dropdown-border' : '';
-		$class .= ( $this->class ) ? ' ' . $this->class : '';
+		$class = $this->class ? $this->class . ' ' : '';
+		$class .= 'usp-dropdown-box';
+		$class .= ( $this->border ) ? ' usp-dropdown-border' : '';
 		$class .= ( $this->position == 'left' ) ? ' usp-dropdown-left' : '';
 
 		return $class;

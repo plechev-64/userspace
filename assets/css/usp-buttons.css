@@ -141,7 +141,7 @@ body:not(.wp-admin) .usp-bttn.usp-bttn__type-primary:not(.usp-bttn__active),
     width: 100%;
 }
 
-.usp-wrap__widget:not(.usp-bar-usertabs) .usp-bttn__type-clear > * {
+.usp-wrap__widget .usp-bttn__type-clear:not(.button-primary) > * {
     color: var(--uspGray-700);
 }
 

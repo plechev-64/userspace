@@ -31,7 +31,7 @@
     color: var(--uspGray-100);
 }
 
-.usp-bar-white .usp-sub-menu,
+.usp-bar-white .usp-dropdown__hidden,
 .usp-bar-white {
     background: var(--uspWhite);
 }
@@ -45,7 +45,7 @@
     color: var(--uspGray-700);
 }
 
-.usp-bar-color .usp-sub-menu,
+.usp-bar-color .usp-dropdown__hidden,
 .usp-bar-color {
     background: rgba(var(--uspRgb), .85);
 }
@@ -65,13 +65,8 @@
     min-height: 40px;
 }
 
-.usp-bar-userlink {
-    align-self: stretch;
-}
-
-.usp-bar-userlink span,
-.usp-bar__user-nav {
-    margin: 0 0 0 12px;
+.usp-bar-userlink span {
+    margin-left: 12px;
 }
 
 .usp-bar-userlink__name {
@@ -90,19 +85,19 @@
 }
 
 #usp-bar ul {
+    border: 0;
     margin: 0;
     padding: 0;
 }
 
-#usp-bar.usp-bar-white .usp-bar__user-nav:hover .usp-bar-usershow,
+#usp-bar.usp-bar-white .usp-dropdown__menu:hover .usp-dropdown__bttn,
 #usp-bar.usp-bar-white .usp-bttn:hover,
 #usp-bar.usp-bar-white li:hover,
 #usp-bar.usp-bar-white .current-menu-item {
     background: var(--uspGray-200);
 }
 
-.usp-bar__menu-nav:hover i,
-#usp-bar.usp-bar-color .usp-bar__user-nav:hover .usp-bar-usershow,
+#usp-bar.usp-bar-color .usp-dropdown__menu:hover .usp-dropdown__bttn,
 #usp-bar.usp-bar-color .usp-bttn:hover,
 #usp-bar.usp-bar-color li:hover,
 #usp-bar.usp-bar-color .current-menu-item {
@@ -110,16 +105,11 @@
     box-shadow: 0 0 30px 30px rgba(0, 0, 0, .3) inset !important;
 }
 
-.usp-bar-dark .usp-bar__user-nav:hover .usp-bar-usershow,
+.usp-bar-dark .usp-dropdown__menu:hover .usp-dropdown__bttn,
 #usp-bar.usp-bar-dark .usp-bttn:hover,
 #usp-bar.usp-bar-dark li:hover,
 #usp-bar.usp-bar-dark .current-menu-item {
     background: rgba(120, 160, 130, .3);
-}
-
-#usp-bar .usp-menu-has-child {
-    cursor: pointer;
-    position: relative;
 }
 
 #usp-bar__nav > li > a {
@@ -132,6 +122,7 @@
     align-items: center;
 }
 
+.usp-bar__nav .usp-dropdown__hidden .usp-menu-has-child > a:after,
 #usp-bar .usp-menu-has-child::after {
     font-family: usp-awesome;
     font-size: 13px;
@@ -142,54 +133,43 @@
     content: "\f107";
 }
 
-.usp-sub-menu > .usp-menu-has-child::after {
-    content: "\f105";
-}
-
 .usp-bar__bttns:empty,
 #usp-bar__nav > .menu-item-has-children > a::after { /* other themes fix */
     display: none;
 }
 
-.usp-sub-menu {
-    opacity: 0;
-    position: absolute;
+.usp-bar__nav .usp-dropdown__hidden .usp-menu-has-child > a:after {
+    content: "\f105";
+    color: var(--uspText);
     right: 0;
-    transition: var(--uspLoad);
-    visibility: hidden;
-    max-width: 300px;
-    top: 100%;
-    box-shadow: var(--uspBox400);
+    top: 12px;
 }
 
-.usp-bar-dark .usp-sub-menu {
+.usp-bar-white .usp-bar__nav .usp-dropdown__hidden .usp-menu-has-child > a:after {
+    color: var(--uspGray-400);
+}
+
+.usp-bar-dark .usp-dropdown__hidden {
     background: var(--uspBlack-07);
 }
 
-.usp-bar__nav .usp-sub-menu {
+.usp-bar__nav .usp-dropdown__hidden {
     width: 100%;
 }
 
-.usp-menu-has-child:hover > * + .usp-sub-menu,
-.usp-menu-has-child:focus-within > * + .usp-sub-menu {
-    opacity: 1;
-    visibility: visible;
-    z-index: 102;
-}
-
 #usp-bar__nav > li,
-.usp-sub-menu > li {
+.usp-dropdown__hidden > li {
     display: flex;
     align-items: center;
 }
 
-.usp-sub-menu > li > a {
+.usp-dropdown__hidden > li > a {
     display: flex;
     flex-grow: 1;
     margin: 0 12px;
 }
 
-.usp-sub-menu .usp-menu-has-child .usp-sub-menu {
+.usp-dropdown__hidden .usp-menu-has-child .usp-dropdown__hidden {
     left: 100%;
     top: 0;
 }
@@ -212,14 +192,17 @@
     height: 100%;
 }
 
+#usp-bar:not(.usp-bar-white) .usp-dropdown__hidden > a > * {
+    color: var(--uspText);
+}
+
 .usp-bar__user-nav > .uspi {
     padding: 0 6px;
     font-size: 13px;
 }
 
-#usp-bar .usp-sub-menu .uspi {
+#usp-bar .usp-dropdown__hidden .uspi {
     opacity: .7;
-    min-width: 24px;
 }
 
 @media screen and (max-width: 768px) {
@@ -244,6 +227,19 @@
         flex-wrap: nowrap;
         right: 0;
         left: 0;
+    }
+
+    .usp-bar-dark #usp-bar__nav {
+        background: var(--uspBlack-07);
+    }
+
+    .usp-bar-white #usp-bar__nav {
+        background: var(--uspWhite);
+    }
+
+    .usp-bar-white .usp-bar__menu-nav:hover i {
+        background: var(--uspGray-200);
+        opacity: .8;
     }
 
     #usp-bar .usp-bar__menu-nav:hover #usp-bar__nav {
