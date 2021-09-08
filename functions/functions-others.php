@@ -52,7 +52,7 @@ function usp_register_userspace_menu() {
 
 if ( ! function_exists( 'get_called_class' ) ) :
 	function get_called_class() {
-		$arr       = array();
+		$arr       = [];
 		$arrTraces = debug_backtrace();
 		foreach ( $arrTraces as $arrTrace ) {
 			if ( ! array_key_exists( "class", $arrTrace ) ) {
@@ -60,7 +60,7 @@ if ( ! function_exists( 'get_called_class' ) ) :
 			}
 			if ( count( $arr ) == 0 ) {
 				$arr[] = $arrTrace['class'];
-			} else if ( get_parent_class( $arrTrace['class'] ) == end( $arr ) ) {
+			} elseif ( get_parent_class( $arrTrace['class'] ) == end( $arr ) ) {
 				$arr[] = $arrTrace['class'];
 			}
 		}
@@ -72,7 +72,6 @@ endif;
 //getting array of pages IDs and titles
 //for using in settings: ID => post_title
 function usp_get_pages_ids() {
-
 	$pages = ( new USP_Posts_Query() )
 		->select( [ 'ID', 'post_title' ] )
 		->where( [ 'post_type' => 'page', 'post_status' => 'publish' ] )
@@ -80,7 +79,7 @@ function usp_get_pages_ids() {
 		->orderby( 'post_title', 'ASC' )
 		->get_walker()->get_index_values( 'ID', 'post_title' );
 
-	$pages = array( __( 'Not selected', 'userspace' ) ) + $pages;
+	$pages = [ __( 'Not selected', 'userspace' ) ] + $pages;
 
 	return $pages;
 }
@@ -111,88 +110,88 @@ function usp_get_roles_ids( $exclude = false ) {
 }
 
 function usp_sanitize_string( $name, $sanitize = true ) {
-
 	$name_lower = mb_strtolower( $name );
 
-	$title = strtr( $name_lower, apply_filters( 'usp_sanitize_iso', [
-		"Є" => "YE",
-		"І" => "I",
-		"Ѓ" => "G",
-		"і" => "i",
-		"№" => "#",
-		"є" => "ye",
-		"ѓ" => "g",
-		"А" => "A",
-		"Б" => "B",
-		"В" => "V",
-		"Г" => "G",
-		"Д" => "D",
-		"Е" => "E",
-		"Ё" => "YO",
-		"Ж" => "ZH",
-		"З" => "Z",
-		"И" => "I",
-		"Й" => "J",
-		"К" => "K",
-		"Л" => "L",
-		"М" => "M",
-		"Н" => "N",
-		"О" => "O",
-		"П" => "P",
-		"Р" => "R",
-		"С" => "S",
-		"Т" => "T",
-		"У" => "U",
-		"Ф" => "F",
-		"Х" => "H",
-		"Ц" => "CZ",
-		"Ч" => "CH",
-		"Ш" => "SH",
-		"Щ" => "SHH",
-		"Ъ" => "",
-		"Ы" => "Y",
-		"Ь" => "",
-		"Э" => "E",
-		"Ю" => "YU",
-		"Я" => "YA",
-		"а" => "a",
-		"б" => "b",
-		"в" => "v",
-		"г" => "g",
-		"д" => "d",
-		"е" => "e",
-		"ё" => "yo",
-		"ж" => "zh",
-		"з" => "z",
-		"и" => "i",
-		"й" => "j",
-		"к" => "k",
-		"л" => "l",
-		"м" => "m",
-		"н" => "n",
-		"о" => "o",
-		"п" => "p",
-		"р" => "r",
-		"с" => "s",
-		"т" => "t",
-		"у" => "u",
-		"ф" => "f",
-		"х" => "h",
-		"ц" => "cz",
-		"ч" => "ch",
-		"ш" => "sh",
-		"щ" => "shh",
-		"ъ" => "",
-		"ы" => "y",
-		"ь" => "",
-		"э" => "e",
-		"ю" => "yu",
-		"я" => "ya",
-		"—" => "-",
-		"«" => "",
-		"»" => "",
-		"…" => ""
-	] ) );
+	$title = strtr( $name_lower,
+		apply_filters( 'usp_sanitize_iso', [
+			"Є" => "YE",
+			"І" => "I",
+			"Ѓ" => "G",
+			"і" => "i",
+			"№" => "#",
+			"є" => "ye",
+			"ѓ" => "g",
+			"А" => "A",
+			"Б" => "B",
+			"В" => "V",
+			"Г" => "G",
+			"Д" => "D",
+			"Е" => "E",
+			"Ё" => "YO",
+			"Ж" => "ZH",
+			"З" => "Z",
+			"И" => "I",
+			"Й" => "J",
+			"К" => "K",
+			"Л" => "L",
+			"М" => "M",
+			"Н" => "N",
+			"О" => "O",
+			"П" => "P",
+			"Р" => "R",
+			"С" => "S",
+			"Т" => "T",
+			"У" => "U",
+			"Ф" => "F",
+			"Х" => "H",
+			"Ц" => "CZ",
+			"Ч" => "CH",
+			"Ш" => "SH",
+			"Щ" => "SHH",
+			"Ъ" => "",
+			"Ы" => "Y",
+			"Ь" => "",
+			"Э" => "E",
+			"Ю" => "YU",
+			"Я" => "YA",
+			"а" => "a",
+			"б" => "b",
+			"в" => "v",
+			"г" => "g",
+			"д" => "d",
+			"е" => "e",
+			"ё" => "yo",
+			"ж" => "zh",
+			"з" => "z",
+			"и" => "i",
+			"й" => "j",
+			"к" => "k",
+			"л" => "l",
+			"м" => "m",
+			"н" => "n",
+			"о" => "o",
+			"п" => "p",
+			"р" => "r",
+			"с" => "s",
+			"т" => "t",
+			"у" => "u",
+			"ф" => "f",
+			"х" => "h",
+			"ц" => "cz",
+			"ч" => "ch",
+			"ш" => "sh",
+			"щ" => "shh",
+			"ъ" => "",
+			"ы" => "y",
+			"ь" => "",
+			"э" => "e",
+			"ю" => "yu",
+			"я" => "ya",
+			"—" => "-",
+			"«" => "",
+			"»" => "",
+			"…" => "",
+		] ) );
 
 	return $sanitize ? sanitize_title_with_dashes( $title, '', 'save' ) : $title;
 }
@@ -201,13 +200,14 @@ function usp_sanitize_string( $name, $sanitize = true ) {
  * Retrieves the list of emojis to the specified input field
  *
  * @param string $id_area id of textarea to insert the emoji
+ * @param string $class additional class
  *
  * @return string   emoji box.
  * @since 1.0
  *
  */
-function usp_get_emoji( $id_area ) {
-	$emoji_box = '<div class="usp-emoji usps usps__jc-end usps__relative" data-area="' . $id_area . '">';
+function usp_get_emoji( $id_area, $class = false ) {
+	$emoji_box = '<div class="' . $class . ' usp-emoji usps usps__jc-end usps__relative" data-area="' . $id_area . '">';
 	$emoji_box .= '<i class="uspi fa-beaming-face-with-smiling-eyes" aria-hidden="true"></i>';
 	$emoji_box .= '<div class="usp-emoji__list"><div class="usp-emoji__all usps usps__jc-between usps__radius-3"></div></div>';
 	$emoji_box .= '</div>';
@@ -229,7 +229,6 @@ function usp_get_emoji( $id_area ) {
  *
  */
 function usp_mail( $email, $title, $text, $from = false, $attachments = false ) {
-
 	$from_name = $from['name'] ?? get_bloginfo( 'name' );
 	$from_mail = $from['email'] ?? 'noreply@' . $_SERVER['HTTP_HOST'];
 
@@ -241,7 +240,7 @@ function usp_mail( $email, $title, $text, $from = false, $attachments = false ) 
 
 	$content = usp_get_include_template( 'usp-mail.php', false, [
 		'mail_title'   => $title,
-		'mail_content' => $text
+		'mail_content' => $text,
 	] );
 
 	$content .= '<p><small>-----------------------------------------------------<br/>'
@@ -252,7 +251,6 @@ function usp_mail( $email, $title, $text, $from = false, $attachments = false ) 
 }
 
 function usp_get_form( $args ) {
-
 	USP()->use_module( 'forms' );
 
 	$Form = new USP_Form( $args );
@@ -287,20 +285,17 @@ function usp_get_notice( $args ) {
 }
 
 function usp_get_button( array $args ) {
-
 	$bttn = new USP_Button( $args );
 
 	return $bttn->get_button();
-
 }
 
 function usp_get_area_options() {
-
-	$areas = array(
+	$areas = [
 		'menu'     => get_site_option( 'usp_fields_area-menu' ),
 		'counters' => get_site_option( 'usp_fields_area-counters' ),
 		'actions'  => get_site_option( 'usp_fields_area-actions' ),
-	);
+	];
 
 	return $areas;
 }
@@ -309,16 +304,15 @@ function usp_get_area_options() {
  * Writes logs by date
  * and puts them in the directory: site/wp-content/userspace/logs/
  *
- * @since 1.0.0
- *
  * @param string $title Event title.
  * @param array $data Array of recorded data.
  * @param bool $force if it is necessary to ignore the settings in the admin panel and write it down forcibly.
  *
  * @return void
+ * @since 1.0.0
+ *
  */
 function usp_add_log( $title, $data = false, $force = false ) {
-
 	if ( ! $force && ! usp_get_option( 'usp_logger' ) ) {
 		return;
 	}
@@ -507,10 +501,11 @@ function usp_decode( $string ) {
  * Is returned in a human-readable format such as "1 hour",
  * "5 mins", "2 days".
  *
+ * @param string $time_action mysql datetime format.
+ *
+ * @return string Human-readable time difference.
  * @since 1.0.0
  *
- * @param string $time_action mysql datetime format.
- * @return string Human-readable time difference.
  */
 function usp_human_time_diff( $time_action ) {
 	$unix_current_time = current_time( 'timestamp' );
@@ -522,12 +517,12 @@ function usp_human_time_diff( $time_action ) {
 /**
  * Shows in a human-readable format such as "27 june" or "27 june 2021"
  *
- * @since 1.0.0
- *
  * @param string $date mysql datetime format
  * @param bool $year Optional. Output the year as well
  *
  * @return string Human-readable date
+ * @since 1.0.0
+ *
  */
 function usp_human_date_format( $date, $year = false ) {
 	global $wp_locale;
@@ -549,24 +544,24 @@ function usp_human_date_format( $date, $year = false ) {
  * Returned in a human-readable format such as "Today", "Yesterday",
  * "Two days ago" or "27 june 2021".
  *
- * @since 1.0.0
- *
  * @param string $date mysql datetime format.
  * @param bool $year if necessary, output the year as well.
  *
  * @return string Human-readable date.
+ * @since 1.0.0
+ *
  */
 function usp_human_days( $date, $year = false ) {
-	$current_date         = get_date_from_gmt( date( 'Y-m-d H:i:s' ), 'Y-m-d' );
+	$current_date     = get_date_from_gmt( date( 'Y-m-d H:i:s' ), 'Y-m-d' );
 	$yesterday        = date( 'Y-m-d', strtotime( "-1 days", strtotime( $current_date ) ) );
 	$before_yesterday = date( 'Y-m-d', strtotime( "-2 days", strtotime( $current_date ) ) );
 
 	$action_date = date( 'Y-m-d', strtotime( $date ) );
 	if ( $current_date == $action_date ) {
 		return __( 'Today', 'userspace' );
-	} else if ( $yesterday == $action_date ) {
+	} elseif ( $yesterday == $action_date ) {
 		return __( 'Yesterday', 'userspace' );
-	} else if ( $before_yesterday == $action_date ) {
+	} elseif ( $before_yesterday == $action_date ) {
 		return __( 'Two days ago', 'userspace' );
 	}
 
