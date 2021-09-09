@@ -11,7 +11,10 @@ class USP_Dropdown_Group {
 
 	private $id;
 
-	public $params = [];
+	public $params = [
+		'align_content' => 'vertical' // vertical, horizontal
+	];
+
 	public $items = [];
 
 	public function __construct( string $id, array $params = [] ) {
@@ -47,7 +50,11 @@ class USP_Dropdown_Group {
 			return '';
 		}
 
-		$html = "<div class='usp-menu-group usp-menu-group_{$this->get_id()}'>";
+		$order = $this->params['order'] ?? 10;
+		$style = is_null( $order ) ? '' : " style='order:{$order};'";
+		$align_content = $this->params['align_content'];
+
+		$html = "<div id='usp-menu-group_{$this->get_id()}' class='usp-menu-group usp-menu-group_{$this->get_id()} usp-menu-group_content_{$align_content}' {$style}>";
 
 		foreach ( $this->items as $item ) {
 			$html .= $this->build_item( $item['data'], $item['type'], $item['params'] );
@@ -60,8 +67,33 @@ class USP_Dropdown_Group {
 
 	private function build_item( $data, $type, $params ) {
 
-		$html = "<div class='usp-menu-item usp-menu-item_{$type}'>";
-		$html .= $type === 'button' ? ( new USP_Button( $data ) )->get_button() : $data;
+		if ( $type === 'custom' ) {
+			return $this->build_item_custom( $data, $type, $params );
+		}
+
+		return $this->build_item_button( $data, $type, $params );
+
+	}
+
+	private function build_item_custom( $data, $type, $params ) {
+
+		$order = $params['order'] ?? 10;
+		$style = is_null( $order ) ? '' : " style='order:{$order};'";
+
+		$html = "<div tabindex='0' class='usp-menu-item usp-menu-item_custom usps__focus'{$style}>";
+		$html .= $data;
+		$html .= '</div>';
+
+		return $html;
+	}
+
+	private function build_item_button( $data, $type, $params ) {
+
+		$order = $params['order'] ?? 10;
+		$style = is_null( $order ) ? '' : " style='order:{$order};'";
+
+		$html = "<div class='usp-menu-item usp-menu-item_button usps__focus'{$style}>";
+		$html .= ( new USP_Button( $data ) )->get_button();
 		$html .= '</div>';
 
 		return $html;
@@ -70,9 +102,9 @@ class USP_Dropdown_Group {
 	private function _add_item( $data, string $type, array $params = [] ) {
 
 		$this->items[] = [
-			'type'        => $type,
-			'data'        => $data,
-			'item_params' => $params
+			'type'   => $type,
+			'data'   => $data,
+			'params' => $params
 		];
 	}
 

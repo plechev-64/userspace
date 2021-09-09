@@ -13,7 +13,10 @@ class USP_Dropdown_New {
 
 	public $button;
 
-	public $params = [];
+	public $params = [
+		'show'     => 'on_click', //on_click, on_hover
+		'menu_pos' => 'right' // right, left
+	];
 
 	public $default_group;
 
@@ -56,7 +59,9 @@ class USP_Dropdown_New {
 
 	public function get_content() {
 
-		$html = "<div class='usp-menu usp-menu_{$this->get_id()}'>";
+		$show = "usp-menu_{$this->params['show']}";
+
+		$html = "<div class='usp-menu usp-menu_{$this->get_id()} {$show}'>";
 
 		$html .= $this->build_menu_button();
 		$html .= $this->build_menu_content();
@@ -71,7 +76,7 @@ class USP_Dropdown_New {
 
 		$button = is_array( $this->button ) ? ( new USP_Button( $this->button ) )->get_button() : $this->button;
 
-		$html = '<div class="usp-menu-button">';
+		$html = '<div class="usp-menu-button usps__focus">';
 		$html .= $button;
 		$html .= '</div>';
 
@@ -81,7 +86,9 @@ class USP_Dropdown_New {
 
 	private function build_menu_content() {
 
-		$html = '<div class="usp-menu-items">';
+		$menu_pos = $this->params['menu_pos'];
+
+		$html = "<div class='usp-menu-items usps usp-menu-items_pos_{$menu_pos}'>";
 
 		foreach ( $this->groups as $group ) {
 			$html .= $group->get_html();

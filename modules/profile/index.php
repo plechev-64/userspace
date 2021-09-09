@@ -54,7 +54,11 @@ function usp_get_profile_user_info( $user_id ) {
 		'custom_data' => 'posts, comments, user_registered',
 	] );
 
-	return $manager->get_manager();
+	/*
+	 * todo remove get_test_dropdown_menu
+	 */
+
+	return get_test_dropdown_menu() . $manager->get_manager();
 }
 
 add_action( 'usp_setup_tabs', 'usp_tab_profile_info', 10 );
