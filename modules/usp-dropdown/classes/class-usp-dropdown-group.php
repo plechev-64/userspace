@@ -51,7 +51,7 @@ class USP_Dropdown_Group {
 		}
 
 		$align_content = $this->params['align_content'];
-		$id = $this->params['id'] ?? '';
+		$id            = $this->params['id'] ?? '';
 
 		$html = "<div id='{$id}' class='usp-menu-group usp-menu-group_{$this->get_id()} usp-menu-group_content_{$align_content}'>";
 
@@ -67,14 +67,14 @@ class USP_Dropdown_Group {
 	private function build_item( $data, $type, $params ) {
 
 		if ( $type === 'custom' ) {
-			return $this->build_item_custom( $data, $type, $params );
+			return $this->build_item_custom( $data, $params );
 		}
 
-		return $this->build_item_button( $data, $type, $params );
+		return $this->build_item_button( $data, $params );
 
 	}
 
-	private function build_item_custom( $data, $type, $params ) {
+	private function build_item_custom( $data, $params ) {
 
 		$html = "<div class='usp-menu-item usp-menu-item_custom'>";
 		$html .= $data;
@@ -83,9 +83,10 @@ class USP_Dropdown_Group {
 		return $html;
 	}
 
-	private function build_item_button( $data, $type, $params ) {
+	private function build_item_button( $data, $params ) {
 
 		$buttons_class = 'usp-menu-item usp-menu-item_button usps__focus';
+
 		if ( isset( $data['class'] ) ) {
 			$data['class'] .= ' ' . $buttons_class;
 		} else {

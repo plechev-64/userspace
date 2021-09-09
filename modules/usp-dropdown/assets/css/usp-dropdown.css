@@ -7,6 +7,10 @@
     cursor: pointer;
 }
 
+.usp-menu .usp-bttn__type-simple {
+    border: none!important;
+}
+
 .usp-menu-items {
     z-index: -999;
     visibility: hidden;

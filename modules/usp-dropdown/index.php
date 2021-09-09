@@ -15,24 +15,34 @@ function get_test_dropdown_menu() {
 	 */
 	$menu_vertical = new USP_Dropdown_New( 'vertical', [
 		'icon'  => 'fa-vertical-ellipsis',
-		'label' => 'Вертикальное'
-	] );
+		'label' => 'Вертикальное',
+		'size' => 'medium',
+		'type' => 'simple',
+	]);
 
 	$menu_vertical
 		->add_button( [
 			'icon'  => 'fa-star',
+			'size'  => 'medium',
+			'type'  => 'simple',
 			'label' => 'Пункт меню 1'
 		] )
 		->add_button( [
 			'icon'  => 'fa-star',
+			'size'  => 'medium',
+			'type'  => 'simple',
 			'label' => 'Пункт меню 2'
 		] )
 		->add_button( [
 			'icon'  => 'fa-star',
+			'size'  => 'medium',
+			'type'  => 'simple',
 			'label' => 'Пункт меню 3'
 		] )
 		->add_button( [
 			'icon'  => 'fa-star',
+			'size'  => 'medium',
+			'type'  => 'simple',
 			'label' => 'Пункт меню 4'
 		] );
 
@@ -41,22 +51,27 @@ function get_test_dropdown_menu() {
 	 */
 	$menu_vertical_big = new USP_Dropdown_New( 'vertical_big', [
 		'icon'  => 'fa-vertical-ellipsis',
-		'label' => 'Вертикальное большое'
+		'label' => 'Вертикальное большое',
+		'size' => 'medium',
+		'type' => 'simple',
 	] );
 
 	$menu_vertical_big
 		->add_button( [
 			'size'  => 'medium',
+			'type'  => 'simple',
 			'icon'  => 'fa-star',
 			'label' => 'Пункт меню 1'
 		] )
 		->add_button( [
 			'size'  => 'medium',
+			'type'  => 'simple',
 			'icon'  => 'fa-volume-off',
 			'label' => 'Пункт меню 2',
 		] )
 		->add_button( [
 			'size'  => 'medium',
+			'type'  => 'simple',
 			'icon'  => 'fa-expand-arrows',
 			'label' => 'Пункт меню 3',
 		] );
@@ -69,10 +84,12 @@ function get_test_dropdown_menu() {
 		->add_group( 'primary', [ 'align_content' => 'horizontal', 'order' => 3 ] )
 		->add_button( [
 			'size' => 'medium',
+			'type' => 'simple',
 			'icon' => 'fa-trash'
 		] )
 		->add_button( [
 			'size' => 'medium',
+			'type' => 'simple',
 			'icon' => 'fa-star'
 		] );
 
@@ -86,17 +103,41 @@ function get_test_dropdown_menu() {
 
 	$menu_horizontal = new USP_Dropdown_New( 'horizontal_menu', [
 		'icon'  => 'fa-vertical-ellipsis',
-		'label' => 'Горизонтальное меню'
+		'label' => 'Горизонтальное меню',
+		'size' => 'medium',
+		'type' => 'simple',
 	] );
 
 	$sub_menu_horizontal = new USP_Dropdown_New( 'horizontal_menu', [
-		'icon'  => 'fa-star'
+		'icon' => 'fa-star',
+		'size' => 'medium',
+		'type' => 'simple',
 	] );
 
-	$sub_menu_horizontal->add_button(['fa-trash', 'label' => 'Саб меню']);
-	$sub_menu_horizontal->add_button(['fa-trash', 'label' => 'Саб меню']);
-	$sub_menu_horizontal->add_button(['fa-trash', 'label' => 'Саб меню']);
-	$sub_menu_horizontal->add_button(['fa-trash', 'label' => 'Саб меню']);
+	$sub_menu_horizontal->add_button( [
+		'fa-trash',
+		'size'  => 'medium',
+		'type'  => 'simple',
+		'label' => 'Саб меню'
+	] );
+	$sub_menu_horizontal->add_button( [
+		'fa-trash',
+		'size'  => 'medium',
+		'type'  => 'simple',
+		'label' => 'Саб меню'
+	] );
+	$sub_menu_horizontal->add_button( [
+		'fa-trash',
+		'size'  => 'medium',
+		'type'  => 'simple',
+		'label' => 'Саб меню'
+	] );
+	$sub_menu_horizontal->add_button( [
+		'fa-trash',
+		'size'  => 'medium',
+		'type'  => 'simple',
+		'label' => 'Саб меню'
+	] );
 
 	$menu_horizontal
 		->add_group( 'primary', [ 'align_content' => 'horizontal' ] )
@@ -105,5 +146,5 @@ function get_test_dropdown_menu() {
 		->add_item( $sub_menu_horizontal->get_content() )
 		->add_item( $sub_menu_horizontal->get_content() );
 
-	return $menu_vertical->get_content().$menu_vertical_big->get_content() . $menu_horizontal->get_content();
+	return $menu_vertical->get_content() . $menu_vertical_big->get_content() . $menu_horizontal->get_content();
 }
