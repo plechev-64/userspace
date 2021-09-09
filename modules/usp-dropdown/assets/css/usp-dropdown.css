@@ -19,8 +19,8 @@
     right: 0;
 }
 
-.usp-menu:focus-within .usp-menu-items,
-.usp-menu_on_hover:hover .usp-menu-items{
+.usp-menu:focus-within > .usp-menu-items,
+.usp-menu_on_hover:hover > .usp-menu-items{
     z-index: 102;
     visibility: visible;
     opacity: 1;

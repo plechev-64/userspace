@@ -50,11 +50,10 @@ class USP_Dropdown_Group {
 			return '';
 		}
 
-		$order = $this->params['order'] ?? 10;
-		$style = is_null( $order ) ? '' : " style='order:{$order};'";
 		$align_content = $this->params['align_content'];
+		$id = $this->params['id'] ?? '';
 
-		$html = "<div id='usp-menu-group_{$this->get_id()}' class='usp-menu-group usp-menu-group_{$this->get_id()} usp-menu-group_content_{$align_content}' {$style}>";
+		$html = "<div id='{$id}' class='usp-menu-group usp-menu-group_{$this->get_id()} usp-menu-group_content_{$align_content}'>";
 
 		foreach ( $this->items as $item ) {
 			$html .= $this->build_item( $item['data'], $item['type'], $item['params'] );
@@ -77,10 +76,7 @@ class USP_Dropdown_Group {
 
 	private function build_item_custom( $data, $type, $params ) {
 
-		$order = $params['order'] ?? 10;
-		$style = is_null( $order ) ? '' : " style='order:{$order};'";
-
-		$html = "<div tabindex='0' class='usp-menu-item usp-menu-item_custom usps__focus'{$style}>";
+		$html = "<div class='usp-menu-item usp-menu-item_custom'>";
 		$html .= $data;
 		$html .= '</div>';
 
@@ -89,12 +85,14 @@ class USP_Dropdown_Group {
 
 	private function build_item_button( $data, $type, $params ) {
 
-		$order = $params['order'] ?? 10;
-		$style = is_null( $order ) ? '' : " style='order:{$order};'";
+		$buttons_class = 'usp-menu-item usp-menu-item_button usps__focus';
+		if ( isset( $data['class'] ) ) {
+			$data['class'] .= ' ' . $buttons_class;
+		} else {
+			$data['class'] = $buttons_class;
+		}
 
-		$html = "<div class='usp-menu-item usp-menu-item_button usps__focus'{$style}>";
-		$html .= ( new USP_Button( $data ) )->get_button();
-		$html .= '</div>';
+		$html = ( new USP_Button( $data ) )->get_button();
 
 		return $html;
 	}

@@ -89,20 +89,21 @@ function get_test_dropdown_menu() {
 		'label' => 'Горизонтальное меню'
 	] );
 
+	$sub_menu_horizontal = new USP_Dropdown_New( 'horizontal_menu', [
+		'icon'  => 'fa-star'
+	] );
+
+	$sub_menu_horizontal->add_button(['fa-trash', 'label' => 'Саб меню']);
+	$sub_menu_horizontal->add_button(['fa-trash', 'label' => 'Саб меню']);
+	$sub_menu_horizontal->add_button(['fa-trash', 'label' => 'Саб меню']);
+	$sub_menu_horizontal->add_button(['fa-trash', 'label' => 'Саб меню']);
+
 	$menu_horizontal
 		->add_group( 'primary', [ 'align_content' => 'horizontal' ] )
-		->add_button( [
-			'icon' => 'fa-trash'
-		] )
-		->add_button( [
-			'icon' => 'fa-star'
-		] )
-		->add_button( [
-			'icon' => 'fa-star'
-		] )
-		->add_button( [
-			'icon' => 'fa-star'
-		] );
+		->add_item( $sub_menu_horizontal->get_content() )
+		->add_item( $sub_menu_horizontal->get_content() )
+		->add_item( $sub_menu_horizontal->get_content() )
+		->add_item( $sub_menu_horizontal->get_content() );
 
 	return $menu_vertical->get_content().$menu_vertical_big->get_content() . $menu_horizontal->get_content();
 }
