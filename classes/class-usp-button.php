@@ -34,8 +34,6 @@ class USP_Button {
 
 		$this->init_properties( $args );
 
-		$this->setup_class();
-		$this->setup_attrs();
 	}
 
 	function init_properties( $args ) {
@@ -165,6 +163,9 @@ class USP_Button {
 
 	function get_button() {
 
+		$this->setup_class();
+		$this->setup_attrs();
+
 		$content = sprintf( '<a %s>', $this->parse_attrs() );
 
 		if ( $this->icon && $this->icon_align == 'left' ) {
@@ -194,6 +195,18 @@ class USP_Button {
 		$content .= '</a>';
 
 		return $content;
+	}
+
+	function add_class( $class ) {
+
+		if ( is_array( $class ) ) {
+			$this->class = array_merge( $this->class, $class );
+		} else {
+			$this->class[] = $class;
+		}
+
+		return $this;
+
 	}
 
 }

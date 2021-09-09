@@ -12,6 +12,7 @@ class USP_Dropdown_Group {
 	private $id;
 
 	public $params = [
+		'order' => 10,
 		'align_content' => 'vertical' // vertical, horizontal
 	];
 
@@ -44,11 +45,17 @@ class USP_Dropdown_Group {
 		return $this->id;
 	}
 
+	public function get_param( $key, $default = null ) {
+		return $this->params[ $key ] ?? $default;
+	}
+
 	public function get_html() {
 
 		if ( ! $this->items ) {
 			return '';
 		}
+
+		$this->order_items();
 
 		$align_content = $this->params['align_content'];
 		$id            = $this->params['id'] ?? '';
@@ -87,15 +94,20 @@ class USP_Dropdown_Group {
 
 		$buttons_class = 'usp-menu-item usp-menu-item_button usps__focus';
 
-		if ( isset( $data['class'] ) ) {
-			$data['class'] .= ' ' . $buttons_class;
-		} else {
-			$data['class'] = $buttons_class;
-		}
-
-		$html = ( new USP_Button( $data ) )->get_button();
+		$html = ( new USP_Button( $data ) )->add_class($buttons_class)->get_button();
 
 		return $html;
+	}
+
+	private function order_items() {
+
+		usort( $this->items, function ( $a, $b ) {
+			$a_order = $a['params']['order'] ?? 10;
+			$b_order = $b['params']['order'] ?? 10;
+
+			return $a_order <=> $b_order;
+		} );
+
 	}
 
 	private function _add_item( $data, string $type, array $params = [] ) {

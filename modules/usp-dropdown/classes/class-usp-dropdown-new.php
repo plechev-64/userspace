@@ -11,21 +11,21 @@ class USP_Dropdown_New {
 
 	private $id;
 
-	public $button;
+	public $open_button;
 
 	public $params = [
 		'show'     => 'on_click', //on_click, on_hover
-		'menu_pos' => 'right' // right, left
+		'position' => 'bottom', // right, left, top, bottom
 	];
 
 	public $default_group;
 
 	public $groups = [];
 
-	public function __construct( string $id, $button, array $params = [] ) {
+	public function __construct( string $id, $open_button, array $params = [] ) {
 
 		$this->id            = $id;
-		$this->button        = $button;
+		$this->open_button   = $open_button;
 		$this->params        = array_merge( $this->params, $params );
 		$this->default_group = 'default';
 
@@ -74,10 +74,14 @@ class USP_Dropdown_New {
 
 	private function build_menu_button() {
 
-		$button = is_array( $this->button ) ? ( new USP_Button( $this->button ) )->get_button() : $this->button;
+		$button_class = 'usp-menu-button usps__focus';
 
-		$html = '<div class="usp-menu-button usps__focus">';
-		$html .= $button;
+		if ( is_array( $this->open_button ) ) {
+			return ( new USP_Button( $this->open_button ) )->add_class( $button_class )->get_button();
+		}
+
+		$html = "<div tabindex='0' class='{$button_class}'>";
+		$html .= $this->open_button;
 		$html .= '</div>';
 
 		return $html;
@@ -86,9 +90,11 @@ class USP_Dropdown_New {
 
 	private function build_menu_content() {
 
-		$menu_pos = $this->params['menu_pos'];
+		$pos = $this->params['position'];
 
-		$html = "<div class='usp-menu-items usps usp-menu-items_pos_{$menu_pos}'>";
+		$html = "<div tabindex='-1' class='usp-menu-items usps usp-menu-items_pos_{$pos}'>";
+
+		$this->order_groups();
 
 		foreach ( $this->groups as $group ) {
 			$html .= $group->get_html();
@@ -97,6 +103,17 @@ class USP_Dropdown_New {
 		$html .= '</div>';
 
 		return $html;
+
+	}
+
+	private function order_groups() {
+
+		usort( $this->groups, function ( $a, $b ) {
+			$a_order = $a->get_param( 'order', 0 );
+			$b_order = $b->get_param( 'order', 0 );
+
+			return $a_order <=> $b_order;
+		} );
 
 	}
 
