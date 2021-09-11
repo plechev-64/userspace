@@ -14,9 +14,12 @@ class USP_Dropdown_New {
 	public $open_button;
 
 	public $params = [
-		'show'     => 'on_click', //on_click, on_hover
-		'position' => 'bottom', // right, left, top, bottom
-		'style' => 'dark' // dark, white, primary, custom
+		//on_click, on_hover
+		'show'     => 'on_click',
+		// bottom-left, bottom-right, top-left, top-right, left-bottom, left-top, left-center, right-bottom, right-top, right-center
+		'position' => 'bottom-left',
+		// dark, white, primary, custom
+		'style'    => 'dark'
 	];
 
 	public $default_group;
@@ -64,7 +67,7 @@ class USP_Dropdown_New {
 
 	public function get_content() {
 
-		$show = "usp-menu_{$this->params['show']}";
+		$show  = "usp-menu_{$this->params['show']}";
 		$style = "usp-menu_style_{$this->params['style']}";
 
 		$html = "<div class='usp-menu usp-menu_{$this->get_id()} {$show} {$style}'>";
@@ -96,7 +99,7 @@ class USP_Dropdown_New {
 
 	private function build_menu_content() {
 
-		$pos = $this->params['position'];
+		$pos   = $this->params['position'];
 
 		$html = "<div tabindex='-1' class='usp-menu-items usps usp-menu-items_pos_{$pos}'>";
 

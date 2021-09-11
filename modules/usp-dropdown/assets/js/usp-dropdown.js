@@ -8,7 +8,12 @@ jQuery(document).ready(function () {
         const wrapper_width = $(this).outerWidth();
         const $menu = $(this).next();
 
+        console.log($menu.get(0).getBoundingClientRect());
+
         if ($menu.hasClass('usp-menu-items_pos_right')) {
+            $menu.removeClass('usp-menu-items_pos_right');
+            $menu.addClass('usp-menu-items_pos_left');
+            return;
 
             const document_width = window.outerWidth;
             const menu_width = $menu.outerWidth();

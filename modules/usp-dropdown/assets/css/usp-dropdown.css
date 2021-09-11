@@ -19,30 +19,12 @@
     position: absolute;
 }
 
-.usp-menu-items_pos_right {
-    left: 100%;
-    top: 0;
-}
-
-.usp-menu-items_pos_left {
-    right: 100%;
-    top: 0;
-}
-
-.usp-menu-items_pos_top {
-    bottom: 100%;
-}
-
-.usp-menu-items_pos_bottom {
-    left: 0;
-}
-
 .usp-menu:focus-within > .usp-menu-items,
 .usp-menu_on_hover:hover > .usp-menu-items {
     z-index: 102;
     visibility: visible;
     opacity: 1;
-    transition: opacity .3s;
+    transition: opacity var(--uspLoadFast);
 }
 
 .usp-menu-group {
@@ -78,6 +60,60 @@
 }
 
 /**
+* Menu position
+*/
+.usp-menu-items_pos_right-top {
+    left: 100%;
+    bottom: 0;
+}
+
+.usp-menu-items_pos_right-center {
+    left: 100%;
+    bottom: 50%;
+    transform: translateY(50%);
+}
+
+.usp-menu-items_pos_right-bottom {
+    left: 100%;
+    top: 0;
+}
+
+.usp-menu-items_pos_left-top {
+    right: 100%;
+    bottom: 0;
+}
+
+.usp-menu-items_pos_left-center {
+    right: 100%;
+    bottom: 50%;
+    transform: translateY(50%);
+}
+
+.usp-menu-items_pos_left-bottom {
+    right: 100%;
+    top: 0;
+}
+
+.usp-menu-items_pos_top-left {
+    bottom: 100%;
+}
+
+.usp-menu-items_pos_top-right {
+    bottom: 100%;
+    right: 0;
+    left: unset;
+}
+
+.usp-menu-items_pos_bottom-left {
+    left: 0;
+}
+
+.usp-menu-items_pos_bottom-right {
+    right: 0;
+    left: unset;
+}
+
+/**
 * Style Dark
 */
 .usp-menu_style_dark {
@@ -86,7 +122,7 @@
 
 .usp-menu_style_dark > .usp-menu-items {
     background: var(--uspGray-700);
-    box-shadow: 0 0 8px var(--uspBlack);
+    box-shadow: 0px 0px 3px #00000080;
 }
 
 .usp-menu_style_dark > .usp-menu-items > .usp-menu-group > a.usp-bttn.usp-menu-item_button,
@@ -110,7 +146,7 @@
 
 .usp-menu_style_white > .usp-menu-items {
     background: var(--uspWhite);
-    box-shadow: 0 0 8px var(--uspBlack);
+    box-shadow: 0px 0px 3px #00000080;
 }
 
 .usp-menu_style_white > .usp-menu-items > .usp-menu-group > a.usp-bttn.usp-menu-item_button,
@@ -134,7 +170,7 @@
 
 .usp-menu_style_primary > .usp-menu-items {
     background: var(--uspHex);
-    box-shadow: 0 0 8px var(--uspBlack);
+    box-shadow: 0px 0px 3px #00000080;
 }
 
 .usp-menu_style_primary > .usp-menu-items > .usp-menu-group > a.usp-bttn.usp-menu-item_button,
