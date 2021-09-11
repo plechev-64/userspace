@@ -19,26 +19,23 @@ class USP_Dropdown_Group {
 	public $items = [];
 
 	public function __construct( string $id, array $params = [] ) {
-
 		$this->id     = $id;
 		$this->params = array_merge( $this->params, $params );
-
 	}
 
 	public function add_item( string $html, array $params = [] ) {
-
 		$this->_add_item( $html, 'custom', $params );
-
 		return $this;
-
 	}
 
 	public function add_button( array $args, array $params = [] ) {
-
 		$this->_add_item( $args, 'button', $params );
-
 		return $this;
+	}
 
+	public function add_submenu( USP_Dropdown_New $submenu, array $params = [] ) {
+		$this->_add_item( $submenu, 'submenu', $params );
+		return $this;
 	}
 
 	public function get_id() {
@@ -59,8 +56,9 @@ class USP_Dropdown_Group {
 
 		$align_content = $this->params['align_content'];
 		$id            = $this->params['id'] ?? '';
+		$order = $this->params['order'] ?? 10;
 
-		$html = "<div id='{$id}' class='usp-menu-group usp-menu-group_{$this->get_id()} usp-menu-group_content_{$align_content}'>";
+		$html = "<div id='{$id}' class='usp-menu-group usp-menu-group_{$this->get_id()} usp-menu-group_content_{$align_content}' data-order='{$order}'>";
 
 		foreach ( $this->items as $item ) {
 			$html .= $this->build_item( $item['data'], $item['type'], $item['params'] );
@@ -75,14 +73,17 @@ class USP_Dropdown_Group {
 
 		if ( $type === 'custom' ) {
 			return $this->build_item_custom( $data, $params );
+		} else if($type === 'submenu') {
+			return $this->build_item_submenu( $data, $params );
+		} else {
+			return $this->build_item_button( $data, $params );
 		}
 
-		return $this->build_item_button( $data, $params );
+		return '';
 
 	}
 
 	private function build_item_custom( $data, $params ) {
-
 		$html = "<div class='usp-menu-item usp-menu-item_custom'>";
 		$html .= $data;
 		$html .= '</div>';
@@ -90,10 +91,15 @@ class USP_Dropdown_Group {
 		return $html;
 	}
 
+	private function build_item_submenu( $data, $params ) {
+		$html = "<div class='usp-menu-item usp-menu-item_submenu'>";
+		$html .= $data->get_content();
+		$html .= '</div>';
+		return $html;
+	}
+
 	private function build_item_button( $data, $params ) {
-
 		$buttons_class = 'usp-menu-item usp-menu-item_button usps__focus';
-
 		$html = ( new USP_Button( $data ) )->add_class($buttons_class)->get_button();
 
 		return $html;

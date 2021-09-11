@@ -16,6 +16,7 @@ class USP_Dropdown_New {
 	public $params = [
 		'show'     => 'on_click', //on_click, on_hover
 		'position' => 'bottom', // right, left, top, bottom
+		'style' => 'dark' // dark, white, primary, custom
 	];
 
 	public $default_group;
@@ -49,6 +50,10 @@ class USP_Dropdown_New {
 		return $this->get_group( $this->default_group )->add_button( $args, $params );
 	}
 
+	public function add_submenu( USP_Dropdown_New $submenu, array $params = [] ) {
+		return $this->get_group( $this->default_group )->add_submenu( $submenu, $params );
+	}
+
 	public function get_group( $group_id ) {
 		return $this->groups[ $group_id ] ?? false;
 	}
@@ -60,8 +65,9 @@ class USP_Dropdown_New {
 	public function get_content() {
 
 		$show = "usp-menu_{$this->params['show']}";
+		$style = "usp-menu_style_{$this->params['style']}";
 
-		$html = "<div class='usp-menu usp-menu_{$this->get_id()} {$show}'>";
+		$html = "<div class='usp-menu usp-menu_{$this->get_id()} {$show} {$style}'>";
 
 		$html .= $this->build_menu_button();
 		$html .= $this->build_menu_content();

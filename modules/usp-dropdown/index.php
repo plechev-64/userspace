@@ -18,7 +18,7 @@ function get_test_dropdown_menu() {
 		'label' => 'Вертикальное большое',
 		'size'  => 'medium',
 		'type'  => 'simple',
-	] );
+	], [ 'show' => 'on_hover', 'style' => 'dark' ] );
 
 	$menu_vertical_big
 		->add_button( [
@@ -72,13 +72,12 @@ function get_test_dropdown_menu() {
 		] );
 
 	$menu_vertical_big
-		->add_group( 'title2', [ 'order' => 3 ] )
+		->add_group( 'title2', [ 'order' => 9 ] )
 		->add_item( '<div style="padding: 12px; text-align: center"><b>Основные кнопки</b></div>' );
 
 	$menu_vertical_big
-		->add_group( 'title3', [ 'order' => 4 ] )
+		->add_group( 'sub_menu_group', [ 'order' => 4 ] )
 		->add_item( '<div style="padding: 12px; text-align: center"><b>Sub menu кнопки</b></div>' );
-
 
 	$sub_menu = new USP_Dropdown_New( 'sub_menu', [
 		'icon'  => 'fa-vertical-ellipsis',
@@ -86,7 +85,7 @@ function get_test_dropdown_menu() {
 		'size'  => 'medium',
 		'type'  => 'simple',
 	],
-	['position' => 'right']);
+		[ 'position' => 'right', 'show' => 'on_click' ] );
 
 	$sub_menu->add_button( [
 		'size'  => 'medium',
@@ -113,15 +112,23 @@ function get_test_dropdown_menu() {
 		'label' => 'Sub Пункт меню 4 Sub Пункт меню 4',
 	] );
 
-
-	$menu_vertical_big
-		->add_group( 'sub_menu', [ 'order' => 5 ] )
-		->add_item( $sub_menu->get_content() );
-
-	$menu_vertical_big
-		->add_group( 'sub_menu2', [ 'order' => 5 ] )
-		->add_item( $sub_menu->get_content() );
+	$menu_vertical_big->get_group('sub_menu_group')->add_submenu($sub_menu);
+	$menu_vertical_big->get_group('sub_menu_group')->add_submenu($sub_menu);
 
 
-	return $menu_vertical_big->get_content();
+	$menu_vertical_big->params['style'] = 'white';
+	$sub_menu->params['style'] = 'white';
+
+	$white = $menu_vertical_big->get_content();
+
+	$menu_vertical_big->params['style'] = 'dark';
+	$sub_menu->params['style'] = 'dark';
+	$dark = $menu_vertical_big->get_content();
+
+	$menu_vertical_big->params['style'] = 'primary';
+	$sub_menu->params['style'] = 'primary';
+	$primary = $menu_vertical_big->get_content();
+
+
+	return $white.$dark.$primary;
 }

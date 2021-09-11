@@ -34,6 +34,8 @@ class USP_Button {
 
 		$this->init_properties( $args );
 
+		$this->setup_class();
+
 	}
 
 	function init_properties( $args ) {
@@ -163,7 +165,6 @@ class USP_Button {
 
 	function get_button() {
 
-		$this->setup_class();
 		$this->setup_attrs();
 
 		$content = sprintf( '<a %s>', $this->parse_attrs() );
