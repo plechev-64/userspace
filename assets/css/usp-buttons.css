@@ -37,9 +37,11 @@ body :not(.usp-wrap__widget) > .usp-bttn:not(.usp-bttn__active):hover {
     opacity: .8;
 }
 
-body:not(.wp-admin) .usp-bttn.usp-bttn__type-primary:not(.usp-bttn__active),
-.usp-bttn.usp-bttn__type-simple.usp-bttn__active {
+body:not(.wp-admin) .usp-bttn.usp-bttn__type-primary:not(.usp-bttn__active) {
     background: var(--uspHex);
+}
+
+body:not(.wp-admin) .usp-bttn.usp-bttn__type-primary:not(.usp-bttn__active) > * {
     color: var(--uspText);
 }
 
@@ -94,9 +96,13 @@ body:not(.wp-admin) .usp-bttn.usp-bttn__type-primary:not(.usp-bttn__active),
 .usp-bttn.usp-bttn__type-simple:not(.usp-bttn__active) {
     background: var(--uspGray-50);
     border: var(--uspLine300);
+}
+
+.usp-bttn.usp-bttn__type-simple > * {
     color: var(--uspGray-700);
 }
 
+.usp-bttn.usp-bttn__type-simple.usp-bttn__active,
 .usp-bttn.usp-bttn__type-simple:hover {
     background: var(--uspGray-200);
 }

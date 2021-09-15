@@ -9,9 +9,12 @@
 }
 
 .usp-entry-tab:not(.usp-bttn__active) {
-    background: var(--uspGray-200);
+    background: var(--uspGray-100);
     border-bottom: var(--uspLine300);
-    color: var(--uspGray-400);
+}
+
+.usp-entry-tab:not(.usp-bttn__active) > * {
+    color: var(--uspGray-500);
 }
 
 .usp-entry-tab:not(.usp-bttn__active):hover {
