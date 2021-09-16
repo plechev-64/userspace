@@ -1,0 +1,23 @@
+/* styles for USP_Customize_Color */
+.usp-color-control-wrapper .iris-picker {
+    height: auto !important;
+}
+
+.usp-color-control-wrapper .iris-picker .iris-picker-inner {
+    display: flex;
+    margin: 10px;
+    position: static;
+    width: 100%;
+}
+
+.usp-color-control-wrapper .iris-picker .iris-palette-container {
+    display: flex;
+    flex-wrap: wrap;
+    position: static;
+}
+
+.usp-color-control-wrapper .iris-picker .iris-palette-container .iris-palette {
+    height: 30px !important;
+    margin: 5px 2px 0 4px !important;
+    width: 30px !important;
+}

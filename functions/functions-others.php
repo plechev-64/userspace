@@ -359,7 +359,13 @@ function usp_is_gutenberg() {
 }
 
 // set root inline css colors
-function usp_get_root_colors( $r, $g, $b, $usp_color ) {
+function usp_get_root_colors() {
+	$background = usp_get_option_customizer( 'usp_background', '#0369a1' );
+	[ $r, $g, $b ] = sscanf( $background, "#%02x%02x%02x" );
+
+	$color = usp_get_option_customizer( 'usp_color', '#ffffff' );
+	[ $rc, $gc, $bc ] = sscanf( $color, "#%02x%02x%02x" );
+
 	// darker rgb
 	$rd = round( $r * 0.45 );
 	$gd = round( $g * 0.45 );
@@ -374,18 +380,14 @@ function usp_get_root_colors( $r, $g, $b, $usp_color ) {
 	$rf = round( 0.75 * ( 255 - $r ) );
 	$gf = round( 0.75 * ( 255 - $g ) );
 	$bf = round( 0.75 * ( 255 - $b ) );
-
-	// https://stackoverflow.com/questions/3942878/how-to-decide-font-color-in-white-or-black-depending-on-background-color
-	$text_color = '#fff';
-	$threshold  = apply_filters( 'usp_text_color_threshold', 150 );
-	if ( ( $r * 0.299 + $g * 0.587 + $b * 0.114 ) > $threshold ) {
-		$text_color = '#000';
-	}
+	
+	$size = usp_get_option_customizer( 'usp_bttn_size', 15 );
 
 	return ':root{
-				--uspText:' . $text_color . ';
-				--uspHex:' . $usp_color . ';
+				--uspSize:' . $size . 'px;
 				--uspRgb:' . $r . ',' . $g . ',' . $b . ';
+				--uspHex:' . $background . ';
+				--uspText:' . $color . ';
 				--uspRgbDark:' . $rd . ',' . $gd . ',' . $bd . ';
 				--uspRgbLight:' . $rl . ',' . $gl . ',' . $bl . ';
 				--uspRgbFlip:' . $rf . ',' . $gf . ',' . $bf . ';

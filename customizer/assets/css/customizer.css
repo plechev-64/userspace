@@ -1,0 +1,42 @@
+/* styles for left panel USP */
+#customize-controls #accordion-panel-user-space-panel h3 {
+    margin: 18px 0;
+    transition: .3s all ease-in-out;
+    background: #0369a1;
+    border-left-color: #0369a1;
+    box-shadow: -290px 0 145px -145px #60a5fa inset;
+    color: #fff;
+}
+
+#customize-controls #accordion-panel-user-space-panel h3:hover {
+    background: #3a61a4;
+    box-shadow: -290px 0 195px -195px #60a5fa inset;
+    border-left-color: #60a5fa;
+}
+
+#customize-controls #accordion-panel-user-space-panel h3::after {
+    color: #e5e5e5;
+    transition: .3s all ease-in-out;
+}
+
+#customize-controls #accordion-panel-user-space-panel h3:hover::after {
+    color: #fff;
+}
+
+[id^="sub-accordion-section-user-space"] .customize-control-title {
+    font-size: 15px;
+}
+
+.customize-control-usp-note {
+    border-bottom: 1px solid #ddd;
+    padding: 0 0 12px;
+}
+
+.customize-control-usp-note .customize-control-title::before {
+    color: #b45309;
+    content: "\f473";
+    font-family: dashicons;
+    font-size: 30px;
+    margin-right: 12px;
+    vertical-align: middle;
+}

@@ -1,4 +1,25 @@
-<?php $site_color = usp_get_option( 'usp_primary_color', '#0369a1' ); ?>
+<?php
+/**
+ * html template for emails sent by the plugin
+ *
+ * This template can be overridden by copying it to yourtheme/userspace/templates/usp-mail.php
+ * or from a special plugin directory wp-content/userspace/templates/usp-mail.php
+ *
+ * HOWEVER, on occasion UserSpace Chat will need to update template files and you
+ * (the theme developer) will need to copy the new files to your theme to
+ * maintain compatibility. We try to do this as little as possible, but it does
+ * happen. When this occurs the version of the template file will be bumped and
+ * the readme will list any important changes.
+ *
+ * @see     https://docs.user-space.com/document/template-structure/
+ *
+ * @version 1.0.0
+ *
+ * @param string $mail_content id of user
+ */
+defined( 'ABSPATH' ) || exit;
+
+$site_color = usp_get_option_customizer( 'usp_primary_color', '#0369a1' ); ?>
 <table style="border-collapse:collapse !important;border-spacing:0 !important;margin-bottom:0 !important;margin-left:auto !important;margin-right:auto !important;margin-top:0 !important;table-layout:fixed !important"
        cellspacing="0" cellpadding="0" bgcolor="#F7F3F0" height="100%" border="0" width="100%">
     <tbody>

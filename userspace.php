@@ -152,6 +152,8 @@ final class UserSpace {
 
 		$this->setup_tabs();
 
+		$this->customizer_init();
+
 		if ( $this->is_request( 'frontend' ) ) {
 			if ( $this->options()->get( 'usp_bar_show' ) ) {
 				$this->use_module( 'usp-bar' );
@@ -167,6 +169,10 @@ final class UserSpace {
 		}
 
 		do_action( 'usp_init' );
+	}
+
+	function customizer_init() {
+		require_once 'customizer/customizer.php';
 	}
 
 	function setup_tabs() {
@@ -371,7 +377,7 @@ final class UserSpace {
 			'profile'         => new USP_Module( USP_PATH . 'modules/profile/index.php' ),
 			'profile-fields'  => new USP_Module( USP_PATH . 'modules/profile-fields/index.php', [ 'fields' ] ),
 			'users-list'      => new USP_Module( USP_PATH . 'modules/users-list/index.php', [ 'content-manager' ] ),
-			'dropdown-menu'      => new USP_Module( USP_PATH . 'modules/usp-dropdown/index.php' ),
+			'dropdown-menu'   => new USP_Module( USP_PATH . 'modules/usp-dropdown/index.php' ),
 		];
 	}
 
