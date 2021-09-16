@@ -18,7 +18,7 @@ function get_test_dropdown_menu() {
 		'label' => 'Вертикальное большое',
 		'size'  => 'medium',
 		'type'  => 'simple',
-	], [ 'show' => 'on_hover', 'style' => 'dark' ] );
+	], [ 'show' => 'on_click', 'style' => 'dark' ] );
 
 	$menu_vertical_big
 		->add_button( [
@@ -112,6 +112,41 @@ function get_test_dropdown_menu() {
 		'label' => 'Sub Пункт меню 4 Sub Пункт меню 4',
 	] );
 
+	$sub_menu2 = new USP_Dropdown_New( 'sub_menu2', [
+		'icon'  => 'fa-vertical-ellipsis',
+		'label' => 'Еще меню',
+		'size'  => 'medium',
+		'type'  => 'simple',
+	],
+		[ 'position' => 'right-bottom', 'show' => 'on_click' ] );
+
+	$sub_menu2->add_button( [
+		'size'  => 'medium',
+		'type'  => 'clear',
+		'icon'  => 'fa-expand-arrows',
+		'label' => 'Sub Пункт меню 1',
+	] );
+	$sub_menu2->add_button( [
+		'size'  => 'medium',
+		'type'  => 'clear',
+		'icon'  => 'fa-expand-arrows',
+		'label' => 'Sub Пункт меню 2',
+	] );
+	$sub_menu2->add_button( [
+		'size'  => 'medium',
+		'type'  => 'clear',
+		'icon'  => 'fa-expand-arrows',
+		'label' => 'Sub Пункт меню 3',
+	] );
+	$sub_menu2->add_button( [
+		'size'  => 'medium',
+		'type'  => 'clear',
+		'icon'  => 'fa-expand-arrows',
+		'label' => 'Sub Пункт меню 4 Sub Пункт меню 4',
+	] );
+
+	$sub_menu->add_submenu($sub_menu2);
+
 	$menu_vertical_big->get_group( 'sub_menu_group' )->add_submenu( $sub_menu );
 	$menu_vertical_big->get_group( 'sub_menu_group' )->add_submenu( $sub_menu );
 
@@ -129,32 +164,6 @@ function get_test_dropdown_menu() {
 	$sub_menu->params['style']          = 'primary';
 	$primary                            = $menu_vertical_big->get_content();
 
-	$menu_pos_example = '';
 
-	foreach (
-		[
-			'top-left',
-			'top-right',
-			'bottom-left',
-			'bottom-right',
-			'left-top',
-			'left-center',
-			'left-bottom',
-			'right-top',
-			'right-center',
-			'right-bottom'
-		] as $_pos
-	) {
-
-		$menu_vertical_big->params['position'] = $_pos;
-		$menu_vertical_big->open_button['label']    = $_pos;
-		$menu_vertical_big->params['style'] = 'white';
-		$sub_menu->params['style'] = 'white';
-		$menu_pos_example                      .= '<br>';
-		$menu_pos_example                      .= $menu_vertical_big->get_content();
-
-	}
-
-
-	return $white . $dark . $primary . $menu_pos_example;
+	return $white . $dark . $primary;
 }

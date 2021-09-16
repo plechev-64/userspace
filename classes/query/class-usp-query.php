@@ -521,7 +521,7 @@ class USP_Query {
 
 				$sql[] = "UNION ALL";
 
-				$Query = new DBQuery( $unionQuery['table'] );
+				$Query = new USP_Query( $unionQuery['table'] );
 
 				$sql[] = $Query->get_sql( $unionQuery );
 			}

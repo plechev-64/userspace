@@ -238,7 +238,7 @@ i::before {
     box-shadow: none;
 }
 
-.usps__focus:focus-within {
+.usp-focused .usps__focus:focus-within {
     outline: 2px solid var(--uspBlue-700);
 }
 

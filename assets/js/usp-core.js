@@ -638,10 +638,22 @@ function usp_dropdown_open(e) {
 }
 
 jQuery(function ($) {
+    /*
+    * todo remove after finish new dropdown
+    */
     $(document).on('click', function (event) {
         let bttn = $('.usp-dropdown__bttn');
         if (!$(event.target).closest('.usp-dropdown__bttn').length && bttn.hasClass('usp-dropdown__open')) {
             bttn.removeClass('usp-dropdown__open');
+        }
+    });
+
+    $(document).on('keydown', function (e) {
+        if (e.keyCode === 9 && !$('body').hasClass('usp-focused')) {
+            $('body').addClass('usp-focused');
+            $(document).one('click', function () {
+                $('body').removeClass('usp-focused');
+            });
         }
     });
 });
