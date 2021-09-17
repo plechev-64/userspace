@@ -15,7 +15,7 @@ function usp_default_theme_menu_js() {
 		return;
 	}
 
-	usp_enqueue_script( 'usp-theme', plugins_url( 'assets/js/usp-default-theme-menu.js', __FILE__ ), FALSE, TRUE );
+	usp_enqueue_script( 'usp-theme', plugins_url( 'assets/js/usp-default-theme-menu.js', __FILE__ ), false, true );
 }
 
 add_action( 'init', 'usp_default_theme_compact_js' );
@@ -24,7 +24,7 @@ function usp_default_theme_compact_js() {
 		return;
 	}
 
-	usp_enqueue_script( 'usp-theme-compact', plugins_url( 'assets/js/usp-default-theme-compact.js', __FILE__ ), FALSE, TRUE );
+	usp_enqueue_script( 'usp-theme-compact', plugins_url( 'assets/js/usp-default-theme-compact.js', __FILE__ ), false, true );
 }
 
 
@@ -98,17 +98,7 @@ function usp_add_theme_cover_inline_styles( $styles ) {
 		return $styles;
 	}
 
-	$cover = get_user_meta( USP()->office()->get_owner_id(), 'usp_cover', 1 );
-
-	if ( ! $cover ) {
-		$cover = usp_get_option( 'usp_default_cover', 0 );
-	}
-
-	$cover_url = wp_get_attachment_image_url( $cover, 'large' );
-
-	if ( ! $cover_url ) {
-		$cover_url = plugins_url( 'assets/img/usp-default-cover.jpg', __FILE__ );
-	}
+	$cover_url = USP()->office()->owner()->get_cover_url();
 
 	$dataUrl    = wp_parse_url( $cover_url );
 	$cover_path = untrailingslashit( ABSPATH ) . $dataUrl['path'];
