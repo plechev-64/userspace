@@ -1,5 +1,5 @@
 /* styles for left panel USP */
-#customize-controls #accordion-panel-user-space-panel h3 {
+#customize-controls #accordion-panel-userspace-panel h3 {
     margin: 18px 0;
     transition: .3s all ease-in-out;
     background: #0369a1;
@@ -8,22 +8,22 @@
     color: #fff;
 }
 
-#customize-controls #accordion-panel-user-space-panel h3:hover {
+#customize-controls #accordion-panel-userspace-panel h3:hover {
     background: #3a61a4;
     box-shadow: -290px 0 195px -195px #60a5fa inset;
     border-left-color: #60a5fa;
 }
 
-#customize-controls #accordion-panel-user-space-panel h3::after {
+#customize-controls #accordion-panel-userspace-panel h3::after {
     color: #e5e5e5;
     transition: .3s all ease-in-out;
 }
 
-#customize-controls #accordion-panel-user-space-panel h3:hover::after {
+#customize-controls #accordion-panel-userspace-panel h3:hover::after {
     color: #fff;
 }
 
-[id^="sub-accordion-section-user-space"] .customize-control-title {
+[id^="sub-accordion-section-userspace"] .customize-control-title {
     font-size: 15px;
 }
 

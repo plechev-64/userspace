@@ -36,16 +36,16 @@ add_action( 'customize_register', 'usp_add_customizer' );
 function usp_add_customizer( $wp_customize ) {
 
 	// Let's add the plugin panel. Sections will be linked to this panel.
-	$wp_customize->add_panel( 'user-space-panel', [    // ID panel
+	$wp_customize->add_panel( 'userspace-panel', [    // ID panel
 		'priority' => 20,
 		'title'    => __( 'Settings UserSpace', 'userspace' ),
 	] );
 
 	##  Section 1  ##
-	$wp_customize->add_section( 'user-space-general', [ // ID section
+	$wp_customize->add_section( 'userspace-general', [ // ID section
 		'title'    => __( 'General settings', 'userspace' ),
 		'priority' => 10,
-		'panel'    => 'user-space-panel',              // the section is linked to the panel
+		'panel'    => 'userspace-panel',              // the section is linked to the panel
 	] );
 
 	// option #1 in the section
@@ -59,7 +59,7 @@ function usp_add_customizer( $wp_customize ) {
 	// the type of the colorpicker option in the 1st option
 	// palette https://material.io/design/color/the-color-system.html#tools-for-picking-colors
 	$wp_customize->add_control( new USP_Customize_Color( $wp_customize, 'usp-customizer[usp_background]', [
-		'section'     => 'user-space-general',
+		'section'     => 'userspace-general',
 		'label'       => __( 'Primary button background color:', 'userspace' ),
 		'description' => __( 'Go to your personal account and configure the buttons:', 'userspace' ),
 		'palette'     => [
@@ -96,7 +96,7 @@ function usp_add_customizer( $wp_customize ) {
 		'sanitize_callback' => 'sanitize_hex_color',
 	] );
 	$wp_customize->add_control( new USP_Customize_Color( $wp_customize, 'usp-customizer[usp_color]', [
-		'section' => 'user-space-general',
+		'section' => 'userspace-general',
 		'label'   => __( 'Primary button text color:', 'userspace' ),
 	] ) );
 
@@ -110,7 +110,7 @@ function usp_add_customizer( $wp_customize ) {
 	] );
 
 	$wp_customize->add_control( new USP_Customize_Range( $wp_customize, 'usp-customizer[usp_bttn_size]', [
-		'section'     => 'user-space-general',
+		'section'     => 'userspace-general',
 		'label'       => __( 'Font size standart:', 'userspace' ),
 		'description' => __( 'set the font size of the buttons from 12px to 24px (default is 15px)', 'userspace' ),
 		'min'         => 12,
@@ -123,14 +123,14 @@ function usp_add_customizer( $wp_customize ) {
 	$wp_customize->add_setting( 'usp-separator', [ 'default' => '', 'sanitize_callback' => 'esc_html' ] );
 	$wp_customize->add_control( new USP_Customize_Separator( $wp_customize, 'usp-separator-1', [     // ID
 		'settings' => 'usp-separator',
-		'section'  => 'user-space-general',
+		'section'  => 'userspace-general',
 	] ) );
 
 	// заметка
 	$wp_customize->add_setting( 'usp-note', [ 'default' => '', 'sanitize_callback' => 'esc_html' ] );
 	$wp_customize->add_control( new USP_Customize_Note( $wp_customize, 'usp-note-1', [               // ID
 		'settings'    => 'usp-note',
-		'section'     => 'user-space-general',
+		'section'     => 'userspace-general',
 		'label'       => 'Заголовок заметки:',
 		'description' => 'Здесь будет содержимое <strong>заметки</strong>',
 	] ) );
