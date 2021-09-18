@@ -14,7 +14,7 @@ function usp_awesome_font_style() {
 
 function usp_iconpicker() {
 	wp_enqueue_style( 'usp-iconpicker', USP_URL . 'assets/usp-awesome/iconpicker/iconpicker.min.css', false, USP_VERSION );
-	wp_enqueue_script( 'usp-iconpicker', USP_URL . 'assets/usp-awesome/iconpicker/iconpicker.js', array( 'jquery' ), USP_VERSION );
+	wp_enqueue_script( 'usp-iconpicker', USP_URL . 'assets/usp-awesome/iconpicker/iconpicker.js', [ 'jquery' ], USP_VERSION );
 }
 
 function usp_sortable_scripts() {
@@ -70,7 +70,7 @@ function usp_dialog_scripts() {
 }
 
 function usp_webcam_scripts() {
-	usp_enqueue_script( 'say-cheese', USP_URL . 'assets/lib/say-cheese/say-cheese.js', array(), true );
+	usp_enqueue_script( 'say-cheese', USP_URL . 'assets/lib/say-cheese/say-cheese.js', [], true );
 }
 
 function usp_fileupload_scripts() {
@@ -79,7 +79,7 @@ function usp_fileupload_scripts() {
 	wp_enqueue_script( 'jquery-ui-widget' );
 	//usp_enqueue_script( 'fileupload-load-image-all', USP_URL . 'assets/lib/fileupload/load-image.all.min.js', array(), true );
 	//usp_enqueue_script( 'jquery-iframe-transport', USP_URL . 'assets/lib/fileupload/jquery.iframe-transport.js', array(), true );
-	usp_enqueue_script( 'jquery-fileupload', USP_URL . 'assets/lib/fileupload/jquery.fileupload.js', array(), true );
+	usp_enqueue_script( 'jquery-fileupload', USP_URL . 'assets/lib/fileupload/jquery.fileupload.js', [], true );
 	//usp_enqueue_script( 'jquery-fileupload-process', USP_URL . 'assets/lib/fileupload/jquery.fileupload-process.js', array(), true );
 	//usp_enqueue_script( 'jquery-fileupload-image', USP_URL . 'assets/lib/fileupload/jquery.fileupload-image.js', array(), true );
 }
@@ -101,11 +101,11 @@ function usp_animate_css() {
 add_action( 'login_enqueue_scripts', 'usp_enqueue_wp_form_scripts', 1 );
 function usp_enqueue_wp_form_scripts() {
 	wp_enqueue_script( 'jquery' );
-	wp_enqueue_script( 'usp-core-scripts', USP_URL . 'assets/js/usp-core.js', array( 'jquery' ), USP_VERSION );
-	wp_enqueue_script( 'usp-primary-scripts', USP_URL . 'assets/js/usp-scripts.js', array( 'jquery' ), USP_VERSION );
+	wp_enqueue_script( 'usp-core-scripts', USP_URL . 'assets/js/usp-core.js', [ 'jquery' ], USP_VERSION );
+	wp_enqueue_script( 'usp-primary-scripts', USP_URL . 'assets/js/usp-scripts.js', [ 'jquery' ], USP_VERSION );
 
 	usp_awesome_font_style();
-	usp_fields_scripts();
+	USP()->use_module( 'fields' );
 
 	wp_localize_script( 'usp-core-scripts', 'USP', usp_get_localize_data() );
 }
@@ -152,7 +152,7 @@ function usp_admin_resources() {
 	wp_enqueue_style( 'usp-admin-style', USP_URL . 'admin/assets/css/usp-admin.css', false, USP_VERSION );
 	wp_enqueue_style( 'wp-color-picker' );
 
-	wp_enqueue_script( 'usp-admin-scripts', USP_URL . 'admin/assets/js/usp-admin.js', array( 'wp-color-picker' ), USP_VERSION );
+	wp_enqueue_script( 'usp-admin-scripts', USP_URL . 'admin/assets/js/usp-admin.js', [ 'wp-color-picker' ], USP_VERSION );
 
 	if ( ! usp_is_ajax() ) {
 		wp_localize_script( 'usp-core-scripts', 'USP', usp_get_localize_data() );
@@ -161,16 +161,16 @@ function usp_admin_resources() {
 
 function usp_get_localize_data() {
 
-	$local = array(
+	$local = [
 		'close'   => __( 'Close', 'userspace' ),
 		'error'   => __( 'Error', 'userspace' ),
 		'loading' => __( 'Loading', 'userspace' ),
 		'upload'  => __( 'Upload', 'userspace' ),
 		'cancel'  => __( 'Cancel', 'userspace' ),
 		'search'  => __( 'Search', 'userspace' ),
-	);
+	];
 
-	$data = array(
+	$data = [
 		'ajaxurl'   => admin_url( 'admin-ajax.php' ),
 		'wpurl'     => get_bloginfo( 'wpurl' ),
 		//'usp_url'   => USP_URL,
@@ -179,8 +179,8 @@ function usp_get_localize_data() {
 		'post_ID'   => is_singular() ? get_queried_object_id() : 0,
 		'nonce'     => wp_create_nonce( 'wp_rest' ),
 		'local'     => apply_filters( 'usp_js_localize', $local ),
-		'modules'   => []
-	);
+		'modules'   => [],
+	];
 
 	//$data['mobile'] = (wp_is_mobile()) ? ( int ) 1 : ( int ) 0;
 	$data['https'] = (int) is_ssl();
