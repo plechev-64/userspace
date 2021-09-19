@@ -43,21 +43,18 @@ class USP_User {
 		return $this->_profile_fields;
 	}
 
-	function get_url() {
+	function get_url( $tab = null, $subtab = null ) {
 
 		$officeUrl = get_permalink( usp_get_option( 'account_page' ) );
 
 		if ( '' == get_site_option( 'permalink_structure' ) ) {
-
-			$officeUrl = add_query_arg(
-				[
-					'user' => $this->ID
-				], $officeUrl );
+			$officeUrl = add_query_arg( [ 'user' => $this->ID, 'tab' => $tab, 'subtab' => $subtab ], $officeUrl );
 		} else {
-			$officeUrl = untrailingslashit( $officeUrl ) . '/' . $this->user_nicename;
+			$officeUrl = trailingslashit(trailingslashit( $officeUrl ) . $this->user_nicename);
+			$officeUrl = add_query_arg( [ 'tab' => $tab, 'subtab' => $subtab ], $officeUrl );
 		}
 
-		return trailingslashit( $officeUrl );
+		return $officeUrl;
 	}
 
 	/**

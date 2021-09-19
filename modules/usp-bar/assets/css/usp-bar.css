@@ -23,7 +23,7 @@
 }
 
 .usp-bar-dark {
-    background: var(--uspBlack-07);
+    background: var(--uspBarDark);
 }
 
 .usp-bar-dark .uspi,
@@ -33,7 +33,7 @@
 
 .usp-bar-white .usp-dropdown__hidden,
 .usp-bar-white {
-    background: var(--uspWhite);
+    background: var(--uspBarWhite);
 }
 
 .usp-bar-white {
@@ -45,13 +45,13 @@
     color: var(--uspGray-700);
 }
 
-.usp-bar-color .usp-dropdown__hidden,
-.usp-bar-color {
-    background: rgba(var(--uspRgb), .85);
+.usp-bar-primary .usp-dropdown__hidden,
+.usp-bar-primary {
+    background: var(--uspBarPrimary);
 }
 
-.usp-bar-color .uspi,
-#usp-bar.usp-bar-color a,
+.usp-bar-primary .uspi,
+#usp-bar.usp-bar-primary a,
 #usp-bar:not(.usp-bar-white) .usp-bar-or,
 #usp-bar:not(.usp-bar-white) .usp-menu-has-child::after {
     color: var(--uspText);
@@ -97,10 +97,10 @@
     background: var(--uspGray-200);
 }
 
-#usp-bar.usp-bar-color .usp-dropdown__menu:hover .usp-dropdown__bttn,
-#usp-bar.usp-bar-color .usp-bttn:hover,
-#usp-bar.usp-bar-color li:hover,
-#usp-bar.usp-bar-color .current-menu-item {
+#usp-bar.usp-bar-primary .usp-dropdown__menu:hover .usp-dropdown__bttn,
+#usp-bar.usp-bar-primary .usp-bttn:hover,
+#usp-bar.usp-bar-primary li:hover,
+#usp-bar.usp-bar-primary .current-menu-item {
     background: var(--uspHex);
     box-shadow: 0 0 30px 30px rgba(0, 0, 0, .3) inset !important;
 }

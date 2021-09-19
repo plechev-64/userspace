@@ -54,11 +54,7 @@ function usp_get_profile_user_info( $user_id ) {
 		'custom_data' => 'posts, comments, user_registered',
 	] );
 
-	/*
-	 * todo remove get_test_dropdown_menu
-	 */
-
-	return get_test_dropdown_menu() . $manager->get_manager();
+	return $manager->get_manager();
 }
 
 add_action( 'usp_setup_tabs', 'usp_tab_profile_info', 10 );
@@ -77,29 +73,6 @@ function usp_tab_profile_info() {
 	];
 
 	usp_add_sub_tab( 'profile', $subtab );
-}
-
-add_filter( 'usp_bar_profile_menu', 'usp_bar_add_profile_link', 15 );
-function usp_bar_add_profile_link( $menu ) {
-	$menu .= usp_get_button( [
-		'type'  => 'clear',
-		'size'  => 'medium',
-		'class' => 'usp-bar-profile__info',
-		'href'  => usp_get_tab_permalink( get_current_user_id(), 'profile' ),
-		'icon'  => 'fa-address-book',
-		'label' => __( 'Profile info', 'userspace' ),
-	] );
-
-	$menu .= usp_get_button( [
-		'type'  => 'clear',
-		'size'  => 'medium',
-		'class' => 'usp-bar-profile__settings',
-		'href'  => usp_get_tab_permalink( get_current_user_id(), 'profile', 'edit' ),
-		'icon'  => 'fa-user-cog',
-		'label' => __( 'Profile settings', 'userspace' ),
-	] );
-
-	return $menu;
 }
 
 // Updating the user profile

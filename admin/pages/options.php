@@ -179,7 +179,7 @@ $options->box( 'primary' )->add_group( 'usp_bar', [
 					'values'  => [
 						'dark'  => __( 'Dark', 'userspace' ),
 						'white' => __( 'White', 'userspace' ),
-						'color' => __( 'Primary colors of UserSpace', 'userspace' ),
+						'primary' => __( 'Primary colors of UserSpace', 'userspace' ),
 					],
 					'default' => 'dark',
 				],

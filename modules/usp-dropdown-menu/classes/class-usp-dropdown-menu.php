@@ -7,7 +7,7 @@
  * @since 1.0
  *
  */
-class USP_Dropdown_New {
+class USP_Dropdown_Menu {
 
 	private $id;
 
@@ -19,26 +19,28 @@ class USP_Dropdown_New {
 		// bottom-left, bottom-right, top-left, top-right, left-bottom, left-top, left-center, right-bottom, right-top, right-center
 		'position' => 'bottom-left',
 		// dark, white, primary, custom
-		'style'    => 'dark'
+		'style'    => 'dark',
+		//small, standart, medium, large, big
+		'size'     => 'medium'
 	];
-
-	public $default_group;
 
 	public $groups = [];
 
+	private $button_type = 'clear';
+	private $default_group = 'default';
+
 	public function __construct( string $id, $open_button, array $params = [] ) {
 
-		$this->id            = $id;
-		$this->open_button   = $open_button;
-		$this->params        = array_merge( $this->params, $params );
-		$this->default_group = 'default';
+		$this->id          = $id;
+		$this->open_button = $open_button;
+		$this->params      = array_merge( $this->params, $params );
 
 		$this->add_group( $this->default_group );
 	}
 
 	public function add_group( string $id, array $params = [] ) {
 
-		$this->groups[ $id ] = new USP_Dropdown_Group( $id, $params, $this );
+		$this->groups[ $id ] = new USP_Dropdown_Menu_Group( $id, $params, $this );
 
 		return $this->get_group( $id );
 	}
@@ -53,7 +55,12 @@ class USP_Dropdown_New {
 		return $this->get_group( $this->default_group )->add_button( $args, $params );
 	}
 
-	public function add_submenu( USP_Dropdown_New $submenu, array $params = [] ) {
+	public function add_title( string $text, array $params = [] ) {
+
+		return $this->get_group( $this->default_group )->add_title( $text, $params );
+	}
+
+	public function add_submenu( USP_Dropdown_Menu $submenu, array $params = [] ) {
 		return $this->get_group( $this->default_group )->add_submenu( $submenu, $params );
 	}
 
@@ -69,7 +76,17 @@ class USP_Dropdown_New {
 		return $this->params['style'];
 	}
 
+	public function get_size() {
+		return $this->params['size'];
+	}
+
+	public function get_button_type() {
+		return $this->button_type;
+	}
+
 	public function get_content() {
+
+		do_action('usp_dropdown_menu', $this->get_id(), $this);
 
 		$show  = "usp-menu_{$this->params['show']}";
 		$style = "usp-menu_style_{$this->get_style()}";
@@ -90,6 +107,9 @@ class USP_Dropdown_New {
 		$button_class = "usp-menu-button usp-menu-button_style_{$this->get_style()} usps__focus";
 
 		if ( is_array( $this->open_button ) ) {
+			$this->open_button['type'] = $this->get_button_type();
+			$this->open_button['size'] = $this->get_size();
+
 			return ( new USP_Button( $this->open_button ) )->add_class( $button_class )->get_button();
 		}
 

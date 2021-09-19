@@ -7,7 +7,7 @@
  * @since 1.0
  *
  */
-class USP_Dropdown_Group {
+class USP_Dropdown_Menu_Group {
 
 	private $id;
 	private $menu;
@@ -19,10 +19,14 @@ class USP_Dropdown_Group {
 
 	public $items = [];
 
-	public function __construct( string $id, array $params = [], USP_Dropdown_New $menu ) {
+	public function __construct( string $id, array $params = [], USP_Dropdown_Menu $menu ) {
 		$this->id     = $id;
 		$this->menu   = $menu;
 		$this->params = array_merge( $this->params, $params );
+
+		if ( isset( $this->params['title'] ) ) {
+			$this->add_title($this->params['title']);
+		}
 	}
 
 	public function add_item( string $html, array $params = [] ) {
@@ -37,7 +41,13 @@ class USP_Dropdown_Group {
 		return $this;
 	}
 
-	public function add_submenu( USP_Dropdown_New $submenu, array $params = [] ) {
+	public function add_title( string $text, array $params = [] ) {
+		$this->_add_item( $text, 'title', $params );
+
+		return $this;
+	}
+
+	public function add_submenu( USP_Dropdown_Menu $submenu, array $params = [] ) {
 		$this->_add_item( $submenu, 'submenu', $params );
 
 		return $this;
@@ -78,6 +88,8 @@ class USP_Dropdown_Group {
 			return $this->build_item_button( $data, $params );
 		} else if ( $type === 'submenu' ) {
 			return $this->build_item_submenu( $data, $params );
+		} else if ( $type === 'title' ) {
+			return $this->build_item_title( $data, $params );
 		}
 
 		return $this->build_item_custom( $data, $params );
@@ -93,7 +105,7 @@ class USP_Dropdown_Group {
 		return $html;
 	}
 
-	private function build_item_submenu( USP_Dropdown_New $data, array $params ) {
+	private function build_item_submenu( USP_Dropdown_Menu $data, array $params ) {
 		$html = "<div class='usp-menu-item usp-menu-item_submenu'>";
 		$html .= $data->get_content();
 		$html .= '</div>';
@@ -105,7 +117,21 @@ class USP_Dropdown_Group {
 		$menuStyle     = $this->menu->get_style();
 		$buttons_class = "usp-menu-item usp-menu-item_button usp-menu-item_style_{$menuStyle} usps__focus";
 
+		$data['type'] = $this->menu->get_button_type();
+
+		if ( ! isset( $data['size'] ) ) {
+			$data['size'] = $this->menu->get_size();
+		}
+
 		return ( new USP_Button( $data ) )->add_class( $buttons_class )->get_button();
+	}
+
+	private function build_item_title( string $text, array $params ) {
+		$html = "<div class='usp-menu-item usp-menu-item_title'>";
+		$html .= $text;
+		$html .= '</div>';
+
+		return $html;
 	}
 
 	private function order_items() {

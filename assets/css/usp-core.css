@@ -15,6 +15,19 @@ i::before {
     --uspBlack-06: rgba(0, 0, 0, .6);
     --uspBlack-07: rgba(0, 0, 0, .7);
 
+    --uspBarDark: #333;
+    --uspBarWhite: var(--uspWhite);
+    --uspBarPrimary: var(--uspHex);
+
+    --uspButtonDark: #333;
+    --uspButtonDarkHover: #393939;
+
+    --uspButtonWhite: var(--uspWhite);
+    --uspButtonWhiteHover: var(--uspGray-150);
+
+    --uspButtonPrimary: var(--uspHex);
+    --uspButtonPrimaryHover: var(--uspHex);
+
     --uspWhite: #fff;
     --uspWhite-05: rgba(255, 255, 255, .5);
 

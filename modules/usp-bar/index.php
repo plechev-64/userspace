@@ -136,25 +136,11 @@ function __find_is_has_child( $item_id, $sorted_menu_items ) {
 // added class in body tag
 add_filter( 'body_class', 'usp_add_userbar_class_body' );
 function usp_add_userbar_class_body( $classes ) {
+	/*
+	 * todo зачем в body класс с цветом бара?
+	 */
 	$classes[] = 'usp-userbar';
 	$classes[] = 'usp-userbar-' . usp_get_option( 'usp_bar_color', 'dark' );
 
 	return $classes;
 }
-
-//add_action( 'usp_bar_buttons', 'functionName123' );
-//function functionName123() {
-//    $args = [
-//        'counter' => '67',
-//        'type'    => 'clear',
-//        'icon'    => 'fa-cog',
-//    ];
-//    echo usp_get_button( $args );
-//
-//    $args = [
-//        'counter' => '2',
-//        'type'    => 'clear',
-//        'icon'    => 'fa-cog',
-//    ];
-//    echo usp_get_button( $args );
-//}

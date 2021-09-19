@@ -3,7 +3,7 @@
 wp.customize('usp-customizer[usp_background]', function (value) {
     value.bind(function (to) {
         jQuery('.usp-bttn__type-primary').css('background-color', to);
-        jQuery('.usp-bar-color').css({'background-color': to, 'opacity': '.85'});
+        jQuery('.usp-bar-primary').css({'background-color': to, 'opacity': '.85'});
     });
 });
 

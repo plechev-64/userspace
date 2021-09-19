@@ -312,7 +312,6 @@ final class UserSpace {
 		require_once 'classes/class-usp-theme.php';
 		require_once 'classes/class-usp-themes.php';
 		require_once 'classes/class-usp-template.php';
-		require_once 'classes/class-usp-dropdown.php';
 
 		require_once 'functions/ajax.php';
 		require_once 'functions/files.php';
@@ -377,7 +376,7 @@ final class UserSpace {
 			'profile'         => new USP_Module( USP_PATH . 'modules/profile/index.php' ),
 			'profile-fields'  => new USP_Module( USP_PATH . 'modules/profile-fields/index.php', [ 'fields' ] ),
 			'users-list'      => new USP_Module( USP_PATH . 'modules/users-list/index.php', [ 'content-manager' ] ),
-			'dropdown-menu'   => new USP_Module( USP_PATH . 'modules/usp-dropdown/index.php' ),
+			'dropdown-menu'   => new USP_Module( USP_PATH . 'modules/usp-dropdown-menu/index.php' ),
 		];
 	}
 

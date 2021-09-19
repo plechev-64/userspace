@@ -58,21 +58,39 @@ $width = usp_get_option( 'usp_bar_width' ) ? 'style="max-width:' . usp_get_optio
 
 				<?php } else { ?>
 					<?php
-					$user_name = '<span class="usp-bar-userlink__name usps__text-cut">' . USP()->user( get_current_user_id() )->get_username() . '</span>';
-					$profile   = usp_get_avatar( get_current_user_id(),
-						40,
-						USP()->user( get_current_user_id() )->get_url(),
-						[ 'parent_class' => 'usp-bar-userlink usp-bar-usershow usps usps__ai-center' ],
-						$user_name );
 
-					echo ( new USP_Dropdown( 'usp_bar_profile_menu',
-						[
-							'icon'   => 'fa-angle-down',
-							'class'  => 'usp-bar-usertabs',
-							'border' => false,
-							'left'   => $profile
-						]
-					) )->get_dropdown();
+					$usp_user    = USP()->user( get_current_user_id() );
+					$menu_button = $usp_user->get_avatar(
+						30,
+						'',
+						[ 'parent_class' => 'usp-bar-userlink usp-bar-usershow usps usps__ai-center', 'parent_wrap' => 'div' ],
+						$usp_user->get_username()
+					);
+
+					$menu = new USP_Dropdown_Menu( 'usp_bar_profile_menu', $menu_button );
+
+					$menu->add_button( [
+						'href'  => $usp_user->get_url( 'profile' ),
+						'icon'  => 'fa-address-book',
+						'label' => __( 'Profile info', 'userspace' )
+					] );
+
+					if ( $usp_user->is_access_console() ) {
+						$menu->add_button( [
+							'href'  => admin_url(),
+							'icon'  => 'fa-external-link-square',
+							'label' => __( 'To admin area', 'userspace' ),
+						] );
+					}
+
+					$menu->add_button( [
+						'class' => 'usps__text-right',
+						'href'  => wp_logout_url( '/' ),
+						'label' => __( 'Log Out', 'userspace' ),
+					] );
+
+					echo $menu->get_content();
+
 					?>
 				<?php } ?>
             </div>
