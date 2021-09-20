@@ -19,7 +19,7 @@ class USP_Dropdown_Menu {
 		// bottom-left, bottom-right, top-left, top-right, left-bottom, left-top, left-center, right-bottom, right-top, right-center
 		'position' => 'bottom-left',
 		// dark, white, primary, custom
-		'style'    => 'dark',
+		'style'    => 'white',
 		//small, standart, medium, large, big
 		'size'     => 'medium'
 	];
