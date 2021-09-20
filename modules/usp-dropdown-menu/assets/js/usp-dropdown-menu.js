@@ -43,8 +43,7 @@ jQuery(document).ready(function () {
         }
 
         const menuOutAlignLeft = menuButtonRect.x + menuContentRect.width > windowWidth;
-        const menuOutAlignRight = menuButtonRect.x + menuButtonRect.width >= menuContentRect.width;
-
+        const menuOutAlignRight = menuButtonRect.x + menuButtonRect.width - menuContentRect.width < 0;
         if ((menuContentPosSec === 'right' && menuOutAlignRight) || (menuContentPosSec === 'left' && menuOutAlignLeft)) {
             $menuContent.removeClass('usp-menu-items_pos_' + menuContentPosPrim + '-' + menuContentPosSec);
             $menuContent.addClass('usp-menu-items_pos_' + menuContentPosPrim + '-' + (menuContentPosSec === 'left' ? 'right' : 'left'));
