@@ -11,17 +11,18 @@ class USP_Dropdown_Menu {
 
 	private $id;
 
-	public $open_button;
-
 	public $params = [
+		'open_button' => [
+			'icon' => 'fa-vertical-ellipsis'
+		],
 		//on_click, on_hover
-		'show'     => 'on_click',
+		'show'        => 'on_click',
 		// bottom-left, bottom-right, top-left, top-right, left-bottom, left-top, left-center, right-bottom, right-top, right-center
-		'position' => 'bottom-left',
+		'position'    => 'bottom-left',
 		// dark, white, primary, custom
-		'style'    => 'white',
+		'style'       => 'white',
 		//small, standart, medium, large, big
-		'size'     => 'medium'
+		'size'        => 'medium'
 	];
 
 	public $groups = [];
@@ -29,11 +30,10 @@ class USP_Dropdown_Menu {
 	private $button_type = 'clear';
 	private $default_group = 'default';
 
-	public function __construct( string $id, $open_button, array $params = [] ) {
+	public function __construct( string $id, array $params = [] ) {
 
-		$this->id          = $id;
-		$this->open_button = $open_button;
-		$this->params      = array_merge( $this->params, $params );
+		$this->id     = $id;
+		$this->params = array_merge( $this->params, $params );
 
 		$this->add_group( $this->default_group );
 	}
@@ -84,9 +84,13 @@ class USP_Dropdown_Menu {
 		return $this->button_type;
 	}
 
+	public function get_open_button() {
+		return $this->params['open_button'];
+	}
+
 	public function get_content() {
 
-		do_action('usp_dropdown_menu', $this->get_id(), $this);
+		do_action( 'usp_dropdown_menu', $this->get_id(), $this );
 
 		$show  = "usp-menu_{$this->params['show']}";
 		$style = "usp-menu_style_{$this->get_style()}";
@@ -105,16 +109,17 @@ class USP_Dropdown_Menu {
 	private function build_menu_button() {
 
 		$button_class = "usp-menu-button usp-menu-button_style_{$this->get_style()} usps__focus";
+		$open_button  = $this->get_open_button();
 
-		if ( is_array( $this->open_button ) ) {
-			$this->open_button['type'] = $this->get_button_type();
-			$this->open_button['size'] = $this->get_size();
+		if ( is_array( $open_button ) ) {
+			$open_button['type'] = $this->get_button_type();
+			$open_button['size'] = $this->get_size();
 
-			return ( new USP_Button( $this->open_button ) )->add_class( $button_class )->get_button();
+			return ( new USP_Button( $open_button ) )->add_class( $button_class )->get_button();
 		}
 
 		$html = "<div tabindex='0' class='{$button_class}'>";
-		$html .= $this->open_button;
+		$html .= $open_button;
 		$html .= '</div>';
 
 		return $html;

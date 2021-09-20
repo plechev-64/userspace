@@ -63,11 +63,14 @@ $width = usp_get_option( 'usp_bar_width' ) ? 'style="max-width:' . usp_get_optio
 					$menu_button = $usp_user->get_avatar(
 						30,
 						'',
-						[ 'parent_class' => 'usp-bar-userlink usp-bar-usershow usps usps__ai-center', 'parent_wrap' => 'div' ],
+						[
+							'parent_class' => 'usp-bar-userlink usp-bar-usershow usps usps__ai-center',
+							'parent_wrap'  => 'div'
+						],
 						$usp_user->get_username()
 					);
 
-					$menu = new USP_Dropdown_Menu( 'usp_bar_profile_menu', $menu_button );
+					$menu = new USP_Dropdown_Menu( 'usp_bar_profile_menu', [ 'open_button' => $menu_button ] );
 
 					$menu->add_button( [
 						'href'  => $usp_user->get_url( 'profile' ),

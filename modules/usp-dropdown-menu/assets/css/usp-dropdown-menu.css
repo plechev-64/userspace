@@ -35,17 +35,13 @@
 .usp-menu-group_content_vertical .usp-bttn.usp-menu-item_button,
 .usp-menu > .usp-bttn.usp-menu-button {
     width: 100%;
-    padding: 8px 6px;
+    padding: 6px;
 }
 
 .usp-menu-group_content_horizontal {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-}
-
-.usp-menu-group_content_horizontal > .usp-menu-item_button:not(:last-child) {
-    margin-right: 6px;
 }
 
 .usp-menu-group_content_horizontal > .usp-bttn.usp-menu-item_button {
