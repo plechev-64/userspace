@@ -9,23 +9,61 @@
  */
 class USP_Dropdown_Menu_Group {
 
+	/**
+	 * Group id
+	 *
+	 * @var string
+	 */
 	private $id;
+
+	/**
+	 * Group menu
+	 *
+	 * @var USP_Dropdown_Menu
+	 */
 	private $menu;
 
-	public $params = [
-		'order'         => 10,
-		'align_content' => 'vertical' // vertical, horizontal
-	];
+	/**
+	 * Group items order
+	 *
+	 * @var int
+	 */
+	public $order = 10;
 
+	/**
+	 * Group items align
+	 *
+	 * @var string - vertical, horizontal
+	 */
+	public $align_content = 'vertical';
+
+	/**
+	 * Group title
+	 *
+	 * @var string
+	 */
+	public $title = '';
+	/**
+	 * Group items
+	 *
+	 * @var array
+	 */
 	public $items = [];
 
 	public function __construct( string $id, array $params = [], USP_Dropdown_Menu $menu ) {
-		$this->id     = $id;
-		$this->menu   = $menu;
-		$this->params = array_merge( $this->params, $params );
+		$this->id   = $id;
+		$this->menu = $menu;
 
-		if ( isset( $this->params['title'] ) ) {
-			$this->add_title($this->params['title']);
+		$properties = get_class_vars( get_class( $this ) );
+
+		foreach ( $properties as $name => $val ) {
+			if ( isset( $params[ $name ] ) & ! empty( $params[ $name ] ) ) {
+				$this->$name = $params[ $name ];
+			}
+		}
+
+		if ( $this->title ) {
+			$this->add_title( $this->title );
 		}
 	}
 
@@ -57,21 +95,14 @@ class USP_Dropdown_Menu_Group {
 		return $this->id;
 	}
 
-	public function get_param( $key, $default = null ) {
-		return $this->params[ $key ] ?? $default;
-	}
-
 	public function get_html() {
-
 		if ( ! $this->items ) {
 			return '';
 		}
 
 		$this->order_items();
 
-		$align_content = $this->params['align_content'];
-
-		$html = "<div class='usp-menu-group usp-menu-group_{$this->get_id()} usp-menu-group_content_{$align_content}'>";
+		$html = "<div class='usp-menu-group usp-menu-group_{$this->get_id()} usp-menu-group_content_{$this->align_content}'>";
 
 		foreach ( $this->items as $item ) {
 			$html .= $this->build_item( $item['data'], $item['type'], $item['params'] );
@@ -97,52 +128,35 @@ class USP_Dropdown_Menu_Group {
 	}
 
 	private function build_item_custom( string $data, array $params ) {
-		$menuStyle = $this->menu->get_style();
-		$html      = "<div class='usp-menu-item usp-menu-item_custom usp-menu-item_style_{$menuStyle}'>";
-		$html      .= $data;
-		$html      .= '</div>';
-
-		return $html;
+		return "<div class='{$this->get_item_classes('custom')}'>{$data}</div>";
 	}
 
-	private function build_item_submenu( USP_Dropdown_Menu $data, array $params ) {
-		$html = "<div class='usp-menu-item usp-menu-item_submenu'>";
-		$html .= $data->get_content();
-		$html .= '</div>';
-
-		return $html;
+	private function build_item_submenu( USP_Dropdown_Menu $submenu, array $params ) {
+		return "<div class='{$this->get_item_classes('submenu')}'>{$submenu->get_content()}</div>";
 	}
 
-	private function build_item_button( array $data, array $params ) {
-		$menuStyle     = $this->menu->get_style();
-		$buttons_class = "usp-menu-item usp-menu-item_button usp-menu-item_style_{$menuStyle} usps__focus";
+	private function build_item_button( array $args, array $params ) {
 
-		$data['type'] = $this->menu->get_button_type();
+		$buttons_class = $this->get_item_classes( 'button' );
 
-		if ( ! isset( $data['size'] ) ) {
-			$data['size'] = $this->menu->get_size();
-		}
+		$args['type'] = $this->menu->base_button_type;
+		$args['size'] = $args['size'] ?? $this->menu->size;
 
-		return ( new USP_Button( $data ) )->add_class( $buttons_class )->get_button();
+		return ( new USP_Button( $args ) )->add_class( $buttons_class )->get_button();
 	}
 
 	private function build_item_title( string $text, array $params ) {
-		$html = "<div class='usp-menu-item usp-menu-item_title'>";
-		$html .= $text;
-		$html .= '</div>';
-
-		return $html;
+		return "<div class='{$this->get_item_classes( 'title' )}'>{$text}</div>";
 	}
 
-	private function order_items() {
+	private function get_item_classes( string $item_type ) {
+		$base = "usp-menu-item usp-menu-item_{$item_type} usp-menu-item_style_{$this->menu->style}";
 
-		usort( $this->items, function ( $a, $b ) {
-			$a_order = $a['params']['order'] ?? 10;
-			$b_order = $b['params']['order'] ?? 10;
+		if ( $item_type === 'button' ) {
+			$base .= ' usps__focus';
+		}
 
-			return $a_order <=> $b_order;
-		} );
-
+		return $base;
 	}
 
 	private function _add_item( $data, string $type, array $params = [] ) {
@@ -152,6 +166,14 @@ class USP_Dropdown_Menu_Group {
 			'data'   => $data,
 			'params' => $params
 		];
+	}
+
+	private function order_items() {
+
+		usort( $this->items, function ( $a, $b ) {
+			return $a->order <=> $b->order;
+		} );
+
 	}
 
 }

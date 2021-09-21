@@ -2,26 +2,35 @@ jQuery(document).ready(function () {
 
     const $ = jQuery;
 
-    $(document).on('mousedown', '.usp-menu_on_click > .usp-menu-button', function (e) {
-        const focusInSubmenu = $(this).parent().get(0).matches(':focus-within');
-        if (focusInSubmenu) {
-            e.preventDefault();
-            if ($(this).closest('.usp-menu-items').length) {
-                $(this).closest('.usp-menu-items').focus();
-            } else {
-                $(this).focus().blur();
+    $(document).on('click', '.usp-menu_on_click > .usp-menu-button', function () {
+        const $menu = $(this).parent();
+        const $menuItems = $(this).next();
+        const opened = $menu.hasClass('usp-menu_open');
+        const clickOutsideListener = (e) => {
+            if (!$menuItems.get(0).contains(e.target)) {
+                close();
             }
+        };
+
+        function close() {
+            $menu.removeClass('usp-menu_open');
+            $(document).off('click', clickOutsideListener);
         }
+
+        function open() {
+            $menu.addClass('usp-menu_open');
+            $(document).on('click', clickOutsideListener);
+        }
+
+        if (opened) {
+            close();
+        } else {
+            open();
+        }
+
     });
 
     $(document).on('mouseenter focusin', '.usp-menu-button', function () {
-
-        if ($(this).hasClass('usp-menu-fixed')) {
-            return;
-        }
-
-        $(this).addClass('usp-menu-fixed');
-
         const $menu = $(this).parent();
         const $menuContent = $(this).next();
         const menuButtonRect = $(this).get(0).getBoundingClientRect();
@@ -31,22 +40,38 @@ jQuery(document).ready(function () {
 
         const menuOutRight = menuButtonRect.x + menuButtonRect.width + menuContentRect.width > windowWidth;
         const menuOutLeft = menuButtonRect.x - menuContentRect.width < 0;
+        const menuOutAlignLeft = menuButtonRect.x + menuContentRect.width > windowWidth;
+        const menuOutAlignRight = menuButtonRect.x + menuButtonRect.width - menuContentRect.width < 0;
 
-        if ((menuContentPosPrim === 'right' && menuOutRight) || (menuContentPosPrim === 'left' && menuOutLeft)) {
+        const update_pos = (newPos, makeOnClick) => {
             $menuContent.removeClass('usp-menu-items_pos_' + menuContentPosPrim + '-' + menuContentPosSec);
-            $menuContent.addClass('usp-menu-items_pos_bottom-' + (windowWidth / 2 > menuButtonRect.x ? 'left' : 'right'));
-            if ($menu.hasClass('usp-menu_on_hover')) {
+            $menuContent.addClass('usp-menu-items_pos_' + newPos);
+            if (makeOnClick && $menu.hasClass('usp-menu_on_hover')) {
                 $menu.removeClass('usp-menu_on_hover');
                 $menu.addClass('usp-menu_on_click');
+            }
+        }
+
+        if (menuContentPosPrim === 'right' && menuOutRight) {
+            if (!menuOutLeft) {
+                update_pos('left-' + menuContentPosSec);
+            } else {
+                update_pos('bottom-' + (menuOutAlignLeft ? 'right' : 'left'), true);
             }
             return;
         }
 
-        const menuOutAlignLeft = menuButtonRect.x + menuContentRect.width > windowWidth;
-        const menuOutAlignRight = menuButtonRect.x + menuButtonRect.width - menuContentRect.width < 0;
+        if (menuContentPosPrim === 'left' && menuOutLeft) {
+            if (!menuOutRight) {
+                update_pos('right-' + menuContentPosSec);
+            } else {
+                update_pos('bottom-' + (menuOutAlignLeft ? 'right' : 'left'), true);
+            }
+            return;
+        }
+
         if ((menuContentPosSec === 'right' && menuOutAlignRight) || (menuContentPosSec === 'left' && menuOutAlignLeft)) {
-            $menuContent.removeClass('usp-menu-items_pos_' + menuContentPosPrim + '-' + menuContentPosSec);
-            $menuContent.addClass('usp-menu-items_pos_' + menuContentPosPrim + '-' + (menuContentPosSec === 'left' ? 'right' : 'left'));
+            update_pos(menuContentPosPrim + '-' + (menuContentPosSec === 'left' ? 'right' : 'left'));
         }
 
     });

@@ -1,6 +1,6 @@
 <?php
 /*
-  Template v1.0
+ * Template v1.0
  */
 $args = [
 	'parent_wrap'  => 'div',
@@ -8,6 +8,7 @@ $args = [
 	'class'        => 'usps__fit-cover',
 	'parent_class' => 'usp-office-ava usps__relative',
 ];
+
 $html = '<div class="usp-ava-bttns">' . apply_filters( 'usp_avatar_bttns', '' ) . '</div>';
 
 $office_owner = USP()->office()->owner();
@@ -27,7 +28,7 @@ $has_sidebar  = ( is_active_sidebar( 'usp_theme_sidebar' ) ) ? 'usp-profile__has
     </div>
     <div class="usp-office-card usps usps__nowrap usps__relative">
         <div class="usp-office-left usps usps__column">
-			<?php echo usp_get_avatar( $office_owner->ID, 200, FALSE, $args, $html ); ?>
+			<?php echo usp_get_avatar( $office_owner->ID, 200, false, $args, $html ); ?>
             <div class="usp-under-ava"><?php do_action( 'usp_area_under_ava' ); ?></div>
         </div>
 
@@ -60,7 +61,7 @@ $has_sidebar  = ( is_active_sidebar( 'usp_theme_sidebar' ) ) ? 'usp-profile__has
 
 <div id="usp-tabs" class="usp-tab-area usps usps__nowrap usps__relative">
 	<?php echo USP()->tabs()->get_menu( 'menu', [
-		'class' => usp_get_option( 'usp_office_tab_type', 1 ) ? FALSE : 'usps__column',
+		'class' => usp_get_option( 'usp_office_tab_type', 1 ) ? false : 'usps__column',
 	] ); ?>
 
     <div class="usp-profile-content <?php echo $has_sidebar; ?> usps usps__nowrap usps__grow">
