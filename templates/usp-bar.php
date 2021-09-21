@@ -22,17 +22,8 @@ $width = usp_get_option( 'usp_bar_width' ) ? 'style="max-width:' . usp_get_optio
         </div>
 
         <div class="usp-bar-right usps usps__grow usps__ai-center usps__jc-end">
-            <div class="usp-bar__menu-nav usps usps__as-stretch">
-                <i class="uspi fa-bars usp-bar__mobile usps usps__ai-center usps__as-stretch usps__hidden"
-                   aria-hidden="true"></i>
-				<?php wp_nav_menu( [
-					'theme_location' => 'usp-bar',
-					'container'      => false,
-					'menu_id'        => 'usp-bar__nav',
-					'menu_class'     => 'usp-bar__nav usps usps__as-stretch',
-					'fallback_cb'    => '',
-				] ); ?>
-            </div>
+
+            <?php echo get_test_dropdown_menu(); ?>
 
             <div class="usp-bar__bttns"><?php do_action( 'usp_bar_buttons' ); ?></div>
 
@@ -65,9 +56,10 @@ $width = usp_get_option( 'usp_bar_width' ) ? 'style="max-width:' . usp_get_optio
 						'',
 						[
 							'parent_class' => 'usp-bar-userlink usp-bar-usershow usps usps__ai-center',
-							'parent_wrap'  => 'div'
+							'parent_wrap'  => 'div',
+                            'class' => 'usps__mr-6'
 						],
-						$usp_user->get_username()
+						$usp_user->get_username().'<i class="uspi usps__ml-6 fa-angle-down"></i>'
 					);
 
 					$menu = new USP_Dropdown_Menu( 'usp_bar_profile_menu', [ 'open_button' => $menu_button ] );
