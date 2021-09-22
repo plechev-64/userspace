@@ -33,8 +33,8 @@ function usp_delete_option( $name ) {
  * @return string         Option value, if it exists, or default in $default.
  * @since 1.0.0
  */
-function usp_get_option_customizer( $option, $default = false ) {
-	$all_options = get_option( "usp-customizer" );
+function usp_get_option_customizer( string $option, $default = false ) {
+	$all_options = get_option( 'usp_customizer' );
 
 	if ( $all_options && array_key_exists( $option, $all_options ) ) {
 		return $all_options[ $option ];

@@ -3,12 +3,11 @@
   Template v1.0
  */
 
-$class = 'usp-bar-' . usp_get_option( 'usp_bar_color', 'dark' );
-$width = usp_get_option( 'usp_bar_width' ) ? 'style="max-width:' . usp_get_option( 'usp_bar_width' ) . 'px;"' : 'style="max-width:calc(100% - 24px)"';
+$class = 'usp-bar-' . usp_get_option_customizer( 'usp_bar_color', 'dark' );
 ?>
 
-<div id="usp-bar" class="usp-bar <?php echo $class; ?> usps usps__jc-center usps__line-1">
-    <div class="usp-bar-wrap usps usps__jc-between usps__grow usps__ai-center usps__relative" <?php echo $width; ?>>
+<div id="usp-bar" class="usp-bar <?php echo $class; ?> usps usps__jc-center usps__line-1" <?php echo usp_bar_customizer_hide(); ?>>
+    <div class="usp-bar-wrap usps usps__jc-between usps__grow usps__ai-center usps__relative" <?php echo usp_bar_width(); ?>>
         <div class="usp-bar-left usps usps__ai-center">
 			<?php echo usp_get_button( [
 				'type'  => 'clear',

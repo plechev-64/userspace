@@ -155,7 +155,7 @@ final class UserSpace {
 		$this->customizer_init();
 
 		if ( $this->is_request( 'frontend' ) ) {
-			if ( $this->options()->get( 'usp_bar_show' ) ) {
+			if ( usp_get_option_customizer( 'usp_bar_show', 1 ) || is_customize_preview() ) {
 				$this->use_module( 'usp-bar' );
 			}
 		}

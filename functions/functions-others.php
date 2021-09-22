@@ -43,7 +43,7 @@ function usp_get_default_cover( $avatar_cover = false, $user_id = false ) {
 // register menu in userspace bar
 add_action( 'after_setup_theme', 'usp_register_userspace_menu' );
 function usp_register_userspace_menu() {
-	if ( ! usp_get_option( 'usp_bar_show' ) ) {
+	if ( ! usp_get_option_customizer( 'usp_bar_show', 1 ) ) {
 		return;
 	}
 
@@ -79,9 +79,7 @@ function usp_get_pages_ids() {
 		->orderby( 'post_title', 'ASC' )
 		->get_walker()->get_index_values( 'ID', 'post_title' );
 
-	$pages = [ __( 'Not selected', 'userspace' ) ] + $pages;
-
-	return $pages;
+	return [ __( 'Not selected', 'userspace' ) ] + $pages;
 }
 
 /**
@@ -291,13 +289,11 @@ function usp_get_button( array $args ) {
 }
 
 function usp_get_area_options() {
-	$areas = [
+	return [
 		'menu'     => get_site_option( 'usp_fields_area-menu' ),
 		'counters' => get_site_option( 'usp_fields_area-counters' ),
 		'actions'  => get_site_option( 'usp_fields_area-actions' ),
 	];
-
-	return $areas;
 }
 
 /**
@@ -327,8 +323,6 @@ function usp_add_log( $title, $data = false, $force = false ) {
 }
 
 function usp_is_gutenberg() {
-	global $post;
-
 	if ( ! is_admin() ) {
 		return false;
 	}
@@ -364,7 +358,6 @@ function usp_get_root_colors() {
 	[ $r, $g, $b ] = sscanf( $background, "#%02x%02x%02x" );
 
 	$color = usp_get_option_customizer( 'usp_color', '#ffffff' );
-	[ $rc, $gc, $bc ] = sscanf( $color, "#%02x%02x%02x" );
 
 	// darker rgb
 	$rd = round( $r * 0.45 );
@@ -380,7 +373,7 @@ function usp_get_root_colors() {
 	$rf = round( 0.75 * ( 255 - $r ) );
 	$gf = round( 0.75 * ( 255 - $g ) );
 	$bf = round( 0.75 * ( 255 - $b ) );
-	
+
 	$size = usp_get_option_customizer( 'usp_bttn_size', 15 );
 
 	return ':root{
@@ -431,7 +424,7 @@ function usp_declination_by_sex( $user_id, $data ) {
  *
  * @param int $number Passing a number from the counter.
  *
- * @param array $variants [ 'подписчик', 'подписчика', 'подписчиков' ]
+ * @param array $variants ['подписчик', 'подписчика', 'подписчиков']
  *
  * @return string   e.g. ($number = 5) 'подписчиков'
  * @since 1.0

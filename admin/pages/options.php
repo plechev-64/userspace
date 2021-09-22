@@ -157,44 +157,6 @@ $options->box( 'primary' )->add_group( 'usersign', [
 	//    )
 ] );
 
-$options->box( 'primary' )->add_group( 'usp_bar', [
-	'title' => __( 'UserSpace Bar', 'userspace' ),
-] )->add_options( [
-	[
-		'type'      => 'switch',
-		'slug'      => 'usp_bar_show',
-		'title'     => __( 'Show UserSpace Bar when viewing site', 'userspace' ),
-		'help'      => __( 'UserSpace Bar – is he top panel UserSpace plugin through which the plugin and its add-ons can output their data and the administrator can make his menu, forming it on <a href="/wp-admin/nav-menus.php" target="_blank">page management menu of the website</a>', 'userspace' ),
-		'text'      => [
-			'off' => __( 'No', 'userspace' ),
-			'on'  => __( 'Yes', 'userspace' ),
-		],
-		'default'   => 0,
-		'childrens' => [
-			1 => [
-				[
-					'type'    => 'radio',
-					'slug'    => 'usp_bar_color',
-					'title'   => __( 'Color', 'userspace' ),
-					'values'  => [
-						'dark'  => __( 'Dark', 'userspace' ),
-						'white' => __( 'White', 'userspace' ),
-						'primary' => __( 'Primary colors of UserSpace', 'userspace' ),
-					],
-					'default' => 'dark',
-				],
-				[
-					'type'   => 'number',
-					'slug'   => 'usp_bar_width',
-					'title'  => __( 'Width content area', 'userspace' ),
-					'help'   => __( 'Width in pixels. Default or 0: fullwidth. Example: 1280 (max width of your site)', 'userspace' ),
-					'notice' => __( 'Default: 0 (fullwidth)', 'userspace' ),
-				],
-			],
-		],
-	],
-] );
-
 $options->box( 'primary' )->add_group( 'access_console', [
 	'title' => __( 'Access to the console', 'userspace' ),
 ] )->add_options( [

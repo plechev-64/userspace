@@ -1,0 +1,98 @@
+/* styles for left panel USP */
+#customize-controls #accordion-panel-userspace-panel h3 {
+    margin: 18px 0;
+    transition: .3s all ease-in-out;
+    background: #0369a1;
+    border-left-color: #0369a1;
+    box-shadow: -290px 0 145px -145px #60a5fa inset;
+    color: #fff;
+}
+
+#customize-controls #accordion-panel-userspace-panel h3:hover {
+    background: #3a61a4;
+    box-shadow: -290px 0 195px -195px #60a5fa inset;
+    border-left-color: #60a5fa;
+}
+
+#customize-controls #accordion-panel-userspace-panel h3::after {
+    color: #e5e5e5;
+    transition: .3s all ease-in-out;
+}
+
+#customize-controls #accordion-panel-userspace-panel h3:hover::after {
+    color: #fff;
+}
+
+/* note */
+
+.customize-control-usp-note .customize-control-title {
+    font-size: 18px;
+}
+
+.customize-control-usp-note {
+    margin-top: 12px;
+    padding-top: 12px;
+}
+
+/* switch */
+.usp_switch_title {
+    display: inline-block;
+    vertical-align: top;
+    margin-top: -1px;
+    width: 200px;
+}
+
+.usp_switch_box {
+    position: relative;
+    width: 40px;
+    display: inline-block;
+    float: right;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+.usp_switch_input {
+    display: none !important;
+}
+
+.usp_switch_label {
+    display: block;
+    overflow: hidden;
+    cursor: pointer;
+    height: 18px;
+    padding: 0;
+    line-height: 18px;
+    border: 2px solid #9ca3af;
+    border-radius: 18px;
+    background-color: #9ca3af;
+    transition: background-color .2s ease-in;
+}
+
+.usp_switch_label:before {
+    content: "";
+    display: block;
+    width: 18px;
+    margin: 0;
+    background: #ededee;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 20px;
+    border: 2px solid #9ca3af;
+    border-radius: 18px;
+    transition: all .2s ease-in;
+}
+
+.usp_switch_input:checked + .usp_switch_label {
+    background-color: #0ea5e9;
+}
+
+.usp_switch_input:checked + .usp_switch_label,
+.usp_switch_input:checked + .usp_switch_label:before {
+    border-color: #0ea5e9;
+}
+
+.usp_switch_input:checked + .usp_switch_label:before {
+    right: 0;
+}

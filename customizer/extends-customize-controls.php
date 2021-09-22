@@ -14,16 +14,16 @@ if ( class_exists( 'WP_Customize_Control' ) ) {
 
 		public function __construct( $manager, $id, $args = [] ) {
 			parent::__construct( $manager, $id, $args );
-			$defaults = [
+			$defaults   = [
 				'min'  => 0,
 				'max'  => 10,
 				'step' => 1,
 			];
-			$argums   = wp_parse_args( $args, $defaults );
+			$parse_args = wp_parse_args( $args, $defaults );
 
-			$this->min  = $argums['min'];
-			$this->max  = $argums['max'];
-			$this->step = $argums['step'];
+			$this->min  = $parse_args['min'];
+			$this->max  = $parse_args['max'];
+			$this->step = $parse_args['step'];
 		}
 
 		public function enqueue() {
@@ -154,7 +154,7 @@ if ( class_exists( 'WP_Customize_Control' ) ) {
 
 		public function render_content() {
 			?>
-            <hr style="border-color:#ddd;margin:12px 0 0;">
+            <hr style="border-color:#d1d5db;border-bottom-width:0;margin:12px 0 0;">
 			<?php
 		}
 	}
@@ -176,5 +176,26 @@ if ( class_exists( 'WP_Customize_Control' ) ) {
 			}
 		}
 	}
-    
+
+	// Switch in the customizer
+	class USP_Customize_Switch extends WP_Customize_Control {
+		public $type = 'usp-switch';
+
+		public function render_content() {
+			?>
+            <div class="usp_switch">
+                <div class="usp_switch_box">
+                    <input type="checkbox" id="<?php echo esc_attr( $this->id ); ?>" name="<?php echo esc_attr( $this->id ); ?>" class="usp_switch_input"
+                           value="<?php echo esc_attr( $this->value() ); ?>" <?php $this->link();
+					checked( $this->value() ); ?>>
+                    <label class="usp_switch_label" for="<?php echo esc_attr( $this->id ); ?>"></label>
+                </div>
+                <span class="customize-control-title usp_switch_title"><?php echo esc_html( $this->label ); ?></span>
+                <p><?php echo wp_kses_post( $this->description ); ?></p>
+            </div>
+			<?php
+		}
+	}
+
+
 }

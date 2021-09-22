@@ -158,7 +158,7 @@ function usp_default_theme_add_buttons_class( $classes ) {
 
 add_action( 'usp_area_top', 'usp_add_office_logout', 10 );
 function usp_add_office_logout() {
-	if ( usp_get_option( 'usp_bar_show' ) || ! usp_is_office( get_current_user_id() ) ) {
+	if ( usp_get_option_customizer( 'usp_bar_show', 1 ) || ! usp_is_office( get_current_user_id() ) ) {
 		return;
 	}
 
