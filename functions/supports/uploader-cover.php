@@ -30,26 +30,26 @@ function usp_add_cover_uploader_button() {
 
 		USP()->use_module( 'uploader' );
 
-		$uploader = new USP_Uploader( 'usp_cover', array(
+		$uploader = new USP_Uploader( 'usp_cover', [
 			'multiple'    => 0,
 			'filetitle'   => 'usp-user-cover-' . $user_ID,
 			'filename'    => $user_ID,
 			'dir'         => '/uploads/usp-uploads/covers',
-			'crop'        => array(
+			'crop'        => [
 				'ratio' => 0
-			),
-			'image_sizes' => array(
-				array(
+			],
+			'image_sizes' => [
+				[
 					'height' => 9999,
 					'width'  => 9999,
 					'crop'   => 0
-				)
-			),
-			'resize'      => array( 1500, 1500 ),
+				]
+			],
+			'resize'      => [ 1500, 1500 ],
 			'min_height'  => 300,
 			'min_width'   => 600,
 			'max_size'    => usp_get_option( 'usp_cover_weight', 1024 )
-		) );
+		] );
 
 		$args_uploads = [
 			'type'    => 'clear',
@@ -64,7 +64,7 @@ function usp_add_cover_uploader_button() {
 	}
 }
 
-// remove standart WP sizes
+// remove standard WP sizes
 add_filter( 'intermediate_image_sizes_advanced', 'usp_remove_wp_library_sizes_for_cover', 10, 2 );
 function usp_remove_wp_library_sizes_for_cover( $sizes, $image_meta ) {
 	if ( strpos( $image_meta['file'], 'usp-uploads/covers/' ) !== false ) {

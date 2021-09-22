@@ -98,8 +98,8 @@ $options->box( 'primary' )->add_group( 'usersign', [
 			__( 'Wordpress Forms', 'userspace' ),
 			__( 'Widget form', 'userspace' ),
 		],
-		'notice'    => __( 'The form of login and registration of the plugin can be outputed with help of widget "Control panel" '
-		                   . 'and a shortcode [usp-loginform], but you can use the standart login form of WordPress also', 'userspace' ),
+		'notice'    => __( 'The form of login and registration of the plugin can be displayed with help of widget "Control panel" '
+		                   . 'and a shortcode [usp-loginform], but you can use the standard login form of WordPress also', 'userspace' ),
 		'childrens' => [
 			1 => [
 				[

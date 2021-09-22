@@ -5,7 +5,7 @@ class USP_Button {
 	public $id;
 	public $onclick;
 	public $href = 'javascript:void(0);';
-	public $class = array();
+	public $class = [];
 	public $type = 'primary'; // clear, simple, primary
 	public $style;
 	public $icon; // for example: fa-car
@@ -20,7 +20,7 @@ class USP_Button {
 	public $data;
 	public $submit;
 	public $status;  // state of the button: loading, disabled, active
-	public $size = 'standart';   // small, standart, medium, large, big
+	public $size = 'standard';   // small, standard, medium, large, big
 	public $attr; // deprecated
 	public $attrs;
 	public $fullwidth;  // 1 - is fullwidth button
@@ -127,7 +127,7 @@ class USP_Button {
 
 	function parse_attrs() {
 
-		$attrs = array();
+		$attrs = [];
 		foreach ( $this->attrs as $name => $value ) {
 			if ( ! $value ) {
 				continue;

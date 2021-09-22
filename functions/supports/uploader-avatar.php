@@ -33,34 +33,34 @@ function usp_button_avatar_upload( $buttons ) {
 
 	USP()->use_module( 'uploader' );
 
-	$uploader = new USP_Uploader( 'usp_avatar', array(
+	$uploader = new USP_Uploader( 'usp_avatar', [
 		'multiple'    => 0,
 		'crop'        => 1,
 		'filetitle'   => 'usp-user-avatar-' . $user_ID,
 		'filename'    => $user_ID,
 		'dir'         => '/uploads/usp-uploads/avatars',
-		'image_sizes' => array(
-			array(
+		'image_sizes' => [
+			[
 				'height' => 70,
 				'width'  => 70,
 				'crop'   => 1
-			),
-			array(
+			],
+			[
 				'height' => 150,
 				'width'  => 150,
 				'crop'   => 1
-			),
-			array(
+			],
+			[
 				'height' => 300,
 				'width'  => 300,
 				'crop'   => 1
-			)
-		),
-		'resize'      => array( 1000, 1000 ),
+			]
+		],
+		'resize'      => [ 1000, 1000 ],
 		'min_height'  => 150,
 		'min_width'   => 150,
 		'max_size'    => usp_get_option( 'usp_avatar_weight', 1024 )
-	) );
+	] );
 
 	$args_uploads = [
 		'type'    => 'simple',
@@ -87,7 +87,7 @@ function usp_button_avatar_upload( $buttons ) {
 	return $buttons;
 }
 
-// remove standart WP sizes
+// remove standard WP sizes
 add_filter( 'intermediate_image_sizes_advanced', 'usp_remove_wp_library_sizes_for_avatar', 10, 2 );
 function usp_remove_wp_library_sizes_for_avatar( $sizes, $image_meta ) {
 	if ( strpos( $image_meta['file'], 'usp-uploads/avatars/' ) !== false ) {

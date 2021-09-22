@@ -14,7 +14,6 @@ wp.customize('usp_customizer[usp_color]', function (setting) {
     });
 });
 
-// todo standart - fix typo standard
 wp.customize('usp_customizer[usp_bttn_size]', function (setting) {
     setting.bind(function (value) {
         jQuery('body').get(0).style.setProperty('--uspSize', value);

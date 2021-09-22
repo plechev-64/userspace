@@ -76,7 +76,7 @@
             }
         });
         navMenu.append(
-            '<a class="usp-expand usp-tab-button usp-bttn usp-bttn__type-primary usp-bttn__size-standart">'
+            '<a class="usp-expand usp-tab-button usp-bttn usp-bttn__type-primary usp-bttn__size-standard">'
             + '<i class="usp-bttn__ico usp-bttn__ico-left uspi fa-bars"></i>'
             + '<span class="usp-bttn__count"></span>'
             + '</a>'

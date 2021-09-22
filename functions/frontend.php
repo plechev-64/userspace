@@ -54,7 +54,7 @@ function usp_api_button_inline_size( $styles ) {
 		.usp-bttn__size-small > * {
 			font-size: ' . round( 0.86 * $size ) . 'px;
 		}
-		.usp-bttn__size-standart > * {
+		.usp-bttn__size-standard > * {
 			font-size: ' . $size . 'px;
 		}
 		.usp-bttn__size-medium > * {

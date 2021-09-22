@@ -41,7 +41,7 @@ function usp_admin_css_variable() {
 	echo '<style>' . usp_get_root_colors() . '</style>';
 }
 
-// get standart header of admin
+// get standard header of admin
 function usp_get_admin_header( $title = false, $subtitle = false ) {
 	$out = '<div class="usp-admin-head usps usps__jc-between">';
 
@@ -69,7 +69,7 @@ function usp_get_admin_header( $title = false, $subtitle = false ) {
 	return $out;
 }
 
-// get standart content of admin
+// get standard content of admin
 function usp_get_admin_content( $content, $no_sidebar = false ) {
 	$class = ( $no_sidebar ) ? 'usp-admin__fullwidth' : '';
 

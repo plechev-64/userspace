@@ -55,7 +55,7 @@ class USP_Dropdown_Menu {
 	/**
 	 * Menu buttons size
 	 *
-	 * @var string - small, standart, medium, large, big
+	 * @var string - small, standard, medium, large, big
 	 */
 	public $size = 'medium';
 
