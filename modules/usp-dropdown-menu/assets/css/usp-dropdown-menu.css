@@ -40,6 +40,7 @@ body:not(.usp-focused) .usp-menu_on_hover:not(:hover):not(:focus-within) > .usp-
 .usp-bttn.usp-menu-button,
 .usp-bttn.usp-menu-item_button {
     padding: 6px;
+    transition: none;
 }
 
 .usp-menu-group_content_horizontal,

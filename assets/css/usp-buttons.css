@@ -22,7 +22,7 @@ body .usp-bttn {
     position: relative;
     text-decoration: none !important;
     text-transform: none;
-    transition: var(--uspLoadFast) !important;
+    transition: var(--uspLoadFast);
     white-space: nowrap;
     -webkit-user-select: none;
     -ms-user-select: none;

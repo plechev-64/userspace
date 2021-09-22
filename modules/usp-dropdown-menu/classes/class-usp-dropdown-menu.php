@@ -43,7 +43,7 @@ class USP_Dropdown_Menu {
 	 *
 	 * @var string
 	 */
-	public $position = 'bottom-left';
+	public $position = 'bottom-right';
 
 	/**
 	 * Menu style

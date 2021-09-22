@@ -171,7 +171,7 @@ class USP_Dropdown_Menu_Group {
 	private function order_items() {
 
 		usort( $this->items, function ( $a, $b ) {
-			return $a->order <=> $b->order;
+			return ($a['params']['order'] ?? 10) <=> ($b['params']['order'] ?? 10);
 		} );
 
 	}
