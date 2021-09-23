@@ -1,10 +1,13 @@
-/*  v1.2
-    154 icons
+/*  v1.3
+    156 icons
 */
+
+/* todo подключить нормально через wp_head */
+
 @font-face {
     font-family: 'usp-awesome';
-    src: url('fonts/usp-awesome.woff2?7jdlrg') format('woff2'),
-    url('fonts/usp-awesome.woff?7jdlrg') format('woff');
+    src: url('fonts/usp-awesome.woff2?8jdlrg') format('woff2'),
+    url('fonts/usp-awesome.woff?8jdlrg') format('woff');
     font-weight: 400;
     font-style: normal;
     font-display: swap;
@@ -14,16 +17,10 @@
     width: auto;
     text-align: center;
     display: inline-block;
-    font-family: 'usp-awesome';
-    speak: none;
-    font-style: normal;
-    font-weight: 400;
-    font-variant: normal;
+    speak: never;
     text-transform: none;
-    line-height: 1;
-    font-size: inherit;
     text-rendering: auto;
-
+    font: normal normal 400 16px/1 'usp-awesome';
     /* Better Font Rendering =========== */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -45,6 +42,8 @@
 :root .fa-flip-horizontal, :root .fa-flip-vertical {
     filter: none
 }
+
+/* END */
 
 
 .fa-user-cog:before {
@@ -363,6 +362,10 @@
     content: "\f2ed";
 }
 
+.fa-trash-skew:before {
+    content: "\f1f8";
+}
+
 .fa-shopping-cart:before {
     content: "\f07a";
 }
@@ -501,6 +504,10 @@
 
 .fa-arrow-left:before {
     content: "\f060";
+}
+
+.fa-arrow-right:before {
+    content: "\f061";
 }
 
 .fa-arrows-horizontal:before {

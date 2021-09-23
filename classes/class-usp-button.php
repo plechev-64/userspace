@@ -50,6 +50,7 @@ class USP_Button {
 	}
 
 	function setup_attrs() {
+		$this->class = array_reverse( $this->class );
 
 		$this->attrs['href']    = $this->href;
 		$this->attrs['title']   = $this->title;
@@ -123,6 +124,8 @@ class USP_Button {
 		if ( $this->avatar_circle ) {
 			$this->class[] = 'usp-bttn__ava_circle usps__radius-50';
 		}
+
+		$this->class = array_reverse( $this->class );
 	}
 
 	function parse_attrs() {

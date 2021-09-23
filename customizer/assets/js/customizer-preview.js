@@ -19,7 +19,7 @@ wp.customize('usp_customizer[usp_bttn_size]', function (setting) {
         jQuery('body').get(0).style.setProperty('--uspSize', value);
 
         jQuery('.usp-bttn__size-small > *').css('font-size', 0.86 * value + 'px');
-        jQuery('.usp-bttn__size-medium > *').css('font-size', 1.14 * value + 'px');
+        jQuery('.usp-bttn__size-medium:not(.usp-bttn__type-clear):not(.usp-bttn__mod-only-icon) > *').css('font-size', 1.14 * value + 'px');
         jQuery('.usp-bttn__type-clear.usp-bttn__mod-only-icon.usp-bttn__size-medium > *,.usp-bttn__size-large:not(.usp-bttn__mod-only-icon) > *').css('font-size', 1.28 * value + 'px');
         jQuery('.usp-bttn__size-big > *').css('font-size', 1.5 * value + 'px');
         jQuery('.usp-bttn__type-clear.usp-bttn__mod-only-icon.usp-bttn__size-large > *').css('font-size', 1.8 * value + 'px');

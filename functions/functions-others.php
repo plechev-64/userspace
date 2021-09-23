@@ -374,7 +374,7 @@ function usp_get_root_colors() {
 	$gf = round( 0.75 * ( 255 - $g ) );
 	$bf = round( 0.75 * ( 255 - $b ) );
 
-	$size = usp_get_option_customizer( 'usp_bttn_size', 15 );
+	$size = usp_get_option_customizer( 'usp_bttn_size', 16 );
 
 	return ':root{
 				--uspSize:' . $size . 'px;

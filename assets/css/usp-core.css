@@ -57,6 +57,7 @@ i::before {
     --uspLine200: 1px solid var(--uspGray-200);
     --uspLine300: 1px solid var(--uspGray-300);
 
+    --uspBox01: 0 0 0 1px var(--uspBlack-01);
     --uspBox50: 3px 6px 12px -6px var(--uspBlack-01);
     --uspBox100: 3px 6px 12px 0 var(--uspBlack-01);
     --uspBox200: 6px 6px 12px -6px var(--uspGray-400);
@@ -89,7 +90,7 @@ i::before {
 }
 
 .usps__wrap {
-    flex-wrap:wrap;
+    flex-wrap: wrap;
 }
 
 .usps__nowrap {
@@ -279,7 +280,7 @@ i::before {
   2. USP preloader
   3. USP emoji
   4. User online/offline
-  5. Ballun
+  5. Balloon
   6. USP pagenavi API
   7. Post top/bottom buttons
   8. New USP Notice
@@ -433,7 +434,7 @@ i.usp-offline {
 
 
 /*------------------
-  5. Ballun
+  5. Balloon
 --------------------*/
 .usp-descr-wrap {
     max-width: 400px;

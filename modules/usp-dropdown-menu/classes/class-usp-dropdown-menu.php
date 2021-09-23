@@ -25,7 +25,8 @@ class USP_Dropdown_Menu {
 	 * @var array|string - USP_Button args[] or string / html
 	 */
 	public $open_button = [
-		'icon' => 'fa-vertical-ellipsis'
+		'icon' => 'fa-vertical-ellipsis',
+		'size' => 'medium',
 	];
 
 	/**
@@ -57,7 +58,7 @@ class USP_Dropdown_Menu {
 	 *
 	 * @var string - small, standard, medium, large, big
 	 */
-	public $size = 'medium';
+	public $size = 'standard';
 
 	/**
 	 * Html before menu button
@@ -214,7 +215,6 @@ class USP_Dropdown_Menu {
 		if ( is_array( $open_button ) ) {
 
 			$open_button['type'] = $this->base_button_type;
-			$open_button['size'] = $open_button['size'] ?? $this->size;
 
 			return ( new USP_Button( $open_button ) )->add_class( $button_class )->get_button();
 		}

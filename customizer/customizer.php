@@ -118,7 +118,7 @@ function usp_add_customizer( $wp_customize ) {
 	// option #3 in the section
 	$wp_customize->add_setting( 'usp_customizer[usp_bttn_size]', [
 		'type'              => 'option',
-		'default'           => '15',
+		'default'           => '16',
 		'transport'         => 'postMessage',
 		'sanitize_callback' => 'absint',
 	] );
@@ -126,7 +126,7 @@ function usp_add_customizer( $wp_customize ) {
 	$wp_customize->add_control( new USP_Customize_Range( $wp_customize, 'usp_customizer[usp_bttn_size]', [
 		'section'     => $section,
 		'label'       => __( 'Font size standard:', 'userspace' ),
-		'description' => __( 'set the font size of the buttons from 12px to 24px (default is 15px)', 'userspace' ),
+		'description' => __( 'set the font size of the buttons from 12px to 24px (default is 16px)', 'userspace' ),
 		'min'         => 12,
 		'max'         => 24,
 		'step'        => 1,

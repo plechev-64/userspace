@@ -34,7 +34,6 @@ function usp_get_variations_buttons() {
 		$args = [
 			'label' => __( 'Go to personal account', 'userspace' ),
 			'icon'  => 'fa-user',
-			'size'  => 'medium',
 			'href'  => usp_user_get_url( $user_ID )
 		];
 
@@ -45,7 +44,7 @@ function usp_get_variations_buttons() {
 }
 
 /**
- * Displays the logged in user control panel and login buttons to guests
+ * Displays the logged-in user control panel and login buttons to guests
  *
  * If it is not logged in, it will display the login and registration buttons.
  * If logged in, it displays the avatar of the current user and the buttons to go to the personal account and exit the site
@@ -74,7 +73,6 @@ function usp_get_user_widget() {
 		$buttons[] = [
 			'label' => __( 'My account', 'userspace' ),
 			'icon'  => 'fa-home',
-			'size'  => 'medium',
 			'href'  => usp_user_get_url( $user_ID )
 		];
 
@@ -82,7 +80,6 @@ function usp_get_user_widget() {
 			'label' => __( 'Exit', 'userspace' ),
 			'href'  => wp_logout_url( home_url() ),
 			'icon'  => 'fa-external-link',
-			'size'  => 'medium',
 		];
 	} else {
 
@@ -94,7 +91,6 @@ function usp_get_user_widget() {
 		$buttons[] = [
 			'label'   => __( 'Sign in', 'userspace' ),
 			'icon'    => 'fa-sign-in',
-			'size'    => 'medium',
 			'onclick' => usp_get_option( 'usp_login_form' ) ? null : 'USP.loginform.call("login");return false;',
 			'href'    => usp_get_loginform_url( 'login' ),
 			'class'   => 'usp-entry-bttn'
@@ -103,7 +99,6 @@ function usp_get_user_widget() {
 		$buttons[] = [
 			'label'   => __( 'Register', 'userspace' ),
 			'icon'    => 'fa-book',
-			'size'    => 'medium',
 			'onclick' => usp_get_option( 'usp_login_form' ) ? null : 'USP.loginform.call("register");return false;',
 			'href'    => usp_get_loginform_url( 'register' ),
 			'class'   => 'usp-entry-bttn'
@@ -214,7 +209,7 @@ function usp_get_users( $atts = [] ) {
 add_shortcode( 'usp-users-new', 'usp_users_new_shortcode' );
 function usp_users_new_shortcode( $args ) {
 
-	$atts = shortcode_atts( array(
+	$atts = shortcode_atts( [
 		'template'    => 'mini',
 		'number'      => 10,
 		'search'      => 0,
@@ -222,7 +217,7 @@ function usp_users_new_shortcode( $args ) {
 		'orderby'     => 'user_registered',
 		'order'       => 'DESC',
 		'pagenavi'    => 0
-	), $args );
+	], $args );
 
 	USP()->use_module( 'users-list' );
 
@@ -237,7 +232,7 @@ function usp_users_new_shortcode( $args ) {
 add_shortcode( 'usp-users-online', 'usp_users_online_shortcode' );
 function usp_users_online_shortcode( $args ) {
 
-	$atts = shortcode_atts( array(
+	$atts = shortcode_atts( [
 		'template'    => 'mini',
 		'number'      => 10,
 		'search'      => 0,
@@ -245,7 +240,7 @@ function usp_users_online_shortcode( $args ) {
 		'order'       => 'DESC',
 		'online_only' => 1,
 		'pagenavi'    => 0
-	), $args );
+	], $args );
 
 	USP()->use_module( 'users-list' );
 
@@ -271,11 +266,11 @@ add_shortcode( 'usp-cache', 'usp_cache_shortcode' );
 function usp_cache_shortcode( $atts, $content_in = null ) {
 	global $post;
 
-	$attr = shortcode_atts( array(
+	$attr = shortcode_atts( [
 		'key'        => '',
 		'only_guest' => false,
 		'time'       => false
-	), $atts );
+	], $atts );
 
 	if ( $post->post_status == 'publish' ) {
 
@@ -301,7 +296,7 @@ function usp_cache_shortcode( $atts, $content_in = null ) {
 
 	if ( $post->post_status == 'publish' ) {
 
-		if ( $usp_cache->is_cache ) {
+		if ( isset( $usp_cache ) && $usp_cache->is_cache ) {
 			$usp_cache->update_cache( $content );
 		}
 	}
@@ -351,7 +346,6 @@ function usp_logout_button( $atts ) {
 	$args = [
 		'label' => $atts['text'],
 		'type'  => $atts['type'],
-		'size'  => 'medium',
 		'href'  => esc_url( wp_logout_url( $url ) )
 	];
 
@@ -374,13 +368,13 @@ function usp_logout_button( $atts ) {
  */
 add_shortcode( 'usp-notice', 'usp_notice_shortcode' );
 function usp_notice_shortcode( $args ) {
-	$atts = shortcode_atts( array(
+	$atts = shortcode_atts( [
 		'type'        => 'info',
 		'title'       => false,
 		'text'        => '',
 		'text_center' => 1,
 		'icon'        => 1,
-	), $args, 'usp-notice' );
+	], $args, 'usp-notice' );
 
 	if ( empty( $atts['text'] ) ) {
 		return;

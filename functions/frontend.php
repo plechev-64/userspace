@@ -48,7 +48,7 @@ function usp_inline_styles() {
 // size button api
 add_filter( 'usp_inline_styles', 'usp_api_button_inline_size', 10 );
 function usp_api_button_inline_size( $styles ) {
-	$size = usp_get_option_customizer( 'usp_bttn_size', '15' );
+	$size = usp_get_option_customizer( 'usp_bttn_size', '16' );
 
 	$styles .= '
 		.usp-bttn__size-small > * {
@@ -57,7 +57,7 @@ function usp_api_button_inline_size( $styles ) {
 		.usp-bttn__size-standard > * {
 			font-size: ' . $size . 'px;
 		}
-		.usp-bttn__size-medium > * {
+		.usp-bttn__size-medium:not(.usp-bttn__type-clear):not(.usp-bttn__mod-only-icon) > * {
 			font-size: ' . round( 1.14 * $size ) . 'px;
 		}
 		.usp-bttn__type-clear.usp-bttn__mod-only-icon.usp-bttn__size-medium > *,
@@ -126,8 +126,8 @@ function usp_init_footer_action() {
 	echo '<script>usp_do_action("usp_footer")</script>';
 }
 
-add_action( 'wp_footer', 'usp_overlay_contayner', 4 );
-function usp_overlay_contayner() {
+add_action( 'wp_footer', 'usp_overlay_container', 4 );
+function usp_overlay_container() {
 	echo '<div id="usp-overlay"></div>';
 }
 
@@ -135,7 +135,7 @@ function usp_overlay_contayner() {
  * Catch logout command
  * ?usp-logout=1
  *
- * @return redirect on home page.
+ * @return void redirect on home page.
  * @since 1.0
  *
  */

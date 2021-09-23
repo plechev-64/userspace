@@ -1341,6 +1341,9 @@
             title: "fa-trash",
             searchTerms: ["garbage", "delete", "remove", "hide"]
         }, {
+            title: "fa-trash-skew",
+            searchTerms: ["garbage", "delete", "remove", "hide"]
+        }, {
             title: "fa-shopping-cart",
             searchTerms: ["checkout", "buy", "purchase", "payment"]
         }, {
@@ -1459,6 +1462,9 @@
         }, {
             title: "fa-arrow-left",
             searchTerms: ["previous", "back", "menu", "arrow", "arrows"]
+        }, {
+            title: "fa-arrow-right",
+            searchTerms: ["next", "forward", "menu", "arrow", "arrows"]
         }, {
             title: "fa-arrows-horizontal",
             searchTerms: ["resize", "arrows-h"]

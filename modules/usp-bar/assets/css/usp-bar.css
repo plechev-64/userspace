@@ -23,7 +23,7 @@
 }
 
 .usp-bar-dark {
-    background: var(--uspGray-700);
+    background: var(--uspBlack-07);
 }
 
 .usp-bar-dark .uspi,
@@ -47,7 +47,7 @@
 
 .usp-bar-primary .usp-dropdown__hidden,
 .usp-bar-primary {
-    background: var(--uspHex);
+    background: rgba(var(--uspRgb), .85);
 }
 
 .usp-bar-primary .uspi,
