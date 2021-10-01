@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<ruleset name="WordPress Plugin Coding Standards">
+    <description>A custom set of code standard rules to check for WordPress plugins.</description>
+
+    <!-- Exclude the Composer Vendor directory. -->
+    <exclude-pattern>/assets/lib/*</exclude-pattern>
+    <exclude-pattern>/assets/usp-awesome/*</exclude-pattern>
+
+    <!-- Exclude the Node Modules directory. -->
+    <exclude-pattern>/node_modules/*</exclude-pattern>
+
+    <!-- Exclude minified Javascript files. -->
+    <exclude-pattern>*.min.js</exclude-pattern>
+
+    <!-- exclude the WordPress-Extra standard. -->
+    <rule ref="WordPress">
+        <exclude name="Squiz"/>
+        <exclude name="Generic"/>
+        <exclude name="PEAR"/>
+        <exclude name="PSR2"/>
+        <exclude name="WordPress.Arrays"/>
+        <exclude name="WordPress.WP.GlobalVariablesOverride"/>
+        <!-- <exclude name="WordPress.WP"/>
+        <exclude name="WordPress.CodeAnalysis"/>
+        <exclude name="WordPress.DateTime.CurrentTimeTimestamp.Requested"/>
+        <exclude name="WordPress.Security.NonceVerification.Recommended"/>
+        <exclude name="WordPress.Security.NonceVerification.Missing"/>
+        <exclude name="WordPress.NamingConventions"/>
+
+        <exclude name="WordPress.PHP"/>
+        <exclude name="WordPress.WhiteSpace"/>
+        <exclude name="WordPress.DB.DirectDatabaseQuery.NoCaching"/>
+        <exclude name="WordPress.DB.DirectDatabaseQuery.DirectQuery"/>
+        <exclude name="WordPress.Files.FileName.InvalidClassFileName"/>-->
+    </rule>
+</ruleset>

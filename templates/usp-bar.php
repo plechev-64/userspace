@@ -1,12 +1,28 @@
 <?php
-/*
-  Template v1.0
+/**
+ * Top panel - UserSpace bar
+ *
+ * This template can be overridden by copying it to yourtheme/userspace/templates/usp-bar.php
+ * or from a special plugin directory wp-content/userspace/templates/usp-bar.php
+ *
+ * HOWEVER, on occasion UserSpace will need to update template files and you
+ * (the theme developer) will need to copy the new files to your theme to
+ * maintain compatibility. We try to do this as little as possible, but it does
+ * happen. When this occurs the version of the template file will be bumped and
+ * the readme will list any important changes.
+ *
+ * @see     https://docs.user-space.com/document/template-structure/
+ *
+ * @version 1.0.0
  */
 
-$class = 'usp-bar-' . usp_get_option_customizer( 'usp_bar_color', 'dark' );
+defined( 'ABSPATH' ) || exit;
+
+$color = usp_get_option_customizer( 'usp_bar_color', 'dark' );
+$class = 'usp-bar-' . $color;
 ?>
 
-<div id="usp-bar" class="usp-bar <?php echo $class; ?> usps usps__jc-center usps__line-1" <?php echo usp_bar_customizer_hide(); ?>>
+<div id="usp-bar" class="usp-bar <?php echo sanitize_html_class( $class ); ?> usps usps__jc-center usps__line-1" <?php echo usp_bar_customizer_hide(); ?>>
     <div class="usp-bar-wrap usps usps__jc-between usps__grow usps__ai-center usps__relative" <?php echo usp_bar_width(); ?>>
         <div class="usp-bar-left usps usps__ai-center">
 			<?php echo usp_get_button( [
@@ -22,7 +38,7 @@ $class = 'usp-bar-' . usp_get_option_customizer( 'usp_bar_color', 'dark' );
 
         <div class="usp-bar-right usps usps__grow usps__ai-center usps__jc-end">
 
-            <?php echo get_test_dropdown_menu(); ?>
+			<?php echo get_test_dropdown_menu( $color ); ?>
 
             <div class="usp-bar__bttns"><?php do_action( 'usp_bar_buttons' ); ?></div>
 
@@ -48,7 +64,6 @@ $class = 'usp-bar-' . usp_get_option_customizer( 'usp_bar_color', 'dark' );
 
 				<?php } else { ?>
 					<?php
-
 					$usp_user    = USP()->user( get_current_user_id() );
 					$menu_button = $usp_user->get_avatar(
 						30,
@@ -56,12 +71,12 @@ $class = 'usp-bar-' . usp_get_option_customizer( 'usp_bar_color', 'dark' );
 						[
 							'parent_class' => 'usp-bar-userlink usp-bar-usershow usps usps__ai-center',
 							'parent_wrap'  => 'div',
-                            'class' => 'usps__mr-6'
+							'class'        => 'usps__mr-6'
 						],
-						$usp_user->get_username().'<i class="uspi usps__ml-6 fa-angle-down"></i>'
+						'<span>' . $usp_user->get_username() . '</span><i class="uspi usps__ml-6 fa-angle-down"></i>'
 					);
 
-					$menu = new USP_Dropdown_Menu( 'usp_bar_profile_menu', [ 'open_button' => $menu_button ] );
+					$menu = new USP_Dropdown_Menu( 'usp_bar_profile_menu', [ 'open_button' => $menu_button, 'style' => $color ] );
 
 					$menu->add_button( [
 						'href'  => $usp_user->get_url( 'profile' ),

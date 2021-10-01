@@ -8,14 +8,13 @@ function usp_dropdown_menu_scripts() {
 	usp_enqueue_script( 'usp-dropdown-menu', USP_URL . 'modules/usp-dropdown-menu/assets/js/usp-dropdown-menu.js', false, false, true );
 }
 
-function get_test_dropdown_menu() {
+function get_test_dropdown_menu( $style ) {
 
 	/**
 	 * Вертикальное меню большое
 	 */
 	$menu_vertical_big = new USP_Dropdown_Menu( 'vertical_big', [
 		'show'        => 'on_hover',
-		'style'       => 'dark',
 		'open_button' => [
 			'icon'  => 'fa-vertical-ellipsis',
 			'label' => 'Вертикальное большое',
@@ -113,8 +112,8 @@ function get_test_dropdown_menu() {
 	$menu_vertical_big->get_group( 'sub_menu_group' )->add_submenu( $sub_menu );
 
 
-	$menu_vertical_big->style = 'dark';
-	$sub_menu->style          = 'dark';
+	$menu_vertical_big->style = $style;
+	$sub_menu->style          = $style;
 	$dark                     = $menu_vertical_big->get_content();
 
 
