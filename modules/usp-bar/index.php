@@ -58,7 +58,7 @@ function usp_bar_menu_logout( $menu ) {
 	return $menu;
 }
 
-// remove offset in wordpress toolbar
+// remove offset in WordPress toolbar
 add_action( 'get_header', 'usp_bar_remove_admin_bar' );
 function usp_bar_remove_admin_bar() {
 	if ( ! is_admin_bar_showing() ) {
@@ -91,55 +91,9 @@ function usp_bar_offset_inline_styles( $styles ) {
 	return $styles;
 }
 
-// add a submenu class (as in the standard userspace menu)
-add_filter( 'nav_menu_submenu_css_class', 'usp_bar_rename_submenu_class', 10, 2 );
-function usp_bar_rename_submenu_class( $classes, $args ) {
-	if ( $args->theme_location !== 'usp-bar' ) {
-		return $classes;
-	}
-
-	foreach ( $classes as $key => $class ) {
-		if ( $class == 'sub-menu' ) {
-			$classes[ $key ] = 'usp-dropdown__hidden';
-		}
-	}
-
-	return $classes;
-}
-
-// add menu has children class
-add_filter( 'wp_nav_menu_objects', 'usp_bar_add_class_in_parent_item', 10, 2 );
-function usp_bar_add_class_in_parent_item( $sorted_menu_items, $args ) {
-	if ( $args->theme_location !== 'usp-bar' ) {
-		return $sorted_menu_items;
-	}
-
-	foreach ( $sorted_menu_items as $item ) {
-		if ( __find_is_has_child( $item->ID, $sorted_menu_items ) ) {
-			$item->classes[] = 'usp-menu-has-child usps__relative';
-		}
-	}
-
-	return $sorted_menu_items;
-}
-
-// helper on usp_bar_add_class_in_parent_item functions
-function __find_is_has_child( $item_id, $sorted_menu_items ) {
-	foreach ( $sorted_menu_items as $item ) {
-		if ( $item->menu_item_parent && $item->menu_item_parent == $item_id ) {
-			return true;
-		}
-	}
-
-	return false;
-}
-
 // added class in body tag
 add_filter( 'body_class', 'usp_add_userbar_class_body' );
 function usp_add_userbar_class_body( $classes ) {
-	/*
-	 * todo зачем в body класс с цветом бара?
-	 */
 	$classes[] = 'usp-userbar';
 	$classes[] = 'usp-userbar-' . usp_get_option_customizer( 'usp_bar_color', 'dark' );
 

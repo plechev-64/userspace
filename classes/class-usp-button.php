@@ -151,7 +151,7 @@ class USP_Button {
 	}
 
 	function get_avatar() {
-		return sprintf( '<i class="usp-bttn__ava">%s</i>', $this->avatar );
+		return sprintf( '<span class="usp-bttn__ava">%s</span>', $this->avatar );
 	}
 
 	function get_label() {

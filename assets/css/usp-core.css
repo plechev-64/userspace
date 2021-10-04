@@ -1,8 +1,3 @@
-/* mark orphan icons */
-i::before {
-    content: "😡 🤬";
-}
-
 /* collect color palette */
 :root {
     --uspBlack: #000;
@@ -276,25 +271,24 @@ i::before {
 /*----------------------
 >>> Table of contents
 ------------------------
-  1. General
-  2. USP preloader
-  3. USP emoji
-  4. User online/offline
-  5. Balloon
-  6. USP pagenavi API
-  7. Post top/bottom buttons
-  8. New USP Notice
-  9. User Widget
-  10. USP Card
-  11. USP meta
-  12. USP dropdown
-  13. USP User avatar
-  14. USP User fields
+    1. General
+    2. USP preloader
+    3. USP emoji
+    4. User online/offline
+    5. Balloon
+    6. USP pagenavi API
+    7. Post top/bottom buttons
+    8. New USP Notice
+    9. User Widget
+    10. USP Card
+    11. USP meta
+    12. USP User avatar
+    13. USP User fields
 ------------------------*/
 
 
 /*-----------------------------
-  1. General
+    1. General
 -------------------------------*/
 [class^="uspi fa-"]::before,
 [class*=" uspi fa-"]::before {
@@ -326,7 +320,7 @@ i::before {
 
 
 /*------------------------
-  2. USP preloader
+    2. USP preloader
 --------------------------*/
 body .preloader-parent {
     position: relative;
@@ -354,7 +348,7 @@ body .preloader-parent {
 
 
 /*------------------
-  3. USP emoji
+    3. USP emoji
 --------------------*/
 .usp-emoji {
     width: 100%;
@@ -410,7 +404,7 @@ body .preloader-parent {
 
 
 /*------------------------
-  4. User online/offline
+    4. User online/offline
 --------------------------*/
 .usp-widget__link {
     margin: 6px 0;
@@ -434,7 +428,7 @@ i.usp-offline {
 
 
 /*------------------
-  5. Balloon
+    5. Balloon
 --------------------*/
 .usp-descr-wrap {
     max-width: 400px;
@@ -483,7 +477,7 @@ i.usp-offline {
 
 
 /*-----------------------
-  6. USP pagenavi API
+    6. USP pagenavi API
 -------------------------*/
 .usp-pager {
     margin: 12px 0;
@@ -501,7 +495,7 @@ i.usp-offline {
 
 
 /*--------------------
-  7. Post top/bottom buttons
+    7. Post top/bottom buttons
 ----------------------*/
 .usp-post-bttns:empty {
     display: none;
@@ -515,7 +509,7 @@ i.usp-offline {
 
 
 /*---------------------------
-  8. New USP Notice
+    8. New USP Notice
 -----------------------------*/
 #usp-wrap-notices {
     left: 12px;
@@ -638,7 +632,7 @@ i.usp-offline {
 /**/
 
 /*---------------------------
-  9. User Widget
+    9. User Widget
 -----------------------------*/
 .usp-user-widget__left {
     margin-right: 6px;
@@ -656,7 +650,7 @@ i.usp-offline {
 /* End */
 
 /*---------------------------
-  10. USP Card (see user-masonry.php)
+    10. USP Card (see user-masonry.php)
 -----------------------------*/
 .usp-card {
     animation: fadeIn .5s linear .5s backwards;
@@ -763,7 +757,7 @@ i.usp-offline {
 }
 
 /*------------------------
-  11. USP meta
+    11. USP meta
 --------------------------*/
 .usp-meta {
     font-size: 14px;
@@ -779,87 +773,7 @@ i.usp-offline {
 }
 
 /*------------------------
-  12. USP dropdown
---------------------------*/
-.usp-dropdown-box {
-    line-height: 1.4;
-    box-sizing: border-box;
-    font-size: 16px;
-    color: var(--uspGray-700);
-}
-
-.usp-dropdown-border {
-    border: var(--uspLine300);
-}
-
-.usp-dropdown__left {
-    padding: 0 12px;
-}
-
-.usp-dropdown-border .usp-dropdown__left + .usp-dropdown__menu {
-    border-left: var(--uspLine300);
-}
-
-.usp-menu-has-child {
-    cursor: pointer;
-}
-
-.usp-dropdown-left .usp-dropdown__menu {
-    position: static;
-}
-
-.usp-dropdown__bttn {
-    font-size: 22px;
-    padding: 6px;
-    min-width: 42px;
-    height: 100%;
-    min-height: 40px;
-}
-
-.usp-dropdown__bttn i {
-    color: var(--uspGray-400);
-}
-
-.usp-dropdown__bttn:hover {
-    color: var(--uspGray-700);
-}
-
-.usp-dropdown__hidden {
-    background: var(--uspWhite);
-    border: 1px solid var(--uspBlack-015);
-    opacity: 0;
-    position: absolute;
-    right: 0;
-    top: 100%;
-    transition: var(--uspLoadFast);
-    visibility: hidden;
-    max-width: 300px;
-}
-
-.usp-menu-has-child:hover .usp-dropdown__hidden,
-.usp-menu-has-child:focus-within .usp-dropdown__hidden,
-.usp-dropdown__open + .usp-dropdown__hidden {
-    opacity: 1;
-    visibility: visible;
-    box-shadow: var(--uspBox200);
-    z-index: 102;
-}
-
-.usp-dropdown-left .usp-dropdown__hidden {
-    right: auto;
-    left: 0;
-}
-
-.usp-dropdown__hidden > a:focus-within {
-    outline: 2px solid var(--uspBlue-700);
-}
-
-.usp-dropdown__hidden .uspi {
-    min-width: 20px;
-}
-
-/*------------------------
-  13. USP User avatar
+    12. USP User avatar
 --------------------------*/
 .usp-user__ava .usps__img-reset {
     box-shadow: none !important;
@@ -873,7 +787,7 @@ i.usp-offline {
 }
 
 /*------------------------
-  14. USP User fields
+    13. USP User fields
 --------------------------*/
 .usp-user-fields {
     margin: 12px 0;

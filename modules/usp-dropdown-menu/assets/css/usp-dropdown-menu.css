@@ -5,6 +5,7 @@
 
 .usp-menu:not(.usp-menu_sub_menu) > .usp-menu-button {
     justify-content: center;
+    display: flex;
 }
 
 .usp-menu-items {
@@ -43,15 +44,8 @@ body:not(.usp-focused) .usp-menu_on_hover:not(:hover):not(:focus-within) > .usp-
 .usp-bttn.usp-menu-item_button {
     padding: 0 12px;
     transition: none;
-    min-width: 36px;
-}
-
-.usp-bttn.usp-menu-button {
-    min-height: 36px;
-}
-
-.usp-bttn.usp-menu-item_button {
-    min-height: 42px;
+    min-height: 40px;
+    min-width: 40px;
 }
 
 .usp-menu-group_content_horizontal,
@@ -153,7 +147,6 @@ a.usp-bttn.usp-menu-button.usp-menu-button_style_dark > * {
 a.usp-bttn.usp-menu-item_button.usp-menu-item_style_dark:hover,
 a.usp-bttn.usp-menu-button.usp-menu-button_style_dark:hover {
     background: var(--uspGray-600);
-    opacity: 1;
 }
 
 /**
@@ -191,9 +184,4 @@ a.usp-bttn.usp-menu-button.usp-menu-button_style_primary {
 a.usp-bttn.usp-menu-item_button.usp-menu-item_style_primary > *,
 a.usp-bttn.usp-menu-button.usp-menu-button_style_primary > * {
     color: var(--uspText);
-}
-
-a.usp-bttn.usp-menu-item_button.usp-menu-item_style_primary:hover,
-a.usp-bttn.usp-menu-button.usp-menu-button_style_primary:hover {
-    opacity: .8;
 }

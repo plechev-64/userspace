@@ -1,5 +1,5 @@
 /*---------------------------
-  USP Buttons API
+    USP Buttons API
 -----------------------------*/
 /*
 usp-bttn__type-clear	- gray fill
@@ -33,7 +33,7 @@ body .usp-bttn {
     box-shadow: none !important;
 }
 
-body :not(.usp-wrap__widget) > .usp-bttn:not(.usp-bttn__active):hover {
+body :not(.usp-wrap__widget):not(.usp-menu-group) > .usp-bttn:not(.usp-bttn__active):hover {
     opacity: .8;
 }
 
@@ -66,18 +66,17 @@ body:not(.wp-admin) .usp-bttn.usp-bttn__type-primary:not(.usp-bttn__active) > * 
 
 .usp-bttn .usp-bttn__ava img {
     border-radius: 0;
-    border: 0;
     box-shadow: none;
     display: block;
-    float: none;
-    height: auto;
-    margin: 0;
-    max-width: 100%;
     padding: 0;
 }
 
 .usp-bttn:not(.usp-bttn__type-clear) .usp-bttn__ava + .usp-bttn__count {
     padding: 0 .7em;
+}
+
+.usp-bttn__ava + .usp-bttn__text {
+    padding-left: .5625em;
 }
 
 /* */
@@ -87,7 +86,7 @@ body:not(.wp-admin) .usp-bttn.usp-bttn__type-primary:not(.usp-bttn__active) > * 
 .usp-bttn__type-clear .usp-bttn__text + .usp-bttn__count,
 .usp-bttn__type-clear i + span,
 .usp-bttn__type-clear span + i {
-    padding: 0 0 0 .75em;
+    padding-left: .75em;
 }
 
 /* */

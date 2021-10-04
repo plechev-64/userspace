@@ -42,7 +42,7 @@ $class = 'usp-bar-' . $color;
 
             <div class="usp-bar__bttns"><?php do_action( 'usp_bar_buttons' ); ?></div>
 
-            <div class="usp-bar__user-nav usp-menu-has-child usps usps__ai-center usps__as-stretch">
+            <div class="usp-bar__user-nav usps usps__ai-center usps__as-stretch">
 				<?php if ( ! is_user_logged_in() ) { ?>
 					<?php echo usp_get_button( [
 						'type'  => 'clear',
@@ -64,17 +64,16 @@ $class = 'usp-bar-' . $color;
 
 				<?php } else { ?>
 					<?php
-					$usp_user    = USP()->user( get_current_user_id() );
-					$menu_button = $usp_user->get_avatar(
-						30,
-						'',
-						[
-							'parent_class' => 'usp-bar-userlink usp-bar-usershow usps usps__ai-center',
-							'parent_wrap'  => 'div',
-							'class'        => 'usps__mr-6'
-						],
-						'<span>' . $usp_user->get_username() . '</span><i class="uspi usps__ml-6 fa-angle-down"></i>'
-					);
+					$usp_user = USP()->user( get_current_user_id() );
+
+					$menu_button = usp_get_button( [
+						'type'       => 'clear',
+						'label'      => $usp_user->get_username(),
+						'class'      => 'usp-bar-userlink',
+						'icon'       => 'fa-angle-down',
+						'icon_align' => 'right',
+						'avatar'     => $usp_user->get_avatar( 30 ),
+					] );
 
 					$menu = new USP_Dropdown_Menu( 'usp_bar_profile_menu', [ 'open_button' => $menu_button, 'style' => $color ] );
 
@@ -93,7 +92,7 @@ $class = 'usp-bar-' . $color;
 					}
 
 					$menu->add_button( [
-						'class' => 'usps__text-right',
+						'class' => 'usps__jc-end',
 						'href'  => wp_logout_url( '/' ),
 						'label' => __( 'Log Out', 'userspace' ),
 					] );
