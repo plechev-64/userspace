@@ -29,7 +29,6 @@ $class = 'usp-bar-' . $color;
 				'type'  => 'clear',
 				'label' => __( 'Home', 'userspace' ),
 				'icon'  => 'fa-home',
-				'size'  => 'medium',
 				'class' => 'usp-bar__home',
 				'href'  => '/',
 			] ); ?>
