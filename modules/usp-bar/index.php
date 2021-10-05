@@ -10,54 +10,6 @@ function usp_userspace_bar_menu() {
 	usp_include_template( 'usp-bar.php' );
 }
 
-add_filter( 'usp_bar_profile_menu', 'usp_bar_menu_go_to_profile', 10 );
-function usp_bar_menu_go_to_profile( $menu ) {
-	$menu .= usp_get_button( [
-			'type'  => 'clear',
-			'size'  => 'medium',
-			'class' => 'usp-bar-profile__in-account',
-			'href'  => USP()->user( get_current_user_id() )->get_url(),
-			'icon'  => 'fa-user',
-			'label' => __( 'Go to personal account', 'userspace' ),
-		]
-	);
-
-	return $menu;
-}
-
-add_filter( 'usp_bar_profile_menu', 'usp_bar_menu_add_admin_link', 50 );
-function usp_bar_menu_add_admin_link( $menu ) {
-	if ( ! current_user_can( 'activate_plugins' ) ) {
-		return $menu;
-	}
-
-	$menu .= usp_get_button( [
-			'type'  => 'clear',
-			'size'  => 'medium',
-			'class' => 'usp-bar-profile__in-admin',
-			'href'  => admin_url(),
-			'icon'  => 'fa-external-link-square',
-			'label' => __( 'To admin area', 'userspace' ),
-		]
-	);
-
-	return $menu;
-}
-
-add_filter( 'usp_bar_profile_menu', 'usp_bar_menu_logout', 100 );
-function usp_bar_menu_logout( $menu ) {
-	$menu .= usp_get_button( [
-			'type'  => 'clear',
-			'size'  => 'medium',
-			'class' => 'usp-bar-profile__logout usps__text-right',
-			'href'  => wp_logout_url( '/' ),
-			'label' => __( 'Log Out', 'userspace' ),
-		]
-	);
-
-	return $menu;
-}
-
 // remove offset in WordPress toolbar
 add_action( 'get_header', 'usp_bar_remove_admin_bar' );
 function usp_bar_remove_admin_bar() {

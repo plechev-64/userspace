@@ -77,13 +77,22 @@ $class = 'usp-bar-' . $color;
 					$menu = new USP_Dropdown_Menu( 'usp_bar_profile_menu', [ 'open_button' => $menu_button, 'style' => $color ] );
 
 					$menu->add_button( [
-						'href'  => $usp_user->get_url( 'profile' ),
-						'icon'  => 'fa-address-book',
-						'label' => __( 'Profile info', 'userspace' )
+						'class' => 'usp-bar-profile__in-account',
+						'href'  => $usp_user->get_url(),
+						'icon'  => 'fa-user',
+						'label' => __( 'Go to personal account', 'userspace' )
+					] );
+
+					$menu->add_button( [
+						'class' => 'usp-bar-profile__edit',
+						'href'  => $usp_user->get_url( 'profile', 'edit' ),
+						'icon'  => 'fa-user-cog',
+						'label' => __( 'Edit profile', 'userspace' )
 					] );
 
 					if ( $usp_user->is_access_console() ) {
 						$menu->add_button( [
+							'class' => 'usp-bar-profile__in-admin',
 							'href'  => admin_url(),
 							'icon'  => 'fa-external-link-square',
 							'label' => __( 'To admin area', 'userspace' ),
@@ -91,7 +100,7 @@ $class = 'usp-bar-' . $color;
 					}
 
 					$menu->add_button( [
-						'class' => 'usps__jc-end',
+						'class' => 'usp-bar-profile__logout usps__jc-end',
 						'href'  => wp_logout_url( '/' ),
 						'label' => __( 'Log Out', 'userspace' ),
 					] );
