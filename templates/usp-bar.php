@@ -76,34 +76,46 @@ $class = 'usp-bar-' . $color;
 
 					$menu = new USP_Dropdown_Menu( 'usp_bar_profile_menu', [ 'open_button' => $menu_button, 'style' => $color ] );
 
-					$menu->add_button( [
-						'class' => 'usp-bar-profile__in-account',
-						'href'  => $usp_user->get_url(),
-						'icon'  => 'fa-user',
-						'label' => __( 'Go to personal account', 'userspace' )
-					] );
+					$menu->add_button(
+						[
+							'class' => 'usp-bar-profile__in-account',
+							'href'  => $usp_user->get_url(),
+							'icon'  => 'fa-user',
+							'label' => __( 'Go to personal account', 'userspace' )
+						],
+						[ 'order' => 10 ]
+					);
 
-					$menu->add_button( [
-						'class' => 'usp-bar-profile__edit',
-						'href'  => $usp_user->get_url( 'profile', 'edit' ),
-						'icon'  => 'fa-user-cog',
-						'label' => __( 'Edit profile', 'userspace' )
-					] );
+					$menu->add_button(
+						[
+							'class' => 'usp-bar-profile__edit',
+							'href'  => $usp_user->get_url( 'profile', 'edit' ),
+							'icon'  => 'fa-user-cog',
+							'label' => __( 'Edit profile', 'userspace' )
+						],
+						[ 'order' => 20 ]
+					);
 
 					if ( $usp_user->is_access_console() ) {
-						$menu->add_button( [
-							'class' => 'usp-bar-profile__in-admin',
-							'href'  => admin_url(),
-							'icon'  => 'fa-external-link-square',
-							'label' => __( 'To admin area', 'userspace' ),
-						] );
+						$menu->add_button(
+							[
+								'class' => 'usp-bar-profile__in-admin',
+								'href'  => admin_url(),
+								'icon'  => 'fa-external-link-square',
+								'label' => __( 'To admin area', 'userspace' ),
+							],
+							[ 'order' => 80 ]
+						);
 					}
 
-					$menu->add_button( [
-						'class' => 'usp-bar-profile__logout usps__jc-end',
-						'href'  => wp_logout_url( '/' ),
-						'label' => __( 'Log Out', 'userspace' ),
-					] );
+					$menu->add_button(
+						[
+							'class' => 'usp-bar-profile__logout usps__jc-end',
+							'href'  => wp_logout_url( '/' ),
+							'label' => __( 'Log Out', 'userspace' ),
+						],
+						[ 'order' => 100 ]
+					);
 
 					echo $menu->get_content();
 
