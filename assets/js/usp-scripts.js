@@ -319,6 +319,16 @@ function usp_init_emoji() {
     });
 }
 
+// reinitialize the emoji script during ajax loading
+usp_add_action('usp_get_emoji_ajax', 'usp_emoji_reload');
+
+function usp_emoji_reload() {
+    let emo = document.getElementsByClassName('smiles')[0];
+    if (typeof emo !== 'undefined') {
+        twemoji.parse(emo);
+    }
+}
+
 usp_add_action('usp_init', 'usp_init_loginform_shift_tabs');
 
 function usp_init_loginform_shift_tabs() {

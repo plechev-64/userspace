@@ -154,3 +154,204 @@ function usp_wait_logout_get() {
 		exit;
 	}
 }
+
+// Remove WordPress emoticons and replace them with a list of emojis
+add_action( 'init', 'usp_global_emoji', 10 );
+function usp_global_emoji() {
+	if ( ! is_user_logged_in() || usp_get_option( 'usp_emoji', 1 ) == 0 ) {
+		return;
+	}
+
+	global $wpsmiliestrans;
+
+	$wpsmiliestrans = []; // remove WP smilies
+
+	// http://www.unicode.org/emoji/charts/full-emoji-list.html
+	// https://emojipedia.org/twitter/
+	$smilies[':-)']       = "&#x1f642;";
+	$smilies[':)']        = "&#x1f642;";
+	$smilies[';-)']       = "&#x1f609;";
+	$smilies[';)']        = "&#x1f609;";
+	$smilies[':-D']       = "&#x1f600;";
+	$smilies[':D']        = "&#x1f600;";
+	$smilies['&#x1f601;'] = "&#x1f601;";     // 😁
+	$smilies['&#x1f603;'] = "&#x1f603;";     // 😃
+	$smilies['&#x1f604;'] = "&#x1f604;";     // 😄
+	$smilies['&#x1f605;'] = "&#x1f605;";     // 😅
+	$smilies['&#x1f606;'] = "&#x1f606;";     // 😆
+	$smilies['&#x1f602;'] = "&#x1f602;";     // 😂
+	$smilies['&#x1f60b;'] = "&#x1f60b;";     // 😋
+	$smilies[':-P']       = "&#x1f61b;";
+	$smilies[':P']        = "&#x1f61b;";
+	$smilies['&#x1f61c;'] = "&#x1f61c;";     // 😜
+	$smilies['&#x1f61d;'] = "&#x1f61d;";     // 😝
+	$smilies['&#x1f60a;'] = "&#x1f60a;";     // 😊
+	$smilies['&#x1f618;'] = "&#x1f618;";     // 😘
+	$smilies['&#x1f60d;'] = "&#x1f60d;";     // 😍
+	$smilies['&#x1f970;'] = "&#x1f970;";     // 🥰
+	$smilies['&#x1f929;'] = "&#x1f929;";     // 🤩
+	$smilies['&#x1f973;'] = "&#x1f973;";     // 🥳
+	$smilies['8-)']       = "&#x1f60e;";
+	$smilies['&#x1f920;'] = "&#x1f920;";     // 🤠
+	$smilies[':|']        = "&#x1f610;";
+	$smilies[':-|']       = "&#x1f610;";
+	$smilies['&#x1f61f;'] = "&#x1f61f;";     // 😟
+	$smilies[':-?']       = "&#x1f615;";
+	$smilies[':-(']       = "&#x1f641;";
+	$smilies[':(']        = "&#x1f641;";
+	$smilies['8O']        = "&#x1f62f;";
+	$smilies['8-O']       = "&#x1f62f;";
+	$smilies['&#x1f62e;'] = "&#x1f62e;";    // 😮
+	$smilies['&#x1f635;'] = "&#x1f635;";    // 😵
+	$smilies[':-o']       = "&#x1f616;";
+	$smilies[':o']        = "&#x1f616;";
+	$smilies['&#x1f620;'] = "&#x1f620;";     // 😠
+	$smilies[':x']        = "&#x1f621;";
+	$smilies[':-x']       = "&#x1f621;";
+	$smilies['&#x1f92c;'] = "&#x1f92c;";     // 🤬
+	$smilies['&#x1f608;'] = "&#x1f608;";     // 😈
+	$smilies['&#x1f92e;'] = "&#x1f92e;";     // 🤮
+	$smilies['&#x1f62d;'] = "&#x1f62d;";     // 😭
+	$smilies['&#x1f628;'] = "&#x1f628;";     // 😨
+	$smilies['&#x1f637;'] = "&#x1f637;";     // 😷
+	$smilies['&#x1f912;'] = "&#x1f912;";     // 🤒
+	$smilies['&#x1f910;'] = "&#x1f910;";     // 🤐
+	$smilies['&#x1F92F;'] = "&#x1F92F;";     // 🤯
+
+	$smilies['&#x1f914;'] = "&#x1f914;";     // 🤔
+	$smilies['&#x1F92D;'] = "&#x1F92D;";     // 🤭
+	$smilies['&#x1F631;'] = "&#x1F631;";     // 😱
+
+	$smilies['&#x1f97a;'] = "&#x1f97a;";     // 🥺
+	$smilies['&#x1f607;'] = "&#x1f607;";     // 😇
+	$smilies['&#x1f62c;'] = "&#x1f62c;";     // 😬
+	$smilies['&#x1f92b;'] = "&#x1f92b;";     // 🤫
+	$smilies['&#x1f634;'] = "&#x1f634;";     // 😴
+
+	$smilies['&#x1f4a9;'] = "&#x1f4a9;";     // 💩
+
+	// events
+	$smilies['&#x1f383;']        = "&#x1f383;";          // 🎃
+	$smilies['&#x1f921;']        = "&#x1f921;";          // 🤡
+	$smilies['&#x1f9d9;']        = "&#x1f9d9;";          // 🧙
+	$smilies['&#x1f9da;']        = "&#x1f9da;";          // 🧚
+	$smilies['&#x1F9DF;']        = "&#x1F9DF;";          // 🧟
+	$smilies['&#x1f332;']        = "&#x1f332;";          // 🌲
+	$smilies['&#x1f384;']        = "&#x1f384;";          // 🎄
+	$smilies['&#x2744;']         = "&#x2744;";           // ❄
+	$smilies['&#x2603;&#xfe0f;'] = "&#x2603;&#xfe0f;";   // ☃
+	$smilies['&#x1f385;']        = "&#x1f385;";          // 🎅
+
+	// transport
+	$smilies['&#x1f697;'] = "&#x1f697;";     // 🚗
+	$smilies['&#x1f69c;'] = "&#x1f69c;";     // 🚜
+	$smilies['&#x1f682;'] = "&#x1f682;";     // 🚂
+	$smilies['&#x1f681;'] = "&#x1f681;";     // 🚁
+	$smilies['&#x2708;']  = "&#x2708;";      // ✈
+	$smilies['&#x1f680;'] = "&#x1f680;";     // 🚀
+
+	// drink
+	$smilies['&#x1f37a;'] = "&#x1f37a;";     // 🍺
+	$smilies['&#x1f37b;'] = "&#x1f37b;";     // 🍻
+	$smilies['&#x1f377;'] = "&#x1f377;";     // 🍷
+	$smilies['&#x1f942;'] = "&#x1f942;";     // 🥂
+	$smilies['&#x1f379;'] = "&#x1f379;";     // 🍹
+	$smilies['&#x1f378;'] = "&#x1f378;";     // 🍸
+	$smilies['&#x2615;']  = "&#x2615;";      // ☕
+
+	// food
+	$smilies['&#x1f344;'] = "&#x1f344;";     // 🍄
+	$smilies['&#x1f34c;'] = "&#x1f34c;";     // 🍌
+	$smilies['&#x1f352;'] = "&#x1f352;";     // 🍒
+	$smilies['&#x1f353;'] = "&#x1f353;";     // 🍓
+	$smilies['&#x1f355;'] = "&#x1f355;";     // 🍕
+	$smilies['&#x1F9C0;'] = "&#x1F9C0;";     // 🧀
+
+	// emotions
+	$smilies['&#x1f48b;'] = "&#x1f48b;";     // 💋
+	$smilies['&#x2764;']  = "&#x2764;";      // ❤
+	$smilies['&#x1f498;'] = "&#x1f498;";     // 💘
+	$smilies['&#x1f495;'] = "&#x1f495;";     // 💕
+	$smilies['&#x1f48c;'] = "&#x1f48c;";     // 💌
+	$smilies['&#x1f494;'] = "&#x1f494;";     // 💔
+	$smilies['&#x270c;']  = "&#x270c;";      // ✌ victory
+	$smilies['&#x1f44d;'] = "&#x1f44d;";      // 👍
+	$smilies['&#x1f44e;'] = "&#x1f44e;";      // 👎
+	$smilies['&#x1f91d;'] = "&#x1f91d;";      // 🤝
+
+	// symbols
+	$smilies['&#x2795;']  = "&#x2795;";      // ➕
+	$smilies['&#x2714;']  = "&#x2714;";      // ✔
+	$smilies['&#x2716;']  = "&#x2716;";      // ✖
+	$smilies['&#x2753;']  = "&#x2753;";      // ❓
+	$smilies['&#x2757;']  = "&#x2757;";      // ❗
+	$smilies['&#x26a0;']  = "&#x26a0;";      // ⚠
+	$smilies['&#x26a1;']  = "&#x26a1;";      // ⚡
+	$smilies['&#x1f4cc;'] = "&#x1f4cc;";     // 📌
+	$smilies['&#x1f6ab;'] = "&#x1f6ab;";     // 🚫
+	$smilies['&#x1F5D1;'] = "&#x1F5D1;";     // 🗑
+	$smilies['&#x1F50e;'] = "&#x1F50e;";     // 🔎
+	$smilies['&#x1f4a1;'] = "&#x1f4a1;";     // 💡
+	$smilies['&#x1f4a3;'] = "&#x1f4a3;";     // 💣
+	$smilies['&#x1f4a5;'] = "&#x1f4a5;";     // 💥
+	$smilies['&#x1F389;'] = "&#x1F389;";     // 🎉
+	$smilies['&#x1f381;'] = "&#x1f381;";     // 🎁
+	$smilies['&#x1F382;'] = "&#x1F382;";     // 🎂
+	$smilies['&#x1f4b0;'] = "&#x1f4b0;";     // 💰
+	$smilies['&#x1f4b5;'] = "&#x1f4b5;";     // 💵
+	$smilies['&#x1f4b2;'] = "&#x1f4b2;";     // 💲
+	$smilies['&#x270f;']  = "&#x270f;";      // ✏
+	$smilies['&#x1f4dd;'] = "&#x1f4dd;";     // 📝
+	$smilies['&#x1F517;'] = "&#x1F517;";     // 🔗
+	$smilies['&#x1f528;'] = "&#x1f528;";     // 🔨
+	$smilies['&#x1f527;'] = "&#x1f527;";     // 🔧
+	$smilies['&#x2699;']  = "&#x2699;";      // ⚙
+	$smilies['&#x1f552;'] = "&#x1f552;";     // 🕒
+	$smilies['&#x1f4a4;'] = "&#x1f4a4;";     // 💤
+
+	$smilies['&#x1f1f7;&#x1f1fa;'] = "&#x1f1f7;&#x1f1fa;";   // ru flag
+	$smilies['&#x1F1FA;&#x1F1F8;'] = "&#x1F1FA;&#x1F1F8;";   // usa flag
+	$smilies['&#x2709;']           = "&#x2709;";             // ✉
+	$smilies['&#x1f3c6;']          = "&#x1f3c6;";            // 🏆
+	$smilies['&#x1F396;']          = "&#x1F396;";            // 🎖
+
+	// animals
+	$smilies['&#x1f425;'] = "&#x1f425;";     // 🐥
+	$smilies['&#x1f41f;'] = "&#x1f41f;";     // 🐟
+	$smilies['&#x1f437;'] = "&#x1f437;";     // 🐷
+	$smilies['&#x1f41e;'] = "&#x1f41e;";     // 🐞
+	$smilies['&#x1f577;'] = "&#x1f577;";     // 🕷
+	$smilies['&#x1f47d;'] = "&#x1f47d;";     // 👽
+	$smilies['&#x1f480;'] = "&#x1f480;";     // 💀
+	$smilies['&#x1f47b;'] = "&#x1f47b;";     // 👻
+
+	$smilies['&#x2601;']          = "&#x2601;";             // ☁
+	$smilies['&#x1f327;&#xfe0f;'] = "&#x1f327;&#xfe0f;";    // 🌧
+	$smilies['&#x26c5;']          = "&#x26c5;";             // ⛅
+	$smilies['&#x2600;']          = "&#x2600;";             // ☀
+	$smilies['&#x1f334;']         = "&#x1f334;";            // 🌴
+	$smilies['&#x1f33c;']         = "&#x1f33c;";            // 🌼
+	$smilies['&#x1f490;']         = "&#x1f490;";            // 💐
+	$smilies['&#x1f341;']         = "&#x1f341;";            // 🍁
+	$smilies['&#x1f342;']         = "&#x1f342;";            // 🍂
+
+	$smilies['&#x26fa;']  = "&#x26fa;";     // ⛺
+	$smilies['&#x23f0;']  = "&#x23f0;";     // ⏰
+	$smilies['&#x26bd;']  = "&#x26bd;";     // ⚽
+	$smilies['&#x2b50;']  = "&#x2b50;";     // ⭐
+	$smilies['&#x1f4af;'] = "&#x1f4af;";    // 💯
+	$smilies['&#x1f5e8;'] = "&#x1f5e8;";    // 🗨
+
+	/** @noinspection PhpUnnecessaryLocalVariableInspection */
+	/**
+	 * Emoji array filter.
+	 *
+	 * @param array $smilies list of emoji.
+	 *
+	 * @since 1.0
+	 *
+	 */
+	$wpsmiliestrans = apply_filters( 'usp_emoji_list', $smilies );
+
+	return $wpsmiliestrans;
+}

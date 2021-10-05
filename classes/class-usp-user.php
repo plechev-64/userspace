@@ -50,7 +50,7 @@ class USP_User {
 		if ( '' == get_site_option( 'permalink_structure' ) ) {
 			$officeUrl = add_query_arg( [ 'user' => $this->ID, 'tab' => $tab, 'subtab' => $subtab ], $officeUrl );
 		} else {
-			$officeUrl = trailingslashit(trailingslashit( $officeUrl ) . $this->user_nicename);
+			$officeUrl = trailingslashit( trailingslashit( $officeUrl ) . $this->user_nicename );
 			$officeUrl = add_query_arg( [ 'tab' => $tab, 'subtab' => $subtab ], $officeUrl );
 		}
 
@@ -306,7 +306,7 @@ class USP_User {
 	 */
 	function is_access_console() {
 
-		$access_roles   = (array) usp_get_option( 'usp_consol_access', [] );
+		$access_roles   = (array) usp_get_option( 'usp_console_access', [] );
 		$access_roles[] = 'administrator';
 
 		return $this->has_role( $access_roles );

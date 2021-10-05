@@ -85,7 +85,7 @@ $options->box( 'primary' )->add_group( 'design', [
 	],
 ] );
 
-$options->box( 'primary' )->add_group( 'usersign', [
+$options->box( 'primary' )->add_group( 'user_sign', [
 	'title' => __( 'Login and register', 'userspace' ),
 ] )->add_options( [
 	[
@@ -98,8 +98,8 @@ $options->box( 'primary' )->add_group( 'usersign', [
 			__( 'Wordpress Forms', 'userspace' ),
 			__( 'Widget form', 'userspace' ),
 		],
-		'notice'    => __( 'The form of login and registration of the plugin can be displayed with help of widget "Control panel" '
-		                   . 'and a shortcode [usp-loginform], but you can use the standard login form of WordPress also', 'userspace' ),
+		'notice'    => __( 'The form of login and registration of the plugin can be displayed with help of widget "Control panel" 
+		and a shortcode [usp-loginform], but you can use the standard login form of WordPress also', 'userspace' ),
 		'childrens' => [
 			1 => [
 				[
@@ -143,18 +143,6 @@ $options->box( 'primary' )->add_group( 'usersign', [
 			],
 		],
 	],
-	/* array(
-	  'type'	 => 'select',
-	  'slug'	 => 'repeat_pass',
-	  'title'	 => __( 'repeat password field', 'userspace' ),
-	  'values' => array( __( 'Disabled', 'userspace' ), __( 'Displaye', 'userspace' ) )
-	  ), */
-	//    array(
-	//        'type'   => 'select',
-	//        'slug'   => 'difficulty_parole',
-	//        'title'  => __( 'Password strength indicator', 'userspace' ),
-	//        'values' => array( __( 'Hide', 'userspace' ), __( 'Show', 'userspace' ) )
-	//    )
 ] );
 
 $options->box( 'primary' )->add_group( 'access_console', [
@@ -162,7 +150,7 @@ $options->box( 'primary' )->add_group( 'access_console', [
 ] )->add_options( [
 	[
 		'type'   => 'checkbox',
-		'slug'   => 'usp_consol_access',
+		'slug'   => 'usp_console_access',
 		'title'  => __( 'Access to the console is allowed', 'userspace' ),
 		'values' => usp_get_roles_ids( [ 'administrator', 'banned', 'need-confirm' ] ),
 		'notice' => __( 'The administrator always has access the WordPress admin area', 'userspace' ),
@@ -250,13 +238,29 @@ $options->box( 'primary' )->add_group( 'system', [
 			'on'  => __( 'Yes', 'userspace' ),
 		],
 		'default' => 0,
-		'help'    => __( 'The log file is written to the address: your-site/userspace/logs/', 'userspace' ),
+		'help'    => __( 'The log file is written to the directory: your-site/userspace/logs/', 'userspace' ),
 	],
 	[
 		'title'    => __( 'The key of security for ajax-requests and other', 'userspace' ),
 		'type'     => 'password',
 		'required' => 1,
 		'slug'     => 'usp_security_key',
+	],
+] );
+
+$options->box( 'primary' )->add_group( 'emoji', [
+	'title' => __( 'Twitter emoji', 'userspace' ),
+] )->add_options( [
+	[
+		'type'    => 'switch',
+		'slug'    => 'usp_emoji',
+		'title'   => __( 'Use the Twitter Emoji on the website', 'userspace' ),
+		'text'    => [
+			'off' => __( 'No', 'userspace' ),
+			'on'  => __( 'Yes', 'userspace' ),
+		],
+		'default' => 1,
+		'help'    => __( 'A set of standard WordPress emoticons will be replaced with Twitter Emoji', 'userspace' ),
 	],
 ] );
 

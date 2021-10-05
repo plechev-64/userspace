@@ -20,6 +20,7 @@
         <exclude name="PSR2"/>
         <exclude name="WordPress.Arrays"/>
         <exclude name="WordPress.WP.GlobalVariablesOverride"/>
+        <exclude name="WordPress.WhiteSpace.PrecisionAlignment"/>
         <!-- <exclude name="WordPress.WP"/>
         <exclude name="WordPress.CodeAnalysis"/>
         <exclude name="WordPress.DateTime.CurrentTimeTimestamp.Requested"/>

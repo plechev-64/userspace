@@ -205,7 +205,7 @@ function usp_sanitize_string( $name, $sanitize = true ) {
  *
  */
 function usp_get_emoji( $id_area, $class = false ) {
-	$emoji_box = '<div class="' . $class . ' usp-emoji usps usps__jc-end usps__relative" data-area="' . $id_area . '">';
+	$emoji_box = '<div class="' . $class . ' usp-emoji usps usps__jc-end" data-area="' . $id_area . '">';
 	$emoji_box .= '<i class="uspi fa-beaming-face-with-smiling-eyes" aria-hidden="true"></i>';
 	$emoji_box .= '<div class="usp-emoji__list"><div class="usp-emoji__all usps usps__jc-between usps__radius-3"></div></div>';
 	$emoji_box .= '</div>';
