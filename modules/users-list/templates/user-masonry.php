@@ -27,9 +27,7 @@ $args = [
 			<?php echo $user->get_username( $user->get_url(), [ 'class' => 'usp-card__title' ] ); ?>
             <div class="usp-card__content"><?php do_action( 'usp_masonry_content', $user, $custom_data ); ?></div>
             <div class="usp-masonry__stats usps usps__jc-center usps__line-1">
-				<?php echo usp_user_stats_register( $user ); ?>
-				<?php echo usp_user_stats_comments( $user ); ?>
-				<?php echo usp_user_stats_posts( $user ); ?>
+				<?php do_action( 'usp_user_stats', $user, $custom_data ); ?>
             </div>
         </div>
 

@@ -135,8 +135,10 @@ function usp_user_get_age_html( $user_id = 0, $class = '' ) {
 	return USP()->user( $user_id )->get_age_html( $class );
 }
 
-function usp_user_stats_comments( USP_User $user ) {
-	if ( ! is_numeric( $user->comments ) ) {
+add_action( 'usp_user_stats', 'usp_user_stats_comments', 22, 2 );
+function usp_user_stats_comments( USP_User $user, $custom_data = [] ) {
+
+	if ( ! in_array( 'comments', $custom_data ) || ! is_numeric( $user->comments ) ) {
 		return;
 	}
 
@@ -145,11 +147,13 @@ function usp_user_stats_comments( USP_User $user ) {
 	$icon  = 'fa-comment';
 	$class = 'usp-meta__comm';
 
-	return usp_user_get_stat_item( $title, $count, $icon, $class );
+	echo usp_user_get_stat_item( $title, $count, $icon, $class );
 }
 
-function usp_user_stats_posts( USP_User $user ) {
-	if ( ! is_numeric( $user->posts ) ) {
+add_action( 'usp_user_stats', 'usp_user_stats_posts', 21, 2 );
+function usp_user_stats_posts( USP_User $user, $custom_data = [] ) {
+
+	if ( ! in_array( 'posts', $custom_data ) || ! is_numeric( $user->posts ) ) {
 		return;
 	}
 
@@ -158,16 +162,22 @@ function usp_user_stats_posts( USP_User $user ) {
 	$icon  = 'fa-file';
 	$class = 'usp-meta__post';
 
-	return usp_user_get_stat_item( $title, $count, $icon, $class );
+	echo usp_user_get_stat_item( $title, $count, $icon, $class );
 }
 
-function usp_user_stats_register( USP_User $user ) {
+add_action( 'usp_user_stats', 'usp_user_stats_register', 23, 2 );
+function usp_user_stats_register( USP_User $user, $custom_data = [] ) {
+
+	if ( ! in_array( 'user_registered', $custom_data ) ) {
+		return;
+	}
+
 	$title = __( 'Registration', 'userspace' ) . ':';
 	$count = mysql2date( 'd-m-Y', $user->user_registered );
 	$icon  = 'fa-calendar-check';
 	$class = 'usp-meta__reg';
 
-	return usp_user_get_stat_item( $title, $count, $icon, $class );
+	echo usp_user_get_stat_item( $title, $count, $icon, $class );
 }
 
 /**
