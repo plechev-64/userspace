@@ -25,7 +25,11 @@ $args = [
             <div class="usp-user__description">
 				<?php echo $user->get_description_html(); ?>
             </div>
-            <div class="usp-user__stats usps"><?php do_action( 'usp_user_stats', $user, $custom_data ); ?></div>
+            <div class="usp-user__stats usp-meta-box usps">
+				<?php echo usp_user_stats_register( $user ); ?>
+				<?php echo usp_user_stats_comments( $user ); ?>
+				<?php echo usp_user_stats_posts( $user ); ?>
+            </div>
         </div>
     </div>
 

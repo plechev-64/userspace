@@ -409,13 +409,16 @@ body .preloader-parent {
 }
 
 .usp-status-user {
-    font-size: 14px;
-    line-height: 1;
+    font-size: 13px;
 }
 
 i.usp-online {
     animation: usp-pulse 2s linear infinite;
     color: var(--uspGreen-500);
+}
+
+.usp-status-user.usp-offline:not(i) {
+    color: var(--uspYellow-900);
 }
 
 i.usp-offline {
@@ -429,7 +432,7 @@ i.usp-offline {
     5. Balloon
 --------------------*/
 .usp-descr-wrap {
-    max-width: 400px;
+    max-width: 520px;
 }
 
 .usp-descr-top {
@@ -757,16 +760,19 @@ i.usp-offline {
 /*------------------------
     11. USP meta
 --------------------------*/
-.usp-meta {
+.usp-meta-box {
+    gap: 6px;
+}
+
+.usp-meta-item {
     font-size: 14px;
-    margin: 6px 6px 0 0;
     padding: 6px 12px;
     background: var(--uspGray-100);
     color: var(--uspGray-600);
     border: var(--uspLine200);
 }
 
-.usp-meta .uspi {
+.usp-meta-ico {
     margin: 0 6px 0 0;
 }
 

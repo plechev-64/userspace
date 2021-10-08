@@ -125,7 +125,7 @@ class USP_User {
 			$action_status .= ' ' . $this->get_offline_diff();
 		}
 
-		$html = sprintf( '<span class="usp-status-user %s">%s</span>', $class, $action_status );
+		$html = sprintf( '<span class="usp-status-user usps__line-1 %s">%s</span>', $class, $action_status );
 
 		return apply_filters( 'usp_user_action_html', $html, $is_online, $this );
 	}
@@ -143,7 +143,7 @@ class USP_User {
 			$action_status .= ' ' . $this->get_offline_diff();
 		}
 
-		$icon = sprintf( '<i class="uspi fa-circle usp-status-user %s" title="%s"></i>', $class, $action_status );
+		$icon = sprintf( '<i class="uspi fa-circle usp-status-user usps__line-1 %s" title="%s"></i>', $class, $action_status );
 
 		return apply_filters( 'usp_user_action_icon', $icon, $is_online, $this );
 	}
@@ -215,6 +215,57 @@ class USP_User {
 	function get_birthday_date() {
 
 		return $this->usp_birthday;
+	}
+
+	/**
+	 * @return string user sex
+	 */
+	function get_user_sex() {
+		return $this->usp_sex;
+	}
+
+	/**
+	 * @return string user date registered
+	 */
+	function get_user_registered() {
+		return mysql2date( 'd-m-Y', $this->user_registered );
+	}
+
+	/**
+	 * @return string counts the number of days on the site after registration
+	 */
+	function get_user_count_days_after_registered() {
+		$t_day = get_date_from_gmt( date( 'Y-m-d H:i:s' ), 'Y-m-d' );
+		$d_m_y = mysql2date( 'Y-m-d', $this->user_registered );
+
+		// date difference
+		$d_register = date_create( $d_m_y );
+		$d_current  = date_create( $t_day );
+		$interval   = date_diff( $d_register, $d_current );
+
+		return $interval->days;
+	}
+
+	/**
+	 * @return string count of comments
+	 */
+	function get_count_comments() {
+		global $wpdb;
+
+		return $wpdb->get_var( "SELECT COUNT(comment_ID) FROM " . $wpdb->comments . " WHERE user_id = " . $this->ID . " AND comment_approved = 1" );
+	}
+
+	/**
+	 * @return object counts by post types
+	 */
+	function get_count_posts_by_types() {
+		global $wpdb;
+
+		return $wpdb->get_results( "SELECT post_type,count(*) AS count 
+											FROM " . $wpdb->posts . " 
+											WHERE post_author = " . $this->ID . " 
+											AND post_status = 'publish' 
+											GROUP BY post_type", OBJECT_K );
 	}
 
 	/**

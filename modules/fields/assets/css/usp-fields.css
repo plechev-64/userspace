@@ -73,13 +73,18 @@
 
 .usp-field .usp-field-title {
     font-weight: var(--uspWeight5);
-    margin: 0 0 6px;
+}
+
+.usp-help-option + .usp-field-input,
+.usp-field-title + .usp-field-input {
+    margin-top: 6px;
 }
 
 .usp-field-notice {
     font-size: 14px;
     line-height: 1.4;
     min-height: 21px;
+    margin-top: 3px;
 }
 
 .usp-field-input:not(.type-checkbox-input):not(.type-radio-input) .usp-field-core + .usp-field-notice {

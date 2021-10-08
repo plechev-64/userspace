@@ -62,9 +62,9 @@ class USP_Users_Manager extends USP_Content_Manager {
 		$this->enqueue_assets();
 
 		parent::
-		__construct( array(
+		__construct( [
 			'is_ajax' => 1,
-		) );
+		] );
 	}
 
 	function prepare_params() {
@@ -318,7 +318,7 @@ class USP_Users_Manager extends USP_Content_Manager {
 		}
 
 		if ( in_array( 'posts', $this->custom_data ) ) {
-			$orderby_values['posts'] = __( 'Publics count', 'userspace' );
+			$orderby_values['posts'] = __( 'Publications count', 'userspace' );
 		}
 
 		$search_fields = [

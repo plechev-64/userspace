@@ -87,7 +87,7 @@ body.ssi-modalOpen {
 }
 
 .ssi-modalWrapper:not(.medium) .ssi-modalTitle {
-    padding-right: 36px;
+    padding-right: 42px;
 }
 
 .ssi-topIcons {
