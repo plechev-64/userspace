@@ -25,24 +25,72 @@ function userspace() {
 	do_action( 'usp_area_after' );
 }
 
-// adding colorpicker styles and others to the header
+// adding inline styles to the header
 add_action( 'wp_head', 'usp_inline_styles', 100 );
 function usp_inline_styles() {
 
 	[ $r, $g, $b ] = sscanf( usp_get_option_customizer( 'usp_primary_color', '#0369a1' ), "#%02x%02x%02x" );
 
+	/**
+	 * Adding inline styles to the header
+	 *
+	 * @param string $styles css ruleset.
+	 * @param array $rgb {
+	 *      array of rgb primary colors.
+	 *
+	 * @type int red.
+	 * @type int green.
+	 * @type int blue.
+	 * }
+	 *
+	 * @since 1.0
+	 *
+	 */
 	$inline_styles = apply_filters( 'usp_inline_styles', '', [ $r, $g, $b ] );
 
 	if ( ! $inline_styles ) {
 		return;
 	}
 
-	// removing spaces, hyphenation, and tabs
-	$src_cleared = preg_replace( '/ {2,}/', '', str_replace( [ "\r\n", "\r", "\n", "\t" ], '', $inline_styles ) );
-	// space : and {
-	$style = str_replace( [ ': ', ' {' ], [ ':', '{' ], $src_cleared );
+	echo "<style>" . usp_clearing_css( $inline_styles ) . "</style>\r\n";
+}
 
-	echo "<style>" . $style . "</style>\r\n";
+// adding inline styles to the footer (if non-critical css)
+add_action( 'wp_footer', 'usp_inline_styles_footer', 300 );
+function usp_inline_styles_footer() {
+	/**
+	 * Adding inline styles to the footer
+	 *
+	 * @param string $styles css ruleset.
+	 *
+	 * @since 1.0
+	 *
+	 */
+	$inline_styles = apply_filters( 'usp_inline_styles_footer', '' );
+
+	if ( ! $inline_styles ) {
+		return;
+	}
+
+	echo "<style>" . usp_clearing_css( $inline_styles ) . "</style>\r\n";
+}
+
+/**
+ * Clearing spaces, tabs, hyphenation etc.
+ *
+ * @param string $styles css ruleset.
+ *
+ * @return string cleared css
+ *
+ * @since 1.0
+ *
+ */
+function usp_clearing_css( $styles ) {
+	// removing spaces, hyphenation, and tabs
+	$src_cleared = preg_replace( '/ {2,}/', '', str_replace( [ "\r\n", "\r", "\n", "\t" ], '', $styles ) );
+
+	// space : and {
+	return str_replace( [ ': ', ' {' ], [ ':', '{' ], $src_cleared );
 }
 
 // size button api
