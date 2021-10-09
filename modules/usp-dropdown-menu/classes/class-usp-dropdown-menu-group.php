@@ -1,12 +1,5 @@
 <?php
 
-/**
- * Drop-down (menu) component
- *
- * @return string html menu.
- * @since 1.0
- *
- */
 class USP_Dropdown_Menu_Group {
 
 	/**
@@ -50,14 +43,14 @@ class USP_Dropdown_Menu_Group {
 	 */
 	public $items = [];
 
-	public function __construct( string $id, array $params = [], USP_Dropdown_Menu $menu ) {
+	public function __construct( string $id, array $params, USP_Dropdown_Menu $menu ) {
 		$this->id   = $id;
 		$this->menu = $menu;
 
 		$properties = get_class_vars( get_class( $this ) );
 
 		foreach ( $properties as $name => $val ) {
-			if ( isset( $params[ $name ] ) & ! empty( $params[ $name ] ) ) {
+			if ( ! empty( $params[ $name ] ) ) {
 				$this->$name = $params[ $name ];
 			}
 		}
@@ -161,6 +154,10 @@ class USP_Dropdown_Menu_Group {
 
 	private function _add_item( $data, string $type, array $params = [] ) {
 
+		if ( ! isset( $params['order'] ) ) {
+			$params['order'] = ( count( $this->items ) + 1 ) * 10;
+		}
+
 		$this->items[] = [
 			'type'   => $type,
 			'data'   => $data,
@@ -171,7 +168,7 @@ class USP_Dropdown_Menu_Group {
 	private function order_items() {
 
 		usort( $this->items, function ( $a, $b ) {
-			return ($a['params']['order'] ?? 10) <=> ($b['params']['order'] ?? 10);
+			return ( $a['params']['order'] ?? 10 ) <=> ( $b['params']['order'] ?? 10 );
 		} );
 
 	}

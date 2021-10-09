@@ -83,7 +83,7 @@ class USP_Dropdown_Menu {
 		$properties = get_class_vars( get_class( $this ) );
 
 		foreach ( $properties as $name => $val ) {
-			if ( isset( $params[ $name ] ) & ! empty( $params[ $name ] ) ) {
+			if ( ! empty( $params[ $name ] ) ) {
 				$this->$name = $params[ $name ];
 			}
 		}
@@ -100,6 +100,10 @@ class USP_Dropdown_Menu {
 	 * @return USP_Dropdown_Menu_Group
 	 */
 	public function add_group( string $id, array $params = [] ) {
+
+		if ( ! isset( $params['order'] ) ) {
+			$params['order'] = ( count( $this->groups ) + 1 ) * 10;
+		}
 
 		$this->groups[ $id ] = new USP_Dropdown_Menu_Group( $id, $params, $this );
 
