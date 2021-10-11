@@ -49,7 +49,7 @@ class USP_Dropdown_Menu {
 	/**
 	 * Menu style
 	 *
-	 * @var string - white, dark, primary
+	 * @var string - 'white', 'dark', 'primary' or 'none' - if you need to set your own color
 	 */
 	public $style = 'white';
 
