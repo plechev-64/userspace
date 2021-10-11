@@ -42,13 +42,13 @@ class USP_Notice {
 	function setup_class() {
 		$center = ( $this->text_center ) ? 'usp-notice__text-center' : '';
 
-		$classes = array(
+		$classes = [
 			'usp-notice',
 			'usps__relative',
 			'usps__line-normal',
 			'usp-notice__type-' . $this->type,
 			$center
-		);
+		];
 
 		if ( $this->class ) {
 			array_unshift( $classes, $this->class );
@@ -91,22 +91,7 @@ class USP_Notice {
 			return;
 		}
 
-		$content = '<div class="' . $this->class . '">';
-
-		if ( ! empty( $this->icon ) ) {
-			$content .= '<i class="uspi ' . $this->icon . ' usp-notice__ico" aria-hidden="true"></i>';
-		}
-
-		if ( ! empty( $this->cookie ) ) {
-			$content .= '<i class="uspi fa-times usp-notice__close" aria-hidden="true" data-notice_id="' . $this->cookie . '" data-notice_time="' . $this->cookie_time . '" onclick="usp_close_notice(this);return false;"></i>';
-		}
-
-		if ( ! empty( $this->title ) ) {
-			$content .= '<div class="usp-notice__title">' . $this->title . '</div>';
-		}
-
-		$content .= '<div class="usp-notice__text">' . $this->text . '</div>';
-		$content .= '</div>';
+		$content = usp_get_include_template( 'usp-notice.php', false, [ 'notice' => $this, ] );
 
 		return $content;
 	}
