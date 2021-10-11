@@ -91,9 +91,7 @@ class USP_Notice {
 			return;
 		}
 
-		$content = usp_get_include_template( 'usp-notice.php', false, [ 'notice' => $this, ] );
-
-		return $content;
+		return usp_get_include_template( 'usp-notice.php', false, [ 'notice' => $this, ] );
 	}
 
 }
