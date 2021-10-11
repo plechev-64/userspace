@@ -38,18 +38,18 @@ function usp_setup_profile_manager_field_options( $options, $field, $manager_id 
 		return $options;
 	}
 
-	$defaultFields = array(
+	$defaultFields = [
 		'first_name',
 		'last_name',
 		'display_name',
 		'url',
 		'description'
-	);
+	];
 
 	if ( in_array( $field->id, $defaultFields ) ) {
 		unset( $options['filter'] );
 		unset( $options['public_value'] );
-	} else if ( in_array( $field->type, array( 'editor', 'uploader', 'file' ) ) ) {
+	} else if ( in_array( $field->type, [ 'editor', 'uploader', 'file' ] ) ) {
 		unset( $options['filter'] );
 	}
 
@@ -87,7 +87,7 @@ function usp_get_custom_fields_profile( $user ) {
 	USP()->use_module( 'fields' );
 
 	$content = '<h2>' . __( 'Custom Profile Fields', 'userspace' ) . '</h2>';
-	$content .= '<div class="usp-admin-profile usp-form preloader-parent">';
+	$content .= '<div class="usp-admin-profile usp-form usp-preloader-parent">';
 	$content .= '<div class="usp-content">';
 	$content .= '<div class="usp-content-group">';
 

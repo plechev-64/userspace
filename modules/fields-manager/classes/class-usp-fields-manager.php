@@ -7,7 +7,7 @@ class USP_Fields_Manager extends USP_Fields {
 	public $option_name = '';
 	public $structure_edit = 0;
 	public $template_fields = 0;
-	public $default_fields = array();
+	public $default_fields = [];
 	public $default_is_null = 0;
 	public $sortable = 1;
 	public $empty_field = 1;
@@ -15,15 +15,15 @@ class USP_Fields_Manager extends USP_Fields {
 	public $switch_id = 0;
 	public $switch_type = 1;
 	public $fields_delete = 1;
-	public $field_options = array();
-	public $new_field_options = array();
+	public $field_options = [];
+	public $new_field_options = [];
 	public $new_field_type = 0;
 	public $default_box = 1;
 	public $meta_delete = 0;
 	public $current_item = 0;
 	public $group_id = 0;
 	public $onsubmit = 'usp_manager_update_fields';
-	public $types = array(
+	public $types = [
 		'text',
 		'textarea',
 		'select',
@@ -43,7 +43,7 @@ class USP_Fields_Manager extends USP_Fields {
 		'range',
 		'editor',
 		'uploader'
-	);
+	];
 
 	function __construct( $manager_id, $args = false ) {
 
@@ -98,7 +98,7 @@ class USP_Fields_Manager extends USP_Fields {
 			return false;
 		}
 
-		$template_fields = array();
+		$template_fields = [];
 
 		foreach ( $fields as $field ) {
 
@@ -128,7 +128,7 @@ class USP_Fields_Manager extends USP_Fields {
 			return false;
 		}
 
-		$default_fields = array();
+		$default_fields = [];
 
 		foreach ( $fields as $field ) {
 
@@ -292,7 +292,7 @@ class USP_Fields_Manager extends USP_Fields {
 
 		$content .= $this->get_manager_options_form();
 
-		$content .= '<div class="usp-frame__panel preloader-parent">';
+		$content .= '<div class="usp-frame__panel usp-preloader-parent">';
 
 		foreach ( $this->structure as $group_id => $group ) {
 			$content .= $this->get_group_areas( $group );
@@ -350,21 +350,21 @@ class USP_Fields_Manager extends USP_Fields {
 	}
 
 	function get_manager_options_form_fields() {
-		return array();
+		return [];
 	}
 
-	function get_group_areas( $group = array() ) {
+	function get_group_areas( $group = [] ) {
 
-		$group = wp_parse_args( $group, array(
+		$group = wp_parse_args( $group, [
 			'title' => '',
 			'id'    => 'section-' . uniqid(),
 			'type'  => 0,
-			'areas' => array(
-				array(
-					'fields' => array()
-				)
-			)
-		) );
+			'areas' => [
+				[
+					'fields' => []
+				]
+			]
+		] );
 
 		$content = '<div id="usp-frame__section-' . $this->group_id . '" class="usp-frame__section usps__relative">';
 
@@ -379,13 +379,13 @@ class USP_Fields_Manager extends USP_Fields {
 			$content .= '<div class="usp-frame__section-settings usps usps__jc-between usps__ai-center">';
 
 			$content .= '<div class="usp-frame__section-name">';
-			$content .= $this::setup( array(
+			$content .= $this::setup( [
 				'slug'        => 'group-title',
 				'type'        => 'text',
 				'input_name'  => 'structure-groups[' . $this->group_id . '][title]',
 				'placeholder' => __( 'Name of the section', 'userspace' ),
 				'value'       => $group['title']
-			) )->get_field_html();
+			] )->get_field_html();
 			$content .= '</div>';
 
 			$content .= '<div class="usp-frame__control usps usps__jc-between usps__relative">';
@@ -423,23 +423,23 @@ class USP_Fields_Manager extends USP_Fields {
 
 			$content .= '</div>';
 
-			$fields = array(
-				'group-id'     => array(
+			$fields = [
+				'group-id'     => [
 					'slug'       => 'group-id',
 					'type'       => 'text',
 					'input_name' => 'structure-groups[' . $this->group_id . '][id]',
 					'title'      => __( 'Section ID', 'userspace' ),
 					'required'   => true,
 					'value'      => $this->group_id
-				),
-				'group-notice' => array(
+				],
+				'group-notice' => [
 					'slug'       => 'group-notice',
 					'type'       => 'text',
 					'input_name' => 'structure-groups[' . $this->group_id . '][notice]',
 					'title'      => __( 'A note of this section', 'userspace' ),
 					'value'      => isset( $group['notice'] ) ? $group['notice'] : ''
-				)
-			);
+				]
+			];
 
 			$content .= '<div class="usp-frame__section-more-options usps__hidden">';
 			foreach ( $fields as $field ) {
@@ -450,7 +450,7 @@ class USP_Fields_Manager extends USP_Fields {
 			$content .= '</div>';
 		}
 
-		$content .= '<div class="usp-frame__section-content usps usps__nowrap usps__jc-center preloader-parent">';
+		$content .= '<div class="usp-frame__section-content usps usps__nowrap usps__jc-center usp-preloader-parent">';
 
 		foreach ( $group['areas'] as $area ) {
 			$content .= $this->get_active_area( $area );
@@ -462,20 +462,20 @@ class USP_Fields_Manager extends USP_Fields {
 		return $content;
 	}
 
-	function get_active_area( $area = array() ) {
+	function get_active_area( $area = [] ) {
 
 		if ( $this->empty_field ) {
 
-			$this->add_field( array(
+			$this->add_field( [
 				'slug' => 'newField-' . uniqid(),
 				'type' => $this->types[0],
 				'_new' => true
-			) );
+			] );
 		}
 
 		$widthArea = isset( $area['width'] ) && $area['width'] ? $area['width'] : 100;
 
-		$content = '<div class="usp-frame__group preloader-parent" style="width:' . ( $widthArea ? $widthArea . '%' : 'auto' ) . ';">';
+		$content = '<div class="usp-frame__group usp-preloader-parent" style="width:' . ( $widthArea ? $widthArea . '%' : 'auto' ) . ';">';
 
 		if ( $this->structure_edit ) {
 
@@ -706,20 +706,20 @@ class USP_Fields_Manager extends USP_Fields {
 		$content .= '<span class="usp-frame__field-icon icon-type-' . $field->type . '"></span>';
 
 		if ( $field->is_new() ) {
-			$content .= $this::setup( array(
+			$content .= $this::setup( [
 				'slug'        => 'title',
 				'type'        => 'text',
 				'placeholder' => __( 'Enter a name for the new field', 'userspace' ),
 				'input_name'  => 'fields[' . $field_id . '][title]'
-			) )->get_field_html();
+			] )->get_field_html();
 		} else {
-			$content .= $this::setup( array(
+			$content .= $this::setup( [
 				'slug'        => 'title',
 				'type'        => 'text',
 				'placeholder' => __( 'Point a title of this field', 'userspace' ),
 				'input_name'  => 'fields[' . $field_id . '][title]',
 				'value'       => $field->title
-			) )->get_field_html();
+			] )->get_field_html();
 			//$content .= '<span class="field-title">'.$field->title.'</span>';
 		}
 
@@ -742,27 +742,27 @@ class USP_Fields_Manager extends USP_Fields {
 
 	function get_control_buttons( $field_id, $field ) {
 
-		$buttons = array();
+		$buttons = [];
 
 		if ( $field->must_delete && $this->fields_delete && ! $this->is_service_type( $field_id, 'default' ) && ! $field->is_new() ) {
-			$buttons['delete'] = array(
+			$buttons['delete'] = [
 				'icon'    => 'fa-trash',
 				'class'   => 'usp-frame__field-bttn-delete',
 				'onclick' => 'usp_manager_field_delete("' . $field_id . '", ' . ( $this->meta_delete ? 1 : 0 ) . ', this);return false;',
-			);
+			];
 		}
 
-		$buttons['edit'] = array(
+		$buttons['edit'] = [
 			'class'   => 'usp-frame__field-bttn-edit',
 			'icon'    => 'fa-horizontal-sliders',
 			'onclick' => 'usp_manager_field_switch(this);return false;'
-		);
+		];
 
 		if ( $this->sortable ) {
-			$buttons['sortable'] = array(
+			$buttons['sortable'] = [
 				'class' => 'usp-frame__field-bttn-move',
 				'icon'  => 'fa-arrows'
-			);
+			];
 		}
 
 		$buttons = apply_filters( 'usp_manager_field_controls', $buttons, $field_id, $this->manager_id );
@@ -828,7 +828,7 @@ class USP_Fields_Manager extends USP_Fields {
 		$field = $this->get_field( $field_id, $serviceType );
 
 		if ( $field->is_new() || $this->switch_id ) {
-			$options['id'] = array(
+			$options['id'] = [
 				'slug'        => 'id',
 				'type'        => 'text',
 				'pattern'     => '[a-z0-9-_]+',
@@ -836,7 +836,7 @@ class USP_Fields_Manager extends USP_Fields {
 				'title'       => __( 'ID', 'userspace' ),
 				'notice'      => __( 'Not required, but you can list your own meta_key in this field', 'userspace' ),
 				'placeholder' => __( 'Latin letters and numbers', 'userspace' )
-			);
+			];
 		}
 
 		if ( $this->switch_type ) {
@@ -845,28 +845,28 @@ class USP_Fields_Manager extends USP_Fields {
 
 				if ( $this->is_service_type( $field_id ) || ! isset( $typeList[ $field->type ] ) ) {
 					// for default fields we set a fixed type
-					$options['type'] = array(
+					$options['type'] = [
 						'slug'  => 'type',
 						'type'  => 'hidden',
 						'value' => $field->type
-					);
+					];
 				} else {
-					$options['type'] = array(
-						'slug'   => 'type',
-						'type'   => 'select',
-						'title'  => __( 'Type of field', 'userspace' ),
-						'values' => $typeList,
+					$options['type'] = [
+						'slug'         => 'type',
+						'type'         => 'select',
+						'title'        => __( 'Type of field', 'userspace' ),
+						'values'       => $typeList,
 						'value_in_key' => false
-					);
+					];
 				}
 			}
 		} else {
 
-			$options['type'] = array(
+			$options['type'] = [
 				'slug'  => 'type',
 				'type'  => 'hidden',
 				'value' => ( $field->is_new() && $this->new_field_type ) ? $this->new_field_type : $field->type
-			);
+			];
 		}
 
 		$options = apply_filters( 'usp_field_general_options', $options, $field, $this->manager_id );
@@ -876,7 +876,7 @@ class USP_Fields_Manager extends USP_Fields {
 
 	function get_field_options( $field_id, $serviceType = false ) {
 
-		$options = array();
+		$options = [];
 
 		$field = $this->get_field( $field_id, $serviceType );
 
@@ -961,7 +961,7 @@ class USP_Fields_Manager extends USP_Fields {
 			</script>';
 	}
 
-	function is_service_type( $field_id, $serviceType = array( 'default', 'template' ) ) {
+	function is_service_type( $field_id, $serviceType = [ 'default', 'template' ] ) {
 
 		if ( is_array( $serviceType ) ) {
 
@@ -991,7 +991,7 @@ class USP_Fields_Manager extends USP_Fields {
 
 	function get_types_list() {
 
-		$typesList = array();
+		$typesList = [];
 		foreach ( $this->types as $type ) {
 			if ( ! isset( USP()->get_fields()[ $type ] ) ) {
 				continue;

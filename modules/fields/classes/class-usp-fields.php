@@ -3,7 +3,7 @@
 class USP_Fields extends USP_Field {
 
 	public $fields;
-	public $structure = array();
+	public $structure = [];
 
 	function __construct( $fields = false, $structure = false ) {
 
@@ -13,7 +13,7 @@ class USP_Fields extends USP_Field {
 
 		if ( $fields ) {
 
-			$this->fields = array();
+			$this->fields = [];
 
 			foreach ( $fields as $field ) {
 
@@ -37,7 +37,7 @@ class USP_Fields extends USP_Field {
 
 		if ( ! $this->structure || ( $this->structure && ! $this->fields ) || $force ) {
 
-			$fieldIds = array();
+			$fieldIds = [];
 
 			if ( $this->fields ) {
 				foreach ( $this->fields as $field_id => $field ) {
@@ -45,17 +45,17 @@ class USP_Fields extends USP_Field {
 				}
 			}
 
-			$this->structure = array(
-				array(
-					'areas' => array(
-						array(
+			$this->structure = [
+				[
+					'areas' => [
+						[
 							'fields' => $fieldIds
-						)
-					)
-				)
-			);
+						]
+					]
+				]
+			];
 		} else if ( $this->fields ) { // add orphaned fields to the structure
-			$structureFields = array();
+			$structureFields = [];
 
 			foreach ( $this->structure as $group_id => $group ) {
 				if ( ! isset( $group['areas'] ) ) {
@@ -167,7 +167,7 @@ class USP_Fields extends USP_Field {
 			return false;
 		}
 
-		$fields = array();
+		$fields = [];
 		foreach ( $this->fields as $field_id => $field ) {
 			if ( in_array( $field_id, $fieldIds ) ) {
 				continue;
@@ -182,7 +182,7 @@ class USP_Fields extends USP_Field {
 
 	function search( $filters ) {
 
-		$fields = array();
+		$fields = [];
 
 		foreach ( $filters as $key => $value ) {
 			$fields = $this->search_by( $key, $value, $fields );
@@ -200,7 +200,7 @@ class USP_Fields extends USP_Field {
 			$fields = $this->fields;
 		}
 
-		$search = array();
+		$search = [];
 
 		foreach ( $fields as $field_id => $field ) {
 
@@ -236,9 +236,9 @@ class USP_Fields extends USP_Field {
 
 	function add_structure_group( $group_id, $args = false ) {
 
-		$this->structure[ $group_id ] = wp_parse_args( $args, array(
+		$this->structure[ $group_id ] = wp_parse_args( $args, [
 			'title' => ''
-		) );
+		] );
 	}
 
 	function get_content() {
@@ -253,7 +253,7 @@ class USP_Fields extends USP_Field {
 			return false;
 		}
 
-		$content = '<div class="usp-content preloader-parent">' . $content . '</div>';
+		$content = '<div class="usp-content usp-preloader-parent">' . $content . '</div>';
 
 		return $content;
 	}
@@ -336,9 +336,9 @@ class USP_Fields extends USP_Field {
 		return $field->get_field_html( $field->value );
 	}
 
-	function get_form( $args = array() ) {
+	function get_form( $args = [] ) {
 
-		$args = wp_parse_args( $args, array(
+		$args = wp_parse_args( $args, [
 			'form_id'    => '',
 			'unique_ids' => false,
 			'action'     => '',
@@ -347,9 +347,9 @@ class USP_Fields extends USP_Field {
 			'nonce_name' => '_wpnonce',
 			'nonce_key'  => '',
 			'onclick'    => '',
-		) );
+		] );
 
-		$content = '<div class="usp-form preloader-parent">';
+		$content = '<div class="usp-form usp-preloader-parent">';
 
 		$content .= '<form ' . ( $args['form_id'] ? 'id="' . $args['form_id'] . '"' : '' ) . ' method="' . $args['method'] . '" action="' . $args['action'] . '">';
 
@@ -357,10 +357,10 @@ class USP_Fields extends USP_Field {
 
 		$content .= '<div class="submit-box">';
 
-		$bttnArgs = array(
+		$bttnArgs = [
 			'label' => $args['submit'],
 			'icon'  => 'fa-check-circle'
-		);
+		];
 
 		if ( $args['onclick'] ) {
 			$bttnArgs['onclick'] = $args['onclick'];
@@ -395,7 +395,7 @@ class USP_Fields extends USP_Field {
 			return false;
 		}
 
-		$content = '<div class="usp-content preloader-parent">' . $content . '</div>';
+		$content = '<div class="usp-content usp-preloader-parent">' . $content . '</div>';
 
 		return $content;
 	}

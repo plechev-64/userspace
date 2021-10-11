@@ -322,7 +322,7 @@
 /*------------------------
     2. USP preloader
 --------------------------*/
-body .preloader-parent {
+body .usp-preloader-parent {
     position: relative;
 }
 

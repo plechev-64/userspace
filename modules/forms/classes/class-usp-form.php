@@ -11,13 +11,13 @@ class USP_Form extends USP_Fields {
 	public $submit_args;
 	public $nonce_name = '';
 	public $onclick;
-	public $values = array();
+	public $values = [];
 
 	function __construct( $args = false ) {
 
 		$this->init_properties( $args );
 
-		$this->fields = array();
+		$this->fields = [];
 
 		parent::__construct( $args['fields'], isset( $args['structure'] ) ? $args['structure'] : false );
 	}
@@ -35,7 +35,7 @@ class USP_Form extends USP_Fields {
 
 	function get_form( $args = false ) {
 
-		$content = '<div class="' . ( $this->class ? $this->class . ' ' : '' ) . 'usp-form preloader-parent">';
+		$content = '<div class="' . ( $this->class ? $this->class . ' ' : '' ) . 'usp-form usp-preloader-parent">';
 
 		$content .= '<form method="' . $this->method . '" action="' . $this->action . '" target="' . $this->target . '">';
 
@@ -59,21 +59,21 @@ class USP_Form extends USP_Fields {
 		$content = '<div class="submit-box usps usps__jc-end">';
 
 		if ( $this->onclick ) {
-			$content .= usp_get_button( wp_parse_args( $this->submit_args, array(
+			$content .= usp_get_button( wp_parse_args( $this->submit_args, [
 				'label'     => $this->submit,
 				'icon'      => $this->icon,
 				'onclick'   => $this->onclick,
 				'fullwidth' => '1',
 				'size'      => 'medium'
-			) ) );
+			] ) );
 		} else {
-			$content .= usp_get_button( wp_parse_args( $this->submit_args, array(
+			$content .= usp_get_button( wp_parse_args( $this->submit_args, [
 				'label'     => $this->submit,
 				'icon'      => $this->icon,
 				'submit'    => true,
 				'fullwidth' => '1',
 				'size'      => 'medium'
-			) ) );
+			] ) );
 		}
 
 		$content .= '</div>';

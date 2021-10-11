@@ -14,8 +14,8 @@ function usp_content_manager_submit(e) {
 
     } else {
 
-        if (e && jQuery(e).parents('.preloader-parent')) {
-            usp_preloader_show(jQuery(e).parents('.preloader-parent'));
+        if (e && jQuery(e).parents('.usp-preloader-parent')) {
+            usp_preloader_show(jQuery(e).parents('.usp-preloader-parent'));
         }
 
         usp_submit_form(e);
@@ -130,7 +130,7 @@ function usp_load_content_manager_state(state, e) {
     // get form data
     var FormFactory = new USPForm(jQuery(e).parents('form'));
 
-    usp_preloader_show(jQuery('form.preloader-parent'));
+    usp_preloader_show(jQuery('form.usp-preloader-parent'));
 
     usp_ajax({
         rest: true,

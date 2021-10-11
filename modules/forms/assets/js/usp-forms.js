@@ -350,8 +350,8 @@ function usp_send_form_data(action, e) {
     if (!usp_check_form(form))
         return false;
 
-    if (e && jQuery(e).parents('.preloader-parent')) {
-        usp_preloader_show(jQuery(e).parents('.preloader-parent'));
+    if (e && jQuery(e).parents('.usp-preloader-parent')) {
+        usp_preloader_show(jQuery(e).parents('.usp-preloader-parent'));
     }
 
     if (typeof tinyMCE !== 'undefined')

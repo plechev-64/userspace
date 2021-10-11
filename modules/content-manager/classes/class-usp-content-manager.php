@@ -2,7 +2,7 @@
 
 class USP_Content_Manager {
 
-	public $data = array();
+	public $data = [];
 	public $orderby = '';
 	public $order = '';
 	public $total_items = 0;
@@ -12,8 +12,8 @@ class USP_Content_Manager {
 	public $is_ajax = 0;
 	public $dropdown_filter = true;
 	public $callback_actions = 'usp_admin_manager_actions(this);';
-	public $actions = array();
-	public $buttons = array();
+	public $actions = [];
+	public $buttons = [];
 	public $request_data = [];
 	public $startpage = '';
 	public $custom_props = [];
@@ -77,13 +77,13 @@ class USP_Content_Manager {
 
 		$this->set_total_items();
 
-		$this->pager = new USP_Pager( array(
+		$this->pager = new USP_Pager( [
 			'number'    => $this->number,
 			'total'     => $this->total_items,
-			'page_args' => array(
+			'page_args' => [
 				'onclick' => 'usp_load_content_manager_page("page", "pagenum", this);return false;'
-			)
-		) );
+			]
+		] );
 
 		if ( $this->total_items ) {
 			$this->set_data();
@@ -182,12 +182,12 @@ class USP_Content_Manager {
 		$buttonsArgs = $this->get_buttons_args();
 
 		if ( $this->request && $this->reset_filter ) {
-			$buttonsArgs[] = array(
+			$buttonsArgs[] = [
 				'label'   => __( 'Reset filter', 'userspace' ),
 				'onclick' => $this->is_ajax ? 'usp_load_content_manager_state(' . $this->startstate . ', this);return false;' : null,
 				'icon'    => 'fa-sync',
 				'href'    => $this->startpage
-			);
+			];
 		}
 
 		$content = '<div class="manager-buttons">';
@@ -245,7 +245,7 @@ class USP_Content_Manager {
 
 	function get_manager() {
 
-		$content = '<form action method="get" ' . ( $this->is_ajax ? 'onsubmit="usp_content_manager_submit();return false;"' : '' ) . ' class="preloader-parent">';
+		$content = '<form action method="get" ' . ( $this->is_ajax ? 'onsubmit="usp_content_manager_submit();return false;"' : '' ) . ' class="usp-preloader-parent">';
 
 		$content .= $this->get_manager_content();
 
@@ -262,17 +262,17 @@ class USP_Content_Manager {
 
 		USP()->use_module( 'forms' );
 
-		$form = new USP_Form( array(
-			'fields'  => array(
-				array(
+		$form = new USP_Form( [
+			'fields'  => [
+				[
 					'type'   => 'select',
 					'slug'   => 'action-items',
 					'values' => $this->get_actions()
-				)
-			),
+				]
+			],
 			'submit'  => __( 'Apply', 'userspace' ),
 			'onclick' => $this->callback_actions . ';return false;'
-		) );
+		] );
 
 		$content = '<div class="items-actions-box">';
 
@@ -302,11 +302,11 @@ class USP_Content_Manager {
 
 		USP()->use_module( 'forms' );
 
-		$form = new USP_Form( array(
+		$form = new USP_Form( [
 				'fields'  => $fields,
 				'submit'  => __( 'Search', 'userspace' ),
 				'onclick' => 'usp_content_manager_submit(this);return false;'
-			)
+			]
 		);
 
 		$search_form = '<div class="form-fields">';

@@ -3,14 +3,14 @@
 class USP_Table {
 
 	public $zebra = false;
-	public $border = array();
-	public $cols = array();
+	public $border = [];
+	public $cols = [];
 	public $cols_number = 0;
-	public $rows = array();
+	public $rows = [];
 	public $total = false;
 	public $table_id = 0;
-	public $class = array();
-	public $attr_rows = array();
+	public $class = [];
+	public $attr_rows = [];
 
 	function __construct( $tableProps = false ) {
 
@@ -38,7 +38,7 @@ class USP_Table {
 
 	function setup_string_attrs( $attrs ) {
 
-		$stringAttrs = array();
+		$stringAttrs = [];
 
 		foreach ( $attrs as $name => $value ) {
 
@@ -62,15 +62,15 @@ class USP_Table {
 
 	function get_table_attrs() {
 
-		$attrs = array(
+		$attrs = [
 			'id' => $this->table_id
-		);
+		];
 
 		if ( $this->class ) {
 			$attrs['class'][] = $this->class;
 		}
 
-		$attrs['class'][] = 'usp-table preloader-parent';
+		$attrs['class'][] = 'usp-table usp-preloader-parent';
 
 		if ( $this->cols_number ) {
 			$attrs['class'][] = 'usp-table__type-cell-' . $this->cols_number;
@@ -104,7 +104,7 @@ class USP_Table {
 
 	function get_header_attrs() {
 
-		$attrs            = array();
+		$attrs            = [];
 		$attrs['class'][] = 'usp-table__row';
 		$attrs['class'][] = 'usp-table__row-header';
 
@@ -113,7 +113,7 @@ class USP_Table {
 
 	function get_row_attrs( $customAttrs = false ) {
 
-		$attrs = array();
+		$attrs = [];
 
 		if ( $customAttrs ) {
 			$attrs = $customAttrs;
@@ -126,9 +126,9 @@ class USP_Table {
 
 	function get_cell_attrs( $idcol, $cellProps = false, $place = false, $contentCell = false ) {
 
-		$attrs = array(
-			'class' => array( 'usp-table__cell', 'usp-table__col-' . $idcol )
-		);
+		$attrs = [
+			'class' => [ 'usp-table__cell', 'usp-table__col-' . $idcol ]
+		];
 
 		$attrs['data-col'] = $idcol;
 
@@ -171,7 +171,7 @@ class USP_Table {
 		return $this->setup_string_attrs( $attrs );
 	}
 
-	function add_row( $row, $attrs = array() ) {
+	function add_row( $row, $attrs = [] ) {
 		$this->attr_rows[ count( $this->rows ) ] = $attrs;
 		$this->rows[]                            = $row;
 	}
@@ -190,8 +190,8 @@ class USP_Table {
 
 		if ( $this->cols ) {
 
-			$titles = array();
-			$search = array();
+			$titles = [];
+			$search = [];
 			foreach ( $this->cols as $k => $col ) {
 
 				if ( isset( $col['title'] ) ) {
@@ -216,7 +216,7 @@ class USP_Table {
 
 			foreach ( $this->rows as $k => $cells ) {
 
-				$attrs = array( 'class' => array( 'usp-table__row-must-sort' ) );
+				$attrs = [ 'class' => [ 'usp-table__row-must-sort' ] ];
 
 				if ( isset( $this->attr_rows[ $k ] ) ) {
 					foreach ( $this->attr_rows[ $k ] as $attr => $value ) {
@@ -248,7 +248,7 @@ class USP_Table {
 
 	function get_total_row() {
 
-		$total = ( $this->total && is_array( $this->total ) ) ? $this->total : array();
+		$total = ( $this->total && is_array( $this->total ) ) ? $this->total : [];
 
 		if ( ! $total ) {
 
@@ -278,7 +278,7 @@ class USP_Table {
 
 	function search_row() {
 
-		$attrs            = array();
+		$attrs            = [];
 		$attrs['class'][] = 'usp-table__row';
 		$attrs['class'][] = 'usp-table__row-search';
 
