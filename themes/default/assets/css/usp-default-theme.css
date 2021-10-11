@@ -93,7 +93,6 @@
 .usp-office-box:empty,
 .usp-user-icons:empty,
 .usp-under-ava:empty,
-#usp-nav-counters .usp-bttn__ico,
 #usp-avatar .usp-ava__del {
     display: none;
 }
@@ -143,17 +142,8 @@
     margin: 12px 0 0;
 }
 
-#usp-nav-counters .usp-tab-button {
-    background: none;
-}
-
-#usp-nav-counters .usp-bttn__count {
-    display: block;
-    width: 100%;
-    text-align: center;
-    font-size: 20px;
-    font-weight: 700;
-    margin: 0;
+#usp-nav-counters .usp-bttn__active {
+    color: var(--uspText);
 }
 
 #usp-tabs {
