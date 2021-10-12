@@ -1,8 +1,13 @@
 /* global wp */
 // real time preview
+// noinspection JSUnresolvedFunction,JSUnresolvedVariable
+
 wp.customize('usp_customizer[usp_background]', function (setting) {
     setting.bind(function (value) {
-        jQuery('.usp-bar-primary').css({'background-color': value, 'opacity': '.85'});
+        if (usp_bar_get_type() === 'primary') {
+            jQuery('#usp-bar').css({'background-color': value, 'opacity': usp_bar_get_opacity()});
+            jQuery('#usp-bar .usp-bttn > *').css({'color': usp_get_text_color()});
+        }
 
         jQuery('body').get(0).style.setProperty('--uspHex', value);
     });
@@ -11,6 +16,10 @@ wp.customize('usp_customizer[usp_background]', function (setting) {
 wp.customize('usp_customizer[usp_color]', function (setting) {
     setting.bind(function (value) {
         jQuery('body').get(0).style.setProperty('--uspText', value);
+
+        if (usp_bar_get_type() === 'primary') {
+            jQuery('#usp-bar .usp-bttn > *').css({'color': value});
+        }
     });
 });
 
@@ -47,27 +56,59 @@ wp.customize('usp_customizer[usp_bar_color]', function (setting) {
     setting.bind(function (value) {
         let uspBar = jQuery('#usp-bar');
 
-        // del inline customizer background-color
-        uspBar.attr('style', '');
-
-        uspBar.removeClass('usp-bar-primary usp-bar-white usp-bar-dark');
-
-        if (value === 'dark') {
-            uspBar.addClass('usp-bar-dark');
-        } else if (value === 'white') {
-            uspBar.addClass('usp-bar-white');
+        if (value === 'primary') {
+            uspBar.css({'background-color': usp_bar_get_background_color()});
         } else {
-            uspBar.addClass('usp-bar-primary');
+            uspBar.css({'background-color': value});
+
+            let barBttn = jQuery('#usp-bar .usp-bttn > *');
+
+            if (value === 'black') {
+                barBttn.css({'color': '#fff'});
+            } else {
+                barBttn.css({'color': '#374151'});
+            }
+        }
+        uspBar.css({'opacity': usp_bar_get_opacity()});
+    });
+});
+
+function usp_bar_get_background_color() {
+    return wp.customize('usp_customizer[usp_background]')._value;
+}
+
+function usp_get_text_color() {
+    return wp.customize('usp_customizer[usp_color]')._value;
+}
+
+function usp_bar_get_type() {
+    return wp.customize('usp_customizer[usp_bar_color]')._value;
+}
+
+function usp_bar_get_opacity() {
+    return wp.customize('usp_customizer[usp_bar_opacity]')._value;
+}
+
+wp.customize('usp_customizer[usp_bar_opacity]', function (setting) {
+    setting.bind(function (value) {
+        let bar = jQuery('#usp-bar');
+
+        bar.css({'opacity': value});
+
+        if (usp_bar_get_type() === 'primary') {
+            bar.css({'background': usp_bar_get_background_color()});
         }
     });
 });
 
 wp.customize('usp_customizer[usp_bar_width]', function (setting) {
     setting.bind(function (value) {
+        let barWrap = jQuery('.usp-bar-wrap');
+
         if (value > 0) {
-            jQuery('.usp-bar-wrap').css('max-width', value + 'px');
+            barWrap.css('max-width', value + 'px');
         } else {
-            jQuery('.usp-bar-wrap').css('max-width', 'calc(100% - 24px)');
+            barWrap.css('max-width', 'calc(100% - 24px)');
         }
     });
 });

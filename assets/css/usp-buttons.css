@@ -33,7 +33,7 @@ body .usp-bttn {
     box-shadow: none !important;
 }
 
-body :not(.usp-wrap__widget):not(.usp-menu-group) > .usp-bttn:not(.usp-bttn__active):hover {
+body :not(.usp-wrap__widget):not(.usp-menu-group):not(.usp-bar * *) > .usp-bttn:not(.usp-bttn__active):hover {
     opacity: .8;
 }
 

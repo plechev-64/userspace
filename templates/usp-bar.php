@@ -18,7 +18,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-$color      = usp_get_option_customizer( 'usp_bar_color', 'dark' );
+$color      = usp_get_option_customizer( 'usp_bar_color', 'black' );
 $class      = 'usp-bar-' . $color;
 $menu_color = ( 'white' === $color ) ? 'white' : 'none';
 ?>

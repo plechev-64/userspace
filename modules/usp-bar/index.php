@@ -43,11 +43,55 @@ function usp_bar_offset_inline_styles( $styles ) {
 	return $styles;
 }
 
+// set frontend root inline css colors
+add_filter( 'usp_inline_styles', 'usp_bar_css_variable', 10 );
+function usp_bar_css_variable( $styles ) {
+	$bar_color = usp_get_option_customizer( 'usp_bar_color', 'black' );
+
+	if ( 'black' == $bar_color ) {
+		$r = 0;
+		$g = 0;
+		$b = 0;
+
+		$text = '--uspWhite';
+
+		$hover = '--uspGray-600';
+	} else if ( 'white' == $bar_color ) {
+		$r = 255;
+		$g = 255;
+		$b = 255;
+
+		$text = '--uspGray-700';
+
+		$hover = '--uspGray-150';
+	} else {
+		$background = usp_get_option_customizer( 'usp_background', '#0369a1' );
+		[ $r, $g, $b ] = sscanf( $background, "#%02x%02x%02x" );
+
+		$text = '--uspText';
+
+		//if ( usp_get_option_customizer( 'usp_bar_opacity', '.85' ) == 1 ) {
+		$hover = '--uspBlack-02';
+		//}
+	}
+
+	$opacity = usp_get_option_customizer( 'usp_bar_opacity', '.85' );
+
+	$styles .= '#usp-bar{
+				--uspBarBack:' . $r . ',' . $g . ',' . $b . ';
+				--uspBarOpacity:' . $opacity . ';
+				--uspBarColor:var(' . $text . ');
+				--uspBarHover:var(' . $hover . ');
+			}';
+
+	return $styles;
+}
+
 // added class in body tag
 add_filter( 'body_class', 'usp_add_userbar_class_body' );
 function usp_add_userbar_class_body( $classes ) {
 	$classes[] = 'usp-userbar';
-	$classes[] = 'usp-userbar-' . usp_get_option_customizer( 'usp_bar_color', 'dark' );
+	$classes[] = 'usp-userbar-' . usp_get_option_customizer( 'usp_bar_color', 'black' );
 
 	return $classes;
 }

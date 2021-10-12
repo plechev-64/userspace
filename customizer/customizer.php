@@ -23,7 +23,8 @@ function usp_customizer_general_style() {
 	wp_enqueue_style(
 		'usp-panel-customizer',
 		plugins_url( 'assets/css/panel-customizer.css', __FILE__ ),
-		'1.0.0'
+		'1.0.0',
+		USP_VERSION,
 	);
 }
 
@@ -130,7 +131,6 @@ function usp_add_customizer( $wp_customize ) {
 		'min'         => 12,
 		'max'         => 24,
 		'step'        => 1,
-
 	] ) );
 
 	/*
@@ -161,7 +161,7 @@ function usp_add_customizer( $wp_customize ) {
 	// usp bar color
 	$wp_customize->add_setting( 'usp_customizer[usp_bar_color]', [
 		'type'      => 'option',
-		'default'   => 'dark',
+		'default'   => 'Black',
 		'transport' => 'postMessage',
 	] );
 
@@ -170,11 +170,27 @@ function usp_add_customizer( $wp_customize ) {
 		'type'    => 'radio',
 		'label'   => __( 'Color', 'userspace' ),
 		'choices' => [
-			'dark'    => __( 'Dark', 'userspace' ),
+			'black'   => __( 'Black', 'userspace' ),
 			'white'   => __( 'White', 'userspace' ),
 			'primary' => __( 'Primary colors of UserSpace', 'userspace' ),
 		]
 	] );
+
+	$wp_customize->add_setting( 'usp_customizer[usp_bar_opacity]', [
+		'type'              => 'option',
+		'default'           => '0.7',
+		'transport'         => 'postMessage',
+		'sanitize_callback' => 'usp_sanitize_decimal',
+	] );
+
+	$wp_customize->add_control( new USP_Customize_Range( $wp_customize, 'usp_customizer[usp_bar_opacity]', [
+		'section'     => $section,
+		'label'       => __( 'Opacity UserSpace Bar:', 'userspace' ),
+		'description' => __( 'set opacity of the UserSpace Bar from 0.5 to 1 (default is 0.7)', 'userspace' ),
+		'min'         => 0.5,
+		'max'         => 1,
+		'step'        => 0.05,
+	] ) );
 
 	// usp bar width
 	$wp_customize->add_setting( 'usp_customizer[usp_bar_width]', [
@@ -202,4 +218,10 @@ function usp_add_customizer( $wp_customize ) {
 		'section'  => $section,
 	] ) );
 
+}
+
+// Sanitize Number Range
+/** @noinspection PhpUnused */
+function usp_sanitize_decimal( $number ) {
+	return filter_var( $number, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION );
 }
