@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) || exit;
 
 $color      = usp_get_option_customizer( 'usp_bar_color', 'black' );
 $class      = 'usp-bar-' . $color;
-$menu_color = ( 'white' === $color ) ? 'white' : 'none';
+$menu_color = 'none';
 ?>
 
 <div id="usp-bar" class="usp-bar <?php echo sanitize_html_class( $class ); ?> usps usps__jc-center usps__line-1" <?php echo usp_bar_customizer_hide(); ?>>

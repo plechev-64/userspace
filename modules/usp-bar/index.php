@@ -69,10 +69,8 @@ function usp_bar_css_variable( $styles ) {
 		[ $r, $g, $b ] = sscanf( $background, "#%02x%02x%02x" );
 
 		$text = '--uspText';
-
-		//if ( usp_get_option_customizer( 'usp_bar_opacity', '.85' ) == 1 ) {
+		
 		$hover = '--uspBlack-02';
-		//}
 	}
 
 	$opacity = usp_get_option_customizer( 'usp_bar_opacity', '.85' );
