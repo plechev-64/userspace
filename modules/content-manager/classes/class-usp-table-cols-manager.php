@@ -3,9 +3,9 @@
 class USP_Table_Cols_Manager {
 
 	public $manager_id = '';
-	public $cols = array();
-	public $active_cols = array();
-	public $disabled_cols = array();
+	public $cols = [];
+	public $active_cols = [];
+	public $disabled_cols = [];
 
 	function __construct( $manager_id, $args ) {
 		$args['manager_id'] = $manager_id;

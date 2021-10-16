@@ -8,19 +8,19 @@ function usp_get_table_manager_cols() {
 	$active_cols   = $_POST['active_cols'];
 	$disabled_cols = $_POST['disabled_cols'];
 
-	$manager = new USP_Table_Cols_Manager( $manager_id, array(
+	$manager = new USP_Table_Cols_Manager( $manager_id, [
 		'cols'          => $cols,
 		'active_cols'   => $active_cols,
 		'disabled_cols' => $disabled_cols,
-	) );
+	] );
 
-	return array(
-		'dialog' => array(
+	return [
+		'dialog' => [
 			'size'    => 'medium',
 			'title'   => __( 'Column manager', 'userspace' ),
 			'content' => $manager->get_manager()
-		)
-	);
+		]
+	];
 }
 
 usp_ajax_action( 'usp_save_table_manager_cols', true, true );
@@ -31,48 +31,33 @@ function usp_save_table_manager_cols() {
 
 	setcookie( $manager_id, json_encode( $col_ids ), time() + 3600 * 24 * 30 * 12, '/', $_SERVER['HOST'] );
 
-	return array(
+	return [
 		'success' => __( 'The structure of the table is saved!', 'userspace' ),
 		'reload'  => true
-	);
+	];
 }
 
 usp_ajax_action( 'usp_load_content_manager', true, true );
 function usp_load_content_manager() {
 
-	$class     = $_REQUEST['classname'];
-	$classargs = $_POST['classargs'] ?? null;
-	$tail      = $_POST['tail'] ?? null;
+	$class      = ! empty( $_POST['classname'] ) ? sanitize_text_field( wp_unslash( $_POST['classname'] ) ) : '';
+	$startstate = ! empty( $_POST['startstate'] ) ? json_decode( wp_unslash( $_POST['startstate'] ), true ) : [];
 
-	if ( ! is_subclass_of( $class, 'USP_Content_Manager' ) ) {
-		return array(
+	if ( ! $class || ! is_subclass_of( $class, 'USP_Content_Manager' ) ) {
+		return [
 			'error' => __( 'Error', 'userspace' )
-		);
+		];
 	}
 
-	$Manager = new $class( $classargs );
+	/**
+	 * @var USP_Content_Manager $Manager
+	 */
 
-	return array(
-		'content' => $Manager->get_manager_content()
-	);
-}
+	$Manager = new $class( $startstate );
 
-usp_ajax_action( 'usp_load_content_manager_state', true, true );
-function usp_load_content_manager_state() {
-
-	$class                   = $_REQUEST['state']['classname'];
-	$classargs               = $_REQUEST['state']['classargs'] ?? null;
-	$classargs['startstate'] = 0;
-
-	if ( ! is_subclass_of( $class, 'USP_Content_Manager' ) ) {
-		return array(
-			'error' => __( 'Error', 'userspace' )
-		);
+	if ( $Manager->has_error() ) {
+		return [ 'error' => $Manager->get_error()->get_error_message() ];
 	}
 
-	$Manager = new $class( $classargs );
-
-	return array(
-		'content' => $Manager->get_manager_content()
-	);
+	return [ 'content' => $Manager->get_content_body() ];
 }

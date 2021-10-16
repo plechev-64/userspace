@@ -3,42 +3,22 @@
 }
 
 .usp-content-manager .usp-pager,
-.usp-content-manager .manager-buttons {
+.usp-content-manager-buttons {
     text-align: right;
 }
 
-.usp-manager__filter-block {
+.usp-content-manager__filter {
     margin: 12px 0;
     position: relative;
 }
 
-.usp-manager__filter-dropdown {
-    width: 300px;
-    position: relative;
-    margin: 12px 0;
-}
-
-.usp-manager__filter .switch-button {
+.usp-content-manager__filter .switch-button {
     display: block;
     text-align: center;
     padding: 12px;
     border: var(--uspLine300);
     border-radius: 5px;
     line-height: 1;
-}
-
-.usp-manager__filter .filter-content {
-    position: absolute;
-    z-index: 9;
-    background: var(--uspWhite);
-    box-shadow: var(--uspBox300);
-    padding: 12px;
-    left: 0;
-    max-height: 500px;
-    overflow-y: auto;
-    display: none;
-    width: 100%;
-    border-left: var(--uspLine300);
 }
 
 #usp-cols-manager {

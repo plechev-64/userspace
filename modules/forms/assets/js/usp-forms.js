@@ -336,7 +336,7 @@ function usp_chek_form_field(e) {
 
 function usp_submit_form(e) {
 
-    var form = jQuery(e).parents('form');
+    var form = e.tagName === 'FORM' ? jQuery(e) : jQuery(e).closest('form');
 
     if (usp_check_form(form))
         form.submit();

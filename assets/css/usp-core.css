@@ -516,7 +516,7 @@ i.usp-offline {
     left: 12px;
     position: fixed;
     top: 66px;
-    z-index: 1501;
+    z-index: 9999;
     min-width: 200px;
     max-width: 260px;
     max-height: 50vh;

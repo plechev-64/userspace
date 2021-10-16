@@ -1,155 +1,82 @@
-function usp_table_manager_state(classname, state) {
+function usp_content_manager_submit(managerId) {
 
-}
+    const $managerForm = jQuery('#' + managerId);
+    const $pageInput = $managerForm.find('input[name="pagenum"]');
 
-function usp_content_manager_submit(e) {
-
-    var isAjax = parseInt(jQuery(e).parents('form').find('#value-ajax').val());
-
-    if (isAjax) {
-
-        usp_load_content_manager(e);
-
-        return false;
-
-    } else {
-
-        if (e && jQuery(e).parents('.usp-preloader-parent')) {
-            usp_preloader_show(jQuery(e).parents('.usp-preloader-parent'));
-        }
-
-        usp_submit_form(e);
-
+    if ($pageInput.length) {
+        $pageInput.val(1);
     }
 
-}
-
-function usp_init_on_change_select_templates_filter() {
-
-    jQuery('body').on('change', '#usp-templates-manager select', function () {
-        usp_content_manager_submit(this);
-    });
-
+    usp_load_content_manager($managerForm);
 }
 
 function usp_table_manager_search_by_col(e, key, submit) {
 
-    if (key != 'Enter')
+    if (key !== 'Enter') {
         return;
+    }
 
-    jQuery(e).parents('form').find('#value-pagenum').val(1);
+    const $managerForm = jQuery(e).closest('form');
 
-    usp_content_manager_submit(e);
+    $managerForm.find('input[name="pagenum"]').val(1);
+
+    usp_load_content_manager($managerForm);
 
 }
 
-function usp_load_content_manager_page(dataval, postname, e) {
+function usp_load_content_manager_page(managerId, e) {
 
-    jQuery(e).parents('form').find('#value-' + postname).val(jQuery(e).data(dataval));
+    const $managerForm = jQuery('#' + managerId);
 
-    usp_content_manager_submit(e);
+    $managerForm.find('input[name="pagenum"]').val(jQuery(e).data('page'));
+
+    usp_load_content_manager($managerForm);
 
 }
 
 function usp_order_table_manager_page(e) {
 
-    var order = jQuery(e).data('order');
+    const order = jQuery(e).data('order');
 
-    var nextorder = (order == 'desc') ? 'asc' : 'desc';
+    const nextorder = (order === 'desc') ? 'asc' : 'desc';
 
     jQuery(e).attr('data-order', nextorder);
 
-    var form = jQuery(e).parents('form');
+    const form = jQuery(e).closest('form');
 
-    form.find('#value-order').val(nextorder);
-    form.find('#value-orderby').val(jQuery(e).data('col'));
+    form.find('input[name="order"]').val(nextorder);
+    form.find('input[name="orderby"]').val(jQuery(e).data('col'));
 
-    form.find('#value-pagenum').val(1);
+    form.find('input[name="pagenum"]').val(1);
 
-    usp_content_manager_submit(e);
-
-}
-
-function usp_table_manager_prev(prevData, e) {
-
-    var FormFactory = new USPForm(jQuery(e).parents('form'));
-
-    usp_ajax({
-        data: prevData,
-        success: function (result) {
-            usp_proccess_ajax_return(result);
-
-            FormFactory.form.find('.usp-content-manager').replaceWith(result.content);
-        }
-    });
+    usp_load_content_manager(form);
 
 }
 
-function usp_load_content_manager(e, props) {
+function usp_load_content_manager(managerForm) {
 
     // getting the form data
-    var FormFactory = new USPForm(jQuery(e).parents('form'));
+    const FormFactory = new USPForm(jQuery(managerForm));
 
-    if (props != 'undefined' && props) {
-
-        usp_ajax({
-            data: {
-                action: 'usp_load_content_manager',
-                classname: props.classname,
-                classargs: props.classargs,
-                tail: props.tail,
-                prevs: props.prevs
-            },
-            success: function (result) {
-                usp_proccess_ajax_return(result);
-
-                FormFactory.form.find('.usp-content-manager').replaceWith(result.content);
-            }
-        });
-
-    } else {
-
-        // correctness of filling
-        if (!FormFactory.validate())
-            return false;
-
-        FormFactory.send('usp_load_content_manager', function (result) {
-
-            usp_proccess_ajax_return(result);
-
-            FormFactory.form.find('.usp-content-manager').replaceWith(result.content);
-
-        }, true);
-
+    // correctness of filling
+    if (!FormFactory.validate()) {
+        return false;
     }
 
-}
+    FormFactory.send('usp_load_content_manager', function (result) {
 
-function usp_load_content_manager_state(state, e) {
+        usp_proccess_ajax_return(result);
 
-    // get form data
-    var FormFactory = new USPForm(jQuery(e).parents('form'));
+        FormFactory.form.find('.usp-content-manager__body').replaceWith(result.content);
 
-    usp_preloader_show(jQuery('form.usp-preloader-parent'));
-
-    usp_ajax({
-        rest: true,
-        data: {
-            action: 'usp_load_content_manager_state',
-            state: state,
-        },
-        success: function (result) {
-            usp_proccess_ajax_return(result);
-            FormFactory.form.find('.usp-content-manager').replaceWith(result.content);
-        }
-    });
+    }, true);
 
 
 }
 
 function usp_save_table_manager_cols(e) {
 
-    var form = jQuery('#usp-cols-manager .active-cols input');
+    const form = jQuery('#usp-cols-manager .active-cols input');
 
     usp_ajax({
         rest: {

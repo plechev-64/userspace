@@ -24,7 +24,7 @@ function usp_customizer_general_style() {
 		'usp-panel-customizer',
 		plugins_url( 'assets/css/panel-customizer.css', __FILE__ ),
 		'1.0.0',
-		USP_VERSION,
+		USP_VERSION
 	);
 }
 
@@ -65,10 +65,14 @@ function usp_add_customizer( $wp_customize ) {
 
 	// option #1 in the section
 	$wp_customize->add_setting( 'usp_customizer[usp_background]', [    // The option ID and its name and key in wp_options in the array
-		'type'              => 'option',                                    // stored in wp_options (for plugins)
-		'default'           => '#0369a1',                                   // default value
-		'transport'         => 'postMessage',                               // realtime update. Requires data in the script
-		'sanitize_callback' => 'sanitize_hex_color'                         // sanitize
+		'type'              => 'option',
+		// stored in wp_options (for plugins)
+		'default'           => '#0369a1',
+		// default value
+		'transport'         => 'postMessage',
+		// realtime update. Requires data in the script
+		'sanitize_callback' => 'sanitize_hex_color'
+		// sanitize
 	] );
 
 	// the type of the colorpicker option in the 1st option

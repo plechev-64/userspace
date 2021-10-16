@@ -23,21 +23,6 @@
     font-size: 16px;
 }
 
-#usp-wrap-notices {
-    right: 42px;
-    left: auto;
-    max-width: 300px;
-    top: 63px;
-}
-
-#usp-wrap-notices > * {
-    min-width: 260px;
-}
-
-#usp-wrap-notices .usp-notice__text {
-    padding: 3px;
-}
-
 .usp-help-option {
     color: var(--uspHex);
     cursor: pointer;
