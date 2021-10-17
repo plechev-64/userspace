@@ -4,7 +4,7 @@ require_once 'classes/class-usp-fields-manager.php';
 require_once 'functions.php';
 
 if ( is_admin() || isset( $_REQUEST['rest_route'] ) ) {
-	add_action( 'admin_enqueue_scripts', 'usp_fields_manager_scripts', 10 );
+	usp_fields_manager_scripts();
 } else {
 	add_action( 'usp_enqueue_scripts', 'usp_fields_manager_scripts', 10 );
 }

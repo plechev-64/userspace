@@ -92,6 +92,10 @@ abstract class USP_Content_Manager {
 			$this->set_data();
 		}
 
+		if ( $this->is_filters() ) {
+			USP()->use_module( 'forms' );
+		}
+
 	}
 
 	public function init_pager() {
@@ -247,8 +251,6 @@ abstract class USP_Content_Manager {
 
 	public function get_page_navi() {
 		if ( $this->get_param( 'pagenavi' ) && $this->get_pager()->pages > 1 ) {
-			USP()->use_module( 'forms' );
-
 			return $this->get_pager()->get_pager();
 		}
 
@@ -290,14 +292,8 @@ abstract class USP_Content_Manager {
 
 		if ( ! $fields ) {
 
-			if ( $this->_is_request_process() ) {
-				USP()->use_module( 'forms' );
-			}
-
 			return '';
 		}
-
-		USP()->use_module( 'forms' );
 
 		$form = new USP_Form( array(
 				'fields'  => $fields,

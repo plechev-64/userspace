@@ -25,7 +25,7 @@ require_once 'classes/types/class-usp-field-hidden.php';
 require_once 'classes/types/class-usp-field-switch.php';
 
 if ( is_admin() || isset( $_REQUEST['rest_route'] ) ) {
-	add_action( 'admin_enqueue_scripts', 'usp_fields_scripts', 10 );
+	usp_fields_scripts();
 } else {
 	add_action( 'usp_enqueue_scripts', 'usp_fields_scripts', 10 );
 }

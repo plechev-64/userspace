@@ -3,7 +3,7 @@
 require_once 'classes/class-usp-table.php';
 
 if ( is_admin() || isset( $_REQUEST['rest_route'] ) ) {
-	add_action( 'admin_enqueue_scripts', 'usp_table_scripts', 10 );
+	usp_table_scripts();
 } else {
 	add_action( 'usp_enqueue_scripts', 'usp_table_scripts', 10 );
 }
