@@ -562,3 +562,27 @@ function usp_human_days( $date, $year = false ) {
 
 	return usp_human_date_format( $date, $year );
 }
+
+/**
+ * Applies the callback to the elements of the given arrays.
+ *
+ * @param callable $callback A callable to run for each element in each array.
+ * @param array $data An array to run through the callback function.
+ *
+ * @return array returns an array containing the results of applying the callback to
+ * the corresponding index of array (and arrays if more arrays are provided)
+ * used as arguments for the callback.
+ * @since 1.0.0
+ *
+ */
+function usp_recursive_map( $callback, $data ) {
+	if ( is_array( $data ) ) {
+		foreach ( $data as $k => $v ) {
+			$data[ $k ] = usp_recursive_map( $callback, $v );
+		}
+	} else {
+		$data = is_scalar( $data ) ? $callback( $data ) : $data;
+	}
+
+	return $data;
+}
