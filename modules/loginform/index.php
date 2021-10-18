@@ -14,8 +14,10 @@ if ( class_exists( 'ReallySimpleCaptcha' ) ) {
 	require_once 'captcha.php';
 }
 
-if ( is_admin() || isset( $_REQUEST['rest_route'] ) ) {
+if ( usp_is_ajax() ) {
 	usp_loginform_assets();
+} else if ( is_admin() ) {
+	add_action( 'admin_enqueue_scripts', 'usp_loginform_assets', 10 );
 } else {
 	add_action( 'usp_enqueue_scripts', 'usp_loginform_assets', 10 );
 }
@@ -29,10 +31,10 @@ function usp_loginform_assets() {
 }
 
 function usp_get_loginform( $atts = [] ) {
-	$atr = shortcode_atts( array(
+	$atr = shortcode_atts( [
 		'active' => 'login',
 		'forms'  => 'login,register,lostpassword'
-	), $atts );
+	], $atts );
 
 	$forms = array_map( 'trim', explode( ',', $atr['forms'] ) );
 
@@ -73,11 +75,11 @@ function usp_get_loginform( $atts = [] ) {
 
 		$content .= '<div class="usp-entry-box usp-entry-box__login' . ( $atr['active'] == 'login' ? ' usp-entry-box__active' : '' ) . '">';
 
-		$content .= usp_get_form( array(
+		$content .= usp_get_form( [
 			'submit'  => __( 'Login', 'userspace' ),
 			'onclick' => 'USP.loginform.send("login",this);return false;',
-			'fields'  => apply_filters( 'usp_login_form_fields', array(
-				array(
+			'fields'  => apply_filters( 'usp_login_form_fields', [
+				[
 					'slug'        => 'user_login',
 					'type'        => 'text',
 					'title'       => __( 'Login or E-mail', 'userspace' ),
@@ -85,8 +87,8 @@ function usp_get_loginform( $atts = [] ) {
 					'icon'        => 'fa-user',
 					'maxlenght'   => 50,
 					'required'    => 1
-				),
-				array(
+				],
+				[
 					'slug'        => 'user_pass',
 					'type'        => 'password',
 					'title'       => __( 'Password', 'userspace' ),
@@ -94,9 +96,9 @@ function usp_get_loginform( $atts = [] ) {
 					'icon'        => 'fa-key',
 					'maxlenght'   => 50,
 					'required'    => 1
-				)
-			) )
-		) );
+				]
+			] )
+		] );
 
 		if ( in_array( 'lostpassword', $forms ) ) {
 			$content .= usp_get_button( [
@@ -115,23 +117,23 @@ function usp_get_loginform( $atts = [] ) {
 	if ( in_array( 'register', $forms ) ) {
 
 		$content .= '<div class="usp-entry-box usp-entry-box__register' . ( $atr['active'] == 'register' ? ' usp-entry-box__active' : '' ) . '">';
-		$content .= usp_get_form( array(
+		$content .= usp_get_form( [
 				'submit'    => __( 'Registration', 'userspace' ),
 				'onclick'   => 'USP.loginform.send("register",this);return false;',
 				'fields'    => usp_get_register_form_fields(),
 				'structure' => get_site_option( 'usp_fields_register_form_structure' )
-			)
+			]
 		);
 		$content .= '</div>';
 	}
 
 	if ( in_array( 'lostpassword', $forms ) ) {
 		$content .= '<div class="usp-entry-box usp-entry-box__lostpassword' . ( $atr['active'] == 'lostpassword' ? ' usp-entry-box__active' : '' ) . '">';
-		$content .= usp_get_form( array(
+		$content .= usp_get_form( [
 				'submit'  => __( 'Get a new password', 'userspace' ),
 				'onclick' => 'USP.loginform.send("lostpassword",this);return false;',
-				'fields'  => apply_filters( 'usp_lostpassword_form_fields', array(
-						array(
+				'fields'  => apply_filters( 'usp_lostpassword_form_fields', [
+						[
 							'type'        => 'text',
 							'slug'        => 'user_login',
 							'title'       => __( 'Login', 'userspace' ),
@@ -139,10 +141,10 @@ function usp_get_loginform( $atts = [] ) {
 							'icon'        => 'fa-user',
 							'maxlenght'   => 50,
 							'required'    => 1
-						)
-					)
+						]
+					]
 				)
-			)
+			]
 		);
 		$content .= '</div>';
 	}
@@ -217,24 +219,24 @@ function usp_send_loginform() {
 
 		$password = sanitize_text_field( $_POST['user_pass'] );
 
-		$user = wp_signon( array(
+		$user = wp_signon( [
 			'user_login'    => $user_login,
 			'user_password' => $password,
 			'remember'      => isset( $_POST['remember'] ) ? true : false,
-		) );
+		] );
 
 		if ( is_wp_error( $user ) ) {
-			return array(
+			return [
 				'error' => $user->get_error_message()
-			);
+			];
 		}
 
 		usp_user_update_activity();
 
-		return array(
+		return [
 			'redirect' => usp_get_authorize_url( $user->ID ),
 			'success'  => __( 'Successful authorization', 'userspace' )
-		);
+		];
 	} else if ( $tab_id == 'register' ) {
 
 		$user_email = sanitize_email( $_POST['user_email'] );
@@ -246,36 +248,36 @@ function usp_send_loginform() {
 		$user_id = register_new_user( $user_login, $user_email );
 
 		if ( is_wp_error( $user_id ) ) {
-			return array(
+			return [
 				'error' => $user_id->get_error_message()
-			);
+			];
 		}
 
-		return array(
+		return [
 			'content' => usp_get_notice( [
 				'type' => 'success',
 				'text' => __( 'Registration is complete, check your email, '
 				              . 'then go to the <a href="#" onclick="USP.loginform.tabShow(\'login\',this); return false;">login page</a>', 'userspace' )
 			] ),
 			'success' => __( 'Successful registration', 'userspace' )
-		);
+		];
 	} else if ( $tab_id == 'lostpassword' ) {
 
 		$result = retrieve_password();
 
 		if ( is_wp_error( $result ) ) {
-			return array(
+			return [
 				'error' => $result->get_error_message()
-			);
+			];
 		}
 
-		return array(
+		return [
 			'content' => usp_get_notice( [
 				'type' => 'success',
 				'text' => __( 'A link to reset your password has been sent to your email', 'userspace' )
 			] ),
 			'success' => __( 'Email sent successfully', 'userspace' )
-		);
+		];
 	}
 }
 
@@ -311,11 +313,11 @@ function usp_add_login_form_custom_data( $fields ) {
 		return $fields;
 	}
 
-	$fields[] = array(
+	$fields[] = [
 		'slug'    => 'custom_data',
 		'type'    => 'custom',
 		'content' => $content
-	);
+	];
 
 	return $fields;
 }
@@ -323,14 +325,14 @@ function usp_add_login_form_custom_data( $fields ) {
 add_filter( 'usp_login_form_fields', 'usp_add_rememberme_button', 20 );
 function usp_add_rememberme_button( $fields ) {
 
-	$fields[] = array(
+	$fields[] = [
 		'slug'   => 'rememberme',
 		'type'   => 'checkbox',
 		'icon'   => 'fa-key',
-		'values' => array(
+		'values' => [
 			1 => __( 'Remember me', 'userspace' )
-		)
-	);
+		]
+	];
 
 	return $fields;
 }
@@ -351,11 +353,11 @@ function usp_add_register_form_custom_data( $fields ) {
 		return $fields;
 	}
 
-	$fields[] = array(
+	$fields[] = [
 		'slug'    => 'custom_data',
 		'type'    => 'custom',
 		'content' => $content
-	);
+	];
 
 	return $fields;
 }
@@ -374,11 +376,11 @@ function usp_add_lostpassword_form_custom_data( $fields ) {
 		return $fields;
 	}
 
-	$fields[] = array(
+	$fields[] = [
 		'slug'    => 'custom_data',
 		'type'    => 'custom',
 		'content' => $content
-	);
+	];
 
 	return $fields;
 }

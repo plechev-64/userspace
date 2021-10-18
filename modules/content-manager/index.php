@@ -5,8 +5,10 @@ require_once 'classes/class-usp-table-manager.php';
 require_once 'classes/class-usp-table-cols-manager.php';
 require_once 'functions-ajax.php';
 
-if ( is_admin() || isset( $_REQUEST['rest_route'] ) ) {
+if ( usp_is_ajax() ) {
 	usp_content_manager_scripts();
+} else if ( is_admin() ) {
+	add_action( 'admin_enqueue_scripts', 'usp_content_manager_scripts', 10 );
 } else {
 	add_action( 'usp_enqueue_scripts', 'usp_content_manager_scripts', 10 );
 }

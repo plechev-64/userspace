@@ -2,8 +2,10 @@
 
 require_once 'classes/class-usp-table.php';
 
-if ( is_admin() || isset( $_REQUEST['rest_route'] ) ) {
+if ( usp_is_ajax() ) {
 	usp_table_scripts();
+} else if ( is_admin() ) {
+	add_action( 'admin_enqueue_scripts', 'usp_table_scripts', 10 );
 } else {
 	add_action( 'usp_enqueue_scripts', 'usp_table_scripts', 10 );
 }
