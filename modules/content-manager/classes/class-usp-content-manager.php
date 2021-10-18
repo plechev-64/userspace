@@ -175,8 +175,10 @@ abstract class USP_Content_Manager {
 			$this->_query->orderby( $orderby, $order );
 		}
 
+		$offset = $this->_pager ? $this->_pager->offset : 0;
+
 		$this->_items = $this->_query
-			->limit( $this->get_param( 'number' ), $this->_pager->offset )
+			->limit( $this->get_param( 'number' ), $offset )
 			->get_results();
 
 		$this->_items = $this->filter_items( $this->_items );
