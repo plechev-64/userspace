@@ -55,12 +55,12 @@
 }
 
 .usp-bar__bttns > .usp-bttn {
-    padding-left: 12px;
+    padding: 0 12px;
 }
 
 .usp-bar__bttns .usp-bttn__count {
     align-self: flex-start;
-    margin: .25em .5em 0 -.3em;
+    margin: .25em -3px 0 -6px;
 }
 
 .usp-bar .usp-entry-bttn {
