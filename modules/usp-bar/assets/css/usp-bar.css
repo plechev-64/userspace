@@ -49,6 +49,20 @@
     display: none;
 }
 
+.usp-bar__bttns {
+    height: 40px;
+    display: flex;
+}
+
+.usp-bar__bttns > .usp-bttn {
+    padding-left: 12px;
+}
+
+.usp-bar__bttns .usp-bttn__count {
+    align-self: flex-start;
+    margin: .25em .5em 0 -.3em;
+}
+
 .usp-bar .usp-entry-bttn {
     padding: 0 9px;
     margin: 0 6px;
