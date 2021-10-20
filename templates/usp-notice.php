@@ -35,5 +35,5 @@ defined( 'ABSPATH' ) || exit;
         <div class="usp-notice__title"><?php echo esc_html( $notice->title ); ?></div>
 	<?php endif; ?>
 
-    <div class="usp-notice__text"><?php echo wp_kses_post( $notice->text ); ?></div>
+    <div class="usp-notice__text"><?php echo $notice->text; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></div>
 </div>

@@ -253,11 +253,17 @@ function usp_send_loginform() {
 			];
 		}
 
+		$button_link = usp_get_button( [
+			'type'    => 'clear',
+			'href'    => '#login',
+			'onclick' => 'USP.loginform.tabShow("login",this);return false;',
+			'label'   => __( 'login page', 'userspace' ),
+		] );
+
 		return [
 			'content' => usp_get_notice( [
 				'type' => 'success',
-				'text' => __( 'Registration is complete, check your email, '
-				              . 'then go to the <a href="#" onclick="USP.loginform.tabShow(\'login\',this); return false;">login page</a>', 'userspace' )
+				'text' => __( 'Registration is completed.', 'userspace' ) . ' ' . __( 'Check your email, then go to', 'userspace' ) . ' ' . $button_link
 			] ),
 			'success' => __( 'Successful registration', 'userspace' )
 		];

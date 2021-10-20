@@ -3,13 +3,13 @@
 // add error codes for shaking the VI form
 add_filter( 'shake_error_codes', 'usp_add_shake_error_codes' );
 function usp_add_shake_error_codes( $codes ) {
-	return array_merge( $codes, array(
+	return array_merge( $codes, [
 		'usp_register_login',
 		'usp_register_empty',
 		'usp_register_email',
 		'usp_register_login_us',
 		'usp_register_email_us'
-	) );
+	] );
 }
 
 add_filter( 'wp_login_errors', 'usp_checkemail_success' );
@@ -32,7 +32,7 @@ function usp_checkemail_success( $errors ) {
 
 		if ( $_GET['register'] == 'checkemail' ) {
 
-			$errors->add( 'register', __( 'Registration is completed! Check your email for the confirmation link.', 'userspace' ), 'message' );
+			$errors->add( 'register', __( 'Registration is completed.', 'userspace' ) . ' ' . __( 'Check your email for the confirmation link.', 'userspace' ), 'message' );
 		}
 	}
 
