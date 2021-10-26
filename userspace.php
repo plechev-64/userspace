@@ -331,7 +331,6 @@ final class UserSpace {
 		require_once 'functions/functions-others.php';
 
 		require_once 'functions/frontend.php';
-		require_once 'functions/widgets.php';
 
 		if ( $this->is_request( 'admin' ) ) {
 			$this->admin_includes();
