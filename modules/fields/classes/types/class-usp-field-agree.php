@@ -20,28 +20,28 @@ class USP_Field_Agree extends USP_Field_Abstract {
 
 	function get_options() {
 
-		return array(
-			array(
+		return [
+			[
 				'slug'        => 'icon',
 				'default'     => 'fa-check-square',
 				'placeholder' => 'fa-check-square',
 				'class'       => 'usp-iconpicker',
 				'type'        => 'text',
 				'title'       => __( 'Icon class of usp-awesome', 'userspace' )
-			),
-			array(
+			],
+			[
 				'slug'    => 'url_agreement',
 				'default' => $this->url_agreement,
 				'type'    => 'url',
 				'title'   => __( 'Agreement URL', 'userspace' )
-			),
-			array(
+			],
+			[
 				'slug'    => 'text_confirm',
 				'default' => $this->text_confirm,
 				'type'    => 'textarea',
 				'title'   => __( 'Consent confirmation text', 'userspace' )
-			)
-		);
+			]
+		];
 	}
 
 	function get_title() {
@@ -50,11 +50,13 @@ class USP_Field_Agree extends USP_Field_Abstract {
 			$this->title = __( 'Agreement', 'userspace' );
 		}
 
+		$title = esc_html( $this->title ) . ( $this->required ? ' <span class="required">*</span>' : '' );
+
 		if ( $this->url_agreement ) {
-			return '<a href="' . $this->url_agreement . '" class="usp-agree usps__inline" target="_blank">' . $this->title . ( $this->required ? ' <span class="required">*</span>' : '' ) . '</a>';
+			return '<a href="' . esc_url( $this->url_agreement ) . '" class="usp-agree usps__inline" target="_blank">' . $title . '</a>';
 		}
 
-		return $this->title . ( $this->required ? ' <span class="required">*</span>' : '' );
+		return $title;
 	}
 
 	function get_value() {
@@ -67,16 +69,18 @@ class USP_Field_Agree extends USP_Field_Abstract {
 	}
 
 	function get_filter_value() {
-		return '<a href="' . $this->get_filter_url() . '" target="_blank">' . $this->value . '</a>';
+		return '<a href="' . esc_url( $this->get_filter_url() ) . '" target="_blank">' . esc_html( $this->value ) . '</a>';
 	}
 
 	function get_input() {
 
 		$text = $this->text_confirm ?: __( 'I agree with the text of the agreement', 'userspace' );
 
+		$input_id = esc_attr( $this->input_id . $this->rand );
+
 		$input = '<span class="usp-checkbox-box usps__inline usps__relative">';
-		$input .= '<input type="checkbox" ' . checked( $this->value, 1, false ) . ' ' . $this->get_required() . ' name="' . $this->input_name . '" id="' . $this->input_id . $this->rand . '" value="1"/> ';
-		$input .= '<label class="usp-label usps usps__ai-center usps__no-select" for="' . $this->input_id . $this->rand . '">' . $text . '</label>';
+		$input .= '<input type="checkbox" ' . checked( $this->value, 1, false ) . ' ' . $this->get_required() . ' name="' . esc_attr( $this->input_name ) . '" id="' . $input_id . '" value="1"/> ';
+		$input .= '<label class="usp-label usps usps__ai-center usps__no-select" for="' . $input_id . '">' . $text . '</label>';
 		$input .= '</span>';
 
 		return $input;

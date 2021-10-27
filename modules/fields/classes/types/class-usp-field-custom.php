@@ -10,7 +10,7 @@ class USP_Field_Custom extends USP_Field_Abstract {
 	}
 
 	function get_input() {
-		return $this->content ? $this->content : false;
+		return $this->content ?: false;
 	}
 
 }

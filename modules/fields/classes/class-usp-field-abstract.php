@@ -63,7 +63,7 @@ class USP_Field_Abstract {
 	}
 
 	function get_options() {
-		return array();
+		return [];
 	}
 
 	function init_properties( $args ) {
@@ -96,7 +96,7 @@ class USP_Field_Abstract {
 		}
 
 		return '<div class="usp-field-title">'
-		       . $this->title . ( $this->required ? ' <span class="required">*</span>' : '' )
+		       . esc_html( $this->title ) . ( $this->required ? ' <span class="required">*</span>' : '' )
 		       . '</div>';
 	}
 
@@ -107,7 +107,7 @@ class USP_Field_Abstract {
 		}
 
 		$content = '<span class="usp-field-icon">';
-		$content .= '<i class="uspi ' . $this->icon . '" aria-hidden="true"></i> ';
+		$content .= '<i class="uspi ' . esc_attr( $this->icon ) . '" aria-hidden="true"></i> ';
 		$content .= '</span>';
 
 		return $content;
@@ -121,7 +121,7 @@ class USP_Field_Abstract {
 
 		return '<div class="usp-field-notice usps usps__ai-center">'
 		       . '<i class="uspi fa-info-circle" aria-hidden="true"></i>'
-		       . '<span>' . $this->notice . '</span>'
+		       . '<span>' . wp_kses_post( $this->notice ) . '</span>'
 		       . '</div>';
 	}
 
@@ -135,7 +135,7 @@ class USP_Field_Abstract {
 			return false;
 		}
 
-		$classes = array( 'type-' . $this->type . '-input' );
+		$classes = [ 'type-' . $this->type . '-input' ];
 
 		$classes[] = 'usp-field-input';
 
@@ -150,10 +150,10 @@ class USP_Field_Abstract {
 		}
 
 		if ( $this->maxlength ) {
-			$inputField .= '<script>usp_init_field_maxlength("' . $this->input_id . '");</script>';
+			$inputField .= '<script>usp_init_field_maxlength("' . esc_js( $this->input_id ) . '");</script>';
 		}
 
-		$content = '<div id="usp-field-' . $this->id . '" class="' . implode( ' ', $classes ) . '">'
+		$content = '<div id="usp-field-' . esc_attr( $this->id ) . '" class="' . esc_attr( implode( ' ', $classes ) ) . '">'
 		           . '<div class="usp-field-core usps__relative">'
 		           . $inputField
 		           . '</div>'
@@ -169,7 +169,7 @@ class USP_Field_Abstract {
 			return $this->get_field_input();
 		}
 
-		$classes = array( 'usp-field', 'type-' . $this->type . '-field' );
+		$classes = [ 'usp-field', 'type-' . $this->type . '-field' ];
 
 		if ( isset( $args['classes'] ) ) {
 			$classes = array_merge( $classes, $args['classes'] );
@@ -183,7 +183,7 @@ class USP_Field_Abstract {
 			$classes[] = 'usp-children-field';
 		}
 
-		$content = '<div id="usp-field-' . $this->id . '-wrapper" class="' . implode( ' ', $classes ) . '" ' . ( $this->parent ? 'data-parent="' . $this->parent['id'] . '" data-parent-value="' . $this->parent['value'] . '"' : '' ) . '>';
+		$content = '<div id="usp-field-' . esc_attr( $this->id ) . '-wrapper" class="' . esc_attr( implode( ' ', $classes ) ) . '" ' . ( $this->parent ? 'data-parent="' . esc_attr( $this->parent['id'] ) . '" data-parent-value="' . esc_attr( $this->parent['value'] ) . '"' : '' ) . '>';
 
 		$content .= $this->get_title();
 
@@ -199,10 +199,10 @@ class USP_Field_Abstract {
 	function get_help() {
 
 		if ( ! $this->help ) {
-			return;
+			return '';
 		}
 
-		return '<span class="usp-help-option" onclick="return usp_get_option_help(this);"><i class="uspi fa-question-circle" aria-hidden="true"></i><span class="help-content">' . $this->help . '</span></span>';
+		return '<span class="usp-help-option" onclick="return usp_get_option_help(this);"><i class="uspi fa-question-circle" aria-hidden="true"></i><span class="help-content">' . esc_html( $this->help ) . '</span></span>';
 	}
 
 	function get_childrens() {
@@ -210,7 +210,7 @@ class USP_Field_Abstract {
 	}
 
 	function isset_childrens() {
-		return $this->childrens ? true : false;
+		return (bool) $this->childrens;
 	}
 
 	protected function get_required() {
@@ -218,38 +218,38 @@ class USP_Field_Abstract {
 	}
 
 	protected function get_placeholder() {
-		return $this->placeholder !== '' ? 'placeholder="' . $this->placeholder . '"' : '';
+		return $this->placeholder !== '' ? 'placeholder="' . esc_attr( $this->placeholder ) . '"' : '';
 	}
 
 	protected function get_maxlength() {
-		return $this->maxlength ? 'maxlength="' . $this->maxlength . '"' : '';
+		return $this->maxlength ? 'maxlength="' . esc_attr( $this->maxlength ) . '"' : '';
 	}
 
 	protected function get_pattern() {
-		return $this->pattern ? 'pattern="' . $this->pattern . '"' : '';
+		return $this->pattern ? 'pattern="' . esc_attr( $this->pattern ) . '"' : '';
 	}
 
 	protected function get_min() {
-		return $this->value_min !== '' ? 'min="' . $this->value_min . '"' : '';
+		return $this->value_min !== '' ? 'min="' . esc_attr( $this->value_min ) . '"' : '';
 	}
 
 	protected function get_max() {
-		return $this->value_max !== '' ? 'max="' . $this->value_max . '"' : '';
+		return $this->value_max !== '' ? 'max="' . esc_attr( $this->value_max ) . '"' : '';
 	}
 
 	protected function get_input_id() {
-		return $this->input_id ? 'id="' . $this->input_id . '"' : '';
+		return $this->input_id ? 'id="' . esc_attr( $this->input_id ) . '"' : '';
 	}
 
 	function get_class() {
 
-		$class = array( $this->type . '-field' );
+		$class = [ $this->type . '-field' ];
 
 		if ( $this->class ) {
 			$class[] = $this->class;
 		}
 
-		return 'class="' . implode( ' ', $class ) . '"';
+		return 'class="' . esc_attr( implode( ' ', $class ) ) . '"';
 	}
 
 	function get_value() {
@@ -269,13 +269,13 @@ class USP_Field_Abstract {
 			return false;
 		}
 
-		$content = '<div class="usp-field usps type-' . $this->type . '-value usp-field-' . $this->id . '">';
+		$content = '<div class="usp-field usps type-' . esc_attr( $this->type ) . '-value usp-field-' . esc_attr( $this->id ) . '">';
 
 		//$content .= $this->get_icon();
 
 		if ( $title ) {
 			$content .= '<div class="usp-field-title-box usps usps__nowrap"><div class="usp-field-title">'
-			            . $this->title
+			            . esc_html( $this->title )
 			            . '</div>'
 			            . '<span class="title-colon">: </span></div>';
 		}

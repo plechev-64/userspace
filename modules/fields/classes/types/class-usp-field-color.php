@@ -12,11 +12,11 @@ class USP_Field_Color extends USP_Field_Abstract {
 		wp_enqueue_script( 'jquery' );
 		wp_enqueue_script( 'wp-color-picker' );
 
-		$content = '<input type="text" ' . $this->get_class() . ' name="' . $this->input_name . '" id="' . $this->input_id . '" value="' . $this->value . '"/>';
+		$content = '<input type="text" ' . $this->get_class() . ' name="' . esc_attr( $this->input_name ) . '" id="' . esc_attr( $this->input_id ) . '" value="' . esc_attr( $this->value ) . '"/>';
 
-		$init = 'usp_init_color("' . $this->input_id . '",' . json_encode( array(
-				'defaultColor' => $this->value
-			) ) . ')';
+		$init = 'usp_init_color("' . esc_js( $this->input_id ) . '",' . json_encode( [
+				'defaultColor' => esc_js( $this->value )
+			] ) . ')';
 
 		if ( ! usp_is_ajax() ) {
 			$content .= '<script>jQuery(window).on("load", function() {' . $init . '});</script>';
@@ -28,10 +28,7 @@ class USP_Field_Color extends USP_Field_Abstract {
 	}
 
 	function is_valid_value( $value ) {
-		/*
-		 * TODO возможно надо проверять что это hex color
-		 */
-		return $value && $value[0] === "#";
+		return (bool) sanitize_hex_color( $value );
 	}
 
 }

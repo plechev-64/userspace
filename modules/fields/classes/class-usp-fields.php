@@ -285,10 +285,10 @@ class USP_Fields extends USP_Field {
 			return false;
 		}
 
-		$content = '<div id="usp-group-' . $group['id'] . '" class="usp-content-group">';
+		$content = '<div id="usp-group-' . esc_attr( $group['id'] ) . '" class="usp-content-group">';
 
 		if ( $group['title'] ) {
-			$content .= '<div class="usp-group-title">' . $group['title'] . '</div>';
+			$content .= '<div class="usp-group-title">' . esc_html( $group['title'] ) . '</div>';
 		}
 
 		$content .= '<div class="group-areas usps">';
@@ -318,7 +318,7 @@ class USP_Fields extends USP_Field {
 			return false;
 		}
 
-		$content = '<div class="usp-content-area" style="min-width:' . ( isset( $area['width'] ) ? $area['width'] : 100 ) . '%;">';
+		$content = '<div class="usp-content-area" style="min-width:' . ( isset( $area['width'] ) ? esc_attr( $area['width'] ) : 100 ) . '%;">';
 		$content .= $areaContent;
 		$content .= '</div>';
 
@@ -351,7 +351,7 @@ class USP_Fields extends USP_Field {
 
 		$content = '<div class="usp-form usp-preloader-parent">';
 
-		$content .= '<form ' . ( $args['form_id'] ? 'id="' . $args['form_id'] . '"' : '' ) . ' method="' . $args['method'] . '" action="' . $args['action'] . '">';
+		$content .= '<form ' . ( $args['form_id'] ? 'id="' . esc_attr( $args['form_id'] ) . '"' : '' ) . ' method="' . esc_attr( $args['method'] ) . '" action="' . esc_attr( $args['action'] ) . '">';
 
 		$content .= $this->get_content_form( $args );
 
@@ -420,10 +420,10 @@ class USP_Fields extends USP_Field {
 			$group['id'] = 'no-name';
 		}
 
-		$content = '<div id="usp-group-' . $group['id'] . '" class="usp-content-group">';
+		$content = '<div id="usp-group-' . esc_attr( $group['id'] ) . '" class="usp-content-group">';
 
 		if ( isset( $group['title'] ) && $group['title'] ) {
-			$content .= '<div class="usp-group-title">' . $group['title'] . '</div>';
+			$content .= '<div class="usp-group-title">' . esc_html( $group['title'] ) . '</div>';
 		}
 
 		if ( isset( $group['notice'] ) && $group['notice'] ) {
@@ -457,7 +457,7 @@ class USP_Fields extends USP_Field {
 			return false;
 		}
 
-		$content = '<div class="usp-content-area" style="min-width:' . ( isset( $area['width'] ) ? $area['width'] : 100 ) . '%;">';
+		$content = '<div class="usp-content-area" style="min-width:' . ( isset( $area['width'] ) ? esc_attr( $area['width'] ) : 100 ) . '%;">';
 		$content .= $areaContent;
 		$content .= '</div>';
 

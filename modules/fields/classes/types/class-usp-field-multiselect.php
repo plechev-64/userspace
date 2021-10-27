@@ -11,15 +11,15 @@ class USP_Field_MultiSelect extends USP_Field_Abstract {
 
 	function get_options() {
 
-		return array(
-			array(
+		return [
+			[
 				'slug'    => 'values',
 				'default' => $this->values,
 				'type'    => 'dynamic',
 				'title'   => __( 'Specify options', 'userspace' ),
 				'notice'  => __( 'Specify each option in a separate field', 'userspace' )
-			)
-		);
+			]
+		];
 	}
 
 	function get_input() {
@@ -30,13 +30,13 @@ class USP_Field_MultiSelect extends USP_Field_Abstract {
 
 		usp_multiselect_scripts();
 
-		$this->value = ( $this->value ) ? $this->value : array();
+		$this->value = $this->value ?: [];
 
 		if ( ! is_array( $this->value ) ) {
-			$this->value = array( $this->value );
+			$this->value = [ $this->value ];
 		}
 
-		$content = '<select ' . $this->get_required() . ' name="' . $this->input_name . '[]" id="' . $this->input_id . '" ' . $this->get_class() . ' multiple>';
+		$content = '<select ' . $this->get_required() . ' name="' . esc_attr( $this->input_name ) . '[]" id="' . esc_attr( $this->input_id ) . '" ' . $this->get_class() . ' multiple>';
 
 		foreach ( $this->values as $k => $value ) {
 
@@ -44,12 +44,12 @@ class USP_Field_MultiSelect extends USP_Field_Abstract {
 				$k = $value;
 			}
 
-			$content .= '<option ' . selected( in_array( $k, $this->value ), true, false ) . ' value="' . trim( $k ) . '">' . $value . '</option>';
+			$content .= '<option ' . selected( in_array( $k, $this->value ), true, false ) . ' value="' . esc_attr( trim( $k ) ) . '">' . esc_html( $value ) . '</option>';
 		}
 
 		$content .= '</select>';
 
-		$init = 'jQuery("#' . $this->input_id . '").multiselect({
+		$init = 'jQuery("#' . esc_js( $this->input_id ) . '").multiselect({
 				    search: true,
 				    maxPlaceholderOpts: 5,
 				    texts: {
@@ -75,15 +75,15 @@ class USP_Field_MultiSelect extends USP_Field_Abstract {
 		}
 
 		if ( $this->value_in_key ) {
-			return implode( ', ', array_intersect( $this->value, $this->values ) );
+			return esc_html( implode( ', ', array_intersect( $this->value, $this->values ) ) );
 		}
 
-		return implode( ', ', array_intersect_key( $this->values, array_flip( $this->value ) ) );
+		return esc_html( implode( ', ', array_intersect_key( $this->values, array_flip( $this->value ) ) ) );
 	}
 
 	function get_filter_value() {
 
-		$links = array();
+		$links = [];
 
 		foreach ( $this->value as $val ) {
 
@@ -91,7 +91,7 @@ class USP_Field_MultiSelect extends USP_Field_Abstract {
 				continue;
 			}
 
-			$links[] = '<a href="' . $this->get_filter_url( $val ) . '" target="_blank">' . $val . '</a>';
+			$links[] = '<a href="' . esc_url( $this->get_filter_url( $val ) ) . '" target="_blank">' . esc_html( $val ) . '</a>';
 		}
 
 		return implode( ', ', $links );

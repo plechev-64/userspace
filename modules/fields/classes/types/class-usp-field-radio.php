@@ -24,22 +24,22 @@ class USP_Field_Radio extends USP_Field_Abstract {
 
 	function get_options() {
 
-		return array(
-			array(
+		return [
+			[
 				'slug'    => 'empty_first',
 				'default' => $this->empty_first,
 				'type'    => 'text',
 				'title'   => __( 'First value', 'userspace' ),
 				'notice'  => __( 'Name of the first blank value, for example: "Not selected"', 'userspace' )
-			),
-			array(
+			],
+			[
 				'slug'    => 'values',
 				'default' => $this->values,
 				'type'    => 'dynamic',
 				'title'   => __( 'Specify options', 'userspace' ),
 				'notice'  => __( 'Specify each option in a separate field', 'userspace' )
-			)
-		);
+			]
+		];
 	}
 
 	function get_value() {
@@ -61,12 +61,14 @@ class USP_Field_Radio extends USP_Field_Abstract {
 			return false;
 		}
 
+		$input_id = $this->input_id . '_' . $this->rand;
+
 		$content = '';
 
 		if ( $this->empty_first ) {
-			$content .= '<span class="usp-radio-box checkbox-display-' . $this->display . ' usps__inline usps__relative">';
-			$content .= '<input type="radio" ' . $this->get_required() . ' ' . checked( $this->value, '', false ) . ' id="' . $this->input_id . '_' . $this->rand . '" data-slug="' . $this->slug . '" name="' . $this->input_name . '" value="' . $this->empty_value . '"> ';
-			$content .= '<label class="usp-label usps usps__ai-center usps__no-select" for="' . $this->input_id . '_' . $this->rand . '">' . $this->empty_first . '</label>';
+			$content .= '<span class="usp-radio-box checkbox-display-' . esc_attr( $this->display ) . ' usps__inline usps__relative">';
+			$content .= '<input type="radio" ' . $this->get_required() . ' ' . checked( $this->value, '', false ) . ' id="' . esc_attr( $input_id ) . '" data-slug="' . esc_attr( $this->slug ) . '" name="' . esc_attr( $this->input_name ) . '" value="' . esc_attr( $this->empty_value ) . '"> ';
+			$content .= '<label class="usp-label usps usps__ai-center usps__no-select" for="' . esc_attr( $input_id ) . '">' . esc_html( $this->empty_first ) . '</label>';
 			$content .= '</span>';
 		}
 
@@ -82,11 +84,12 @@ class USP_Field_Radio extends USP_Field_Abstract {
 				$k = $value;
 			}
 
-			$k = trim( $k );
+			$k        = trim( $k );
+			$input_id = $this->input_id . '_' . $a . '_' . $this->rand;
 
-			$content .= '<span class="usp-radio-box checkbox-display-' . $this->display . ' usps__inline usps__relative" data-value="' . $k . '">';
-			$content .= '<input type="radio" ' . $this->get_required() . ' ' . checked( $this->value, $k, false ) . ' ' . $this->get_class() . ' id="' . $this->input_id . '_' . $k . $this->rand . '" data-slug="' . $this->slug . '" name="' . $this->input_name . '" value="' . $k . '"> ';
-			$content .= '<label class="usp-label usps usps__ai-center usps__no-select" for="' . $this->input_id . '_' . $k . $this->rand . '">' . $value . '</label>';
+			$content .= '<span class="usp-radio-box checkbox-display-' . esc_attr( $this->display ) . ' usps__inline usps__relative" data-value="' . esc_attr( $k ) . '">';
+			$content .= '<input type="radio" ' . $this->get_required() . ' ' . checked( $this->value, $k, false ) . ' ' . $this->get_class() . ' id="' . esc_attr( $input_id ) . '" data-slug="' . esc_attr( $this->slug ) . '" name="' . esc_attr( $this->input_name ) . '" value="' . esc_attr( $k ) . '"> ';
+			$content .= '<label class="usp-label usps usps__ai-center usps__no-select" for="' . esc_attr( $input_id ) . '">' . esc_html( $value ) . '</label>';
 			$content .= '</span>';
 
 			$a ++;
@@ -96,7 +99,7 @@ class USP_Field_Radio extends USP_Field_Abstract {
 	}
 
 	function get_filter_value() {
-		return '<a href="' . $this->get_filter_url() . '" target="_blank">' . $this->value . '</a>';
+		return '<a href="' . esc_url( $this->get_filter_url() ) . '" target="_blank">' . esc_html( $this->value ) . '</a>';
 	}
 
 	function is_valid_value( $value ) {

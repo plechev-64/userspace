@@ -20,8 +20,8 @@ class USP_Field_File extends USP_Field_Uploader {
 
 	function get_options() {
 
-		$options = array(
-			array(
+		$options = [
+			[
 				'slug'       => 'max_size',
 				'default'    => $this->max_size,
 				'type'       => 'runner',
@@ -31,22 +31,22 @@ class USP_Field_File extends USP_Field_Uploader {
 				'value_step' => 256,
 				'title'      => __( 'File size', 'userspace' ),
 				'notice'     => __( 'Maximum size of uploaded file, Kb (Default - 512)', 'userspace' )
-			),
-			array(
+			],
+			[
 				'slug'    => 'file_types',
 				'default' => $this->file_types,
 				'type'    => 'text',
 				'title'   => __( 'Allowed file types', 'userspace' ),
 				'notice'  => __( 'Allowed types of files are divided by comma, for example: pdf, zip, jpg', 'userspace' )
-			)
-		);
+			]
+		];
 
 		return $options;
 	}
 
 	function get_uploader_props() {
 
-		return wp_parse_args( $this->uploader_props, array(
+		return wp_parse_args( $this->uploader_props, [
 			'user_id'      => get_current_user_id(),
 			'multiple'     => 0,
 			'temp_media'   => 1,
@@ -59,7 +59,7 @@ class USP_Field_File extends USP_Field_Uploader {
 			'filetitle'    => $this->filetitle,
 			'input_attach' => $this->input_name,
 			'mode_output'  => 'list'
-		) );
+		] );
 	}
 
 }

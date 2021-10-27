@@ -11,12 +11,12 @@ class USP_Field_Switch extends USP_Field_Abstract {
 
 	function get_options() {
 
-		return array(
-			array(
+		return [
+			[
 				'slug'    => 'switch',
 				'default' => $this->values,
-			)
-		);
+			]
+		];
 	}
 
 	function get_value() {
@@ -34,12 +34,14 @@ class USP_Field_Switch extends USP_Field_Abstract {
 			return false;
 		}
 
-		$data_off = ( $this->text['off'] ) ? 'data-off="' . $this->text['off'] . '"' : '';
-		$data_on  = ( $this->text['on'] ) ? 'data-on="' . $this->text['on'] . '"' : '';
+		$input_id = $this->input_id . '-' . $this->rand;
 
-		$content = '<label class="usp-switch-box usps__relative" for="' . $this->input_id . '-' . $this->rand . '">';
-		$content .= '<input type="hidden" class="switch-field-hidden" id="' . $this->input_id . '" value="' . $this->value . '" name="' . $this->input_name . '">';
-		$content .= '<input type="checkbox" ' . checked( $this->value, 1, false ) . ' id="' . $this->input_id . '-' . $this->rand . '" ' . $this->get_class() . ' value="1" onclick="this.previousSibling.value=1-this.previousSibling.value"/> ';
+		$data_off = ( $this->text['off'] ) ? 'data-off="' . esc_attr( $this->text['off'] ) . '"' : '';
+		$data_on  = ( $this->text['on'] ) ? 'data-on="' . esc_attr( $this->text['on'] ) . '"' : '';
+
+		$content = '<label class="usp-switch-box usps__relative" for="' . esc_attr( $input_id ) . '">';
+		$content .= '<input type="hidden" class="switch-field-hidden" id="' . esc_attr( $this->input_id ) . '" value="' . esc_attr( $this->value ) . '" name="' . esc_attr( $this->input_name ) . '">';
+		$content .= '<input type="checkbox" ' . checked( $this->value, 1, false ) . ' id="' . esc_attr( $input_id ) . '" ' . $this->get_class() . ' value="1" onclick="this.previousSibling.value=1-this.previousSibling.value"/> ';
 		$content .= '<span class="usp-switch-label usps__relative" ' . $data_off . ' ' . $data_on . '></span>';
 		$content .= '<span class="usp-switch-handle"></span>';
 		$content .= '</label>';

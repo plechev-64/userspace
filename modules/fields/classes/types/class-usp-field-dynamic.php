@@ -11,14 +11,14 @@ class USP_Field_Dynamic extends USP_Field_Abstract {
 
 	function get_options() {
 
-		return array(
-			array(
+		return [
+			[
 				'slug'    => 'placeholder',
 				'default' => $this->placeholder,
 				'type'    => 'text',
 				'title'   => __( 'Placeholder', 'userspace' )
-			)
-		);
+			]
+		];
 	}
 
 	function get_input() {
@@ -33,10 +33,10 @@ class USP_Field_Dynamic extends USP_Field_Abstract {
 			$cnt = count( $this->value );
 			foreach ( $this->value as $k => $val ) {
 
-				$key = is_string( $k ) ? $k : '';
+				$key = is_string( $k ) ? esc_attr( $k ) : '';
 
 				$content .= '<span class="dynamic-value">';
-				$content .= '<input type="text" ' . $this->get_required() . ' ' . $this->get_placeholder() . ' name="' . $this->input_name . '[' . $key . ']" value="' . $val . '"/>';
+				$content .= '<input type="text" ' . $this->get_required() . ' ' . $this->get_placeholder() . ' name="' . esc_attr( $this->input_name ) . '[' . $key . ']" value="' . esc_attr( $val ) . '"/>';
 				if ( ! is_string( $k ) ) {
 					if ( $cnt == ++ $k ) {
 						$content .= '<a href="#" onclick="usp_add_dynamic_field(this);return false;"><i class="uspi fa-plus" aria-hidden="true"></i></a>';
@@ -48,7 +48,7 @@ class USP_Field_Dynamic extends USP_Field_Abstract {
 			}
 		} else {
 			$content .= '<span class="dynamic-value">';
-			$content .= '<input type="text" ' . $this->get_required() . ' ' . $this->get_placeholder() . ' name="' . $this->input_name . '[]" value="' . $this->default . '"/>';
+			$content .= '<input type="text" ' . $this->get_required() . ' ' . $this->get_placeholder() . ' name="' . esc_attr( $this->input_name ) . '[]" value="' . esc_attr( $this->default ) . '"/>';
 			$content .= '<a href="#" onclick="usp_add_dynamic_field(this);return false;"><i class="uspi fa-plus" aria-hidden="true"></i></a>';
 			$content .= '</span>';
 		}
@@ -64,7 +64,7 @@ class USP_Field_Dynamic extends USP_Field_Abstract {
 			return false;
 		}
 
-		return implode( ', ', $this->value );
+		return esc_html( implode( ', ', $this->value ) );
 	}
 
 }

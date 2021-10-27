@@ -23,8 +23,8 @@ class USP_Field_Uploader extends USP_Field_Abstract {
 
 	function get_options() {
 
-		$options = array(
-			array(
+		$options = [
+			[
 				'slug'       => 'max_size',
 				'default'    => $this->max_size,
 				'type'       => 'runner',
@@ -34,15 +34,15 @@ class USP_Field_Uploader extends USP_Field_Abstract {
 				'value_step' => 256,
 				'title'      => __( 'File size', 'userspace' ),
 				'notice'     => __( 'Maximum size of uploaded file, Kb (Default - 512)', 'userspace' )
-			),
-			array(
+			],
+			[
 				'slug'    => 'file_types',
 				'default' => $this->file_types,
 				'type'    => 'text',
 				'title'   => __( 'Allowed file types', 'userspace' ),
 				'notice'  => __( 'Allowed types of files are divided by comma, for example: pdf, zip, jpg', 'userspace' )
-			),
-			array(
+			],
+			[
 				'slug'       => 'max_files',
 				'default'    => $this->max_files,
 				'type'       => 'runner',
@@ -50,36 +50,36 @@ class USP_Field_Uploader extends USP_Field_Abstract {
 				'value_max'  => 100,
 				'value_step' => 1,
 				'title'      => __( 'Max number of files', 'userspace' ),
-			),
-			array(
+			],
+			[
 				'slug'    => 'dropzone',
 				'default' => $this->dropzone,
 				'type'    => 'radio',
-				'values'  => array(
+				'values'  => [
 					__( 'Disabled', 'userspace' ),
 					__( 'Enabled', 'userspace' )
-				),
+				],
 				'title'   => __( 'Dropzone', 'userspace' ),
-			),
-			array(
+			],
+			[
 				'slug'    => 'mode_output',
 				'default' => $this->mode_output,
 				'type'    => 'radio',
-				'values'  => array(
+				'values'  => [
 					'grid' => __( 'Cards', 'userspace' ),
 					'list' => __( 'List', 'userspace' ),
 					//'gallery'	 => __( 'Gallery', 'userspace' )
-				),
+				],
 				'title'   => __( 'Mode of files output', 'userspace' ),
-			),
-			array(
+			],
+			[
 				'slug'    => 'fix_editor',
 				'default' => $this->fix_editor,
 				'type'    => 'text',
 				'title'   => __( 'ID of an attaching editor', 'userspace' ),
 				'notice'  => __( 'You can attach this uploader for one of text editors, pointing its ID', 'userspace' ),
-			)
-		);
+			]
+		];
 
 		return $options;
 	}
@@ -231,7 +231,7 @@ class USP_Field_Uploader extends USP_Field_Abstract {
 			return false;
 		}
 
-		$content = '<div id="usp-gallery-' . $this->id . '" class="usp-media usp-media-' . $this->mode_output . ' usps__relative">';
+		$content = '<div id="usp-gallery-' . esc_attr( $this->id ) . '" class="usp-media usp-media-' . esc_attr( $this->mode_output ) . ' usps__relative">';
 		$content .= $attachList;
 		$content .= '</div>';
 
@@ -247,7 +247,7 @@ class USP_Field_Uploader extends USP_Field_Abstract {
 			$image = wp_get_attachment_image( $attach_id, 'thumbnail', false, [ 'class' => 'usps__img-reset' ] );
 		} else {
 
-			$image = wp_get_attachment_image( $attach_id, array( 100, 100 ), true );
+			$image = wp_get_attachment_image( $attach_id, [ 100, 100 ], true );
 		}
 
 		if ( ! $image ) {
@@ -256,12 +256,12 @@ class USP_Field_Uploader extends USP_Field_Abstract {
 
 		$url = wp_get_attachment_url( $attach_id );
 
-		$content = '<div class="usp-media__item usp-media__item-' . $attach_id . ' ' . ( $is_image ? 'type-image' : 'type-file' ) . ' usps__inline usps__relative">';
+		$content = '<div class="usp-media__item usp-media__item-' . esc_attr( $attach_id ) . ' ' . ( $is_image ? 'type-image' : 'type-file' ) . ' usps__inline usps__relative">';
 
-		$content .= '<a href="' . $url . '" target="_blank">' . $image . '</a>';
+		$content .= '<a href="' . esc_url( $url ) . '" target="_blank">' . $image . '</a>';
 
 		$content .= '<div class="usp-file-name">';
-		$content .= '<a href="' . $url . '" target="_blank">' . basename( get_post_field( 'guid', $attach_id ) ) . '</a>';
+		$content .= '<a href="' . esc_url( $url ) . '" target="_blank">' . esc_html( basename( get_post_field( 'guid', $attach_id ) ) ) . '</a>';
 		$content .= '</div>';
 
 		$content .= '</div>';

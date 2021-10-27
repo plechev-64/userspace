@@ -14,31 +14,31 @@ class USP_Field_Text extends USP_Field_Abstract {
 
 	function get_options() {
 
-		return array(
-			array(
+		return [
+			[
 				'slug'    => 'placeholder',
 				'default' => $this->placeholder,
 				'type'    => 'text',
 				'title'   => __( 'Placeholder', 'userspace' )
-			),
-			array(
+			],
+			[
 				'slug'    => 'maxlength',
 				'default' => $this->maxlength,
 				'type'    => 'number',
 				'title'   => __( 'Maxlength', 'userspace' ),
 				'notice'  => __( 'Maximum number of symbols per field', 'userspace' )
-			),
-			array(
+			],
+			[
 				'slug'    => 'pattern',
 				'default' => $this->pattern,
 				'type'    => 'text',
 				'title'   => __( 'Pattern', 'userspace' )
-			)
-		);
+			]
+		];
 	}
 
 	function get_input() {
-		return '<input type="' . $this->type . '" ' . $this->get_pattern() . ' ' . $this->get_maxlength() . ' ' . $this->get_required() . ' ' . $this->get_placeholder() . ' ' . $this->get_class() . ' name="' . $this->input_name . '" id="' . $this->input_id . '" value=\'' . $this->value . '\'/>';
+		return '<input type="' . esc_attr( $this->type ) . '" ' . $this->get_pattern() . ' ' . $this->get_maxlength() . ' ' . $this->get_required() . ' ' . $this->get_placeholder() . ' ' . $this->get_class() . ' name="' . esc_attr( $this->input_name ) . '" id="' . esc_attr( $this->input_id ) . '" value=\'' . esc_attr( $this->value ) . '\'/>';
 	}
 
 	function get_value() {
@@ -48,17 +48,17 @@ class USP_Field_Text extends USP_Field_Abstract {
 		}
 
 		if ( $this->type == 'email' ) {
-			return '<a rel="nofollow" target="_blank" href="mailto:' . $this->value . '">' . $this->value . '</a>';
+			return '<a rel="nofollow" target="_blank" href="mailto:' . esc_attr( $this->value ) . '">' . esc_html( $this->value ) . '</a>';
 		}
 		if ( $this->type == 'url' ) {
-			return '<a rel="nofollow" target="_blank" href="' . $this->value . '">' . $this->value . '</a>';
+			return '<a rel="nofollow" target="_blank" href="' . esc_url( $this->value ) . '">' . esc_html( $this->value ) . '</a>';
 		}
 
 		return $this->value;
 	}
 
 	function get_filter_value() {
-		return '<a href="' . $this->get_filter_url() . '" target="_blank">' . $this->value . '</a>';
+		return '<a href="' . $this->get_filter_url() . '" target="_blank">' . esc_html( $this->value ) . '</a>';
 	}
 
 	function is_valid_value( $value ) {

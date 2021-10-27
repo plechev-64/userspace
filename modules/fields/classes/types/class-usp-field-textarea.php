@@ -12,25 +12,25 @@ class USP_Field_TextArea extends USP_Field_Abstract {
 
 	function get_options() {
 
-		return array(
-			array(
+		return [
+			[
 				'slug'    => 'placeholder',
 				'default' => $this->placeholder,
 				'type'    => 'text',
 				'title'   => __( 'Placeholder', 'userspace' )
-			),
-			array(
+			],
+			[
 				'slug'    => 'maxlength',
 				'default' => $this->maxlength,
 				'type'    => 'number',
 				'title'   => __( 'Maxlength', 'userspace' ),
 				'notice'  => __( 'Maximum number of symbols per field', 'userspace' )
-			)
-		);
+			]
+		];
 	}
 
 	function get_input() {
-		return '<textarea name="' . $this->input_name . '" ' . $this->get_maxlength() . ' ' . $this->get_required() . ' ' . $this->get_placeholder() . ' ' . $this->get_class() . ' id="' . $this->input_id . '" rows="5" cols="50">' . $this->value . '</textarea>';
+		return '<textarea name="' . esc_attr( $this->input_name ) . '" ' . $this->get_maxlength() . ' ' . $this->get_required() . ' ' . $this->get_placeholder() . ' ' . $this->get_class() . ' id="' . esc_attr( $this->input_id ) . '" rows="5" cols="50">' . esc_textarea( $this->value ) . '</textarea>';
 	}
 
 	function get_value() {

@@ -13,15 +13,15 @@ class USP_Field_Checkbox extends USP_Field_Abstract {
 
 	function get_options() {
 
-		return array(
-			array(
+		return [
+			[
 				'slug'    => 'values',
 				'default' => $this->values,
 				'type'    => 'dynamic',
 				'title'   => __( 'Specify options', 'userspace' ),
 				'notice'  => __( 'Specify each option in a separate field', 'userspace' )
-			)
-		);
+			]
+		];
 	}
 
 	function get_value() {
@@ -39,7 +39,7 @@ class USP_Field_Checkbox extends USP_Field_Abstract {
 
 	function get_filter_value() {
 
-		$links = array();
+		$links = [];
 
 		foreach ( $this->value as $val ) {
 
@@ -47,7 +47,7 @@ class USP_Field_Checkbox extends USP_Field_Abstract {
 				continue;
 			}
 
-			$links[] = '<a href="' . $this->get_filter_url( $val ) . '" target="_blank">' . $val . '</a>';
+			$links[] = '<a href="' . esc_url( $this->get_filter_url( $val ) ) . '" target="_blank">' . esc_html( $val ) . '</a>';
 		}
 
 		return implode( ', ', $links );
@@ -59,7 +59,7 @@ class USP_Field_Checkbox extends USP_Field_Abstract {
 			return false;
 		}
 
-		$currentValues = ( is_array( $this->value ) ) ? $this->value : array();
+		$currentValues = ( is_array( $this->value ) ) ? $this->value : [];
 
 		$this->class = ( $this->required ) ? 'required-checkbox' : '';
 
@@ -69,15 +69,15 @@ class USP_Field_Checkbox extends USP_Field_Abstract {
 
 			$content .= '<div class="checkbox-manager">';
 
-			$content .= usp_get_button( array(
+			$content .= usp_get_button( [
 				'label'   => __( 'To mark all', 'userspace' ),
-				'onclick' => 'return usp_check_all_actions_manager("' . $this->input_name . '[]",this);return false;',
-			) );
+				'onclick' => 'return usp_check_all_actions_manager("' . esc_js( $this->input_name ) . '[]",this);return false;',
+			] );
 
-			$content .= usp_get_button( array(
+			$content .= usp_get_button( [
 				'label'   => __( 'To delete all marks', 'userspace' ),
-				'onclick' => 'return usp_uncheck_all_actions_manager("' . $this->input_name . '[]",this);return false;',
-			) );
+				'onclick' => 'return usp_uncheck_all_actions_manager("' . esc_js( $this->input_name ) . '[]",this);return false;',
+			] );
 
 			$content .= '</div>';
 		}
@@ -88,12 +88,13 @@ class USP_Field_Checkbox extends USP_Field_Abstract {
 				$k = $value;
 			}
 
-			$checked = checked( in_array( $k, $currentValues ), true, false );
+			$checked  = checked( in_array( $k, $currentValues ), true, false );
+			$input_id = $this->input_id . '_' . $k . $this->rand;
 
-			$content .= '<span class="usp-checkbox-box checkbox-display-' . $this->display . ' usps__inline usps__relative">';
-			$content .= '<input ' . $this->get_required() . ' ' . $checked . ' id="' . $this->input_id . '_' . $k . $this->rand . '" type="checkbox" ' . $this->get_class() . ' name="' . $this->input_name . '[]" value="' . trim( $k ) . '"> ';
-			$content .= '<label class="usp-label usps usps__ai-center usps__no-select" for="' . $this->input_id . '_' . $k . $this->rand . '">';
-			$content .= $value;
+			$content .= '<span class="usp-checkbox-box checkbox-display-' . esc_attr( $this->display ) . ' usps__inline usps__relative">';
+			$content .= '<input ' . $this->get_required() . ' ' . $checked . ' id="' . esc_attr( $input_id ) . '" type="checkbox" ' . $this->get_class() . ' name="' . esc_attr( $this->input_name ) . '[]" value="' . esc_attr( trim( $k ) ) . '"> ';
+			$content .= '<label class="usp-label usps usps__ai-center usps__no-select" for="' . esc_attr( $input_id ) . '">';
+			$content .= esc_html( $value );
 			$content .= '</label>';
 			$content .= '</span>';
 		}
