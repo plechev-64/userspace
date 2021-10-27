@@ -765,14 +765,15 @@ i.usp-offline {
 }
 
 .usp-meta-item {
-    font-size: 14px;
-    padding: 6px 12px;
     background: var(--uspGray-100);
-    color: var(--uspGray-600);
     border: var(--uspLine200);
+    color: var(--uspGray-600);
+    font-size: 14px;
+    padding: 6px 9px;
 }
 
 .usp-meta-ico {
+    font-size: 14px;
     margin: 0 6px 0 0;
 }
 

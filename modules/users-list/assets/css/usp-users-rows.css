@@ -1,7 +1,7 @@
 .usp-users-rows .usp-user {
     flex: 1 1 100%;
-    padding: 12px;
     margin: 0 0 12px 0;
+    padding: 12px;
 }
 
 .usp-users-rows .usp-user__left {
@@ -14,8 +14,8 @@
 
 .usp-users-rows .usp-user__stats,
 .usp-users-rows .usp-user__general {
-    margin-left: 12px;
     line-height: 1;
+    margin-left: 12px;
 }
 
 .usp-users-rows .usp-user__link {
@@ -32,9 +32,15 @@
     display: none;
 }
 
+.usp-users-rows .usp-user-fields,
+.usp-user-fields-before,
+.usp-user-fields-after {
+    margin: 12px 0 0;
+}
+
 .usp-users-rows .usp-user-fields .usp-field {
-    display: inline-flex;
     color: var(--uspGray-600);
+    display: inline-flex;
 }
 
 .usp-users-rows .usp-user-fields .usp-field .usp-field-title {
@@ -45,7 +51,6 @@
     margin: 0 0 0 6px;
 }
 
-.usp-users-rows .usp-user-fields,
 .usp-users-rows .usp-user-fields .usp-field + .usp-field {
     margin: 6px 0 0;
 }

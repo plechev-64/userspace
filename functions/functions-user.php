@@ -142,7 +142,7 @@ function usp_user_stats_comments( USP_User $user, $custom_data = [] ) {
 		return;
 	}
 
-	$title = __( 'Comments', 'userspace' ) . ':';
+	$title = __( 'Comments', 'userspace' );
 	$count = $user->comments;
 	$icon  = 'fa-comment';
 	$class = 'usp-meta__comm';
@@ -157,7 +157,7 @@ function usp_user_stats_posts( USP_User $user, $custom_data = [] ) {
 		return;
 	}
 
-	$title = __( 'Publications', 'userspace' ) . ':';
+	$title = __( 'Publications', 'userspace' );
 	$count = $user->posts;
 	$icon  = 'fa-file';
 	$class = 'usp-meta__post';
@@ -172,7 +172,7 @@ function usp_user_stats_register( USP_User $user, $custom_data = [] ) {
 		return;
 	}
 
-	$title = __( 'Registration', 'userspace' ) . ':';
+	$title = __( 'Registration', 'userspace' );
 	$count = mysql2date( 'd-m-Y', $user->user_registered );
 	$icon  = 'fa-calendar-check';
 	$class = 'usp-meta__reg';
