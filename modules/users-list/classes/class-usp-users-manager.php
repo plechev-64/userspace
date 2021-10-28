@@ -4,11 +4,12 @@
 class USP_Users_Manager extends USP_Content_Manager {
 
 	private $_required_params = [
-		'number'   => 10,
-		'orderby'  => 'user_registered',
-		'order'    => 'DESC',
-		'pagenavi' => 0,
-		'search'   => 0
+		'number'           => 10,
+		'orderby'          => 'user_registered',
+		'order'            => 'DESC',
+		'pagenavi'         => 0,
+		'search'           => 0,
+		'style_in_content' => 0
 	];
 
 	private $_custom_params = [
@@ -72,7 +73,12 @@ class USP_Users_Manager extends USP_Content_Manager {
 			usp_masonry_script();
 		}
 
-		if ( in_array( $this->get_param( 'template' ), [ 'rows', 'masonry', 'full', 'card' ] ) ) {
+		if ( ! $this->get_param( 'style_in_content' ) && in_array( $this->get_param( 'template' ), [
+				'rows',
+				'masonry',
+				'full',
+				'card'
+			] ) ) {
 			usp_enqueue_style(
 				'usp-users-' . $this->get_param( 'template' ),
 				USP_URL . 'modules/users-list/assets/css/usp-users-' . $this->get_param( 'template' ) . '.css'
@@ -313,6 +319,15 @@ class USP_Users_Manager extends USP_Content_Manager {
 		if ( ! $items ) {
 			$content .= $this->get_no_result_notice();
 		} else {
+
+			if ( $this->get_param( 'style_in_content' ) && in_array( $this->get_param( 'template' ), [
+					'rows',
+					'masonry',
+					'full',
+					'card'
+				] ) ) {
+				$content .= '<link rel="stylesheet" href="' . USP_URL . 'modules/users-list/assets/css/usp-users-' . $this->get_param( 'template' ) . '.css' . '">';
+			}
 
 			$data_masonry = ( $this->get_param( 'template' ) === 'masonry' ) ? 'data-columns="3"' : '';
 
