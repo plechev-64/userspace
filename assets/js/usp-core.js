@@ -34,7 +34,6 @@ jQuery(document).ready(function ($) {
             })
         },
         animateCss: function (animationNameStart, functionEnd) {
-            //var animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
             let animationEnd = 'animationend';
             this.addClass('animated ' + animationNameStart).one(animationEnd, function (l) {
                 jQuery(this).removeClass('animated ' + animationNameStart);
@@ -338,7 +337,7 @@ function usp_preloader_hide() {
     jQuery('.usp_preloader').remove();
 }
 
-function usp_proccess_ajax_return(result) {
+function usp_proccess_ajax_return(result, callback) {
 
     var methods = {
         redirect: function (url) {
@@ -392,11 +391,12 @@ function usp_proccess_ajax_return(result) {
 
                 }
 
-                if ('onClose' in dialog) {
-                    ssiOptions.onClose = function (m) {
+                ssiOptions.onClose = function (m) {
+                    if ('onClose' in dialog) {
                         window[dialog.onClose[0]].apply(this, dialog.onClose[1]);
-                    };
-                }
+                    }
+                    usp_do_action('usp_dialog_closed', callback, result);
+                };
 
                 if (dialog.title)
                     ssiOptions.title = dialog.title;
@@ -560,7 +560,7 @@ function usp_ajax(prop) {
 
             } else {
 
-                usp_proccess_ajax_return(result);
+                usp_proccess_ajax_return(result, callback);
 
             }
 
