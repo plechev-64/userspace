@@ -206,7 +206,7 @@ add_shortcode( 'usp-users', 'usp_users_shortcode' );
  * $args['pagenavi']    int         Set pagination (set "1" - enables pagination).
  *                                  Default: 0
  * $args['orderby']     string      Order by: registration date.
- *                                  Allowed: display_name|user_registered|date_action
+ *                                  Allowed: display_name|user_registered|date_action|comments|posts
  *                                  Default: user_registered
  * $args['order']       string      Sorting direction.
  *                                  Allowed: ASC|DESC
