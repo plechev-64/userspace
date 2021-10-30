@@ -23,7 +23,8 @@
 defined( 'ABSPATH' ) || exit;
 ?>
 
-<span title="<?php echo esc_html( $title ); ?>" class="usp-meta-item <?php echo sanitize_html_class( $class ) ?> usps usps__nowrap usps__ai-center usps__line-1">
+<span title="<?php echo esc_html( $title ); ?>"
+      class="usp-meta-item <?php echo sanitize_html_class( $class ) ?> usps usps__nowrap usps__ai-center usps__line-1">
     <i class="usp-meta-ico uspi <?php echo sanitize_html_class( $icon ) ?>" aria-hidden="true"></i>
-    <span><?php echo sanitize_html_class( $count ) ?></span>
+    <span><?php echo esc_html( $count ) ?></span>
 </span>
