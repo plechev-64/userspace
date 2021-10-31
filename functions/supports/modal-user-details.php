@@ -65,7 +65,7 @@ function usp_get_user_details( $user_id ) {
 		'id__in'      => $user_id,
 		'search'      => 0,
 		'template'    => 'modal',
-		'custom_data' => 'posts, comments, user_registered',
+		'custom_data' => 'posts, comments, user_registered, rating',
 	] );
 
 	return $manager->get_manager();
