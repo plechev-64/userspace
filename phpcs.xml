@@ -22,6 +22,7 @@
         <exclude name="WordPress.WP.GlobalVariablesOverride"/>
         <exclude name="WordPress.WhiteSpace"/>
         <exclude name="WordPress.PHP.StrictComparisons"/>
+        <exclude name="WordPress.PHP.DisallowShortTernary"/>
         <exclude name="WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase"/>
         <!-- <exclude name="WordPress.WP"/>
         <exclude name="WordPress.CodeAnalysis"/>
