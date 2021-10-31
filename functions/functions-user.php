@@ -414,7 +414,7 @@ function usp_user_meta_age( USP_User $user ) {
 	echo $user->get_age_html( 'usp-user__age' );
 }
 
-add_action( 'usp_user_stats', 'usp_user_stats_registration_date', 16, 2 );
+add_action( 'usp_user_stats', 'usp_user_stats_registration_date', 12, 2 );
 function usp_user_stats_registration_date( USP_User $user, $custom_data = [] ) {
 	if ( ! in_array( 'user_registered', $custom_data, true ) ) {
 		return;
@@ -429,7 +429,7 @@ function usp_user_stats_registration_date( USP_User $user, $custom_data = [] ) {
 	echo usp_user_get_stat_item( $title, $count, $icon, $class );
 }
 
-add_action( 'usp_user_stats', 'usp_user_after_registration', 22, 2 );
+add_action( 'usp_user_stats', 'usp_user_after_registration', 18, 2 );
 function usp_user_after_registration( USP_User $user ) {
 	$user_registered = mysql2date( 'd-m-Y', $user->user_registered );
 	$current_day     = get_date_from_gmt( gmdate( 'Y-m-d H:i:s' ), 'Y-m-d' );
