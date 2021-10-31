@@ -219,6 +219,7 @@ add_shortcode( 'usp-users', 'usp_users_shortcode' );
  *                                  Default: 0
  * $args['custom_data'] string      Output additional data comma-separated list (if template supports).
  *                                  Allowed: posts,comments,user_registered
+ *                                  rating (if is installed and activated UserSpace Rating plugin)
  *                                  Default: empty
  * $args['id__not_in']  string|int  Exclude user by ID. Comma-separated numbers.
  * $args['id__in']      string|int  Show only by ID. Comma-separated numbers.
