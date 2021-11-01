@@ -32,10 +32,10 @@ $args = [
     </div>
 
     <div class="usp-user__bottom">
-        <div class="usp-user-fields-before"><?php do_action( 'usp_user_fields_before', $user, $custom_data ); ?></div>
+        <div class="usp-user-fields-before"><?php do_action( 'usp_user_rows_fields_before', $user, $custom_data ); ?></div>
 
 		<?php echo $user->profile_fields()->get_public_fields_values(); ?>
 
-        <div class="usp-user-fields-after"><?php do_action( 'usp_user_fields_after', $user, $custom_data ); ?></div>
+        <div class="usp-user-fields-after"><?php do_action( 'usp_user_rows_fields_after', $user, $custom_data ); ?></div>
     </div>
 </div>

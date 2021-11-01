@@ -363,9 +363,18 @@ class USP_User {
 		return $this->has_role( $access_roles );
 	}
 
+	/**
+	 * Check if isset cover
+	 *
+	 * @return false|int    int - ID uploaded cover | false - if the cover has not been uploaded
+	 */
+	function is_cover() {
+		return $this->usp_cover ?: false;
+	}
+
 	function get_cover_url( $avatar_as_cover = false ) {
 
-		$cover_id = $this->usp_cover ?: usp_get_option( 'usp_default_cover', 0 );
+		$cover_id = $this->is_cover() ?: usp_get_option( 'usp_default_cover', 0 );
 
 		if ( $cover_id ) {
 			return wp_get_attachment_image_url( $cover_id, 'large' );

@@ -257,18 +257,27 @@ function usp_get_form( $args ) {
 }
 
 /**
- * Add notice box by type
+ * Add notice box by type.
  *
- * @param array $args Extra options.
- *                        $args['type']           string          type notice. Default: info. Allowed: info,success,warning,error,simple
- *                        $args['title']          string          title text
- *                        $args['text']           string          text message
- *                        $args['text_center']    bool            true - text-align: center; false - left. Default true
- *                        $args['icon']           bool,string     left position icon; false - don't show, string - icon class. Example: 'fa-info'. Default true
- *                        $args['class']          string          additional class
- *                        $args['no_border']      bool            hide border color. default false
- *                        $args['cookie']         string          unique cookie id
- *                        $args['cookie_time']    int             lifetime cookie. Default 30 days
+ * @param   $args   array   Extra arguments:
+ * <pre>
+ * $args['type']        string      Type of notice.
+ *                                  Default: info.
+ *                                  Allowed: info|success|warning|error|simple
+ * $args['title']       string      Title text.
+ * $args['text']        string      Message text.
+ * $args['text_center'] bool        Text align.
+ *                                  Default: true
+ *                                  Allowed: true (center position)|false (left position)
+ * $args['icon']        bool|string Set icon. false - don't show, string - icon class. Example: 'fa-info'.
+ *                                  Default: true
+ * $args['class']       string      Additional class.
+ * $args['no_border']   bool        Hide border color.
+ *                                  Default: false
+ * $args['cookie']      string      Unique cookie id.
+ * $args['cookie_time'] int         Lifetime cookie.
+ *                                  Default: 30 days
+ * </pre>
  *
  * @return string   notice.
  * @since 1.0

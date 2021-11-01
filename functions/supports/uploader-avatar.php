@@ -66,7 +66,7 @@ function usp_button_avatar_upload( $buttons ) {
 		'type'    => 'simple',
 		'size'    => 'medium',
 		'class'   => 'usp-ava__uploads usp-ava__bttn usps__jc-center',
-		'title'   => __( 'Avatar upload', 'userspace' ),
+		'title'   => __( 'Upload avatar', 'userspace' ),
 		'content' => $uploader->get_input(),
 		'icon'    => 'fa-download',
 	];

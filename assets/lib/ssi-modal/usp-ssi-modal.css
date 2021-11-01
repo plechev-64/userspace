@@ -59,7 +59,7 @@ body.ssi-modalOpen {
     width: auto;
 }
 
-.ssi-dialog .ssi-modalWrapper {
+.ssi-dialog .ssi-modalWindow {
     pointer-events: all;
 }
 

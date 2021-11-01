@@ -55,7 +55,7 @@ function usp_add_cover_uploader_button() {
 			'type'    => 'clear',
 			'size'    => 'large',
 			'class'   => 'usp-cover-icon',
-			'title'   => __( 'Upload background', 'userspace' ),
+			'title'   => __( 'Upload cover', 'userspace' ),
 			'content' => $uploader->get_input(),
 			'icon'    => 'fa-image',
 			'id'      => 'usp-cover-upload',

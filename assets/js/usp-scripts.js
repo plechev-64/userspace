@@ -439,3 +439,22 @@ function usp_get_actual_beats_data(beats) {
     return beats_actual;
 
 }
+
+// focus uploader avatar or cover buttons
+function usp_focus_upload_buttons(el, type) {
+    jQuery('#usp-office').removeClass('usp-office-small');
+
+    jQuery('body,html').animate({
+        scrollTop: jQuery('#usp-office-profile').offset().top - 50
+    }, 500);
+
+    let place = (type === 'ava') ? '.usp-ava__uploads' : '.usp-cover-icon';
+
+    setTimeout(function () {
+        jQuery(place).attr('style', 'border:3px solid var(--uspBlue-500)').animateCss('tada');
+    }, 700);
+
+    setTimeout(function () {
+        jQuery(place).attr('style', '');
+    }, 5000);
+}

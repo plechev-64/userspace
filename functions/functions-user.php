@@ -508,3 +508,71 @@ add_filter( 'author_link', 'usp_author_link', 999, 2 );
 function usp_author_link( $link, $author_id ) {
 	return usp_user_get_url( $author_id );
 }
+
+add_action( 'usp_user_full_fields_after', 'usp_user_notice_add_some_data', 100 );
+function usp_user_notice_add_some_data( $user ) {
+	// owner account
+	if ( USP()->office()->is_owner( get_current_user_id() ) ) {
+		$text = false;
+
+		if ( empty( $user->metadata['usp_avatar'] ) ) {
+			$text .= '<div class="usp-must usp-must__ava">' . usp_get_button( [
+					'type'    => 'clear',
+					'label'   => esc_html__( 'Upload avatar', 'userspace' ),
+					'onclick' => 'usp_focus_upload_buttons(this,"ava");return false;',
+				] ) . '</div>';
+		}
+
+		if ( ! $user->is_cover() ) {
+			$text .= '<div class="usp-must usp-must__cover">' . usp_get_button( [
+					'type'    => 'clear',
+					'label'   => esc_html__( 'Upload cover', 'userspace' ),
+					'onclick' => 'usp_focus_upload_buttons(this,"cover");return false;',
+				] ) . '</div>';
+		}
+
+		if ( isset( $user->profile_fields()->fields['description'] ) && empty( $user->metadata['description'] ) ) {
+			$text .= '<div class="usp-must usp-must__about">' . usp_get_button( [
+					'type'    => 'clear',
+					'class'   => 'usp-must-bttn usp-must-bttn__about',
+					'label'   => esc_html__( 'Write a few words about yourself', 'userspace' ),
+					'onclick' => 'usp_load_tab("profile", "edit", this);return false;',
+				] ) . '</div>';
+		}
+
+		if ( empty( $user->profile_fields()->get_public_fields_values() ) ) {
+			$text .= '<div class="usp-must usp-must__fields">' . usp_get_button( [
+					'type'    => 'clear',
+					'class'   => 'usp-must-bttn usp-must-bttn__fields',
+					'label'   => esc_html__( 'Fill in the fields in your profile', 'userspace' ),
+					'onclick' => 'usp_load_tab("profile", "edit", this);return false;',
+				] ) . '</div>';
+		}
+
+		if ( ! $text ) {
+			return;
+		}
+
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo usp_get_notice( [
+			'type'        => 'simple',
+			'icon'        => 'fa-info-circle',
+			'title'       => esc_html__( 'You can:', 'userspace' ),
+			'text'        => $text,
+			'text_center' => false,
+			'cookie'      => 'usp_profile_must',
+		] );
+	} else {
+		if (
+			isset( $user->profile_fields()->fields['description'] )
+			&& empty( $user->metadata['description'] )
+			&& empty( $user->profile_fields()->get_public_fields_values() )
+		) {
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo usp_get_notice( [
+				'type' => 'simple',
+				'text' => esc_html__( 'The user has not told anything about himself yet.', 'userspace' ),
+			] );
+		}
+	}
+}
