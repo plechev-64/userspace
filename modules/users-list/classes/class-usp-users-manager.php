@@ -74,10 +74,11 @@ class USP_Users_Manager extends USP_Content_Manager {
 		}
 
 		if ( ! $this->get_param( 'style_in_content' ) && in_array( $this->get_param( 'template' ), [
-				'rows',
-				'masonry',
 				'full',
-				'card'
+				'masonry',
+				'mini',
+				'modal',
+				'rows'
 			] ) ) {
 			usp_enqueue_style(
 				'usp-users-' . $this->get_param( 'template' ),
@@ -321,10 +322,11 @@ class USP_Users_Manager extends USP_Content_Manager {
 		} else {
 
 			if ( $this->get_param( 'style_in_content' ) && in_array( $this->get_param( 'template' ), [
-					'rows',
-					'masonry',
 					'full',
-					'card'
+					'masonry',
+					'mini',
+					'modal',
+					'rows'
 				] ) ) {
 				$content .= '<link rel="stylesheet" href="' . USP_URL . 'modules/users-list/assets/css/usp-users-' . $this->get_param( 'template' ) . '.css' . '">';
 			}

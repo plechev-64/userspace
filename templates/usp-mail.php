@@ -19,7 +19,9 @@
  */
 defined( 'ABSPATH' ) || exit;
 
-$site_color = usp_get_option_customizer( 'usp_primary_color', '#0369a1' ); ?>
+$site_color = usp_get_option_customizer( 'usp_primary_color', '#0369a1' );
+?>
+
 <table style="border-collapse:collapse !important;border-spacing:0 !important;margin:0 auto !important;table-layout:fixed !important"
        cellspacing="0" cellpadding="0" bgcolor="#F7F3F0" height="100%" border="0" width="100%">
     <tbody>
@@ -72,3 +74,9 @@ $site_color = usp_get_option_customizer( 'usp_primary_color', '#0369a1' ); ?>
     </tr>
     </tbody>
 </table>
+<p>
+    <small>-----------------------------------------------------<br/>
+		<?php esc_html_e( 'This letter was created automatically, no need to answer it.', 'userspace' ); ?><br/>
+        "<?php echo get_bloginfo( 'name' ); ?>"
+    </small>
+</p>

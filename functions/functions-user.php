@@ -390,26 +390,26 @@ function usp_delete_user_avatar( $user_id ) {
 	array_map( "unlink", glob( USP_UPLOAD_URL . 'avatars/' . $user_id . '-*.jpg' ) );
 }
 
-add_action( 'usp_masonry_content', 'usp_masonry_age', 14 );
-function usp_masonry_age( USP_User $user ) {
+add_action( 'usp_user_masonry_content', 'usp_user_masonry_content_age', 14 );
+function usp_user_masonry_content_age( USP_User $user ) {
 	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	echo $user->get_age_html( 'usp-masonry__age' );
 }
 
-add_action( 'usp_masonry_content', 'usp_masonry_description', 18 );
-function usp_masonry_description( USP_User $user ) {
+add_action( 'usp_user_masonry_content', 'usp_user_masonry_content_description', 18 );
+function usp_user_masonry_content_description( USP_User $user ) {
 	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	echo $user->get_description_html( [ 'side' => 'top' ] );
 }
 
-add_action( 'usp_masonry_content', 'usp_masonry_custom_fields', 22 );
-function usp_masonry_custom_fields( USP_User $user ) {
+add_action( 'usp_user_masonry_content', 'usp_user_masonry_content_custom_fields', 22 );
+function usp_user_masonry_content_custom_fields( USP_User $user ) {
 	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	echo '<div class="usp-masonry__fields">' . $user->profile_fields()->get_public_fields_values() . '</div>';
 }
 
-add_action( 'usp_user_meta', 'usp_user_meta_age', 20 );
-function usp_user_meta_age( USP_User $user ) {
+add_action( 'usp_user_full_meta', 'usp_user_full_meta_age', 20 );
+function usp_user_full_meta_age( USP_User $user ) {
 	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	echo $user->get_age_html( 'usp-user__age' );
 }
@@ -509,8 +509,12 @@ function usp_author_link( $link, $author_id ) {
 	return usp_user_get_url( $author_id );
 }
 
-add_action( 'usp_user_full_fields_after', 'usp_user_notice_add_some_data', 100 );
-function usp_user_notice_add_some_data( $user ) {
+add_action( 'usp_user_fields_after', 'usp_user_notice_add_some_data', 100, 3 );
+function usp_user_notice_add_some_data( $user, $custom_data, $template ) {
+	if ( 'full' !== $template ) {
+		return;
+	}
+
 	// owner account
 	if ( USP()->office()->is_owner( get_current_user_id() ) ) {
 		$text = false;

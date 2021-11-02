@@ -1,14 +1,17 @@
-<?php
+<?php /** @noinspection PhpMissingReturnTypeInspection */
+/** @noinspection PhpMissingParamTypeInspection */
+/** @noinspection PhpUnused */
 
 /**
- * Get url to default cover
+ * Get URL to default cover.
  *
- * @param bool $avatar_cover set to 'true' for return avatar for cover (if the user did not set the cover).
- *                               Default: false
- * @param int $user_id id of the user to get the avatar.
+ * @param   $avatar_cover   bool    Set to 'true' for return avatar for cover (if the user did not set the cover).
+ *                                  Default: false
+ * @param   $user_id        int     ID of the user to get the avatar.
  *
- * @return string url cover or avatar.
- * @since 1.0
+ * @return  string          URL cover or avatar.
+ *
+ * @since   1.0.0
  *
  */
 function usp_get_default_cover( $avatar_cover = false, $user_id = false ) {
@@ -24,7 +27,7 @@ function usp_get_default_cover( $avatar_cover = false, $user_id = false ) {
 	$current_id = usp_get_option( 'usp_current_office' );
 
 	// default userspace theme user account
-	if ( $current_id === 'userspace/themes/default/index.php' ) {
+	if ( 'userspace/themes/default/index.php' === $current_id ) {
 		return $default_cover;
 	}
 
@@ -50,27 +53,21 @@ function usp_register_userspace_menu() {
 	register_nav_menu( 'usp-bar', __( 'UserSpace Bar', 'userspace' ) );
 }
 
-if ( ! function_exists( 'get_called_class' ) ) :
-	function get_called_class() {
-		$arr       = [];
-		$arrTraces = debug_backtrace();
-		foreach ( $arrTraces as $arrTrace ) {
-			if ( ! array_key_exists( "class", $arrTrace ) ) {
-				continue;
-			}
-			if ( count( $arr ) == 0 ) {
-				$arr[] = $arrTrace['class'];
-			} elseif ( get_parent_class( $arrTrace['class'] ) == end( $arr ) ) {
-				$arr[] = $arrTrace['class'];
-			}
-		}
-
-		return end( $arr );
-	}
-
-endif;
-//getting array of pages IDs and titles
-//for using in settings: ID => post_title
+/**
+ * Getting array of pages ID`s and post title.<br>
+ * Return:
+ * <pre>
+ * Array (
+ *      [0]     => Not selected
+ *      [899]   => Chat
+ *      ...
+ * )
+ * </pre>
+ *
+ * @return  array|false array: Page ID => post_title
+ *
+ * @since   1.0.0
+ */
 function usp_get_pages_ids() {
 	$pages = ( new USP_Posts_Query() )
 		->select( [ 'ID', 'post_title' ] )
@@ -83,15 +80,28 @@ function usp_get_pages_ids() {
 }
 
 /**
- * Gets an array of the list of roles
+ * Gets an array of the list of roles.<br>
+ * Return:
+ * <pre>
+ * Array (
+ *      [author] => Author
+ *      [editor] => Editor
+ * ...
+ * )
+ * </pre>
  *
- * @param array $exclude excluded roles (slug).
+ * @param   $exclude    array   Excluded roles (slug).
  *
- * @return array Roles slug (key) & roles name (value).
- * @since 1.0
+ * @return  array       Roles slug (key) & roles name (value).
+ *
+ * @since   1.0.0
  *
  */
 function usp_get_roles_ids( $exclude = false ) {
+	if ( ! is_admin() ) {
+		require_once ABSPATH . 'wp-admin/includes/user.php';
+	}
+
 	$editable_roles = array_reverse( get_editable_roles() );
 
 	$roles = [];
@@ -107,16 +117,56 @@ function usp_get_roles_ids( $exclude = false ) {
 	return $roles;
 }
 
-function usp_sanitize_string( $name, $sanitize = true ) {
-	$name_lower = mb_strtolower( $name );
+/**
+ * Converts Cyrillic to Latin and clears the string.
+ * E.g. function is used to create slugs.
+ *
+ * @param   $string     string  Input string for cleaning.
+ * @param   $sanitize   bool    Whitespace becomes a dash. False - returns spaces.
+ *                              Default: true
+ *
+ * @return  string      Converted string.
+ *
+ * @since   1.0.0
+ *
+ */
+function usp_sanitize_string( $string, $sanitize = true ) {
+	$string_to_lower = mb_strtolower( $string );
 
-	$title = strtr( $name_lower,
+	$title = strtr( $string_to_lower,
+		/**
+		 * Filter allows you to replace or supplement the symbol table.
+		 *
+		 * @param array  Input => output value.
+		 *
+		 * @since       1.0.0
+		 *
+		 */
 		apply_filters( 'usp_sanitize_iso', [
+			"Ї" => "Yi",
+			"ї" => "i",
+			"Ґ" => "G",
+			"ґ" => "g",
+			"Ә" => "A",
+			"Ғ" => "G",
+			"Қ" => "K",
+			"Ң" => "N",
+			"Ө" => "O",
+			"Ұ" => "U",
+			"Ү" => "U",
+			"H" => "H",
+			"ә" => "a",
+			"ғ" => "g",
+			"қ" => "k",
+			"ң" => "n",
+			"ө" => "o",
+			"ұ" => "u",
+			"h" => "h",
 			"Є" => "YE",
 			"І" => "I",
 			"Ѓ" => "G",
 			"і" => "i",
-			"№" => "#",
+			"№" => "N",
 			"є" => "ye",
 			"ѓ" => "g",
 			"А" => "A",
@@ -189,19 +239,25 @@ function usp_sanitize_string( $name, $sanitize = true ) {
 			"«" => "",
 			"»" => "",
 			"…" => "",
+			"#" => "",
+			"$" => "",
+			"%" => "",
+			"^" => "",
+			"&" => "",
 		] ) );
 
 	return $sanitize ? sanitize_title_with_dashes( $title, '', 'save' ) : $title;
 }
 
 /**
- * Retrieves the list of emojis to the specified input field
+ * Retrieves the list of emojis to the specified input field.
  *
- * @param string $id_area id of textarea to insert the emoji
- * @param string $class additional class
+ * @param   $id_area    string  ID of textarea to insert the emoji.
+ * @param   $class      string  Additional class.
  *
- * @return string   emoji box.
- * @since 1.0
+ * @return  string   Emoji box.
+ *
+ * @since   1.0.0
  *
  */
 function usp_get_emoji( $id_area, $class = false ) {
@@ -216,19 +272,22 @@ function usp_get_emoji( $id_area, $class = false ) {
 /**
  * Send HTML emails from UserSpace.
  *
- * @param string|array $email Array or comma-separated list of email addresses to send message.
- * @param string $title Email subject
- * @param string $text Message contents.
- * @param array $from Optional. From 'name' and 'email' (default: bloginfo name and noreply@ 'HTTP_HOST').
- * @param string $attachments Optional. Attachments. (default: "").
+ * @param   $email  string|array    Array or comma-separated list of email addresses to send message.
+ * @param   $title          string  Email subject.
+ * @param   $text           string  Message contents.
+ * @param   $from           array   Optional. From 'name' and 'email'.
+ *                                  Default: bloginfo name and noreply@ 'HTTP_HOST'.
+ * @param   $attachments    string  Optional. Attachments.
+ *                                  Default: ""
  *
- * @return bool
- * @since 1.0
+ * @return  bool    Whether the email was sent successfully.
+ *
+ * @since   1.0.0
  *
  */
 function usp_mail( $email, $title, $text, $from = false, $attachments = false ) {
 	$from_name = $from['name'] ?? get_bloginfo( 'name' );
-	$from_mail = $from['email'] ?? 'noreply@' . $_SERVER['HTTP_HOST'];
+	$from_mail = ( isset( $from['email'] ) ) ? $from['email'] : 'noreply@' . ( isset( $_SERVER['HTTP_HOST'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_HOST'] ) ) : '' );
 
 	add_filter( 'wp_mail_content_type', function () {
 		return "text/html";
@@ -241,13 +300,36 @@ function usp_mail( $email, $title, $text, $from = false, $attachments = false ) 
 		'mail_content' => $text,
 	] );
 
-	$content .= '<p><small>-----------------------------------------------------<br/>'
-	            . __( 'This letter was created automatically, no need to answer it.', 'userspace' ) . '<br/>'
-	            . '"' . get_bloginfo( 'name' ) . '"</small></p>';
-
 	return wp_mail( $email, $title, $content, $headers, $attachments );
 }
 
+/**
+ * Creating a form with custom fields.
+ *
+ * @param   $args       array   Extra arguments:
+ * <pre>
+ * $args['fields']      array   Custom fields. See: USP_Fields
+ * $args['submit']      string  Text of submit button.
+ * $args['icon']        string  Icon of submit button.
+ *                              Default: fa-check-circle
+ * $args['onclick']     string  JS function.
+ * $args['structure']
+ * $args['class']       string  Additional class.
+ * $args['action']      string  Action in form.
+ * $args['method']      string  post|get
+ *                              Default: post
+ * $args['submit_args'] array
+ * $args['nonce_name']  string
+ * </pre>
+ *
+ * @return  string  HTML form.
+ *
+ * @see     USP_Fields  Data of Custom fields.
+ * @see     USP_Form    Create form.
+ *
+ * @since   1.0.0
+ *
+ */
 function usp_get_form( $args ) {
 	USP()->use_module( 'forms' );
 
@@ -265,6 +347,7 @@ function usp_get_form( $args ) {
  *                                  Default: info.
  *                                  Allowed: info|success|warning|error|simple
  * $args['title']       string      Title text.
+ *                                  Default: none
  * $args['text']        string      Message text.
  * $args['text_center'] bool        Text align.
  *                                  Default: true
@@ -279,8 +362,11 @@ function usp_get_form( $args ) {
  *                                  Default: 30 days
  * </pre>
  *
- * @return string   notice.
- * @since 1.0
+ * @return  string   HTML notice.
+ *
+ * @see     USP_Notice
+ *
+ * @since   1.0.0
  *
  */
 function usp_get_notice( $args ) {
@@ -291,12 +377,70 @@ function usp_get_notice( $args ) {
 	return $Notice->get_notice();
 }
 
+/**
+ * Create button.
+ *
+ * @param   $args   array   Extra arguments:
+ * <pre>
+ * $args['id']              string  ID button.
+ * $args['class']     string|array  Additional class (classes).
+ * $args['style']           string  Inline styles.
+ * $args['type']            string  Type of button.
+ *                                  Available: clear|simple|primary
+ *                                  Default: primary
+ * $args['size']            string  Button size (you can specify your own value, if the available ones do not fit).
+ *                                  Available: small|standard|medium|large|big
+ *                                  Default: standard
+ * $args['icon']            string  Icon (if necessary). Example: fa-car
+ *                                  Default: none
+ * $args['icon_align']      string  Position icon.
+ *                                  Available: left|right
+ *                                  Default: left
+ * $args['icon_mask']       bool    1 - is mask on icon.
+ *                                  Default: false
+ * $args['label']           string  Text on button.
+ * $args['title']           string  Title attribute. If not specified, it is taken from label.
+ * $args['counter']         int     The counter on the button.
+ *                                  Default: none
+ * $args['onclick']         string  JS onclick function.
+ * $args['href']            string  URL to button.
+ *                                  Default: javascript:void(0);
+ * $args['data']            array   Data attr.<br>
+ *                                  Example: $args['data'] = ['post' => $post];
+ * $args['avatar']          string  The image of the avatar received by the get_avatar() function.<br>
+ *                                  Example:$args['avatar'] = get_avatar(3, 26);
+ * $args['avatar_circle']   bool    Round avatar.
+ *                                  Default: false
+ * $args['content']         string  Custom content in button.
+ * $args['submit']          bool    Submit in usp_submit_form() js. Provided that onclick is not set.
+ *                                  Default: false
+ * $args['status']          string  State of the button.
+ *                                  Available: loading|disabled|active
+ *                                  Default: none
+ * $args['attrs']           array   Additional attributes.
+ * $args['fullwidth']       bool    Fullwidth button.
+ *                                  Default: false
+ * </pre>
+ *
+ * @return  string   HTML button.
+ *
+ * @see     USP_Button
+ *
+ * @since   1.0.0
+ */
 function usp_get_button( array $args ) {
 	$bttn = new USP_Button( $args );
 
 	return $bttn->get_button();
 }
 
+/**
+ * Array of area options.
+ *
+ * @return  array   Options area.
+ *
+ * @since   1.0.0
+ */
 function usp_get_area_options() {
 	return [
 		'menu'     => get_site_option( 'usp_fields_area-menu' ),
@@ -306,15 +450,18 @@ function usp_get_area_options() {
 }
 
 /**
- * Writes logs by date
- * and puts them in the directory: site/wp-content/userspace/logs/
+ * Writes logs by date.
+ * And puts them in the directory: site/wp-content/userspace/logs/
  *
- * @param string $title Event title.
- * @param array $data Array of recorded data.
- * @param bool $force if it is necessary to ignore the settings in the admin panel and write it down forcibly.
+ * @param   $title  string  Event title.
+ * @param   $data   array   Array of recorded data.
+ * @param   $force  bool    if it is necessary to ignore the settings in the admin panel and write it down forcibly.
  *
- * @return void
- * @since 1.0.0
+ * @return  void
+ *
+ * @see     USP_Log
+ *
+ * @since   1.0.0
  *
  */
 function usp_add_log( $title, $data = false, $force = false ) {
@@ -331,6 +478,14 @@ function usp_add_log( $title, $data = false, $force = false ) {
 	}
 }
 
+/**
+ * Checks if it's Blocks Editor (Gutenberg).
+ *
+ * @return  bool    true - block editor.
+ *                  false - is not a block editor.
+ *
+ * @since   1.0.0
+ */
 function usp_is_gutenberg() {
 	if ( ! is_admin() ) {
 		return false;
@@ -344,6 +499,7 @@ function usp_is_gutenberg() {
 		return false;
 	}
 
+	// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 	if ( isset( $_GET['classic-editor'] ) ) {
 		return false;
 	}
@@ -361,7 +517,14 @@ function usp_is_gutenberg() {
 	return true;
 }
 
-// set root inline css colors
+/**
+ * Set root inline css colors & size.
+ *
+ * @return  string  :root variables.
+ *
+ * @since   1.0.0
+ *
+ */
 function usp_get_root_colors() {
 	$background = usp_get_option_customizer( 'usp_background', '#0369a1' );
 	[ $r, $g, $b ] = sscanf( $background, "#%02x%02x%02x" );
@@ -397,20 +560,23 @@ function usp_get_root_colors() {
 }
 
 /**
- * Declination by profile gender
- * Applicable for Russian
+ * Declination by profile gender.
+ * Applicable for the Russian language.
  *
- * @param int $user_id id user.
+ * @param   $user_id    int ID of user.
+ *                          Available: '-1' - e.g. wp-cron. Returns: $data[0]
  *
- * @param array $data = ['опубликовал','опубликовала']
+ * @param   $data       array   Declination data.
+ *                              Example: ['опубликовал','опубликовала']
  *
- * @return string declination result. For example: опубликовала
- * @since 1.0
+ * @return  string  Declination result. For example: опубликовала
+ *
+ * @since   1.0.0
  *
  */
 function usp_declination_by_sex( $user_id, $data ) {
 	// e.g. wp_cron
-	if ( $user_id == '-1' ) {
+	if ( '-1' == $user_id ) {
 		return $data[0];
 	}
 
@@ -428,23 +594,26 @@ function usp_declination_by_sex( $user_id, $data ) {
 }
 
 /**
- * Fast declination for Russian: "подписчик, подписчика, подписчиков"
- * similar to _n() & _nx() and does not depend on the translation file
+ * Fast declination for Russian: "подписчик, подписчика, подписчиков".
+ * Similar to `_n()` & `_nx()` and does not depend on the translation file.
  *
- * @param int $number Passing a number from the counter.
+ * @param   $number     int     Passing a number from the counter.
  *
- * @param array $variants ['подписчик', 'подписчика', 'подписчиков']
+ * @param   $variants   array   Declination data.
+ *                              Example:['подписчик', 'подписчика', 'подписчиков']
  *
- * @return string   e.g. ($number = 5) 'подписчиков'
- * @since 1.0
+ * @return  string      e.g. ($number = 5) 'подписчиков'
+ *
+ * @since   1.0.0
  *
  */
 function usp_decline( $number, $variants = [ '', '', '' ] ) {
 	$x = ( $xx = abs( $number ) % 100 ) % 10;
 
-	return $variants[ ( $xx > 10 and $xx < 15 or ! $x or $x > 4 and $x < 10 ) ? 2 : ( $x == 1 ? 0 : 1 ) ];
+	return $variants[ ( $xx > 10 and $xx < 15 or ! $x or $x > 4 and $x < 10 ) ? 2 : ( 1 == $x ? 0 : 1 ) ];
 }
 
+// todo: ?? what is??
 // userspace beat
 function usp_init_beat( $beatName ) {
 	global $usp_beats;
@@ -453,10 +622,11 @@ function usp_init_beat( $beatName ) {
 }
 
 /**
- * gets the id of the current profile page
+ * Gets the id of the current profile page.
  *
- * @return int  id of the current profile page
- * @since 1.0
+ * @return  int     ID of the current profile page.
+ *
+ * @since   1.0.0
  *
  */
 function usp_office_id() {
@@ -466,10 +636,11 @@ function usp_office_id() {
 /**
  * Encodes the given string with base64.
  *
- * @param mixed $data Variable (usually an array or object) to encode as base64.
+ * @param   $data   mixed   Variable (usually an array or object) to encode as base64.
  *
- * @return string|false The base64 encoded string, or false if it cannot be encoded.
- * @since 1.0
+ * @return  string|false    The base64 encoded string, or false if it cannot be encoded.
+ *
+ * @since   1.0.0
  *
  */
 function usp_encode( $data ) {
@@ -478,19 +649,22 @@ function usp_encode( $data ) {
 		return false;
 	}
 
+	// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode
 	return base64_encode( $json );
 }
 
 /**
  * Decodes the given string with base64.
  *
- * @param string $string string to decode from base64.
+ * @param   $string string  string to decode from base64.
  *
- * @return mixed|false Decoded variable (usually an array or object), or false if it cannot be decoded.
- * @since 1.0
+ * @return  mixed|false Decoded variable (usually an array or object), or false if it cannot be decoded.
+ *
+ * @since   1.0.0
  *
  */
 function usp_decode( $string ) {
+	// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_decode
 	$decode = base64_decode( $string );
 	if ( false === $decode ) {
 		return false;
@@ -505,13 +679,15 @@ function usp_decode( $string ) {
  * Is returned in a human-readable format such as "1 hour",
  * "5 mins", "2 days".
  *
- * @param string $time_action mysql datetime format.
+ * @param   $time_action    string  MySQL datetime format.
  *
- * @return string Human-readable time difference.
- * @since 1.0.0
+ * @return  string  Human-readable time difference.
+ *
+ * @since   1.0.0
  *
  */
 function usp_human_time_diff( $time_action ) {
+	// phpcs:ignore WordPress.DateTime.CurrentTimeTimestamp.Requested
 	$unix_current_time = current_time( 'timestamp' );
 	$unix_time_action  = strtotime( $time_action );
 
@@ -519,13 +695,15 @@ function usp_human_time_diff( $time_action ) {
 }
 
 /**
- * Shows in a human-readable format such as "27 june" or "27 june 2021"
+ * Shows in a human-readable format such as "27 june" or "27 june 2021".
  *
- * @param string $date mysql datetime format
- * @param bool $year Optional. Output the year as well
+ * @param   $date   string  MySQL datetime format.
+ * @param   $year   bool    Optional. Output the year as well.
  *
- * @return string Human-readable date
- * @since 1.0.0
+ * @return  string  Human-readable date.
+ * @throws  Exception
+ *
+ * @since   1.0.0
  *
  */
 function usp_human_date_format( $date, $year = false ) {
@@ -548,19 +726,21 @@ function usp_human_date_format( $date, $year = false ) {
  * Returned in a human-readable format such as "Today", "Yesterday",
  * "Two days ago" or "27 june 2021".
  *
- * @param string $date mysql datetime format.
- * @param bool $year if necessary, output the year as well.
+ * @param   $date   string  MySQL datetime format.
+ * @param   $year   bool    If necessary, output the year as well.
  *
- * @return string Human-readable date.
- * @since 1.0.0
+ * @return  string  Human-readable date.
+ * @throws  Exception
+ *
+ * @since   1.0.0
  *
  */
 function usp_human_days( $date, $year = false ) {
-	$current_date     = get_date_from_gmt( date( 'Y-m-d H:i:s' ), 'Y-m-d' );
-	$yesterday        = date( 'Y-m-d', strtotime( "-1 days", strtotime( $current_date ) ) );
-	$before_yesterday = date( 'Y-m-d', strtotime( "-2 days", strtotime( $current_date ) ) );
+	$current_date     = get_date_from_gmt( gmdate( 'Y-m-d H:i:s' ), 'Y-m-d' );
+	$yesterday        = gmdate( 'Y-m-d', strtotime( "-1 days", strtotime( $current_date ) ) );
+	$before_yesterday = gmdate( 'Y-m-d', strtotime( "-2 days", strtotime( $current_date ) ) );
 
-	$action_date = date( 'Y-m-d', strtotime( $date ) );
+	$action_date = gmdate( 'Y-m-d', strtotime( $date ) );
 	if ( $current_date == $action_date ) {
 		return __( 'Today', 'userspace' );
 	} elseif ( $yesterday == $action_date ) {
@@ -575,13 +755,14 @@ function usp_human_days( $date, $year = false ) {
 /**
  * Applies the callback to the elements of the given arrays.
  *
- * @param callable $callback A callable to run for each element in each array.
- * @param array $data An array to run through the callback function.
+ * @param   $callback   callable    A callable to run for each element in each array.
+ * @param   $data       array       An array to run through the callback function.
  *
- * @return array returns an array containing the results of applying the callback to
- * the corresponding index of array (and arrays if more arrays are provided)
- * used as arguments for the callback.
- * @since 1.0.0
+ * @return  array   Returns an array containing the results of applying the callback to
+ *                  the corresponding index of array (and arrays if more arrays are provided)
+ *                  used as arguments for the callback.
+ *
+ * @since   1.0.0
  *
  */
 function usp_recursive_map( $callback, $data ) {
