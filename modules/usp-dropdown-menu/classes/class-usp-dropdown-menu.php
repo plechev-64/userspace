@@ -158,6 +158,7 @@ class USP_Dropdown_Menu {
 	 * @return USP_Dropdown_Menu_Group
 	 */
 	public function add_submenu( USP_Dropdown_Menu $submenu, array $params = [] ) {
+		
 		return $this->get_group( $this->default_group )->add_submenu( $submenu, $params );
 	}
 

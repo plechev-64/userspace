@@ -8,114 +8,98 @@ function usp_dropdown_menu_scripts() {
 	usp_enqueue_script( 'usp-dropdown-menu', USP_URL . 'modules/usp-dropdown-menu/assets/js/usp-dropdown-menu.js', false, false, true );
 }
 
-function get_test_dropdown_menu( $style ) {
+add_action( 'usp_bar_left_icons', function () {
+	echo usp_menu_test_wp_menu_convert();
+} );
 
-	/**
-	 * Вертикальное меню большое
-	 */
-	$menu_vertical_big = new USP_Dropdown_Menu( 'vertical_big', [
-		'show'        => 'on_hover',
+function usp_menu_test_wp_menu_convert( $menu_color = 'none' ) {
+
+	$wp_usp_menu_slug = 'usp-bar';
+	$locations        = get_nav_menu_locations();
+
+	if ( empty( $locations[ $wp_usp_menu_slug ] ) ) {
+		return;
+	}
+
+	$wp_usp_menu = wp_get_nav_menu_items( $locations[ $wp_usp_menu_slug ] );
+
+	if ( ! $wp_usp_menu ) {
+		return;
+	}
+
+	$menu_items = [];
+
+	foreach ( $wp_usp_menu as $item ) {
+
+		$menu_items[] = [
+			'id'     => $item->ID,
+			'url'    => $item->url,
+			'title'  => $item->title,
+			'parent' => $item->menu_item_parent
+		];
+
+	}
+
+	$menu_tree = usp_menu_build_tree_recursive( $menu_items );
+
+	$usp_menu = new USP_Dropdown_Menu( 'wp-usp-bar-menu', [
 		'open_button' => [
-			'icon'  => 'fa-vertical-ellipsis',
-			'label' => 'Вертикальное большое',
-			'type'  => 'clear'
-		]
+			'label' => 'WordPress Menu',
+			'icon'  => 'fa-vertical-ellipsis'
+		],
+		'show'        => 'on_hover',
+		'style'       => $menu_color
 	] );
 
-	$menu_vertical_big
-		->add_button( [
-			'icon'  => 'fa-star',
-			'label' => 'Пункт меню 1 Пункт меню 1'
-		] )
-		->add_button( [
-			'icon'  => 'fa-volume-off',
-			'label' => 'Пункт меню 2',
-		] )
-		->add_button( [
-			'icon'  => 'fa-expand-arrows',
-			'label' => 'Пункт меню 3',
-		] );
+	usp_menu_build_from_tree_recursive( $menu_tree, $usp_menu, $menu_color );
 
 
-	$menu_vertical_big
-		->add_group( 'primary', [ 'align_content' => 'horizontal', 'order' => 3, 'title' => 'Мини кнопки' ] )
-		->add_button( [
-			'icon'  => 'fa-trash',
-			'label' => '',
-			'size'  => 'small'
-		] )
-		->add_button( [
-			'icon'  => 'fa-star',
-			'label' => '',
-			'size'  => 'small'
-		] )
-		->add_button( [
-			'icon'  => 'fa-star',
-			'label' => '',
-			'size'  => 'small'
-		] )
-		->add_button( [
-			'icon'  => 'fa-star',
-			'label' => '',
-			'size'  => 'small'
-		] );
+	return $usp_menu->get_content();
 
-	$menu_vertical_big
-		->add_group( 'title2', [ 'order' => 9, 'title' => 'Основные кнопки' ] );
+}
 
-	$menu_vertical_big
-		->add_group( 'sub_menu_group', [ 'order' => 4, 'title' => 'Sub menu кнопки' ] );
+function usp_menu_build_tree_recursive( $items, $parent_id = 0 ) {
 
-	$sub_menu = new USP_Dropdown_Menu( 'sub_menu',
-		[ 'position' => 'right-bottom', 'show' => 'on_hover' ] );
+	$menu = [];
 
-	$sub_menu->add_button( [
-		'icon'  => 'fa-expand-arrows',
-		'label' => 'Sub Пункт меню 1',
-	] );
-	$sub_menu->add_button( [
-		'icon'  => 'fa-expand-arrows',
-		'label' => 'Sub Пункт меню 2',
-	] );
-	$sub_menu->add_button( [
-		'icon'  => 'fa-expand-arrows',
-		'label' => 'Sub Пункт меню 3',
-	] );
-	$sub_menu->add_button( [
-		'icon'  => 'fa-expand-arrows',
-		'label' => 'Sub Пункт меню 4 Sub Пункт меню 4',
-	] );
+	foreach ( $items as $item ) {
+		if ( $item['parent'] == $parent_id ) {
+			$menu[] = [
+				'id'       => $item['id'],
+				'url'      => $item['url'],
+				'title'    => $item['title'],
+				'children' => usp_menu_build_tree_recursive( $items, $item['id'] )
+			];
+		}
+	}
 
-	$sub_menu2 = new USP_Dropdown_Menu( 'sub_menu2',
-		[ 'position' => 'right-bottom', 'show' => 'on_hover' ] );
+	return $menu;
+}
 
-	$sub_menu2->add_button( [
-		'icon'  => 'fa-expand-arrows',
-		'label' => 'Sub Пункт меню 1',
-	] );
-	$sub_menu2->add_button( [
-		'icon'  => 'fa-expand-arrows',
-		'label' => 'Sub Пункт меню 2',
-	] );
-	$sub_menu2->add_button( [
-		'icon'  => 'fa-expand-arrows',
-		'label' => 'Sub Пункт меню 3',
-	] );
-	$sub_menu2->add_button( [
-		'icon'  => 'fa-expand-arrows',
-		'label' => 'Sub Пункт меню 4 Sub Пункт меню 4',
-	] );
+function usp_menu_build_from_tree_recursive( $menu_tree, USP_Dropdown_Menu $usp_menu, $menu_color ) {
 
-	$sub_menu->add_submenu( $sub_menu2 );
+	foreach ( $menu_tree as $item ) {
 
-	$menu_vertical_big->get_group( 'sub_menu_group' )->add_submenu( $sub_menu );
-	$menu_vertical_big->get_group( 'sub_menu_group' )->add_submenu( $sub_menu );
+		if ( $item['children'] ) {
+			$child_menu = new USP_Dropdown_Menu( 'wp-usp-bar-menu-' . $item['id'], [
+				'open_button' => [
+					'label' => $item['title'],
+					'icon'  => 'fa-vertical-ellipsis'
+				],
+				'show'        => 'on_hover',
+				'position'    => 'right-bottom',
+				'style'       => $menu_color
+			] );
 
+			$usp_menu->add_submenu( $child_menu );
 
-	$menu_vertical_big->style = $style;
-	$sub_menu->style          = $style;
-	$dark                     = $menu_vertical_big->get_content();
+			usp_menu_build_from_tree_recursive( $item['children'], $child_menu, $menu_color );
+		} else {
 
+			$usp_menu->add_button( [ 'label' => $item['title'], 'href' => $item['url'] ] );
 
-	return $dark;
+		}
+
+	}
+
 }

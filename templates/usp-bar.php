@@ -23,7 +23,8 @@ $class      = 'usp-bar-' . $color;
 $menu_color = 'none';
 ?>
 
-<div id="usp-bar" class="usp-bar <?php echo sanitize_html_class( $class ); ?> usps usps__jc-center usps__line-1" <?php echo usp_bar_customizer_hide(); ?>>
+<div id="usp-bar"
+     class="usp-bar <?php echo sanitize_html_class( $class ); ?> usps usps__jc-center usps__line-1" <?php echo usp_bar_customizer_hide(); ?>>
     <div class="usp-bar-wrap usps usps__jc-between usps__grow usps__ai-center usps__relative" <?php echo usp_bar_width(); ?>>
         <div class="usp-bar-left usps usps__ai-center">
 			<?php echo usp_get_button( [
@@ -37,8 +38,6 @@ $menu_color = 'none';
         </div>
 
         <div class="usp-bar-right usps usps__grow usps__ai-center usps__jc-end">
-
-			<?php echo get_test_dropdown_menu( $menu_color ); ?>
 
             <div class="usp-bar__bttns"><?php do_action( 'usp_bar_buttons' ); ?></div>
 
@@ -75,7 +74,10 @@ $menu_color = 'none';
 						'avatar'     => $usp_user->get_avatar( 30 ),
 					] );
 
-					$menu = new USP_Dropdown_Menu( 'usp_bar_profile_menu', [ 'open_button' => $menu_button, 'style' => $menu_color ] );
+					$menu = new USP_Dropdown_Menu( 'usp_bar_profile_menu', [
+						'open_button' => $menu_button,
+						'style'       => $menu_color
+					] );
 
 					$menu->add_button(
 						[
