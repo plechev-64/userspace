@@ -613,12 +613,35 @@ function usp_decline( $number, $variants = [ '', '', '' ] ) {
 	return $variants[ ( $xx > 10 and $xx < 15 or ! $x or $x > 4 and $x < 10 ) ? 2 : ( 1 == $x ? 0 : 1 ) ];
 }
 
-// todo: ?? what is??
-// userspace beat
-function usp_init_beat( $beatName ) {
+
+/**
+ * Register beat callback
+ *
+ * @param string $beat_name - beat name
+ * @param array $actions - array of allowed callbacks for $beat_name
+ *
+ * @return void
+ */
+function usp_init_beat( string $beat_name, array $actions ) {
 	global $usp_beats;
 
-	$usp_beats[ $beatName ] = [];
+	$usp_beats[ $beat_name ] = $actions;
+}
+
+/**
+ * Check if callback action for $beat_name exist
+ *
+ * @param string $beat_name
+ * @param string $action
+ *
+ * @return bool
+ */
+function usp_beat_action_exist( string $beat_name, string $action ) {
+	global $usp_beats;
+
+	$beat_actions = $usp_beats[ $beat_name ] ?? [];
+
+	return in_array( $action, $beat_actions );
 }
 
 /**

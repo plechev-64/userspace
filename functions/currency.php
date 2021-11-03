@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * TODO remove?
+ */
+
 // List of current currencies
 function usp_get_currency_list() {
 

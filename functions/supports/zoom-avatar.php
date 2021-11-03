@@ -19,9 +19,9 @@ function usp_zoom_avatar_button( $buttons ) {
 			'title'   => __( 'Zoom avatar', 'userspace' ),
 			'onclick' => 'usp_zoom_user_avatar(this);return false;',
 			'href'    => '#',
-			'data'    => array(
+			'data'    => [
 				'zoom' => get_avatar_url( usp_office_id(), [ 'size' => 1000 ] )
-			),
+			],
 			'icon'    => 'fa-search',
 		];
 		$buttons .= usp_get_button( $args );

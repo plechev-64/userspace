@@ -10,7 +10,7 @@ function usp_get_image_gallery( $args ) {
 function usp_add_temp_media( $args ) {
 	global $wpdb, $user_ID;
 
-	$session_id = isset( $_COOKIE['PHPSESSID'] ) && $_COOKIE['PHPSESSID'] ? $_COOKIE['PHPSESSID'] : 'none';
+	$session_id = ! empty( $_COOKIE['PHPSESSID'] ) ? sanitize_text_field( wp_unslash( $_COOKIE['PHPSESSID'] ) ) : 'none';
 
 	$args = wp_parse_args( $args, array(
 		'media_id'    => '',
@@ -42,7 +42,7 @@ function usp_update_temp_media( $update, $where ) {
 function usp_delete_temp_media( $media_id ) {
 	global $wpdb;
 
-	return $wpdb->query( "DELETE FROM " . USP_PREF . "temp_media WHERE media_id = '$media_id'" );
+	return $wpdb->query( $wpdb->prepare( "DELETE FROM " . USP_PREF . "temp_media WHERE media_id = %d", $media_id ) );
 }
 
 function usp_delete_temp_media_by_args( $args ) {
@@ -70,13 +70,13 @@ function usp_delete_attachment_temp_gallery( $attachment_id ) {
 add_action( 'usp_cron_twicedaily', 'usp_delete_daily_old_temp_attachments', 10 );
 function usp_delete_daily_old_temp_attachments() {
 
-	$medias = usp_get_temp_media( array(
-		'date_query' => array(
-			array(
+	$medias = usp_get_temp_media( [
+		'date_query' => [
+			[
 				'last' => '1 DAY'
-			)
-		)
-	) );
+			]
+		]
+	] );
 
 	if ( ! $medias ) {
 		return false;

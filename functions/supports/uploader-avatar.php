@@ -136,7 +136,7 @@ function usp_avatar_upload( $uploads, $uploader ) {
 add_action( 'wp', 'usp_delete_avatar_action' );
 function usp_delete_avatar_action() {
 	global $user_ID;
-	if ( ! isset( $_GET['usp-action'] ) || $_GET['usp-action'] != 'delete_avatar' ) {
+	if ( ! isset( $_GET['usp-action'], $_GET['_wpnonce'] ) || $_GET['usp-action'] != 'delete_avatar' ) {
 		return;
 	}
 
@@ -156,7 +156,7 @@ function usp_delete_avatar_action() {
 
 	do_action( 'usp_delete_avatar' );
 
-	wp_redirect( add_query_arg( [ 'usp-avatar' => 'deleted' ], usp_user_get_url( $user_ID ) ) );
+	wp_safe_redirect( add_query_arg( [ 'usp-avatar' => 'deleted' ], usp_user_get_url( $user_ID ) ) );
 	exit;
 }
 

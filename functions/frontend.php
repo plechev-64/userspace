@@ -6,8 +6,8 @@ function userspace() {
 	do_action( 'usp_area_before' );
 	?>
 
-    <div id="usp-office" class="<?php echo usp_get_office_class(); ?>"
-         data-account="<?php echo USP()->office()->get_owner_id(); ?>">
+    <div id="usp-office" class="<?php echo esc_attr( usp_get_office_class() ); ?>"
+         data-account="<?php echo esc_attr( USP()->office()->get_owner_id() ); ?>">
 
 		<?php do_action( 'usp_area_notice' ); ?>
 

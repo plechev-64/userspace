@@ -2,10 +2,10 @@
 
 function usp_get_wp_upload_dir() {
 	if ( defined( 'MULTISITE' ) ) {
-		$upload_dir = array(
+		$upload_dir = [
 			'basedir' => WP_CONTENT_DIR . '/uploads',
 			'baseurl' => WP_CONTENT_URL . '/uploads'
-		);
+		];
 	} else {
 		$upload_dir = wp_upload_dir();
 	}
@@ -35,9 +35,9 @@ function usp_include_template( $temp_name, $path = false, $data = false ) {
  * or from a special plugin directory (/wp-content/userspace/templates/$temp_name)
  * if not exist, it will connect the file from the plugin folder (/wp-content/plugins/your-plugin/templates/$temp_name)
  *
- * @param   string  $temp_name  Template file name.
- * @param   string  $path       Path to file.
- * @param   array   $data       Array of additional data.
+ * @param string $temp_name Template file name.
+ * @param string $path Path to file.
+ * @param array $data Array of additional data.
  *
  * @return string       HTML content of a specific template.
  * @since 1.0.0
@@ -91,7 +91,7 @@ function usp_get_mime_types( $ext_array ) {
 		return false;
 	}
 
-	$mTypes = array();
+	$mTypes = [];
 
 	foreach ( $ext_array as $ext ) {
 		if ( ! $ext ) {

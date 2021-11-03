@@ -8,7 +8,7 @@ function usp_add_office_menu_options() {
 /**
  * Checks is the user profile page or the user profile of the specified user_id
  *
- * @param   int  $user_id  id user.
+ * @param int $user_id id user.
  *
  * @return bool         true - is office, false - not.
  *                      If user_id is passed: true - is office by user_id, false - not.
@@ -19,10 +19,11 @@ function usp_is_office( $user_id = null ) {
 
 	if ( isset( $_POST['action'] ) && $_POST['action'] == 'usp_ajax_tab' ) {
 
-		$post = usp_decode( $_POST['post'] );
+		$post      = usp_decode( $_POST['post'] );
+		$master_id = absint( $post->master_id );
 
-		if ( $post->master_id ) {
-			USP()->office()->set_owner( $post->master_id );
+		if ( $master_id ) {
+			USP()->office()->set_owner( $master_id );
 		}
 	} else if ( USP_Ajax()->is_rest_request() && isset( $_POST['office_id'] ) ) {
 		USP()->office()->set_owner( intval( $_POST['office_id'] ) );
@@ -48,7 +49,7 @@ function usp_get_office_class() {
 	/**
 	 * Adding class in user office.
 	 *
-	 * @param   string    added class.
+	 * @param string    added class.
 	 *                  Default: empty string
 	 *
 	 * @since 1.0
