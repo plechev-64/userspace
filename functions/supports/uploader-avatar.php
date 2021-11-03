@@ -9,20 +9,20 @@ function usp_support_avatar_uploader_scripts() {
 	}
 }
 
+// add inline js localization
 add_filter( 'usp_init_js_variables', 'usp_init_js_avatar_variables', 10 );
 function usp_init_js_avatar_variables( $data ) {
-	global $user_ID;
-
-	if ( usp_is_office( $user_ID ) ) {
-		$data['avatar_size']                 = usp_get_option( 'usp_avatar_weight', 1024 );
+	if ( usp_is_office( get_current_user_id() ) ) {
+		$data['avatar_size'] = usp_get_option( 'usp_avatar_weight', 1024 );
+		// translators: %s = 1024 (e.g. Max. %s Kb)
 		$data['local']['upload_size_avatar'] = sprintf( __( 'Exceeds the maximum image size! Max. %s Kb', 'userspace' ), usp_get_option( 'usp_avatar_weight', 1024 ) );
 		$data['local']['title_image_upload'] = __( 'Image being loaded', 'userspace' );
-		//$data['local']['title_webcam_upload'] = __( 'Image from camera', 'userspace' );
 	}
 
 	return $data;
 }
 
+// add buttons in personal account
 add_filter( 'usp_avatar_bttns', 'usp_button_avatar_upload', 10 );
 function usp_button_avatar_upload( $buttons ) {
 	global $user_ID;
@@ -107,44 +107,64 @@ function usp_remove_wp_library_sizes_for_avatar( $sizes, $image_meta ) {
 	return $sizes;
 }
 
+// remove old avatar
 add_action( 'usp_pre_upload', 'usp_avatar_pre_upload', 10 );
 function usp_avatar_pre_upload( $uploader ) {
-	global $user_ID;
-
-	if ( $uploader->uploader_id != 'usp_avatar' ) {
+	if ( 'usp_avatar' != $uploader->uploader_id ) {
 		return;
 	}
 
-	if ( $oldAvatarId = get_user_meta( $user_ID, 'usp_avatar', 1 ) ) {
+	$oldAvatarId = get_user_meta( get_current_user_id(), 'usp_avatar', 1 );
+	if ( $oldAvatarId ) {
 		wp_delete_attachment( $oldAvatarId );
 	}
 }
 
+// upload avatar
 add_action( 'usp_upload', 'usp_avatar_upload', 10, 2 );
 function usp_avatar_upload( $uploads, $uploader ) {
-	global $user_ID;
-
-	if ( $uploader->uploader_id != 'usp_avatar' ) {
+	if ( 'usp_avatar' != $uploader->uploader_id ) {
 		return;
 	}
 
-	update_user_meta( $user_ID, 'usp_avatar', $uploads['id'] );
+	update_user_meta( get_current_user_id(), 'usp_avatar', $uploads['id'] );
 
-	do_action( 'usp_avatar_upload' );
+	/**
+	 * Fires after the user upload avatar.
+	 *
+	 * @param   $uploads_id     int     ID avatar.
+	 *
+	 * @since   1.0.0
+	 *
+	 */
+	do_action( 'usp_avatar_upload', $uploads['id'] );
 }
 
+// delete avatar
 add_action( 'wp', 'usp_delete_avatar_action' );
 function usp_delete_avatar_action() {
-	global $user_ID;
-	if ( ! isset( $_GET['usp-action'], $_GET['_wpnonce'] ) || $_GET['usp-action'] != 'delete_avatar' ) {
+	if ( ! isset( $_GET['usp-action'], $_GET['_wpnonce'] ) || 'delete_avatar' != $_GET['usp-action'] ) {
 		return;
 	}
 
+	global $user_ID;
+
+	// phpcs:ignore
 	if ( ! wp_verify_nonce( $_GET['_wpnonce'], $user_ID ) ) {
 		wp_die( 'Error 101' );
 	}
 
 	$avatar_id = get_user_meta( $user_ID, 'usp_avatar', 1 );
+
+	/**
+	 * Fires before the user deletes avatar.
+	 *
+	 * @param   $avatar_id  int  ID avatar.
+	 *
+	 * @since   1.0.0
+	 *
+	 */
+	do_action( 'usp_pre_delete_avatar', $avatar_id );
 
 	$result = delete_user_meta( $user_ID, 'usp_avatar' );
 
@@ -152,18 +172,29 @@ function usp_delete_avatar_action() {
 		wp_die( 'Error 103' );
 	}
 
-	wp_delete_attachment( $avatar_id );
+	$data = wp_delete_attachment( $avatar_id );
 
-	do_action( 'usp_delete_avatar' );
+	/**
+	 * Fires after the user deletes avatar.
+	 *
+	 * @param   $data   WP_Post|false|null  Post data on success, false or null on failure.
+	 *
+	 * @since   1.0.0
+	 *
+	 */
+	do_action( 'usp_delete_avatar', $data );
 
 	wp_safe_redirect( add_query_arg( [ 'usp-avatar' => 'deleted' ], usp_user_get_url( $user_ID ) ) );
 	exit;
 }
 
+// notice - success delete avatar
 add_action( 'wp', 'usp_notice_avatar_deleted' );
 function usp_notice_avatar_deleted() {
-	if ( isset( $_GET['usp-avatar'] ) && $_GET['usp-avatar'] == 'deleted' ) {
+	// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+	if ( isset( $_GET['usp-avatar'] ) && 'deleted' == $_GET['usp-avatar'] ) {
 		add_action( 'usp_area_notice', function () {
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			echo usp_get_notice( [ 'type' => 'success', 'text' => __( 'Your avatar has been deleted', 'userspace' ) ] );
 		} );
 	}

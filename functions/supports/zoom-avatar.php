@@ -4,6 +4,7 @@ function usp_support_zoom_avatar_scripts() {
 	usp_enqueue_script( 'usp-zoom-avatar', USP_URL . 'functions/supports/assets/js/usp-zoom-avatar.js' );
 }
 
+// add button in personal account
 add_filter( 'usp_avatar_bttns', 'usp_zoom_avatar_button', 10 );
 function usp_zoom_avatar_button( $buttons ) {
 	$avatar = get_user_meta( usp_office_id(), 'usp_avatar', 1 );

@@ -9,12 +9,12 @@ function usp_support_cover_uploader_scripts() {
 	}
 }
 
+// add inline js localization
 add_filter( 'usp_init_js_variables', 'usp_init_js_cover_variables', 10 );
 function usp_init_js_cover_variables( $data ) {
-	global $user_ID;
-
-	if ( usp_is_office( $user_ID ) ) {
-		$data['cover_size']                  = usp_get_option( 'usp_cover_weight', 1024 );
+	if ( usp_is_office( get_current_user_id() ) ) {
+		$data['cover_size'] = usp_get_option( 'usp_cover_weight', 1024 );
+		// translators: %s = 1024 (e.g. Max. %s Kb)
 		$data['local']['upload_size_cover']  = sprintf( __( 'Exceeds the maximum image size! Max. %s Kb', 'userspace' ), usp_get_option( 'usp_cover_weight', 1024 ) );
 		$data['local']['title_image_upload'] = __( 'Image being loaded', 'userspace' );
 		$data['local']['image_load_ok']      = __( 'Image uploaded successfully', 'userspace' );
@@ -23,45 +23,50 @@ function usp_init_js_cover_variables( $data ) {
 	return $data;
 }
 
+// add button in personal account
 add_action( 'usp_area_top', 'usp_add_cover_uploader_button', 10 );
 function usp_add_cover_uploader_button() {
 	global $user_ID;
-	if ( usp_is_office( $user_ID ) ) {
 
-		USP()->use_module( 'uploader' );
-
-		$uploader = new USP_Uploader( 'usp_cover', [
-			'multiple'    => 0,
-			'filetitle'   => 'usp-user-cover-' . $user_ID,
-			'filename'    => $user_ID,
-			'dir'         => '/uploads/usp-uploads/covers',
-			'crop'        => [
-				'ratio' => 0
-			],
-			'image_sizes' => [
-				[
-					'height' => 9999,
-					'width'  => 9999,
-					'crop'   => 0
-				]
-			],
-			'resize'      => [ 1500, 1500 ],
-			'min_height'  => 300,
-			'min_width'   => 600,
-			'max_size'    => usp_get_option( 'usp_cover_weight', 1024 )
-		] );
-
-		$args_uploads = [
-			'type'    => 'clear',
-			'size'    => 'large',
-			'class'   => 'usp-cover-icon',
-			'title'   => __( 'Upload cover', 'userspace' ),
-			'content' => $uploader->get_input(),
-			'icon'    => 'fa-image',
-			'id'      => 'usp-cover-upload',
-		];
-		echo usp_get_button( $args_uploads );
+	if ( ! usp_is_office( $user_ID ) ) {
+		return;
 	}
+
+	USP()->use_module( 'uploader' );
+
+	$uploader = new USP_Uploader( 'usp_cover', [
+		'multiple'    => 0,
+		'filetitle'   => 'usp-user-cover-' . $user_ID,
+		'filename'    => $user_ID,
+		'dir'         => '/uploads/usp-uploads/covers',
+		'crop'        => [
+			'ratio' => 0
+		],
+		'image_sizes' => [
+			[
+				'height' => 9999,
+				'width'  => 9999,
+				'crop'   => 0
+			]
+		],
+		'resize'      => [ 1500, 1500 ],
+		'min_height'  => 300,
+		'min_width'   => 600,
+		'max_size'    => usp_get_option( 'usp_cover_weight', 1024 )
+	] );
+
+	$args_uploads = [
+		'type'    => 'clear',
+		'size'    => 'large',
+		'class'   => 'usp-cover-icon',
+		'title'   => __( 'Upload cover', 'userspace' ),
+		'content' => $uploader->get_input(),
+		'icon'    => 'fa-image',
+		'id'      => 'usp-cover-upload',
+	];
+
+	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	echo usp_get_button( $args_uploads );
 }
 
 // remove standard WP sizes
@@ -84,13 +89,14 @@ function usp_remove_wp_library_sizes_for_cover( $sizes, $image_meta ) {
 	return $sizes;
 }
 
+// upload cover
 add_action( 'usp_upload', 'usp_cover_upload', 10, 2 );
 function usp_cover_upload( $upload, $class ) {
-	global $user_ID;
-
-	if ( $class->uploader_id != 'usp_cover' ) {
+	if ( 'usp_cover' != $class->uploader_id ) {
 		return;
 	}
+
+	global $user_ID;
 
 	$oldCoverId = get_user_meta( $user_ID, 'usp_cover', 1 );
 
@@ -98,5 +104,13 @@ function usp_cover_upload( $upload, $class ) {
 
 	update_user_meta( $user_ID, 'usp_cover', $upload['id'] );
 
-	do_action( 'usp_cover_upload' );
+	/**
+	 * Fires after the user upload cover.
+	 *
+	 * @param   $uploads_id     int     ID cover.
+	 *
+	 * @since   1.0.0
+	 *
+	 */
+	do_action( 'usp_cover_upload', $upload['id'] );
 }

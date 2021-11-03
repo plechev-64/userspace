@@ -4,6 +4,7 @@ function usp_is_ajax() {
 	return ( defined( 'DOING_AJAX' ) && DOING_AJAX || isset( $GLOBALS['wp']->query_vars['rest_route'] ) );
 }
 
+// phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
 function USP_Ajax() {
 	return USP_Ajax::getInstance();
 }
@@ -22,10 +23,9 @@ function usp_ajax_action( $callback, $guest_access = false, $modules = true ) {
 
 usp_rest_action( 'usp_ajax_call' );
 function usp_ajax_call() {
-	global $user_ID;
-
 	USP_Ajax()->verify();
 
+	// phpcs:disable WordPress.Security.NonceVerification.Missing
 	if ( empty( $_POST['call_action'] ) ) {
 		wp_send_json( [
 			'error' => __( 'Unregistered callback', 'userspace' )
@@ -33,7 +33,9 @@ function usp_ajax_call() {
 	}
 
 	$callback = sanitize_text_field( wp_unslash( $_POST['call_action'] ) );
-	$modules  = ! empty( $_POST['used_modules'] ) ? usp_recursive_map( 'sanitize_text_field', wp_unslash( $_POST['used_modules'] ) ) : false;
+	// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+	$modules = ! empty( $_POST['used_modules'] ) ? usp_recursive_map( 'sanitize_text_field', wp_unslash( $_POST['used_modules'] ) ) : false;
+	// phpcs:enable WordPress.Security.NonceVerification.Missing
 
 	if ( $modules ) {
 		foreach ( $modules as $module_id ) {
@@ -44,11 +46,12 @@ function usp_ajax_call() {
 	$callbackProps = USP_Ajax()->get_ajax_callback( $callback );
 
 	if ( ! $callbackProps ) {
-
 		wp_send_json( [
 			'error' => __( 'Unregistered callback', 'userspace' )
 		] );
 	}
+
+	global $user_ID;
 
 	if ( ! $user_ID && ! $callbackProps['guest'] ) {
 		wp_send_json( [
@@ -62,6 +65,7 @@ function usp_ajax_call() {
 		] );
 	}
 
+	// phpcs:ignore WordPress.WP.EnqueuedResourceParameters.NotInFooter
 	wp_enqueue_script( 'usp-core-scripts', USP_URL . 'assets/js/usp-core.js', [ 'jquery' ], USP_VERSION );
 
 	$respond = $callback();
@@ -71,12 +75,15 @@ function usp_ajax_call() {
 	wp_send_json( $respond );
 }
 
-usp_ajax_action( 'usp_load_tab', true, true );
+usp_ajax_action( 'usp_load_tab', true );
 function usp_load_tab() {
+	usp_verify_ajax_nonce();
 
+	// phpcs:disable WordPress.Security.NonceVerification.Missing
 	$tab_id    = ! empty( $_POST['tab_id'] ) ? sanitize_text_field( wp_unslash( $_POST['tab_id'] ) ) : '';
 	$subtab_id = ! empty( $_POST['subtab_id'] ) ? sanitize_text_field( wp_unslash( $_POST['subtab_id'] ) ) : '';
 	$office_id = ! empty( $_POST['office_id'] ) ? intval( $_POST['office_id'] ) : 0;
+	// phpcs:enable WordPress.Security.NonceVerification.Missing
 
 	$tab = USP()->tabs()->tab( $tab_id );
 
@@ -84,6 +91,7 @@ function usp_load_tab() {
 		return [ 'error' => __( 'Data of the requested tab was not found.', 'userspace' ) ];
 	}
 
+	// phpcs:ignore WordPress.PHP.StrictInArray.MissingTrueStrict
 	$ajax = ( in_array( 'ajax', $tab->supports ) || in_array( 'dialog', $tab->supports ) ) ? 1 : 0;
 
 	if ( ! $ajax ) {
@@ -112,17 +120,21 @@ function usp_load_tab() {
 // process the heartbeat of the plugin
 usp_ajax_action( 'usp_beat', true );
 function usp_beat() {
+	usp_verify_ajax_nonce();
 
+	// phpcs:disable WordPress.Security.NonceVerification.Missing
 	if ( empty( $_POST['databeat'] ) ) {
 		return [ 'error' => __( 'Error', 'userspace' ) ];
 	}
 
+	// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 	$databeat = usp_recursive_map( 'sanitize_text_field', json_decode( wp_unslash( $_POST['databeat'] ) ) );
-	$result   = [ 'beat_result' => [] ];
+	// phpcs:enable WordPress.Security.NonceVerification.Missing
+
+	$result = [ 'beat_result' => [] ];
 
 	if ( $databeat ) {
 		foreach ( $databeat as $data ) {
-
 			if ( ! usp_beat_action_exist( $data->beat_name, $data->action ) ) {
 				continue;
 			}
@@ -143,16 +155,19 @@ function usp_beat() {
 /**
  * TODO refactoring blacklist functionality
  */
-usp_ajax_action( 'usp_manage_user_black_list', false );
+usp_ajax_action( 'usp_manage_user_black_list' );
 function usp_manage_user_black_list() {
+	usp_verify_ajax_nonce();
 
-	if ( empty( $_POST['user_id'] ) || ! get_userdata( $_POST['user_id'] ) ) {
+	// phpcs:disable WordPress.Security.NonceVerification.Missing
+	if ( empty( $_POST['user_id'] ) || ! get_userdata( intval( wp_unslash( $_POST['user_id'] ) ) ) ) {
 		return [
 			'error' => __( 'Error', 'userspace' )
 		];
 	}
 
 	$user_id = absint( $_POST['user_id'] );
+	// phpcs:enable WordPress.Security.NonceVerification.Missing
 
 	$user_block = get_user_meta( get_current_user_id(), 'usp_black_list:' . $user_id );
 
@@ -171,18 +186,20 @@ function usp_manage_user_black_list() {
 	];
 }
 
-usp_ajax_action( 'usp_get_emoji_ajax', false );
+usp_ajax_action( 'usp_get_emoji_ajax' );
 function usp_get_emoji_ajax() {
+	usp_verify_ajax_nonce();
+
 	global $wpsmiliestrans;
 
 	$content = [];
+	$emojis  = [];
 
-	$smilies = [];
-	foreach ( $wpsmiliestrans as $emo => $smilie ) {
-		$smilies[ $smilie ] = $emo;
+	foreach ( $wpsmiliestrans as $emo => $smile ) {
+		$emojis[ $smile ] = $emo;
 	}
 
-	foreach ( $smilies as $smilie => $emo ) {
+	foreach ( $emojis as $k => $emo ) {
 		if ( ! $emo ) {
 			continue;
 		}
@@ -191,7 +208,7 @@ function usp_get_emoji_ajax() {
 
 	if ( ! $content ) {
 		return [
-			'error' => __( 'Failed to load emoticons', 'userspace' )
+			'error' => __( 'Failed to load emojis', 'userspace' )
 		];
 	}
 
@@ -203,14 +220,15 @@ function usp_get_emoji_ajax() {
 /* new uploader */
 usp_ajax_action( 'usp_upload', true );
 function usp_upload() {
-
+	// phpcs:disable WordPress.Security.NonceVerification.Missing
 	if ( empty( $_POST['options'] ) ) {
 		return [
 			'error' => __( 'Error', 'userspace' )
 		];
 	}
 
-	$options = usp_recursive_map( 'sanitize_text_field', json_decode( wp_unslash( $_POST['options'] ) ) );
+	// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+	$options = ( array ) json_decode( wp_unslash( $_POST['options'] ) );
 
 	if ( empty( $options['class_name'] ) ) {
 		return [
@@ -220,7 +238,7 @@ function usp_upload() {
 
 	$class_name = $options['class_name'];
 
-	if ( $class_name == 'USP_Uploader' ) {
+	if ( 'USP_Uploader' == $class_name ) {
 		$uploader = new $class_name( $options['uploader_id'], $options );
 	} else if ( is_subclass_of( $class_name, 'USP_Uploader' ) ) {
 		$uploader = new $class_name( $options );
@@ -229,8 +247,11 @@ function usp_upload() {
 			'error' => __( 'Error', 'userspace' )
 		];
 	}
+	$secret = isset( $_POST['sk'] ) ? sanitize_text_field( wp_unslash( $_POST['sk'] ) ) : false;
+	// phpcs:enable WordPress.Security.NonceVerification.Missing
+	$secret_check = md5( wp_json_encode( $uploader ) . usp_get_option( 'usp_security_key' ) );
 
-	if ( md5( json_encode( $uploader ) . usp_get_option( 'usp_security_key' ) ) != $_POST['sk'] ) {
+	if ( ! $secret || $secret_check != $secret ) {
 		return [
 			'error' => __( 'Error of security', 'userspace' )
 		];
@@ -250,27 +271,27 @@ function usp_upload() {
 // deleting photos attached to a post via the plugin loader
 usp_ajax_action( 'usp_ajax_delete_attachment', true );
 function usp_ajax_delete_attachment() {
+	usp_verify_ajax_nonce();
 
+	// phpcs:disable WordPress.Security.NonceVerification.Missing
 	if ( empty( $_POST['attach_id'] ) ) {
-		return array(
+		return [
 			'error' => __( 'The data has been wrong!', 'userspace' )
-		);
+		];
 	}
 
 	$attachment_id = intval( $_POST['attach_id'] );
 	$post_id       = ! empty( $_POST['post_id'] ) ? intval( $_POST['post_id'] ) : 0;
 	$access_error  = [ 'error' => __( 'You can`t delete this file!', 'userspace' ) ];
+	// phpcs:enable WordPress.Security.NonceVerification.Missing
 
 	if ( $post_id ) {
-
 		if ( ! current_user_can( 'edit_post', $post_id ) ) {
 			return $access_error;
 		}
 	}
 
-
 	if ( ! is_user_logged_in() ) {
-
 		$media = ( new USP_Temp_Media() )->where( [ 'media_id' => $attachment_id ] )->get_row();
 
 		$session_id = ! empty( $_COOKIE['PHPSESSID'] ) ? sanitize_text_field( wp_unslash( $_COOKIE['PHPSESSID'] ) ) : 'none';

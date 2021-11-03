@@ -19,6 +19,7 @@ function usp_support_user_info_style() {
 	usp_enqueue_style( 'usp-user-info-css', USP_URL . 'functions/supports/assets/css/usp-user-details.css' );
 }
 
+// add buttons in personal account
 add_filter( 'usp_avatar_bttns', 'usp_add_user_info_button', 10 );
 function usp_add_user_info_button( $buttons ) {
 	usp_dialog_scripts();
@@ -37,6 +38,7 @@ function usp_add_user_info_button( $buttons ) {
 	return $buttons;
 }
 
+// Get ajax user details by id
 usp_ajax_action( 'usp_return_user_details', true );
 function usp_return_user_details() {
 	usp_verify_ajax_nonce();
@@ -58,6 +60,7 @@ function usp_return_user_details() {
 	];
 }
 
+// Get user details by id
 function usp_get_user_details( $user_id ) {
 	USP()->use_module( 'users-list' );
 
