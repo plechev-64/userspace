@@ -39,8 +39,8 @@ class USP_Pager {
 
 	function set_current() {
 
-		if ( isset( $_REQUEST[ $this->key ] ) && $_REQUEST[ $this->key ] ) {
-			$this->current = $_REQUEST[ $this->key ];
+		if ( ! empty( $_REQUEST[ $this->key ] ) ) {
+			$this->current = absint( $_REQUEST[ $this->key ] );
 		}
 
 		if ( $this->current == 0 ) {

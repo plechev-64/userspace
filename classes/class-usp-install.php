@@ -29,7 +29,7 @@ class USP_Install {
 
 	public static function init_global() {
 		$upload_dir = usp_get_wp_upload_dir();
-		wp_mkdir_p( ( $upload_dir[ 'basedir' ] ) );
+		wp_mkdir_p( ( $upload_dir['basedir'] ) );
 	}
 
 	public static function create_tables() {
@@ -84,11 +84,11 @@ class USP_Install {
 
 		$pages = apply_filters( 'usp_pages', array(
 			'account_page' => array(
-				'name'		 => 'account',
-				'title'		 => __( 'User profile page', 'userspace' ),
-				'content'	 => '<!-- wp:shortcode -->[userspace]<!-- /wp:shortcode -->'
+				'name'    => 'account',
+				'title'   => __( 'User profile page', 'userspace' ),
+				'content' => '<!-- wp:shortcode -->[userspace]<!-- /wp:shortcode -->'
 			)
-			) );
+		) );
 
 		foreach ( $pages as $key => $page ) {
 
@@ -97,10 +97,10 @@ class USP_Install {
 				if ( ! usp_isset_plugin_page( $key ) ) {
 
 					$page_id = usp_create_plugin_page_if_need( $key, [
-						'post_title'	 => $page[ 'title' ],
-						'post_content'	 => $page[ 'content' ],
-						'post_name'		 => $page[ 'name' ],
-						] );
+						'post_title'   => $page['title'],
+						'post_content' => $page['content'],
+						'post_name'    => $page['name'],
+					] );
 
 					usp_update_option( $key, $page_id );
 				}
@@ -113,36 +113,36 @@ class USP_Install {
 
 		$files = array(
 			array(
-				'base'		 => $upload_dir[ 'basedir' ],
-				'file'		 => 'index.html',
-				'content'	 => ''
+				'base'    => $upload_dir['basedir'],
+				'file'    => 'index.html',
+				'content' => ''
 			),
 			array(
-				'base'		 => USP_TAKEPATH,
-				'file'		 => '.htaccess',
-				'content'	 => 'Options -indexes'
+				'base'    => USP_TAKEPATH,
+				'file'    => '.htaccess',
+				'content' => 'Options -indexes'
 			),
 			array(
-				'base'		 => USP_TAKEPATH,
-				'file'		 => 'index.html',
-				'content'	 => ''
+				'base'    => USP_TAKEPATH,
+				'file'    => 'index.html',
+				'content' => ''
 			),
 			array(
-				'base'		 => USP_TAKEPATH . 'templates',
-				'file'		 => 'index.html',
-				'content'	 => ''
+				'base'    => USP_TAKEPATH . 'templates',
+				'file'    => 'index.html',
+				'content' => ''
 			),
 			array(
-				'base'		 => USP_UPLOAD_PATH,
-				'file'		 => 'index.html',
-				'content'	 => ''
+				'base'    => USP_UPLOAD_PATH,
+				'file'    => 'index.html',
+				'content' => ''
 			)
 		);
 
 		foreach ( $files as $file ) {
-			if ( wp_mkdir_p( $file[ 'base' ] ) && ! file_exists( trailingslashit( $file[ 'base' ] ) . $file[ 'file' ] ) ) {
-				if ( $file_handle = @fopen( trailingslashit( $file[ 'base' ] ) . $file[ 'file' ], 'w' ) ) {
-					fwrite( $file_handle, $file[ 'content' ] );
+			if ( wp_mkdir_p( $file['base'] ) && ! file_exists( trailingslashit( $file['base'] ) . $file['file'] ) ) {
+				if ( $file_handle = @fopen( trailingslashit( $file['base'] ) . $file['file'], 'w' ) ) {
+					fwrite( $file_handle, $file['content'] );
 					fclose( $file_handle );
 				}
 			}
@@ -156,18 +156,18 @@ class USP_Install {
 		}
 
 		add_role( 'need-confirm', __( 'Unconfirmed', 'userspace' ), array(
-			'read'			 => false,
-			'edit_posts'	 => false,
-			'delete_posts'	 => false,
-			'upload_files'	 => false
+				'read'         => false,
+				'edit_posts'   => false,
+				'delete_posts' => false,
+				'upload_files' => false
 			)
 		);
 
 		add_role( 'banned', __( 'Ban', 'userspace' ), array(
-			'read'			 => false,
-			'edit_posts'	 => false,
-			'delete_posts'	 => false,
-			'upload_files'	 => false
+				'read'         => false,
+				'edit_posts'   => false,
+				'delete_posts' => false,
+				'upload_files' => false
 			)
 		);
 	}
@@ -175,7 +175,7 @@ class USP_Install {
 	/**
 	 * Deleting tables if the blog is deleted (for multi-sites)
 	 *
-	 * @param   array  $tables
+	 * @param array $tables
 	 *
 	 * @return array
 	 */
@@ -204,6 +204,7 @@ class USP_Install {
 		// disable the display of the admin panel for all users of the site, if enabled
 		$wpdb->update( $wpdb->usermeta, [ 'meta_value' => 'false' ], [ 'meta_key' => 'show_admin_bar_front' ] );
 
+		//todo fix 
 		update_site_option( 'default_role', 'author' );
 		update_site_option( 'users_can_register', 1 );
 

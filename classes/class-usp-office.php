@@ -86,7 +86,7 @@ class USP_Office {
 				$this->on_page = 1;
 			}
 
-			$this->vars['member'] = ! empty( $_GET[ $this->varnames['member'] ] ) ? $_GET[ $this->varnames['member'] ] : 0;
+			$this->vars['member'] = ! empty( $_GET[ $this->varnames['member'] ] ) ? absint( $_GET[ $this->varnames['member'] ] ) : 0;
 
 		}
 
