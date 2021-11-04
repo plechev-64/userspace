@@ -3,7 +3,7 @@
 add_filter( 'usp_field_options', 'usp_edit_field_options', 10, 3 );
 function usp_edit_field_options( $options, $field, $manager_id ) {
 
-	$types = array( 'range', 'runner' );
+	$types = [ 'range', 'runner' ];
 
 	if ( in_array( $field->type, $types ) ) {
 
@@ -21,41 +21,64 @@ function usp_edit_field_options( $options, $field, $manager_id ) {
 usp_ajax_action( 'usp_manager_get_new_field', false );
 function usp_manager_get_new_field() {
 
-	$managerProps = $_POST['props'];
+	if ( ! current_user_can( 'manage_options' ) ) {
+		return [
+			'error' => __( 'Error', 'userspace' )
+		];
+	}
+
+	if ( empty( $_POST['props'] ) ) {
+		return [
+			'error' => __( 'Error', 'userspace' )
+		];
+	}
+
+	$managerProps = usp_recursive_map( 'sanitize_text_field', wp_unslash( $_POST['props'] ) );
 
 	$Manager = new USP_Fields_Manager( $managerProps['manager_id'], $managerProps );
 
 	$field_id = 'newField-' . uniqid();
 
-	$Manager->add_field( array(
+	$Manager->add_field( [
 		'slug' => $field_id,
 		'type' => $Manager->types[0],
 		'_new' => true
-	) );
+	] );
 
-	return array(
+	return [
 		'content' => $Manager->get_field_manager( $field_id )
-	);
+	];
 }
 
 usp_ajax_action( 'usp_manager_get_custom_field_options', false );
 function usp_manager_get_custom_field_options() {
 
-	$new_type = $_POST['newType'];
-	$old_type = $_POST['oldType'];
-	$field_id = $_POST['fieldId'];
+	if ( ! current_user_can( 'manage_options' ) ) {
+		return [
+			'error' => __( 'Error', 'userspace' )
+		];
+	}
 
-	$managerProps = $_POST['manager'];
+	if ( empty( $_POST['manager'] ) || empty( $_POST['newType'] ) || empty( $_POST['fieldId'] ) ) {
+		return [
+			'error' => __( 'Error', 'userspace' )
+		];
+	}
+
+	$new_type = sanitize_text_field( wp_unslash( $_POST['newType'] ) );
+	$field_id = sanitize_text_field( wp_unslash( $_POST['fieldId'] ) );
+
+	$managerProps = usp_recursive_map( 'sanitize_text_field', wp_unslash( $_POST['manager'] ) );
 
 	$Manager = new USP_Fields_Manager( $managerProps['manager_id'], $managerProps );
 
 	if ( stristr( $field_id, 'newField' ) !== false ) {
 
-		$Manager->add_field( array(
+		$Manager->add_field( [
 			'slug' => $field_id,
 			'type' => $new_type,
 			'_new' => true
-		) );
+		] );
 	} else {
 
 		$Manager->set_field_prop( $field_id, 'type', $new_type );
@@ -65,58 +88,91 @@ function usp_manager_get_custom_field_options() {
 
 	$content = $Manager->get_field_options_content( $field_id );
 
-	$multiVars = array(
+	$multiVars = [
 		'select',
 		'radio',
 		'checkbox',
 		'multiselect'
-	);
+	];
 
 	if ( in_array( $new_type, $multiVars ) ) {
 
 		$content .= $Manager->sortable_dynamic_values_script( $field_id );
 	}
 
-	return array(
+	return [
 		'content' => $content
-	);
+	];
 }
 
 usp_ajax_action( 'usp_manager_get_new_area', false );
 function usp_manager_get_new_area() {
 
-	$managerProps = $_POST['props'];
+	if ( ! current_user_can( 'manage_options' ) ) {
+		return [
+			'error' => __( 'Error', 'userspace' )
+		];
+	}
+
+	if ( empty( $_POST['props'] ) ) {
+		return [
+			'error' => __( 'Error', 'userspace' )
+		];
+	}
+
+	$managerProps = usp_recursive_map( 'sanitize_text_field', wp_unslash( $_POST['props'] ) );
 
 	$Manager = new USP_Fields_Manager( 'any', $managerProps );
 
-	return array(
+	return [
 		'content' => $Manager->get_active_area()
-	);
+	];
 }
 
 usp_ajax_action( 'usp_manager_get_new_group', false );
 function usp_manager_get_new_group() {
 
-	$managerProps = $_POST['props'];
+	if ( ! current_user_can( 'manage_options' ) ) {
+		return [
+			'error' => __( 'Error', 'userspace' )
+		];
+	}
+
+	if ( empty( $_POST['props'] ) ) {
+		return [
+			'error' => __( 'Error', 'userspace' )
+		];
+	}
+
+	$managerProps = usp_recursive_map( 'sanitize_text_field', wp_unslash( $_POST['props'] ) );
 
 	$Manager = new USP_Fields_Manager( 'any', $managerProps );
 
-	return array(
+	return [
 		'content' => $Manager->get_group_areas()
-	);
+	];
 }
 
 usp_ajax_action( 'usp_manager_update_fields_by_ajax', false );
 function usp_manager_update_fields_by_ajax() {
+
+	if ( ! current_user_can( 'manage_options' ) ) {
+		return [
+			'error' => __( 'Error', 'userspace' )
+		];
+	}
 
 	return usp_manager_update_data_fields();
 }
 
 add_action( 'admin_init', 'usp_manager_update_fields_by_post', 10 );
 function usp_manager_update_fields_by_post() {
-	global $wpdb;
 
-	if ( ! isset( $_POST['usp_manager_update_fields_by_post'] ) ) {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		return false;
+	}
+
+	if ( ! isset( $_POST['usp_manager_update_fields_by_post'], $_POST['_wpnonce'], $_POST['_wp_http_referer'] ) ) {
 		return false;
 	}
 
@@ -126,23 +182,30 @@ function usp_manager_update_fields_by_post() {
 
 	usp_manager_update_data_fields();
 
-	wp_redirect( $_POST['_wp_http_referer'] );
+	wp_safe_redirect( $_POST['_wp_http_referer'] );
 	exit;
 }
 
 function usp_manager_update_data_fields() {
+
 	global $wpdb;
 
-	$copy        = $_POST['copy'];
-	$manager_id  = $_POST['manager_id'];
-	$option_name = $_POST['option_name'];
+	if ( empty( $_POST['manager_id'] ) || empty( $_POST['option_name'] ) || empty( $_POST['fields'] ) ) {
+		return [
+			'error' => __( 'Error', 'userspace' )
+		];
+	}
 
-	$fieldsData = wp_unslash( $_POST['fields'] );
-	$structure  = isset( $_POST['structure'] ) ? $_POST['structure'] : false;
+	$copy        = ! empty( $_POST['copy'] ) ? sanitize_text_field( wp_unslash( $_POST['copy'] ) ) : '';
+	$manager_id  = sanitize_text_field( wp_unslash( $_POST['manager_id'] ) );
+	$option_name = sanitize_text_field( wp_unslash( $_POST['option_name'] ) );
 
-	$fields    = array();
-	$keyFields = array();
-	$changeIds = array();
+	$fieldsData = usp_recursive_map( 'sanitize_text_field', wp_unslash( $_POST['fields'] ) );
+	$structure  = ! empty( $_POST['structure'] ) ? usp_recursive_map( 'sanitize_text_field', wp_unslash( $_POST['structure'] ) ) : false;
+
+	$fields    = [];
+	$keyFields = [];
+	$changeIds = [];
 	$isset_new = false;
 	foreach ( $fieldsData as $field_id => $field ) {
 
@@ -152,7 +215,7 @@ function usp_manager_update_data_fields() {
 
 		if ( isset( $field['values'] ) ) {
 			// remove empty values from the values array
-			$values = array();
+			$values = [];
 			foreach ( $field['values'] as $k => $v ) {
 				if ( $v == '' ) {
 					continue;
@@ -170,10 +233,10 @@ function usp_manager_update_data_fields() {
 
 			if ( ! $field['id'] ) {
 
-				$field_id = str_replace( array(
+				$field_id = str_replace( [
 					'-',
 					' '
-				), '_', usp_sanitize_string( $field['title'] ) . '-' . uniqid() );
+				], '_', usp_sanitize_string( $field['title'] ) . '-' . uniqid() );
 			} else {
 				$field_id = $field['id'];
 			}
@@ -192,9 +255,9 @@ function usp_manager_update_data_fields() {
 
 	if ( $structure ) {
 
-		$strArray = array();
+		$strArray = [];
 		$area_id  = - 1;
-
+		$group_id = 0;
 		foreach ( $structure as $value ) {
 
 			if ( is_array( $value ) ) {
@@ -202,17 +265,27 @@ function usp_manager_update_data_fields() {
 				if ( isset( $value['group_id'] ) ) {
 					$group_id = $value['group_id'];
 
-					$strArray[ $group_id ] = isset( $_POST['structure-groups'][ $group_id ] ) ? $_POST['structure-groups'][ $group_id ] : array();
+					if ( isset( $_POST['structure-groups'][ $group_id ] ) ) {
+						$strArray[ $group_id ] = usp_recursive_map( 'sanitize_text_field', wp_unslash( $_POST['structure-groups'][ $group_id ] ) );
+					} else {
+						$strArray[ $group_id ] = [];
+					}
+
 				} else if ( isset( $value['field_id'] ) ) {
 					$strArray[ $group_id ]['areas'][ $area_id ]['fields'][] = $value['field_id'];
 				}
 			} else {
 				$area_id ++;
-				$strArray[ $group_id ]['areas'][ $area_id ]['width'] = isset( $_POST['structure-areas'][ $area_id ]['width'] ) ? $_POST['structure-areas'][ $area_id ]['width'] : 0;
+				if ( isset( $_POST['structure-areas'][ $area_id ]['width'] ) ) {
+					$strArray[ $group_id ]['areas'][ $area_id ]['width'] = intval( $_POST['structure-areas'][ $area_id ]['width'] );
+				} else {
+					$strArray[ $group_id ]['areas'][ $area_id ]['width'] = 0;
+				}
+
 			}
 		}
 
-		$endStructure = array();
+		$endStructure = [];
 
 		foreach ( $strArray as $group_id => $group ) {
 
@@ -221,30 +294,34 @@ function usp_manager_update_data_fields() {
 			}
 
 			$endStructure[ $group_id ]          = $group;
-			$endStructure[ $group_id ]['areas'] = array();
+			$endStructure[ $group_id ]['areas'] = [];
 
 			foreach ( $group['areas'] as $area ) {
 
-				$fieldsArea = array();
+				$fieldsArea = [];
 
-				foreach ( $area['fields'] as $k => $field_id ) {
+				if ( ! empty( $area['fields'] ) ) {
 
-					if ( isset( $changeIds[ $field_id ] ) ) {
-						$field_id = $changeIds[ $field_id ];
+					foreach ( $area['fields'] as $k => $field_id ) {
+
+						if ( isset( $changeIds[ $field_id ] ) ) {
+							$field_id = $changeIds[ $field_id ];
+						}
+
+						if ( ! isset( $keyFields[ $field_id ] ) ) {
+							unset( $area['fields'][ $k ] );
+							continue;
+						}
+
+						$fieldsArea[] = $field_id;
 					}
 
-					if ( ! isset( $keyFields[ $field_id ] ) ) {
-						unset( $area['fields'][ $k ] );
-						continue;
-					}
-
-					$fieldsArea[] = $field_id;
 				}
 
-				$endStructure[ $group_id ]['areas'][] = array(
+				$endStructure[ $group_id ]['areas'][] = [
 					'width'  => round( $area['width'], 0 ),
 					'fields' => $fieldsArea
-				);
+				];
 			}
 		}
 
@@ -255,9 +332,9 @@ function usp_manager_update_data_fields() {
 
 	update_site_option( $option_name, $fields );
 
-	$args = array(
+	$args = [
 		'success' => __( 'Settings saved!', 'userspace' )
-	);
+	];
 
 	if ( $structure ) {
 		update_site_option( 'usp_fields_' . $manager_id . '_structure', $structure );
@@ -265,14 +342,19 @@ function usp_manager_update_data_fields() {
 		delete_site_option( 'usp_fields_' . $manager_id . '_structure' );
 	}
 
-	if ( isset( $_POST['deleted_fields'] ) && $_POST['deleted_fields'] ) {
-		if ( isset( $_POST['delete_table_data'] ) ) {
-			foreach ( $_POST['delete_table_data'] as $table_name => $colname ) {
-				$wpdb->query( "DELETE FROM $table_name WHERE $colname IN ('" . implode( "','", $_POST['deleted_fields'] ) . "')" );
-			}
+	if ( ! empty( $_POST['deleted_fields'] ) && ! empty( $_POST['delete_table_data'] ) ) {
 
-			$args['reload'] = true;
+		$delete_table_data = usp_recursive_map( 'sanitize_text_field', wp_unslash( $_POST['delete_table_data'] ) );
+
+		foreach ( $delete_table_data as $table_name => $colname ) {
+
+			$fields_to_delete = usp_recursive_map( 'sanitize_text_field', wp_unslash( $_POST['deleted_fields'] ) );
+
+			$wpdb->query( "DELETE FROM $table_name WHERE $colname IN ('" . implode( "','", $fields_to_delete ) . "')" );
 		}
+
+		$args['reload'] = true;
+
 	}
 
 	if ( $copy ) {
