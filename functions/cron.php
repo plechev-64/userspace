@@ -15,30 +15,42 @@ function usp_cron_activated() {
 
 add_action( 'usp_cron_hourly_schedule', 'usp_cron_hourly' );
 function usp_cron_hourly() {
-
 	usp_add_log(
 		__( 'Launch cron events', 'userspace' ) . ' usp_cron_hourly'
 	);
 
+	/**
+	 * Fires cron every hour.
+	 *
+	 * @since   1.0.0
+	 */
 	do_action( 'usp_cron_hourly' );
 }
 
 add_action( 'usp_cron_twicedaily_schedule', 'usp_cron_twicedaily' );
 function usp_cron_twicedaily() {
-
 	usp_add_log(
 		__( 'Launch cron events', 'userspace' ) . ' usp_cron_twicedaily'
 	);
 
+	/**
+	 * Fires cron twice an hour.
+	 *
+	 * @since   1.0.0
+	 */
 	do_action( 'usp_cron_twicedaily' );
 }
 
 add_action( 'usp_cron_daily_schedule', 'usp_cron_daily' );
 function usp_cron_daily() {
-
 	usp_add_log(
 		__( 'Launch cron events', 'userspace' ) . ' usp_cron_daily'
 	);
 
+	/**
+	 * Fires cron every day.
+	 *
+	 * @since   1.0.0
+	 */
 	do_action( 'usp_cron_daily' );
 }

@@ -8,22 +8,25 @@ function usp_get_image_gallery( $args ) {
 }
 
 function usp_add_temp_media( $args ) {
-	global $wpdb, $user_ID;
+	global $user_ID;
 
 	$session_id = ! empty( $_COOKIE['PHPSESSID'] ) ? sanitize_text_field( wp_unslash( $_COOKIE['PHPSESSID'] ) ) : 'none';
 
-	$args = wp_parse_args( $args, array(
+	$args = wp_parse_args( $args, [
 		'media_id'    => '',
 		'user_id'     => $user_ID,
 		'uploader_id' => '',
 		'session_id'  => $user_ID ? '' : $session_id,
 		'upload_date' => current_time( 'mysql' )
-	) );
+	] );
 
 	if ( ! $args['media_id'] ) {
 		return false;
 	}
 
+	global $wpdb;
+
+	// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 	if ( ! $wpdb->insert( USP_PREF . 'temp_media', $args ) ) {
 		return false;
 	}
@@ -36,17 +39,18 @@ function usp_add_temp_media( $args ) {
 function usp_update_temp_media( $update, $where ) {
 	global $wpdb;
 
+	// phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching
 	return $wpdb->update( USP_PREF . 'temp_media', $update, $where );
 }
 
 function usp_delete_temp_media( $media_id ) {
 	global $wpdb;
 
+	// phpcs:ignore
 	return $wpdb->query( $wpdb->prepare( "DELETE FROM " . USP_PREF . "temp_media WHERE media_id = %d", $media_id ) );
 }
 
 function usp_delete_temp_media_by_args( $args ) {
-
 	$medias = usp_get_temp_media( $args );
 
 	if ( ! $medias ) {
@@ -69,7 +73,6 @@ function usp_delete_attachment_temp_gallery( $attachment_id ) {
 
 add_action( 'usp_cron_twicedaily', 'usp_delete_daily_old_temp_attachments', 10 );
 function usp_delete_daily_old_temp_attachments() {
-
 	$medias = usp_get_temp_media( [
 		'date_query' => [
 			[
@@ -89,7 +92,6 @@ function usp_delete_daily_old_temp_attachments() {
 
 // crop images
 function usp_crop( $filesource, $width, $height, $file ) {
-
 	$image = wp_get_image_editor( $filesource );
 
 	if ( ! is_wp_error( $image ) ) {

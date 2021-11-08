@@ -12,7 +12,6 @@
  * @return  string          URL cover or avatar.
  *
  * @since   1.0.0
- *
  */
 function usp_get_default_cover( $avatar_cover = false, $user_id = false ) {
 	$default_cover = USP_URL . 'themes/default/assets/img/usp-default-cover.jpg';
@@ -95,7 +94,6 @@ function usp_get_pages_ids() {
  * @return  array       Roles slug (key) & roles name (value).
  *
  * @since   1.0.0
- *
  */
 function usp_get_roles_ids( $exclude = false ) {
 	if ( ! is_admin() ) {
@@ -128,7 +126,6 @@ function usp_get_roles_ids( $exclude = false ) {
  * @return  string      Converted string.
  *
  * @since   1.0.0
- *
  */
 function usp_sanitize_string( $string, $sanitize = true ) {
 	$string_to_lower = mb_strtolower( $string );
@@ -140,7 +137,6 @@ function usp_sanitize_string( $string, $sanitize = true ) {
 		 * @param array  Input => output value.
 		 *
 		 * @since       1.0.0
-		 *
 		 */
 		apply_filters( 'usp_sanitize_iso', [
 			"Ї" => "Yi",
@@ -258,7 +254,6 @@ function usp_sanitize_string( $string, $sanitize = true ) {
  * @return  string   Emoji box.
  *
  * @since   1.0.0
- *
  */
 function usp_get_emoji( $id_area, $class = false ) {
 	$emoji_box = '<div class="' . $class . ' usp-emoji usps usps__jc-end" data-area="' . $id_area . '">';
@@ -283,7 +278,6 @@ function usp_get_emoji( $id_area, $class = false ) {
  * @return  bool    Whether the email was sent successfully.
  *
  * @since   1.0.0
- *
  */
 function usp_mail( $email, $title, $text, $from = false, $attachments = false ) {
 	$from_name = $from['name'] ?? get_bloginfo( 'name' );
@@ -328,7 +322,6 @@ function usp_mail( $email, $title, $text, $from = false, $attachments = false ) 
  * @see     USP_Form    Create form.
  *
  * @since   1.0.0
- *
  */
 function usp_get_form( $args ) {
 	USP()->use_module( 'forms' );
@@ -367,7 +360,6 @@ function usp_get_form( $args ) {
  * @see     USP_Notice
  *
  * @since   1.0.0
- *
  */
 function usp_get_notice( $args ) {
 	require_once USP_PATH . '/classes/class-usp-notice.php';
@@ -462,7 +454,6 @@ function usp_get_area_options() {
  * @see     USP_Log
  *
  * @since   1.0.0
- *
  */
 function usp_add_log( $title, $data = false, $force = false ) {
 	if ( ! $force && ! usp_get_option( 'usp_logger' ) ) {
@@ -523,7 +514,6 @@ function usp_is_gutenberg() {
  * @return  string  :root variables.
  *
  * @since   1.0.0
- *
  */
 function usp_get_root_colors() {
 	$background = usp_get_option_customizer( 'usp_background', '#0369a1' );
@@ -572,7 +562,6 @@ function usp_get_root_colors() {
  * @return  string  Declination result. For example: опубликовала
  *
  * @since   1.0.0
- *
  */
 function usp_declination_by_sex( $user_id, $data ) {
 	// e.g. wp_cron
@@ -585,6 +574,13 @@ function usp_declination_by_sex( $user_id, $data ) {
 	$declination = $data[0];
 
 	if ( $sex ) {
+		/**
+		 * The filter allows you to change the value for declination.
+		 *
+		 * @param   $sex    string  Default: 'Woman'.
+		 *
+		 * @since   1.0.0
+		 */
 		$var = apply_filters( 'usp_declination_var', __( 'Woman', 'userspace' ) );
 
 		$declination = ( $sex === $var ) ? $data[1] : $data[0];
@@ -605,7 +601,6 @@ function usp_declination_by_sex( $user_id, $data ) {
  * @return  string      e.g. ($number = 5) 'подписчиков'
  *
  * @since   1.0.0
- *
  */
 function usp_decline( $number, $variants = [ '', '', '' ] ) {
 	$x = ( $xx = abs( $number ) % 100 ) % 10;
@@ -650,7 +645,6 @@ function usp_beat_action_exist( string $beat_name, string $action ) {
  * @return  int     ID of the current profile page.
  *
  * @since   1.0.0
- *
  */
 function usp_office_id() {
 	return USP()->office()->get_owner_id();
@@ -664,7 +658,6 @@ function usp_office_id() {
  * @return  string|false    The base64 encoded string, or false if it cannot be encoded.
  *
  * @since   1.0.0
- *
  */
 function usp_encode( $data ) {
 	$json = wp_json_encode( $data );
@@ -684,7 +677,6 @@ function usp_encode( $data ) {
  * @return  mixed|false Decoded variable (usually an array or object), or false if it cannot be decoded.
  *
  * @since   1.0.0
- *
  */
 function usp_decode( $string ) {
 	// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_decode
@@ -707,7 +699,6 @@ function usp_decode( $string ) {
  * @return  string  Human-readable time difference.
  *
  * @since   1.0.0
- *
  */
 function usp_human_time_diff( $time_action ) {
 	// phpcs:ignore WordPress.DateTime.CurrentTimeTimestamp.Requested
@@ -727,7 +718,6 @@ function usp_human_time_diff( $time_action ) {
  * @throws  Exception
  *
  * @since   1.0.0
- *
  */
 function usp_human_date_format( $date, $year = false ) {
 	global $wp_locale;
@@ -756,7 +746,6 @@ function usp_human_date_format( $date, $year = false ) {
  * @throws  Exception
  *
  * @since   1.0.0
- *
  */
 function usp_human_days( $date, $year = false ) {
 	$current_date     = get_date_from_gmt( gmdate( 'Y-m-d H:i:s' ), 'Y-m-d' );
@@ -786,7 +775,6 @@ function usp_human_days( $date, $year = false ) {
  *                  used as arguments for the callback.
  *
  * @since   1.0.0
- *
  */
 function usp_recursive_map( $callback, $data ) {
 	if ( is_array( $data ) ) {

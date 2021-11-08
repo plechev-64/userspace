@@ -1,50 +1,65 @@
 <?php
 
-/* load user account page */
+/**
+ *  Load user account page.
+ */
 function userspace() {
-
+	/**
+	 * Fires from the top, on the account page
+	 *
+	 * @since   1.0.0
+	 */
 	do_action( 'usp_area_before' );
 	?>
 
     <div id="usp-office" class="<?php echo esc_attr( usp_get_office_class() ); ?>"
          data-account="<?php echo esc_attr( USP()->office()->get_owner_id() ); ?>">
 
-		<?php do_action( 'usp_area_notice' ); ?>
+		<?php
+		/**
+		 * Fires for notifications on the account page.
+		 *
+		 * @since 1.0.0
+		 */
+		do_action( 'usp_area_notice' ); ?>
 
 		<?php
-		if ( $themePath = USP()->theme()->get( 'path' ) ) {
+		$themePath = USP()->theme()->get( 'path' );
+		if ( $themePath ) {
 			USP()->template( 'usp-office.php', $themePath )->include();
 		} else {
-			echo '<h3>' . __( 'Office templates not found!', 'userspace' ) . '</h3>';
+			echo '<h3>' . esc_html__( 'Office templates not found!', 'userspace' ) . '</h3>';
 		}
 		?>
 
     </div>
 
 	<?php
+	/**
+	 * Fires from the bottom, on the account page
+	 *
+	 * @since   1.0.0
+	 */
 	do_action( 'usp_area_after' );
 }
 
 // adding inline styles to the header
 add_action( 'wp_head', 'usp_inline_styles', 100 );
 function usp_inline_styles() {
-
 	[ $r, $g, $b ] = sscanf( usp_get_option_customizer( 'usp_primary_color', '#0369a1' ), "#%02x%02x%02x" );
 
 	/**
-	 * Adding inline styles to the header
+	 * Adding inline styles to the header.
 	 *
-	 * @param string $styles css ruleset.
-	 * @param array $rgb {
-	 *      array of rgb primary colors.
+	 * @param   $styles string  CSS ruleset.
+	 * @param   $rgb    array   Array of rgb primary colors:
+	 * <pre>
+	 * $rgb['r']    int red.
+	 * $rgb['g']    int green.
+	 * $rgb['b']    int blue.
+	 * </pre>
 	 *
-	 * @type int red.
-	 * @type int green.
-	 * @type int blue.
-	 * }
-	 *
-	 * @since 1.0
-	 *
+	 * @since   1.0.0
 	 */
 	$inline_styles = apply_filters( 'usp_inline_styles', '', [ $r, $g, $b ] );
 
@@ -52,6 +67,7 @@ function usp_inline_styles() {
 		return;
 	}
 
+	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	echo "<style>" . usp_clearing_css( $inline_styles ) . "</style>\r\n";
 }
 
@@ -59,12 +75,11 @@ function usp_inline_styles() {
 add_action( 'wp_footer', 'usp_inline_styles_footer', 300 );
 function usp_inline_styles_footer() {
 	/**
-	 * Adding inline styles to the footer
+	 * Adding inline styles to the footer.
 	 *
-	 * @param string $styles css ruleset.
+	 * @param   $styles string  CSS ruleset.
 	 *
-	 * @since 1.0
-	 *
+	 * @since   1.0.0
 	 */
 	$inline_styles = apply_filters( 'usp_inline_styles_footer', '' );
 
@@ -72,18 +87,18 @@ function usp_inline_styles_footer() {
 		return;
 	}
 
+	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	echo "<style>" . usp_clearing_css( $inline_styles ) . "</style>\r\n";
 }
 
 /**
  * Clearing spaces, tabs, hyphenation etc.
  *
- * @param string $styles css ruleset.
+ * @param   $styles string  CSS ruleset.
  *
- * @return string cleared css
+ * @return  string  Cleared CSS
  *
- * @since 1.0
- *
+ * @since   1.0.0
  */
 function usp_clearing_css( $styles ) {
 	// removing spaces, hyphenation, and tabs
@@ -134,6 +149,7 @@ function usp_css_variable( $styles ) {
 	return $styles;
 }
 
+// Registers two areas: top and bottom in content. Allows you to add buttons.
 add_filter( 'the_content', 'usp_before_post', 999 );
 function usp_before_post( $content ) {
 	if ( doing_filter( 'get_the_excerpt' ) || ! is_single() || is_front_page() ) {
@@ -143,11 +159,10 @@ function usp_before_post( $content ) {
 	/**
 	 * Adding buttons before the content.
 	 *
-	 * @param string    added buttons before the content.
+	 * @param string  Added buttons before the content.
 	 *                  Default: empty string
 	 *
-	 * @since 1.0
-	 *
+	 * @since   1.0.0
 	 */
 	$before_post = apply_filters( 'usp_before_content_buttons', '' );
 
@@ -156,11 +171,10 @@ function usp_before_post( $content ) {
 	/**
 	 * Adding buttons after the content.
 	 *
-	 * @param string    added buttons after the content.
+	 * @param string  Added buttons after the content.
 	 *                  Default: empty string
 	 *
-	 * @since 1.0
-	 *
+	 * @since   1.0.0
 	 */
 	$after_post = apply_filters( 'usp_after_content_buttons', '' );
 
@@ -169,11 +183,13 @@ function usp_before_post( $content ) {
 	return $before . $content . $after;
 }
 
+// Added js hook
 add_action( 'wp_footer', 'usp_init_footer_action', 100 );
 function usp_init_footer_action() {
 	echo '<script>usp_do_action("usp_footer")</script>';
 }
 
+// Plugin overlay
 add_action( 'wp_footer', 'usp_overlay_container', 4 );
 function usp_overlay_container() {
 	echo '<div id="usp-overlay"></div>';
@@ -184,8 +200,8 @@ function usp_overlay_container() {
  * ?usp-logout=1
  *
  * @return void redirect on home page.
- * @since 1.0
  *
+ * @since 1.0.0
  */
 add_action( 'init', 'usp_wait_logout_get' );
 function usp_wait_logout_get() {
@@ -193,7 +209,16 @@ function usp_wait_logout_get() {
 		return;
 	}
 
-	if ( isset( $_GET['usp-logout'] ) && ( $_GET['usp-logout'] == '1' ) ) {
+	// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+	if ( isset( $_GET['usp-logout'] ) && ( '1' == $_GET['usp-logout'] ) ) {
+		/**
+		 * Filter allows you to change the logout URL.
+		 *
+		 * @param   $redirect   string  Path to redirect to on logout.
+		 *                              Default: home page.
+		 *
+		 * @since   1.0.0
+		 */
 		$url = apply_filters( 'usp_logout_url_redirect', get_home_url() );
 
 		wp_logout();
@@ -207,7 +232,7 @@ function usp_wait_logout_get() {
 add_action( 'init', 'usp_global_emoji', 10 );
 function usp_global_emoji() {
 	if ( ! is_user_logged_in() || usp_get_option( 'usp_emoji', 1 ) == 0 ) {
-		return;
+		return false;
 	}
 
 	global $wpsmiliestrans;
@@ -427,10 +452,9 @@ function usp_global_emoji() {
 	/**
 	 * Emoji array filter.
 	 *
-	 * @param array $smilies list of emoji.
+	 * @param   $smilies    array   List of emoji.
 	 *
-	 * @since 1.0
-	 *
+	 * @since   1.0.0
 	 */
 	$wpsmiliestrans = apply_filters( 'usp_emoji_list', $smilies );
 

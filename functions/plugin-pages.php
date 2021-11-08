@@ -1,29 +1,36 @@
 <?php
 
+/**
+ * Check if isset plugin page.
+ *
+ * @param   $page_id    int ID page
+ *
+ * @return  bool
+ *
+ * @since   1.0.0
+ */
 function usp_isset_plugin_page( $page_id ) {
 	return usp_get_plugin_page( $page_id ) ? true : false;
 }
 
 function usp_create_plugin_page( $page_id, $args ) {
-	global $user_ID;
-
-	$ID = wp_insert_post( wp_parse_args( $args, array(
+	$insert_id = wp_insert_post( wp_parse_args( $args, [
 		'post_status' => 'publish',
-		'post_author' => $user_ID,
+		'post_author' => get_current_user_id(),
 		'post_type'   => 'page'
-	) ) );
+	] ) );
 
-	if ( ! $ID ) {
+	if ( ! $insert_id ) {
 		return false;
 	}
 
 	$plugin_pages = get_site_option( 'usp_plugin_pages' );
 
-	$plugin_pages[ $page_id ] = $ID;
+	$plugin_pages[ $page_id ] = $insert_id;
 
 	update_site_option( 'usp_plugin_pages', $plugin_pages );
 
-	return $ID;
+	return $insert_id;
 }
 
 function usp_create_plugin_page_if_need( $page_id, $args ) {
@@ -35,7 +42,6 @@ function usp_create_plugin_page_if_need( $page_id, $args ) {
 }
 
 function usp_get_plugin_page( $page_id ) {
-
 	$plugin_pages = get_site_option( 'usp_plugin_pages' );
 
 	if ( ! isset( $plugin_pages[ $page_id ] ) ) {
@@ -52,14 +58,13 @@ function usp_get_plugin_page( $page_id ) {
 }
 
 function usp_delete_plugin_page( $page_id ) {
+	$post_id = usp_get_plugin_page( $page_id );
 
-	$ID = usp_get_plugin_page( $page_id );
-
-	if ( ! $ID ) {
+	if ( ! $post_id ) {
 		return false;
 	}
 
-	wp_delete_post( $ID );
+	wp_delete_post( $post_id );
 
 	$plugin_pages = get_site_option( 'usp_plugin_pages' );
 
@@ -69,7 +74,6 @@ function usp_delete_plugin_page( $page_id ) {
 }
 
 function usp_delete_plugin_pages() {
-
 	$plugin_pages = get_site_option( 'usp_plugin_pages' );
 
 	if ( ! $plugin_pages ) {

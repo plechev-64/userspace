@@ -1,5 +1,13 @@
 <?php
 
+
+/**
+ * This function will return true if performing a wp ajax call.
+ *
+ * @return bool
+ *
+ * @since   1.0.0
+ */
 function usp_is_ajax() {
 	return ( defined( 'DOING_AJAX' ) && DOING_AJAX || isset( $GLOBALS['wp']->query_vars['rest_route'] ) );
 }
@@ -9,6 +17,14 @@ function USP_Ajax() {
 	return USP_Ajax::getInstance();
 }
 
+/**
+ * Check nonce field in usp_ajax_action() function.
+ * Can be used instead of wp_verify_nonce
+ *
+ * @return  void    false - if nonce incorrect. String wp_send_json() error message or die();
+ *
+ * @since   1.0.0
+ */
 function usp_verify_ajax_nonce() {
 	USP_Ajax()->verify();
 }
@@ -17,6 +33,16 @@ function usp_rest_action( $function_name ) {
 	USP_Ajax()->init_rest( $function_name );
 }
 
+/**
+ * Calls the callback functions that have been added to the usp_ajax() data action method.
+ *
+ * @param   $callback       string  Callback function from js usp_ajax data action method.
+ * @param   $guest_access   bool    If guest access is needed.
+ *                                  Default: false
+ * @param   $modules        bool
+ *
+ * @since   1.0.0
+ */
 function usp_ajax_action( $callback, $guest_access = false, $modules = true ) {
 	USP_Ajax()->init_ajax_callback( $callback, $guest_access, $modules );
 }
@@ -105,7 +131,19 @@ function usp_load_tab() {
 
 	$content = $tab->get_menu();
 
-	$content .= apply_filters( 'usp_ajax_tab_content', $tab->subtab( $subtab_id )->get_content() );
+	/**
+	 * Filters the contents of the tab.
+	 *
+	 * @param   $content    string  Tab content.
+	 * @param   $tab        object  USP_Tab Object.
+	 * @param   $office_id  int     ID of the personal account.
+	 *
+	 * @see     USP_Tab
+	 *
+	 * @since       1.0.0
+	 *
+	 */
+	$content .= apply_filters( 'usp_ajax_tab_content', $tab->subtab( $subtab_id )->get_content(), $tab, $office_id );
 
 	return [
 		'content'   => $content,
@@ -173,9 +211,27 @@ function usp_manage_user_black_list() {
 
 	if ( $user_block ) {
 		delete_user_meta( get_current_user_id(), 'usp_black_list:' . $user_id );
+
+		/**
+		 * Fires after remove user from blacklist.
+		 *
+		 * @param   $user_id    int ID user.
+		 *
+		 * @since   1.0.0
+		 *
+		 */
 		do_action( 'remove_user_blacklist', $user_id );
 	} else {
 		add_user_meta( get_current_user_id(), 'usp_black_list:' . $user_id, 1 );
+
+		/**
+		 * Fires after adding a user to the blacklist.
+		 *
+		 * @param   $user_id    int ID user.
+		 *
+		 * @since   1.0.0
+		 *
+		 */
 		do_action( 'add_user_blacklist', $user_id );
 	}
 

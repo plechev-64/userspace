@@ -4,33 +4,29 @@
 add_action( 'init', 'usp_admin_access', 1 );
 function usp_admin_access() {
 	if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
-		return;
+		return false;
 	}
 
 	if ( defined( 'IFRAME_REQUEST' ) && IFRAME_REQUEST ) {
-		return;
+		return false;
 	}
 
 	if ( is_admin() ) {
-
-		global $user_ID;
-
 		$access = usp_user_is_access_console();
 
 		if ( $access ) {
 			return true;
 		}
 
-		if ( isset( $_POST['short'] ) && intval( $_POST['short'] ) == 1 || isset( $_POST['fetch'] ) && intval( $_POST['fetch'] ) == 1 ) {
-
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing
+		if ( isset( $_POST['short'] ) && 1 == intval( $_POST['short'] ) || isset( $_POST['fetch'] ) && 1 == intval( $_POST['fetch'] ) ) {
 			return true;
 		} else {
-
-			if ( ! $user_ID ) {
+			if ( ! is_user_logged_in() ) {
 				return true;
 			}
 
-			wp_redirect( '/' );
+			wp_safe_redirect( '/' );
 			exit;
 		}
 	}
@@ -38,9 +34,7 @@ function usp_admin_access() {
 
 add_action( 'wp_head', 'usp_hidden_admin_panel' );
 function usp_hidden_admin_panel() {
-	global $user_ID;
-
-	if ( ! $user_ID ) {
+	if ( ! is_user_logged_in() ) {
 		return show_admin_bar( false );
 	}
 
@@ -55,13 +49,11 @@ function usp_hidden_admin_panel() {
 
 add_action( 'init', 'usp_banned_user_redirect' );
 function usp_banned_user_redirect() {
-	global $user_ID;
-
-	if ( ! $user_ID ) {
+	if ( ! is_user_logged_in() ) {
 		return false;
 	}
 
-	if ( usp_user_has_role( $user_ID, 'banned' ) ) {
-		wp_die( __( 'Congratulations! You have been banned.', 'userspace' ) );
+	if ( usp_user_has_role( get_current_user_id(), 'banned' ) ) {
+		wp_die( esc_html__( 'Congratulations! You have been banned.', 'userspace' ) );
 	}
 }
