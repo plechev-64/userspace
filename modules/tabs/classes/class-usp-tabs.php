@@ -60,7 +60,7 @@ class USP_Tabs {
 	function get_current_id() {
 
 		if ( isset( $_GET['tab'] ) ) {
-			return $_GET['tab'];
+			return sanitize_text_field( wp_unslash( $_GET['tab'] ) );
 		} else if ( $this->tabs ) {
 
 			if ( $tabs = $this->get_access_menu_items( 'menu' ) ) {

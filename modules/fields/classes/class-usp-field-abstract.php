@@ -315,4 +315,14 @@ class USP_Field_Abstract {
 		return true;
 	}
 
+	/*
+	 * Must be overridden in child class to sanitize passed value
+	 */
+	function sanitize_value( $value ) {
+		/**
+		 * todo sanitize value in all fields
+		 */
+		return $value;
+	}
+
 }

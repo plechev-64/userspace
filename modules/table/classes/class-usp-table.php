@@ -265,7 +265,8 @@ class USP_Table {
 			foreach ( $this->rows as $row ) {
 				foreach ( $row as $k => $value ) {
 					if ( isset( $this->cols[ $k ]['totalsum'] ) ) {
-						$total[ $k ] += strip_tags( $value );
+						$_v          = wp_strip_all_tags( $value );
+						$total[ $k ] += is_numeric( $_v ) ? $_v : 0;
 					}
 				}
 			}
@@ -293,8 +294,8 @@ class USP_Table {
 				$name  = isset( $col['search']['name'] ) ? $col['search']['name'] : $idcol;
 				$value = isset( $col['search']['value'] ) ? $col['search']['value'] : '';
 
-				if ( ! $value && isset( $_REQUEST[ $name ] ) && $_REQUEST[ $name ] ) {
-					$value = $_REQUEST[ $name ];
+				if ( ! $value && ! empty( $_REQUEST[ $name ] ) ) {
+					$value = sanitize_text_field( wp_unslash( $_REQUEST[ $name ] ) );
 				}
 
 				$submit = isset( $col['search']['submit'] ) ? $col['search']['submit'] : 0;
@@ -325,7 +326,7 @@ class USP_Table {
 					}
 				}
 
-				$contentCell = '<input style="width:100%" type="text" ' . $datescript . ' name="' . $name . '" placeholder="' . __( 'Search', 'userspace' ) . '" ' . $onkeyup . ' value="' . $value . '">';
+				$contentCell = '<input style="width:100%" type="text" ' . $datescript . ' name="' . esc_attr( $name ) . '" placeholder="' . __( 'Search', 'userspace' ) . '" ' . $onkeyup . ' value="' . esc_attr( $value ) . '">';
 			}
 
 			$content .= $this->cell( $idcol, $contentCell, $col, 'search' );
