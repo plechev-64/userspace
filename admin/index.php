@@ -11,7 +11,7 @@ function usp_admin_init( $current_screen ) {
 		USP()->use_module( 'forms' );
 	}
 
-	if ( $current_screen->base == 'userspace_page_usp-tabs-manager' || $current_screen->base == 'userspace_page_usp-register-form-manager' ) {
+	if ( 'userspace_page_usp-tabs-manager' == $current_screen->base || 'userspace_page_usp-register-form-manager' == $current_screen->base ) {
 		USP()->use_module( 'fields-manager' );
 	}
 }
@@ -19,7 +19,7 @@ function usp_admin_init( $current_screen ) {
 add_filter( 'display_post_states', 'usp_mark_own_page', 10, 2 );
 function usp_mark_own_page( $post_states, $post ) {
 
-	if ( $post->post_type === 'page' ) {
+	if ( 'page' === $post->post_type ) {
 
 		$plugin_pages = get_site_option( 'usp_plugin_pages' );
 
@@ -38,6 +38,7 @@ function usp_mark_own_page( $post_states, $post ) {
 // set admin area root inline css colors
 add_filter( 'admin_head', 'usp_admin_css_variable' );
 function usp_admin_css_variable() {
+	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	echo '<style>' . usp_get_root_colors() . '</style>';
 }
 
@@ -79,9 +80,9 @@ function usp_get_admin_content( $content, $no_sidebar = false ) {
 		/**
 		 * On the plugin settings pages, adds custom html to the sidebar.
 		 *
-		 * @param string    added custom html.
+		 * @param string    Added custom html.
 		 *
-		 * @since 1.0
+		 * @since 1.0.0
 		 *
 		 */
 		$out .= '<div class="usp-admin__sidebar usps usps__column usps__ai-end usps__grow">' . apply_filters( 'usp_admin_sidebar', '' ) . '</div>';
@@ -109,6 +110,7 @@ function usp_admin_sidebar_about_notice( $content ) {
 
 add_filter( 'usp_admin_sidebar', 'usp_admin_sidebar_find_addons_notice', 11 );
 function usp_admin_sidebar_find_addons_notice( $content ) {
+	// translators: %s is a link of WordPress repository
 	$text = sprintf( __( 'Plugins that extend UserSpace can be found in the WordPress  %srepository%s.', 'userspace' ), '<a href="https://wordpress.org/plugins/tags/userspace/" target="_blank">', '</a>' );
 
 	$content .= usp_get_notice( [ 'text' => $text, 'type' => 'simple', 'icon' => false ] );
@@ -118,6 +120,7 @@ function usp_admin_sidebar_find_addons_notice( $content ) {
 
 add_filter( 'usp_admin_sidebar', 'usp_admin_sidebar_rate_me_notice', 12 );
 function usp_admin_sidebar_rate_me_notice( $content ) {
+	// translators: %s is a link of WordPress repository
 	$text = sprintf( __( 'If you liked plugin %sUserSpace%s, please vote for it in repository %s★★★★★%s. Thank you so much!', 'userspace' ), '<strong>', '</strong>', '<a href="" target="_blank">', '</a>' );
 
 	$content .= usp_get_notice( [

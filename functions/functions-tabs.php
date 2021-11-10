@@ -232,7 +232,6 @@ function usp_filter_custom_tab_user_meta( $content ) {
 	$matches = [];
 
 	foreach ( $metas[1] as $meta ) {
-		// phpcs:ignore WordPress.PHP.StrictInArray.MissingTrueStrict
 		if ( in_array( $meta, $tblUsers ) ) {
 			$value = get_the_author_meta( $meta, USP()->office()->get_owner_id() );
 		} else {

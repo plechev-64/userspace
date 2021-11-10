@@ -5,21 +5,39 @@ USP()->use_module( 'fields-manager' );
 class USP_Register_Form_Manager extends USP_Fields_Manager {
 	function __construct() {
 
-		parent::__construct( 'register_form', array(
+		parent::__construct( 'register_form', [
 			'empty_field'    => 0,
 			'create_field'   => 0,
 			'option_name'    => 'usp_register_form_fields',
 			'structure_edit' => 1,
+			/**
+			 * Filter allow add|change default fields.
+			 *
+			 * @param   $fields    array  Data default fields.
+			 *
+			 * @see     USP_Register_Form_Manager
+			 *
+			 * @since   1.0.0
+			 */
 			'default_fields' => apply_filters( 'usp_register_form_default_fields', $this->get_default_fields() ),
-			'field_options'  => apply_filters( 'usp_register_form_field_options', array(
-//                array(
-//                    'type'        => 'text',
-//                    'slug'        => 'icon',
-//                    'class'       => 'usp-iconpicker',
-//                    'title'       => __( 'Icon class', 'userspace' ),
-//                    'placeholder' => __( 'Example: fa-user', 'userspace' )
-//                ),
-				array(
+			/**
+			 * Filter allow added|change fields options.
+			 *
+			 * @param   $options    array  Fields options.
+			 *
+			 * @see     USP_Register_Form_Manager
+			 *
+			 * @since   1.0.0
+			 */
+			'field_options'  => apply_filters( 'usp_register_form_field_options', [
+				//                array(
+				//                    'type'        => 'text',
+				//                    'slug'        => 'icon',
+				//                    'class'       => 'usp-iconpicker',
+				//                    'title'       => __( 'Icon class', 'userspace' ),
+				//                    'placeholder' => __( 'Example: fa-user', 'userspace' )
+				//                ),
+				[
 					'type'   => 'radio',
 					'slug'   => 'required',
 					'title'  => __( 'Required field', 'userspace' ),
@@ -27,14 +45,14 @@ class USP_Register_Form_Manager extends USP_Fields_Manager {
 						__( 'No', 'userspace' ),
 						__( 'Yes', 'userspace' )
 					]
-				),
-				array(
+				],
+				[
 					'type'  => 'textarea',
 					'slug'  => 'notice',
 					'title' => __( 'Field description', 'userspace' ),
-				)
-			) )
-		) );
+				]
+			] )
+		] );
 
 		$this->setup_default_fields();
 	}

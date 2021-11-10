@@ -264,6 +264,15 @@ $options->box( 'primary' )->add_group( 'emoji', [
 	],
 ] );
 
+/**
+ * The filter allows you to add new settings in the admin panel. On the plugin settings page.
+ *
+ * @param   $options    object  Settings object
+ *
+ * @see     USP_Options_Manager
+ *
+ * @since   1.0.0
+ */
 $all_options = apply_filters( 'usp_options', $options );
 
 $title = __( 'Configure UserSpace plugin and add-ons', 'userspace' );
@@ -272,4 +281,5 @@ $header = usp_get_admin_header( $title );
 
 $content = usp_get_admin_content( $all_options->get_content() );
 
+// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 echo $header . $content;

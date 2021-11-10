@@ -2,6 +2,7 @@
 
 require_once USP_PATH . 'admin/classes/class-usp-tabs-manager.php';
 
+// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 $areaType = ( isset( $_GET['area-type'] ) ) ? sanitize_text_field( wp_unslash( $_GET['area-type'] ) ) : 'area-menu';
 
 $tabsManager = new USP_Tabs_Manager( $areaType );
@@ -17,4 +18,5 @@ $tabs .= $tabsManager->get_manager();
 
 $content = usp_get_admin_content( $tabs );
 
+// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 echo $header . $content;

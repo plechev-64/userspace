@@ -219,7 +219,7 @@ function usp_admin_resources() {
 }
 
 /**
- * Plugin localization data
+ * Passing variables to js.
  */
 function usp_get_localize_data() {
 	$local = [
@@ -238,6 +238,13 @@ function usp_get_localize_data() {
 		'office_ID' => USP()->office()->get_owner_id(),
 		'post_ID'   => is_singular() ? get_queried_object_id() : 0,
 		'nonce'     => wp_create_nonce( 'wp_rest' ),
+		/**
+		 * Filter allows you to add data to the "local" method.
+		 *
+		 * @param   $local    array Localization data.
+		 *
+		 * @since   1.0.0
+		 */
 		'local'     => apply_filters( 'usp_js_localize', $local ),
 		'modules'   => [],
 	];
@@ -253,9 +260,9 @@ function usp_get_localize_data() {
 	$data['errors']['file_accept']   = __( 'Invalid file type', 'userspace' );
 
 	/**
-	 * Filter allow add js localisation data.
+	 * Filter allow passing variables to js.
 	 *
-	 * @param   $data    array  Localisation data.
+	 * @param   $data    array  Variables data.
 	 *
 	 * @since   1.0.0
 	 */

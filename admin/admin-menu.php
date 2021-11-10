@@ -20,6 +20,7 @@ function usp_register_form_manager() {
 
 	$content = usp_get_admin_content( $Manager->get_manager(), 'no_sidebar' );
 
+	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	echo $header . $content;
 }
 

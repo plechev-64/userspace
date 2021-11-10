@@ -84,12 +84,12 @@ class USP_Button {
 
 		if ( $this->icon ) {
 
-			if ( $this->icon_align == 'right' && $this->label ) {
+			if ( 'right' == $this->icon_align && $this->label ) {
 
 				if ( ! $this->counter ) {
 					// only text & icon right
 					$this->class[] = 'usp-bttn__mod-text-rico';
-				} else if ( $this->counter && ! $this->avatar ) {
+				} else if ( ! $this->avatar ) {
 					// text & icon right & counter
 					$this->class[] = 'usp-bttn__mod-text-rico-count';
 				}
@@ -172,7 +172,7 @@ class USP_Button {
 
 		$content = sprintf( '<a %s>', $this->parse_attrs() );
 
-		if ( $this->icon && $this->icon_align == 'left' ) {
+		if ( $this->icon && 'left' == $this->icon_align ) {
 			$content .= $this->get_icon();
 		}
 
@@ -184,7 +184,7 @@ class USP_Button {
 			$content .= $this->get_label();
 		}
 
-		if ( $this->icon && $this->icon_align == 'right' ) {
+		if ( $this->icon && 'right' == $this->icon_align ) {
 			$content .= $this->get_icon();
 		}
 

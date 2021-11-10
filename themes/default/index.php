@@ -103,7 +103,7 @@ function usp_add_theme_cover_inline_styles( $styles ) {
 	$dataUrl    = wp_parse_url( $cover_url );
 	$cover_path = untrailingslashit( ABSPATH ) . $dataUrl['path'];
 
-	$styles .= '#usp-office-profile{background-image: url(' . $cover_url . '?vers=' . filemtime( $cover_path ) . ');}';
+	$styles .= '#usp-office-profile{background-image: url(' . $cover_url . '?ver=' . filemtime( $cover_path ) . ');}';
 
 	return $styles;
 }
@@ -161,12 +161,14 @@ function usp_add_office_logout() {
 	if ( usp_get_option_customizer( 'usp_bar_show', 1 ) || ! usp_is_office( get_current_user_id() ) ) {
 		return;
 	}
-
+	
+	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	echo usp_logout_shortcode( [ 'type' => 'clear' ] );
 }
 
 add_filter( 'usp_office_class', 'usp_office_compact_view' );
 function usp_office_compact_view( $class ) {
+	// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 	if ( isset( $_GET['tab'] ) && usp_get_option( 'usp_office_compact', 1 ) ) {
 		return $class . ' usp-office-small';
 	}

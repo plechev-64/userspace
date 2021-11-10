@@ -5,79 +5,79 @@ USP()->use_module( 'fields-manager' );
 class USP_Tabs_Manager extends USP_Fields_Manager {
 	function __construct( $areaType ) {
 
-		parent::__construct( $areaType, array(
+		parent::__construct( $areaType, [
 			'switch_type'   => 0,
 			'switch_id'     => 0,
-			'types'         => array(
+			'types'         => [
 				'custom'
-			),
-			'field_options' => array(
-				array(
+			],
+			'field_options' => [
+				[
 					'slug'        => 'icon',
 					'default'     => 'fa-check-square',
 					'placeholder' => 'fa-check-square',
 					'class'       => 'usp-iconpicker',
 					'type'        => 'text',
 					'title'       => __( 'Icon class of usp-awesome', 'userspace' )
-				),
-				array(
+				],
+				[
 					'type'   => 'radio',
 					'slug'   => 'hidden',
 					'title'  => __( 'Hidden tab', 'userspace' ),
 					'notice' => __( 'The tab will be available only by link', 'userspace' ),
-					'values' => array(
+					'values' => [
 						__( 'No', 'userspace' ),
 						__( 'Yes', 'userspace' )
-					)
-				),
-				array(
+					]
+				],
+				[
 					'type'        => 'text',
 					'slug'        => 'icon',
 					'class'       => 'usp-iconpicker',
 					'title'       => __( 'Icon class', 'userspace' ),
 					'placeholder' => __( 'Example: fa-user', 'userspace' )
-				),
-				array(
+				],
+				[
 					'type'   => 'select',
 					'slug'   => 'public-tab',
 					'title'  => __( 'Tab privacy', 'userspace' ),
-					'values' => array(
+					'values' => [
 						__( 'Private', 'userspace' ),
 						__( 'Public', 'userspace' )
-					)
-				),
-				array(
+					]
+				],
+				[
 					'type'   => 'checkbox',
 					'slug'   => 'supports-tab',
 					'title'  => __( 'Support of the functions', 'userspace' ),
-					'values' => array(
+					'values' => [
 						'ajax'   => __( 'Ajax-loading', 'userspace' ),
 						'cache'  => __( 'Caching', 'userspace' ),
 						'dialog' => __( 'Dialog box', 'userspace' )
-					)
-				),
-				array(
+					]
+				],
+				[
 					'type'    => 'editor',
 					'tinymce' => true,
 					'slug'    => 'content',
 					'title'   => __( 'Content tab', 'userspace' ),
 					'notice'  => __( 'Supported shortcodes and HTML-code', 'userspace' )
-				)
-			)
-		) );
+				]
+			]
+		] );
 
 		$this->setup_tabs();
 
-		add_filter( 'usp_field_options', array( $this, 'edit_tab_options' ), 10, 3 );
+		add_filter( 'usp_field_options', [ $this, 'edit_tab_options' ], 10, 2 );
 	}
 
 	function form_navi() {
 
-		$areas = array(
+		$areas = [
 			'area-menu'     => __( '"Menu" area', 'userspace' ),
 			'area-actions'  => __( '"Actions" area', 'userspace' ),
 			'area-counters' => __( '"Counters" area', 'userspace' )
-		);
+		];
 
 		$content = '<div class="usp-custom-fields-navi">';
 
@@ -100,8 +100,8 @@ class USP_Tabs_Manager extends USP_Fields_Manager {
 	}
 
 	function is_default_tab( $slug ) {
-
-		if ( ! $tab = USP()->tabs()->tab( $slug ) ) {
+		$tab = USP()->tabs()->tab( $slug );
+		if ( ! $tab ) {
 			return false;
 		}
 
@@ -147,7 +147,7 @@ class USP_Tabs_Manager extends USP_Fields_Manager {
 			return false;
 		}
 
-		$fields = array();
+		$fields = [];
 
 		foreach ( USP()->tabs()->get_tabs() as $tab_id => $tab ) {
 
@@ -159,7 +159,7 @@ class USP_Tabs_Manager extends USP_Fields_Manager {
 				continue;
 			}
 
-			$fields[] = array(
+			$fields[] = [
 				'type-edit'   => false,
 				'slug'        => $tab_id,
 				'delete'      => false,
@@ -168,13 +168,13 @@ class USP_Tabs_Manager extends USP_Fields_Manager {
 				'must_delete' => false,
 				'title'       => $tab->name,
 				'icon'        => $tab->icon
-			);
+			];
 		}
 
 		return $fields;
 	}
 
-	function edit_tab_options( $options, $field, $type ) {
+	function edit_tab_options( $options, $field ) {
 
 		if ( ! $field->slug ) {
 			return $options;
@@ -189,17 +189,17 @@ class USP_Tabs_Manager extends USP_Fields_Manager {
 
 			$options['icon']['placeholder'] = USP()->tabs()->tab( $field->slug )->icon;
 
-			$options['default-tab'] = array(
+			$options['default-tab'] = [
 				'type'  => 'hidden',
 				'slug'  => 'default-tab',
 				'value' => 1
-			);
+			];
 		} else {
-			$options['custom-tab'] = array(
+			$options['custom-tab'] = [
 				'type'  => 'hidden',
 				'slug'  => 'custom-tab',
 				'value' => 1
-			);
+			];
 		}
 
 		return $options;

@@ -117,7 +117,6 @@ function usp_load_tab() {
 		return [ 'error' => __( 'Data of the requested tab was not found.', 'userspace' ) ];
 	}
 
-	// phpcs:ignore WordPress.PHP.StrictInArray.MissingTrueStrict
 	$ajax = ( in_array( 'ajax', $tab->supports ) || in_array( 'dialog', $tab->supports ) ) ? 1 : 0;
 
 	if ( ! $ajax ) {

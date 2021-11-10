@@ -5,11 +5,10 @@ class USP_Includer {
 	public $cache = 0;
 	public $cache_time = 3600;
 	public $place;
-	public $files = array();
+	public $files = [];
 	public $minify_dir;
 	public $is_minify;
-	public $deregister_styles = array();
-	public $deregister_scripts = array();
+	public $deregister_scripts = [];
 
 	function __construct() {
 		global $usp_styles;
@@ -24,9 +23,9 @@ class USP_Includer {
 		$this->minify_dir = USP_UPLOAD_PATH . 'css';
 
 		// header loading
-		if ( $this->place == 'header' ) {
+		if ( 'header' == $this->place ) {
 			if ( ! $usp_styles ) {
-				$usp_styles = array();
+				$usp_styles = [];
 			}
 			$usp_styles = $this->regroup( $usp_styles );
 		}
@@ -60,7 +59,7 @@ class USP_Includer {
 		if ( ! isset( $this->files['css'] ) || ! $this->files['css'] ) {
 			return false;
 		}
-
+		$ids = [];
 		foreach ( $this->files['css'] as $id => $file ) {
 			$ids[] = $id . ':' . filemtime( $file['path'] );
 		}
@@ -83,9 +82,9 @@ class USP_Includer {
 		$this->minify_dir = USP_UPLOAD_PATH . 'js';
 
 		// header loading
-		if ( $this->place == 'header' ) {
+		if ( 'header' == $this->place ) {
 			if ( ! $usp_scripts ) {
-				$usp_scripts = array();
+				$usp_scripts = [];
 			}
 			$usp_scripts = $this->regroup( $usp_scripts );
 		}
@@ -96,7 +95,7 @@ class USP_Includer {
 			return false;
 		}
 
-		$in_footer  = ( $this->place == 'footer' ) ? true : false;
+		$in_footer  = ( 'footer' == $this->place ) ? true : false;
 		$forceUnion = isset( $usp_scripts['force-union'] ) ? $usp_scripts['force-union'] : [];
 
 		if ( $this->is_minify || $forceUnion ) {
@@ -109,7 +108,7 @@ class USP_Includer {
 
 			// minify off. Load directly
 			if ( ! $this->is_minify && ! in_array( $key, $forceUnion ) ) {
-				$parents = isset( $usp_scripts['parents'][ $key ] ) ? $parents = array_merge( $usp_scripts['parents'][ $key ], array( 'jquery' ) ) : array( 'jquery' );
+				$parents = isset( $usp_scripts['parents'][ $key ] ) ? $parents = array_merge( $usp_scripts['parents'][ $key ], [ 'jquery' ] ) : [ 'jquery' ];
 				wp_enqueue_script( $key, $url, $parents, USP_VERSION, $in_footer );
 				continue;
 			}
@@ -122,7 +121,7 @@ class USP_Includer {
 			return false;
 		}
 
-		$parents = array( 'jquery' );
+		$parents = [ 'jquery' ];
 
 		foreach ( $this->files['js'] as $key => $file ) {
 			$ids[] = $key . ':' . filemtime( $file['path'] );
@@ -159,20 +158,20 @@ class USP_Includer {
 
 			$file_string = file_get_contents( $file['path'] );
 
-//            if ( $type == 'css' ) {
-//                $urls = array();
-//                preg_match_all( '/(?<=url\()[A-zА-я0-9\-\_\/\"\'\.\?\s]*(?=\))/iu', $file_string, $urls );
-//                // $addon = (usp_addon_path( $file['path'] )) ? true : false;
-////                if ( $urls[0] ) {
-////
-////                    foreach ( $urls[0] as $u ) {
-////                        $imgs[] = ($addon) ? usp_addon_url( trim( $u, '\',\"' ), $file['path'] ) : USP_URL . 'css/' . trim( $u, '\',\"' );
-////                        $us[]   = $u;
-////                    }
-////
-////                    $file_string = str_replace( $us, $imgs, $file_string );
-////                }
-//            }
+			//            if ( $type == 'css' ) {
+			//                $urls = array();
+			//                preg_match_all( '/(?<=url\()[A-zА-я0-9\-\_\/\"\'\.\?\s]*(?=\))/iu', $file_string, $urls );
+			//                // $addon = (usp_addon_path( $file['path'] )) ? true : false;
+			////                if ( $urls[0] ) {
+			////
+			////                    foreach ( $urls[0] as $u ) {
+			////                        $imgs[] = ($addon) ? usp_addon_url( trim( $u, '\',\"' ), $file['path'] ) : USP_URL . 'css/' . trim( $u, '\',\"' );
+			////                        $us[]   = $u;
+			////                    }
+			////
+			////                    $file_string = str_replace( $us, $imgs, $file_string );
+			////                }
+			//            }
 
 			$string .= $file_string;
 		}
@@ -185,7 +184,7 @@ class USP_Includer {
 		// removing comments: /* */
 		$string = preg_replace( '#/\*(?:[^*]*(?:\*(?!/))*)*\*/#', '', $string );
 		// removing spaces, hyphenation, and tabs
-		$string = str_replace( array( "\r\n", "\r", "\n", "\t" ), " ", $string );
+		$string = str_replace( [ "\r\n", "\r", "\n", "\t" ], " ", $string );
 		$string = preg_replace( '/ {2,}/', ' ', $string );
 
 		fwrite( $f, $string );
@@ -201,7 +200,7 @@ class USP_Includer {
 			unset( $array['force-union'] );
 		}
 
-		$new_array = array();
+		$new_array = [];
 
 		if ( isset( $array['dequeue'] ) ) {
 			$new_array['dequeue'] = $array['dequeue'];
@@ -266,12 +265,12 @@ class USP_Includer {
 
 		$wp_scripts = wp_scripts();
 
-		$remove = array(
+		$remove = [
 			'jquery',
 			'jquery-core'
-		);
+		];
 
-		$scriptsArray = array();
+		$scriptsArray = [];
 
 		foreach ( $wp_scripts->queue as $k => $script_id ) {
 
@@ -305,7 +304,7 @@ class USP_Includer {
 
 		$wp_scripts = wp_styles();
 
-		$scriptsArray = array();
+		$scriptsArray = [];
 		foreach ( $wp_scripts->queue as $k => $script_id ) {
 
 			if ( strpos( $script_id, 'admin' ) !== false ) {
@@ -343,11 +342,11 @@ class USP_Includer {
 
 		$wp_scripts = wp_scripts();
 
-		$remove = array(
+		$remove = [
 			'jquery'
-		);
+		];
 
-		$scriptsArray = array();
+		$scriptsArray = [];
 
 		foreach ( $wp_scripts->queue as $k => $script_id ) {
 
@@ -371,7 +370,7 @@ class USP_Includer {
 
 		$wp_scripts = wp_styles();
 
-		$scriptsArray = array();
+		$scriptsArray = [];
 		foreach ( $wp_scripts->queue as $k => $script_id ) {
 
 			if ( strpos( $script_id, 'admin' ) !== false ) {
@@ -393,13 +392,13 @@ class USP_Includer {
  *
  * Registers the style if source provided (does NOT overwrite) and enqueues.
  *
- * @param   string    $id               (handle) Name of the stylesheet. Should be unique.
- * @param   string    $url              Full URL of the stylesheet, or path of the stylesheet relative to the WordPress root directory.
+ * @param string $id (handle) Name of the stylesheet. Should be unique.
+ * @param string $url Full URL of the stylesheet, or path of the stylesheet relative to the WordPress root directory.
  *                                      Default empty.
- * @param   string[]  $parents          Optional. An array of registered stylesheet handles this stylesheet depends on. Default empty array.
- * @param   bool      $in_footer        Optional. Load in footer.
+ * @param string[] $parents Optional. An array of registered stylesheet handles this stylesheet depends on. Default empty array.
+ * @param bool $in_footer Optional. Load in footer.
  *                                      If set to false, load in header.
- * @param   bool      $force_union      Optional. Set to minification.
+ * @param bool $force_union Optional. Set to minification.
  *
  * @since 1.0.0
  *
@@ -407,6 +406,7 @@ class USP_Includer {
 function usp_enqueue_style( $id, $url, $parents = false, $in_footer = false, $force_union = false ) {
 	global $usp_styles;
 
+	// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 	if ( is_admin() || doing_action( 'login_enqueue_scripts' ) || isset( $_REQUEST['rest_route'] ) ) {
 
 		wp_enqueue_style( $id, $url, $parents, USP_VERSION );
@@ -418,9 +418,9 @@ function usp_enqueue_style( $id, $url, $parents = false, $in_footer = false, $fo
 	$url    = str_replace( '\\', '/', $url );
 
 	// if we determined that the absolute path is specified, we get the URL to the style.css file
-//    if ( stristr( $url, $search ) ) {
-//        $url = usp_addon_url( 'style.css', $url );
-//    }
+	//    if ( stristr( $url, $search ) ) {
+	//        $url = usp_addon_url( 'style.css', $url );
+	//    }
 	// if the style is output in the footer
 	if ( $in_footer || isset( $usp_styles['header'] ) ) {
 		// if no duplicate style is found in the header
@@ -440,13 +440,13 @@ function usp_enqueue_style( $id, $url, $parents = false, $in_footer = false, $fo
  *
  * Registers the script if $src provided (does NOT overwrite), and enqueues it.
  *
- * @param   string    $id               (handle) Name of the stylesheet. Should be unique.
- * @param   string    $url              Full URL of the stylesheet, or path of the stylesheet relative to the WordPress root directory.
+ * @param string $id (handle) Name of the stylesheet. Should be unique.
+ * @param string $url Full URL of the stylesheet, or path of the stylesheet relative to the WordPress root directory.
  *                                      Default empty.
- * @param   string[]  $parents          Optional. An array of registered stylesheet handles this stylesheet depends on. Default empty array.
- * @param   bool      $in_footer        Optional. Load in footer.
+ * @param string[] $parents Optional. An array of registered stylesheet handles this stylesheet depends on. Default empty array.
+ * @param bool $in_footer Optional. Load in footer.
  *                                      If set to false, load in header.
- * @param   bool      $force_union      Optional. Set to minification.
+ * @param bool $force_union Optional. Set to minification.
  *
  * @since 1.0.0
  *
@@ -490,7 +490,7 @@ function usp_dequeue_style( $style ) {
 	global $usp_styles;
 
 	if ( ! isset( $usp_styles['dequeue'] ) ) {
-		$usp_styles['dequeue'] = array();
+		$usp_styles['dequeue'] = [];
 	}
 
 	if ( is_array( $style ) ) {
@@ -504,7 +504,7 @@ function usp_dequeue_script( $script ) {
 	global $usp_scripts;
 
 	if ( ! isset( $usp_scripts['dequeue'] ) ) {
-		$usp_scripts['dequeue'] = array();
+		$usp_scripts['dequeue'] = [];
 	}
 
 	if ( is_array( $script ) ) {
@@ -540,7 +540,7 @@ function usp_localize_modules_list_admin() {
 }
 
 function usp_localize_modules_list() {
-	return '<script>USP.used_modules = ' . json_encode( USP()->get_used_modules() ) . '</script>';
+	return '<script>USP.used_modules = ' . wp_json_encode( USP()->get_used_modules() ) . '</script>';
 }
 
 // we reset the arrays of registered scripts and styles when calling the tab via ajax
@@ -548,8 +548,8 @@ add_action( 'usp_init_ajax_tab', 'usp_reset_wp_dependencies', 10 );
 function usp_reset_wp_dependencies() {
 	global $wp_scripts, $wp_styles;
 
-	$wp_scripts->queue = array();
-	$wp_styles->queue  = array();
+	$wp_scripts->queue = [];
+	$wp_styles->queue  = [];
 }
 
 // we attach the code for connecting scripts and styles called inside the tab

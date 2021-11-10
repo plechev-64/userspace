@@ -10,7 +10,7 @@ class USP_Cache {
 	public $last_update;
 	public $file_exists;
 
-	function __construct( $timecache = 0, $only_guest = false ) {
+	function __construct( $cache_time = 0, $only_guest = false ) {
 		global $user_ID;
 
 		$this->inc_cache  = usp_get_option( 'usp_use_cache' );
@@ -23,27 +23,27 @@ class USP_Cache {
 		$this->is_cache   = $this->inc_cache && ( ! $this->only_guest || $this->only_guest && ! $user_ID ) ? 1 : 0;
 		$this->time_cache = usp_get_option( 'usp_cache_time', 3600 );
 
-		if ( $timecache ) {
-			$this->time_cache = $timecache;
+		if ( $cache_time ) {
+			$this->time_cache = $cache_time;
 		}
 	}
 
 	function get_file( $string ) {
-		$namecache         = md5( $string );
-		$cachepath         = USP_UPLOAD_PATH . 'cache/';
-		$filename          = $namecache . '.txt';
-		$this->filepath    = $cachepath . $filename;
+		$name_cache        = md5( $string );
+		$cache_path        = USP_UPLOAD_PATH . 'cache/';
+		$filename          = $name_cache . '.txt';
+		$this->filepath    = $cache_path . $filename;
 		$this->file_exists = 0;
 
-		if ( ! file_exists( $cachepath ) ) {
-			mkdir( $cachepath );
-			chmod( $cachepath, 0755 );
+		if ( ! file_exists( $cache_path ) ) {
+			mkdir( $cache_path );
+			chmod( $cache_path, 0755 );
 		}
 
-		$file = array(
+		$file = [
 			'filename' => $filename,
 			'filepath' => $this->filepath
-		);
+		];
 
 		if ( ! file_exists( $this->filepath ) ) {
 			$file['need_update'] = 1;
@@ -53,13 +53,13 @@ class USP_Cache {
 		}
 
 		$this->last_update = filemtime( $this->filepath );
-		$endcache          = $this->last_update + $this->time_cache;
+		$end_cache         = $this->last_update + $this->time_cache;
 
 		$this->file_exists = 1;
 
 		$file['file_exists'] = 1;
 		$file['last_update'] = $this->last_update;
-		$file['need_update'] = ( $endcache < time() ) ? 1 : 0;
+		$file['need_update'] = ( $end_cache < time() ) ? 1 : 0;
 
 		return ( object ) $file;
 	}
@@ -69,7 +69,7 @@ class USP_Cache {
 			return false;
 		}
 
-		return file_get_contents( $this->filepath ) . '<!-- USP-cache start:' . date( 'd.m.Y H:i', $this->last_update ) . ' time:' . $this->time_cache . ' -->';
+		return file_get_contents( $this->filepath ) . '<!-- USP-cache start:' . gmdate( 'd.m.Y H:i', $this->last_update ) . ' time:' . $this->time_cache . ' -->';
 	}
 
 	function update_cache( $content ) {
