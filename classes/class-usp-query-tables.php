@@ -159,7 +159,7 @@ class USP_Temp_Media extends USP_Query {
 
 }
 
-class USP_Blacklist extends USP_Query {
+class USP_Blacklist_Query extends USP_Query {
 	function __construct( $as = false ) {
 
 		$table = [

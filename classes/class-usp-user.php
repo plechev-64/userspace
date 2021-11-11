@@ -476,15 +476,11 @@ class USP_User {
 	 */
 	function block( int $user_id ) {
 
-		if ( ! $user_id ) {
+		if ( ! $user_id || $this->is_blocked( $user_id ) ) {
 			return false;
 		}
 
-		if ( $this->is_blocked( $user_id ) ) {
-			return false;
-		}
-
-		$result = (bool) USP_Query::insert( new USP_Blacklist(), [
+		$result = (bool) USP_Query::insert( new USP_Blacklist_Query(), [
 			'user_id' => $this->ID,
 			'blocked' => $user_id
 		] );
@@ -519,7 +515,7 @@ class USP_User {
 		}
 
 		$result = USP_Query::delete(
-			( new USP_Blacklist() )->where( [ 'user_id' => $this->ID, 'blocked' => $user_id ] )
+			( new USP_Blacklist_Query() )->where( [ 'user_id' => $this->ID, 'blocked' => $user_id ] )
 		);
 
 		if ( $result ) {
@@ -547,7 +543,7 @@ class USP_User {
 	 */
 	function is_blocked( int $user_id ) {
 
-		return (bool) ( new USP_Blacklist() )
+		return (bool) ( new USP_Blacklist_Query() )
 			->select( [ 'ID' ] )
 			->where( [ 'user_id' => $this->ID, 'blocked' => $user_id ] )
 			->get_var();
@@ -563,7 +559,7 @@ class USP_User {
 	 */
 	function get_blacklist() {
 
-		return ( new USP_Blacklist() )
+		return ( new USP_Blacklist_Query() )
 			->select( [ 'blocked' ] )
 			->where( [ 'user_id' => $this->ID ] )
 			->limit( - 1 )
