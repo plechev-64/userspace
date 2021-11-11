@@ -103,7 +103,6 @@ function usp_get_user_avatar_menu( USP_User $user ) {
 	] );
 
 	$menu->add_button( [
-		'type'    => 'simple',
 		'label'   => __( 'User info', 'userspace' ),
 		'onclick' => 'usp_get_user_info(this);return false;',
 		'icon'    => 'fa-info-circle'
