@@ -32,10 +32,13 @@ $args = [
  *
  * @since   1.0.0
  */
-$html = '<div class="usp-ava-bttns">' . apply_filters( 'usp_avatar_bttns', '' ) . '</div>';
 
 $office_owner = USP()->office()->owner();
-$has_sidebar  = ( is_active_sidebar( 'usp_theme_sidebar' ) ) ? 'usp-profile__has-sidebar' : '';
+
+$avatar_menu  = usp_get_user_avatar_menu( $office_owner )->get_content();
+$profile_menu = usp_get_user_profile_menu( $office_owner )->get_content();
+
+$has_sidebar = ( is_active_sidebar( 'usp_theme_sidebar' ) ) ? 'usp-profile__has-sidebar' : '';
 ?>
 
 <div id="usp-office-profile"
@@ -59,7 +62,7 @@ $has_sidebar  = ( is_active_sidebar( 'usp_theme_sidebar' ) ) ? 'usp-profile__has
     </div>
     <div class="usp-office-card usps usps__nowrap usps__relative">
         <div class="usp-office-left usps usps__column">
-			<?php echo usp_get_avatar( $office_owner->ID, 200, false, $args, $html ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+			<?php echo usp_get_avatar( $office_owner->ID, 200, false, $args, $avatar_menu ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
             <div class="usp-under-ava"><?php
 				/**
 				 * Fires on the account page - at the bottom of the avatar.
@@ -71,10 +74,11 @@ $has_sidebar  = ( is_active_sidebar( 'usp_theme_sidebar' ) ) ? 'usp-profile__has
 
         <div class="usp-office-right usps usps__column usps__grow usps__jc-between">
             <div class="usp-office-usermeta usps usps__column">
-                <div class="usp-office-title usps">
+                <div class="usp-office-title usps usps__ai-start">
                     <div class="usp-user-name">
                         <div><?php echo esc_html( $office_owner->get_username() ); ?></div>
                     </div>
+					<?php echo $profile_menu; ?>
                     <div class="usp-action"><?php echo $office_owner->get_action_icon(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></div>
                 </div>
                 <div class="usp-user-icons"><?php

@@ -66,44 +66,17 @@
     height: 100%;
 }
 
-.usp-ava-bttns {
-    height: 100%;
-    left: 0;
+.usp-menu_user_avatar {
     position: absolute;
     top: 0;
-    width: 100%;
-}
-
-#usp-avatar .usp-ava__bttn {
-    opacity: .9;
-    position: absolute;
-    max-width: 36px;
-}
-
-#usp-avatar .usp-ava__bttn:hover {
-    opacity: 1;
-}
-
-.usp-ava__del {
     right: 0;
-    top: 0;
 }
 
 #usp-office p:empty,
 .usp-office-box:empty,
 .usp-user-icons:empty,
-.usp-under-ava:empty,
-#usp-avatar .usp-ava__del {
+.usp-under-ava:empty {
     display: none;
-}
-
-#usp-avatar:hover .usp-ava__del {
-    display: flex;
-}
-
-.usp-ava__uploads {
-    bottom: 0;
-    left: 0;
 }
 
 #usp-cover-upload input,
@@ -333,8 +306,8 @@
 
 .usp-office-small .usp-office-top > *:not(.usp-office-shift),
 .usp-office-small .usp-under-ava,
-.usp-office-small .usp-ava-bttns,
 .usp-office-small .usp-user-icons,
+.usp-office-small .usp-menu_user_avatar,
 .usp-office-small .usp-office-middle,
 .usp-office-small .usp-office-bottom {
     display: none;
@@ -342,10 +315,6 @@
 
 .usp-office-small .usp-office-usermeta {
     margin: 9px 12px;
-}
-
-.usp-office-small .usp-office-title {
-    overflow: hidden;
 }
 
 .usp-office-small .usp-user-name {

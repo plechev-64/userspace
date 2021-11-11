@@ -267,29 +267,3 @@ function usp_check_user_blocked( $content ) {
 
 	return $content;
 }
-
-add_action( 'usp_init_tabs', 'usp_add_block_black_list_button', 10 );
-function usp_add_block_black_list_button() {
-	if ( ! is_user_logged_in() ) {
-		return;
-	}
-
-	if ( USP()->office()->is_owner( get_current_user_id() ) ) {
-		return;
-	}
-
-	$user_block = USP()->user( get_current_user_id() )->is_blocked( USP()->office()->get_owner_id() );
-
-	$title = ( $user_block ) ? __( 'Unblock', 'userspace' ) : __( 'Block', 'userspace' );
-
-	usp_tab(
-		[
-			'id'      => 'blacklist',
-			'name'    => $title,
-			'public'  => - 2,
-			'output'  => 'actions',
-			'icon'    => 'fa-user',
-			'onclick' => 'usp_manage_user_black_list(this, ' . USP()->office()->get_owner_id() . ', "' . __( 'Are you sure?', 'userspace' ) . '");return false;'
-		]
-	);
-}

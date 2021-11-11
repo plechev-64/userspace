@@ -81,3 +81,129 @@ function usp_avatar_data_replacement( $args, $id_or_email ) {
 
 	return $args;
 }
+
+/**
+ * Return menu object for user avatar
+ *
+ * @param USP_User $user
+ *
+ * @return USP_Dropdown_Menu
+ */
+function usp_get_user_avatar_menu( USP_User $user ) {
+
+	$menu = new USP_Dropdown_Menu( 'user_avatar', [
+		'custom_data' => [
+			'user' => $user
+		],
+		'open_button' => [
+			'icon' => 'fa-vertical-ellipsis',
+			'size' => 'medium'
+		],
+		'size'        => 'small'
+	] );
+
+	$menu->add_button( [
+		'type'    => 'simple',
+		'label'   => __( 'User info', 'userspace' ),
+		'onclick' => 'usp_get_user_info(this);return false;',
+		'icon'    => 'fa-info-circle'
+	] );
+
+	$menu->add_button( [
+		'class'   => 'usp-ava__zoom',
+		'label'   => __( 'Zoom avatar', 'userspace' ),
+		'onclick' => 'usp_zoom_user_avatar(this);return false;',
+		'data'    => [
+			'zoom' => get_avatar_url( $user->ID, [ 'size' => 1000 ] )
+		],
+		'icon'    => 'fa-search',
+	] );
+
+	if ( get_current_user_id() == $user->ID ) {
+
+		USP()->use_module( 'uploader' );
+
+		$avatar_uploader = new USP_Uploader( 'usp_avatar', [
+			'multiple'    => 0,
+			'crop'        => 1,
+			'filetitle'   => 'usp-user-avatar-' . $user->ID,
+			'filename'    => $user->ID,
+			'dir'         => '/uploads/usp-uploads/avatars',
+			'image_sizes' => [
+				[
+					'height' => 70,
+					'width'  => 70,
+					'crop'   => 1
+				],
+				[
+					'height' => 150,
+					'width'  => 150,
+					'crop'   => 1
+				],
+				[
+					'height' => 300,
+					'width'  => 300,
+					'crop'   => 1
+				]
+			],
+			'resize'      => [ 1000, 1000 ],
+			'min_height'  => 150,
+			'min_width'   => 150,
+			'max_size'    => usp_get_option( 'usp_avatar_weight', 1024 )
+		] );
+
+		$menu->add_button( [
+			'class'   => 'usp-ava__uploads',
+			'label'   => __( 'Upload avatar', 'userspace' ),
+			'content' => $avatar_uploader->get_input(),
+			'icon'    => 'fa-download'
+		] );
+
+		if ( $user->usp_avatar ) {
+			$menu->add_button( [
+				'label' => __( 'Delete avatar', 'userspace' ),
+				'href'  => wp_nonce_url( add_query_arg( [ 'usp-action' => 'delete_avatar' ], $user->get_url() ), $user->ID ),
+				'icon'  => 'fa-times'
+			] );
+
+		}
+
+	}
+
+	if ( get_current_user_id() == $user->ID ) {
+
+		USP()->use_module( 'uploader' );
+
+		$uploader_cover = new USP_Uploader( 'usp_cover', [
+			'multiple'    => 0,
+			'filetitle'   => 'usp-user-cover-' . $user->ID,
+			'filename'    => $user->ID,
+			'dir'         => '/uploads/usp-uploads/covers',
+			'crop'        => [
+				'ratio' => 0
+			],
+			'image_sizes' => [
+				[
+					'height' => 9999,
+					'width'  => 9999,
+					'crop'   => 0
+				]
+			],
+			'resize'      => [ 1500, 1500 ],
+			'min_height'  => 300,
+			'min_width'   => 600,
+			'max_size'    => usp_get_option( 'usp_cover_weight', 1024 )
+		] );
+
+		$menu->add_button( [
+			'class'   => 'usp-cover__uploads',
+			'label'   => __( 'Upload cover', 'userspace' ),
+			'content' => $uploader_cover->get_input(),
+			'icon'    => 'fa-image',
+			'id'      => 'usp-cover-upload'
+		] );
+	}
+
+	return $menu;
+
+}

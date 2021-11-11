@@ -580,3 +580,45 @@ function usp_user_notice_add_some_data( $user, $custom_data, $template ) {
 		}
 	}
 }
+
+/**
+ * Return menu object for user profile
+ *
+ * @param USP_User $user
+ *
+ * @return USP_Dropdown_Menu
+ */
+function usp_get_user_profile_menu( USP_user $user ) {
+
+	$menu = new USP_Dropdown_Menu( 'usp_user_profile_menu', [
+		'custom_data' => [
+			'user' => $user
+		],
+		'open_button' => [
+			'icon' => 'fa-angle-down',
+			'size' => 'small'
+		],
+		'size'        => 'small'
+	] );
+
+	if ( is_user_logged_in() ) {
+
+		if ( get_current_user_id() != $user->ID ) {
+
+			$user_block = USP()->user( get_current_user_id() )->is_blocked( $user->ID );
+
+			$title = ( $user_block ) ? __( 'Unblock', 'userspace' ) : __( 'Block', 'userspace' );
+
+			$menu->add_button( [
+				'id'      => 'blacklist',
+				'label'   => $title,
+				'icon'    => 'fa-user',
+				'onclick' => 'usp_manage_user_black_list(this, ' . $user->ID . ', "' . __( 'Are you sure?', 'userspace' ) . '");return false;'
+			] );
+
+		}
+	}
+
+	return $menu;
+
+}

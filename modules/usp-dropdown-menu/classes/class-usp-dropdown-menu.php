@@ -74,6 +74,13 @@ class USP_Dropdown_Menu {
 	 */
 	public $after = '';
 
+	/**
+	 * Custom menu data
+	 *
+	 * @var mixed
+	 */
+	public $custom_data = null;
+
 	public $groups = [];
 
 	public function __construct( string $id, array $params = [] ) {
@@ -158,7 +165,7 @@ class USP_Dropdown_Menu {
 	 * @return USP_Dropdown_Menu_Group
 	 */
 	public function add_submenu( USP_Dropdown_Menu $submenu, array $params = [] ) {
-		
+
 		return $this->get_group( $this->default_group )->add_submenu( $submenu, $params );
 	}
 
@@ -182,6 +189,18 @@ class USP_Dropdown_Menu {
 		return $this->id;
 	}
 
+	public function has_buttons() {
+
+		foreach ( $this->groups as $group ) {
+			if ( $group->items ) {
+				return true;
+			}
+		}
+
+		return false;
+
+	}
+
 	/**
 	 * Get menu html
 	 *
@@ -190,6 +209,10 @@ class USP_Dropdown_Menu {
 	public function get_content() {
 
 		do_action( 'usp_dropdown_menu', $this->get_id(), $this );
+
+		if ( ! $this->has_buttons() ) {
+			return '';
+		}
 
 		$show  = "usp-menu_{$this->show}";
 		$style = "usp-menu_style_{$this->style}";

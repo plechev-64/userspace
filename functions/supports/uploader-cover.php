@@ -23,52 +23,6 @@ function usp_init_js_cover_variables( $data ) {
 	return $data;
 }
 
-// add button in personal account
-add_action( 'usp_area_top', 'usp_add_cover_uploader_button', 10 );
-function usp_add_cover_uploader_button() {
-	global $user_ID;
-
-	if ( ! usp_is_office( $user_ID ) ) {
-		return;
-	}
-
-	USP()->use_module( 'uploader' );
-
-	$uploader = new USP_Uploader( 'usp_cover', [
-		'multiple'    => 0,
-		'filetitle'   => 'usp-user-cover-' . $user_ID,
-		'filename'    => $user_ID,
-		'dir'         => '/uploads/usp-uploads/covers',
-		'crop'        => [
-			'ratio' => 0
-		],
-		'image_sizes' => [
-			[
-				'height' => 9999,
-				'width'  => 9999,
-				'crop'   => 0
-			]
-		],
-		'resize'      => [ 1500, 1500 ],
-		'min_height'  => 300,
-		'min_width'   => 600,
-		'max_size'    => usp_get_option( 'usp_cover_weight', 1024 )
-	] );
-
-	$args_uploads = [
-		'type'    => 'clear',
-		'size'    => 'large',
-		'class'   => 'usp-cover-icon',
-		'title'   => __( 'Upload cover', 'userspace' ),
-		'content' => $uploader->get_input(),
-		'icon'    => 'fa-image',
-		'id'      => 'usp-cover-upload',
-	];
-
-	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-	echo usp_get_button( $args_uploads );
-}
-
 // remove standard WP sizes
 add_filter( 'intermediate_image_sizes_advanced', 'usp_remove_wp_library_sizes_for_cover', 10, 2 );
 function usp_remove_wp_library_sizes_for_cover( $sizes, $image_meta ) {

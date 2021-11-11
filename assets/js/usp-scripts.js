@@ -448,9 +448,10 @@ function usp_focus_upload_buttons(el, type) {
         scrollTop: jQuery('#usp-office-profile').offset().top - 50
     }, 500);
 
-    let place = (type === 'ava') ? '.usp-ava__uploads' : '.usp-cover-icon';
+    let place = (type === 'ava') ? '.usp-ava__uploads' : '.usp-cover__uploads';
 
     setTimeout(function () {
+        jQuery('#usp-menu_user_avatar > .usp-menu-button').trigger('click')
         jQuery(place).attr('style', 'border:3px solid var(--uspBlue-500)').animateCss('tada');
     }, 700);
 

@@ -19,25 +19,6 @@ function usp_support_user_info_style() {
 	usp_enqueue_style( 'usp-user-info-css', USP_URL . 'functions/supports/assets/css/usp-user-details.css' );
 }
 
-// add buttons in personal account
-add_filter( 'usp_avatar_bttns', 'usp_add_user_info_button', 10 );
-function usp_add_user_info_button( $buttons ) {
-	usp_dialog_scripts();
-
-	$args    = [
-		'type'    => 'simple',
-		'size'    => 'medium',
-		'class'   => 'usp-ava__info usp-ava__bttn usps__jc-center',
-		'title'   => __( 'User info', 'userspace' ),
-		'onclick' => 'usp_get_user_info(this);return false;',
-		'href'    => '#',
-		'icon'    => 'fa-info-circle',
-	];
-	$buttons .= usp_get_button( $args );
-
-	return $buttons;
-}
-
 // Get ajax user details by id
 usp_ajax_action( 'usp_return_user_details', true );
 function usp_return_user_details() {

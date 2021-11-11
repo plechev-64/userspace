@@ -8,8 +8,12 @@
     display: flex;
 }
 
+.usp-menu-button:not(.usp-bttn) {
+    cursor: pointer;
+}
+
 .usp-menu-items {
-    box-shadow: var(--uspBox200), var(--uspBox01);
+    box-shadow: 0px 0px 3px #3e3e3e;
     display: table;
     flex-direction: column;
     line-height: normal;

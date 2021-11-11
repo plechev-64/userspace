@@ -34,7 +34,7 @@ function usp_setup_template_options() {
 	usp_template_support( 'avatar-uploader' );
 	usp_template_support( 'cover-uploader' );
 	usp_template_support( 'zoom-avatar' );
-	//usp_template_support( 'modal-user-details' );
+	usp_template_support( 'modal-user-details' );
 }
 
 // registering 3 widget areas
@@ -161,7 +161,7 @@ function usp_add_office_logout() {
 	if ( usp_get_option_customizer( 'usp_bar_show', 1 ) || ! usp_is_office( get_current_user_id() ) ) {
 		return;
 	}
-	
+
 	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	echo usp_logout_shortcode( [ 'type' => 'clear' ] );
 }
