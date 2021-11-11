@@ -91,7 +91,7 @@ function usp_avatar_data_replacement( $args, $id_or_email ) {
  */
 function usp_get_user_avatar_menu( USP_User $user ) {
 
-	$menu = new USP_Dropdown_Menu( 'user_avatar', [
+	$menu = new USP_Dropdown_Menu( 'usp_user_avatar_menu', [
 		'custom_data' => [
 			'user' => $user
 		],
@@ -99,7 +99,6 @@ function usp_get_user_avatar_menu( USP_User $user ) {
 			'icon' => 'fa-vertical-ellipsis',
 			'size' => 'medium'
 		],
-		'size'        => 'small'
 	] );
 
 	$menu->add_button( [

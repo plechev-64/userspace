@@ -71,8 +71,8 @@
 .usp-bar .usp-bttn__ava {
     width: 40px;
     max-height: 40px;
-    object-fit: cover;
     height: 100%;
+    display: flex;
 }
 
 .usp-bar-userlink i {

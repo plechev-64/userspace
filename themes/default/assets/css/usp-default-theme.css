@@ -66,7 +66,7 @@
     height: 100%;
 }
 
-.usp-menu_user_avatar {
+.usp-menu_usp_user_avatar_menu {
     position: absolute;
     top: 0;
     right: 0;
@@ -103,12 +103,14 @@
     font-size: 34px;
     line-height: 1.1;
     text-shadow: 1px 0 1px var(--uspBlack);
+    min-height: 40px;
+    align-items: center;
 }
 
 .usp-action {
     color: var(--uspGray-200);
     font-size: 14px;
-    margin: 0 0 0 12px;
+    margin: 3px 0 0 6px;
 }
 
 .usp-office-middle > div {
@@ -307,14 +309,16 @@
 .usp-office-small .usp-office-top > *:not(.usp-office-shift),
 .usp-office-small .usp-under-ava,
 .usp-office-small .usp-user-icons,
-.usp-office-small .usp-menu_user_avatar,
+.usp-office-small .usp-menu_usp_user_avatar_menu,
 .usp-office-small .usp-office-middle,
 .usp-office-small .usp-office-bottom {
     display: none;
 }
 
 .usp-office-small .usp-office-usermeta {
-    margin: 9px 12px;
+    margin: 0 12px;
+    justify-content: center;
+    height: 100%;
 }
 
 .usp-office-small .usp-user-name {
@@ -330,6 +334,24 @@
 }
 
 /*end*/
+
+.usp-menu_usp_user_profile_menu {
+    margin-left: 6px;
+}
+
+.usp-menu_usp_user_profile_menu > .usp-menu-button i {
+    font-size: 20px;
+    color: #fff;
+    text-shadow: 1px 0 1px var(--uspBlack);
+}
+
+.usp-menu_usp_user_avatar_menu > a {
+    opacity: .8;
+}
+
+.usp-menu_usp_user_profile_menu .usp-menu-items {
+    min-width: 120px;
+}
 
 @media screen and (max-width: 800px) {
     .usp-user-name {

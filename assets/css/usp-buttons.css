@@ -67,8 +67,9 @@ body:not(.wp-admin) .usp-bttn.usp-bttn__type-primary:not(.usp-bttn__active) > * 
 .usp-bttn .usp-bttn__ava img {
     border-radius: 0;
     box-shadow: none;
-    display: block;
+    display: flex;
     padding: 0;
+    object-fit: cover;
 }
 
 .usp-bttn:not(.usp-bttn__type-clear) .usp-bttn__ava + .usp-bttn__count {

@@ -30,6 +30,13 @@ class USP_Dropdown_Menu {
 	];
 
 	/**
+	 * Menu toggle button color
+	 *
+	 * @var string - 'transparent'
+	 */
+	public $open_button_style = false;
+
+	/**
 	 * Opening type
 	 *
 	 * @var string - on_click / on_hover
@@ -236,8 +243,9 @@ class USP_Dropdown_Menu {
 	}
 
 	private function build_menu_button() {
+		$color = ( $this->open_button_style ) ? $this->open_button_style : $this->style;
 
-		$button_class = "usp-menu-button usp-menu-button_style_{$this->style} usps__focus";
+		$button_class = "usp-menu-button usp-menu-button_style_{$color} usps__focus";
 		$open_button  = $this->open_button;
 
 		if ( is_array( $open_button ) ) {

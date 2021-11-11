@@ -591,14 +591,14 @@ function usp_user_notice_add_some_data( $user, $custom_data, $template ) {
 function usp_get_user_profile_menu( USP_user $user ) {
 
 	$menu = new USP_Dropdown_Menu( 'usp_user_profile_menu', [
-		'custom_data' => [
+		'custom_data'       => [
 			'user' => $user
 		],
-		'open_button' => [
+		'open_button'       => [
 			'icon' => 'fa-angle-down',
 			'size' => 'small'
 		],
-		'size'        => 'small'
+		'open_button_style' => 'transparent',
 	] );
 
 	if ( is_user_logged_in() ) {
