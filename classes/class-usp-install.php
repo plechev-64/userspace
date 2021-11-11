@@ -76,6 +76,14 @@ class USP_Install {
 				upload_date DATETIME NOT NULL,
 				UNIQUE KEY  media_id (media_id),
 				KEY upload_date (upload_date)
+			) $collate",
+			"CREATE TABLE IF NOT EXISTS `" . USP_PREF . "blacklist` (
+				ID BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+				user_id BIGINT(20) UNSIGNED NOT NULL,
+				blocked BIGINT(20) UNSIGNED NOT NULL,
+				PRIMARY KEY  ID (ID),
+				KEY user_id (user_id),
+				KEY blocked (blocked)
 			) $collate"
 		);
 	}

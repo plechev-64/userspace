@@ -258,8 +258,11 @@ function usp_check_user_blocked( $content ) {
 		return $content;
 	}
 
-	if ( get_user_meta( USP()->office()->get_owner_id(), 'usp_black_list:' . get_current_user_id() ) ) {
-		$content = usp_get_notice( [ 'type' => 'error', 'text' => __( 'This user has restricted your access to their page.', 'userspace' ) ] );
+	if ( USP()->office()->owner()->is_blocked( get_current_user_id() ) ) {
+		$content = usp_get_notice( [
+			'type' => 'error',
+			'text' => __( 'This user has restricted your access to their page.', 'userspace' )
+		] );
 	}
 
 	return $content;
@@ -275,7 +278,7 @@ function usp_add_block_black_list_button() {
 		return;
 	}
 
-	$user_block = get_user_meta( get_current_user_id(), 'usp_black_list:' . USP()->office()->get_owner_id() );
+	$user_block = USP()->user( get_current_user_id() )->is_blocked( USP()->office()->get_owner_id() );
 
 	$title = ( $user_block ) ? __( 'Unblock', 'userspace' ) : __( 'Block', 'userspace' );
 

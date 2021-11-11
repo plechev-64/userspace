@@ -31,7 +31,8 @@ global $wpdb;
 // Deleting tables
 $tables = [
 	$wpdb->base_prefix . 'usp_temp_media',
-	$wpdb->base_prefix . 'usp_users_actions'
+	$wpdb->base_prefix . 'usp_users_actions',
+	$wpdb->base_prefix . 'usp_blacklist'
 ];
 $wpdb->query( "DROP TABLE IF EXISTS `" . implode( '`, `', $tables ) . "`" );
 

@@ -189,9 +189,7 @@ function usp_beat() {
 	return $result;
 }
 
-/**
- * TODO refactoring blacklist functionality
- */
+
 usp_ajax_action( 'usp_manage_user_black_list' );
 function usp_manage_user_black_list() {
 	usp_verify_ajax_nonce();
@@ -206,35 +204,15 @@ function usp_manage_user_black_list() {
 	$user_id = absint( $_POST['user_id'] );
 	// phpcs:enable WordPress.Security.NonceVerification.Missing
 
-	$user_block = get_user_meta( get_current_user_id(), 'usp_black_list:' . $user_id );
-
-	if ( $user_block ) {
-		delete_user_meta( get_current_user_id(), 'usp_black_list:' . $user_id );
-
-		/**
-		 * Fires after remove user from blacklist.
-		 *
-		 * @param   $user_id    int ID user.
-		 *
-		 * @since   1.0.0
-		 *
-		 */
-		do_action( 'remove_user_blacklist', $user_id );
+	$usp_user   = USP()->user( get_current_user_id() );
+	$is_blocked = $usp_user->is_blocked( $user_id );
+	if ( $is_blocked ) {
+		$usp_user->unblock( $user_id );
 	} else {
-		add_user_meta( get_current_user_id(), 'usp_black_list:' . $user_id, 1 );
-
-		/**
-		 * Fires after adding a user to the blacklist.
-		 *
-		 * @param   $user_id    int ID user.
-		 *
-		 * @since   1.0.0
-		 *
-		 */
-		do_action( 'add_user_blacklist', $user_id );
+		$usp_user->block( $user_id );
 	}
 
-	$new_status = $user_block ? 0 : 1;
+	$new_status = $is_blocked ? 0 : 1;
 
 	return [
 		'label' => ( $new_status ) ? __( 'Unblock', 'userspace' ) : __( 'Block', 'userspace' )

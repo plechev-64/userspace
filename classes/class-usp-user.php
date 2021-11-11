@@ -422,20 +422,6 @@ class USP_User {
 		do_action( 'usp_user_update_activity', $this );
 	}
 
-	function __get( $property ) {
-
-		if ( isset( $this->$property ) ) {
-			return $this->$property;
-		}
-
-		if ( isset( $this->metadata[ $property ] ) ) {
-			return $this->metadata[ $property ];
-		}
-
-		return get_userdata( $this->ID )->$property;
-
-	}
-
 	function get_avatar( $size = 50, $url = false, $args = [], $html = false ) {
 
 		$alt = ( isset( $args['parent_alt'] ) ) ? $args['parent_alt'] : '';
@@ -479,5 +465,123 @@ class USP_User {
 			$size,
 			$size
 		], $args ) : get_avatar( $this->ID, $size, false, $alt, $args );
+	}
+
+	/**
+	 * Add user to blacklist
+	 *
+	 * @param int $user_id
+	 *
+	 * @return bool
+	 */
+	function block( int $user_id ) {
+
+		if ( ! $user_id ) {
+			return false;
+		}
+
+		if ( $this->is_blocked( $user_id ) ) {
+			return false;
+		}
+
+		$result = (bool) USP_Query::insert( new USP_Blacklist(), [
+			'user_id' => $this->ID,
+			'blocked' => $user_id
+		] );
+
+		if ( $result ) {
+			/**
+			 * Fires after adding a user to the blacklist.
+			 *
+			 * @param   $user_id    int ID user.
+			 *
+			 * @since   1.0.0
+			 *
+			 */
+			do_action( 'usp_user_block', $user_id, $this );
+		}
+
+		return $result;
+
+	}
+
+	/**
+	 * Remove user from blacklist
+	 *
+	 * @param int $user_id
+	 *
+	 * @return bool
+	 */
+	function unblock( int $user_id ) {
+
+		if ( ! $user_id || ! $this->is_blocked( $user_id ) ) {
+			return false;
+		}
+
+		$result = USP_Query::delete(
+			( new USP_Blacklist() )->where( [ 'user_id' => $this->ID, 'blocked' => $user_id ] )
+		);
+
+		if ( $result ) {
+			/**
+			 * Fires after remove user from blacklist.
+			 *
+			 * @param   $user_id    int ID user.
+			 *
+			 * @since   1.0.0
+			 *
+			 */
+			do_action( 'usp_user_unblock', $user_id, $this );
+		}
+
+		return $result;
+
+	}
+
+	/**
+	 * Check if user is blocked
+	 *
+	 * @param int $user_id
+	 *
+	 * @return bool
+	 */
+	function is_blocked( int $user_id ) {
+
+		return (bool) ( new USP_Blacklist() )
+			->select( [ 'ID' ] )
+			->where( [ 'user_id' => $this->ID, 'blocked' => $user_id ] )
+			->get_var();
+
+	}
+
+	/**
+	 * User blacklist
+	 *
+	 * Returns the user's blacklist
+	 *
+	 * @return array
+	 */
+	function get_blacklist() {
+
+		return ( new USP_Blacklist() )
+			->select( [ 'blocked' ] )
+			->where( [ 'user_id' => $this->ID ] )
+			->limit( - 1 )
+			->get_col( [ 'blocked' ] );
+
+	}
+
+	function __get( $property ) {
+
+		if ( isset( $this->$property ) ) {
+			return $this->$property;
+		}
+
+		if ( isset( $this->metadata[ $property ] ) ) {
+			return $this->metadata[ $property ];
+		}
+
+		return get_userdata( $this->ID )->$property;
+
 	}
 }
