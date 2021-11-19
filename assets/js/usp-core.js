@@ -52,6 +52,19 @@ jQuery(document).ready(function ($) {
 
 });
 
+jQuery(document).on('ready', function () {
+    const $ = jQuery;
+    $(document).on('keydown', function (e) {
+        const $body = $('body');
+        if (e.keyCode === 9 && !$body.hasClass('usp-focused')) {
+            $body.addClass('usp-focused');
+            $(document).one('click', function () {
+                $body.removeClass('usp-focused');
+            });
+        }
+    });
+});
+
 function usp_do_action(action_name) {
 
     var callbacks_action = usp_actions[action_name];
