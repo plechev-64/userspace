@@ -221,10 +221,10 @@ class USP_Dropdown_Menu {
 			return '';
 		}
 
-		$show  = "usp-menu_{$this->show}";
-		$style = "usp-menu_style_{$this->style}";
+		$show  = "usp-menu_" . esc_attr( $this->show );
+		$style = "usp-menu_style_" . esc_attr( $this->style );
 
-		$html = "<div id='usp-menu_{$this->get_id()}' class='usp-menu usp-menu_{$this->get_id()} {$show} {$style}'>";
+		$html = "<div id='usp-menu_" . esc_attr( $this->get_id() ) . "' class='usp-menu usp-menu_" . esc_attr( $this->get_id() ) . " {$show} {$style}'>";
 
 		$html .= $this->build_menu_button();
 		$html .= $this->build_menu_content();
@@ -243,7 +243,7 @@ class USP_Dropdown_Menu {
 	}
 
 	private function build_menu_button() {
-		$color = ( $this->open_button_style ) ? $this->open_button_style : $this->style;
+		$color = ( $this->open_button_style ) ? esc_attr( $this->open_button_style ) : esc_attr( $this->style );
 
 		$button_class = "usp-menu-button usp-menu-button_style_{$color} usps__focus";
 		$open_button  = $this->open_button;
@@ -265,7 +265,7 @@ class USP_Dropdown_Menu {
 
 	private function build_menu_content() {
 
-		$pos = $this->position;
+		$pos = esc_attr( $this->position );
 
 		$html = "<div tabindex='-1' class='usp-menu-items usps usp-menu-items_pos_{$pos}' data-position='{$pos}'>";
 

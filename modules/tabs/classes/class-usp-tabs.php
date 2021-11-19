@@ -54,7 +54,9 @@ class USP_Tabs {
 	}
 
 	function current() {
-		return ( $this->current_id = $this->get_current_id() ) ? $this->tab( $this->current_id ) : false;
+		$this->current_id = $this->get_current_id();
+
+		return ( $this->current_id ) ? $this->tab( $this->current_id ) : false;
 	}
 
 	function get_current_id() {
@@ -63,7 +65,9 @@ class USP_Tabs {
 			return sanitize_text_field( wp_unslash( $_GET['tab'] ) );
 		} else if ( $this->tabs ) {
 
-			if ( $tabs = $this->get_access_menu_items( 'menu' ) ) {
+			$tabs = $this->get_access_menu_items( 'menu' );
+
+			if ( $tabs ) {
 				foreach ( $tabs as $tab_id ) {
 					return $tab_id;
 				}
@@ -110,15 +114,17 @@ class USP_Tabs {
 	}
 
 	function get_access_menu_items( $menu_id ) {
+		$tab_ids = $this->get_menu_items( $menu_id );
 
-		if ( ! $tab_ids = $this->get_menu_items( $menu_id ) ) {
+		if ( ! $tab_ids ) {
 			return false;
 		}
 
-		$ids = array();
+		$ids = [];
 		foreach ( $tab_ids as $tab_id ) {
+			$tab = $this->tab( $tab_id );
 
-			if ( ! $tab = $this->tab( $tab_id ) ) {
+			if ( ! $tab ) {
 				continue;
 			}
 
@@ -150,11 +156,11 @@ class USP_Tabs {
 			$classes[] = $args['class'];
 		}
 
-		$content = '<div id="usp-nav-' . $menu_id . '" class="' . implode( ' ', $classes ) . '">';
+		$content = '<div id="usp-nav-' . esc_attr( $menu_id ) . '" class="' . esc_attr( implode( ' ', $classes ) ) . '">';
 
 		foreach ( $tab_ids as $tab_id ) {
-
-			if ( ! $tab = $this->tab( $tab_id ) ) {
+			$tab = $this->tab( $tab_id );
+			if ( ! $tab ) {
 				continue;
 			}
 
@@ -182,26 +188,26 @@ class USP_Tabs {
 					continue;
 				}
 
-				$tab_data = array(
+				$tab_data = [
 					'id'         => $tab['slug'],
 					'name'       => $tab['title'],
 					'public'     => isset( $tab['public-tab'] ) && $tab['public-tab'] ? 1 : 0,
 					'icon'       => $tab['icon'] ?: 'fa-cog',
 					'output'     => $area_id,
-					'supports'   => isset( $tab['supports-tab'] ) ? $tab['supports-tab'] : array(),
+					'supports'   => isset( $tab['supports-tab'] ) ? $tab['supports-tab'] : [],
 					'custom-tab' => true,
-					'content'    => array(
-						array(
+					'content'    => [
+						[
 							'id'       => 'subtab-1',
 							'name'     => $tab['title'],
 							'icon'     => ( $tab['icon'] ) ?: 'fa-cog',
-							'callback' => array(
+							'callback' => [
 								'name' => 'usp_custom_tab_content',
-								'args' => array( $tab['content'] )
-							)
-						)
-					)
-				);
+								'args' => [ $tab['content'] ]
+							]
+						]
+					]
+				];
 
 				$this->add( $tab_data );
 			}

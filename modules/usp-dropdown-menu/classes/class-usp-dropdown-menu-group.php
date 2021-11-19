@@ -95,7 +95,7 @@ class USP_Dropdown_Menu_Group {
 
 		$this->order_items();
 
-		$html = "<div class='usp-menu-group usp-menu-group_{$this->get_id()} usp-menu-group_content_{$this->align_content}'>";
+		$html = "<div class='usp-menu-group usp-menu-group_" . esc_attr( $this->get_id() ) . " usp-menu-group_content_" . esc_attr( $this->align_content ) . "'>";
 
 		foreach ( $this->items as $item ) {
 			$html .= $this->build_item( $item['data'], $item['type'], $item['params'] );

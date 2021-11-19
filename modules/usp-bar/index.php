@@ -69,7 +69,7 @@ function usp_bar_css_variable( $styles ) {
 		[ $r, $g, $b ] = sscanf( $background, "#%02x%02x%02x" );
 
 		$text = '--uspText';
-		
+
 		$hover = '--uspBlack-02';
 	}
 
@@ -97,15 +97,15 @@ function usp_add_userbar_class_body( $classes ) {
 // hide in the customizer if disabled bar
 function usp_bar_customizer_hide() {
 	if ( usp_get_option_customizer( 'usp_bar_show', 1 ) ) {
-		return;
+		return false;
 	}
 
-	return 'style="display:none;"';
+	return true;
 }
 
 // get max width bar
 function usp_bar_width() {
 	$width = usp_get_option_customizer( 'usp_bar_width' );
 
-	return $width ? 'style="max-width:' . $width . 'px;"' : 'style="max-width:calc(100% - 24px)"';
+	return $width ? $width : false;
 }

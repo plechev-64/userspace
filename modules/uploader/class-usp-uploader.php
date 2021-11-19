@@ -153,7 +153,7 @@ class USP_Uploader {
 
 	function get_input() {
 
-		$json = json_encode( $this );
+		$json = wp_json_encode( $this );
 
 		$content = '<input id="usp-uploader-input-' . $this->uploader_id . '" class="usp-uploader-input" '
 		           . 'data-uploader_id="' . $this->uploader_id . '" name="' . ( $this->multiple ? $this->input_name . '[]' : $this->input_name ) . '" '
@@ -190,7 +190,7 @@ class USP_Uploader {
 
 	function get_dropzone() {
 
-		$content = '<div id="usp-dropzone-' . $this->uploader_id . '" class="usp-dropzone">
+		$content = '<div id="usp-dropzone-' . esc_attr( $this->uploader_id ) . '" class="usp-dropzone">
 				<div class="dropzone-upload-area">
 					' . __( 'Add files in a queue of downloads', 'userspace' ) . '
 				</div>
@@ -237,7 +237,7 @@ class USP_Uploader {
 	function get_gallery( $imagIds = false, $getTemps = false ) {
 
 		if ( ! $imagIds && $getTemps ) {
-			$session_id = isset( $_COOKIE['PHPSESSID'] ) && $_COOKIE['PHPSESSID'] ? $_COOKIE['PHPSESSID'] : 'none';
+			$session_id = ! empty( $_COOKIE['PHPSESSID'] ) ? sanitize_text_field( wp_unslash( $_COOKIE['PHPSESSID'] ) ) : 'none';
 
 			$imagIds = ( new USP_Temp_Media() )->select( [ 'media_id' ] )
 			                                   ->where( [
@@ -274,7 +274,7 @@ class USP_Uploader {
 			return false;
 		}
 
-		$is_image = wp_attachment_is( 'image', $attach ) ? true : false;
+		$is_image = wp_attachment_is( 'image', $attach );
 
 		if ( $is_image ) {
 
@@ -312,8 +312,6 @@ class USP_Uploader {
 
 		$isImage = wp_attachment_is_image( $attachment_id );
 
-		$fileSrc = 0;
-
 		if ( $isImage ) {
 
 			$fullSrc = wp_get_attachment_image_src( $attachment_id, $size );
@@ -330,11 +328,9 @@ class USP_Uploader {
 
 		$isImage = wp_attachment_is_image( $attachment_id );
 
-		$fileSrc = 0;
-
 		if ( $isImage ) {
 
-			$size = ( $default = usp_get_option( 'public_form_thumb' ) ) ? $default : 'large';
+			$size = usp_get_option( 'public_form_thumb' ) ?: 'large';
 
 			$fileHtml = wp_get_attachment_image( $attachment_id, $size, false, array( 'srcset' => ' ' ) );
 
@@ -410,7 +406,7 @@ class USP_Uploader {
 	function upload() {
 
 
-		if ( ! $_FILES[ $this->input_name ] ) {
+		if ( empty( $_FILES[ $this->input_name ] ) ) {
 			return false;
 		}
 
@@ -426,8 +422,12 @@ class USP_Uploader {
 
 		if ( $this->multiple ) {
 
-			$files = array();
-			foreach ( $_FILES[ $this->input_name ] as $nameProp => $values ) {
+			$files = [];
+
+			//phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+			$_passed_files = usp_recursive_map( 'sanitize_text_field', wp_unslash( $_FILES[ $this->input_name ] ) );
+
+			foreach ( $_passed_files as $nameProp => $values ) {
 				foreach ( $values as $k => $value ) {
 					$files[ $k ][ $nameProp ] = $value;
 				}
@@ -447,7 +447,9 @@ class USP_Uploader {
 			  ) );
 			  } */
 
-			$uploads = $this->file_upload_process( $_FILES[ $this->input_name ] );
+			//phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+			$_passed_file = usp_recursive_map( 'sanitize_text_field', wp_unslash( $_FILES[ $this->input_name ] ) );
+			$uploads      = $this->file_upload_process( $_passed_file );
 		}
 
 		$this->after_upload( $uploads );
@@ -503,7 +505,7 @@ class USP_Uploader {
 		);
 
 		if ( ! $this->user_id ) {
-			$session_id                 = isset( $_COOKIE['PHPSESSID'] ) && $_COOKIE['PHPSESSID'] ? $_COOKIE['PHPSESSID'] : 'none';
+			$session_id                 = ! empty( $_COOKIE['PHPSESSID'] ) ? sanitize_text_field( wp_unslash( $_COOKIE['PHPSESSID'] ) ) : 'none';
 			$attachment['post_content'] = $session_id;
 		}
 
@@ -562,8 +564,10 @@ class USP_Uploader {
 
 		list( $width, $height ) = getimagesize( $image_src );
 
-		$crop = isset( $_POST['crop_data'] ) ? $_POST['crop_data'] : false;
-		$size = isset( $_POST['image_size'] ) ? $_POST['image_size'] : false;
+		//phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		$crop = ! empty( $_POST['crop_data'] ) ? usp_recursive_map( 'sanitize_text_field', wp_unslash( $_POST['crop_data'] ) ) : false;
+		//phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		$size = ! empty( $_POST['image_size'] ) ? usp_recursive_map( 'sanitize_text_field', wp_unslash( $_POST['image_size'] ) ) : false;
 
 		if ( ! $crop ) {
 			return false;

@@ -4,18 +4,18 @@ class USP_Sub_Tab {
 
 	public $id;
 	public $parent_id;
-	public $name	 = false;
-	public $title	 = false;
-	public $icon	 = 'fa-cog';
-	public $supports = array();
-	public $counter	 = null;
-	public $callback = array();
-	public $url		 = false;
+	public $name = false;
+	public $title = false;
+	public $icon = 'fa-cog';
+	public $supports = [];
+	public $counter = null;
+	public $callback = [];
+	public $url = false;
 
 	function __construct( $subtabData ) {
 		$this->init_properties( $subtabData );
-		$tab			 = USP()->tabs()->tab( $this->parent_id );
-		$this->supports	 = $tab->supports;
+		$tab            = USP()->tabs()->tab( $this->parent_id );
+		$this->supports = $tab->supports;
 	}
 
 	function init_properties( $args ) {
@@ -61,15 +61,15 @@ class USP_Sub_Tab {
 			}
 		}
 
-		$attr = wp_parse_args( $args, array(
-			'id'		 => 'usp-tab__' . $this->id,
-			'class'		 => 'usp-subtab-button',
-			'label'		 => $this->name,
-			'icon'		 => $this->icon,
-			'counter'	 => $this->counter,
-			'href'		 => $this->get_permalink(),
-			'onclick'	 => $ajaxLoad ? 'usp_load_tab("' . $tab->id . '", "' . $this->id . '", this);return false;' : null
-			) );
+		$attr = wp_parse_args( $args, [
+			'id'      => 'usp-tab__' . esc_attr( $this->id ),
+			'class'   => 'usp-subtab-button',
+			'label'   => $this->name,
+			'icon'    => $this->icon,
+			'counter' => $this->counter,
+			'href'    => $this->get_permalink(),
+			'onclick' => $ajaxLoad ? 'usp_load_tab("' . esc_attr( $tab->id ) . '", "' . esc_attr( $tab->id ) . '", this);return false;' : null
+		] );
 
 		return usp_get_button( $attr );
 	}
@@ -85,22 +85,22 @@ class USP_Sub_Tab {
 
 		$content .= '<div class="usp-subtab-title usps usps__nowrap usps__ai-center usps__line-1">';
 		if ( $this->icon ) {
-			$content .= '<i class="uspi ' . $this->icon . '" aria-hidden="true"></i> ';
+			$content .= '<i class="uspi ' . esc_attr( $this->icon ) . '" aria-hidden="true"></i> ';
 		}
 		$content .= '<span>' . apply_filters( 'usp_subtab_title', $title, $this->id ) . '</span>';
 		$content .= '</div>';
 
 		if ( $this->callback ) {
 
-			if ( isset( $this->callback[ 'args' ] ) ) {
-				$args = $this->callback[ 'args' ];
+			if ( isset( $this->callback['args'] ) ) {
+				$args = $this->callback['args'];
 			} else {
 				$args = array( USP()->office()->get_owner_id() );
 			}
 
 			$content .= '<div class="usp-subtab-content">';
-			if ( function_exists( $this->callback[ 'name' ] ) ) {
-				$content .= apply_filters( 'usp_tab_content', call_user_func_array( $this->callback[ 'name' ], $args ), $this->parent_id, $this->id );
+			if ( function_exists( $this->callback['name'] ) ) {
+				$content .= apply_filters( 'usp_tab_content', call_user_func_array( $this->callback['name'], $args ), $this->parent_id, $this->id );
 			} else {
 				$content .= usp_get_notice( [ 'text' => __( 'There was an error loading the tab. Function not found.', 'userspace' ) ] );
 			}

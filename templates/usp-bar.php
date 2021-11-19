@@ -21,13 +21,16 @@ defined( 'ABSPATH' ) || exit;
 $color      = usp_get_option_customizer( 'usp_bar_color', 'black' );
 $class      = 'usp-bar-' . $color;
 $menu_color = 'none';
+$width      = usp_bar_width();
 ?>
 
 <div id="usp-bar"
-     class="usp-bar <?php echo sanitize_html_class( $class ); ?> usps usps__jc-center usps__line-1" <?php echo usp_bar_customizer_hide(); ?>>
-    <div class="usp-bar-wrap usps usps__jc-between usps__grow usps__ai-center usps__relative" <?php echo usp_bar_width(); ?>>
+     class="usp-bar <?php echo sanitize_html_class( $class ); ?> usps usps__jc-center usps__line-1" <?php echo usp_bar_customizer_hide() ? 'style="dysplay:none;"' : ''; ?>>
+    <div class="usp-bar-wrap usps usps__jc-between usps__grow usps__ai-center usps__relative" <?php echo $width ? 'style="max-width:' . intval( $width ) . 'px;"' : 'style="max-width:calc(100% - 24px)"'; ?>>
         <div class="usp-bar-left usps usps__ai-center">
-			<?php echo usp_get_button( [
+			<?php
+			//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo usp_get_button( [
 				'type'  => 'clear',
 				'label' => __( 'Home', 'userspace' ),
 				'icon'  => 'fa-home',
@@ -43,7 +46,9 @@ $menu_color = 'none';
 
             <div class="usp-bar__user-nav usps usps__ai-center usps__as-stretch">
 				<?php if ( ! is_user_logged_in() ) { ?>
-					<?php echo usp_get_button( [
+					<?php
+					//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					echo usp_get_button( [
 						'type'  => 'clear',
 						'label' => __( 'Sign in', 'userspace' ),
 						'icon'  => 'fa-sign-in',
@@ -53,7 +58,9 @@ $menu_color = 'none';
 
 					<?php if ( usp_is_register_open() ) { ?>
                         <span class="usp-bar-or">or</span>
-						<?php echo usp_get_button( [
+						<?php
+						//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+						echo usp_get_button( [
 							'type'  => 'clear',
 							'label' => __( 'Register', 'userspace' ),
 							'href'  => usp_get_loginform_url( 'register' ),
@@ -120,6 +127,7 @@ $menu_color = 'none';
 						[ 'order' => 100 ]
 					);
 
+					//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					echo $menu->get_content();
 
 					?>

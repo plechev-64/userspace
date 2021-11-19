@@ -27,7 +27,7 @@ function usp_profile_fields_manager() {
 	$header = usp_get_admin_header( $title, $subtitle );
 
 	$content = usp_get_admin_content( $Manager->get_manager(), 'no_sidebar' );
-
+	//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	echo $header . $content;
 }
 
@@ -104,6 +104,6 @@ function usp_get_custom_fields_profile( $user ) {
 	$content .= '</div>';
 	$content .= '</div>';
 	$content .= '</div>';
-
+	//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	echo $content;
 }

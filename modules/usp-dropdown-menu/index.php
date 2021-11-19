@@ -8,11 +8,8 @@ function usp_dropdown_menu_scripts() {
 	usp_enqueue_script( 'usp-dropdown-menu', USP_URL . 'modules/usp-dropdown-menu/assets/js/usp-dropdown-menu.js', false, false, true );
 }
 
-add_action( 'usp_bar_left_icons', function () {
-	echo usp_menu_test_wp_menu_convert();
-} );
-
-function usp_menu_test_wp_menu_convert( $menu_color = 'none' ) {
+add_action( 'usp_bar_left_icons', 'usp_add_wp_menu_in_usp_bar' );
+function usp_add_wp_menu_in_usp_bar() {
 
 	$wp_usp_menu_slug = 'usp-bar';
 	$locations        = get_nav_menu_locations();
@@ -48,13 +45,13 @@ function usp_menu_test_wp_menu_convert( $menu_color = 'none' ) {
 			'icon'  => 'fa-vertical-ellipsis'
 		],
 		'show'        => 'on_hover',
-		'style'       => $menu_color
+		'style'       => 'none'
 	] );
 
-	usp_menu_build_from_tree_recursive( $menu_tree, $usp_menu, $menu_color );
+	usp_menu_build_from_tree_recursive( $menu_tree, $usp_menu );
 
-
-	return $usp_menu->get_content();
+	//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	echo $usp_menu->get_content();
 
 }
 
@@ -76,7 +73,7 @@ function usp_menu_build_tree_recursive( $items, $parent_id = 0 ) {
 	return $menu;
 }
 
-function usp_menu_build_from_tree_recursive( $menu_tree, USP_Dropdown_Menu $usp_menu, $menu_color ) {
+function usp_menu_build_from_tree_recursive( $menu_tree, USP_Dropdown_Menu $usp_menu ) {
 
 	foreach ( $menu_tree as $item ) {
 
@@ -88,12 +85,12 @@ function usp_menu_build_from_tree_recursive( $menu_tree, USP_Dropdown_Menu $usp_
 				],
 				'show'        => 'on_hover',
 				'position'    => 'right-bottom',
-				'style'       => $menu_color
+				'style'       => $usp_menu->style
 			] );
 
 			$usp_menu->add_submenu( $child_menu );
 
-			usp_menu_build_from_tree_recursive( $item['children'], $child_menu, $menu_color );
+			usp_menu_build_from_tree_recursive( $item['children'], $child_menu );
 		} else {
 
 			$usp_menu->add_button( [ 'label' => $item['title'], 'href' => $item['url'] ] );

@@ -2,8 +2,8 @@
 
 function usp_get_register_form_fields() {
 
-	$registerFields = array(
-		array(
+	$registerFields = [
+		[
 			'type'        => 'text',
 			'slug'        => 'user_email',
 			'title'       => __( 'E-mail', 'userspace' ),
@@ -11,10 +11,12 @@ function usp_get_register_form_fields() {
 			'icon'        => 'fa-at',
 			'maxlenght'   => 50,
 			'required'    => 1
-		)
-	);
+		]
+	];
 
-	if ( $customFields = get_site_option( 'usp_register_form_fields' ) ) {
+	$customFields = get_site_option( 'usp_register_form_fields' );
+
+	if ( $customFields ) {
 		$registerFields = array_merge( $registerFields, $customFields );
 	}
 
@@ -30,6 +32,11 @@ remove_action( 'register_new_user', 'wp_send_new_user_notifications' );
 add_action( 'register_new_user', 'usp_process_user_register_data', 10 );
 function usp_process_user_register_data( $user_id ) {
 
+	/*
+	 * Don't sanitize pass field
+	 */
+
+	//phpcs:ignore
 	$user_pass = isset( $_POST['user_pass'] ) ? $_POST['user_pass'] : false;
 
 	if ( ! $user_pass ) {
@@ -46,11 +53,13 @@ function usp_process_user_register_data( $user_id ) {
 		'user_pass' => $user_pass
 	] );
 
+	$userdata = get_userdata( $user_id );
+
 	usp_register_mail( array(
 		'user_id'    => $user_id,
 		'user_pass'  => $user_pass,
-		'user_login' => isset( $_POST['user_login'] ) ? $_POST['user_login'] : $_POST['user_email'],
-		'user_email' => $_POST['user_email']
+		'user_login' => $userdata->user_login ?: $userdata->user_email,
+		'user_email' => $userdata->user_email
 	) );
 
 	wp_send_new_user_notifications( $user_id, 'admin' );
@@ -98,12 +107,9 @@ function usp_insert_user( $data ) {
 	}
 
 	$userdata = array_merge( $data, array(
-		'user_nicename' => ''
-	,
-		'nickname'      => $data['user_email']
-	,
-		'first_name'    => $data['display_name']
-	,
+		'user_nicename' => '',
+		'nickname'      => $data['user_email'],
+		'first_name'    => $data['display_name'],
 		'rich_editing'  => 'true'  // false - turn off the visual editor for the user.
 	) );
 
@@ -115,12 +121,14 @@ function usp_insert_user( $data ) {
 
 	usp_register_new_user_data( $user_id );
 
-	usp_register_mail( array(
+	$_wp_userdata = get_userdata( $user_id );
+
+	usp_register_mail( [
 		'user_id'    => $user_id,
-		'user_login' => isset( $_POST['user_login'] ) ? $_POST['user_login'] : $_POST['user_email'],
-		'user_email' => $_POST['user_email'],
+		'user_login' => $_wp_userdata->user_login ?: $_wp_userdata->user_email,
+		'user_email' => $_wp_userdata->user_email,
 		'user_pass'  => $data['user_pass'],
-	) );
+	] );
 
 	wp_send_new_user_notifications( $user_id, 'admin' );
 
@@ -147,11 +155,15 @@ function usp_confirm_user_registration() {
 
 	$type_form = usp_get_option( 'usp_login_form', 0 );
 
-	if ( $confirmdata = urldecode( $_GET['usp-confirmdata'] ) ) {
+	//phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+	$confirmdata = isset( $_GET['usp-confirmdata'] ) ? urldecode( wp_unslash( $_GET['usp-confirmdata'] ) ) : '';
+
+	if ( $confirmdata ) {
 
 		$confirmdata = usp_decode( $confirmdata );
+		$user        = get_user_by( 'login', $confirmdata[0] );
 
-		if ( $user = get_user_by( 'login', $confirmdata[0] ) ) {
+		if ( $user ) {
 
 			$confirm_hash = md5( $user->ID . usp_get_option( 'usp_security_key' ) );
 
@@ -169,7 +181,7 @@ function usp_confirm_user_registration() {
 				$defaultRole = 'author';
 			}
 
-			wp_update_user( array( 'ID' => $user->ID, 'role' => $defaultRole ) );
+			wp_update_user( [ 'ID' => $user->ID, 'role' => $defaultRole ] );
 
 			usp_user_update_activity( $user->ID );
 
@@ -179,11 +191,11 @@ function usp_confirm_user_registration() {
 			if ( usp_get_option( 'usp_login_form' ) == 2 ) {
 				wp_safe_redirect( wp_login_url() . '?success=checkemail' );
 			} else {
-				wp_redirect( add_query_arg( array(
+				wp_safe_redirect( add_query_arg( [
 					'usp-form'   => 'login',
 					'type-form'  => ! $type_form ? 'float' : 'onpage',
 					'formaction' => 'success-checkemail'
-				), ( $type_form == 1 ? get_permalink( usp_get_option( 'usp_id_login_page' ) ) : home_url() ) ) );
+				], ( $type_form == 1 ? get_permalink( usp_get_option( 'usp_id_login_page' ) ) : home_url() ) ) );
 			}
 			exit;
 		}
@@ -192,11 +204,11 @@ function usp_confirm_user_registration() {
 	if ( usp_get_option( 'usp_login_form' ) == 2 ) {
 		wp_safe_redirect( wp_login_url() . '?checkemail=confirm' );
 	} else {
-		wp_redirect( add_query_arg( array(
+		wp_safe_redirect( add_query_arg( [
 			'usp-form'   => 'login',
 			'type-form'  => ! $type_form ? 'float' : 'onpage',
 			'formaction' => 'need-checkemail'
-		), ( $type_form == 1 ? get_permalink( usp_get_option( 'usp_id_login_page' ) ) : home_url() ) ) );
+		], ( $type_form == 1 ? get_permalink( usp_get_option( 'usp_id_login_page' ) ) : home_url() ) ) );
 	}
 	exit;
 }
@@ -216,7 +228,7 @@ function usp_add_user_register_errors( $errors ) {
 
 			$slug = $field['slug'];
 
-			if ( ! isset( $_POST[ $slug ] ) || ! $_POST[ $slug ] ) {
+			if ( empty( $_POST[ $slug ] ) ) {
 				$required = false;
 				break;
 			}

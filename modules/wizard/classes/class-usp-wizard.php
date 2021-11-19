@@ -21,7 +21,7 @@ class USP_Wizard {
 
 		foreach ( $properties as $name => $val ) {
 			if ( isset( $args[ $name ] ) ) {
-				$this->$name = is_bool( $args[ $name ] ) ? ( boolean ) $args[ $name ] : $args[ $name ];
+				$this->$name = is_bool( $args[ $name ] ) ? ( bool ) $args[ $name ] : $args[ $name ];
 			}
 		}
 	}
@@ -32,9 +32,9 @@ class USP_Wizard {
 			return false;
 		}
 
-		if ( isset( $_GET['step'] ) && $stepNum = $_GET['step'] ) {
-
-			$num = 1;
+		if ( ! empty( $_GET['step'] ) ) {
+			$stepNum = intval( $_GET['step'] );
+			$num     = 1;
 			foreach ( $this->steps as $sid => $step ) {
 				if ( $num == $stepNum ) {
 					return $sid;
@@ -72,7 +72,7 @@ class USP_Wizard {
 
 		$content .= $this->get_navigation( 'links' );
 
-		$content .= '<script>USP.Wizard = {steps: ' . json_encode( $this->stepsArgs ) . '}</script>';
+		$content .= '<script>USP.Wizard = {steps: ' . wp_json_encode( $this->stepsArgs ) . '}</script>';
 
 		$content .= '</div>';
 
@@ -109,7 +109,8 @@ class USP_Wizard {
 	}
 
 	function get_step_content( $id ) {
-		if ( ! $step = $this->get_step( $id ) ) {
+		$step = $this->get_step( $id );
+		if ( ! $step ) {
 			return false;
 		}
 

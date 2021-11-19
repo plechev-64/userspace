@@ -60,7 +60,7 @@ class USP_Options_Box {
 
 	function get_content() {
 
-		$content = '<div id="' . $this->box_id . '-options-box" class="options-box ' . ( $this->active ? 'active' : '' ) . '" data-box="' . $this->box_id . '">';
+		$content = '<div id="' . esc_attr( $this->box_id ) . '-options-box" class="options-box ' . ( $this->active ? 'active' : '' ) . '" data-box="' . esc_attr( $this->box_id ) . '">';
 
 		foreach ( $this->groups as $group ) {
 

@@ -134,7 +134,7 @@ function usp_delete_user_account_activate() {
 
 // User deletes their profile
 function usp_delete_user_account() {
-	if ( ! wp_verify_nonce( $_POST['_wpnonce'], 'delete-user-' . get_current_user_id() ) ) {
+	if ( empty( $_POST['_wpnonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ), 'delete-user-' . get_current_user_id() ) ) {
 		return false;
 	}
 
@@ -142,29 +142,29 @@ function usp_delete_user_account() {
 
 	global $wpdb;
 
-	/*
-	 * TODO вероятно это надо делать на хуке delete_user
-	 */
-	$wpdb->query( $wpdb->prepare( "DELETE FROM " . USP_PREF . "user_action WHERE user ='%d'", get_current_user_id() ) );
+	//phpcs:ignore WordPress.DB.DirectDatabaseQuery
+	$wpdb->delete( USP_PREF . "user_action", [ 'user' => get_current_user_id() ] );
 
 	$delete = wp_delete_user( get_current_user_id() );
 
 	if ( $delete ) {
-		wp_die( __( 'We are very sorry but your account has been deleted!', 'userspace' ) );
-		echo '<a href="/">' . __( 'Go back to the main page', 'userspace' ) . '</a>';
+		$msg = esc_html__( 'We are very sorry but your account has been deleted!', 'userspace' );
+		$msg .= '<br><a href="/">' . esc_html__( 'Go back to the main page', 'userspace' ) . '</a>';
+		wp_die( wp_kses_post( $msg ) );
 	} else {
-		wp_die( __( 'Account deletion failed! Go back and try again.', 'userspace' ) );
+		wp_die( esc_html__( 'Account deletion failed! Go back and try again.', 'userspace' ) );
 	}
 }
 
 // save users page option in global array of options
 add_action( 'usp_fields_update', 'usp_update_users_page_option', 10, 2 );
 function usp_update_users_page_option( $fields, $manager_id ) {
-	if ( $manager_id != 'profile' || ! isset( $_POST['usp_users_page'] ) ) {
+
+	if ( $manager_id != 'profile' || ! isset( $_POST['usp_users_page'] ) || ! current_user_can( 'manage_options' ) ) {
 		return;
 	}
 
-	usp_update_option( 'usp_users_page', $_POST['usp_users_page'] );
+	usp_update_option( 'usp_users_page', intval( $_POST['usp_users_page'] ) );
 }
 
 // add users page value in the time of saving global options of plugin

@@ -63,17 +63,17 @@ class USP_Table {
 	function get_table_attrs() {
 
 		$attrs = [
-			'id' => $this->table_id
+			'id' => esc_attr( $this->table_id )
 		];
 
 		if ( $this->class ) {
-			$attrs['class'][] = $this->class;
+			$attrs['class'][] = esc_attr( $this->class );
 		}
 
 		$attrs['class'][] = 'usp-table usp-preloader-parent';
 
 		if ( $this->cols_number ) {
-			$attrs['class'][] = 'usp-table__type-cell-' . $this->cols_number;
+			$attrs['class'][] = 'usp-table__type-cell-' . esc_attr( $this->cols_number );
 		}
 
 		if ( $this->zebra ) {
@@ -127,26 +127,26 @@ class USP_Table {
 	function get_cell_attrs( $idcol, $cellProps = false, $place = false, $contentCell = false ) {
 
 		$attrs = [
-			'class' => [ 'usp-table__cell', 'usp-table__col-' . $idcol ]
+			'class' => [ 'usp-table__cell', 'usp-table__col-' . esc_attr( $idcol ) ]
 		];
 
-		$attrs['data-col'] = $idcol;
+		$attrs['data-col'] = esc_attr( $idcol );
 
 		if ( $cellProps ) {
 
 			if ( isset( $cellProps['width'] ) && $cellProps['width'] ) {
-				$attrs['class'][] = 'usp-table__cell-w-' . $cellProps['width'];
+				$attrs['class'][] = 'usp-table__cell-w-' . esc_attr( $cellProps['width'] );
 			}
 
 			if ( isset( $cellProps['align'] ) && $cellProps['align'] ) {
-				$attrs['class'][] = 'usp-table__cell-' . $cellProps['align'];
+				$attrs['class'][] = 'usp-table__cell-' . esc_attr( $cellProps['align'] );
 			}
 
 			if ( isset( $cellProps['title'] ) && $cellProps['title'] ) {
-				$attrs['data-usp-ttitle'] = $cellProps['title'];
+				$attrs['data-usp-ttitle'] = esc_attr( $cellProps['title'] );
 			}
 
-			$attrs['data-value'] = trim( strip_tags( $contentCell ) );
+			$attrs['data-value'] = trim( wp_strip_all_tags( $contentCell ) );
 
 			if ( isset( $cellProps['sort'] ) && $cellProps['sort'] ) {
 				if ( $place == 'header' ) {
@@ -163,7 +163,7 @@ class USP_Table {
 					$attrs['data-field'] = $cellProps['sort'];
 				} else {
 					$attrs['class'][]                                 = 'usp-table__cell-sort';
-					$attrs[ 'data-' . $cellProps['sort'] . '-value' ] = trim( strip_tags( $contentCell ) );
+					$attrs[ 'data-' . $cellProps['sort'] . '-value' ] = trim( wp_strip_all_tags( $contentCell ) );
 				}
 			}
 		}
@@ -241,7 +241,7 @@ class USP_Table {
 
 		$content .= '</div>';
 
-		$content .= "<script>jQuery(function($){usp_init_table('$this->table_id');});</script>";
+		$content .= "<script>jQuery(function($){usp_init_table('" . esc_attr( $this->table_id ) . "');});</script>";
 
 		return $content;
 	}

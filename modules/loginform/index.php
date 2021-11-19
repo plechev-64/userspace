@@ -190,7 +190,7 @@ usp_ajax_action( 'usp_call_loginform', true );
 function usp_call_loginform() {
 	global $user_ID;
 
-	$form = $_POST['form'];
+	$form = ! empty( $_POST['form'] ) ? sanitize_text_field( wp_unslash( $_POST['form'] ) ) : 'login';
 
 	if ( $user_ID ) {
 		return [
@@ -212,12 +212,16 @@ function usp_call_loginform() {
 usp_ajax_action( 'usp_send_loginform', true );
 function usp_send_loginform() {
 
-	$tab_id     = $_POST['tab_id'];
-	$user_login = isset( $_POST['user_login'] ) ? sanitize_user( $_POST['user_login'] ) : false;
+	$tab_id     = ! empty( $_POST['tab_id'] ) ? sanitize_text_field( wp_unslash( $_POST['tab_id'] ) ) : 'login';
+	$user_login = ! empty( $_POST['user_login'] ) ? sanitize_user( wp_unslash( $_POST['user_login'] ) ) : false;
 
 	if ( $tab_id == 'login' ) {
 
-		$password = sanitize_text_field( $_POST['user_pass'] );
+		/*
+		 * Dont sanitize pass
+		 */
+		//phpcs:ignore
+		$password = $_POST['user_pass'];
 
 		$user = wp_signon( [
 			'user_login'    => $user_login,
@@ -239,7 +243,7 @@ function usp_send_loginform() {
 		];
 	} else if ( $tab_id == 'register' ) {
 
-		$user_email = sanitize_email( $_POST['user_email'] );
+		$user_email = ! empty( $_POST['user_email'] ) ? sanitize_email( wp_unslash( $_POST['user_email'] ) ) : '';
 
 		if ( ! $user_login ) {
 			$user_login = $user_email;
@@ -290,7 +294,7 @@ function usp_send_loginform() {
 add_filter( 'usp_loginform_notice', 'usp_add_login_form_notice', 10 );
 function usp_add_login_form_notice( $notice ) {
 
-	if ( ! isset( $_REQUEST['formaction'] ) || ! $_REQUEST['formaction'] ) {
+	if ( empty( $_REQUEST['formaction'] ) ) {
 		return $notice;
 	}
 

@@ -28,5 +28,5 @@ $args = [
 ?>
 
 <div class="usp-user usps usps__mb-6 usps__mr-6" data-user-id="<?php echo intval( $user->ID ); ?>">
-	<?php echo $user->get_avatar( 50, $user->get_url(), $args, $user->get_action( 'icon' ) );//phpcs:ignore ?>
+	<?php echo $user->get_avatar( 50, $user->get_url(), $args, $user->get_action( 'icon' ) );//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 </div>

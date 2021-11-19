@@ -770,7 +770,7 @@ function usp_human_days( $date, $year = false ) {
  * @param   $callback   callable    A callable to run for each element in each array.
  * @param   $data       array       An array to run through the callback function.
  *
- * @return  array   Returns an array containing the results of applying the callback to
+ * @return  mixed   Returns an array containing the results of applying the callback to
  *                  the corresponding index of array (and arrays if more arrays are provided)
  *                  used as arguments for the callback.
  *

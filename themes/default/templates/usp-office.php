@@ -78,7 +78,10 @@ $has_sidebar = ( is_active_sidebar( 'usp_theme_sidebar' ) ) ? 'usp-profile__has-
                     <div class="usp-user-name">
                         <div><?php echo esc_html( $office_owner->get_username() ); ?></div>
                     </div>
-					<?php echo $profile_menu; ?>
+					<?php
+					// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					echo $profile_menu;
+					?>
                     <div class="usp-action"><?php echo $office_owner->get_action_icon(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></div>
                 </div>
                 <div class="usp-user-icons"><?php

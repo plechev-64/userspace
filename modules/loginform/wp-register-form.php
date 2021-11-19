@@ -77,7 +77,8 @@ function usp_add_register_fields_to_register_form() {
 	$form = new USP_Form( [
 		'fields' => $fields
 	] );
-
+	
+	//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	echo $form->get_fields_list();
 }
 

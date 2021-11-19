@@ -24,18 +24,21 @@
         <exclude name="WordPress.PHP.StrictComparisons"/>
         <exclude name="WordPress.PHP.StrictInArray.MissingTrueStrict"/>
         <exclude name="WordPress.PHP.DisallowShortTernary"/>
-        <exclude name="WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase"/>
+        <exclude name="WordPress.NamingConventions"/>
+        <exclude name="WordPress.Files"/>
+        <exclude name="WordPress.Security.NonceVerification"/>
+        <exclude name="WordPress.PHP.YodaConditions"/>
+        <exclude name="WordPress.DateTime"/>
+        <exclude name="WordPress.DB.SlowDBQuery"/>
+        <exclude name="WordPress.WP.EnqueuedResourceParameters.MissingVersion"/>
         <!-- <exclude name="WordPress.WP"/>
         <exclude name="WordPress.CodeAnalysis"/>
         <exclude name="WordPress.DateTime.CurrentTimeTimestamp.Requested"/>
-        <exclude name="WordPress.Security.NonceVerification.Recommended"/>
-        <exclude name="WordPress.Security.NonceVerification.Missing"/>
         <exclude name="WordPress.NamingConventions"/>
 
         <exclude name="WordPress.PHP"/>
         <exclude name="WordPress.WhiteSpace"/>
         <exclude name="WordPress.DB.DirectDatabaseQuery.NoCaching"/>
-        <exclude name="WordPress.DB.DirectDatabaseQuery.DirectQuery"/>
-        <exclude name="WordPress.Files.FileName.InvalidClassFileName"/>-->
+        <exclude name="WordPress.DB.DirectDatabaseQuery.DirectQuery"/>-->
     </rule>
 </ruleset>

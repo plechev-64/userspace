@@ -77,6 +77,6 @@ $site_color = usp_get_option_customizer( 'usp_primary_color', '#0369a1' );
 <p>
     <small>-----------------------------------------------------<br/>
 		<?php esc_html_e( 'This letter was created automatically, no need to answer it.', 'userspace' ); ?><br/>
-        "<?php echo get_bloginfo( 'name' ); ?>"
+        "<?php echo esc_html( get_bloginfo( 'name' ) ); ?>"
     </small>
 </p>

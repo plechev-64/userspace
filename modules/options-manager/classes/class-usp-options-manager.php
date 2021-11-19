@@ -2,7 +2,7 @@
 
 class USP_Options_Manager {
 
-	public $boxes = array();
+	public $boxes = [];
 	public $extends = false;
 	public $extend_options = false;
 	public $nonce = 'update-options';
@@ -19,7 +19,7 @@ class USP_Options_Manager {
 		}
 
 		if ( $this->extends ) {
-			$this->extend_options = isset( $_COOKIE['usp_extends'] ) ? $_COOKIE['usp_extends'] : 0;
+			$this->extend_options = isset( $_COOKIE['usp_extends'] ) ? sanitize_text_field( wp_unslash( $_COOKIE['usp_extends'] ) ) : 0;
 		}
 	}
 
@@ -58,10 +58,10 @@ class USP_Options_Manager {
 
 		foreach ( $this->boxes as $box ) {
 
-			$items[] = usp_get_button( array(
-				'data'    => array(
+			$items[] = usp_get_button( [
+				'data'    => [
 					'options' => $box->box_id
-				),
+				],
 				'label'   => $box->title,
 				'href'    => admin_url( 'admin.php?page=' . $this->page_options . '&usp-options-box=' . $box->box_id ),
 				'onclick' => 'usp_onclick_options_label(this);return false;',
@@ -69,7 +69,7 @@ class USP_Options_Manager {
 				'type'    => 'simple',
 				'class'   => [ 'usp-options-bttn' ],
 				'status'  => $box->active ? 'active' : ''
-			) );
+			] );
 		}
 
 		$content = '<div class="usp-options-tabs usp-wrap__widget">';
@@ -101,13 +101,13 @@ class USP_Options_Manager {
 		$content .= '<div class="usp-option-menu usp-wrap__widget">';
 
 		if ( $this->extends ) {
-			$content .= usp_get_button( array(
+			$content .= usp_get_button( [
 					'label'   => __( 'Advanced settings', 'userspace' ),
 					'onclick' => 'return usp_enable_extend_options(this);',
 					'icon'    => 'fa-square',
 					'type'    => 'simple',
 					'class'   => [ 'usp-toggle-extend', $this->extend_options ? 'usp-toggle-extend-show' : '' ],
-				)
+				]
 			);
 		}
 
@@ -117,7 +117,7 @@ class USP_Options_Manager {
 				continue;
 			}
 
-			$content .= usp_get_button( array(
+			$content .= usp_get_button( [
 					'label'      => $box->title,
 					'onclick'    => 'usp_show_options_menu(this);return false;',
 					'icon'       => 'fa-angle-down',
@@ -126,13 +126,13 @@ class USP_Options_Manager {
 					'style'      => 'text-align: center;',
 					'fullwidth'  => true,
 					'class'      => [ 'active-menu-item button button-primary button-large' ]
-				)
+				]
 			);
 		}
 
 		$content .= $this->get_menu();
 
-		$content .= usp_get_button( array(
+		$content .= usp_get_button( [
 			'label'     => __( 'Save settings', 'userspace' ),
 			'onclick'   => $this->onclick ? $this->onclick : false,
 			'submit'    => $this->onclick ? false : true,
@@ -141,7 +141,7 @@ class USP_Options_Manager {
 			'size'      => 'medium',
 			'fullwidth' => true,
 			'class'     => [ 'usp-submit-options button button-primary' ]
-		) );
+		] );
 
 		$content .= '</div>';
 

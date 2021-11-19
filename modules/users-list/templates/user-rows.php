@@ -30,7 +30,7 @@ $args = [
 <div class="usp-user usp-card usps__grow" data-user-id="<?php echo intval( $user->ID ); ?>">
     <div class="usp-user__top usps usps__nowrap">
         <div class="usp-user__left usps usps__column usps__shrink-0">
-			<?php echo $user->get_avatar( 70, $user->get_url(), $args );//phpcs:ignore ?>
+			<?php echo $user->get_avatar( 70, $user->get_url(), $args );//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
         </div>
 
         <div class="usp-user__right usps usps__column usps__grow">

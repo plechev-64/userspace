@@ -64,10 +64,10 @@ class USP_User_Profile_Fields extends USP_Profile_Fields {
 		] );
 
 		$content = usp_get_form( array(
-				'submit'     => __( 'Update profile', 'userspace' ),
-				'onclick'    => 'usp_send_form_data("usp_user_update_profile", this);',
-				'fields'     => $profileFields,
-				'structure'  => $this->structure
+				'submit'    => __( 'Update profile', 'userspace' ),
+				'onclick'   => 'usp_send_form_data("usp_user_update_profile", this);',
+				'fields'    => $profileFields,
+				'structure' => $this->structure
 			)
 		);
 
@@ -119,9 +119,10 @@ class USP_User_Profile_Fields extends USP_Profile_Fields {
 				continue;
 			}
 
-			$slug            = $field->slug;
-			$cur_value       = $this->user->$slug;
-			$new_value       = ( isset( $_POST[ $slug ] ) ) ? $_POST[ $slug ] : false;
+			$slug      = $field->slug;
+			$cur_value = $this->user->$slug;
+			//phpcs:ignore
+			$new_value       = ( isset( $_POST[ $slug ] ) ) ? $field->sanitize_value( $_POST[ $slug ] ) : false;
 			$edit_by_admin   = $field->get_prop( 'admin' );
 			$new_value_valid = $field->is_valid_value( $new_value );
 
@@ -160,7 +161,7 @@ class USP_User_Profile_Fields extends USP_Profile_Fields {
 
 				if ( $slug == 'primary_pass' && $new_value ) {
 
-					if ( $new_value != $_POST['repeat_pass'] ) {
+					if ( empty( $_POST['repeat_pass'] ) || $new_value != $_POST['repeat_pass'] ) {
 						continue;
 					}
 
@@ -180,7 +181,7 @@ class USP_User_Profile_Fields extends USP_Profile_Fields {
 
 				if ( $new_value_valid ) {
 
-					wp_update_user( array( 'ID' => $this->user->ID, $slug => $new_value ) );
+					wp_update_user( [ 'ID' => $this->user->ID, $slug => $new_value ] );
 
 				}
 

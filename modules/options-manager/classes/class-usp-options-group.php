@@ -101,10 +101,10 @@ class USP_Options_Group {
 
 				foreach ( $childFields as $childField ) {
 
-					$childField['parent'] = array(
+					$childField['parent'] = [
 						'id'    => $option_id,
 						'value' => $parentValue
-					);
+					];
 
 					$this->add_option( $childField );
 				}
@@ -118,7 +118,7 @@ class USP_Options_Group {
 			return false;
 		}
 
-		$content = '<div id="options-group-' . $this->group_id . '" class="options-group ' . ( $this->extend ? 'extend-options' : '' ) . '" data-group="' . $this->group_id . '">';
+		$content = '<div id="options-group-' . esc_attr( $this->group_id ) . '" class="options-group ' . ( $this->extend ? 'extend-options' : '' ) . '" data-group="' . esc_attr( $this->group_id ) . '">';
 
 		if ( $this->title ) {
 			$content .= '<span class="usp-options-group-title">' . $this->title . '</span>';
@@ -126,7 +126,7 @@ class USP_Options_Group {
 
 		foreach ( $this->options as $option ) {
 
-			$args = array( 'classes' => array( 'usp-option' ) );
+			$args = [ 'classes' => [ 'usp-option' ] ];
 
 			if ( $option->extend ) {
 				$args['classes'][] = 'extend-options';

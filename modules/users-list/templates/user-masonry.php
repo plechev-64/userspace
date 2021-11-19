@@ -37,7 +37,7 @@ $args = [
 
     <div class="usp-card__main usps usps__column">
 
-		<?php echo $user->get_avatar( 110, $user->get_url(), $args );//phpcs:ignore ?>
+		<?php echo $user->get_avatar( 110, $user->get_url(), $args );//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 
         <div class="usp-card__center">
 			<?php echo wp_kses_post( $user->get_username( $user->get_url(), [ 'class' => 'usp-card__title' ] ) ); ?>
