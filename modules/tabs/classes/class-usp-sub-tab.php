@@ -68,7 +68,7 @@ class USP_Sub_Tab {
 			'icon'    => $this->icon,
 			'counter' => $this->counter,
 			'href'    => $this->get_permalink(),
-			'onclick' => $ajaxLoad ? 'usp_load_tab("' . esc_attr( $tab->id ) . '", "' . esc_attr( $tab->id ) . '", this);return false;' : null
+			'onclick' => $ajaxLoad ? 'usp_load_tab("' . esc_attr( $tab->id ) . '", "' . esc_attr( $this->id ) . '", this);return false;' : null
 		] );
 
 		return usp_get_button( $attr );
