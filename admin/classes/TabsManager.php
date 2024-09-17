@@ -2,8 +2,8 @@
 
 USP()->use_module( 'fields-manager' );
 
-class USP_Tabs_Manager extends USP_Fields_Manager {
-	function __construct( $areaType ) {
+class TabsManager extends USP_Fields_Manager {
+	public function __construct( string $areaType ) {
 
 		parent::__construct( $areaType, [
 			'switch_type'   => 0,
@@ -71,7 +71,7 @@ class USP_Tabs_Manager extends USP_Fields_Manager {
 		add_filter( 'usp_field_options', [ $this, 'edit_tab_options' ], 10, 2 );
 	}
 
-	function form_navi() {
+	public function form_navi(): string {
 
 		$areas = [
 			'area-menu'     => __( '"Menu" area', 'userspace' ),
@@ -99,16 +99,16 @@ class USP_Tabs_Manager extends USP_Fields_Manager {
 		return $content;
 	}
 
-	function is_default_tab( $slug ) {
+	public function is_default_tab( $slug ): bool {
 		$tab = USP()->tabs()->tab( $slug );
 		if ( ! $tab ) {
 			return false;
 		}
 
-		return $tab->custom_tab ? false : true;
+		return ! $tab->custom_tab;
 	}
 
-	function setup_tabs() {
+	public function setup_tabs(): void {
 
 		$defaultTabs = $this->get_default_tabs();
 
@@ -141,10 +141,10 @@ class USP_Tabs_Manager extends USP_Fields_Manager {
 		}
 	}
 
-	function get_default_tabs() {
+	public function get_default_tabs(): array {
 
 		if ( ! USP()->tabs()->get_tabs() ) {
-			return false;
+			return [];
 		}
 
 		$fields = [];
@@ -174,7 +174,7 @@ class USP_Tabs_Manager extends USP_Fields_Manager {
 		return $fields;
 	}
 
-	function edit_tab_options( $options, $field ) {
+	public function edit_tab_options( $options, $field ): array {
 
 		if ( ! $field->slug ) {
 			return $options;

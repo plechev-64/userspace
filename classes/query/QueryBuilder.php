@@ -1,12 +1,13 @@
 <?php
 
-class USP_Query {
+class QueryBuilder {
 
-	public $table;
-	public $serialize = array();
-	public $query = array();
+	private array $table;
+	private array $query = array();
+	public array $serialize = array();
+	private bool $cache = false;
 
-	function __construct( $table ) {
+	public function __construct( array $table ) {
 
 		if ( ! isset( $table['as'] ) ) {
 			$table['as'] = $table['name'];
@@ -17,7 +18,7 @@ class USP_Query {
 		$this->reset_query();
 	}
 
-	function reset_query() {
+	private function reset_query(): void {
 		$this->query = array(
 			'select'  => array(),
 			'where'   => array(),
@@ -31,19 +32,11 @@ class USP_Query {
 		);
 	}
 
-	static function tbl( $tableObject ) {
-		return $tableObject;
-	}
-
-	function get_table_data( $dataName ) {
-		return $this->table[ $dataName ] ?? false;
-	}
-
-	function get_colname( $colname ) {
+	private function get_colname( $colname ): string {
 		return $this->table['as'] . '.' . $colname;
 	}
 
-	function parse( $args = false ) {
+	public function parse( $args = false ): static {
 
 		if ( ! $args ) {
 			return $this;
@@ -108,11 +101,11 @@ class USP_Query {
 		return $this;
 	}
 
-	function set_cache( $cache ) {
+	private function set_cache( bool $cache ): void {
 		$this->cache = $cache;
 	}
 
-	function get_operator_data( $operator, $field_name = false, $use_cache = false ) {
+	private function get_operator_data( string $operator, string $field_name = '', bool $use_cache = false ): string|array|object {
 		global $wpdb;
 
 		$field_name = ( $field_name ) ?: $this->table['cols'][0];
@@ -147,7 +140,7 @@ class USP_Query {
 		return $result;
 	}
 
-	function set_operator_query( $operator, $data ) {
+	private function set_operator_query( string $operator, array $data ): void {
 
 		$opers = explode( ' ', $operator );
 
@@ -158,7 +151,7 @@ class USP_Query {
 		}
 	}
 
-	function get_operator_string( $operator, $as_value, $col_name ) {
+	private function get_operator_string( string $operator, string|int $as_value, string $col_name ): string {
 
 		if ( is_array( $operator ) ) {
 
@@ -169,9 +162,11 @@ class USP_Query {
 		} else {
 			return $operator . '(' . $this->table['as'] . '.' . $col_name . ')' . ( is_string( $as_value ) ? ' AS ' . $as_value : ' AS ' . $col_name );
 		}
+		
+		return '';
 	}
 
-	function distinct( $select ) {
+	public function distinct( array $select ): static {
 
 		foreach ( $select as $as_value => $data ) {
 			if ( in_array( $data, $this->table['cols'] ) ) {
@@ -184,7 +179,7 @@ class USP_Query {
 		return $this;
 	}
 
-	function select( $select = false ) {
+	public function select( array|bool $select = false ): static {
 
 		if ( ! $select ) {
 			return $this;
@@ -210,7 +205,7 @@ class USP_Query {
 		return $this;
 	}
 
-	function date( $col_name, $compare, $props ) {
+	public function date( string $col_name, string $compare, array $props = [] ): static {
 
 		if ( $compare == '=' ) {
 
@@ -255,7 +250,7 @@ class USP_Query {
 		return $this;
 	}
 
-	function where( $where ) {
+	public function where( array $where ): static {
 
 		foreach ( $this->table['cols'] as $col_name ) {
 			if ( isset( $where[ $col_name ] ) ) {
@@ -264,7 +259,7 @@ class USP_Query {
 
 				if ( $data === 'is_null' ) {
 					$this->query['where'][] = $this->table['as'] . ".$col_name IS NULL";
-				} else if ( strpos( $data, '.' ) !== false ) {
+				} else if ( str_contains( $data, '.' ) ) {
 					$this->query['where'][] = $this->table['as'] . ".$col_name = '" . esc_sql( $data ) . "'";
 				} else {
 					$this->query['where'][] = $this->table['as'] . ".$col_name = " . ( is_object( $data ) ? "(" . $data->limit( 0 )->get_sql() . ")" : "'" . esc_sql( $data ) . "'" );
@@ -315,37 +310,37 @@ class USP_Query {
 		return $this;
 	}
 
-	function select_string( $string ) {
+	public function select_string( string $string ): static {
 		$this->query['select'][] = $string;
 
 		return $this;
 	}
 
-	function where_string( $string ) {
+	public function where_string( string $string ): static {
 		$this->query['where'][] = $string;
 
 		return $this;
 	}
 
-	function join_string( $string ) {
+	public function join_string( string $string ): static {
 		$this->query['join'][] = $string;
 
 		return $this;
 	}
 
-	function having_string( $string ) {
+	public function having_string( string $string ): static {
 		$this->query['having'][] = $string;
 
 		return $this;
 	}
 
-	function orderby_string( $string ) {
+	public function orderby_string( string $string ): static {
 		$this->query['orderby'][] = $string;
 
 		return $this;
 	}
 
-	function get_string_in( $data ) {
+	private function get_string_in( string|array $data ): string {
 
 		$vars = ( is_array( $data ) ) ? $data : explode( ',', $data );
 
@@ -364,10 +359,10 @@ class USP_Query {
 		return implode( ',', $array );
 	}
 
-	function join( $joinProps, $joinQuery ) {
+	public function join( array|string $joinProps, QueryBuilder $joinQuery ): static {
 
 		if ( is_array( $joinProps ) ) {
-			$joinType = isset( $joinProps[2] ) ? $joinProps[2] : 'INNER';
+			$joinType = $joinProps[2] ?? 'INNER';
 		} else { //if colnames of join is the same you can convey a colname as a string
 			$joinType  = 'INNER';
 			$joinProps = [ $joinProps, $joinProps ];
@@ -396,33 +391,33 @@ class USP_Query {
 		return $this;
 	}
 
-	function limit( $number, $offset = 0 ) {
+	public function limit( int $number, int $offset = 0 ): static {
 		$this->number( $number );
 		$this->offset( $offset );
 
 		return $this;
 	}
 
-	function number( $number ) {
+	public function number( int $number ): static {
 		$this->query['number'] = $number;
 
 		return $this;
 	}
 
-	function offset( $offset ) {
+	public function offset( int $offset ): static {
 		$this->query['offset'] = $offset;
 
 		return $this;
 	}
 
-	function groupby( $groupby ) {
+	public function groupby( string $groupby ): static {
 
 		$this->query['groupby'] = count( explode( '.', $groupby ) ) > 1 ? $groupby : $this->table['as'] . '.' . $groupby;
 
 		return $this;
 	}
 
-	function orderby( $orderby, $order = false ) {
+	public function orderby( array|string $orderby, string $order = '' ): static {
 
 		if ( is_array( $orderby ) ) {
 			foreach ( $orderby as $by => $order ) {
@@ -443,7 +438,7 @@ class USP_Query {
 		return $this;
 	}
 
-	function orderby_case( $columnName, $case ) {
+	public function orderby_case( string $columnName, array $case ): static {
 
 		$cases = [];
 		foreach ( $case as $k => $v ) {
@@ -457,7 +452,7 @@ class USP_Query {
 
 	}
 
-	function orderby_as_number( $columnName, $order = false ) {
+	public function orderby_as_number( string $columnName, string $order = '' ): static {
 		$this->query['orderby'] = $columnName . ' * 1';
 
 		if ( $order ) {
@@ -467,19 +462,19 @@ class USP_Query {
 		return $this;
 	}
 
-	function order( $order ) {
+	public function order( string $order ): static {
 		$this->query['order'] = $order;
 
 		return $this;
 	}
 
-	function get_query() {
+	public function get_query(): array {
 		return $this->query;
 	}
 
-	function get_sql( $query = false ) {
+	public function get_sql( array $query = [] ): string {
 
-		$query = $query ? $query : $this->get_query();
+		$query = $query ?: $this->get_query();
 
 		if ( ! isset( $query['select'] ) || ! $query['select'] ) {
 			$query['select'][] = $this->table['as'] . '.*';
@@ -521,7 +516,7 @@ class USP_Query {
 
 				$sql[] = "UNION ALL";
 
-				$Query = new USP_Query( $unionQuery['table'] );
+				$Query = new QueryBuilder( $unionQuery['table'] );
 
 				$sql[] = $Query->get_sql( $unionQuery );
 			}
@@ -547,7 +542,7 @@ class USP_Query {
 				$sql[] = "ORDER BY " . $query['orderby'] . " " . $query['order'];
 			}
 		} else {
-			$sql[] = "ORDER BY " . $this->table['as'] . "." . $this->table['cols'][0] . " " . ( isset( $query['order'] ) ? $query['order'] : 'DESC' );
+			$sql[] = "ORDER BY " . $this->table['as'] . "." . $this->table['cols'][0] . " " . ( $query['order'] ?? 'DESC' );
 		}
 
 		if ( isset( $query['number'] ) && $query['number'] ) {
@@ -565,12 +560,16 @@ class USP_Query {
 			$sql[] = "OFFSET " . $query['offset'];
 		}
 
-		$sql = implode( ' ', $sql );
+		return implode( ' ', $sql );
 
-		return $sql;
 	}
 
-	function get_data( $method = 'get_results', $use_cache = false, $return_as = false, $get_found_rows = false ) {
+	private function get_data(
+		string $method = 'get_results',
+		bool $use_cache = false,
+		bool $return_as = false,
+		bool $get_found_rows = false
+	): string|array|object {
 		global $wpdb;
 
 		$query = $this->get_query();
@@ -604,7 +603,7 @@ class USP_Query {
 		return $data;
 	}
 
-	function maybe_unserialize( $data ) {
+	private function maybe_unserialize( mixed $data ): string|array|object {
 
 		if ( ! $this->serialize ) {
 			return $data;
@@ -635,49 +634,49 @@ class USP_Query {
 		return $data;
 	}
 
-	function get_walker() {
+	public function get_walker(): USP_Walker {
 		return new USP_Walker( $this->get_results() );
 	}
 
-	function get_var( $cache = false ) {
+	public function get_var( bool $cache = false ): int|string|bool {
 		return $this->get_data( 'get_var', $cache );
 	}
 
-	function get_results( $cache = false, $return_as = false, $get_found_rows = false ) {
+	public function get_results( bool $cache = false, bool $return_as = false, bool $get_found_rows = false ): array {
 		return $this->get_data( 'get_results', $cache, $return_as, $get_found_rows );
 	}
 
-	function get_row( $cache = false ) {
+	public function get_row( bool $cache = false ): array|object {
 		return $this->get_data( 'get_row', $cache );
 	}
 
-	function get_col( $cache = false ) {
+	public function get_col( bool $cache = false ): array {
 		return $this->get_data( 'get_col', $cache );
 	}
 
-	function get_count( $field_name = false, $cache = false ) {
+	public function get_count( bool $field_name = false, bool $cache = false ): int {
 		return ( ! $result = $this->get_operator_data( 'COUNT', $field_name, $cache ) ) ? 0 : $result;
 	}
 
-	function get_sum( $field_name = false, $cache = false ) {
+	public function get_sum( bool $field_name = false, bool $cache = false ): int {
 		return ( ! $result = $this->get_operator_data( 'SUM', $field_name, $cache ) ) ? 0 : $result;
 	}
 
-	function get_max( $field_name = false, $cache = false ) {
+	public function get_max( bool $field_name = false, bool $cache = false ): int {
 		return $this->get_operator_data( 'MAX', $field_name, $cache );
 	}
 
-	function get_min( $field_name = false, $cache = false ) {
+	public function get_min( bool $field_name = false, bool $cache = false ): int {
 		return $this->get_operator_data( 'MIN', $field_name, $cache );
 	}
 
-	static function insert( $objectQuery, $data ) {
+	static function insert( QueryBuilder $objectQuery, array $data ): mysqli_result|bool|int|null {
 		global $wpdb;
 
 		return $wpdb->insert( $objectQuery->table['name'], $data );
 	}
 
-	static function update( $objectQuery, $set ) {
+	static function update( QueryBuilder $objectQuery, array $set ): bool {
 		global $wpdb;
 
 		$primaryKey = $objectQuery->table['cols'][0];
@@ -700,7 +699,7 @@ class USP_Query {
 
 	}
 
-	static function delete( $objectQuery ) {
+	static function delete( QueryBuilder $objectQuery ): bool {
 		global $wpdb;
 
 		$primaryKey = $objectQuery->table['cols'][0];

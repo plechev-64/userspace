@@ -2,8 +2,8 @@
 
 USP()->use_module( 'fields-manager' );
 
-class USP_Register_Form_Manager extends USP_Fields_Manager {
-	function __construct() {
+class RegisterFormManager extends USP_Fields_Manager {
+	public function __construct() {
 
 		parent::__construct( 'register_form', [
 			'empty_field'    => 0,
@@ -15,7 +15,7 @@ class USP_Register_Form_Manager extends USP_Fields_Manager {
 			 *
 			 * @param   $fields    array  Data default fields.
 			 *
-			 * @see     USP_Register_Form_Manager
+			 * @see     RegisterFormManager
 			 *
 			 * @since   1.0.0
 			 */
@@ -25,7 +25,7 @@ class USP_Register_Form_Manager extends USP_Fields_Manager {
 			 *
 			 * @param   $options    array  Fields options.
 			 *
-			 * @see     USP_Register_Form_Manager
+			 * @see     RegisterFormManager
 			 *
 			 * @since   1.0.0
 			 */
@@ -57,7 +57,7 @@ class USP_Register_Form_Manager extends USP_Fields_Manager {
 		$this->setup_default_fields();
 	}
 
-	function get_default_fields() {
+	public function get_default_fields(): array {
 
 		$fields = get_site_option( 'usp_profile_fields' );
 

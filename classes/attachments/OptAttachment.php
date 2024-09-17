@@ -2,17 +2,17 @@
 
 class OptAttachment{
 
-	public $attach_id = 0;
-	public $attached_file = '';
-	public $metadata = [];
+	private int $attach_id;
+	private string $attached_file;
+	private array $metadata;
 
-	function __construct($attach_id, $metadata, $attached_file = ''){
+	public function __construct( int $attach_id, array $metadata, string $attached_file = ''){
 		$this->attach_id = $attach_id;
 		$this->metadata = $metadata;
 		$this->attached_file = $attached_file;
 	}
 
-	public function get_url($size){
+	public function get_url( string|array $size): string {
 		$imageData = $this->get_image_data($size);
 
 		if($imageData['url']){
@@ -22,7 +22,7 @@ class OptAttachment{
 		return get_home_url(null, 'wp-content/uploads/'.$imageData['path']);
 	}
 
-	public function get_image( $size = 'thumbnail', $attr = '' ) {
+	public function get_image( string $size = 'thumbnail', string|array $attr = '' ): string {
 
 		$src = $this->get_url($size);
 		$imagedata = $this->get_image_data($size); //$this->metadata;
@@ -80,10 +80,10 @@ class OptAttachment{
 		return $html;
 	}
 
-	protected function get_image_data( $size = 'thumbnail' ) {
+	protected function get_image_data( string|array $size = 'thumbnail' ): ?array {
 
 		if ( ! $size || ! is_array( $this->metadata ) ) {
-			return false;
+			return null;
 		}
 
 		$imagedata = $this->metadata;
@@ -179,7 +179,7 @@ class OptAttachment{
 
 	}
 
-	protected function get_attachment_url() {
+	protected function get_attachment_url(): string {
 
 		$url = '';
 
@@ -188,10 +188,10 @@ class OptAttachment{
 			$uploads = wp_get_upload_dir();
 			if ( $uploads && false === $uploads['error'] ) {
 				// Check that the upload base exists in the file location.
-				if ( 0 === strpos( $this->attached_file, $uploads['basedir'] ) ) {
+				if ( str_starts_with( $this->attached_file, $uploads['basedir'] ) ) {
 					// Replace file location with url location.
 					$url = str_replace( $uploads['basedir'], $uploads['baseurl'], $this->attached_file );
-				} elseif ( false !== strpos( $this->attached_file, 'wp-content/uploads' ) ) {
+				} elseif ( str_contains( $this->attached_file, 'wp-content/uploads' ) ) {
 					// Get the directory name relative to the basedir (back compat for pre-2.7 uploads).
 					$url = trailingslashit( $uploads['baseurl'] . '/' . _wp_get_attachment_relative_path( $this->attached_file ) ) . wp_basename( $this->attached_file );
 				} else {
@@ -204,7 +204,7 @@ class OptAttachment{
 		return $url;
 	}
 
-	protected static function get_image_sizes( $unset_disabled = true ) {
+	protected static function get_image_sizes( $unset_disabled = true ): array {
 		$wais = & $GLOBALS['_wp_additional_image_sizes'];
 
 		$sizes = array();

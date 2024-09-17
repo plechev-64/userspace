@@ -401,7 +401,7 @@ class USP_User {
 
 		if ( $last_action ) {
 
-			USP_Query::update( ( new USP_User_Action() )->where( [
+			QueryBuilder::update( ( new USP_User_Action() )->where( [
 				'user_id' => $this->ID
 			] ), [
 				'date_action' => $action_time
@@ -409,7 +409,7 @@ class USP_User {
 
 		} else {
 
-			USP_Query::insert( new USP_User_Action(), [
+			QueryBuilder::insert( new USP_User_Action(), [
 				'user_id'     => $this->ID,
 				'date_action' => $action_time
 			] );
@@ -480,7 +480,7 @@ class USP_User {
 			return false;
 		}
 
-		$result = (bool) USP_Query::insert( new USP_Blacklist_Query(), [
+		$result = (bool) QueryBuilder::insert( new USP_Blacklist_Query(), [
 			'user_id' => $this->ID,
 			'blocked' => $user_id
 		] );
@@ -514,7 +514,7 @@ class USP_User {
 			return false;
 		}
 
-		$result = USP_Query::delete(
+		$result = QueryBuilder::delete(
 			( new USP_Blacklist_Query() )->where( [ 'user_id' => $this->ID, 'blocked' => $user_id ] )
 		);
 

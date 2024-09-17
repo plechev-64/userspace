@@ -213,7 +213,7 @@ class USP_Field_Uploader extends USP_Field_Abstract {
 			$attachIDs = is_array( $this->value ) ? $this->value : array( $this->value );
 
 			global $wpdb;
-			$IDs = ( new USP_Query( [
+			$IDs = ( new QueryBuilder( [
 				'name' => $wpdb->posts,
 				'cols' => [ 'ID', 'post_type' ]
 			] ) )->select( [ 'ID' ] )

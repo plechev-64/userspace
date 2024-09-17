@@ -294,7 +294,7 @@ final class UserSpace {
 		require_once 'classes/class-usp-module.php';
 		require_once 'classes/attachments/OptAttachment.php';
 		require_once 'classes/attachments/OptAttachments.php';
-		require_once 'classes/query/class-usp-query.php';
+		require_once 'classes/query/QueryBuilder.php';
 		require_once 'classes/class-usp-query-tables.php';
 		require_once 'classes/class-usp-cache.php';
 		require_once 'classes/class-usp-ajax.php';

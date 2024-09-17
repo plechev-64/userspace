@@ -2,21 +2,21 @@
 
 class OptAttachments {
 
-	public $attachments = [];
+	private array $attachments;
 
-	function __construct( $attachments ) {
+	public function __construct( array $attachments ) {
 		$this->attachments = $attachments;
 	}
 
-	function is_has( $id ) {
+	public function is_has( int $id ): bool {
 		return isset( $this->attachments[ $id ] );
 	}
 
-	function attachment( $id ) {
+	public function attachment( int $id ): OptAttachment {
 		return $this->attachments[ $id ];
 	}
 
-	function get_thumbnail_image( $post_id, $size, $atts = [] ) {
+	public function get_thumbnail_image( int $post_id, string|array $size, array|string $atts = [] ): bool|string {
 
 		if ( ! $this->is_has( $post_id ) ) {
 			return false;
@@ -29,7 +29,12 @@ class OptAttachments {
 		}
 	}
 
-	static function setup_post_thumbnails_by_object( $arrayObjects, $propName, $meta_key = '_thumbnail_id', $get_attached_file = false ) {
+	static function setup_post_thumbnails_by_object(
+		array $arrayObjects,
+		string $propName,
+		string $meta_key = '_thumbnail_id',
+		bool $get_attached_file = false
+	): OptAttachments {
 
 		$post_ids = [];
 		foreach ( $arrayObjects as $object ) {
@@ -40,7 +45,11 @@ class OptAttachments {
 
 	}
 
-	static function setup_post_thumbnails( $post_ids, $meta_key = '_thumbnail_id', $get_attached_file = false ) {
+	static function setup_post_thumbnails(
+		array $post_ids,
+		string $meta_key = '_thumbnail_id',
+		bool $get_attached_file = false
+	): OptAttachments {
 
 		$attachments = [];
 		if ( $thumbnails = self::get_metadata_thumbnails( $post_ids, $meta_key, $get_attached_file ) ) {
@@ -53,7 +62,7 @@ class OptAttachments {
 
 	}
 
-	static function setup_attachments( $attach_ids ) {
+	static function setup_attachments( array $attach_ids ): OptAttachments {
 
 		$attachments = [];
 		if ( $thumbnails = self::get_metadata_attachments( $attach_ids ) ) {
@@ -66,7 +75,7 @@ class OptAttachments {
 
 	}
 
-	static function get_query_attachments_request( $attach_ids ) {
+	static function get_query_attachments_request( array $attach_ids ): USP_Posts_Meta_Query {
 
 		return ( new USP_Posts_Meta_Query() )->select( [
 			'attach_id' => 'post_id',
@@ -78,11 +87,11 @@ class OptAttachments {
 
 	}
 
-	static function get_metadata_attachments( $attach_ids ) {
+	static function get_metadata_attachments( array $attach_ids ): array {
 		return self::get_query_attachments_request( $attach_ids )->get_results();
 	}
 
-	static function get_query_thumbnails_request( $post_ids, $meta_key = '_thumbnail_id', $get_attached_file = false ) {
+	static function get_query_thumbnails_request( array $post_ids, string $meta_key = '_thumbnail_id', bool $get_attached_file = false ): USP_Posts_Meta_Query {
 
 		$query = ( new USP_Posts_Meta_Query() )->select( [
 			'post_id',
@@ -110,7 +119,7 @@ class OptAttachments {
 
 	}
 
-	static function get_metadata_thumbnails( $post_ids, $meta_key = '_thumbnail_id', $get_attached_file = false ) {
+	static function get_metadata_thumbnails( array $post_ids, string $meta_key = '_thumbnail_id', bool $get_attached_file = false ): array {
 		return self::get_query_thumbnails_request( $post_ids, $meta_key, $get_attached_file )->get_results();
 	}
 

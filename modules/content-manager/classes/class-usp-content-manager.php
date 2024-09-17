@@ -48,9 +48,9 @@ abstract class USP_Content_Manager {
 	public $_pager = null;
 
 	/**
-	 * USP_Query
+	 * QueryBuilder
 	 *
-	 * @var USP_Query
+	 * @var QueryBuilder
 	 */
 	public $_query = null;
 

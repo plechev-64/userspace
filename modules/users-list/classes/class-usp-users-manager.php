@@ -161,7 +161,7 @@ class USP_Users_Manager extends USP_Content_Manager {
 		return $query;
 	}
 
-	private function join_posts( USP_Query $query ) {
+	private function join_posts( QueryBuilder $query ) {
 
 		$posts_query = ( new USP_Posts_Query( 'wp_posts' ) )
 			->select( [
@@ -187,7 +187,7 @@ class USP_Users_Manager extends USP_Content_Manager {
 		return $query;
 	}
 
-	private function join_comments( USP_Query $query ) {
+	private function join_comments( QueryBuilder $query ) {
 
 		$comments_query = ( new USP_Comments_Query( 'wp_comments' ) )
 			->select( [

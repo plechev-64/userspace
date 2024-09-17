@@ -10,9 +10,9 @@ function usp_admin_menu() {
 
 function usp_register_form_manager() {
 
-	require_once 'classes/class-usp-register-form-manager.php';
+	require_once 'classes/RegisterFormManager.php';
 
-	$Manager = new USP_Register_Form_Manager();
+	$Manager = new RegisterFormManager();
 
 	$title = __( 'Editing registration form fields', 'userspace' );
 

@@ -1,6 +1,6 @@
 <?php
 
-class USP_Users_Query extends USP_Query {
+class USP_Users_Query extends QueryBuilder {
 	function __construct( $as = false ) {
 		global $wpdb;
 
@@ -22,7 +22,7 @@ class USP_Users_Query extends USP_Query {
 
 }
 
-class USP_Users_Meta_Query extends USP_Query {
+class USP_Users_Meta_Query extends QueryBuilder {
 
 	function __construct( $as = false ) {
 		global $wpdb;
@@ -44,7 +44,7 @@ class USP_Users_Meta_Query extends USP_Query {
 
 }
 
-class USP_Posts_Query extends USP_Query {
+class USP_Posts_Query extends QueryBuilder {
 	function __construct( $as = false ) {
 		global $wpdb;
 
@@ -75,9 +75,9 @@ class USP_Posts_Query extends USP_Query {
 
 }
 
-class USP_Posts_Meta_Query extends USP_Query {
+class USP_Posts_Meta_Query extends QueryBuilder {
 
-	public $serialize = [ 'meta_value' ];
+	public array $serialize = [ 'meta_value' ];
 
 	function __construct( $as = false ) {
 		global $wpdb;
@@ -97,7 +97,7 @@ class USP_Posts_Meta_Query extends USP_Query {
 
 }
 
-class USP_Comments_Query extends USP_Query {
+class USP_Comments_Query extends QueryBuilder {
 
 	function __construct( $as = false ) {
 		global $wpdb;
@@ -121,7 +121,7 @@ class USP_Comments_Query extends USP_Query {
 
 }
 
-class USP_User_Action extends USP_Query {
+class USP_User_Action extends QueryBuilder {
 	function __construct( $as = false ) {
 
 		$table = [
@@ -139,7 +139,7 @@ class USP_User_Action extends USP_Query {
 
 }
 
-class USP_Temp_Media extends USP_Query {
+class USP_Temp_Media extends QueryBuilder {
 	function __construct( $as = false ) {
 
 		$table = [
@@ -159,7 +159,7 @@ class USP_Temp_Media extends USP_Query {
 
 }
 
-class USP_Blacklist_Query extends USP_Query {
+class USP_Blacklist_Query extends QueryBuilder {
 	function __construct( $as = false ) {
 
 		$table = [
