@@ -296,7 +296,6 @@ final class UserSpace {
 		require_once 'classes/attachments/OptAttachments.php';
 		require_once 'classes/query/QueryBuilder.php';
 		require_once 'classes/class-usp-query-tables.php';
-		require_once 'classes/class-usp-cache.php';
 		require_once 'classes/Ajax.php';
 
 		require_once 'classes/class-usp-options.php';
@@ -322,7 +321,6 @@ final class UserSpace {
 		require_once 'functions/shortcodes.php';
 		require_once 'functions/functions-access.php';
 		require_once 'functions/functions-avatar.php';
-		require_once 'functions/functions-cache.php';
 		require_once 'functions/functions-media.php';
 		require_once 'functions/functions-office.php';
 		require_once 'functions/functions-options.php';
@@ -364,7 +362,6 @@ final class UserSpace {
 			'loginform'       => new USP_Module( USP_PATH . 'modules/loginform/index.php', [ 'forms' ] ),
 			'usp-bar'         => new USP_Module( USP_PATH . 'modules/usp-bar/index.php' ),
 			'uploader'        => new USP_Module( USP_PATH . 'modules/uploader/index.php' ),
-			'gallery'         => new USP_Module( USP_PATH . 'modules/gallery/index.php' ),
 			'table'           => new USP_Module( USP_PATH . 'modules/table/index.php' ),
 			'tabs'            => new USP_Module( USP_PATH . 'modules/tabs/index.php' ),
 			'forms'           => new USP_Module( USP_PATH . 'modules/forms/index.php', [ 'fields' ] ),
@@ -374,7 +371,6 @@ final class UserSpace {
 			'options-manager' => new USP_Module( USP_PATH . 'modules/options-manager/index.php', [ 'fields' ] ),
 			'profile'         => new USP_Module( USP_PATH . 'modules/profile/index.php' ),
 			'profile-fields'  => new USP_Module( USP_PATH . 'modules/profile-fields/index.php', [ 'fields' ] ),
-			'users-list'      => new USP_Module( USP_PATH . 'modules/users-list/index.php', [ 'content-manager' ] ),
 			'dropdown-menu'   => new USP_Module( USP_PATH . 'modules/usp-dropdown-menu/index.php' ),
 		];
 	}
