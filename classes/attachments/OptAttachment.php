@@ -22,7 +22,7 @@ class OptAttachment{
 		return get_home_url(null, 'wp-content/uploads/'.$imageData['path']);
 	}
 
-	public function get_image( string $size = 'thumbnail', string|array $attr = '' ): string {
+	public function get_image( string|array $size = 'thumbnail', string|array $attr = '' ): string {
 
 		$src = $this->get_url($size);
 		$imagedata = $this->get_image_data($size); //$this->metadata;

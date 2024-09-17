@@ -44,7 +44,7 @@ final class Ajax {
 		return true;
 	}
 
-	public function get_ajax_callback( $callback ): ?string {
+	public function get_ajax_callback( string $callback ): null|string|array {
 		return $this->ajax_callbacks[ $callback ] ?? null;
 	}
 
@@ -56,7 +56,7 @@ final class Ajax {
 		add_action( 'rest_api_init', [ $this, 'register_route' ] );
 	}
 
-	public function register_route() {
+	public function register_route(): void {
 
 		register_rest_route( $this->rest_space, '/' . $this->rest_route . '/', [
 			'methods'             => 'POST',
@@ -65,11 +65,11 @@ final class Ajax {
 		] );
 	}
 
-	public function verify() {
+	public function verify(): void {
 
 		if ( isset( $_POST['ajax_nonce'] ) ) {
 			if ( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX ) {
-				return false;
+				return;
 			}
 			if ( ! wp_verify_nonce( $_POST['ajax_nonce'], 'wp_rest' ) ) {
 				wp_send_json( [ 'error' => __( 'Signature verification failed', 'userspace' ) . '!' ] );

@@ -1,0 +1,38 @@
+.usp-users-full .usp-user {
+    flex: 1 1 100%;
+    font-size: 16px;
+    color: var(--uspGray-600);
+}
+
+.usp-users-full .usp-user > div:not(:first-child) {
+    margin: 18px 0;
+}
+
+.usp-users-full .usp-user .usp-user__name {
+    font-size: 26px;
+}
+
+.usp-users-full .usp-user .usp-user__age {
+    color: var(--uspYellow-900);
+    margin: 0 0 0 6px;
+}
+
+.usp-users-full .usp-user .usp-field-title-box {
+    min-width: 72px;
+}
+
+.usp-users-full .usp-user.usp-user-fields .usp-field + .usp-field {
+    margin: 6px 0 0;
+}
+
+.usp-users-full .usp-user .usp-user-fields .usp-field {
+    display: inline-flex;
+    color: var(--uspGray-600);
+    line-height: normal;
+}
+
+.usp-users-full .usp-user .usp-user-fields a:link {
+    box-shadow: none !important;
+    color: var(--uspBlue-700);
+    text-decoration: underline;
+}

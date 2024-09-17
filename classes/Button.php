@@ -2,28 +2,28 @@
 
 class Button {
 
-	public string $id;
-	public string $onclick;
+	public ?string $id = null;
+	public ?string $onclick = null;
 	public string $href = 'javascript:void(0);';
-	public array $class = [];
+	public array|string $class = [];
 	public string $type = 'primary'; // clear, simple, primary
-	public string $style;
-	public string $icon; // for example: fa-car
+	public ?string $style = null;
+	public ?string $icon = null; // for example: fa-car
 	public string $icon_align = 'left'; // left or right position
-	public string $icon_mask;  // 1 - is mask on icon
-	public string $label;   // text on button
-	public string $title;   // title attribute
-	public int $counter; // number
-	public string $content;
+	public ?string $icon_mask = null;  // 1 - is mask on icon
+	public ?string $label = null;   // text on button
+	public ?string $title = null;   // title attribute
+	public ?int $counter = null; // number
+	public ?string $content = null;
 	public bool $avatar = false;  // avatar button
 	public bool $avatar_circle= false; // round avatar
-	public array $data;
-	public bool $submit;
-	public string $status;  // state of the button: loading, disabled, active
+	public array $data = [];
+	public bool $submit = false;
+	public ?string $status = null;  // state of the button: loading, disabled, active
 	public string $size = 'standard';   // small, standard, medium, large, big
-	public array $attrs;
-	public bool $fullwidth;  // 1 - is fullwidth button
-	public bool $inset;
+	public array $attrs = [];
+	public bool $fullwidth = false;  // 1 - is fullwidth button
+	public bool $inset = false;
 
 	public function __construct( $args ) {
 
@@ -193,6 +193,18 @@ class Button {
 		$content .= '</a>';
 
 		return $content;
+	}
+
+	public function add_class( string|array $class ): static {
+
+		if ( is_array( $class ) ) {
+			$this->class = array_merge( $this->class, $class );
+		} else {
+			$this->class[] = $class;
+		}
+
+		return $this;
+
 	}
 
 }
