@@ -78,7 +78,7 @@ final class UserSpace {
 	}
 
 	private function init_hooks() {
-		register_activation_hook( __FILE__, [ 'USP_Install', 'install' ] );
+		register_activation_hook( __FILE__, [ 'Install', 'install' ] );
 
 		add_action( 'init', [ $this, 'init' ], 0 );
 
@@ -302,11 +302,11 @@ final class UserSpace {
 		require_once 'classes/class-usp-pager.php';
 		require_once 'classes/class-usp-users.php';
 		require_once 'classes/class-usp-user.php';
-		require_once 'classes/class-usp-office.php';
+		require_once 'classes/Office.php';
 		require_once 'classes/class-usp-walker.php';
 		require_once 'classes/class-usp-includer.php';
-		require_once 'classes/class-usp-install.php';
-		require_once 'classes/class-usp-log.php';
+		require_once 'classes/Install.php';
+		require_once 'classes/Log.php';
 		require_once 'classes/Button.php';
 		require_once 'classes/class-usp-theme.php';
 		require_once 'classes/class-usp-themes.php';
@@ -394,7 +394,7 @@ final class UserSpace {
 	}
 
 	public function office() {
-		return USP_Office::getInstance();
+		return Office::getInstance();
 	}
 
 	public function users() {
@@ -405,7 +405,7 @@ final class UserSpace {
 		$user_id = $user_id ?: get_current_user_id();
 
 		if ( ! $user_id ) {
-			return false;
+			return null;
 		}
 
 		if ( $this->users()->isset( $user_id ) ) {

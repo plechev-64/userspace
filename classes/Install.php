@@ -1,12 +1,12 @@
 <?php
 
-class USP_Install {
-	public static function init() {
+class Install {
+	public static function init(): void {
 		add_action( 'init', array( __CLASS__, 'init_global' ) );
 		add_filter( 'wpmu_drop_tables', array( __CLASS__, 'wpmu_drop_tables' ) );
 	}
 
-	public static function install() {
+	public static function install(): void {
 
 		if ( ! defined( 'USP_INSTALLING' ) ) {
 			define( 'USP_INSTALLING', true );
@@ -27,24 +27,24 @@ class USP_Install {
 		self::create_files();
 	}
 
-	public static function init_global() {
+	public static function init_global(): void {
 		$upload_dir = usp_get_wp_upload_dir();
 		wp_mkdir_p( ( $upload_dir['basedir'] ) );
 	}
 
-	public static function create_tables() {
+	public static function create_tables(): void {
 		global $wpdb;
 
 		$wpdb->hide_errors();
 
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
-		foreach ( self::get_schema() as $shema ) {
-			dbDelta( $shema );
+		foreach ( self::get_schema() as $schema ) {
+			dbDelta( $schema );
 		}
 	}
 
-	private static function get_schema() {
+	private static function get_schema(): array {
 		global $wpdb;
 
 		$collate = '';
@@ -88,7 +88,7 @@ class USP_Install {
 		);
 	}
 
-	private static function create_pages() {
+	private static function create_pages(): void {
 
 		$pages = apply_filters( 'usp_pages', array(
 			'account_page' => array(
@@ -116,7 +116,7 @@ class USP_Install {
 		}
 	}
 
-	private static function create_files() {
+	private static function create_files(): void {
 		$upload_dir = USP()->upload_dir();
 
 		$files = array(
@@ -157,7 +157,7 @@ class USP_Install {
 		}
 	}
 
-	public static function create_roles() {
+	public static function create_roles(): void {
 
 		if ( ! class_exists( 'WP_Roles' ) ) {
 			return;
@@ -187,16 +187,12 @@ class USP_Install {
 	 *
 	 * @return array
 	 */
-	public static function wpmu_drop_tables( $tables ) {
+	public static function wpmu_drop_tables( array $tables ): array {
 		$tables[] = USP_PREF . 'users_actions';
 
 		return $tables;
 	}
 
-	/*
-	  Here I decided to add functions that are incomprehensible to me when installing the plugin
-	  In the future, you need to redefine the dependencies and rewrite everything here
-	 */
 	private static function any_functions() {
 		global $wpdb;
 
@@ -227,4 +223,4 @@ class USP_Install {
 
 }
 
-USP_Install::init();
+Install::init();

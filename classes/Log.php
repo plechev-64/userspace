@@ -1,10 +1,10 @@
 <?php
 
-class USP_Log {
+class Log {
 
-	public $log_path;
+	private string $log_path;
 
-	function __construct( $args = false ) {
+	public function __construct( $args = false ) {
 
 		if ( $args ) {
 			$this->init_properties( $args );
@@ -22,7 +22,7 @@ class USP_Log {
 		}
 	}
 
-	function init_properties( $args ) {
+	private function init_properties( array $args ) {
 		$properties = get_class_vars( get_class( $this ) );
 
 		foreach ( $properties as $name => $val ) {
@@ -32,12 +32,12 @@ class USP_Log {
 		}
 	}
 
-	function insert_title( $title ) {
+	public function insert_title( string $title ) {
 
 		$this->insert_log( date( 'H:i:s' ) . " " . $title );
 	}
 
-	function insert_log( $data ) {
+	public function insert_log( string|array $data ) {
 
 		if ( ! is_string( $data ) ) {
 			$data = print_r( $data, true );

@@ -357,14 +357,14 @@ function usp_get_form( $args ) {
  *
  * @return  string   HTML notice.
  *
- * @see     USP_Notice
+ * @see     Notice
  *
  * @since   1.0.0
  */
 function usp_get_notice( $args ) {
-	require_once USP_PATH . '/classes/class-usp-notice.php';
+	require_once USP_PATH . '/classes/Notice.php';
 
-	$Notice = new USP_Notice( $args );
+	$Notice = new Notice( $args );
 
 	return $Notice->get_notice();
 }
@@ -451,7 +451,7 @@ function usp_get_area_options() {
  *
  * @return  void
  *
- * @see     USP_Log
+ * @see     Log
  *
  * @since   1.0.0
  */
@@ -460,7 +460,7 @@ function usp_add_log( $title, $data = false, $force = false ) {
 		return;
 	}
 
-	$USPLog = new USP_Log();
+	$USPLog = new Log();
 
 	$USPLog->insert_title( $title );
 

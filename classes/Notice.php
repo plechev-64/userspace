@@ -1,18 +1,18 @@
 <?php
 
-class USP_Notice {
+class Notice {
 
-	public $type = 'info';   // info,success,warning,error,simple
-	public $title = '';       // title text
-	public $text = '';       // text message
-	public $text_center = true;     // true - text-align: center; false - left
-	public $icon = true;     // left position icon; false - don't show, string - icon class. Example: 'fa-info'
-	public $class = '';       // additional class
-	public $no_border = false;    // hide border color
-	public $cookie = '';       // unique cookie id
-	public $cookie_time = 30;       // lifetime cookie
+	private string $type = 'info';   // info,success,warning,error,simple
+	private string $title = '';       // title text
+	private string $text = '';       // text message
+	private bool $text_center = true;     // true - text-align: center; false - left
+	private bool $icon = true;     // left position icon; false - don't show, string - icon class. Example: 'fa-info'
+	private string $class = '';       // additional class
+	private bool $no_border = false;    // hide border color
+	private string $cookie = '';       // unique cookie id
+	private int $cookie_time = 30;       // lifetime cookie
 
-	function __construct( $args ) {
+	public function __construct( array $args ) {
 
 		if ( isset( $args['success'] ) ) {
 			$args['type'] = 'success';
@@ -28,7 +28,7 @@ class USP_Notice {
 		$this->setup_class();
 	}
 
-	function init_properties( $args ) {
+	private function init_properties( array $args ) {
 
 		$properties = get_class_vars( get_class( $this ) );
 
@@ -39,7 +39,7 @@ class USP_Notice {
 		}
 	}
 
-	function setup_class() {
+	private function setup_class(): void {
 		$center = ( $this->text_center ) ? 'usp-notice__text-center' : '';
 
 		$classes = [
@@ -61,7 +61,7 @@ class USP_Notice {
 		$this->class = implode( ' ', $classes );
 	}
 
-	function setup_icon() {
+	private function setup_icon(): void {
 
 		if ( ! $this->icon ) {
 			return;
@@ -85,10 +85,10 @@ class USP_Notice {
 		}
 	}
 
-	function get_notice() {
+	public function get_notice(): ?string {
 
 		if ( ! empty( $this->cookie ) && isset( $_COOKIE[ $this->cookie ] ) ) {
-			return;
+			return null;
 		}
 
 		return usp_get_include_template( 'usp-notice.php', false, [ 'notice' => $this, ] );

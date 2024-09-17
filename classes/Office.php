@@ -1,18 +1,18 @@
 <?php
 
 
-class USP_Office {
+class Office {
 
-	private $owner_id = 0;
-	private $on_page = 0;
-	private $owner;
-	private $vars = [];
-	private $varnames = array(
+	private ?int $owner_id = null;
+	private ?int $on_page = null;
+	private ?USP_User $owner = null;
+	private array $vars = [];
+	private array $varnames = array(
 		'member' => 'user'
 	);
-	protected static $_instance = null;
+	protected static ?Office $_instance = null;
 
-	public static function getInstance() {
+	public static function getInstance(): ?Office {
 		if ( is_null( self::$_instance ) ) {
 			self::$_instance = new self();
 		}
@@ -20,29 +20,17 @@ class USP_Office {
 		return self::$_instance;
 	}
 
-	private function __construct() {
-		if ( self::$_instance ) {
-			return;
-		}
+	private function __construct() {}
+
+	public function get_var( $var_key ): ?string {
+		return ! empty( $this->vars[ $var_key ] ) ? $this->vars[ $var_key ] : null;
 	}
 
-	public function __clone() {
-		return;
-	}
-
-	public function __wakeup() {
-		return;
-	}
-
-	function get_var( $var_key ) {
-		return ! empty( $this->vars[ $var_key ] ) ? $this->vars[ $var_key ] : false;
-	}
-
-	function setup() {
+	public function setup(): void {
 		global $user_ID, $wp_rewrite;
 
 		if ( ! $office_page_id = USP()->options()->get( 'account_page' ) ) {
-			return false;
+			return;
 		}
 
 		$office_page = get_post( $office_page_id );
@@ -98,7 +86,7 @@ class USP_Office {
 
 	}
 
-	function on_page() {
+	public function on_page(): bool {
 		global $wp_query;
 
 		if ( ! $wp_query->is_main_query() ) {
@@ -108,7 +96,7 @@ class USP_Office {
 		return ! empty( $this->on_page );
 	}
 
-	function is_owner( $user_id ) {
+	public function is_owner( $user_id ): bool {
 
 		if ( ! $user_id ) {
 			return false;
@@ -121,16 +109,16 @@ class USP_Office {
 		return true;
 	}
 
-	function set_owner( $user_id ) {
+	public function set_owner( $user_id ): void {
 		$this->owner_id = $user_id;
 		$this->owner    = USP()->user( $user_id );
 	}
 
-	function get_owner_id() {
+	public function get_owner_id(): ?int {
 		return $this->owner_id;
 	}
 
-	function owner(): USP_User {
+	public function owner(): ?USP_User {
 		return $this->owner;
 	}
 
