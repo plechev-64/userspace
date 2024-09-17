@@ -164,7 +164,7 @@ final class UserSpace {
 			$this->use_module( 'loginform' );
 		}
 
-		if ( USP_Ajax()->is_rest_request() ) {
+		if ( Ajax()->is_rest_request() ) {
 			$this->use_module( 'forms' );
 		}
 
@@ -297,7 +297,7 @@ final class UserSpace {
 		require_once 'classes/query/QueryBuilder.php';
 		require_once 'classes/class-usp-query-tables.php';
 		require_once 'classes/class-usp-cache.php';
-		require_once 'classes/class-usp-ajax.php';
+		require_once 'classes/Ajax.php';
 
 		require_once 'classes/class-usp-options.php';
 		require_once 'classes/class-usp-pager.php';
@@ -308,7 +308,7 @@ final class UserSpace {
 		require_once 'classes/class-usp-includer.php';
 		require_once 'classes/class-usp-install.php';
 		require_once 'classes/class-usp-log.php';
-		require_once 'classes/class-usp-button.php';
+		require_once 'classes/Button.php';
 		require_once 'classes/class-usp-theme.php';
 		require_once 'classes/class-usp-themes.php';
 		require_once 'classes/class-usp-template.php';

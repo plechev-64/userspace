@@ -13,7 +13,7 @@ class USP_Dropdown_Menu {
 	private $default_group = 'default';
 
 	/**
-	 * Base USP_Button type
+	 * Base Button type
 	 *
 	 * @var string
 	 */
@@ -22,7 +22,7 @@ class USP_Dropdown_Menu {
 	/**
 	 * Menu toggle button
 	 *
-	 * @var array|string - USP_Button args[] or string / html
+	 * @var array|string - Button args[] or string / html
 	 */
 	public $open_button = [
 		'icon' => 'fa-vertical-ellipsis',
@@ -252,7 +252,7 @@ class USP_Dropdown_Menu {
 
 			$open_button['type'] = $this->base_button_type;
 
-			return ( new USP_Button( $open_button ) )->add_class( $button_class )->get_button();
+			return ( new Button( $open_button ) )->add_class( $button_class )->get_button();
 		}
 
 		$html = "<div tabindex='0' class='{$button_class}'>";

@@ -29,7 +29,7 @@ function usp_is_office( $user_id = null ) {
 		if ( $master_id ) {
 			USP()->office()->set_owner( $master_id );
 		}
-	} else if ( USP_Ajax()->is_rest_request() && isset( $_POST['office_id'] ) ) {
+	} else if ( Ajax()->is_rest_request() && isset( $_POST['office_id'] ) ) {
 		USP()->office()->set_owner( intval( $_POST['office_id'] ) );
 	}
 	// phpcs:enable WordPress.Security.NonceVerification.Missing
@@ -71,7 +71,7 @@ function usp_get_office_class() {
  * @since   1.0.0
  */
 function usp_template_support( $support ) {
-	if ( usp_is_office() || USP_Ajax()->is_rest_request() ) {
+	if ( usp_is_office() || Ajax()->is_rest_request() ) {
 		switch ( $support ) {
 			case 'avatar-uploader':
 				usp_include_uploader_avatar();

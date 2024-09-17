@@ -454,9 +454,9 @@ function usp_enqueue_style( $id, $url, $parents = false, $in_footer = false, $fo
 function usp_enqueue_script( $id, $url, $parents = false, $in_footer = false, $force_union = false ) {
 	global $usp_scripts;
 
-	if ( is_admin() || doing_action( 'login_enqueue_scripts' ) || USP_Ajax()->is_rest_request() ) {
+	if ( is_admin() || doing_action( 'login_enqueue_scripts' ) || Ajax()->is_rest_request() ) {
 
-		if ( $parents && USP_Ajax()->is_rest_request() ) {
+		if ( $parents && Ajax()->is_rest_request() ) {
 			$k = array_search( 'usp-core-scripts', $parents );
 			if ( $k !== false ) {
 				unset( $parents[ $k ] );

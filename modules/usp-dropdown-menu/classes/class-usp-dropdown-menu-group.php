@@ -135,7 +135,7 @@ class USP_Dropdown_Menu_Group {
 		$args['type'] = $this->menu->base_button_type;
 		$args['size'] = $args['size'] ?? $this->menu->size;
 
-		return ( new USP_Button( $args ) )->add_class( $buttons_class )->get_button();
+		return ( new Button( $args ) )->add_class( $buttons_class )->get_button();
 	}
 
 	private function build_item_title( string $text, array $params ) {

@@ -13,8 +13,8 @@ function usp_is_ajax() {
 }
 
 // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
-function USP_Ajax() {
-	return USP_Ajax::getInstance();
+function Ajax() {
+	return Ajax::getInstance();
 }
 
 /**
@@ -26,11 +26,11 @@ function USP_Ajax() {
  * @since   1.0.0
  */
 function usp_verify_ajax_nonce() {
-	USP_Ajax()->verify();
+	Ajax()->verify();
 }
 
 function usp_rest_action( $function_name ) {
-	USP_Ajax()->init_rest( $function_name );
+	Ajax()->init_rest( $function_name );
 }
 
 /**
@@ -44,12 +44,12 @@ function usp_rest_action( $function_name ) {
  * @since   1.0.0
  */
 function usp_ajax_action( $callback, $guest_access = false, $modules = true ) {
-	USP_Ajax()->init_ajax_callback( $callback, $guest_access, $modules );
+	Ajax()->init_ajax_callback( $callback, $guest_access, $modules );
 }
 
 usp_rest_action( 'usp_ajax_call' );
 function usp_ajax_call() {
-	USP_Ajax()->verify();
+	Ajax()->verify();
 
 	// phpcs:disable WordPress.Security.NonceVerification.Missing
 	if ( empty( $_POST['call_action'] ) ) {
@@ -69,7 +69,7 @@ function usp_ajax_call() {
 		}
 	}
 
-	$callbackProps = USP_Ajax()->get_ajax_callback( $callback );
+	$callbackProps = Ajax()->get_ajax_callback( $callback );
 
 	if ( ! $callbackProps ) {
 		wp_send_json( [

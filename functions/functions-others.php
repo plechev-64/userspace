@@ -416,12 +416,12 @@ function usp_get_notice( $args ) {
  *
  * @return  string   HTML button.
  *
- * @see     USP_Button
+ * @see     Button
  *
  * @since   1.0.0
  */
 function usp_get_button( array $args ) {
-	$bttn = new USP_Button( $args );
+	$bttn = new Button( $args );
 
 	return $bttn->get_button();
 }

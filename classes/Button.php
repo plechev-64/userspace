@@ -1,32 +1,31 @@
 <?php
 
-class USP_Button {
+class Button {
 
-	public $id;
-	public $onclick;
-	public $href = 'javascript:void(0);';
-	public $class = [];
-	public $type = 'primary'; // clear, simple, primary
-	public $style;
-	public $icon; // for example: fa-car
-	public $icon_align = 'left'; // left or right position
-	public $icon_mask;  // 1 - is mask on icon
-	public $label;   // text on button
-	public $title;   // title attribute
-	public $counter; // number
-	public $content;
-	public $avatar;  // avatar button
-	public $avatar_circle; // round avatar
-	public $data;
-	public $submit;
-	public $status;  // state of the button: loading, disabled, active
-	public $size = 'standard';   // small, standard, medium, large, big
-	public $attr; // deprecated
-	public $attrs;
-	public $fullwidth;  // 1 - is fullwidth button
-	public $inset;
+	public string $id;
+	public string $onclick;
+	public string $href = 'javascript:void(0);';
+	public array $class = [];
+	public string $type = 'primary'; // clear, simple, primary
+	public string $style;
+	public string $icon; // for example: fa-car
+	public string $icon_align = 'left'; // left or right position
+	public string $icon_mask;  // 1 - is mask on icon
+	public string $label;   // text on button
+	public string $title;   // title attribute
+	public int $counter; // number
+	public string $content;
+	public bool $avatar = false;  // avatar button
+	public bool $avatar_circle= false; // round avatar
+	public array $data;
+	public bool $submit;
+	public string $status;  // state of the button: loading, disabled, active
+	public string $size = 'standard';   // small, standard, medium, large, big
+	public array $attrs;
+	public bool $fullwidth;  // 1 - is fullwidth button
+	public bool $inset;
 
-	function __construct( $args ) {
+	public function __construct( $args ) {
 
 		if ( ! isset( $args['title'] ) && isset( $args['label'] ) ) {
 			$args['title'] = $args['label'];
@@ -38,7 +37,7 @@ class USP_Button {
 
 	}
 
-	function init_properties( $args ) {
+	private function init_properties( $args ): void {
 
 		$properties = get_class_vars( get_class( $this ) );
 
@@ -49,7 +48,7 @@ class USP_Button {
 		}
 	}
 
-	function setup_attrs() {
+	private function setup_attrs(): void {
 		$this->class = array_reverse( $this->class );
 
 		$this->attrs['href']    = $this->href;
@@ -74,7 +73,7 @@ class USP_Button {
 		}
 	}
 
-	function setup_class() {
+	private function setup_class(): void {
 
 		if ( $this->class && ! is_array( $this->class ) ) {
 			$this->class = [ $this->class, 'usp-bttn' ];
@@ -128,7 +127,7 @@ class USP_Button {
 		$this->class = array_reverse( $this->class );
 	}
 
-	function parse_attrs() {
+	private function parse_attrs(): string {
 
 		$attrs = [];
 		foreach ( $this->attrs as $name => $value ) {
@@ -138,35 +137,30 @@ class USP_Button {
 			$attrs[] = $name . '=\'' . $value . '\'';
 		}
 
-		if ( $this->attr ) // deprecated
-		{
-			$attrs[] = $this->attr;
-		}
-
 		return implode( ' ', $attrs );
 	}
 
-	function get_icon() {
+	private function get_icon(): string {
 		return sprintf( '<i class="usp-bttn__ico usp-bttn__ico-%1$s uspi %2$s"></i>', $this->icon_align, $this->icon );
 	}
 
-	function get_avatar() {
+	private function get_avatar(): string {
 		return sprintf( '<span class="usp-bttn__ava">%s</span>', $this->avatar );
 	}
 
-	function get_label() {
+	private function get_label(): string {
 		return sprintf( '<span class="usp-bttn__text">%s</span>', $this->label );
 	}
 
-	function get_counter() {
+	private function get_counter(): string {
 		return sprintf( '<span class="usp-bttn__count">%s</span>', $this->counter );
 	}
 
-	function get_custom_content() {
+	private function get_custom_content(): string {
 		return $this->content;
 	}
 
-	function get_button() {
+	public function get_button(): string {
 
 		$this->setup_attrs();
 
@@ -199,18 +193,6 @@ class USP_Button {
 		$content .= '</a>';
 
 		return $content;
-	}
-
-	function add_class( $class ) {
-
-		if ( is_array( $class ) ) {
-			$this->class = array_merge( $this->class, $class );
-		} else {
-			$this->class[] = $class;
-		}
-
-		return $this;
-
 	}
 
 }
