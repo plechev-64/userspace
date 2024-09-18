@@ -325,7 +325,7 @@ function usp_ajax_delete_attachment() {
 	}
 
 	if ( ! is_user_logged_in() ) {
-		$media = ( new USP_Temp_Media() )->where( [ 'media_id' => $attachment_id ] )->get_row();
+		$media = ( new TempMediaQuery() )->where( [ 'media_id' => $attachment_id ] )->get_row();
 
 		$session_id = ! empty( $_COOKIE['PHPSESSID'] ) ? sanitize_text_field( wp_unslash( $_COOKIE['PHPSESSID'] ) ) : 'none';
 

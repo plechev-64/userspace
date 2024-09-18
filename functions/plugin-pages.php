@@ -48,7 +48,7 @@ function usp_get_plugin_page( $page_id ) {
 		return false;
 	}
 
-	return ( new USP_Posts_Query() )
+	return ( new PostsQuery() )
 		->select( 'ID' )
 		->where( [
 			'ID'          => $plugin_pages[ $page_id ],

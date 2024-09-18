@@ -75,9 +75,9 @@ class OptAttachments {
 
 	}
 
-	static function get_query_attachments_request( array $attach_ids ): USP_Posts_Meta_Query {
+	static function get_query_attachments_request( array $attach_ids ): PostsMetaQuery {
 
-		return ( new USP_Posts_Meta_Query() )->select( [
+		return ( new PostsMetaQuery() )->select( [
 			'attach_id' => 'post_id',
 			'metadata'  => 'meta_value'
 		] )->where( [
@@ -91,9 +91,9 @@ class OptAttachments {
 		return self::get_query_attachments_request( $attach_ids )->get_results();
 	}
 
-	static function get_query_thumbnails_request( array $post_ids, string $meta_key = '_thumbnail_id', bool $get_attached_file = false ): USP_Posts_Meta_Query {
+	static function get_query_thumbnails_request( array $post_ids, string $meta_key = '_thumbnail_id', bool $get_attached_file = false ): PostsMetaQuery {
 
-		$query = ( new USP_Posts_Meta_Query() )->select( [
+		$query = ( new PostsMetaQuery() )->select( [
 			'post_id',
 			'attach_id' => 'meta_value'
 		] )->where( [
@@ -101,7 +101,7 @@ class OptAttachments {
 			'post_id__in' => $post_ids,
 		] )->join(
 			[ 'meta_value', 'post_id' ],
-			( new USP_Posts_Meta_Query( 'metadata' ) )->select( [ 'metadata' => 'meta_value' ] )->where( [
+			( new PostsMetaQuery( 'metadata' ) )->select( [ 'metadata' => 'meta_value' ] )->where( [
 				'meta_key' => '_wp_attachment_metadata'
 			] )
 		)->limit( - 1 );
@@ -109,7 +109,7 @@ class OptAttachments {
 		if ( $get_attached_file ) {
 			$query->join(
 				[ 'meta_value', 'post_id' ],
-				( new USP_Posts_Meta_Query( 'file' ) )->select( [ 'attached_file' => 'meta_value' ] )->where( [
+				( new PostsMetaQuery( 'file' ) )->select( [ 'attached_file' => 'meta_value' ] )->where( [
 					'meta_key' => '_wp_attached_file'
 				] )
 			);

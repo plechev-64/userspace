@@ -2,15 +2,15 @@
 
 class Notice {
 
-	private string $type = 'info';   // info,success,warning,error,simple
-	private string $title = '';       // title text
-	private string $text = '';       // text message
-	private bool $text_center = true;     // true - text-align: center; false - left
-	private bool $icon = true;     // left position icon; false - don't show, string - icon class. Example: 'fa-info'
-	private string $class = '';       // additional class
-	private bool $no_border = false;    // hide border color
-	private string $cookie = '';       // unique cookie id
-	private int $cookie_time = 30;       // lifetime cookie
+	public string $type = 'info';   // info,success,warning,error,simple
+	public string $title = '';       // title text
+	public string $text = '';       // text message
+	public bool $text_center = true;     // true - text-align: center; false - left
+	public bool $icon = true;     // left position icon; false - don't show, string - icon class. Example: 'fa-info'
+	public string $class = '';       // additional class
+	public bool $no_border = false;    // hide border color
+	public string $cookie = '';       // unique cookie id
+	public int $cookie_time = 30;       // lifetime cookie
 
 	public function __construct( array $args ) {
 

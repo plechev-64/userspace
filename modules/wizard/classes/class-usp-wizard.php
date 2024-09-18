@@ -98,7 +98,7 @@ class USP_Wizard {
 
 	function get_navigation( $type ) {
 
-		$navi = new USP_Pager( array(
+		$navi = new Pager( array(
 			'total'   => count( $this->steps ),
 			'number'  => 1,
 			'onclick' => 'usp_get_wizard_page',

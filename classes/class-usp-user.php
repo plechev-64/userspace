@@ -72,7 +72,7 @@ class USP_User {
 		if ( isset( $this->last_activity ) ) {
 			$action = $this->last_activity;
 		} else {
-			$action = ( new USP_User_Action() )->select( [ 'date_action' ] )->where( [ 'user_id' => $this->ID ] )->get_var();
+			$action = ( new UserActionsQuery() )->select( [ 'date_action' ] )->where( [ 'user_id' => $this->ID ] )->get_var();
 		}
 
 		wp_cache_set( $cachekey, $action ?: '', 'usp_users', usp_get_option( 'usp_user_timeout', 10 ) * 60 );
@@ -401,7 +401,7 @@ class USP_User {
 
 		if ( $last_action ) {
 
-			QueryBuilder::update( ( new USP_User_Action() )->where( [
+			QueryBuilder::update( ( new UserActionsQuery() )->where( [
 				'user_id' => $this->ID
 			] ), [
 				'date_action' => $action_time
@@ -409,7 +409,7 @@ class USP_User {
 
 		} else {
 
-			QueryBuilder::insert( new USP_User_Action(), [
+			QueryBuilder::insert( new UserActionsQuery(), [
 				'user_id'     => $this->ID,
 				'date_action' => $action_time
 			] );
@@ -480,7 +480,7 @@ class USP_User {
 			return false;
 		}
 
-		$result = (bool) QueryBuilder::insert( new USP_Blacklist_Query(), [
+		$result = (bool) QueryBuilder::insert( new BlacklistQuery(), [
 			'user_id' => $this->ID,
 			'blocked' => $user_id
 		] );
@@ -515,7 +515,7 @@ class USP_User {
 		}
 
 		$result = QueryBuilder::delete(
-			( new USP_Blacklist_Query() )->where( [ 'user_id' => $this->ID, 'blocked' => $user_id ] )
+			( new BlacklistQuery() )->where( [ 'user_id' => $this->ID, 'blocked' => $user_id ] )
 		);
 
 		if ( $result ) {
@@ -543,7 +543,7 @@ class USP_User {
 	 */
 	function is_blocked( int $user_id ) {
 
-		return (bool) ( new USP_Blacklist_Query() )
+		return (bool) ( new BlacklistQuery() )
 			->select( [ 'ID' ] )
 			->where( [ 'user_id' => $this->ID, 'blocked' => $user_id ] )
 			->get_var();
@@ -559,7 +559,7 @@ class USP_User {
 	 */
 	function get_blacklist() {
 
-		return ( new USP_Blacklist_Query() )
+		return ( new BlacklistQuery() )
 			->select( [ 'blocked' ] )
 			->where( [ 'user_id' => $this->ID ] )
 			->limit( - 1 )

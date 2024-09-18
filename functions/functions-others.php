@@ -68,7 +68,7 @@ function usp_register_userspace_menu() {
  * @since   1.0.0
  */
 function usp_get_pages_ids() {
-	$pages = ( new USP_Posts_Query() )
+	$pages = ( new PostsQuery() )
 		->select( [ 'ID', 'post_title' ] )
 		->where( [ 'post_type' => 'page', 'post_status' => 'publish' ] )
 		->limit( - 1 )

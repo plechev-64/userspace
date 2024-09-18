@@ -10,7 +10,7 @@
  *
  * @return  string              Option value, if it exists, or the default in $default.
  *
- * @see     USP_Options
+ * @see     Options
  *
  * @since   1.0.0
  */
@@ -24,7 +24,7 @@ function usp_get_option( $option, $default = false ) {
  * @param   $name   string  Name of the option.
  * @param   $value  mixed   New value option.
  *
- * @see     USP_Options
+ * @see     Options
  *
  * @since   1.0.0
  */
@@ -37,7 +37,7 @@ function usp_update_option( $name, $value ) {
  *
  * @param   $name   string  Name of the option.
  *
- * @see     USP_Options
+ * @see     Options
  *
  * @since   1.0.0
  */

@@ -1,22 +1,22 @@
 <?php
 
-class USP_Pager {
+class Pager {
 
-	public $current = 1;  // current page
-	public $pages = 0;  // number of pages
-	public $diff = array( 4, 4 );  // display range of displayed pages
-	public $number = 30; // number of elements per page
-	public $total = 0;  // total number of elements
-	public $id; // navigation id
-	public $class; // navigation class
-	public $offset = 0;  // offset
-	public $key = 'pagenum';
-	public $onclick = false;
-	public $page_args = array(
+	public int $current = 1;  // current page
+	public int $pages = 0;  // number of pages
+	public array $diff = array( 4, 4 );  // display range of displayed pages
+	public int $number = 30; // number of elements per page
+	public int $total = 0;  // total number of elements
+	public string $id; // navigation id
+	public string $class; // navigation class
+	public int $offset = 0;  // offset
+	public string $key = 'pagenum';
+	public bool $onclick = false;
+	public array $page_args = array(
 		'type' => 'simple'
 	);
 
-	function __construct( $args ) {
+	public function __construct( $args ) {
 
 		$this->init_properties( $args );
 
@@ -26,7 +26,7 @@ class USP_Pager {
 		$this->pages  = ceil( $this->total / $this->number );
 	}
 
-	function init_properties( $args ) {
+	private function init_properties( array $args ) {
 
 		$properties = get_class_vars( get_class( $this ) );
 
@@ -37,7 +37,7 @@ class USP_Pager {
 		}
 	}
 
-	function set_current() {
+	public function set_current(): void {
 
 		if ( ! empty( $_REQUEST[ $this->key ] ) ) {
 			$this->current = absint( $_REQUEST[ $this->key ] );
@@ -48,7 +48,7 @@ class USP_Pager {
 		}
 	}
 
-	function get_walker() {
+	public function get_walker(): array {
 		$walker = array();
 
 		$walker['args']['number_left']  = ( ( $this->current - $this->diff[0] ) <= 0 ) ? $this->current - 1 : $this->diff[0];
@@ -93,7 +93,7 @@ class USP_Pager {
 		return $walker;
 	}
 
-	function get_url( $page_id ) {
+	private function get_url( int $page_id ): string {
 
 		if ( empty( $_POST['tab_url'] ) ) {
 			return '';
@@ -102,7 +102,7 @@ class USP_Pager {
 		return add_query_arg( [ $this->key => $page_id ], sanitize_text_field( wp_unslash( $_POST['tab_url'] ) ) );
 	}
 
-	function get_page_args( $page_id, $label = false ) {
+	private function get_page_args( int $page_id, ?string $label = null ): object|array {
 
 		$args = array(
 			'type'  => 'simple',
@@ -120,14 +120,14 @@ class USP_Pager {
 		return wp_parse_args( $args, $this->page_args );
 	}
 
-	function get_navi() {
+	public function get_navi(): ?string {
 		return $this->get_pager();
 	}
 
-	function get_pager( $typePager = 'numbers' ) {
+	public function get_pager( $typePager = 'numbers' ): ?string {
 
 		if ( ! $this->total || $this->pages == 1 ) {
-			return false;
+			return null;
 		}
 
 		$walker = $this->get_walker();

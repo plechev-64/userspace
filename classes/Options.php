@@ -1,22 +1,11 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+class Options {
 
-/**
- * Description of class-usp-global-options
- *
- * @author Андрей
- */
-class USP_Options {
+	protected static ?Options $_instance	 = null;
+	private array $options			 = [];
 
-	protected static $_instance	 = null;
-	private $options			 = [];
-
-	public static function getInstance() {
+	public static function getInstance(): ?Options {
 		if ( is_null( self::$_instance ) ) {
 			self::$_instance = new self();
 		}
@@ -33,41 +22,31 @@ class USP_Options {
 		$this->options = get_site_option( 'usp_global_options' );
 	}
 
-	function get_options() {
+	public function get_options(): array {
 		return $this->options;
 	}
 
-	function update_options( $options = false ) {
+	public function update_options( $options = false ): bool {
 		return update_site_option( 'usp_global_options', $options ?: $this->options );
 	}
 
-	function set_options( $options ) {
-
-		if ( ! is_array( $options ) ) {
-			return false;
-		}
-
+	public function set_options( array $options ): void {
 		foreach ( $options as $name => $value ) {
 			$this->set( $name, $value );
 		}
 	}
 
-	function reset_options( $options ) {
-
-		if ( ! is_array( $options ) ) {
-			return false;
-		}
-
+	public function reset_options( array $options ): void {
 		foreach ( $options as $name ) {
 			$this->clear( $name );
 		}
 	}
 
-	function is_set( $name ) {
+	public function is_set( $name ): bool {
 		return isset( $this->options[ $name ] );
 	}
 
-	function get( $name, $default = false ) {
+	public function get( string $name, mixed $default = false ): mixed {
 
 		if ( $this->is_set( $name ) ) {
 			if ( $this->options[ $name ] || is_numeric( $this->options[ $name ] ) ) {
@@ -78,7 +57,7 @@ class USP_Options {
 		return $default;
 	}
 
-	function set( $name, $value = null ) {
+	public function set( $name, $value = null ): bool {
 
 		if ( is_null( $value ) ) {
 			unset( $this->options[ $name ] );
@@ -89,13 +68,13 @@ class USP_Options {
 		return true;
 	}
 
-	function set_is_null( $name, $value ) {
+	public function set_is_null( $name, $value ): void {
 		if ( ! $this->is_set( $name ) ) {
 			$this->set( $name, $value );
 		}
 	}
 
-	function clear( $name ) {
+	public function clear( $name ): bool {
 		if ( ! $this->is_set( $name ) ) {
 			return false;
 		}
@@ -103,13 +82,13 @@ class USP_Options {
 		return $this->set( $name );
 	}
 
-	function update( $name, $value ) {
+	public function update( $name, $value ): void {
 		if ( $this->set( $name, $value ) ) {
 			$this->update_options();
 		}
 	}
 
-	function delete( $name ) {
+	public function delete( $name ): void {
 		if ( $this->clear( $name ) ) {
 			$this->update_options();
 		}

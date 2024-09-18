@@ -74,7 +74,7 @@ final class UserSpace {
 	}
 
 	private function load_options() {
-		USP_Options::getInstance();
+		Options::getInstance();
 	}
 
 	private function init_hooks() {
@@ -295,11 +295,18 @@ final class UserSpace {
 		require_once 'classes/attachments/OptAttachment.php';
 		require_once 'classes/attachments/OptAttachments.php';
 		require_once 'classes/query/QueryBuilder.php';
-		require_once 'classes/class-usp-query-tables.php';
+		require_once 'classes/query/defaultTable/BlacklistQuery.php';
+		require_once 'classes/query/defaultTable/CommentsQuery.php';
+		require_once 'classes/query/defaultTable/PostsQuery.php';
+		require_once 'classes/query/defaultTable/PostsMetaQuery.php';
+		require_once 'classes/query/defaultTable/TempMediaQuery.php';
+		require_once 'classes/query/defaultTable/UserActionsQuery.php';
+		require_once 'classes/query/defaultTable/UsersMetaQuery.php';
+		require_once 'classes/query/defaultTable/UsersQuery.php';
 		require_once 'classes/Ajax.php';
 
-		require_once 'classes/class-usp-options.php';
-		require_once 'classes/class-usp-pager.php';
+		require_once 'classes/Options.php';
+		require_once 'classes/Pager.php';
 		require_once 'classes/class-usp-users.php';
 		require_once 'classes/class-usp-user.php';
 		require_once 'classes/Office.php';
@@ -450,7 +457,7 @@ final class UserSpace {
 	}
 
 	function options() {
-		return USP_Options::getInstance();
+		return Options::getInstance();
 	}
 
 }

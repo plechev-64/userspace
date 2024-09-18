@@ -239,7 +239,7 @@ class USP_Uploader {
 		if ( ! $imagIds && $getTemps ) {
 			$session_id = ! empty( $_COOKIE['PHPSESSID'] ) ? sanitize_text_field( wp_unslash( $_COOKIE['PHPSESSID'] ) ) : 'none';
 
-			$imagIds = ( new USP_Temp_Media() )->select( [ 'media_id' ] )
+			$imagIds = ( new TempMediaQuery() )->select( [ 'media_id' ] )
 			                                   ->where( [
 				                                   'uploader_id' => $this->uploader_id,
 				                                   'user_id'     => $this->user_id ? $this->user_id : 0,

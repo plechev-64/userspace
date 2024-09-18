@@ -97,7 +97,7 @@ class USP_Users_Manager extends USP_Content_Manager {
 			'user_registered'
 		];
 
-		$query = ( new USP_Users_Query( 'users' ) )
+		$query = ( new UsersQuery( 'users' ) )
 			->select( $select )
 			->where( [
 				'display_name__like'    => $this->get_param( 'display_name__like' ),
@@ -154,7 +154,7 @@ class USP_Users_Manager extends USP_Content_Manager {
 
 		$query->join(
 			[ 'ID', 'user_id', 'LEFT' ],
-			( new USP_User_Action( 'action' ) )
+			( new UserActionsQuery( 'action' ) )
 				->select( [ 'last_activity' => 'date_action' ] )
 		);
 
@@ -163,7 +163,7 @@ class USP_Users_Manager extends USP_Content_Manager {
 
 	private function join_posts( QueryBuilder $query ) {
 
-		$posts_query = ( new USP_Posts_Query( 'wp_posts' ) )
+		$posts_query = ( new PostsQuery( 'wp_posts' ) )
 			->select( [
 				'count'       => [ 'posts_count' => 'ID' ],
 				'post_author' => 'post_author'
@@ -189,7 +189,7 @@ class USP_Users_Manager extends USP_Content_Manager {
 
 	private function join_comments( QueryBuilder $query ) {
 
-		$comments_query = ( new USP_Comments_Query( 'wp_comments' ) )
+		$comments_query = ( new CommentsQuery( 'wp_comments' ) )
 			->select( [
 				'count'          => [ 'comments_count' => 'comment_ID' ],
 				'comment_author' => 'user_id'
@@ -227,7 +227,7 @@ class USP_Users_Manager extends USP_Content_Manager {
 		$meta_keys   = USP()->profile_fields()->get_public_fields_slugs();
 		$meta_keys[] = 'usp_avatar';
 
-		$metaData = ( new USP_Users_Meta_Query() )->select( [
+		$metaData = ( new UsersMetaQuery() )->select( [
 			'meta_value',
 			'meta_key',
 			'user_id'

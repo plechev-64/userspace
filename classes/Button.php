@@ -15,7 +15,7 @@ class Button {
 	public ?string $title = null;   // title attribute
 	public ?int $counter = null; // number
 	public ?string $content = null;
-	public bool $avatar = false;  // avatar button
+	public ?string $avatar = null;  // avatar button
 	public bool $avatar_circle= false; // round avatar
 	public array $data = [];
 	public bool $submit = false;

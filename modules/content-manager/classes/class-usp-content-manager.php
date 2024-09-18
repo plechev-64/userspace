@@ -43,7 +43,7 @@ abstract class USP_Content_Manager {
 	public $_total_items = 0;
 
 	/**
-	 * @var USP_Pager
+	 * @var Pager
 	 */
 	public $_pager = null;
 
@@ -99,7 +99,7 @@ abstract class USP_Content_Manager {
 	}
 
 	public function init_pager() {
-		$this->_pager = new USP_Pager( [
+		$this->_pager = new Pager( [
 			'number'    => $this->get_param( 'number' ),
 			'total'     => $this->_total_items,
 			'page_args' => [
