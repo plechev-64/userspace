@@ -3,11 +3,11 @@
 class USP_User_Profile_Fields extends USP_Profile_Fields {
 
 	/**
-	 * @var USP_User $user
+	 * @var User $user
 	 */
 	private $user;
 
-	public function __construct( USP_User $user ) {
+	public function __construct( User $user ) {
 		$this->user = $user;
 		parent::__construct( $user->ID );
 	}

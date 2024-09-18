@@ -5,7 +5,7 @@ class Office {
 
 	private ?int $owner_id = null;
 	private ?int $on_page = null;
-	private ?USP_User $owner = null;
+	private ?User $owner = null;
 	private array $vars = [];
 	private array $varnames = array(
 		'member' => 'user'
@@ -118,7 +118,7 @@ class Office {
 		return $this->owner_id;
 	}
 
-	public function owner(): ?USP_User {
+	public function owner(): ?User {
 		return $this->owner;
 	}
 

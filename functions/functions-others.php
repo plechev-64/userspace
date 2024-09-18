@@ -362,7 +362,7 @@ function usp_get_form( $args ) {
  * @since   1.0.0
  */
 function usp_get_notice( $args ) {
-	require_once USP_PATH . '/classes/Notice.php';
+	require_once USP_PATH . '/core/Notice.php';
 
 	$Notice = new Notice( $args );
 

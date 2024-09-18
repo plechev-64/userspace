@@ -15,7 +15,7 @@
  *
  * @version 1.0.0
  *
- * @var USP_User $user
+ * @var User $user
  * @var array $custom_data - data to display
  */
 

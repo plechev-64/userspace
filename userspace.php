@@ -291,33 +291,33 @@ final class UserSpace {
 		 * Here we will connect the files that are needed globally for the plugin
 		 * The rest will be based on the corresponding functions
 		 */
-		require_once 'classes/class-usp-module.php';
-		require_once 'classes/attachments/OptAttachment.php';
-		require_once 'classes/attachments/OptAttachments.php';
-		require_once 'classes/query/QueryBuilder.php';
-		require_once 'classes/query/defaultTable/BlacklistQuery.php';
-		require_once 'classes/query/defaultTable/CommentsQuery.php';
-		require_once 'classes/query/defaultTable/PostsQuery.php';
-		require_once 'classes/query/defaultTable/PostsMetaQuery.php';
-		require_once 'classes/query/defaultTable/TempMediaQuery.php';
-		require_once 'classes/query/defaultTable/UserActionsQuery.php';
-		require_once 'classes/query/defaultTable/UsersMetaQuery.php';
-		require_once 'classes/query/defaultTable/UsersQuery.php';
-		require_once 'classes/Ajax.php';
+		require_once 'core/class-usp-module.php';
+		require_once 'core/Attachments/OptAttachment.php';
+		require_once 'core/Attachments/OptAttachments.php';
+		require_once 'core/Query/QueryBuilder.php';
+		require_once 'core/Query/DefaultTable/BlacklistQuery.php';
+		require_once 'core/Query/DefaultTable/CommentsQuery.php';
+		require_once 'core/Query/DefaultTable/PostsQuery.php';
+		require_once 'core/Query/DefaultTable/PostsMetaQuery.php';
+		require_once 'core/Query/DefaultTable/TempMediaQuery.php';
+		require_once 'core/Query/DefaultTable/UserActionsQuery.php';
+		require_once 'core/Query/DefaultTable/UsersMetaQuery.php';
+		require_once 'core/Query/DefaultTable/UsersQuery.php';
+		require_once 'core/Ajax.php';
 
-		require_once 'classes/Options.php';
-		require_once 'classes/Pager.php';
-		require_once 'classes/class-usp-users.php';
-		require_once 'classes/class-usp-user.php';
-		require_once 'classes/Office.php';
-		require_once 'classes/class-usp-walker.php';
-		require_once 'classes/class-usp-includer.php';
-		require_once 'classes/Install.php';
-		require_once 'classes/Log.php';
-		require_once 'classes/Button.php';
-		require_once 'classes/class-usp-theme.php';
-		require_once 'classes/class-usp-themes.php';
-		require_once 'classes/class-usp-template.php';
+		require_once 'core/Options.php';
+		require_once 'core/Pager.php';
+		require_once 'core/Users.php';
+		require_once 'core/User.php';
+		require_once 'core/Office.php';
+		require_once 'core/UspWalker.php';
+		require_once 'core/class-usp-includer.php';
+		require_once 'core/Install.php';
+		require_once 'core/Log.php';
+		require_once 'core/Button.php';
+		require_once 'core/Theme.php';
+		require_once 'core/Themes.php';
+		require_once 'core/Template.php';
 
 		require_once 'functions/ajax.php';
 		require_once 'functions/files.php';
@@ -405,7 +405,7 @@ final class UserSpace {
 	}
 
 	public function users() {
-		return USP_Users::getInstance();
+		return Users::getInstance();
 	}
 
 	public function user( $user_id = 0 ) {
@@ -419,7 +419,7 @@ final class UserSpace {
 			return $this->users()->get( $user_id );
 		}
 
-		$user = new USP_User( $user_id );
+		$user = new User( $user_id );
 
 		$this->users()->add( $user );
 
@@ -433,7 +433,7 @@ final class UserSpace {
 	}
 
 	public function themes() {
-		return new USP_Themes();
+		return new Themes();
 	}
 
 	public function tabs() {
@@ -441,7 +441,7 @@ final class UserSpace {
 	}
 
 	public function template( $name, $file = false ) {
-		return new USP_Template( $name, $file );
+		return new Template( $name, $file );
 	}
 
 	public function theme() {

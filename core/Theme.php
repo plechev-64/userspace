@@ -1,15 +1,15 @@
 <?php
 
-class USP_Theme {
+class Theme {
 
-	public $id;
-	public $path;
+	public string $id;
+	public string $path;
 
-	function __construct( $args ) {
+	public function __construct( array $args ) {
 		$this->init_properties( $args );
 	}
 
-	function init_properties( $args ) {
+	private function init_properties( array $args ): void {
 
 		$properties = get_class_vars( get_class( $this ) );
 
@@ -20,11 +20,11 @@ class USP_Theme {
 		}
 	}
 
-	function get( $propName ) {
+	public function get( string $propName ): string {
 		return $this->$propName;
 	}
 
-	function is_current( $path ) {
+	public function is_current( string $path ): bool {
 		return $this->get( 'id' ) == plugin_basename( $path );
 	}
 

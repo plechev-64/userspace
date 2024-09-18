@@ -146,7 +146,7 @@ function usp_get_subtab( $tab_id, $subtab_id ) {
  */
 function usp_get_tab_permalink( $user_id, $tab_id = false, $subtab_id = false ) {
 	/*
-	 * todo удалить, заменить использования на метод в USP_User
+	 * todo удалить, заменить использования на метод в User
 	 */
 	if ( ! $tab_id ) {
 		return usp_user_get_url( $user_id );

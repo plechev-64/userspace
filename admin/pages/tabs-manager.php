@@ -1,6 +1,6 @@
 <?php
 
-require_once USP_PATH . 'admin/classes/TabsManager.php';
+require_once USP_PATH . 'core/Admin/TabsManager.php';
 
 // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 $areaType = ( isset( $_GET['area-type'] ) ) ? sanitize_text_field( wp_unslash( $_GET['area-type'] ) ) : 'area-menu';

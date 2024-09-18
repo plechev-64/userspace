@@ -85,11 +85,11 @@ function usp_avatar_data_replacement( $args, $id_or_email ) {
 /**
  * Return menu object for user avatar
  *
- * @param USP_User $user
+ * @param User $user
  *
  * @return USP_Dropdown_Menu
  */
-function usp_get_user_avatar_menu( USP_User $user ) {
+function usp_get_user_avatar_menu( User $user ) {
 
 	$menu = new USP_Dropdown_Menu( 'usp_user_avatar_menu', [
 		'custom_data' => [

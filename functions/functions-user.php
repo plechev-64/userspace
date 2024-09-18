@@ -49,7 +49,7 @@
  *
  * @return  string|false    `img` tag or `parent_wrap`->`img` for the user's avatar. False on failure.
  *
- * @see     USP_User::usp_get_avatar
+ * @see     User::usp_get_avatar
  *
  * @since   1.0.0
  *
@@ -75,7 +75,7 @@ function usp_get_avatar( $user_id, $size = 50, $url = false, $args = [], $html =
  *
  * @return  string|bool Username or 'false' - if the user for this id does not exist.
  *
- * @see     USP_User::get_username
+ * @see     User::get_username
  *
  * @since   1.0.0
  *
@@ -94,7 +94,7 @@ function usp_user_get_username( $user_id = false, $link = false, $args = false )
  *
  * @return  string  URL cover or avatar.
  *
- * @see     USP_User::get_cover_url
+ * @see     User::get_cover_url
  *
  * @since   1.0.0
  *
@@ -117,7 +117,7 @@ function usp_user_get_cover_url( $user_id = 0, $avatar_as_cover = false ) {
  *
  * @return  string      User profile fields.
  *
- * @see     USP_User::profile_fields
+ * @see     User::profile_fields
  *
  * @since   1.0.0
  *
@@ -140,7 +140,7 @@ function usp_user_get_public_profile_fields( $user_id = 0 ) {
  *
  * @return  int|bool        Age user. False - if none.
  *
- * @see     USP_User::get_age
+ * @see     User::get_age
  *
  * @since   1.0.0
  *
@@ -164,7 +164,7 @@ function usp_user_get_age( $user_id = 0 ) {
  *
  * @return  string  Html box with user age.
  *
- * @see     USP_User::get_age_html
+ * @see     User::get_age_html
  *
  * @since   1.0.0
  *
@@ -187,7 +187,7 @@ function usp_user_get_age_html( $user_id = 0, $class = '' ) {
  *
  * @return  string  User description.
  *
- * @see     USP_User::get_description
+ * @see     User::get_description
  *
  * @since   1.0.0
  *
@@ -217,7 +217,7 @@ function usp_user_get_description( $user_id = 0 ) {
  *
  * @return  string  User description html block.
  *
- * @see     USP_User::get_description_html
+ * @see     User::get_description_html
  *
  * @since   1.0.0
  *
@@ -240,7 +240,7 @@ function usp_user_get_description_html( $user_id = 0, $args = [] ) {
  *
  * @return  bool    True if the user has a role, false if he does not have a role.
  *
- * @see     USP_User::has_role
+ * @see     User::has_role
  *
  * @since   1.0.0
  *
@@ -261,7 +261,7 @@ function usp_user_has_role( $user_id, $role ) {
  *
  * @return  bool    True if the user can access the console, false if he does not have access.
  *
- * @see     USP_User::is_access_console
+ * @see     User::is_access_console
  *
  * @since   1.0.0
  */
@@ -285,7 +285,7 @@ function usp_user_is_access_console( $user_id = 0 ) {
  *
  * @return  void
  *
- * @see     USP_User::update_activity
+ * @see     User::update_activity
  *
  * @since   1.0.0
  *
@@ -319,7 +319,7 @@ function usp_user_update_activity( $user_id = 0, $activity = '', $force_update =
  *
  * @return string       Url to user.
  *
- * @see     USP_User::get_url
+ * @see     User::get_url
  *
  * @since 1.0.0
  *
@@ -391,31 +391,31 @@ function usp_delete_user_avatar( $user_id ) {
 }
 
 add_action( 'usp_user_masonry_content', 'usp_user_masonry_content_age', 14 );
-function usp_user_masonry_content_age( USP_User $user ) {
+function usp_user_masonry_content_age( User $user ) {
 	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	echo $user->get_age_html( 'usp-masonry__age' );
 }
 
 add_action( 'usp_user_masonry_content', 'usp_user_masonry_content_description', 18 );
-function usp_user_masonry_content_description( USP_User $user ) {
+function usp_user_masonry_content_description( User $user ) {
 	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	echo $user->get_description_html( [ 'side' => 'top' ] );
 }
 
 add_action( 'usp_user_masonry_content', 'usp_user_masonry_content_custom_fields', 22 );
-function usp_user_masonry_content_custom_fields( USP_User $user ) {
+function usp_user_masonry_content_custom_fields( User $user ) {
 	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	echo '<div class="usp-masonry__fields">' . $user->profile_fields()->get_public_fields_values() . '</div>';
 }
 
 add_action( 'usp_user_full_meta', 'usp_user_full_meta_age', 20 );
-function usp_user_full_meta_age( USP_User $user ) {
+function usp_user_full_meta_age( User $user ) {
 	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	echo $user->get_age_html( 'usp-user__age' );
 }
 
 add_action( 'usp_user_stats', 'usp_user_stats_registration_date', 12, 2 );
-function usp_user_stats_registration_date( USP_User $user, $custom_data = [] ) {
+function usp_user_stats_registration_date( User $user, $custom_data = [] ) {
 	if ( ! in_array( 'user_registered', $custom_data, true ) ) {
 		return;
 	}
@@ -430,7 +430,7 @@ function usp_user_stats_registration_date( USP_User $user, $custom_data = [] ) {
 }
 
 add_action( 'usp_user_stats', 'usp_user_after_registration', 18, 2 );
-function usp_user_after_registration( USP_User $user ) {
+function usp_user_after_registration( User $user ) {
 	$user_registered = mysql2date( 'd-m-Y', $user->user_registered );
 	$current_day     = get_date_from_gmt( gmdate( 'Y-m-d H:i:s' ), 'Y-m-d' );
 
@@ -468,7 +468,7 @@ function usp_user_after_registration( USP_User $user ) {
 }
 
 add_action( 'usp_user_stats', 'usp_user_stats_comments', 28, 2 );
-function usp_user_stats_comments( USP_User $user, $custom_data = [] ) {
+function usp_user_stats_comments( User $user, $custom_data = [] ) {
 	if ( ! in_array( 'comments', $custom_data, true ) || ! is_numeric( $user->comments ) ) {
 		return;
 	}
@@ -483,7 +483,7 @@ function usp_user_stats_comments( USP_User $user, $custom_data = [] ) {
 }
 
 add_action( 'usp_user_stats', 'usp_user_stats_posts', 34, 2 );
-function usp_user_stats_posts( USP_User $user, $custom_data = [] ) {
+function usp_user_stats_posts( User $user, $custom_data = [] ) {
 	if ( ! in_array( 'posts', $custom_data, true ) || ! is_numeric( $user->posts ) ) {
 		return;
 	}
@@ -584,11 +584,11 @@ function usp_user_notice_add_some_data( $user, $custom_data, $template ) {
 /**
  * Return menu object for user profile
  *
- * @param USP_User $user
+ * @param User $user
  *
  * @return USP_Dropdown_Menu
  */
-function usp_get_user_profile_menu( USP_user $user ) {
+function usp_get_user_profile_menu( User $user ) {
 
 	$menu = new USP_Dropdown_Menu( 'usp_user_profile_menu', [
 		'custom_data'       => [

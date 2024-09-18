@@ -1,7 +1,7 @@
 <?php
 
-class USP_Themes {
-	function get_themes() {
+class Themes {
+	public function get_themes(): array {
 
 		require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
 
@@ -19,7 +19,7 @@ class USP_Themes {
 		return $themes;
 	}
 
-	function get_current() {
+	public function get_current(): Theme {
 
 		require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 
@@ -32,9 +32,9 @@ class USP_Themes {
 
 		$current_theme = apply_filters( 'usp_current_office', $current_id );
 
-		return new USP_Theme( array(
+		return new Theme( array(
 			'id'   => $current_theme,
-			'path' => wp_normalize_path( dirname( dirname( plugin_dir_path( __FILE__ ) ) ) . '/' . $current_theme )
+			'path' => wp_normalize_path( dirname( plugin_dir_path( __FILE__ ), 2 ) . '/' . $current_theme )
 		) );
 	}
 

@@ -634,8 +634,8 @@ class QueryBuilder {
 		return $data;
 	}
 
-	public function get_walker(): USP_Walker {
-		return new USP_Walker( $this->get_results() );
+	public function get_walker(): UspWalker {
+		return new UspWalker( $this->get_results() );
 	}
 
 	public function get_var( bool $cache = false ): int|string|bool {

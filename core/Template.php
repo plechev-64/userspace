@@ -8,17 +8,17 @@
  *
  * @since 1.0
  */
-class USP_Template {
+class Template {
 
-	public $name;
-	public $file;
+	private string $name;
+	private string $file;
 
-	function __construct( $name, $file = false ) {
+	public function __construct( string $name, string $file = '' ) {
 		$this->name = $name;
 		$this->file = $file;
 	}
 
-	function include( $vars = false ) {
+	public function include( array|bool $vars = [] ): void {
 
 		if ( ! empty( $vars ) && is_array( $vars ) ) {
 			extract( $vars );
@@ -27,7 +27,7 @@ class USP_Template {
 		$path = $this->get_path();
 
 		if ( ! $path ) {
-			return false;
+			return;
 		}
 
 		do_action( 'usp_include_template_before', $this->name, $path );
@@ -37,7 +37,7 @@ class USP_Template {
 		do_action( 'usp_include_template_after', $this->name, $path );
 	}
 
-	function get_content( $vars = false ) {
+	public function get_content( array|bool $vars = [] ): string {
 
 		ob_start();
 
@@ -50,7 +50,7 @@ class USP_Template {
 		return $content;
 	}
 
-	function get_path() {
+	private function get_path(): ?string {
 		// find in the current WordPress theme (/wp-content/themes/your-active-WP-theme/userspace/templates/$temp_name)
 		if ( file_exists( get_stylesheet_directory() . '/userspace/templates/' . $this->name ) ) {
 			$path = get_stylesheet_directory() . '/userspace/templates';
@@ -67,7 +67,7 @@ class USP_Template {
 		$path = apply_filters( 'usp_template_path', $path, $this->name );
 
 		if ( ! file_exists( $path ) ) {
-			return false;
+			return null;
 		}
 
 		return $path;

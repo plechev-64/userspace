@@ -1,18 +1,24 @@
 <?php
 
-class USP_User {
+class User {
 
-	public $ID;
-	public $metadata = [];
+	public int $ID;
+	public array $metadata = [];
+	public ?USP_User_Profile_Fields $_profile_fields = null;
+	public ?string $usp_birthday = null;
+	public ?string $usp_sex = null;
+	public ?string $usp_cover = null;
+	public ?string $display_name = null;
+	public ?string $user_login = null;
+	public ?string $user_registered = null;
+	public ?string $description = null;
 
-	private $_profile_fields = null;
-
-	function __construct( $user_id ) {
+	public function __construct( int $user_id ) {
 
 		$this->ID = $user_id;
 	}
 
-	function setup( $userObject ) {
+	public function setup( $userObject ): static {
 
 		if ( ! $userObject ) {
 			return $this;
@@ -32,7 +38,7 @@ class USP_User {
 		return $this;
 	}
 
-	function profile_fields() {
+	public function profile_fields(): ?USP_User_Profile_Fields {
 
 		USP()->use_module( 'profile-fields' );
 
@@ -43,7 +49,7 @@ class USP_User {
 		return $this->_profile_fields;
 	}
 
-	function get_url( $tab = null, $subtab = null ) {
+	public function get_url( string $tab = null, string $subtab = null ): string {
 
 		$officeUrl = get_permalink( usp_get_option( 'account_page' ) );
 
@@ -60,7 +66,7 @@ class USP_User {
 	/**
 	 * @return string mysql datetime last action
 	 */
-	function get_last_action() {
+	public function get_last_action(): string {
 
 		$cachekey = md5( "usp_user_{$this->ID}_last_action" );
 		$cache    = wp_cache_get( $cachekey, 'usp_users' );
@@ -83,7 +89,7 @@ class USP_User {
 	/**
 	 * @return bool
 	 */
-	function is_online() {
+	public function is_online(): bool {
 
 		$last_action = $this->get_last_action();
 
@@ -101,7 +107,7 @@ class USP_User {
 	/**
 	 * @return string how long user offline
 	 */
-	function get_offline_diff() {
+	public function get_offline_diff(): string {
 
 		$last_action = $this->get_last_action();
 
@@ -115,7 +121,7 @@ class USP_User {
 	/**
 	 * @return string html of user action status
 	 */
-	function get_action_html() {
+	public function get_action_html(): string {
 
 		$is_online     = $this->is_online();
 		$action_status = $this->get_action( 'text' );
@@ -133,7 +139,7 @@ class USP_User {
 	/**
 	 * @return string html icon
 	 */
-	function get_action_icon() {
+	public function get_action_icon(): string {
 
 		$is_online     = $this->is_online();
 		$action_status = $this->get_action( 'text' );
@@ -153,44 +159,28 @@ class USP_User {
 	 *
 	 * @return string
 	 */
-	function get_action( $type = 'html' ) {
+	public function get_action( string $type = 'html' ): string {
 
-		switch ( $type ) {
-			case 'html' :
-				$action = $this->get_action_html();
-				break;
-			case 'icon' :
-				$action = $this->get_action_icon();
-				break;
-			case 'mixed' :
-				$action = $this->is_online() ? $this->get_action_icon() : $this->get_action_html();
-				break;
-			case 'text' :
-				$action = $this->is_online() ? __( 'online', 'userspace' ) : __( 'offline', 'userspace' );
-				break;
-			default:
-				$action = $this->get_action_html();
-		}
-
-		return $action;
+		return match ( $type ) {
+			'icon' => $this->get_action_icon(),
+			'mixed' => $this->is_online() ? $this->get_action_icon() : $this->get_action_html(),
+			'text' => $this->is_online() ? __( 'online', 'userspace' ) : __( 'offline', 'userspace' ),
+			default => $this->get_action_html(),
+		};
 	}
 
 	/**
 	 * Get username
 	 *
-	 * @param string $link Return a name with a link to the specified url
+	 * @param bool|string $link Return a name with a link to the specified url
 	 *                              Default 'false'.
-	 * @param array $args {
+	 * @param bool|array $args {
 	 *                              Optional. Extra arguments to retrieve username link.
 	 *
-	 * @type array|string $class Array or string of additional classes to add to the img element.
-	 * }
-	 *
-	 * @return string|bool  username or 'false' - if the user for this id does not exist
+	 * @return string|null username or null - if the user for this id does not exist
 	 * @since 1.0
-	 *
 	 */
-	function get_username( $link = false, $args = false ) {
+	public function get_username( bool|string $link = false, bool|array $args = false ): ?string {
 
 		$username = $this->display_name ?: $this->user_login;
 
@@ -210,31 +200,31 @@ class USP_User {
 	}
 
 	/**
-	 * @return string user birthday date
+	 * @return string|null user birthday date
 	 */
-	function get_birthday_date() {
+	public function get_birthday_date(): ?string {
 
 		return $this->usp_birthday;
 	}
 
 	/**
-	 * @return string user sex
+	 * @return string|null user sex
 	 */
-	function get_user_sex() {
+	public function get_user_sex(): ?string {
 		return $this->usp_sex;
 	}
 
 	/**
 	 * @return string user date registered
 	 */
-	function get_user_registered() {
+	public function get_user_registered(): string {
 		return mysql2date( 'd-m-Y', $this->user_registered );
 	}
 
 	/**
 	 * @return string counts the number of days on the site after registration
 	 */
-	function get_user_count_days_after_registered() {
+	public function get_user_count_days_after_registered() {
 		$t_day = get_date_from_gmt( date( 'Y-m-d H:i:s' ), 'Y-m-d' );
 		$d_m_y = mysql2date( 'Y-m-d', $this->user_registered );
 
@@ -249,7 +239,7 @@ class USP_User {
 	/**
 	 * @return string count of comments
 	 */
-	function get_count_comments() {
+	public function get_count_comments() {
 		global $wpdb;
 
 		return $wpdb->get_var( "SELECT COUNT(comment_ID) FROM " . $wpdb->comments . " WHERE user_id = " . $this->ID . " AND comment_approved = 1" );
@@ -258,7 +248,7 @@ class USP_User {
 	/**
 	 * @return object counts by post types
 	 */
-	function get_count_posts_by_types() {
+	public function get_count_posts_by_types() {
 		global $wpdb;
 
 		return $wpdb->get_results( "SELECT post_type,count(*) AS count 
@@ -271,7 +261,7 @@ class USP_User {
 	/**
 	 * @return false|int user age or false if birthday not exist
 	 */
-	function get_age() {
+	public function get_age() {
 
 		$birthday = $this->get_birthday_date();
 
@@ -287,7 +277,7 @@ class USP_User {
 	 *
 	 * @return string   html box with user age
 	 */
-	function get_age_html( $class = '' ) {
+	public function get_age_html( $class = '' ) {
 
 		$age = $this->get_age();
 
@@ -299,9 +289,9 @@ class USP_User {
 	}
 
 	/**
-	 * @return string user description
+	 * @return string|null user description
 	 */
-	function get_description() {
+	public function get_description(): ?string {
 		return $this->description;
 	}
 
@@ -311,7 +301,7 @@ class USP_User {
 	 *
 	 * @return string user description html block
 	 */
-	function get_description_html( $attr = [] ) {
+	public function get_description_html( array $attr = [] ): string {
 
 		$description = $this->get_description();
 
@@ -333,11 +323,11 @@ class USP_User {
 	}
 
 	/**
-	 * @param string|array $role
+	 * @param array|string $role
 	 *
 	 * @return bool
 	 */
-	function has_role( $role ) {
+	public function has_role( array|string $role ): bool {
 
 		$need_roles = (array) $role;
 
@@ -355,7 +345,7 @@ class USP_User {
 	/**
 	 * @return bool can user access to console
 	 */
-	function is_access_console() {
+	public function is_access_console(): bool {
 
 		$access_roles   = (array) usp_get_option( 'usp_console_access', [] );
 		$access_roles[] = 'administrator';
@@ -363,16 +353,11 @@ class USP_User {
 		return $this->has_role( $access_roles );
 	}
 
-	/**
-	 * Check if isset cover
-	 *
-	 * @return false|int    int - ID uploaded cover | false - if the cover has not been uploaded
-	 */
-	function is_cover() {
-		return $this->usp_cover ?: false;
+	public function is_cover(): bool {
+		return !empty($this->usp_cover);
 	}
 
-	function get_cover_url( $avatar_as_cover = false ) {
+	public function get_cover_url( $avatar_as_cover = false ): bool|string {
 
 		$cover_id = $this->is_cover() ?: usp_get_option( 'usp_default_cover', 0 );
 
@@ -389,7 +374,7 @@ class USP_User {
 	 *
 	 * @return void
 	 */
-	function update_activity( $action_time = '', $force_update = false ) {
+	public function update_activity( string $action_time, bool $force_update ) {
 
 		if ( ! $force_update && $this->is_online() ) {
 			return;
@@ -422,7 +407,7 @@ class USP_User {
 		do_action( 'usp_user_update_activity', $this );
 	}
 
-	function get_avatar( $size = 50, $url = false, $args = [], $html = false ) {
+	public function get_avatar( int $size = 50, string $url = '', array $args = [], string $html = '' ): string {
 
 		$alt = ( isset( $args['parent_alt'] ) ) ? $args['parent_alt'] : '';
 
@@ -474,7 +459,7 @@ class USP_User {
 	 *
 	 * @return bool
 	 */
-	function block( int $user_id ) {
+	public function block( int $user_id ): bool {
 
 		if ( ! $user_id || $this->is_blocked( $user_id ) ) {
 			return false;
@@ -508,7 +493,7 @@ class USP_User {
 	 *
 	 * @return bool
 	 */
-	function unblock( int $user_id ) {
+	public function unblock( int $user_id ): bool {
 
 		if ( ! $user_id || ! $this->is_blocked( $user_id ) ) {
 			return false;
@@ -541,7 +526,7 @@ class USP_User {
 	 *
 	 * @return bool
 	 */
-	function is_blocked( int $user_id ) {
+	public function is_blocked( int $user_id ): bool {
 
 		return (bool) ( new BlacklistQuery() )
 			->select( [ 'ID' ] )
@@ -557,17 +542,17 @@ class USP_User {
 	 *
 	 * @return array
 	 */
-	function get_blacklist() {
+	public function get_blacklist(): array {
 
 		return ( new BlacklistQuery() )
 			->select( [ 'blocked' ] )
 			->where( [ 'user_id' => $this->ID ] )
 			->limit( - 1 )
-			->get_col( [ 'blocked' ] );
+			->get_col();
 
 	}
 
-	function __get( $property ) {
+	public function __get( $property ) {
 
 		if ( isset( $this->$property ) ) {
 			return $this->$property;

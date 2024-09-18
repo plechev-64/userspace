@@ -1,15 +1,14 @@
 <?php
 
-class USP_Walker {
+class UspWalker {
 
-	public $items = array();
+	public array $items = array();
 
-	function __construct( $items ) {
-
+	public function __construct( array $items ) {
 		$this->items = $items;
 	}
 
-	function get_item( $name, $value ) {
+	public function get_item( string $name, mixed $value ): mixed {
 
 		if ( ! $this->items ) {
 			return false;
@@ -25,7 +24,7 @@ class USP_Walker {
 		return false;
 	}
 
-	function get_item_value( $byname, $nameValue, $getName ) {
+	public function get_item_value( string $byname, string $nameValue, string $getName ): mixed {
 
 		if ( ! $this->items ) {
 			return false;
@@ -35,13 +34,13 @@ class USP_Walker {
 			return false;
 		}
 
-		return isset( $item->$getName ) ? $item->$getName : false;
+		return $item->$getName ?? false;
 	}
 
-	function get_items( $args = false ) {
+	public function get_items( array $args = [] ): array {
 
 		if ( ! $this->items ) {
-			return false;
+			return [];
 		}
 
 		if ( ! $args ) {
@@ -74,10 +73,10 @@ class USP_Walker {
 		return $items;
 	}
 
-	function get_field_values( $field_name ) {
+	public function get_field_values( string $field_name ): array {
 
 		if ( ! $this->items ) {
-			return false;
+			return [];
 		}
 
 		$fields = array();
@@ -91,10 +90,10 @@ class USP_Walker {
 		return $fields;
 	}
 
-	function get_index_values( $index_field, $value_field ) {
+	public function get_index_values( string $index_field, string $value_field ): array {
 
 		if ( ! $this->items ) {
-			return false;
+			return [];
 		}
 
 		$pack = array();
@@ -108,7 +107,7 @@ class USP_Walker {
 		return $pack;
 	}
 
-	function is_set( $name, $value ) {
+	public function is_set( $name, $value ): bool {
 
 		if ( ! $this->items ) {
 			return false;
@@ -124,7 +123,7 @@ class USP_Walker {
 		return false;
 	}
 
-	function count( $args = false ) {
+	public function count( array $args = [] ): int {
 		return count( $this->get_items( $args ) );
 	}
 
