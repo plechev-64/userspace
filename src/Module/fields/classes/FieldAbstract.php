@@ -18,7 +18,7 @@ class FieldAbstract {
 	public ?string $help = null;
 	public ?string $class = null;
 	public bool $required = false;
-	public bool $maxlength = false;
+	public int|string $maxlength = 0;
 	public array $children = [];
 	public ?string $unique_id = null;
 	public bool $value_in_key = false;
