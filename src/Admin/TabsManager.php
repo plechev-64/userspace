@@ -2,7 +2,7 @@
 
 USP()->use_module( 'fields-manager' );
 
-class TabsManager extends USP_Fields_Manager {
+class TabsManager extends FieldsManager {
 	public function __construct( string $areaType ) {
 
 		parent::__construct( $areaType, [

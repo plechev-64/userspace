@@ -114,8 +114,8 @@ class Fields extends Field {
 		return $this->fields;
 	}
 
-	public function add_field( string $field_id, array $args ): void {
-		$this->fields[ $field_id ] = parent::setup( $args );
+	public function add_field( array $field ): void {
+		$this->fields[ $field['slug'] ] = parent::setup( $field );
 	}
 
 	public function remove_field( string $field_id ): void {
@@ -150,10 +150,10 @@ class Fields extends Field {
 		return isset( $field->$propName );
 	}
 
-	public function get_field_prop( string $field_id, string $propName ): bool {
+	public function get_field_prop( string $field_id, string $propName ): mixed {
 
 		if ( ! $this->isset_field_prop( $field_id, $propName ) ) {
-			return false;
+			return null;
 		}
 
 		$field = $this->get_field( $field_id );

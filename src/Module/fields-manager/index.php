@@ -1,6 +1,6 @@
 <?php
 
-require_once 'classes/class-usp-fields-manager.php';
+require_once 'classes/FieldsManager.php';
 require_once 'functions.php';
 
 if ( usp_is_ajax() ) {

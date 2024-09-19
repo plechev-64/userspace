@@ -2,7 +2,7 @@
 
 USP()->use_module( 'fields-manager' );
 
-class USP_Profile_Fields_Manager extends USP_Fields_Manager {
+class USP_Profile_Fields_Manager extends FieldsManager {
 	function __construct() {
 		global $wpdb;
 
@@ -20,7 +20,7 @@ class USP_Profile_Fields_Manager extends USP_Fields_Manager {
 		$this->setup_default_fields();
 	}
 
-	function get_manager_options_form_fields() {
+	public function get_manager_options_form_fields(): array {
 
 		$fields = [
 			'usp_users_page' => [

@@ -35,7 +35,7 @@ function usp_manager_get_new_field() {
 
 	$managerProps = usp_recursive_map( 'sanitize_text_field', wp_unslash( $_POST['props'] ) );
 
-	$Manager = new USP_Fields_Manager( $managerProps['manager_id'], $managerProps );
+	$Manager = new FieldsManager( $managerProps['manager_id'], $managerProps );
 
 	$field_id = 'newField-' . uniqid();
 
@@ -70,7 +70,7 @@ function usp_manager_get_custom_field_options() {
 
 	$managerProps = usp_recursive_map( 'sanitize_text_field', wp_unslash( $_POST['manager'] ) );
 
-	$Manager = new USP_Fields_Manager( $managerProps['manager_id'], $managerProps );
+	$Manager = new FieldsManager( $managerProps['manager_id'], $managerProps );
 
 	if ( stristr( $field_id, 'newField' ) !== false ) {
 
@@ -122,7 +122,7 @@ function usp_manager_get_new_area() {
 
 	$managerProps = usp_recursive_map( 'sanitize_text_field', wp_unslash( $_POST['props'] ) );
 
-	$Manager = new USP_Fields_Manager( 'any', $managerProps );
+	$Manager = new FieldsManager( 'any', $managerProps );
 
 	return [
 		'content' => $Manager->get_active_area()
@@ -146,7 +146,7 @@ function usp_manager_get_new_group() {
 
 	$managerProps = usp_recursive_map( 'sanitize_text_field', wp_unslash( $_POST['props'] ) );
 
-	$Manager = new USP_Fields_Manager( 'any', $managerProps );
+	$Manager = new FieldsManager( 'any', $managerProps );
 
 	return [
 		'content' => $Manager->get_group_areas()

@@ -1,29 +1,28 @@
 <?php
 
-class USP_Fields_Manager extends Fields {
+class FieldsManager extends Fields {
 
-	public $manager_id = false;
-	//public $fields = array();
-	public $option_name = '';
-	public $structure_edit = 0;
-	public $template_fields = 0;
-	public $default_fields = [];
-	public $default_is_null = 0;
-	public $sortable = 1;
-	public $empty_field = 1;
-	public $create_field = 1;
-	public $switch_id = 0;
-	public $switch_type = 1;
-	public $fields_delete = 1;
-	public $field_options = [];
-	public $new_field_options = [];
-	public $new_field_type = 0;
-	public $default_box = 1;
-	public $meta_delete = 0;
-	public $current_item = 0;
-	public $group_id = 0;
-	public $onsubmit = 'usp_manager_update_fields';
-	public $types = [
+	public ?string $manager_id = null;
+	public ?string $option_name = null;
+	public bool $structure_edit = false;
+	public array $template_fields = [];
+	public array $default_fields = [];
+	public bool $default_is_null = false;
+	public bool $sortable = true;
+	public bool $empty_field = true;
+	public bool $create_field = true;
+	public bool $switch_id = false;
+	public bool $switch_type = true;
+	public bool $fields_delete = true;
+	public array $field_options = [];
+	public array $new_field_options = [];
+	public bool $new_field_type = false;
+	public bool $default_box = true;
+	public array $meta_delete = [];
+	public bool $current_item = false;
+	public ?string $group_id = null;
+	public string $onsubmit = 'usp_manager_update_fields';
+	public array $types = [
 		'text',
 		'textarea',
 		'select',
@@ -45,7 +44,7 @@ class USP_Fields_Manager extends Fields {
 		'uploader'
 	];
 
-	function __construct( $manager_id, $args = false ) {
+	public function __construct( string $manager_id, array $args = [] ) {
 
 		usp_dialog_scripts();
 
@@ -77,7 +76,7 @@ class USP_Fields_Manager extends Fields {
 		}
 	}
 
-	function init_properties( $args ) {
+	private function init_properties( array $args ): void {
 
 		$properties = get_class_vars( get_class( $this ) );
 
@@ -88,14 +87,14 @@ class USP_Fields_Manager extends Fields {
 		}
 	}
 
-	function setup_template_fields( $fields = false ) {
+	public function setup_template_fields( array $fields = [] ): void {
 
 		if ( ! $fields ) {
 			$fields = $this->get_template_fields();
 		}
 
 		if ( ! $fields || ! is_array( $fields ) ) {
-			return false;
+			return;
 		}
 
 		$template_fields = [];
@@ -114,18 +113,18 @@ class USP_Fields_Manager extends Fields {
 		}
 	}
 
-	function get_template_fields() {
+	public function get_template_fields(): array {
 		return apply_filters( 'usp_template_fields_manager', $this->template_fields, $this->manager_id );
 	}
 
-	function setup_default_fields( $fields = false ) {
+	public function setup_default_fields( array $fields = [] ): void {
 
 		if ( ! $fields ) {
 			$fields = $this->get_default_fields();
 		}
 
 		if ( ! $fields ) {
-			return false;
+			return;
 		}
 
 		$default_fields = [];
@@ -155,12 +154,12 @@ class USP_Fields_Manager extends Fields {
 		}
 	}
 
-	function setup_active_fields() {
+	public function setup_active_fields(): void {
 
 		$fields = $this->get_default_fields();
 
 		if ( ! $fields ) {
-			return false;
+			return;
 		}
 
 		foreach ( $fields as $field ) {
@@ -180,56 +179,42 @@ class USP_Fields_Manager extends Fields {
 		}
 	}
 
-	function setup_fields( $fields ) {
-		if ( is_array( $fields ) ) {
-			parent::__construct( $fields );
-		}
+	public function setup_fields( array $fields ): void {
+		parent::__construct( $fields );
 	}
 
-	function get_active_fields() {
-
-		/* $name_option = 'usp_fields_'.$this->manager_id;
-
-		  if(!$fields = get_site_option($name_option)){
-
-		  switch($this->manager_id){
-		  case 'post': $fields = get_site_option('usp_fields_post_1'); break;
-		  case 'orderform': $fields = get_site_option('usp_cart_fields'); break;
-		  case 'profile': $fields = get_site_option('usp_profile_fields'); break;
-		  }
-
-		  } */
-
-		return apply_filters( $this->option_name . '_in_manager', get_site_option( $this->option_name ) );
+	public function get_active_fields(): array {
+		return apply_filters( $this->option_name . '_in_manager', get_site_option( $this->option_name, [] ) );
 	}
 
-	function get_structure() {
+	public function get_structure(): array {
 		if ( ! $this->structure_edit ) {
-			return false;
+			return [];
 		}
 
-		return get_site_option( 'usp_fields_' . $this->manager_id . '_structure' );
+		return get_site_option( 'usp_fields_' . $this->manager_id . '_structure' )?: [];
 	}
 
-	function get_field( $field_id, $serviceType = false ) {
+	public function get_field( string $field_id, string $serviceType = null ): ?FieldAbstract {
 		if ( ! $serviceType ) {
-			return isset( $this->fields[ $field_id ] ) ? $this->fields[ $field_id ] : false;
+			return $this->fields[ $field_id ] ?? null;
 		} else if ( $serviceType == 'default' ) {
 			return $this->default_fields[ $field_id ];
 		} else if ( $serviceType == 'template' ) {
 			return $this->template_fields[ $field_id ];
 		}
+		return null;
 	}
 
-	function add_field( $args, $serviceType = false ) {
+	public function add_field( array $field, string $serviceType = null ): void {
 		if ( $serviceType ) {
-			$this->default_fields[ $args['slug'] ] = $this::setup( $args );
+			$this->default_fields[ $field['slug'] ] = $this::setup( $field );
 		} else {
-			$this->fields[ $args['slug'] ] = $this::setup( $args );
+			$this->fields[ $field['slug'] ] = $this::setup( $field );
 		}
 	}
 
-	function set_field_prop( $field_id, $propName, $propValue, $serviceType = false ) {
+	public function set_field_prop( string $field_id, string $propName, mixed $propValue, string $serviceType = null ): void {
 
 		$field = $this->get_field( $field_id, $serviceType );
 
@@ -242,7 +227,7 @@ class USP_Fields_Manager extends Fields {
 		}
 	}
 
-	function isset_field_prop( $field_id, $propName, $serviceType = false ) {
+	public function isset_field_prop( string $field_id, string $propName, string $serviceType = null ): bool {
 
 		$field = $this->get_field( $field_id, $serviceType );
 
@@ -253,10 +238,10 @@ class USP_Fields_Manager extends Fields {
 		return isset( $field->$propName );
 	}
 
-	function get_field_prop( $field_id, $propName, $serviceType = false ) {
+	public function get_field_prop( string $field_id, string $propName, string $serviceType = null ): mixed {
 
 		if ( ! $this->isset_field_prop( $field_id, $propName, $serviceType ) ) {
-			return false;
+			return null;
 		}
 
 		$field = $this->get_field( $field_id, $serviceType );
@@ -264,7 +249,7 @@ class USP_Fields_Manager extends Fields {
 		return $field->$propName;
 	}
 
-	function get_manager() {
+	public function get_manager(): string {
 
 		$content = '<div class="usp-frame ' . ( $this->structure_edit ? 'usp-frame-edit' : 'usp-frame-easy' ) . '">';
 
@@ -332,12 +317,12 @@ class USP_Fields_Manager extends Fields {
 		return $content;
 	}
 
-	function get_manager_options_form() {
+	public function get_manager_options_form(): ?string {
 
 		$fields = $this->get_manager_options_form_fields();
 
 		if ( ! $fields ) {
-			return false;
+			return null;
 		}
 
 		$content = '<div class="usp-frame__options">';
@@ -349,11 +334,11 @@ class USP_Fields_Manager extends Fields {
 		return $content;
 	}
 
-	function get_manager_options_form_fields() {
+	public function get_manager_options_form_fields(): array {
 		return [];
 	}
 
-	function get_group_areas( $group = [] ) {
+	public function get_group_areas( array $group = [] ): string {
 
 		$group = wp_parse_args( $group, [
 			'title' => '',
@@ -462,7 +447,7 @@ class USP_Fields_Manager extends Fields {
 		return $content;
 	}
 
-	function get_active_area( $area = [] ) {
+	public function get_active_area( array $area = [] ): string {
 
 		if ( $this->empty_field ) {
 
@@ -568,7 +553,7 @@ class USP_Fields_Manager extends Fields {
 		return $content;
 	}
 
-	function get_submit_box() {
+	public function get_submit_box(): string {
 
 		$content = '<div class="submit-box">';
 
@@ -599,10 +584,10 @@ class USP_Fields_Manager extends Fields {
 		return $content;
 	}
 
-	function get_default_box() {
+	public function get_default_box(): ?string {
 
 		if ( ! $this->default_fields ) {
-			return false;
+			return null;
 		}
 
 		$content = '<div class="usp-frame__service usp-frame__default fields-box">';
@@ -621,10 +606,10 @@ class USP_Fields_Manager extends Fields {
 		return $content;
 	}
 
-	function get_service_box() {
+	public function get_service_box(): ?string {
 
 		if ( ! $this->template_fields ) {
-			return false;
+			return null;
 		}
 
 		$content = '<div class="usp-frame__service usp-template-fields fields-box">';
@@ -638,12 +623,11 @@ class USP_Fields_Manager extends Fields {
 		return $content;
 	}
 
-	function get_default_fields() {
-
+	public function get_default_fields(): array {
 		return apply_filters( 'usp_default_fields_manager', $this->default_fields, $this->manager_id );
 	}
 
-	function get_field_manager( $field_id, $serviceType = false ) {
+	public function get_field_manager( string $field_id, string $serviceType = null ): string {
 
 		$field = $this->get_field( $field_id, $serviceType );
 
@@ -674,7 +658,7 @@ class USP_Fields_Manager extends Fields {
 		return $content;
 	}
 
-	function setup_options( $options, $field_id, $serviceType = false ) {
+	public function setup_options( array $options, string $field_id, string $serviceType = null ) {
 
 		if ( ! $options ) {
 			return $options;
@@ -698,7 +682,7 @@ class USP_Fields_Manager extends Fields {
 		return $options;
 	}
 
-	function get_field_header( $field_id, $serviceType = false ) {
+	public function get_field_header( string $field_id, string $serviceType = null ): string {
 
 		$field = $this->get_field( $field_id, $serviceType );
 
@@ -740,7 +724,7 @@ class USP_Fields_Manager extends Fields {
 		return $content;
 	}
 
-	function get_control_buttons( $field_id, $field ) {
+	public function get_control_buttons( string $field_id, FieldAbstract $field ): array {
 
 		$buttons = [];
 
@@ -765,12 +749,11 @@ class USP_Fields_Manager extends Fields {
 			];
 		}
 
-		$buttons = apply_filters( 'usp_manager_field_controls', $buttons, $field_id, $this->manager_id );
+		return apply_filters( 'usp_manager_field_controls', $buttons, $field_id, $this->manager_id );
 
-		return $buttons;
 	}
 
-	function get_field_options_box( $field_id, $serviceType = false ) {
+	public function get_field_options_box( string $field_id, string $serviceType = null ): string {
 
 		$field = $this->get_field( $field_id, $serviceType );
 
@@ -789,12 +772,12 @@ class USP_Fields_Manager extends Fields {
 		return $content;
 	}
 
-	function get_field_general_options_content( $field_id, $serviceType = false ) {
+	public function get_field_general_options_content( string $field_id, string $serviceType = null ): ?string {
 
 		$options = $this->get_field_general_options( $field_id, $serviceType );
 
 		if ( ! $options ) {
-			return false;
+			return null;
 		}
 
 		$content = '<div class="field-primary-options">';
@@ -808,7 +791,7 @@ class USP_Fields_Manager extends Fields {
 		return $content;
 	}
 
-	function get_field_options_content( $field_id, $serviceType = false ) {
+	public function get_field_options_content( string $field_id, string $serviceType = null ): string {
 
 		$options = $this->get_field_options( $field_id, $serviceType );
 
@@ -823,7 +806,7 @@ class USP_Fields_Manager extends Fields {
 		return $content;
 	}
 
-	function get_field_general_options( $field_id, $serviceType = false ) {
+	public function get_field_general_options( string $field_id, string $serviceType = null ): ?array {
 
 		$field = $this->get_field( $field_id, $serviceType );
 
@@ -874,7 +857,7 @@ class USP_Fields_Manager extends Fields {
 		return $this->setup_options( $options, $field_id, $serviceType );
 	}
 
-	function get_field_options( $field_id, $serviceType = false ) {
+	public function get_field_options( string $field_id, string $serviceType = null ): ?array {
 
 		$options = [];
 
@@ -927,15 +910,15 @@ class USP_Fields_Manager extends Fields {
 		return $this->setup_options( $options, $field_id, false );
 	}
 
-	function sortable_fields_script() {
+	public function sortable_fields_script(): string {
 		return '<script>jQuery(window).on("load", function() { usp_init_manager_sortable(); });</script>';
 	}
 
-	function resizable_areas_script() {
+	public function resizable_areas_script(): string {
 		return '<script>jQuery(window).on("load", function() { usp_init_manager_areas_resizable(); });</script>';
 	}
 
-	function sortable_dynamic_values_script( $field_id = false ) {
+	public function sortable_dynamic_values_script( string $field_id = null ): string {
 
 		return '<script>
 				jQuery(function(){
@@ -961,7 +944,7 @@ class USP_Fields_Manager extends Fields {
 			</script>';
 	}
 
-	function is_service_type( $field_id, $serviceType = [ 'default', 'template' ] ) {
+	public function is_service_type( string $field_id, string|array $serviceType = [ 'default', 'template' ] ): bool {
 
 		if ( is_array( $serviceType ) ) {
 
@@ -979,17 +962,19 @@ class USP_Fields_Manager extends Fields {
 		} else if ( $serviceType == 'template' ) {
 			return isset( $this->template_fields[ $field_id ] );
 		}
+
+		return false;
 	}
 
-	function is_active_field( $field_id ) {
+	public function is_active_field( $field_id ): bool {
 		return isset( $this->fields[ $field_id ] );
 	}
 
-	function is_default_field( $field_id ) {
+	public function is_default_field( $field_id ): bool {
 		return $this->is_service_type( $field_id, 'default' );
 	}
 
-	function get_types_list() {
+	public function get_types_list(): array {
 
 		$typesList = [];
 		foreach ( $this->types as $type ) {

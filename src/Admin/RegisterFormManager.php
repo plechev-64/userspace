@@ -2,7 +2,7 @@
 
 USP()->use_module( 'fields-manager' );
 
-class RegisterFormManager extends USP_Fields_Manager {
+class RegisterFormManager extends FieldsManager {
 	public function __construct() {
 
 		parent::__construct( 'register_form', [
