@@ -10,7 +10,7 @@ function usp_admin_menu() {
 
 function usp_register_form_manager() {
 
-	require_once USP_PATH . 'core/Admin/RegisterFormManager.php';
+	require_once USP_PATH . 'src/Admin/RegisterFormManager.php';
 
 	$Manager = new RegisterFormManager();
 

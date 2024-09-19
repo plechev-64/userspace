@@ -189,99 +189,99 @@ final class UserSpace {
 		$this->fields = apply_filters( 'usp_fields', [
 			'text'        => [
 				'label' => __( 'Text', 'userspace' ),
-				'class' => 'USP_Field_Text',
+				'class' => 'FieldText',
 			],
 			'time'        => [
 				'label' => __( 'Time', 'userspace' ),
-				'class' => 'USP_Field_Text',
+				'class' => 'FieldText',
 			],
 			'hidden'      => [
 				'label' => __( 'Hidden field', 'userspace' ),
-				'class' => 'USP_Field_Hidden',
+				'class' => 'FieldHidden',
 			],
 			'password'    => [
 				'label' => __( 'Password', 'userspace' ),
-				'class' => 'USP_Field_Text',
+				'class' => 'FieldText',
 			],
 			'url'         => [
 				'label' => __( 'Url', 'userspace' ),
-				'class' => 'USP_Field_Text',
+				'class' => 'FieldText',
 			],
 			'textarea'    => [
 				'label' => __( 'Multiline text area', 'userspace' ),
-				'class' => 'USP_Field_TextArea',
+				'class' => 'FieldTextArea',
 			],
 			'select'      => [
 				'label' => __( 'Select', 'userspace' ),
-				'class' => 'USP_Field_Select',
+				'class' => 'FieldSelect',
 			],
 			'multiselect' => [
 				'label' => __( 'Multi select', 'userspace' ),
-				'class' => 'USP_Field_MultiSelect',
+				'class' => 'FieldMultiSelect',
 			],
 			'switch'      => [
 				'label' => __( 'Switch', 'userspace' ),
-				'class' => 'USP_Field_Switch',
+				'class' => 'FieldSwitch',
 			],
 			'checkbox'    => [
 				'label' => __( 'Checkbox', 'userspace' ),
-				'class' => 'USP_Field_Checkbox',
+				'class' => 'FieldCheckbox',
 			],
 			'radio'       => [
 				'label' => __( 'Radio button', 'userspace' ),
-				'class' => 'USP_Field_Radio',
+				'class' => 'FieldRadio',
 			],
 			'email'       => [
 				'label' => __( 'E-mail', 'userspace' ),
-				'class' => 'USP_Field_Text',
+				'class' => 'FieldText',
 			],
 			'tel'         => [
 				'label' => __( 'Phone', 'userspace' ),
-				'class' => 'USP_Field_Tel',
+				'class' => 'FieldPhone',
 			],
 			'number'      => [
 				'label' => __( 'Number', 'userspace' ),
-				'class' => 'USP_Field_Number',
+				'class' => 'FieldNumber',
 			],
 			'date'        => [
 				'label' => __( 'Date', 'userspace' ),
-				'class' => 'USP_Field_Date',
+				'class' => 'FieldDate',
 			],
 			'agree'       => [
 				'label' => __( 'Agreement', 'userspace' ),
-				'class' => 'USP_Field_Agree',
+				'class' => 'FieldAgree',
 			],
 			'file'        => [
 				'label' => __( 'File', 'userspace' ),
-				'class' => 'USP_Field_File',
+				'class' => 'FieldFile',
 			],
 			'dynamic'     => [
 				'label' => __( 'Dynamic', 'userspace' ),
-				'class' => 'USP_Field_Dynamic',
+				'class' => 'FieldDynamic',
 			],
 			'runner'      => [
 				'label' => __( 'Runner', 'userspace' ),
-				'class' => 'USP_Field_Runner',
+				'class' => 'FieldRunner',
 			],
 			'range'       => [
 				'label' => __( 'Range', 'userspace' ),
-				'class' => 'USP_Field_Range',
+				'class' => 'FieldRange',
 			],
 			'color'       => [
 				'label' => __( 'Color', 'userspace' ),
-				'class' => 'USP_Field_Color',
+				'class' => 'FieldColor',
 			],
 			'custom'      => [
 				'label' => __( 'Custom content', 'userspace' ),
-				'class' => 'USP_Field_Custom',
+				'class' => 'FieldCustom',
 			],
 			'editor'      => [
 				'label' => __( 'Text editor', 'userspace' ),
-				'class' => 'USP_Field_Editor',
+				'class' => 'FieldEditor',
 			],
 			'uploader'    => [
 				'label' => __( 'File uploader', 'userspace' ),
-				'class' => 'USP_Field_Uploader',
+				'class' => 'FieldUploader',
 			],
 		] );
 	}
@@ -291,33 +291,33 @@ final class UserSpace {
 		 * Here we will connect the files that are needed globally for the plugin
 		 * The rest will be based on the corresponding functions
 		 */
-		require_once 'core/class-usp-module.php';
-		require_once 'core/Attachments/OptAttachment.php';
-		require_once 'core/Attachments/OptAttachments.php';
-		require_once 'core/Query/QueryBuilder.php';
-		require_once 'core/Query/DefaultTable/BlacklistQuery.php';
-		require_once 'core/Query/DefaultTable/CommentsQuery.php';
-		require_once 'core/Query/DefaultTable/PostsQuery.php';
-		require_once 'core/Query/DefaultTable/PostsMetaQuery.php';
-		require_once 'core/Query/DefaultTable/TempMediaQuery.php';
-		require_once 'core/Query/DefaultTable/UserActionsQuery.php';
-		require_once 'core/Query/DefaultTable/UsersMetaQuery.php';
-		require_once 'core/Query/DefaultTable/UsersQuery.php';
-		require_once 'core/Ajax.php';
+		require_once 'src/class-usp-module.php';
+		require_once 'src/Attachments/OptAttachment.php';
+		require_once 'src/Attachments/OptAttachments.php';
+		require_once 'src/Query/QueryBuilder.php';
+		require_once 'src/Query/DefaultTable/BlacklistQuery.php';
+		require_once 'src/Query/DefaultTable/CommentsQuery.php';
+		require_once 'src/Query/DefaultTable/PostsQuery.php';
+		require_once 'src/Query/DefaultTable/PostsMetaQuery.php';
+		require_once 'src/Query/DefaultTable/TempMediaQuery.php';
+		require_once 'src/Query/DefaultTable/UserActionsQuery.php';
+		require_once 'src/Query/DefaultTable/UsersMetaQuery.php';
+		require_once 'src/Query/DefaultTable/UsersQuery.php';
+		require_once 'src/Ajax.php';
 
-		require_once 'core/Options.php';
-		require_once 'core/Pager.php';
-		require_once 'core/Users.php';
-		require_once 'core/User.php';
-		require_once 'core/Office.php';
-		require_once 'core/UspWalker.php';
-		require_once 'core/class-usp-includer.php';
-		require_once 'core/Install.php';
-		require_once 'core/Log.php';
-		require_once 'core/Button.php';
-		require_once 'core/Theme.php';
-		require_once 'core/Themes.php';
-		require_once 'core/Template.php';
+		require_once 'src/Options.php';
+		require_once 'src/Pager.php';
+		require_once 'src/Users.php';
+		require_once 'src/User.php';
+		require_once 'src/Office.php';
+		require_once 'src/UspWalker.php';
+		require_once 'src/class-usp-includer.php';
+		require_once 'src/Install.php';
+		require_once 'src/Log.php';
+		require_once 'src/Button.php';
+		require_once 'src/Theme.php';
+		require_once 'src/Themes.php';
+		require_once 'src/Template.php';
 
 		require_once 'functions/ajax.php';
 		require_once 'functions/files.php';
@@ -366,20 +366,20 @@ final class UserSpace {
 
 	private function init_modules() {
 		$this->modules = [
-			'loginform'       => new USP_Module( USP_PATH . 'modules/loginform/index.php', [ 'forms' ] ),
-			'usp-bar'         => new USP_Module( USP_PATH . 'modules/usp-bar/index.php' ),
-			'uploader'        => new USP_Module( USP_PATH . 'modules/uploader/index.php' ),
-			'table'           => new USP_Module( USP_PATH . 'modules/table/index.php' ),
-			'tabs'            => new USP_Module( USP_PATH . 'modules/tabs/index.php' ),
-			'forms'           => new USP_Module( USP_PATH . 'modules/forms/index.php', [ 'fields' ] ),
-			'fields'          => new USP_Module( USP_PATH . 'modules/fields/index.php', [ 'uploader' ] ),
-			'fields-manager'  => new USP_Module( USP_PATH . 'modules/fields-manager/index.php', [ 'fields' ] ),
-			'content-manager' => new USP_Module( USP_PATH . 'modules/content-manager/index.php', [ 'fields', 'table' ] ),
-			'options-manager' => new USP_Module( USP_PATH . 'modules/options-manager/index.php', [ 'fields' ] ),
-			'profile'         => new USP_Module( USP_PATH . 'modules/profile/index.php' ),
-			'profile-fields'  => new USP_Module( USP_PATH . 'modules/profile-fields/index.php', [ 'fields' ] ),
-			'users-list'      => new USP_Module( USP_PATH . 'modules/users-list/index.php', [ 'content-manager' ] ),
-			'dropdown-menu'   => new USP_Module( USP_PATH . 'modules/usp-dropdown-menu/index.php' ),
+			'loginform'       => new USP_Module( USP_PATH . 'src/Module/loginform/index.php', [ 'forms' ] ),
+			'usp-bar'         => new USP_Module( USP_PATH . 'src/Module/usp-bar/index.php' ),
+			'uploader'        => new USP_Module( USP_PATH . 'src/Module/uploader/index.php' ),
+			'table'           => new USP_Module( USP_PATH . 'src/Module/table/index.php' ),
+			'tabs'            => new USP_Module( USP_PATH . 'src/Module/tabs/index.php' ),
+			'forms'           => new USP_Module( USP_PATH . 'src/Module/forms/index.php', [ 'fields' ] ),
+			'fields'          => new USP_Module( USP_PATH . 'src/Module/fields/index.php', [ 'uploader' ] ),
+			'fields-manager'  => new USP_Module( USP_PATH . 'src/Module/fields-manager/index.php', [ 'fields' ] ),
+			'content-manager' => new USP_Module( USP_PATH . 'src/Module/content-manager/index.php', [ 'fields', 'table' ] ),
+			'options-manager' => new USP_Module( USP_PATH . 'src/Module/options-manager/index.php', [ 'fields' ] ),
+			'profile'         => new USP_Module( USP_PATH . 'src/Module/profile/index.php' ),
+			'profile-fields'  => new USP_Module( USP_PATH . 'src/Module/profile-fields/index.php', [ 'fields' ] ),
+			'users-list'      => new USP_Module( USP_PATH . 'src/Module/users-list/index.php', [ 'content-manager' ] ),
+			'dropdown-menu'   => new USP_Module( USP_PATH . 'src/Module/usp-dropdown-menu/index.php' ),
 		];
 	}
 

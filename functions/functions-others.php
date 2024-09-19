@@ -302,7 +302,7 @@ function usp_mail( $email, $title, $text, $from = false, $attachments = false ) 
  *
  * @param   $args       array   Extra arguments:
  * <pre>
- * $args['fields']      array   Custom fields. See: USP_Fields
+ * $args['fields']      array   Custom fields. See: Fields
  * $args['submit']      string  Text of submit button.
  * $args['icon']        string  Icon of submit button.
  *                              Default: fa-check-circle
@@ -318,7 +318,7 @@ function usp_mail( $email, $title, $text, $from = false, $attachments = false ) 
  *
  * @return  string  HTML form.
  *
- * @see     USP_Fields  Data of Custom fields.
+ * @see     Fields  Data of Custom fields.
  * @see     USP_Form    Create form.
  *
  * @since   1.0.0
@@ -362,7 +362,7 @@ function usp_get_form( $args ) {
  * @since   1.0.0
  */
 function usp_get_notice( $args ) {
-	require_once USP_PATH . '/core/Notice.php';
+	require_once USP_PATH . '/src/Notice.php';
 
 	$Notice = new Notice( $args );
 

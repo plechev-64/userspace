@@ -229,7 +229,7 @@ add_shortcode( 'usp-users', 'usp_users_shortcode' );
  *
  * @return string           HTML content to display userlist.
  *
- * @see                     USP_Users_Manager all properties of the class
+ * @see                     UsersManager all properties of the class
  *
  * @since                   1.0.0
  *
@@ -237,7 +237,7 @@ add_shortcode( 'usp-users', 'usp_users_shortcode' );
 function usp_users_shortcode( $args = [] ) {
 	USP()->use_module( 'users-list' );
 
-	$manager = new USP_Users_Manager( $args );
+	$manager = new UsersManager( $args );
 
 	$content = '<div class="usp-users-list">';
 	$content .= $manager->get_manager();
@@ -278,7 +278,7 @@ function usp_users_new_shortcode( $args ) {
 
 	USP()->use_module( 'users-list' );
 
-	$manager = new USP_Users_Manager( $atts );
+	$manager = new UsersManager( $atts );
 
 	return $manager->get_manager();
 }
@@ -315,7 +315,7 @@ function usp_users_online_shortcode( $args ) {
 
 	USP()->use_module( 'users-list' );
 
-	$manager = new USP_Users_Manager( $atts );
+	$manager = new UsersManager( $atts );
 
 	return $manager->get_manager();
 }

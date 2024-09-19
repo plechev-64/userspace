@@ -45,7 +45,7 @@ function usp_return_user_details() {
 function usp_get_user_details( $user_id ) {
 	USP()->use_module( 'users-list' );
 
-	$manager = new USP_Users_Manager( [
+	$manager = new UsersManager( [
 		'id__in'      => $user_id,
 		'search'      => 0,
 		'template'    => 'modal',
