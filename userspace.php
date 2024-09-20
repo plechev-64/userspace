@@ -429,7 +429,7 @@ final class UserSpace {
 	public function profile_fields() {
 		$this->use_module( 'profile-fields' );
 
-		return new USP_Profile_Fields();
+		return new ProfileFields();
 	}
 
 	public function themes() {

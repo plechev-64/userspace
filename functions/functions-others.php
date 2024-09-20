@@ -319,14 +319,14 @@ function usp_mail( $email, $title, $text, $from = false, $attachments = false ) 
  * @return  string  HTML form.
  *
  * @see     Fields  Data of Custom fields.
- * @see     USP_Form    Create form.
+ * @see     Form    Create form.
  *
  * @since   1.0.0
  */
 function usp_get_form( $args ) {
 	USP()->use_module( 'forms' );
 
-	$Form = new USP_Form( $args );
+	$Form = new Form( $args );
 
 	return $Form->get_form();
 }

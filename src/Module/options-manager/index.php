@@ -1,9 +1,9 @@
 <?php
 
-require_once 'classes/class-usp-option.php';
-require_once 'classes/class-usp-options-box.php';
-require_once 'classes/class-usp-options-group.php';
-require_once 'classes/class-usp-options-manager.php';
+require_once 'classes/Option.php';
+require_once 'classes/OptionBox.php';
+require_once 'classes/OptionsGroup.php';
+require_once 'classes/OptionsManager.php';
 require_once 'functions.php';
 
 if ( is_admin() || isset( $_REQUEST['rest_route'] ) ) {

@@ -94,7 +94,7 @@ class TableManager extends ContentManager {
 			$content .= $this->get_no_result_notice();
 		} else {
 
-			$table = new USP_Table( [
+			$table = new Table( [
 				'cols'   => $this->filter_table_cols( $this->get_table_cols() ),
 				'border' => [ 'rows', 'cols', 'table' ],
 				'zebra'  => true

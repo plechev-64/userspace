@@ -24,6 +24,8 @@ class FieldAbstract {
 	public bool $value_in_key = false;
 	public bool $must_delete = true;
 	public bool $_new = false;
+	public bool $extend = false;
+	public bool $local = false;
 
 	public function __construct( array $args ) {
 

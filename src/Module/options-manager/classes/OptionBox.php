@@ -1,15 +1,15 @@
 <?php
 
-class USP_Options_Box {
+class OptionBox {
 
-	public $box_id;
-	public $title;
-	public $icon = 'fa-cog';
-	public $groups;
-	public $option_name;
-	public $active = false;
+	public ?string $box_id = null;
+	public ?string $title;
+	public ?string $icon = 'fa-cog';
+	public array $groups = [];
+	public ?string $option_name;
+	public bool $active = false;
 
-	function __construct( $box_id, $args, $option_name ) {
+	public function __construct( string $box_id, array $args, string $option_name ) {
 
 		$this->box_id = $box_id;
 
@@ -18,11 +18,11 @@ class USP_Options_Box {
 		$this->init_properties( $args );
 
 		if ( isset( $_GET['usp-options-box'] ) ) {
-			$this->active = $this->box_id == $_GET['usp-options-box'] ? true : false;
+			$this->active = $this->box_id == $_GET['usp-options-box'];
 		}
 	}
 
-	function init_properties( $args ) {
+	private function init_properties( array $args ): void {
 
 		$properties = get_class_vars( get_class( $this ) );
 
@@ -33,21 +33,21 @@ class USP_Options_Box {
 		}
 	}
 
-	function add_group( $group_id, $args = false ) {
-		$this->groups[ $group_id ] = new USP_Options_Group( $group_id, $args, $this->option_name );
+	public function add_group( string $group_id, array $args = [] ): OptionsGroup {
+		$this->groups[ $group_id ] = new OptionsGroup( $group_id, $args, $this->option_name );
 
 		return $this->group( $group_id );
 	}
 
-	function isset_group( $group_id ) {
+	public function isset_group( string $group_id ): bool {
 		return isset( $this->groups[ $group_id ] );
 	}
 
-	function group( $group_id ) {
+	public function group( string $group_id ): OptionsGroup {
 		return $this->groups[ $group_id ];
 	}
 
-	function add_options( $options ) {
+	public function add_options( array $options ): void {
 
 		if ( ! $this->isset_group( 'general' ) ) {
 			$this->add_group( 'general', [
@@ -58,7 +58,7 @@ class USP_Options_Box {
 		$this->group( 'general' )->add_options( $options );
 	}
 
-	function get_content() {
+	public function get_content(): string {
 
 		$content = '<div id="' . esc_attr( $this->box_id ) . '-options-box" class="options-box ' . ( $this->active ? 'active' : '' ) . '" data-box="' . esc_attr( $this->box_id ) . '">';
 

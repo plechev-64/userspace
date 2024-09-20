@@ -1,18 +1,18 @@
 <?php
 
-class USP_User_Profile_Fields extends USP_Profile_Fields {
+class UserProfileFields extends ProfileFields {
 
 	/**
 	 * @var User $user
 	 */
-	private $user;
+	private User $user;
 
 	public function __construct( User $user ) {
 		$this->user = $user;
 		parent::__construct( $user->ID );
 	}
 
-	public function get_public_fields_values() {
+	public function get_public_fields_values(): string {
 
 		$public_fields = $this->get_public_fields();
 
@@ -36,7 +36,7 @@ class USP_User_Profile_Fields extends USP_Profile_Fields {
 
 	}
 
-	public function get_profile_fields_form() {
+	public function get_profile_fields_form(): string {
 
 		USP()->use_module( 'forms' );
 
@@ -89,7 +89,7 @@ class USP_User_Profile_Fields extends USP_Profile_Fields {
 		return $content;
 	}
 
-	function update_fields( $fields_to_update = [] ) {
+	public function update_fields( array $fields_to_update = [] ): void {
 
 		/*
 		 * TODO возможно при обновлении из админки надо сделать какой то фикс, что бы 2 раза не обновлять одни и те же поля

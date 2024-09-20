@@ -1,19 +1,18 @@
 <?php
 
-class USP_Options_Group {
+class OptionsGroup {
 
-	public $group_id;
-	public $title;
-	public $options;
-	public $extend;
-	public $option_values = array();
+	public ?string $group_id = null;
+	public ?string $title = null;
+	public ?string $option_name = null;
+	public array $options = [];
+	public bool $extend = false;
+	public array $option_values = array();
 
-	function __construct( $group_id, $args = false, $option_name ) {
+	public function __construct( string $group_id, array $args, string $option_name ) {
 
 		$this->group_id = $group_id;
-
 		$this->option_name = $option_name;
-
 		$this->option_values = $this->get_option( $this->option_name );
 
 		if ( $args ) {
@@ -21,7 +20,7 @@ class USP_Options_Group {
 		}
 	}
 
-	function init_properties( $args ) {
+	private function init_properties( array $args ): void {
 
 		$properties = get_class_vars( get_class( $this ) );
 
@@ -32,11 +31,11 @@ class USP_Options_Group {
 		}
 	}
 
-	function get_option( $option_name ) {
+	public function get_option( string $option_name ): array|string {
 		return wp_unslash( get_site_option( $option_name ) );
 	}
 
-	function get_value( $option, $default = false, $group = false, $local = false ) {
+	public function get_value( string $option, mixed $default = null, string $group = null, bool $local = false ): mixed {
 
 		if ( $group ) {
 			if ( isset( $this->option_values[ $group ][ $option ] ) ) {
@@ -57,26 +56,28 @@ class USP_Options_Group {
 		return $default;
 	}
 
-	function add_options( $options ) {
+	public function add_options( array $options ): void {
 		foreach ( $options as $option ) {
-			$this->add_option( $option );
+			if($option){
+				$this->add_option( $option );
+			}
 		}
 	}
 
-	function add_option( $option ) {
+	public function add_option( array $option ): void {
 
 		if ( ! isset( $option['slug'] ) ) {
 			if ( isset( $option['type'] ) && $option['type'] == 'custom' ) {
 				$option['slug'] = md5( current_time( 'mysql' ) );
 			} else {
-				return false;
+				return;
 			}
 		}
 
 		$option_id = $option['slug'];
-		$default   = isset( $option['default'] ) ? $option['default'] : false;
+		$default   = $option['default'] ?? false;
 		$group     = isset( $option['group'] ) && $option['group'] ? $option['group'] : false;
-		$local     = isset( $option['local'] ) && $option['local'] ? true : false;
+		$local     = isset( $option['local'] ) && $option['local'];
 
 		if ( ! isset( $option['value'] ) ) {
 			$option['value'] = $this->get_value( $option_id, $default, $group, $local );
@@ -90,10 +91,10 @@ class USP_Options_Group {
 			$option['input_name'] = $this->option_name . '[' . $option_id . ']';
 		}
 
-		$this->options[ $option_id ] = USP_Option::setup_option( $option );
+		$this->options[ $option_id ] = Option::setup_option( $option );
 
-		if ( isset( $option['childrens'] ) ) {
-			foreach ( $option['childrens'] as $parentValue => $childFields ) {
+		if ( isset( $option['children'] ) ) {
+			foreach ( $option['children'] as $parentValue => $childFields ) {
 
 				if ( ! is_array( $childFields ) ) {
 					continue;
@@ -112,10 +113,10 @@ class USP_Options_Group {
 		}
 	}
 
-	function get_content() {
+	public function get_content(): ?string {
 
 		if ( ! $this->options ) {
-			return false;
+			return null;
 		}
 
 		$content = '<div id="options-group-' . esc_attr( $this->group_id ) . '" class="options-group ' . ( $this->extend ? 'extend-options' : '' ) . '" data-group="' . esc_attr( $this->group_id ) . '">';

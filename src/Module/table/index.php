@@ -1,6 +1,6 @@
 <?php
 
-require_once 'classes/class-usp-table.php';
+require_once 'classes/Table.php';
 
 if ( usp_is_ajax() ) {
 	usp_table_scripts();

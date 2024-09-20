@@ -1,28 +1,28 @@
 <?php
 
-class USP_Form extends Fields {
+class Form extends Fields {
 
-	public $class = '';
-	public $action = '';
-	public $method = 'post';
-	public $icon = 'fa-check-circle';
-	public $target = '';
-	public $submit;
-	public $submit_args;
-	public $nonce_name = '';
-	public $onclick;
-	public $values = [];
+	public ?string $class = null;
+	public ?string $action = null;
+	public ?string $method = 'post';
+	public ?string $icon = 'fa-check-circle';
+	public ?string $target = null;
+	public ?string $submit = null;
+	public array $submit_args = [];
+	public ?string $nonce_name = null;
+	public ?string $onclick = null;
+	public array $values = [];
 
-	function __construct( $args = false ) {
+	public function __construct( array $args = [] ) {
 
 		$this->init_properties( $args );
 
 		$this->fields = [];
 
-		parent::__construct( $args['fields'], isset( $args['structure'] ) ? $args['structure'] : false );
+		parent::__construct( $args['fields'], $args['structure'] ?? false );
 	}
 
-	function init_properties( $args ) {
+	private function init_properties( array $args ): void {
 
 		$properties = get_class_vars( get_class( $this ) );
 
@@ -33,7 +33,7 @@ class USP_Form extends Fields {
 		}
 	}
 
-	public function get_form( $args = [] ): string {
+	public function get_form( array $args = [] ): string {
 
 		$content = '<div class="' . ( $this->class ? $this->class . ' ' : '' ) . 'usp-form usp-preloader-parent">';
 
@@ -54,7 +54,7 @@ class USP_Form extends Fields {
 		return $content;
 	}
 
-	function get_submit_box() {
+	private function get_submit_box(): string {
 
 		$content = '<div class="submit-box usps usps__jc-end">';
 
@@ -81,10 +81,10 @@ class USP_Form extends Fields {
 		return $content;
 	}
 
-	function get_fields_list() {
+	public function get_fields_list(): ?string {
 
 		if ( ! $this->fields ) {
-			return false;
+			return null;
 		}
 
 		$content = '';
@@ -100,12 +100,12 @@ class USP_Form extends Fields {
 		return $content;
 	}
 
-	function get_form_field( $field_id ) {
+	private function get_form_field( $field_id ): ?string {
 
 		$field = $this->get_field( $field_id );
 
 		if ( ! $field ) {
-			return false;
+			return null;
 		}
 
 		if ( ! isset( $field->value ) ) {

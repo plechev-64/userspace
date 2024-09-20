@@ -1,13 +1,13 @@
 <?php
 
-class USP_Option extends Field {
-	static function setup_option( $args ) {
+class Option extends Field {
+	static function setup_option( array $args ): ?FieldAbstract {
 
 		if ( ! isset( $args['slug'] ) ) {
 			if ( $args['type'] == 'custom' ) {
 				$args['slug'] = md5( current_time( 'mysql' ) );
 			} else {
-				return false;
+				return null;
 			}
 		}
 

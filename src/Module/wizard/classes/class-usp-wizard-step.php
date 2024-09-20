@@ -43,7 +43,7 @@ class USP_Wizard_Step {
 
 		if ( $this->options ) {
 
-			$form = new USP_Form( array( 'fields' => $this->options ) );
+			$form = new Form( array( 'fields' => $this->options ) );
 
 			$content .= '<div class="step-options">';
 			$content .= $form->get_fields_list();

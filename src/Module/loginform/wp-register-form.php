@@ -74,7 +74,7 @@ function usp_add_register_fields_to_register_form() {
 
 	USP()->use_module( 'forms' );
 
-	$form = new USP_Form( [
+	$form = new Form( [
 		'fields' => $fields
 	] );
 	

@@ -1,6 +1,6 @@
 <?php
 
-require_once 'classes/class-usp-form.php';
+require_once 'classes/Form.php';
 
 if ( usp_is_ajax() ) {
 	usp_forms_scripts();

@@ -1,18 +1,18 @@
 <?php
 
-class USP_Table {
+class Table {
 
-	public $zebra = false;
-	public $border = [];
-	public $cols = [];
-	public $cols_number = 0;
-	public $rows = [];
-	public $total = false;
-	public $table_id = 0;
-	public $class = [];
-	public $attr_rows = [];
+	public bool $zebra = false;
+	public array $border = [];
+	public array $cols = [];
+	public int $cols_number = 0;
+	public array $rows = [];
+	public array $total = [];
+	public ?string $table_id = null;
+	public array $class = [];
+	public array $attr_rows = [];
 
-	function __construct( $tableProps = false ) {
+	public function __construct( array $tableProps = [] ) {
 
 		$this->init_properties( $tableProps );
 
@@ -25,7 +25,7 @@ class USP_Table {
 		}
 	}
 
-	function init_properties( $args ) {
+	private function init_properties( array $args ): void {
 
 		$properties = get_class_vars( get_class( $this ) );
 
@@ -36,7 +36,7 @@ class USP_Table {
 		}
 	}
 
-	function setup_string_attrs( $attrs ) {
+	protected function setup_string_attrs( array $attrs ): string {
 
 		$stringAttrs = [];
 
@@ -56,11 +56,11 @@ class USP_Table {
 		return implode( ' ', $stringAttrs );
 	}
 
-	function get_current_number() {
+	protected function get_current_number(): int {
 		return count( $this->rows ) + 1;
 	}
 
-	function get_table_attrs() {
+	protected function get_table_attrs(): string {
 
 		$attrs = [
 			'id' => esc_attr( $this->table_id )
@@ -102,7 +102,7 @@ class USP_Table {
 		return $this->setup_string_attrs( $attrs );
 	}
 
-	function get_header_attrs() {
+	protected function get_header_attrs(): string {
 
 		$attrs            = [];
 		$attrs['class'][] = 'usp-table__row';
@@ -111,7 +111,7 @@ class USP_Table {
 		return $this->setup_string_attrs( $attrs );
 	}
 
-	function get_row_attrs( $customAttrs = false ) {
+	protected function get_row_attrs( array $customAttrs = [] ): string {
 
 		$attrs = [];
 
@@ -124,13 +124,13 @@ class USP_Table {
 		return $this->setup_string_attrs( $attrs );
 	}
 
-	function get_cell_attrs( $idcol, $cellProps = false, $place = false, $contentCell = false ) {
+	protected function get_cell_attrs( string $idCol, array $cellProps = [], ?string $place = null, ?string $contentCell = null ): string {
 
 		$attrs = [
-			'class' => [ 'usp-table__cell', 'usp-table__col-' . esc_attr( $idcol ) ]
+			'class' => [ 'usp-table__cell', 'usp-table__col-' . esc_attr( $idCol ) ]
 		];
 
-		$attrs['data-col'] = esc_attr( $idcol );
+		$attrs['data-col'] = esc_attr( $idCol );
 
 		if ( $cellProps ) {
 
@@ -157,7 +157,7 @@ class USP_Table {
 
 					$attrs['class'][]    = 'usp-table__cell-must-sort';
 					$attrs['data-sort']  = $cellProps['sort'];
-					$attrs['data-order'] = isset( $cellProps['sort']['order'] ) ? $cellProps['sort']['order'] : 'desc';
+					$attrs['data-order'] = $cellProps['sort']['order'] ?? 'desc';
 				} else if ( $place == 'total' ) {
 					$attrs['class'][]    = 'usp-table__cell-total';
 					$attrs['data-field'] = $cellProps['sort'];
@@ -171,16 +171,16 @@ class USP_Table {
 		return $this->setup_string_attrs( $attrs );
 	}
 
-	function add_row( $row, $attrs = [] ) {
+	public function add_row( array $row, array $attrs = [] ): void {
 		$this->attr_rows[ count( $this->rows ) ] = $attrs;
 		$this->rows[]                            = $row;
 	}
 
-	function add_total_row( $row ) {
+	public function add_total_row( array $row ) {
 		$this->total = $row;
 	}
 
-	function get_table( $rows = false ) {
+	public function get_table( array $rows = [] ): string {
 
 		if ( $rows ) {
 			$this->rows = $rows;
@@ -212,31 +212,25 @@ class USP_Table {
 			}
 		}
 
-		if ( is_array( $this->rows ) ) {
+		foreach ( $this->rows as $k => $cells ) {
 
-			foreach ( $this->rows as $k => $cells ) {
+			$attrs = [ 'class' => [ 'usp-table__row-must-sort' ] ];
 
-				$attrs = [ 'class' => [ 'usp-table__row-must-sort' ] ];
-
-				if ( isset( $this->attr_rows[ $k ] ) ) {
-					foreach ( $this->attr_rows[ $k ] as $attr => $value ) {
-						if ( isset( $attrs[ $attr ] ) ) {
-							$attrs[ $attr ] = array_merge( $attrs[ $attr ], $value );
-						} else {
-							$attrs[ $attr ] = $value;
-						}
+			if ( isset( $this->attr_rows[ $k ] ) ) {
+				foreach ( $this->attr_rows[ $k ] as $attr => $value ) {
+					if ( isset( $attrs[ $attr ] ) ) {
+						$attrs[ $attr ] = array_merge( $attrs[ $attr ], $value );
+					} else {
+						$attrs[ $attr ] = $value;
 					}
 				}
-
-				$content .= $this->row( $cells, $attrs );
 			}
 
-			if ( $this->total ) {
-				$content .= $this->get_total_row();
-			}
-		} else {
+			$content .= $this->row( $cells, $attrs );
+		}
 
-			$content .= $this->rows;
+		if ( $this->total ) {
+			$content .= $this->get_total_row();
 		}
 
 		$content .= '</div>';
@@ -246,7 +240,7 @@ class USP_Table {
 		return $content;
 	}
 
-	function get_total_row() {
+	protected function get_total_row(): string {
 
 		$total = ( $this->total && is_array( $this->total ) ) ? $this->total : [];
 
@@ -277,7 +271,7 @@ class USP_Table {
 		return $this->row( $total, $attrs, 'total' );
 	}
 
-	function search_row() {
+	protected function search_row(): string {
 
 		$attrs            = [];
 		$attrs['class'][] = 'usp-table__row';
@@ -285,20 +279,20 @@ class USP_Table {
 
 		$content = '<div ' . $this->setup_string_attrs( $attrs ) . '>';
 
-		foreach ( $this->cols as $idcol => $col ) {
+		foreach ( $this->cols as $idCol => $col ) {
 
 			if ( ! isset( $col['search'] ) || ! $col['search'] ) {
 				$contentCell = '';
 			} else {
 
-				$name  = isset( $col['search']['name'] ) ? $col['search']['name'] : $idcol;
-				$value = isset( $col['search']['value'] ) ? $col['search']['value'] : '';
+				$name  = $col['search']['name'] ?? $idCol;
+				$value = $col['search']['value'] ?? '';
 
 				if ( ! $value && ! empty( $_REQUEST[ $name ] ) ) {
 					$value = sanitize_text_field( wp_unslash( $_REQUEST[ $name ] ) );
 				}
 
-				$submit = isset( $col['search']['submit'] ) ? $col['search']['submit'] : 0;
+				$submit = $col['search']['submit'] ?? 0;
 
 				if ( is_string( $submit ) ) {
 					$submit = '\'' . $submit . '\'';
@@ -329,7 +323,7 @@ class USP_Table {
 				$contentCell = '<input style="width:100%" type="text" ' . $datescript . ' name="' . esc_attr( $name ) . '" placeholder="' . __( 'Search', 'userspace' ) . '" ' . $onkeyup . ' value="' . esc_attr( $value ) . '">';
 			}
 
-			$content .= $this->cell( $idcol, $contentCell, $col, 'search' );
+			$content .= $this->cell( $idCol, $contentCell, $col, 'search' );
 		}
 
 		$content .= '</div>';
@@ -337,13 +331,13 @@ class USP_Table {
 		return $content;
 	}
 
-	function header_row() {
+	protected function header_row(): string {
 
 		$content = '<div ' . $this->get_header_attrs() . '>';
 
-		foreach ( $this->cols as $idcol => $col ) {
+		foreach ( $this->cols as $idCol => $col ) {
 
-			$content .= $this->cell( $idcol, $col['title'], $col, 'header' );
+			$content .= $this->cell( $idCol, $col['title'], $col, 'header' );
 		}
 
 		$content .= '</div>';
@@ -351,50 +345,42 @@ class USP_Table {
 		return $content;
 	}
 
-	function parse_row_cells( $cells, $place = false ) {
+	protected function parse_row_cells( array $cells, bool $place = false ): string {
 
 		$content = '';
 
 		$ncells = array_combine( array_keys( $this->cols ), $cells );
 
-		foreach ( $ncells as $idcol => $contentCell ) {
+		foreach ( $ncells as $idCol => $contentCell ) {
 
 			$cellProps = false;
 
-			if ( $this->cols && isset( $this->cols[ $idcol ] ) ) {
-				$cellProps = $this->cols[ $idcol ];
+			if ( $this->cols && isset( $this->cols[ $idCol ] ) ) {
+				$cellProps = $this->cols[ $idCol ];
 			}
 
-			$content .= $this->cell( $idcol, $contentCell, $cellProps, $place );
+			$content .= $this->cell( $idCol, $contentCell, $cellProps, $place );
 		}
 
 		return $content;
 	}
 
-	function row( $cells, $attrs = false, $place = false ) {
+	protected function row( array $cells, array $attrs = [], bool $place = false ): string {
 
 		$content = '<div ' . $this->get_row_attrs( $attrs ) . '>';
-
-		if ( is_array( $cells ) ) {
-
-			$content .= $this->parse_row_cells( $cells, $place );
-		} else {
-
-			$content .= $cells;
-		}
-
+		$content .= $this->parse_row_cells( $cells, $place );
 		$content .= '</div>';
 
 		return $content;
 	}
 
-	function cell( $idcol, $contentCell, $cellProps = false, $place = false ) {
+	protected function cell( string $idCol, string $contentCell, array $cellProps = [], bool $place = false ): string {
 
 		if ( ! isset( $contentCell ) || $contentCell === '' ) {
 			$contentCell = '-';
 		}
 
-		return '<div ' . $this->get_cell_attrs( $idcol, $cellProps, $place, $contentCell ) . '>' . $contentCell . '</div>';
+		return '<div ' . $this->get_cell_attrs( $idCol, $cellProps, $place, $contentCell ) . '>' . $contentCell . '</div>';
 	}
 
 }

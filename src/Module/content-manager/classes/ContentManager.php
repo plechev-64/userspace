@@ -297,7 +297,7 @@ abstract class ContentManager {
 			return '';
 		}
 
-		$form = new USP_Form( array(
+		$form = new Form( array(
 				'fields'  => $fields,
 				'submit'  => __( 'Search', 'userspace' ),
 				'onclick' => 'usp_content_manager_submit("' . $this->get_id() . '");return false;'

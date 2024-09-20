@@ -14,7 +14,7 @@ $usp_options = get_site_option( 'usp_global_options' );
 
 $pages = usp_get_pages_ids();
 
-$options = new USP_Options_Manager( [
+$options = new OptionsManager( [
 	'option_name'  => 'usp_global_options',
 	'page_options' => 'manage-userspace',
 	'extends'      => true,
@@ -100,7 +100,7 @@ $options->box( 'primary' )->add_group( 'user_sign', [
 		],
 		'notice'    => __( 'The form of login and registration of the plugin can be displayed with help of widget "Control panel" 
 		and a shortcode [usp-loginform], but you can use the standard login form of WordPress also', 'userspace' ),
-		'childrens' => [
+		'children' => [
 			1 => [
 				[
 					'type'   => 'select',
@@ -132,7 +132,7 @@ $options->box( 'primary' )->add_group( 'user_sign', [
 			__( 'Arbitrary URL', 'userspace' ),
 		],
 		'default'   => 0,
-		'childrens' => [
+		'children' => [
 			2 => [
 				[
 					'type'   => 'text',
@@ -171,7 +171,7 @@ $options->box( 'primary' )->add_group( 'caching', [
 			'on'  => __( 'Yes', 'userspace' ),
 		],
 		'default'   => 0,
-		'childrens' => [
+		'children' => [
 			'cache_time',
 			'cache_output',
 		],
@@ -269,7 +269,7 @@ $options->box( 'primary' )->add_group( 'emoji', [
  *
  * @param   $options    object  Settings object
  *
- * @see     USP_Options_Manager
+ * @see     OptionsManager
  *
  * @since   1.0.0
  */

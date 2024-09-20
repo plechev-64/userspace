@@ -4,7 +4,7 @@ class FieldRadio extends FieldAbstract {
 
 	public array $values = [];
 	public string $display = 'inline';
-	public bool $empty_first = false;
+	public ?string $empty_first = null;
 	public mixed $empty_value = null;
 
 	public function __construct( array $args ) {

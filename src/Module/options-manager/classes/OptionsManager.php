@@ -1,18 +1,18 @@
 <?php
 
-class USP_Options_Manager {
+class OptionsManager {
 
-	public $boxes = [];
-	public $extends = false;
-	public $extend_options = false;
-	public $nonce = 'update-options';
-	public $page_options = '';
-	public $onclick = 'usp_update_options();return false;';
-	public $action = 'options.php';
-	public $method = 'post';
-	public $option_name;
+	public array $boxes = [];
+	public bool $extends = false;
+	public bool $extend_options = false;
+	public string $nonce = 'update-options';
+	public ?string $page_options = null;
+	public string $onclick = 'usp_update_options();return false;';
+	public string $action = 'options.php';
+	public string $method = 'post';
+	public ?string $option_name = null;
 
-	function __construct( $args = false ) {
+	public function __construct( array $args = [] ) {
 
 		if ( $args ) {
 			$this->init_properties( $args );
@@ -23,7 +23,7 @@ class USP_Options_Manager {
 		}
 	}
 
-	function init_properties( $args ) {
+	private function init_properties( array $args ) {
 
 		$properties = get_class_vars( get_class( $this ) );
 
@@ -34,24 +34,24 @@ class USP_Options_Manager {
 		}
 	}
 
-	function isset_box( $box_id ) {
+	public function isset_box( string $box_id ): bool {
 		return isset( $this->boxes[ $box_id ] );
 	}
 
-	function add_box( $box_id, $args ) {
-		$this->boxes[ $box_id ] = new USP_Options_Box( $box_id, $args, $this->option_name );
+	public function add_box( string $box_id, array $args ): OptionBox {
+		$this->boxes[ $box_id ] = new OptionBox( $box_id, $args, $this->option_name );
 
 		return $this->box( $box_id );
 	}
 
-	function box( $box_id ) {
+	public function box( string $box_id ): OptionBox {
 		return $this->boxes[ $box_id ];
 	}
 
-	function get_menu() {
+	public function get_menu(): ?string {
 
 		if ( ! $this->boxes ) {
-			return false;
+			return null;
 		}
 
 		$items = [];
@@ -72,18 +72,11 @@ class USP_Options_Manager {
 			] );
 		}
 
-		$content = '<div class="usp-options-tabs usp-wrap__widget">';
+		return '<div class="usp-options-tabs usp-wrap__widget">' . implode( '', $items ) . '</div>';
 
-		foreach ( $items as $item ) {
-			$content .= $item;
-		}
-
-		$content .= '</div>';
-
-		return $content;
 	}
 
-	function get_content() {
+	public function get_content(): string {
 
 		if ( ! isset( $_GET['usp-options-box'] ) ) {
 			foreach ( $this->boxes as $id => $box ) {
@@ -134,8 +127,8 @@ class USP_Options_Manager {
 
 		$content .= usp_get_button( [
 			'label'     => __( 'Save settings', 'userspace' ),
-			'onclick'   => $this->onclick ? $this->onclick : false,
-			'submit'    => $this->onclick ? false : true,
+			'onclick'   => $this->onclick ?: false,
+			'submit'    => ! $this->onclick,
 			'icon'      => 'fa-save',
 			'type'      => 'clear',
 			'size'      => 'medium',

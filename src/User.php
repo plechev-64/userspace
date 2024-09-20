@@ -4,7 +4,7 @@ class User {
 
 	public int $ID;
 	public array $metadata = [];
-	public ?USP_User_Profile_Fields $_profile_fields = null;
+	public ?UserProfileFields $_profile_fields = null;
 	public ?string $usp_birthday = null;
 	public ?string $usp_sex = null;
 	public ?string $usp_cover = null;
@@ -12,6 +12,7 @@ class User {
 	public ?string $user_login = null;
 	public ?string $user_registered = null;
 	public ?string $description = null;
+	private ?string $user_nicename = null;
 
 	public function __construct( int $user_id ) {
 
@@ -38,12 +39,12 @@ class User {
 		return $this;
 	}
 
-	public function profile_fields(): ?USP_User_Profile_Fields {
+	public function profile_fields(): ?UserProfileFields {
 
 		USP()->use_module( 'profile-fields' );
 
 		if ( is_null( $this->_profile_fields ) ) {
-			$this->_profile_fields = new USP_User_Profile_Fields( $this );
+			$this->_profile_fields = new UserProfileFields( $this );
 		}
 
 		return $this->_profile_fields;
@@ -224,7 +225,7 @@ class User {
 	/**
 	 * @return string counts the number of days on the site after registration
 	 */
-	public function get_user_count_days_after_registered() {
+	public function get_user_count_days_after_registered(): string {
 		$t_day = get_date_from_gmt( date( 'Y-m-d H:i:s' ), 'Y-m-d' );
 		$d_m_y = mysql2date( 'Y-m-d', $this->user_registered );
 
@@ -237,18 +238,17 @@ class User {
 	}
 
 	/**
-	 * @return string count of comments
+	 * @return int count of comments
 	 */
-	public function get_count_comments() {
+	public function get_count_comments(): int {
 		global $wpdb;
-
-		return $wpdb->get_var( "SELECT COUNT(comment_ID) FROM " . $wpdb->comments . " WHERE user_id = " . $this->ID . " AND comment_approved = 1" );
+		return (int) $wpdb->get_var( "SELECT COUNT(comment_ID) FROM " . $wpdb->comments . " WHERE user_id = " . $this->ID . " AND comment_approved = 1" );
 	}
 
 	/**
-	 * @return object counts by post types
+	 * @return array counts by post types
 	 */
-	public function get_count_posts_by_types() {
+	public function get_count_posts_by_types(): array {
 		global $wpdb;
 
 		return $wpdb->get_results( "SELECT post_type,count(*) AS count 

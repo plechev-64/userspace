@@ -1,11 +1,11 @@
 <?php
 
-class USP_Profile_Fields extends Fields {
+class ProfileFields extends Fields {
 
 	/**
 	 * @var string[] fields for update with wp_update_user
 	 */
-	private $_primary_fields = [
+	private array $_primary_fields = [
 		'user_email',
 		'description',
 		'user_url',
@@ -19,7 +19,7 @@ class USP_Profile_Fields extends Fields {
 	/**
 	 * @var string[] fields for hide in wp-admin profile page
 	 */
-	private $_hide_in_admin = [
+	private array $_hide_in_admin = [
 		'user_email',
 		'description',
 		'user_url',
@@ -31,9 +31,9 @@ class USP_Profile_Fields extends Fields {
 		'show_admin_bar_front'
 	];
 
-	private $user_id;
+	private int $user_id;
 
-	public function __construct( $user_id = 0 ) {
+	public function __construct( int $user_id = 0 ) {
 
 		$this->user_id = $user_id;
 
@@ -51,19 +51,19 @@ class USP_Profile_Fields extends Fields {
 		parent::__construct( $fields, $structure );
 	}
 
-	public function get_primary_fields_slugs() {
+	public function get_primary_fields_slugs(): array {
 		return $this->_primary_fields;
 	}
 
-	public function get_hide_admin_fields_slugs() {
+	public function get_hide_admin_fields_slugs(): array {
 		return $this->_hide_in_admin;
 	}
 
-	public function get_public_fields() {
+	public function get_public_fields(): array {
 		return $this->search_by( 'public_value', 1 );
 	}
 
-	public function get_fields_for_admin_page() {
+	public function get_fields_for_admin_page(): array {
 
 		$fields        = $this->get_fields();
 		$hide_in_admin = $this->get_hide_admin_fields_slugs();
@@ -77,7 +77,7 @@ class USP_Profile_Fields extends Fields {
 		return apply_filters( 'usp_admin_profile_fields', $fields, $this->user_id );
 	}
 
-	public function get_public_fields_slugs() {
+	public function get_public_fields_slugs(): array {
 
 		$public_fields = $this->get_public_fields();
 
@@ -93,7 +93,7 @@ class USP_Profile_Fields extends Fields {
 	/**
 	 * @return array default profile fields
 	 */
-	public function get_default_fields() {
+	public function get_default_fields(): array {
 		return apply_filters( 'usp_default_profile_fields', [
 				[
 					'slug'  => 'first_name',
@@ -167,7 +167,7 @@ class USP_Profile_Fields extends Fields {
 	/**
 	 * @return array Base options for every profile field
 	 */
-	public function get_fields_options() {
+	public function get_fields_options(): array {
 		return apply_filters( 'usp_profile_field_options', [
 			[
 				'slug'  => 'notice',
