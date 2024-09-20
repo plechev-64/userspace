@@ -1,29 +1,26 @@
 <?php
 
-class USP_Tab {
+class Tab {
 
-	public $id;
-	public $name = false;
-	public $icon = 'fa-cog';
-	public $public = 0;
-	public $hidden = 0;
-	public $counter = null;
-	public $output = 'menu';
-	public $supports = [];
-	public $content = [];
-	public $custom_tab = false;
-	public $current_id = 0;
-	public $url = false;
-	public $onclick = false;
+	public ?string $id = null;
+	public ?string $name = null;
+	public ?string $icon = 'fa-cog';
+	public int $public = 0; //can be 1,0,-1,-2
+	public bool $hidden = false;
+	public ?int $counter = null;
+	public ?string $output = 'menu';
+	public array $supports = [];
+	public array $content = [];
+	public bool $custom_tab = false;
+	public ?string $current_id = null;
+	public ?string $url = null;
+	public ?string $onclick = null;
 
-	function __construct( $tabData ) {
-
+	public function __construct( array $tabData ) {
 		$this->init_properties( $tabData );
-
-		//$this->setup_subtabs();
 	}
 
-	function init_properties( $args ) {
+	private function init_properties( array $args ): void {
 
 		$properties = get_class_vars( get_class( $this ) );
 
@@ -35,18 +32,18 @@ class USP_Tab {
 		}
 	}
 
-	function setup_subtabs() {
+	public function setup_subtabs(): void {
 		foreach ( $this->content as $k => $subtabData ) {
 			$this->content[ $k ] = $this->new_subtab( $subtabData );
 		}
 	}
 
-	function add_subtab( $subtabData ) {
+	public function add_subtab( array $subtabData ): void {
 		$this->content[] = $this->new_subtab( $subtabData );
 	}
 
-	function new_subtab( $subtabData ) {
-		return new USP_Sub_Tab( wp_parse_args( $subtabData, [
+	public function new_subtab( array $subtabData ): SubTab {
+		return new SubTab( wp_parse_args( $subtabData, [
 			'id'        => $this->id,
 			'name'      => $this->name,
 			'icon'      => $this->icon,
@@ -54,22 +51,22 @@ class USP_Tab {
 		] ) );
 	}
 
-	function set_prop( $propName, $value ) {
+	public function set_prop( string $propName, mixed $value ): void {
 		$this->$propName = $value;
 	}
 
-	function is_prop( $propName ) {
+	public function is_prop( string $propName ): bool {
 		return isset( $this->$propName );
 	}
 
-	function get_prop( $propName ) {
+	public function get_prop( string $propName ): mixed {
 		return $this->is_prop( $propName ) ? $this->$propName : false;
 	}
 
-	function isset_subtab( $subtab_id ) {
+	public function isset_subtab( string $subtab_id ): ?SubTab {
 
 		if ( ! $this->content ) {
-			return false;
+			return null;
 		}
 
 		foreach ( $this->content as $k => $subtab ) {
@@ -78,13 +75,13 @@ class USP_Tab {
 			}
 		}
 
-		return false;
+		return null;
 	}
 
-	function subtab( $subtab_id = false ) {
+	public function subtab( string $subtab_id = null ): ?SubTab {
 
 		if ( ! $this->content ) {
-			return false;
+			return null;
 		}
 
 		foreach ( $this->content as $k => $subtab ) {
@@ -93,15 +90,15 @@ class USP_Tab {
 			}
 		}
 
-		return false;
+		return null;
 	}
 
-	function is_active_tab() {
+	public function is_active_tab(): bool {
 
 		$active = false;
 
 		if ( isset( $_GET['tab'] ) ) {
-			$active = ( $_GET['tab'] == $this->id ) ? true : false;
+			$active = $_GET['tab'] == $this->id;
 		} else {
 			if ( USP()->tabs()->current_id == $this->id ) {
 				$active = true;
@@ -111,7 +108,7 @@ class USP_Tab {
 		return $active;
 	}
 
-	function get_class_button() {
+	public function get_class_button(): array {
 
 		$classes = apply_filters( 'usp_tab_class_button', [ 'usp-tab-button' ], $this->id );
 
@@ -125,7 +122,7 @@ class USP_Tab {
 		return $classes;
 	}
 
-	function get_button( $args = [] ) {
+	public function get_button( array $args = [] ): string {
 
 		$ajaxLoad = false;
 		if ( isset( $this->supports ) ) {
@@ -155,7 +152,7 @@ class USP_Tab {
 		return usp_get_button( $attr );
 	}
 
-	function get_permalink( $user_id = false ) {
+	public function get_permalink( int $user_id = null ): string {
 		if ( ! $user_id ) {
 			$user_id = USP()->office()->get_owner_id();
 		}
@@ -163,7 +160,7 @@ class USP_Tab {
 		return $this->url ?: add_query_arg( [ 'tab' => $this->id ], usp_user_get_url( $user_id ) );
 	}
 
-	function is_access() {
+	public function is_access(): bool {
 		global $user_ID;
 
 		if ( $this->public == 0 ) {
@@ -183,7 +180,7 @@ class USP_Tab {
 		return true;
 	}
 
-	function get_active_subtab_id() {
+	public function get_active_subtab_id(): string {
 
 		if ( isset( $_GET['subtab'] ) ) {
 
@@ -197,10 +194,10 @@ class USP_Tab {
 		return $this->content[0]->id;
 	}
 
-	function get_menu() {
+	public function get_menu(): ?string {
 
 		if ( ! $this->content || count( $this->content ) < 2 ) {
-			return false;
+			return null;
 		}
 
 		if ( ! $this->current_id ) {
@@ -219,23 +216,21 @@ class USP_Tab {
 		return $content;
 	}
 
-	function get_content() {
+	public function get_content(): ?string {
 
 		if ( ! $this->is_access() ) {
-			return false;
+			return null;
 		}
 
 		if ( ! $this->current_id ) {
 			$this->current_id = $this->get_active_subtab_id();
 		}
 
-		$subtab = $this->subtab( $this->current_id );
-
 		$content = '<div id="usp-tab-content" class="usp-tab-' . esc_attr( $this->id ) . ' usps__relative usps__grow">';
 
 		$content .= $this->get_menu();
 
-		$content .= $subtab->get_content();
+		$content .= $this->subtab( $this->current_id )->get_content();
 
 		$content .= '</div>';
 

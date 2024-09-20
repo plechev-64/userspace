@@ -134,10 +134,10 @@ function usp_load_tab() {
 	 * Filters the contents of the tab.
 	 *
 	 * @param   $content    string  Tab content.
-	 * @param   $tab        object  USP_Tab Object.
+	 * @param   $tab        object  Tab Object.
 	 * @param   $office_id  int     ID of the personal account.
 	 *
-	 * @see     USP_Tab
+	 * @see     Tab
 	 *
 	 * @since       1.0.0
 	 *

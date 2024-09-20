@@ -1,6 +1,6 @@
 <?php
 
-define( 'USP_PROFILE_BASE', __FILE__ );
+const USP_PROFILE_BASE = __FILE__;
 
 if ( is_admin() ) {
 	require_once 'admin/index.php';
@@ -14,7 +14,7 @@ function usp_my_profile_resources() {
 }
 
 add_filter( 'usp_init_js_variables', 'usp_init_js_profile_variables', 10 );
-function usp_init_js_profile_variables( $data ) {
+function usp_init_js_profile_variables( $data ): array {
 	if ( usp_is_office( get_current_user_id() ) ) {
 		$data['local']['no_repeat_pass'] = __( 'Repeated password not correct!', 'userspace' );
 	}

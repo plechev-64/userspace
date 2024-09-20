@@ -1,24 +1,24 @@
 <?php
 
-class USP_Sub_Tab {
+class SubTab {
 
-	public $id;
-	public $parent_id;
-	public $name = false;
-	public $title = false;
-	public $icon = 'fa-cog';
-	public $supports = [];
-	public $counter = null;
-	public $callback = [];
-	public $url = false;
+	public ?string $id = null;
+	public ?string $parent_id = null;
+	public ?string $name = null;
+	public ?string $title = null;
+	public string $icon = 'fa-cog';
+	public array $supports = [];
+	public ?int $counter = null;
+	public array $callback = [];
+	public ?string $url = null;
 
-	function __construct( $subtabData ) {
+	public function __construct( array $subtabData ) {
 		$this->init_properties( $subtabData );
 		$tab            = USP()->tabs()->tab( $this->parent_id );
 		$this->supports = $tab->supports;
 	}
 
-	function init_properties( $args ) {
+	private function init_properties( array $args ): void {
 
 		$properties = get_class_vars( get_class( $this ) );
 
@@ -30,19 +30,19 @@ class USP_Sub_Tab {
 		}
 	}
 
-	function setup_prop( $propName, $value ) {
+	public function setup_prop( string $propName, mixed $value ): void {
 		$this->$propName = $value;
 	}
 
-	function is_prop( $propName ) {
+	public function is_prop( string $propName ): bool {
 		return isset( $this->$propName );
 	}
 
-	function get_prop( $propName ) {
+	public function get_prop( string $propName ): mixed {
 		return $this->is_prop( $propName ) ? $this->$propName : false;
 	}
 
-	function get_permalink( $user_id = false ) {
+	public function get_permalink( ?int $user_id = null ): string {
 		if ( ! $user_id ) {
 			$user_id = USP()->office()->get_owner_id();
 		}
@@ -50,7 +50,7 @@ class USP_Sub_Tab {
 		return add_query_arg( [ 'tab' => $this->parent_id, 'subtab' => $this->id ], usp_user_get_url( $user_id ) );
 	}
 
-	function get_button( $args = array() ) {
+	public function get_button( array $args = array() ): string {
 
 		$tab = USP()->tabs()->tab( $this->parent_id );
 
@@ -74,12 +74,12 @@ class USP_Sub_Tab {
 		return usp_get_button( $attr );
 	}
 
-	function get_content() {
+	public function get_content(): string {
 		global $usp_tab;
 
 		$usp_tab = $this;
 
-		$title = $this->title ? $this->title : $this->name;
+		$title = $this->title ?: $this->name;
 
 		$content = '<div id="usp-subtab-' . $this->id . '" class="usp-subtab-box">';
 

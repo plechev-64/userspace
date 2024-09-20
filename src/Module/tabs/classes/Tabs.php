@@ -1,12 +1,12 @@
 <?php
 
-class USP_Tabs {
+class Tabs {
 
-	public $current_id;
-	private $tabs = [];
+	public ?string $current_id = null;
+	private array $tabs = [];
 	protected static $_instance = null;
 
-	public static function instance() {
+	public static function instance(): ?Tabs {
 		if ( is_null( self::$_instance ) ) {
 			self::$_instance = new self();
 		}
@@ -14,52 +14,52 @@ class USP_Tabs {
 		return self::$_instance;
 	}
 
-	function get_tabs() {
+	public function get_tabs(): array {
 		return $this->tabs;
 	}
 
-	function isset_tab( $tab_id ) {
+	public function isset_tab( string $tab_id ): bool {
 		return isset( $this->tabs[ $tab_id ] );
 	}
 
-	function add( $tabData ) {
+	public function add( array $tabData ): ?Tab {
 
 		if ( ! isset( $tabData['id'] ) ) {
-			return false;
+			return null;
 		}
 
-		$this->tabs[ $tabData['id'] ] = new USP_Tab( $tabData );
+		$this->tabs[ $tabData['id'] ] = new Tab( $tabData );
 
 		$this->tabs[ $tabData['id'] ]->setup_subtabs();
 
 		return $this->tabs[ $tabData['id'] ];
 	}
 
-	function tab( $tab_id ) {
+	public function tab( string $tab_id ): ?Tab {
 
 		if ( ! $this->isset_tab( $tab_id ) ) {
-			return false;
+			return null;
 		}
 
 		return $this->tabs[ $tab_id ];
 	}
 
-	function remove_tab( $tab_id ) {
+	public function remove_tab( string $tab_id ): void {
 
 		if ( ! $this->isset_tab( $tab_id ) ) {
-			return false;
+			return;
 		}
 
 		unset( $this->tabs[ $tab_id ] );
 	}
 
-	function current() {
+	public function current(): ?Tab {
 		$this->current_id = $this->get_current_id();
 
-		return ( $this->current_id ) ? $this->tab( $this->current_id ) : false;
+		return ( $this->current_id ) ? $this->tab( $this->current_id ) : null;
 	}
 
-	function get_current_id() {
+	public function get_current_id(): ?string {
 
 		if ( isset( $_GET['tab'] ) ) {
 			return sanitize_text_field( wp_unslash( $_GET['tab'] ) );
@@ -91,13 +91,13 @@ class USP_Tabs {
 			}
 		}
 
-		return false;
+		return null;
 	}
 
-	function get_menu_items( $menu_id ) {
+	public function get_menu_items( string $menu_id ): ?array {
 
 		if ( ! $this->tabs ) {
-			return false;
+			return null;
 		}
 
 		$tab_ids = array();
@@ -113,11 +113,11 @@ class USP_Tabs {
 		return $tab_ids;
 	}
 
-	function get_access_menu_items( $menu_id ) {
+	public function get_access_menu_items( string $menu_id ): ?array {
 		$tab_ids = $this->get_menu_items( $menu_id );
 
 		if ( ! $tab_ids ) {
-			return false;
+			return null;
 		}
 
 		$ids = [];
@@ -138,12 +138,12 @@ class USP_Tabs {
 		return $ids;
 	}
 
-	function get_menu( $menu_id, $args = array() ) {
+	public function get_menu( string $menu_id, array $args = array() ): ?string {
 
 		$tab_ids = isset( $args['tab_ids'] ) && $args['tab_ids'] ? $args['tab_ids'] : $this->get_access_menu_items( $menu_id );
 
 		if ( ! $tab_ids ) {
-			return false;
+			return null;
 		}
 
 		if ( ! $this->current_id ) {
@@ -172,7 +172,7 @@ class USP_Tabs {
 		return $content;
 	}
 
-	function init_custom_tabs() {
+	public function init_custom_tabs(): void {
 
 		$areas = usp_get_area_options();
 
@@ -194,7 +194,7 @@ class USP_Tabs {
 					'public'     => isset( $tab['public-tab'] ) && $tab['public-tab'] ? 1 : 0,
 					'icon'       => $tab['icon'] ?: 'fa-cog',
 					'output'     => $area_id,
-					'supports'   => isset( $tab['supports-tab'] ) ? $tab['supports-tab'] : [],
+					'supports'   => $tab['supports-tab'] ?? [],
 					'custom-tab' => true,
 					'content'    => [
 						[
@@ -214,7 +214,7 @@ class USP_Tabs {
 		}
 	}
 
-	function order_tabs() {
+	public function order_tabs(): void {
 
 		$areas = usp_get_area_options();
 
@@ -222,7 +222,7 @@ class USP_Tabs {
 
 			$newArray = [];
 
-			foreach ( $areas as $area_id => $tabs ) {
+			foreach ( $areas as $tabs ) {
 
 				if ( ! $tabs ) {
 					continue;
@@ -238,14 +238,14 @@ class USP_Tabs {
 
 					$tab->set_prop( 'name', $tabData['title'] );
 					$tab->set_prop( 'hidden', $tabData['hidden'] );
-					$tab->set_prop( 'icon', $tabData['icon'] ? $tabData['icon'] : 'fa-cog' );
+					$tab->set_prop( 'icon', $tabData['icon'] ?: 'fa-cog' );
 
 					if ( isset( $tabData['custom-tab'] ) && $tabData['custom-tab'] ) {
 						$tab->set_prop( 'custom_tab', 1 );
-						$tab->set_prop( 'supports', isset( $tabData['supports-tab'] ) ? $tabData['supports-tab'] : [] );
-						$tab->set_prop( 'public', isset( $tabData['public-tab'] ) && $tabData['public-tab'] ? 1 : 0 );
+						$tab->set_prop( 'supports', $tabData['supports-tab'] ?? [] );
+						$tab->set_prop( 'public', isset( $tabData['public-tab'] ) && $tabData['public-tab']);
 
-						$tab->content[0] = new USP_Sub_Tab( [
+						$tab->content[0] = new SubTab( [
 							'id'        => $tab->id,
 							'name'      => $tab->name,
 							'icon'      => $tab->icon,

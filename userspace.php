@@ -437,7 +437,7 @@ final class UserSpace {
 	}
 
 	public function tabs() {
-		return USP_Tabs::instance();
+		return Tabs::instance();
 	}
 
 	public function template( $name, $file = false ) {

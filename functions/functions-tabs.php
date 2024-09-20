@@ -29,11 +29,11 @@
  *
  * @return  false|void
  *
- * @see     USP_Tab
+ * @see     Tab
  *
  * @since   1.0.0
  */
-function usp_tab( $tab_data ) {
+function usp_tab( array $tab_data ) {
 	/**
 	 * The filter allows you to access the tab data.
 	 *
@@ -67,7 +67,7 @@ function usp_tab( $tab_data ) {
  *
  * @return false|void
  *
- * @see     USP_Sub_Tab
+ * @see     SubTab
  *
  * @since   1.0.0
  */
@@ -85,7 +85,7 @@ function usp_add_sub_tab( $tab_id, $subtabData ) {
  *
  * @return  array
  *
- * @see     USP_Tabs
+ * @see     Tabs
  *
  * @since   1.0.0
  */
@@ -100,7 +100,7 @@ function usp_get_tabs() {
  *
  * @return  false|mixed
  *
- * @see     USP_Tab
+ * @see     Tab
  *
  * @since   1.0.0
  */
@@ -116,7 +116,7 @@ function usp_get_tab( $tab_id ) {
  *
  * @return  false|mixed
  *
- * @see     USP_Tab
+ * @see     Tab
  *
  * @since   1.0.0
  */
