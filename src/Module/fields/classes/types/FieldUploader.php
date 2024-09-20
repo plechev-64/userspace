@@ -107,8 +107,8 @@ class FieldUploader extends FieldAbstract {
 		) );
 	}
 
-	public function get_uploader(): USP_Uploader {
-		return new USP_Uploader( $this->id, $this->get_uploader_props() );
+	public function get_uploader(): Uploader {
+		return new Uploader( $this->id, $this->get_uploader_props() );
 	}
 
 	public function get_input(): string {

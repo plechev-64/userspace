@@ -586,11 +586,11 @@ function usp_user_notice_add_some_data( $user, $custom_data, $template ) {
  *
  * @param User $user
  *
- * @return USP_Dropdown_Menu
+ * @return DropdownMenu
  */
 function usp_get_user_profile_menu( User $user ) {
 
-	$menu = new USP_Dropdown_Menu( 'usp_user_profile_menu', [
+	$menu = new DropdownMenu( 'usp_user_profile_menu', [
 		'custom_data'       => [
 			'user' => $user
 		],

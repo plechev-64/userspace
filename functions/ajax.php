@@ -271,9 +271,9 @@ function usp_upload() {
 
 	$class_name = $options['class_name'];
 
-	if ( 'USP_Uploader' == $class_name ) {
+	if ( 'Uploader' == $class_name ) {
 		$uploader = new $class_name( $options['uploader_id'], $options );
-	} else if ( is_subclass_of( $class_name, 'USP_Uploader' ) ) {
+	} else if ( is_subclass_of( $class_name, 'Uploader' ) ) {
 		$uploader = new $class_name( $options );
 	} else {
 		return [

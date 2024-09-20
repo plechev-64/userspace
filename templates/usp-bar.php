@@ -81,7 +81,7 @@ $width      = usp_bar_width();
 						'avatar'     => $usp_user->get_avatar( 30 ),
 					] );
 
-					$menu = new USP_Dropdown_Menu( 'usp_bar_profile_menu', [
+					$menu = new DropdownMenu( 'usp_bar_profile_menu', [
 						'open_button' => $menu_button,
 						'style'       => $menu_color
 					] );

@@ -87,11 +87,11 @@ function usp_avatar_data_replacement( $args, $id_or_email ) {
  *
  * @param User $user
  *
- * @return USP_Dropdown_Menu
+ * @return DropdownMenu
  */
 function usp_get_user_avatar_menu( User $user ) {
 
-	$menu = new USP_Dropdown_Menu( 'usp_user_avatar_menu', [
+	$menu = new DropdownMenu( 'usp_user_avatar_menu', [
 		'custom_data' => [
 			'user' => $user
 		],
@@ -121,7 +121,7 @@ function usp_get_user_avatar_menu( User $user ) {
 
 		USP()->use_module( 'uploader' );
 
-		$avatar_uploader = new USP_Uploader( 'usp_avatar', [
+		$avatar_uploader = new Uploader( 'usp_avatar', [
 			'multiple'    => 0,
 			'crop'        => 1,
 			'filetitle'   => 'usp-user-avatar-' . $user->ID,
@@ -172,7 +172,7 @@ function usp_get_user_avatar_menu( User $user ) {
 
 		USP()->use_module( 'uploader' );
 
-		$uploader_cover = new USP_Uploader( 'usp_cover', [
+		$uploader_cover = new Uploader( 'usp_cover', [
 			'multiple'    => 0,
 			'filetitle'   => 'usp-user-cover-' . $user->ID,
 			'filename'    => $user->ID,

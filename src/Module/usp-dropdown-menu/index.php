@@ -1,6 +1,6 @@
 <?php
-require_once 'classes/class-usp-dropdown-menu.php';
-require_once 'classes/class-usp-dropdown-menu-group.php';
+require_once 'classes/DropdownMenu.php';
+require_once 'classes/DropdownMenuGroup.php';
 
 add_action( 'usp_enqueue_scripts', 'usp_dropdown_menu_scripts', 10 );
 function usp_dropdown_menu_scripts() {
@@ -39,7 +39,7 @@ function usp_add_wp_menu_in_usp_bar() {
 
 	$menu_tree = usp_menu_build_tree_recursive( $menu_items );
 
-	$usp_menu = new USP_Dropdown_Menu( 'wp-usp-bar-menu', [
+	$usp_menu = new DropdownMenu( 'wp-usp-bar-menu', [
 		'open_button' => [
 			'label' => 'WordPress Menu',
 			'icon'  => 'fa-vertical-ellipsis'
@@ -73,12 +73,12 @@ function usp_menu_build_tree_recursive( $items, $parent_id = 0 ) {
 	return $menu;
 }
 
-function usp_menu_build_from_tree_recursive( $menu_tree, USP_Dropdown_Menu $usp_menu ) {
+function usp_menu_build_from_tree_recursive( $menu_tree, DropdownMenu $usp_menu ) {
 
 	foreach ( $menu_tree as $item ) {
 
 		if ( $item['children'] ) {
-			$child_menu = new USP_Dropdown_Menu( 'wp-usp-bar-menu-' . $item['id'], [
+			$child_menu = new DropdownMenu( 'wp-usp-bar-menu-' . $item['id'], [
 				'open_button' => [
 					'label' => $item['title'],
 					'icon'  => 'fa-vertical-ellipsis'

@@ -7,24 +7,24 @@
  * @since 1.0
  *
  */
-class USP_Dropdown_Menu {
+class DropdownMenu {
 
-	private $id;
-	private $default_group = 'default';
+	private ?string $id = null;
+	private string $default_group = 'default';
 
 	/**
 	 * Base Button type
 	 *
 	 * @var string
 	 */
-	public $base_button_type = 'clear';
+	public string $base_button_type = 'clear';
 
 	/**
 	 * Menu toggle button
 	 *
 	 * @var array|string - Button args[] or string / html
 	 */
-	public $open_button = [
+	public array|string $open_button = [
 		'icon' => 'fa-vertical-ellipsis',
 		'size' => 'medium',
 	];
@@ -34,14 +34,14 @@ class USP_Dropdown_Menu {
 	 *
 	 * @var string - 'transparent'
 	 */
-	public $open_button_style = false;
+	public ?string $open_button_style = null;
 
 	/**
 	 * Opening type
 	 *
 	 * @var string - on_click / on_hover
 	 */
-	public $show = 'on_click';
+	public string $show = 'on_click';
 
 	/**
 	 * Menu position
@@ -51,44 +51,44 @@ class USP_Dropdown_Menu {
 	 *
 	 * @var string
 	 */
-	public $position = 'bottom-right';
+	public string $position = 'bottom-right';
 
 	/**
 	 * Menu style
 	 *
 	 * @var string - 'white', 'dark', 'primary' or 'none' - if you need to set your own color
 	 */
-	public $style = 'white';
+	public string $style = 'white';
 
 	/**
 	 * Menu buttons size
 	 *
 	 * @var string - small, standard, medium, large, big
 	 */
-	public $size = 'standard';
+	public string $size = 'standard';
 
 	/**
 	 * Html before menu button
 	 *
 	 * @var string
 	 */
-	public $before = '';
+	public string $before = '';
 
 	/**
 	 * Html after menu button
 	 *
 	 * @var string
 	 */
-	public $after = '';
+	public string $after = '';
 
 	/**
 	 * Custom menu data
 	 *
 	 * @var mixed
 	 */
-	public $custom_data = null;
+	public mixed $custom_data = null;
 
-	public $groups = [];
+	public array $groups = [];
 
 	public function __construct( string $id, array $params = [] ) {
 
@@ -111,15 +111,15 @@ class USP_Dropdown_Menu {
 	 * @param string $id
 	 * @param array $params
 	 *
-	 * @return USP_Dropdown_Menu_Group
+	 * @return DropdownMenuGroup|null
 	 */
-	public function add_group( string $id, array $params = [] ) {
+	public function add_group( string $id, array $params = [] ): ?DropdownMenuGroup {
 
 		if ( ! isset( $params['order'] ) ) {
 			$params['order'] = ( count( $this->groups ) + 1 ) * 10;
 		}
 
-		$this->groups[ $id ] = new USP_Dropdown_Menu_Group( $id, $params, $this );
+		$this->groups[ $id ] = new DropdownMenuGroup( $id, $params, $this );
 
 		return $this->get_group( $id );
 	}
@@ -130,10 +130,9 @@ class USP_Dropdown_Menu {
 	 * @param string $html
 	 * @param array $params
 	 *
-	 * @return USP_Dropdown_Menu_Group
+	 * @return DropdownMenuGroup
 	 */
-	public function add_item( string $html, array $params = [] ) {
-
+	public function add_item( string $html, array $params = [] ): DropdownMenuGroup {
 		return $this->get_group( $this->default_group )->add_item( $html, $params );
 	}
 
@@ -143,10 +142,9 @@ class USP_Dropdown_Menu {
 	 * @param array $args
 	 * @param array $params
 	 *
-	 * @return USP_Dropdown_Menu_Group
+	 * @return DropdownMenuGroup
 	 */
-	public function add_button( array $args, array $params = [] ) {
-
+	public function add_button( array $args, array $params = [] ): DropdownMenuGroup {
 		return $this->get_group( $this->default_group )->add_button( $args, $params );
 	}
 
@@ -156,23 +154,21 @@ class USP_Dropdown_Menu {
 	 * @param string $text
 	 * @param array $params
 	 *
-	 * @return USP_Dropdown_Menu_Group
+	 * @return DropdownMenuGroup
 	 */
-	public function add_title( string $text, array $params = [] ) {
-
+	public function add_title( string $text, array $params = [] ): DropdownMenuGroup {
 		return $this->get_group( $this->default_group )->add_title( $text, $params );
 	}
 
 	/**
 	 * Add submenu
 	 *
-	 * @param USP_Dropdown_Menu $submenu
+	 * @param DropdownMenu $submenu
 	 * @param array $params
 	 *
-	 * @return USP_Dropdown_Menu_Group
+	 * @return DropdownMenuGroup
 	 */
-	public function add_submenu( USP_Dropdown_Menu $submenu, array $params = [] ) {
-
+	public function add_submenu( DropdownMenu $submenu, array $params = [] ): DropdownMenuGroup {
 		return $this->get_group( $this->default_group )->add_submenu( $submenu, $params );
 	}
 
@@ -181,22 +177,22 @@ class USP_Dropdown_Menu {
 	 *
 	 * @param $group_id
 	 *
-	 * @return false|USP_Dropdown_Menu_Group
+	 * @return null|DropdownMenuGroup
 	 */
-	public function get_group( $group_id ) {
-		return $this->groups[ $group_id ] ?? false;
+	public function get_group( $group_id ): ?DropdownMenuGroup {
+		return $this->groups[ $group_id ] ?? null;
 	}
 
 	/**
 	 * Get menu id
 	 *
-	 * @return string
+	 * @return string|null
 	 */
-	public function get_id() {
+	public function get_id(): ?string {
 		return $this->id;
 	}
 
-	public function has_buttons() {
+	public function has_buttons(): bool {
 
 		foreach ( $this->groups as $group ) {
 			if ( $group->items ) {
@@ -213,7 +209,7 @@ class USP_Dropdown_Menu {
 	 *
 	 * @return string
 	 */
-	public function get_content() {
+	public function get_content(): string {
 
 		do_action( 'usp_dropdown_menu', $this->get_id(), $this );
 
@@ -235,14 +231,14 @@ class USP_Dropdown_Menu {
 
 	}
 
-	private function wrap_content( $content ) {
+	private function wrap_content( string $content ): string {
 		$before = $this->before ? "<div class='usp-menu-before usps__mr-6'>{$this->before}</div>" : '';
 		$after  = $this->after ? "<div class='usp-menu-after usps__ml-6'>{$this->after}</div>" : '';
 
 		return "<div class='usp-menu-wrapper usps__inline usps__ai-center usps__wrap'>{$before}{$content}{$after}</div>";
 	}
 
-	private function build_menu_button() {
+	private function build_menu_button(): string {
 		$color = ( $this->open_button_style ) ? esc_attr( $this->open_button_style ) : esc_attr( $this->style );
 
 		$button_class = "usp-menu-button usp-menu-button_style_{$color} usps__focus";
@@ -263,7 +259,7 @@ class USP_Dropdown_Menu {
 
 	}
 
-	private function build_menu_content() {
+	private function build_menu_content(): string {
 
 		$pos = esc_attr( $this->position );
 
@@ -281,12 +277,10 @@ class USP_Dropdown_Menu {
 
 	}
 
-	private function order_groups() {
-
+	private function order_groups(): void {
 		usort( $this->groups, function ( $a, $b ) {
 			return $a->order <=> $b->order;
 		} );
-
 	}
 
 }

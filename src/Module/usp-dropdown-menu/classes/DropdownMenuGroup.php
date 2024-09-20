@@ -1,49 +1,49 @@
 <?php
 
-class USP_Dropdown_Menu_Group {
+class DropdownMenuGroup {
 
 	/**
 	 * Group id
 	 *
-	 * @var string
+	 * @var string|null
 	 */
-	private $id;
+	private ?string $id = null;
 
 	/**
 	 * Group menu
 	 *
-	 * @var USP_Dropdown_Menu
+	 * @var DropdownMenu
 	 */
-	private $menu;
+	private DropdownMenu $menu;
 
 	/**
 	 * Group items order
 	 *
 	 * @var int
 	 */
-	public $order = 10;
+	public int $order = 10;
 
 	/**
 	 * Group items align
 	 *
 	 * @var string - vertical, horizontal
 	 */
-	public $align_content = 'vertical';
+	public string $align_content = 'vertical';
 
 	/**
 	 * Group title
 	 *
 	 * @var string
 	 */
-	public $title = '';
+	public string $title = '';
 	/**
 	 * Group items
 	 *
 	 * @var array
 	 */
-	public $items = [];
+	public array $items = [];
 
-	public function __construct( string $id, array $params, USP_Dropdown_Menu $menu ) {
+	public function __construct( string $id, array $params, DropdownMenu $menu ) {
 		$this->id   = $id;
 		$this->menu = $menu;
 
@@ -60,35 +60,35 @@ class USP_Dropdown_Menu_Group {
 		}
 	}
 
-	public function add_item( string $html, array $params = [] ) {
+	public function add_item( string $html, array $params = [] ): static {
 		$this->_add_item( $html, 'custom', $params );
 
 		return $this;
 	}
 
-	public function add_button( array $args, array $params = [] ) {
+	public function add_button( array $args, array $params = [] ): static {
 		$this->_add_item( $args, 'button', $params );
 
 		return $this;
 	}
 
-	public function add_title( string $text, array $params = [] ) {
+	public function add_title( string $text, array $params = [] ): static {
 		$this->_add_item( $text, 'title', $params );
 
 		return $this;
 	}
 
-	public function add_submenu( USP_Dropdown_Menu $submenu, array $params = [] ) {
+	public function add_submenu( DropdownMenu $submenu, array $params = [] ): static {
 		$this->_add_item( $submenu, 'submenu', $params );
 
 		return $this;
 	}
 
-	public function get_id() {
+	public function get_id(): ?string {
 		return $this->id;
 	}
 
-	public function get_html() {
+	public function get_html(): string {
 		if ( ! $this->items ) {
 			return '';
 		}
@@ -106,7 +106,7 @@ class USP_Dropdown_Menu_Group {
 		return $html;
 	}
 
-	private function build_item( $data, $type, $params ) {
+	private function build_item( $data, $type, $params ): string {
 
 		if ( $type === 'button' ) {
 			return $this->build_item_button( $data, $params );
@@ -120,15 +120,15 @@ class USP_Dropdown_Menu_Group {
 
 	}
 
-	private function build_item_custom( string $data, array $params ) {
+	private function build_item_custom( string $data, array $params ): string {
 		return "<div class='{$this->get_item_classes('custom')}'>{$data}</div>";
 	}
 
-	private function build_item_submenu( USP_Dropdown_Menu $submenu, array $params ) {
+	private function build_item_submenu( DropdownMenu $submenu, array $params ): string {
 		return "<div class='{$this->get_item_classes('submenu')}'>{$submenu->get_content()}</div>";
 	}
 
-	private function build_item_button( array $args, array $params ) {
+	private function build_item_button( array $args, array $params ): string {
 
 		$buttons_class = $this->get_item_classes( 'button' );
 
@@ -138,11 +138,11 @@ class USP_Dropdown_Menu_Group {
 		return ( new Button( $args ) )->add_class( $buttons_class )->get_button();
 	}
 
-	private function build_item_title( string $text, array $params ) {
+	private function build_item_title( string $text, array $params ): string {
 		return "<div class='{$this->get_item_classes( 'title' )}'>{$text}</div>";
 	}
 
-	private function get_item_classes( string $item_type ) {
+	private function get_item_classes( string $item_type ): string {
 		$base = "usp-menu-item usp-menu-item_{$item_type} usp-menu-item_style_{$this->menu->style}";
 
 		if ( $item_type === 'button' ) {
@@ -152,7 +152,7 @@ class USP_Dropdown_Menu_Group {
 		return $base;
 	}
 
-	private function _add_item( $data, string $type, array $params = [] ) {
+	private function _add_item( $data, string $type, array $params = [] ): void {
 
 		if ( ! isset( $params['order'] ) ) {
 			$params['order'] = ( count( $this->items ) + 1 ) * 10;
@@ -165,12 +165,10 @@ class USP_Dropdown_Menu_Group {
 		];
 	}
 
-	private function order_items() {
-
+	private function order_items(): void {
 		usort( $this->items, function ( $a, $b ) {
 			return ( $a['params']['order'] ?? 10 ) <=> ( $b['params']['order'] ?? 10 );
 		} );
-
 	}
 
 }

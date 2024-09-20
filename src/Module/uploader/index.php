@@ -1,6 +1,6 @@
 <?php
 
-require_once 'class-usp-uploader.php';
+require_once 'Uploader.php';
 
 if ( usp_is_ajax() ) {
 	usp_uploader_scripts();

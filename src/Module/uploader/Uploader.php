@@ -1,44 +1,39 @@
 <?php
 
-class USP_Uploader {
+class Uploader {
 
-	public $uploader_id = '';
-	public $fix_editor = false;
-	public $action = 'usp_upload';
-	public $temp_media = false;
-	public $input_attach = false;
-	public $auto_upload = true;
-	public $user_id = 0;
-	public $post_parent = 0;
-	public $input_name = 'usp-upload';
-	public $dropzone = false;
-	public $max_files = 10;
-	public $max_size = 512;
-	public $min_width = false;
-	public $min_height = false;
-	public $resize = array();
-	public $file_types = array( 'jpg', 'png', 'jpeg' );
-	public $multiple = false;
-	public $crop = false;
-	public $image_sizes = true;
-	public $mode_output = 'grid';
-	public $manager_balloon = false;
-	public $class_name = '';
-	public $filename = '';
-	public $filetitle = '';
-	public $dir = '';
-	public $image_thumb = 'thumbnail';
-	protected $accept = array( 'image/*' );
+	public ?string $uploader_id = null;
+	public bool $fix_editor = false;
+	public string $action = 'usp_upload';
+	public bool $temp_media = false;
+	public bool $input_attach = false;
+	public bool $auto_upload = true;
+	public int $user_id = 0;
+	public int $post_parent = 0;
+	public string $input_name = 'usp-upload';
+	public bool $dropzone = false;
+	public int $max_files = 10;
+	public int $max_size = 512;
+	public ?int $min_width = null;
+	public ?int $min_height = null;
+	public array|string $resize = array();
+	public array|string $file_types = array( 'jpg', 'png', 'jpeg' );
+	public bool $multiple = false;
+	public array|int $crop = [];
+	public array $image_sizes = [];
+	public string $mode_output = 'grid';
+	public bool $manager_balloon = false;
+	public ?string $class_name = '';
+	public ?string $filename = '';
+	public ?string $filetitle = '';
+	public ?string $dir = '';
+	public string $image_thumb = 'thumbnail';
+	protected array $accept = array( 'image/*' );
 
-	function __construct( $uploader_id, $args = false ) {
-
-		//usp_sortable_scripts();
-		//usp_fileupload_scripts();
+	public function __construct( string $uploader_id, array $args = [] ) {
 
 		if ( ! isset( $args['user_id'] ) ) {
-
 			global $user_ID;
-
 			$args['user_id'] = $user_ID;
 		}
 
@@ -67,7 +62,7 @@ class USP_Uploader {
 		$this->init_scripts();
 	}
 
-	function init_scripts() {
+	protected function init_scripts(): void {
 
 		usp_fileupload_scripts();
 		usp_dialog_scripts();
@@ -79,7 +74,7 @@ class USP_Uploader {
 		}
 	}
 
-	function init_properties( $args ) {
+	private function init_properties( array $args ): void {
 
 		$properties = get_class_vars( get_class( $this ) );
 
@@ -104,23 +99,23 @@ class USP_Uploader {
 		}
 	}
 
-	function filter_attachment_manager_items( $items, $attach_id ) {
+	protected function filter_attachment_manager_items( array $items, int $attach_id = null ): array {
 		return $items;
 	}
 
-	function after_upload( $uploads ) {
-		return false;
+	protected function after_upload( array $uploads ): void {
+		return;
 	}
 
-	function get_attachment_title( $attach_id ) {
+	protected function get_attachment_title( int $attach_id ): string {
 		return basename( get_post_field( 'guid', $attach_id ) );
 	}
 
-	function get_progress_bar() {
+	protected function get_progress_bar(): string {
 		return '<div class="usp-uploader-progress"></div>';
 	}
 
-	function get_uploader( $args = false ) {
+	public function get_uploader( array $args = [] ): string {
 
 		$defaults = array(
 			'allowed_types' => true
@@ -151,7 +146,7 @@ class USP_Uploader {
 		return $content;
 	}
 
-	function get_input() {
+	public function get_input(): string {
 
 		$json = wp_json_encode( $this );
 
@@ -167,7 +162,7 @@ class USP_Uploader {
 		return $content;
 	}
 
-	function get_button( $args ) {
+	public function get_button( array $args ): string {
 
 		$defaults = array(
 			'button_label' => __( 'Upload file', 'userspace' ),
@@ -188,38 +183,37 @@ class USP_Uploader {
 		return usp_get_button( $bttnArgs );
 	}
 
-	function get_dropzone() {
+	public function get_dropzone(): string {
 
-		$content = '<div id="usp-dropzone-' . esc_attr( $this->uploader_id ) . '" class="usp-dropzone">
+		return '<div id="usp-dropzone-' . esc_attr( $this->uploader_id ) . '" class="usp-dropzone">
 				<div class="dropzone-upload-area">
 					' . __( 'Add files in a queue of downloads', 'userspace' ) . '
 				</div>
 			</div>';
 
-		return $content;
 	}
 
-	private function get_mime_type_by_ext( $file_ext ) {
+	private function get_mime_type_by_ext( string $file_ext ): ?string {
 
 		if ( ! $file_ext ) {
-			return false;
+			return null;
 		}
 
 		$mimes = get_allowed_mime_types();
 
 		foreach ( $mimes as $type => $mime ) {
-			if ( strpos( $type, $file_ext ) !== false ) {
+			if ( str_contains( $type, $file_ext ) ) {
 				return $mime;
 			}
 		}
 
-		return false;
+		return null;
 	}
 
-	private function get_accept() {
+	private function get_accept(): ?array {
 
 		if ( ! $this->file_types ) {
-			return false;
+			return null;
 		}
 
 		$accept = array();
@@ -234,7 +228,7 @@ class USP_Uploader {
 		return $accept;
 	}
 
-	function get_gallery( $imagIds = false, $getTemps = false ) {
+	public function get_gallery( array|int $imagIds = [], $getTemps = false ): string {
 
 		if ( ! $imagIds && $getTemps ) {
 			$session_id = ! empty( $_COOKIE['PHPSESSID'] ) ? sanitize_text_field( wp_unslash( $_COOKIE['PHPSESSID'] ) ) : 'none';
@@ -242,7 +236,7 @@ class USP_Uploader {
 			$imagIds = ( new TempMediaQuery() )->select( [ 'media_id' ] )
 			                                   ->where( [
 				                                   'uploader_id' => $this->uploader_id,
-				                                   'user_id'     => $this->user_id ? $this->user_id : 0,
+				                                   'user_id'     => $this->user_id ?: 0,
 				                                   'session_id'  => $this->user_id ? '' : $session_id,
 			                                   ] )
 			                                   ->get_col();
@@ -266,12 +260,12 @@ class USP_Uploader {
 		return $content;
 	}
 
-	function gallery_attachment( $attach_id ) {
+	protected function gallery_attachment( int $attach_id ): ?string {
 
 		$attach = get_post( $attach_id );
 
 		if ( ! $attach ) {
-			return false;
+			return null;
 		}
 
 		$is_image = wp_attachment_is( 'image', $attach );
@@ -285,7 +279,7 @@ class USP_Uploader {
 		}
 
 		if ( ! $image ) {
-			return false;
+			return null;
 		}
 
 		$content = '<div class="usp-media__item usp-media__item-' . $attach_id . ' ' . ( $is_image ? 'type-image' : 'type-file' ) . ' usps__inline usps__relative" id="gallery-' . $this->uploader_id . '-attachment-' . $attach_id . '">';
@@ -308,7 +302,7 @@ class USP_Uploader {
 		return $content;
 	}
 
-	function get_src( $attachment_id, $size = 'attachment' ) {
+	protected function get_src( int $attachment_id, string $size = 'attachment' ): string {
 
 		$isImage = wp_attachment_is_image( $attachment_id );
 
@@ -324,7 +318,7 @@ class USP_Uploader {
 		return $fileSrc;
 	}
 
-	function add_fix_editor_buttons( $items, $attachment_id ) {
+	protected function add_fix_editor_buttons( array $items, int $attachment_id ): array {
 
 		$isImage = wp_attachment_is_image( $attachment_id );
 
@@ -358,11 +352,11 @@ class USP_Uploader {
 		return $items;
 	}
 
-	function filter_manager_items( $items, $attach_id ) {
+	protected function filter_manager_items( array $items, int $attach_id ): array {
 		return $items;
 	}
 
-	function get_attachment_manager( $attach_id ) {
+	protected function get_attachment_manager( int $attach_id ): ?string {
 
 		$items = array(
 			array(
@@ -383,7 +377,7 @@ class USP_Uploader {
 		$manager_items = $this->filter_manager_items( $manager_items, $attach_id );
 
 		if ( ! $manager_items ) {
-			return false;
+			return null;
 		}
 
 		$content = '<div class="usp-file-manager ' . ( $this->manager_balloon ? 'usp-balloon' : '' ) . '">';
@@ -403,11 +397,10 @@ class USP_Uploader {
 		return $content;
 	}
 
-	function upload() {
-
+	public function upload(): ?array {
 
 		if ( empty( $_FILES[ $this->input_name ] ) ) {
-			return false;
+			return null;
 		}
 
 		require_once ABSPATH . 'wp-admin/includes/media.php';
@@ -459,7 +452,7 @@ class USP_Uploader {
 		return $uploads;
 	}
 
-	function file_upload_process( $file ) {
+	protected function file_upload_process( array $file ): ?array {
 
 		$filetype = wp_check_filetype_and_ext( $file['tmp_name'], $file['name'] );
 
@@ -478,7 +471,7 @@ class USP_Uploader {
 		$image = wp_handle_upload( $file, array( 'test_form' => false ) );
 
 		if ( ! $image['file'] ) {
-			return false;
+			return null;
 		}
 
 		$this->setup_image_sizes( $image['file'] );
@@ -532,7 +525,7 @@ class USP_Uploader {
 		);
 	}
 
-	function setup_image_sizes( $image_src ) {
+	protected function setup_image_sizes( string $image_src ): void {
 
 		if ( ! $this->image_sizes || is_array( $this->image_sizes ) ) {
 
@@ -560,7 +553,7 @@ class USP_Uploader {
 		}
 	}
 
-	function crop_image( $image_src ) {
+	protected function crop_image( string $image_src ): void {
 
 		list( $width, $height ) = getimagesize( $image_src );
 
@@ -570,7 +563,7 @@ class USP_Uploader {
 		$size = ! empty( $_POST['image_size'] ) ? usp_recursive_map( 'sanitize_text_field', wp_unslash( $_POST['image_size'] ) ) : false;
 
 		if ( ! $crop ) {
-			return false;
+			return;
 		}
 
 		list( $crop_x, $crop_y, $crop_w, $crop_h ) = explode( ',', $crop );
@@ -594,10 +587,10 @@ class USP_Uploader {
 		}
 	}
 
-	function resize_image( $image_src ) {
+	protected function resize_image( string $image_src ): void {
 
 		if ( ! $this->resize ) {
-			return false;
+			return;
 		}
 
 		$image = wp_get_image_editor( $image_src );
@@ -608,7 +601,7 @@ class USP_Uploader {
 		}
 	}
 
-	function edit_upload_dir( $param ) {
+	public function edit_upload_dir( array $param ): array {
 		$param['path'] = WP_CONTENT_DIR . untrailingslashit( $this->dir );
 		$param['url']  = WP_CONTENT_URL . untrailingslashit( $this->dir );
 
