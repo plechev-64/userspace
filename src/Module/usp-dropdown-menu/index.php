@@ -8,53 +8,6 @@ function usp_dropdown_menu_scripts() {
 	usp_enqueue_script( 'usp-dropdown-menu', USP_URL . 'src/Module/usp-dropdown-menu/assets/js/usp-dropdown-menu.js', false, false, true );
 }
 
-add_action( 'usp_bar_left_icons', 'usp_add_wp_menu_in_usp_bar' );
-function usp_add_wp_menu_in_usp_bar() {
-
-	$wp_usp_menu_slug = 'usp-bar';
-	$locations        = get_nav_menu_locations();
-
-	if ( empty( $locations[ $wp_usp_menu_slug ] ) ) {
-		return;
-	}
-
-	$wp_usp_menu = wp_get_nav_menu_items( $locations[ $wp_usp_menu_slug ] );
-
-	if ( ! $wp_usp_menu ) {
-		return;
-	}
-
-	$menu_items = [];
-
-	foreach ( $wp_usp_menu as $item ) {
-
-		$menu_items[] = [
-			'id'     => $item->ID,
-			'url'    => $item->url,
-			'title'  => $item->title,
-			'parent' => $item->menu_item_parent
-		];
-
-	}
-
-	$menu_tree = usp_menu_build_tree_recursive( $menu_items );
-
-	$usp_menu = new DropdownMenu( 'wp-usp-bar-menu', [
-		'open_button' => [
-			'label' => 'WordPress Menu',
-			'icon'  => 'fa-vertical-ellipsis'
-		],
-		'show'        => 'on_hover',
-		'style'       => 'none'
-	] );
-
-	usp_menu_build_from_tree_recursive( $menu_tree, $usp_menu );
-
-	//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-	echo $usp_menu->get_content();
-
-}
-
 function usp_menu_build_tree_recursive( $items, $parent_id = 0 ) {
 
 	$menu = [];

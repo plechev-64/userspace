@@ -154,16 +154,6 @@ final class UserSpace {
 
 		$this->customizer_init();
 
-		if ( $this->is_request( 'frontend' ) ) {
-			if ( usp_get_option_customizer( 'usp_bar_show', 1 ) || is_customize_preview() ) {
-				$this->use_module( 'usp-bar' );
-			}
-		}
-
-		if ( ! is_user_logged_in() ) {
-			$this->use_module( 'loginform' );
-		}
-
 		if ( Ajax()->is_rest_request() ) {
 			$this->use_module( 'forms' );
 		}
@@ -366,8 +356,6 @@ final class UserSpace {
 
 	private function init_modules() {
 		$this->modules = [
-			'loginform'       => new USP_Module( USP_PATH . 'src/Module/loginform/index.php', [ 'forms' ] ),
-			'usp-bar'         => new USP_Module( USP_PATH . 'src/Module/usp-bar/index.php' ),
 			'uploader'        => new USP_Module( USP_PATH . 'src/Module/uploader/index.php' ),
 			'table'           => new USP_Module( USP_PATH . 'src/Module/table/index.php' ),
 			'tabs'            => new USP_Module( USP_PATH . 'src/Module/tabs/index.php' ),
@@ -378,7 +366,6 @@ final class UserSpace {
 			'options-manager' => new USP_Module( USP_PATH . 'src/Module/options-manager/index.php', [ 'fields' ] ),
 			'profile'         => new USP_Module( USP_PATH . 'src/Module/profile/index.php' ),
 			'profile-fields'  => new USP_Module( USP_PATH . 'src/Module/profile-fields/index.php', [ 'fields' ] ),
-			'users-list'      => new USP_Module( USP_PATH . 'src/Module/users-list/index.php', [ 'content-manager' ] ),
 			'dropdown-menu'   => new USP_Module( USP_PATH . 'src/Module/usp-dropdown-menu/index.php' ),
 		];
 	}

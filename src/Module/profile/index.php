@@ -45,16 +45,7 @@ function usp_tab_profile() {
 }
 
 function usp_get_profile_user_info( $user_id ) {
-	USP()->use_module( 'users-list' );
-
-	$manager = new UsersManager( [
-		'id__in'      => $user_id,
-		'search'      => 0,
-		'template'    => 'full',
-		'custom_data' => 'posts, comments, user_registered, rating',
-	] );
-
-	return $manager->get_manager();
+	return 'Тут надо вывести данные о пользователе, ранее выводилась карточка из userlist';
 }
 
 add_action( 'usp_setup_tabs', 'usp_tab_profile_info', 10 );

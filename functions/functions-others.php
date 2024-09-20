@@ -42,16 +42,6 @@ function usp_get_default_cover( $avatar_cover = false, $user_id = false ) {
 	return $default_cover;
 }
 
-// register menu in userspace bar
-add_action( 'after_setup_theme', 'usp_register_userspace_menu' );
-function usp_register_userspace_menu() {
-	if ( ! usp_get_option_customizer( 'usp_bar_show', 1 ) ) {
-		return;
-	}
-
-	register_nav_menu( 'usp-bar', __( 'UserSpace Bar', 'userspace' ) );
-}
-
 /**
  * Getting array of pages ID`s and post title.<br>
  * Return:

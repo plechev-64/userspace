@@ -43,7 +43,6 @@ function usp_return_user_details() {
 
 // Get user details by id
 function usp_get_user_details( $user_id ) {
-	USP()->use_module( 'users-list' );
 
 	$manager = new UsersManager( [
 		'id__in'      => $user_id,
