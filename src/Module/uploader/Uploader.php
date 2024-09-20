@@ -3,7 +3,7 @@
 class Uploader {
 
 	public ?string $uploader_id = null;
-	public bool $fix_editor = false;
+	public ?bool $fix_editor = false;
 	public string $action = 'usp_upload';
 	public bool $temp_media = false;
 	public bool $input_attach = false;

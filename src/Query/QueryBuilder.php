@@ -569,7 +569,7 @@ class QueryBuilder {
 		bool $use_cache = false,
 		bool $return_as = false,
 		bool $get_found_rows = false
-	): string|array|object {
+	): null|string|array|object {
 		global $wpdb;
 
 		$query = $this->get_query();
@@ -603,7 +603,7 @@ class QueryBuilder {
 		return $data;
 	}
 
-	private function maybe_unserialize( mixed $data ): string|array|object {
+	private function maybe_unserialize( mixed $data ): null|string|array|object {
 
 		if ( ! $this->serialize ) {
 			return $data;
@@ -638,7 +638,7 @@ class QueryBuilder {
 		return new UspWalker( $this->get_results() );
 	}
 
-	public function get_var( bool $cache = false ): int|string|bool {
+	public function get_var( bool $cache = false ): null|int|string|bool {
 		return $this->get_data( 'get_var', $cache );
 	}
 

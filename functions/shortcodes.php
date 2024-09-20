@@ -12,10 +12,10 @@ add_shortcode( 'userspace', 'usp_userspace_shortcode' );
  * @since               1.0.0
  *
  */
-function usp_userspace_shortcode() {
-	if ( USP()->office()->on_page() && empty( USP()->office()->get_var( 'member' ) ) ) {
-		return usp_get_variations_buttons();
-	}
+function usp_userspace_shortcode(): bool|string {
+//	if ( USP()->office()->on_page() && empty( USP()->office()->get_var( 'member' ) ) ) {
+//		return usp_get_variations_buttons();
+//	}
 
 	/**
 	 * Filters allow closes someone else's personal account.

@@ -43,13 +43,5 @@ function usp_return_user_details() {
 
 // Get user details by id
 function usp_get_user_details( $user_id ) {
-
-	$manager = new UsersManager( [
-		'id__in'      => $user_id,
-		'search'      => 0,
-		'template'    => 'modal',
-		'custom_data' => 'posts, comments, user_registered, rating',
-	] );
-
-	return $manager->get_manager();
+	return 'Тут надо вывести информацию о пользователе, ранее выводилось через шаблон userlist';
 }
