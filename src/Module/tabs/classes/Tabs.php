@@ -191,10 +191,10 @@ class Tabs {
 				$tab_data = [
 					'id'         => $tab['slug'],
 					'name'       => $tab['title'],
-					'public'     => isset( $tab['public-tab'] ) && $tab['public-tab'] ? 1 : 0,
+					'public'     => isset( $tab['public'] ) && $tab['public'] ? 1 : 0,
 					'icon'       => $tab['icon'] ?: 'fa-cog',
 					'output'     => $area_id,
-					'supports'   => $tab['supports-tab'] ?? [],
+					'supports'   => $tab['supports'] ?? [],
 					'custom-tab' => true,
 					'content'    => [
 						[
@@ -242,8 +242,8 @@ class Tabs {
 
 					if ( isset( $tabData['custom-tab'] ) && $tabData['custom-tab'] ) {
 						$tab->set_prop( 'custom_tab', 1 );
-						$tab->set_prop( 'supports', $tabData['supports-tab'] ?? [] );
-						$tab->set_prop( 'public', isset( $tabData['public-tab'] ) && $tabData['public-tab']);
+						$tab->set_prop( 'supports', $tabData['supports'] ?? [] );
+						$tab->set_prop( 'public', isset( $tabData['public'] ) && $tabData['public']);
 
 						$tab->content[0] = new SubTab( [
 							'id'        => $tab->id,

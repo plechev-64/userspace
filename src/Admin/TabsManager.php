@@ -39,7 +39,7 @@ class TabsManager extends FieldsManager {
 				],
 				[
 					'type'   => 'select',
-					'slug'   => 'public-tab',
+					'slug'   => 'public',
 					'title'  => __( 'Tab privacy', 'userspace' ),
 					'values' => [
 						__( 'Private', 'userspace' ),
@@ -48,7 +48,7 @@ class TabsManager extends FieldsManager {
 				],
 				[
 					'type'   => 'checkbox',
-					'slug'   => 'supports-tab',
+					'slug'   => 'supports',
 					'title'  => __( 'Support of the functions', 'userspace' ),
 					'values' => [
 						'ajax'   => __( 'Ajax-loading', 'userspace' ),
@@ -182,8 +182,8 @@ class TabsManager extends FieldsManager {
 
 		if ( $this->is_default_tab( $field->slug ) ) {
 
-			unset( $options['public-tab'] );
-			unset( $options['supports-tab'] );
+			unset( $options['public'] );
+			unset( $options['supports'] );
 			unset( $options['content'] );
 			unset( $options['slug'] );
 
