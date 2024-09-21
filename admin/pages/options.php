@@ -27,30 +27,22 @@ $options->add_box( 'primary', [
 	'title'  => __( 'User profile page', 'userspace' ),
 	'extend' => true,
 ] )->add_options( [
-	$options->add_box( 'primary', [
-		'title' => __( 'General settings', 'userspace' ),
-		'icon'  => 'fa-cogs',
-	] )->add_group( 'office', [
-		'title'  => __( 'User profile page', 'userspace' ),
-		'extend' => true,
-	] )->add_options( [
-		[
-			'type'   => 'select',
-			'slug'   => 'account_page',
-			'title'  => __( 'Page with shortcode for displaying user profile page', 'userspace' ),
-			'values' => $pages,
-		],
-		[
-			'type'      => 'runner',
-			'slug'      => 'usp_user_timeout',
-			'value_min' => 1,
-			'value_max' => 20,
-			'default'   => 10,
-			'help'      => __( 'This value sets the maximum time a user is considered "online" in the absence of activity', 'userspace' ),
-			'title'     => __( 'Current user inactivity timeout', 'userspace' ),
-			'notice'    => __( 'Specify the time in minutes after which the user will be considered offline if you did not show activity on the website. The default is 10 minutes.', 'userspace' ),
-		],
-	] ),
+	[
+		'type'   => 'select',
+		'slug'   => 'account_page',
+		'title'  => __( 'Page with shortcode for displaying user profile page', 'userspace' ),
+		'values' => $pages,
+	],
+	[
+		'type'      => 'runner',
+		'slug'      => 'usp_user_timeout',
+		'value_min' => 1,
+		'value_max' => 20,
+		'default'   => 10,
+		'help'      => __( 'This value sets the maximum time a user is considered "online" in the absence of activity', 'userspace' ),
+		'title'     => __( 'Current user inactivity timeout', 'userspace' ),
+		'notice'    => __( 'Specify the time in minutes after which the user will be considered offline if you did not show activity on the website. The default is 10 minutes.', 'userspace' ),
+	],
 ] );
 
 $options->box( 'primary' )->add_group( 'design', [
