@@ -19,7 +19,7 @@ class Options {
 			return;
 		}
 
-		$this->options = get_site_option( 'usp_global_options' );
+		$this->options = get_site_option( 'usp_global_options', [] );
 	}
 
 	public function get_options(): array {

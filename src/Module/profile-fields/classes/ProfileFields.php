@@ -46,7 +46,7 @@ class ProfileFields extends Fields {
 		}
 
 		$fields    = apply_filters( 'usp_profile_fields', $fields, $this->user_id );
-		$structure = get_site_option( 'usp_fields_profile_structure' );
+		$structure = get_site_option( 'usp_fields_profile_structure', [] );
 
 		parent::__construct( $fields, $structure );
 	}
