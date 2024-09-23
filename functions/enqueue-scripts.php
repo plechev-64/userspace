@@ -155,7 +155,6 @@ function usp_enqueue_wp_form_scripts() {
 	wp_enqueue_script( 'usp-primary-scripts', USP_URL . 'assets/js/usp-scripts.js', [ 'jquery' ], USP_VERSION );
 
 	usp_awesome_font_style();
-	USP()->use_module( 'fields' );
 
 	wp_localize_script( 'usp-core-scripts', 'USP', usp_get_localize_data() );
 }

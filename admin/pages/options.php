@@ -2,8 +2,6 @@
 
 global $wpdb;
 
-USP()->use_module( 'options-manager' );
-
 usp_awesome_font_style();
 
 wp_enqueue_script( 'jquery' );

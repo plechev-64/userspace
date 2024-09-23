@@ -4,24 +4,22 @@
   Plugin URI: http://user-space.com/
   Description: Login & registration form, profile fields, front-end profile, user account and core for WordPress membership.
   Version: 0.1
-  Author: Plechev Andrey
+  Author: UserSpace
   Author URI: http://user-space.com/
   Text Domain: userspace
   License: GPLv2 or later (license.txt)
  */
 
-/*  Copyright 2012  Plechev Andrey  (email : support {at} codeseller.ru)  */
+/*  Copyright 2024  UserSpace  (email : support {at} user-space.com)  */
 
 final class UserSpace {
 
-	private $version = '1.0.0';
-	private $theme = null;
-	private $fields = [];
-	private $modules = [];
-	private $used_modules = [];
-	private static $instance = null;
+	private string $version = '1.0.0';
+	private ?Theme $theme = null;
+	private array $fields = [];
+	private static ?UserSpace $instance = null;
 
-	public static function getInstance() {
+	public static function getInstance(): ?UserSpace {
 		if ( null === self::$instance ) {
 			self::$instance = new self();
 		}
@@ -50,7 +48,7 @@ final class UserSpace {
 		return;
 	}
 
-	private function define_constants() {
+	private function define_constants(): void {
 		global $wpdb;
 
 		$upload_dir = $this->upload_dir();
@@ -67,17 +65,17 @@ final class UserSpace {
 		$this->define( 'USP_TAKEPATH', WP_CONTENT_DIR . '/userspace/' );
 	}
 
-	private function define( $name, $value ) {
+	private function define( string $name, mixed $value ): void {
 		if ( ! defined( $name ) ) {
 			define( $name, $value );
 		}
 	}
 
-	private function load_options() {
+	private function load_options(): void {
 		Options::getInstance();
 	}
 
-	private function init_hooks() {
+	private function init_hooks(): void {
 		register_activation_hook( __FILE__, [ 'Install', 'install' ] );
 
 		add_action( 'init', [ $this, 'init' ], 0 );
@@ -98,7 +96,7 @@ final class UserSpace {
 		}
 	}
 
-	function update_user_activity() {
+	public function update_user_activity(): void {
 		if ( ! is_user_logged_in() ) {
 			return;
 		}
@@ -106,7 +104,7 @@ final class UserSpace {
 		usp_user_update_activity();
 	}
 
-	function register_theme_header( $extra_context_headers ) {
+	public function register_theme_header( array $extra_context_headers ): array {
 		$extra_context_headers['UserSpaceTheme'] = 'UserSpaceTheme';
 
 		return $extra_context_headers;
@@ -115,7 +113,7 @@ final class UserSpace {
 	/*
 	 * Find out the type of request
 	 */
-	private function is_request( $type ) {
+	private function is_request( string $type ): bool {
 		switch ( $type ) {
 			case 'admin' :
 				return is_admin();
@@ -129,17 +127,14 @@ final class UserSpace {
 	}
 
 	//all files for the admin panel
-	public function admin_includes() {
+	public function admin_includes(): void {
 		require_once 'admin/index.php';
 	}
 
-	public function userspace_office_load() {
-		if ( $this->office()->is_owner( get_current_user_id() ) ) {
-			$this->use_module( 'forms' );
-		}
+	public function userspace_office_load(): void {
 	}
 
-	public function init() {
+	public function init(): void {
 		do_action( 'usp_before_init' );
 
 		$this->fields_init();
@@ -154,18 +149,14 @@ final class UserSpace {
 
 		$this->customizer_init();
 
-		if ( Ajax()->is_rest_request() ) {
-			$this->use_module( 'forms' );
-		}
-
 		do_action( 'usp_init' );
 	}
 
-	function customizer_init() {
+	public function customizer_init(): void {
 		require_once 'customizer/customizer.php';
 	}
 
-	function setup_tabs() {
+	public function setup_tabs(): void {
 		do_action( 'usp_init_tabs' );
 
 		$this->tabs()->init_custom_tabs();
@@ -175,7 +166,7 @@ final class UserSpace {
 		do_action( 'usp_setup_tabs' );
 	}
 
-	function fields_init() {
+	public function fields_init(): void {
 		$this->fields = apply_filters( 'usp_fields', [
 			'text'        => [
 				'label' => __( 'Text', 'userspace' ),
@@ -276,12 +267,11 @@ final class UserSpace {
 		] );
 	}
 
-	public function includes() {
+	public function includes(): void {
 		/*
 		 * Here we will connect the files that are needed globally for the plugin
 		 * The rest will be based on the corresponding functions
 		 */
-		require_once 'src/class-usp-module.php';
 		require_once 'src/Attachments/OptAttachment.php';
 		require_once 'src/Attachments/OptAttachments.php';
 		require_once 'src/Query/QueryBuilder.php';
@@ -332,45 +322,21 @@ final class UserSpace {
 		}
 	}
 
-	function init_module( $module_id, $path, $parents = [] ) {
-		$this->modules[ $module_id ] = new USP_Module( $path, $parents );
+	private function init_modules(): void {
+		require_once USP_PATH . 'src/Module/fields/index.php';
+		require_once USP_PATH . 'src/Module/table/index.php';
+		require_once USP_PATH . 'src/Module/uploader/index.php';
+		require_once USP_PATH . 'src/Module/tabs/index.php';
+		require_once USP_PATH . 'src/Module/forms/index.php';
+		require_once USP_PATH . 'src/Module/fields-manager/index.php';
+		require_once USP_PATH . 'src/Module/content-manager/index.php';
+		require_once USP_PATH . 'src/Module/options-manager/index.php';
+		require_once USP_PATH . 'src/Module/profile/index.php';
+		require_once USP_PATH . 'src/Module/profile-fields/index.php';
+		require_once USP_PATH . 'src/Module/usp-dropdown-menu/index.php';
 	}
 
-	function use_module( $module_id ) {
-		if ( $this->used_modules && in_array( $module_id, $this->used_modules ) ) {
-			return;
-		}
-
-		$module = $this->modules[ $module_id ];
-
-		if ( $module->parents ) {
-			foreach ( $module->parents as $parent_id ) {
-				$this->use_module( $parent_id );
-			}
-		}
-
-		$this->modules[ $module_id ]->inc();
-
-		$this->used_modules[] = $module_id;
-	}
-
-	private function init_modules() {
-		$this->modules = [
-			'uploader'        => new USP_Module( USP_PATH . 'src/Module/uploader/index.php' ),
-			'table'           => new USP_Module( USP_PATH . 'src/Module/table/index.php' ),
-			'tabs'            => new USP_Module( USP_PATH . 'src/Module/tabs/index.php' ),
-			'forms'           => new USP_Module( USP_PATH . 'src/Module/forms/index.php', [ 'fields' ] ),
-			'fields'          => new USP_Module( USP_PATH . 'src/Module/fields/index.php', [ 'uploader' ] ),
-			'fields-manager'  => new USP_Module( USP_PATH . 'src/Module/fields-manager/index.php', [ 'fields' ] ),
-			'content-manager' => new USP_Module( USP_PATH . 'src/Module/content-manager/index.php', [ 'fields', 'table' ] ),
-			'options-manager' => new USP_Module( USP_PATH . 'src/Module/options-manager/index.php', [ 'fields' ] ),
-			'profile'         => new USP_Module( USP_PATH . 'src/Module/profile/index.php' ),
-			'profile-fields'  => new USP_Module( USP_PATH . 'src/Module/profile-fields/index.php', [ 'fields' ] ),
-			'dropdown-menu'   => new USP_Module( USP_PATH . 'src/Module/usp-dropdown-menu/index.php' ),
-		];
-	}
-
-	public function upload_dir() {
+	public function upload_dir(): array {
 		if ( defined( 'MULTISITE' ) ) {
 			$upload_dir = [
 				'basedir' => WP_CONTENT_DIR . '/uploads',
@@ -387,15 +353,15 @@ final class UserSpace {
 		return apply_filters( 'usp_upload_dir', $upload_dir, $this );
 	}
 
-	public function office() {
+	public function office(): ?Office {
 		return Office::getInstance();
 	}
 
-	public function users() {
+	public function users(): ?Users {
 		return Users::getInstance();
 	}
 
-	public function user( $user_id = 0 ) {
+	public function user( int $user_id = 0 ): ?User {
 		$user_id = $user_id ?: get_current_user_id();
 
 		if ( ! $user_id ) {
@@ -413,37 +379,31 @@ final class UserSpace {
 		return $user;
 	}
 
-	public function profile_fields() {
-		$this->use_module( 'profile-fields' );
-
+	public function profile_fields(): ProfileFields {
 		return new ProfileFields();
 	}
 
-	public function themes() {
+	public function themes(): Themes {
 		return new Themes();
 	}
 
-	public function tabs() {
+	public function tabs(): ?Tabs {
 		return Tabs::instance();
 	}
 
-	public function template( $name, $file = false ) {
+	public function template( string $name, string $file = null ) {
 		return new Template( $name, $file );
 	}
 
-	public function theme() {
+	public function theme(): ?Theme {
 		return $this->theme;
 	}
 
-	function get_fields() {
+	public function get_fields(): array {
 		return $this->fields;
 	}
 
-	function get_used_modules() {
-		return $this->used_modules;
-	}
-
-	function options() {
+	public function options(): ?Options {
 		return Options::getInstance();
 	}
 
@@ -454,7 +414,3 @@ function USP() {
 }
 
 $GLOBALS['userspace'] = USP();
-
-USP()->use_module( 'tabs' );
-USP()->use_module( 'profile' );
-USP()->use_module( 'dropdown-menu' );

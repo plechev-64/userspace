@@ -314,10 +314,7 @@ function usp_mail( $email, $title, $text, $from = false, $attachments = false ) 
  * @since   1.0.0
  */
 function usp_get_form( $args ) {
-	USP()->use_module( 'forms' );
-
 	$Form = new Form( $args );
-
 	return $Form->get_form();
 }
 

@@ -119,8 +119,6 @@ function usp_get_user_avatar_menu( User $user ) {
 
 	if ( get_current_user_id() == $user->ID ) {
 
-		USP()->use_module( 'uploader' );
-
 		$avatar_uploader = new Uploader( 'usp_avatar', [
 			'multiple'    => 0,
 			'crop'        => 1,
@@ -169,8 +167,6 @@ function usp_get_user_avatar_menu( User $user ) {
 	}
 
 	if ( get_current_user_id() == $user->ID ) {
-
-		USP()->use_module( 'uploader' );
 
 		$uploader_cover = new Uploader( 'usp_cover', [
 			'multiple'    => 0,

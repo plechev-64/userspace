@@ -1,7 +1,5 @@
 <?php
 
-USP()->use_module( 'fields-manager' );
-
 class TabsManager extends FieldsManager {
 	public function __construct( string $areaType ) {
 

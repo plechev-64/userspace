@@ -41,8 +41,6 @@ class User {
 
 	public function profile_fields(): ?UserProfileFields {
 
-		USP()->use_module( 'profile-fields' );
-
 		if ( is_null( $this->_profile_fields ) ) {
 			$this->_profile_fields = new UserProfileFields( $this );
 		}

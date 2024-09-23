@@ -59,15 +59,6 @@ function usp_ajax_call() {
 	}
 
 	$callback = sanitize_text_field( wp_unslash( $_POST['call_action'] ) );
-	// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-	$modules = ! empty( $_POST['used_modules'] ) ? usp_recursive_map( 'sanitize_text_field', wp_unslash( $_POST['used_modules'] ) ) : false;
-	// phpcs:enable WordPress.Security.NonceVerification.Missing
-
-	if ( $modules ) {
-		foreach ( $modules as $module_id ) {
-			USP()->use_module( $module_id );
-		}
-	}
 
 	$callbackProps = Ajax()->get_ajax_callback( $callback );
 
@@ -95,8 +86,6 @@ function usp_ajax_call() {
 	wp_enqueue_script( 'usp-core-scripts', USP_URL . 'assets/js/usp-core.js', [ 'jquery' ], USP_VERSION );
 
 	$respond = $callback();
-
-	$respond['used_modules'] = $modules ? array_unique( $modules + USP()->get_used_modules() ) : USP()->get_used_modules();
 
 	wp_send_json( $respond );
 }

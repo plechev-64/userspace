@@ -1,7 +1,5 @@
 <?php
 
-USP()->use_module( 'fields-manager' );
-
 class RegisterFormManager extends FieldsManager {
 	public function __construct() {
 

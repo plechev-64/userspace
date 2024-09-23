@@ -5,14 +5,7 @@ require_once "admin-menu.php";
 add_action( 'current_screen', 'usp_admin_init' );
 function usp_admin_init( $current_screen ) {
 	if ( preg_match( '/(userspace_page|manage-userspace|profile|user-edit)/', $current_screen->base ) ) {
-
 		usp_admin_resources();
-
-		USP()->use_module( 'forms' );
-	}
-
-	if ( 'userspace_page_usp-tabs-manager' == $current_screen->base || 'userspace_page_usp-register-form-manager' == $current_screen->base ) {
-		USP()->use_module( 'fields-manager' );
 	}
 }
 

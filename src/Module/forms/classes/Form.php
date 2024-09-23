@@ -54,7 +54,7 @@ class Form extends Fields {
 		return $content;
 	}
 
-	private function get_submit_box(): string {
+	public function get_submit_box(): string {
 
 		$content = '<div class="submit-box usps usps__jc-end">';
 

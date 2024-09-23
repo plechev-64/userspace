@@ -1,7 +1,5 @@
 <?php
 
-USP()->use_module( 'uploader' );
-
 add_action( 'usp_enqueue_scripts', 'usp_support_cover_uploader_scripts', 10 );
 function usp_support_cover_uploader_scripts() {
 	if ( usp_is_office( get_current_user_id() ) ) {

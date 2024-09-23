@@ -38,8 +38,6 @@ class UserProfileFields extends ProfileFields {
 
 	public function get_profile_fields_form(): string {
 
-		USP()->use_module( 'forms' );
-
 		$profileFields = $this->get_fields();
 
 		foreach ( $profileFields as $field ) {

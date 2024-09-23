@@ -84,8 +84,6 @@ function usp_get_custom_fields_profile( $user ) {
 		return;
 	}
 
-	USP()->use_module( 'fields' );
-
 	$content = '<h2>' . __( 'Custom Profile Fields', 'userspace' ) . '</h2>';
 	$content .= '<div class="usp-admin-profile usp-form usp-preloader-parent">';
 	$content .= '<div class="usp-content">';

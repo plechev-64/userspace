@@ -468,15 +468,10 @@ function usp_ajax(prop) {
 
         prop.data = newRequestArray.join('&');
 
-        USP.used_modules.forEach(function (module_id) {
-            prop.data += '&used_modules[]=' + module_id;
-        });
-
         prop.data += '&action=usp_ajax_call';
 
     } else if (typeof prop.data === 'object') {
         callback = prop.data.action;
-        prop.data.used_modules = USP.used_modules;
         prop.data.action = action;
         prop.data.call_action = callback;
     }
@@ -584,10 +579,6 @@ function usp_ajax(prop) {
             }
 
             usp_do_action(callback, result);
-
-            if (result.used_modules) {
-                USP.used_modules = result.used_modules;
-            }
 
         }
     });

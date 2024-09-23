@@ -525,24 +525,6 @@ function usp_include_scripts() {
 	$USP_Include->include_scripts();
 }
 
-add_action( 'wp_footer', 'usp_localize_modules_list_frontend', 10 );
-function usp_localize_modules_list_frontend() {
-	echo usp_localize_modules_list();
-}
-
-add_action( 'admin_footer', 'usp_localize_modules_list_admin', 10 );
-function usp_localize_modules_list_admin() {
-	$screen = get_current_screen();
-
-	if ( is_admin() && preg_match( '/(userspace_page|manage-userspace)/', $screen->base ) ) {
-		echo usp_localize_modules_list();
-	}
-}
-
-function usp_localize_modules_list() {
-	return '<script>USP.used_modules = ' . wp_json_encode( USP()->get_used_modules() ) . '</script>';
-}
-
 // we reset the arrays of registered scripts and styles when calling the tab via ajax
 add_action( 'usp_init_ajax_tab', 'usp_reset_wp_dependencies', 10 );
 function usp_reset_wp_dependencies() {

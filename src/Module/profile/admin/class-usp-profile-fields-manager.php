@@ -1,7 +1,5 @@
 <?php
 
-USP()->use_module( 'fields-manager' );
-
 class USP_Profile_Fields_Manager extends FieldsManager {
 	function __construct() {
 		global $wpdb;

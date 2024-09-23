@@ -1,7 +1,7 @@
 <?php
 
 function usp_get_image_gallery( $args ) {
-	USP()->use_module( 'gallery' );
+
 	$gallery = new USP_Image_Gallery( $args );
 
 	return $gallery->get_gallery();

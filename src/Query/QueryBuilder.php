@@ -564,7 +564,7 @@ class QueryBuilder {
 
 	}
 
-	private function get_data(
+	protected function get_data(
 		string $method = 'get_results',
 		bool $use_cache = false,
 		bool $return_as = false,

@@ -92,10 +92,6 @@ abstract class ContentManager {
 			$this->set_data();
 		}
 
-		if ( $this->is_filters() ) {
-			USP()->use_module( 'forms' );
-		}
-
 	}
 
 	public function init_pager(): void {
