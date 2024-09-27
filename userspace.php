@@ -291,7 +291,6 @@ final class UserSpace {
 		require_once 'src/User.php';
 		require_once 'src/Office.php';
 		require_once 'src/UspWalker.php';
-		require_once 'src/class-usp-includer.php';
 		require_once 'src/Install.php';
 		require_once 'src/Log.php';
 		require_once 'src/Button.php';

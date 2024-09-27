@@ -7,7 +7,7 @@ require_once 'profile-settings.php';
 add_action( 'admin_enqueue_scripts', 'usp_admin_profile_style' );
 function usp_admin_profile_style( $page ) {
 	if ( $page == 'user-edit.php' || $page == 'profile.php' ) {
-		usp_enqueue_style( 'usp-admin-profile', USP_URL . 'src/Module/profile/admin/assets/css/usp-admin-profile.css', false, false, true );
+		wp_enqueue_style( 'usp-admin-profile', USP_URL . 'src/Module/profile/admin/assets/css/usp-admin-profile.css' );
 	}
 }
 

@@ -10,6 +10,6 @@ if ( usp_is_ajax() ) {
 	add_action( 'usp_enqueue_scripts', 'usp_table_scripts', 10 );
 }
 function usp_table_scripts() {
-	usp_enqueue_style( 'usp-table', USP_URL . 'src/Module/table/assets/css/usp-table.css', false, false, true );
-	usp_enqueue_script( 'usp-table', USP_URL . 'src/Module/table/assets/js/usp-table.js', false, false, true );
+	wp_enqueue_style( 'usp-table', USP_URL . 'src/Module/table/assets/css/usp-table.css' );
+	wp_enqueue_script( 'usp-table', USP_URL . 'src/Module/table/assets/js/usp-table.js' );
 }

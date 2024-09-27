@@ -33,6 +33,6 @@ if ( usp_is_ajax() ) {
 }
 
 function usp_fields_scripts() {
-	usp_enqueue_style( 'usp-fields', USP_URL . 'src/Module/fields/assets/css/usp-fields.css', false, false, true );
-	usp_enqueue_script( 'usp-fields', USP_URL . 'src/Module/fields/assets/js/usp-fields.js', [ 'usp-core-scripts' ], false, true );
+	wp_enqueue_style( 'usp-fields', USP_URL . 'src/Module/fields/assets/css/usp-fields.css' );
+	wp_enqueue_script( 'usp-fields', USP_URL . 'src/Module/fields/assets/js/usp-fields.js', [ 'usp-core-scripts' ] );
 }

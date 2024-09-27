@@ -3,7 +3,7 @@
 add_action( 'usp_enqueue_scripts', 'usp_support_cover_uploader_scripts', 10 );
 function usp_support_cover_uploader_scripts() {
 	if ( usp_is_office( get_current_user_id() ) ) {
-		usp_enqueue_script( 'cover-uploader', USP_URL . 'functions/supports/assets/js/usp-uploader-cover.js', false, true );
+		wp_enqueue_script( 'cover-uploader', USP_URL . 'functions/supports/assets/js/usp-uploader-cover.js', false, false,true );
 	}
 }
 

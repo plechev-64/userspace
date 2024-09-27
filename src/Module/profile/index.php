@@ -9,7 +9,7 @@ if ( is_admin() ) {
 add_action( 'usp_enqueue_scripts', 'usp_my_profile_resources', 10 );
 function usp_my_profile_resources() {
 	if ( usp_is_office( get_current_user_id() ) ) {
-		usp_enqueue_script( 'usp-my-profile-js', plugins_url( 'assets/js/usp-profile.js', __FILE__ ) );
+		wp_enqueue_script( 'usp-my-profile-js', plugins_url( 'assets/js/usp-profile.js', __FILE__ ) );
 	}
 }
 

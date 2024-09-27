@@ -12,6 +12,6 @@ if ( usp_is_ajax() ) {
 }
 
 function usp_fields_manager_scripts() {
-	usp_enqueue_style( 'usp-fields-manager', USP_URL . 'src/Module/fields-manager/assets/css/usp-fields-manager.css', false, false, true );
-	usp_enqueue_script( 'usp-fields-manager', USP_URL . 'src/Module/fields-manager/assets/js/usp-fields-manager.js', false, false, true );
+	wp_enqueue_style( 'usp-fields-manager', USP_URL . 'src/Module/fields-manager/assets/css/usp-fields-manager.css' );
+	wp_enqueue_script( 'usp-fields-manager', USP_URL . 'src/Module/fields-manager/assets/js/usp-fields-manager.js' );
 }

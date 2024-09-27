@@ -13,6 +13,6 @@ if ( usp_is_ajax() ) {
 	add_action( 'usp_enqueue_scripts', 'usp_content_manager_scripts', 10 );
 }
 function usp_content_manager_scripts() {
-	usp_enqueue_style( 'usp-content-manager', USP_URL . 'src/Module/content-manager/assets/css/usp-content-manager.css', false, false, true );
-	usp_enqueue_script( 'usp-content-manager', USP_URL . 'src/Module/content-manager/assets/js/usp-content-manager.js', [ 'usp-core-scripts' ], false, true );
+	wp_enqueue_style( 'usp-content-manager', USP_URL . 'src/Module/content-manager/assets/css/usp-content-manager.css' );
+	wp_enqueue_script( 'usp-content-manager', USP_URL . 'src/Module/content-manager/assets/js/usp-content-manager.js', [ 'usp-core-scripts' ]);
 }

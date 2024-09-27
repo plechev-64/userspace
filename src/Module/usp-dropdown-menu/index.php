@@ -4,8 +4,8 @@ require_once 'classes/DropdownMenuGroup.php';
 
 add_action( 'usp_enqueue_scripts', 'usp_dropdown_menu_scripts', 10 );
 function usp_dropdown_menu_scripts() {
-	usp_enqueue_style( 'usp-dropdown-menu', USP_URL . 'src/Module/usp-dropdown-menu/assets/css/usp-dropdown-menu.css', false, false, true );
-	usp_enqueue_script( 'usp-dropdown-menu', USP_URL . 'src/Module/usp-dropdown-menu/assets/js/usp-dropdown-menu.js', false, false, true );
+	wp_enqueue_style( 'usp-dropdown-menu', USP_URL . 'src/Module/usp-dropdown-menu/assets/css/usp-dropdown-menu.css' );
+	wp_enqueue_script( 'usp-dropdown-menu', USP_URL . 'src/Module/usp-dropdown-menu/assets/js/usp-dropdown-menu.js' );
 }
 
 function usp_menu_build_tree_recursive( $items, $parent_id = 0 ) {

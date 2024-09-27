@@ -7,7 +7,7 @@ function usp_support_user_info_scripts() {
 	}
 
 	usp_dialog_scripts();
-	usp_enqueue_script( 'usp-user-info-js', USP_URL . 'functions/supports/assets/js/usp-user-details.js', false, true );
+	wp_enqueue_script( 'usp-user-info-js', USP_URL . 'functions/supports/assets/js/usp-user-details.js', false, false,true );
 }
 
 add_action( 'usp_enqueue_scripts', 'usp_support_user_info_style', 10 );
@@ -16,7 +16,7 @@ function usp_support_user_info_style() {
 		return;
 	}
 
-	usp_enqueue_style( 'usp-user-info-css', USP_URL . 'functions/supports/assets/css/usp-user-details.css' );
+	wp_enqueue_style( 'usp-user-info-css', USP_URL . 'functions/supports/assets/css/usp-user-details.css' );
 }
 
 // Get ajax user details by id
