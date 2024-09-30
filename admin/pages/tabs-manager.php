@@ -1,5 +1,7 @@
 <?php
 
+use USP\Admin\TabsManager;
+
 require_once USP_PATH . 'src/Admin/TabsManager.php';
 
 // phpcs:ignore WordPress.Security.NonceVerification.Recommended
