@@ -2,6 +2,9 @@
 /** @noinspection PhpMissingParamTypeInspection */
 /** @noinspection PhpUnused */
 
+use USP\Core\Module\DropdownMenu\DropdownMenu;
+use USP\Core\User;
+
 /**
  * Retrieve the avatar `<img>` tag for a user
  * wraps it, if necessary, in the parent tag `<a>` or `<div>`

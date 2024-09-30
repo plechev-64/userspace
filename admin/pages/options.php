@@ -2,6 +2,8 @@
 
 global $wpdb;
 
+use USP\Admin\OptionsManager\OptionsManager;
+
 usp_awesome_font_style();
 
 wp_enqueue_script( 'jquery' );

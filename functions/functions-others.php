@@ -1,6 +1,10 @@
-<?php /** @noinspection PhpMissingReturnTypeInspection */
-/** @noinspection PhpMissingParamTypeInspection */
-/** @noinspection PhpUnused */
+<?php
+
+use USP\Core\Button;
+use USP\Core\Log;
+use USP\Core\Module\Forms\Form;
+use USP\Core\Notice;
+use USP\Core\Query\DefaultTable\PostsQuery;
 
 /**
  * Get URL to default cover.
@@ -349,8 +353,6 @@ function usp_get_form( $args ) {
  * @since   1.0.0
  */
 function usp_get_notice( $args ) {
-	require_once USP_PATH . '/src/Notice.php';
-
 	$Notice = new Notice( $args );
 
 	return $Notice->get_notice();

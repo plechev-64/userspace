@@ -1,5 +1,7 @@
 <?php
 
+use USP\Core\Query\DefaultTable\PostsQuery;
+
 /**
  * Check if isset plugin page.
  *

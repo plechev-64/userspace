@@ -40,12 +40,12 @@ function usp_get_template_path( $temp_name, $path = false ) {
  *                              Default: false
  * @param   $data       array   Array of additional data.
  *
- * @return  false|void
+ * @return  void
  *
  * @since   1.0.0
  */
 function usp_include_template( $temp_name, $path = false, $data = false ) {
-	return USP()->template( $temp_name, $path )->include( $data );
+	USP()->template( $temp_name, $path )->include( $data );
 }
 
 /**
@@ -68,7 +68,7 @@ function usp_include_template( $temp_name, $path = false, $data = false ) {
  * @since   1.0.0
  *
  */
-function usp_get_include_template( $temp_name, $path = false, $data = false ) {
+function usp_get_include_template( $temp_name, $path = false, $data = false ): string {
 	return USP()->template( $temp_name, $path )->get_content( $data );
 }
 
@@ -82,7 +82,7 @@ function usp_get_include_template( $temp_name, $path = false, $data = false ) {
  *
  * @since   1.0.0
  */
-function usp_path_to_url( $path ) {
+function usp_path_to_url( $path ): string {
 	/** @noinspection HttpUrlsUsage */
 	$siteUrl = is_ssl() ? str_replace( 'http://', 'https://', get_site_option( 'siteurl' ) ) : get_site_option( 'siteurl' );
 
@@ -98,7 +98,7 @@ function usp_path_to_url( $path ) {
  *
  * @since   1.0.0
  */
-function usp_path_by_url( $url ) {
+function usp_path_by_url( $url ): string {
 	if ( function_exists( 'wp_normalize_path' ) ) {
 		$url = wp_normalize_path( $url );
 	}
@@ -108,9 +108,9 @@ function usp_path_by_url( $url ) {
 	return untrailingslashit( dirname( WP_CONTENT_DIR ) . '/' . $string );
 }
 
-function usp_get_mime_type_by_ext( $file_ext ) {
+function usp_get_mime_type_by_ext( $file_ext ): ?string {
 	if ( ! $file_ext ) {
-		return false;
+		return null;
 	}
 
 	$mimes = get_allowed_mime_types();
@@ -121,12 +121,12 @@ function usp_get_mime_type_by_ext( $file_ext ) {
 		}
 	}
 
-	return false;
+	return null;
 }
 
-function usp_get_mime_types( $ext_array ) {
+function usp_get_mime_types( $ext_array ): array {
 	if ( ! $ext_array ) {
-		return false;
+		return [];
 	}
 
 	$mTypes = [];

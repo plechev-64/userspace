@@ -1,5 +1,7 @@
 <?php
 
+use USP\Core\Query\DefaultTable\TempMediaQuery;
+
 function usp_get_image_gallery( $args ) {
 
 	$gallery = new USP_Image_Gallery( $args );
@@ -82,7 +84,7 @@ function usp_delete_daily_old_temp_attachments() {
 	] );
 
 	if ( ! $medias ) {
-		return false;
+		return;
 	}
 
 	foreach ( $medias as $media ) {

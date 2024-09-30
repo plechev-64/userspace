@@ -1,5 +1,8 @@
 <?php
 
+use USP\Core\Ajax;
+use USP\Core\Query\DefaultTable\TempMediaQuery;
+
 
 /**
  * This function will return true if performing a wp ajax call.
@@ -36,14 +39,14 @@ function usp_rest_action( $function_name ) {
 /**
  * Calls the callback functions that have been added to the usp_ajax() data action method.
  *
- * @param   $callback       string  Callback function from js usp_ajax data action method.
+ * @param   $callback       string|array  Callback function from js usp_ajax data action method.
  * @param   $guest_access   bool    If guest access is needed.
  *                                  Default: false
- * @param   $modules        bool
+ * @param   $modules        void
  *
  * @since   1.0.0
  */
-function usp_ajax_action( $callback, $guest_access = false, $modules = true ) {
+function usp_ajax_action( string|array $callback, $guest_access = false, $modules = true ) {
 	Ajax()->init_ajax_callback( $callback, $guest_access, $modules );
 }
 
@@ -260,7 +263,7 @@ function usp_upload() {
 
 	$class_name = $options['class_name'];
 
-	if ( 'Uploader' == $class_name ) {
+	if ( \USP\Core\Module\Uploader\Uploader::class == $class_name ) {
 		$uploader = new $class_name( $options['uploader_id'], $options );
 	} else if ( is_subclass_of( $class_name, 'Uploader' ) ) {
 		$uploader = new $class_name( $options );
@@ -333,5 +336,46 @@ function usp_ajax_delete_attachment() {
 
 	return [
 		'success' => __( 'The file has been successfully deleted!', 'userspace' )
+	];
+}
+
+usp_ajax_action( 'usp_update_options', false );
+function usp_update_options() {
+
+	if ( ! current_user_can( 'manage_options' ) ) {
+		return [
+			'error' => __( 'Error', 'userspace' )
+		];
+	}
+
+	$POST = $_POST;
+
+	array_walk_recursive(
+		$POST, function ( &$v, $k ) {
+		$v = trim( $v );
+	} );
+
+	foreach ( $POST as $option_name => $values ) {
+
+		if ( ! is_array( $values ) ) {
+			continue;
+		}
+
+		$values = apply_filters( $option_name . '_pre_update', $values );
+
+		if ( $option_name == 'local' ) {
+
+			foreach ( $values as $local_name => $value ) {
+				update_site_option( $local_name, $value );
+			}
+		} else {
+			update_site_option( $option_name, $values );
+		}
+	}
+
+	do_action( 'usp_update_options' );
+
+	return [
+		'success' => __( 'Settings saved!', 'userspace' )
 	];
 }

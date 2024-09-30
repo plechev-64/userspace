@@ -16,6 +16,8 @@
  * @version 1.0.0
  */
 
+use USP\Core\Module\DropdownMenu\DropdownMenu;
+
 defined( 'ABSPATH' ) || exit;
 
 $color      = usp_get_option_customizer( 'usp_bar_color', 'black' );

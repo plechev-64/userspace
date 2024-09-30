@@ -1,5 +1,9 @@
 <?php
 
+namespace USP\Admin;
+
+use USP\Core\Module\FieldsManager\FieldsManager;
+
 class RegisterFormManager extends FieldsManager {
 	public function __construct() {
 

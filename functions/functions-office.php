@@ -107,7 +107,6 @@ function usp_include_uploader_avatar() {
  * @since   1.0.0
  */
 function usp_include_uploader_cover() {
-	add_filter( 'usp_options', 'usp_add_cover_options', 10 );
 
 	if ( usp_get_option( 'usp_cover_weight', 1024 ) > 0 ) {
 		include_once USP_PATH . 'functions/supports/uploader-cover.php';

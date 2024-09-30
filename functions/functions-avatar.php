@@ -1,6 +1,10 @@
 <?php
 
 // registers the sizes of avatars
+use USP\Core\Module\DropdownMenu\DropdownMenu;
+use USP\Core\Module\Uploader\Uploader;
+use USP\Core\User;
+
 add_action( 'wp_head', 'usp_register_avatar_sizes', 10 );
 function usp_register_avatar_sizes() {
 	/**
@@ -89,7 +93,7 @@ function usp_avatar_data_replacement( $args, $id_or_email ) {
  *
  * @return DropdownMenu
  */
-function usp_get_user_avatar_menu( User $user ) {
+function usp_get_user_avatar_menu( User $user ): DropdownMenu {
 
 	$menu = new DropdownMenu( 'usp_user_avatar_menu', [
 		'custom_data' => [

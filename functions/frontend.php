@@ -25,6 +25,7 @@ function userspace() {
 
 		<?php
 		$themePath = USP()->theme()->get( 'path' );
+
 		if ( $themePath ) {
 			USP()->template( 'usp-office.php', $themePath )->include();
 		} else {

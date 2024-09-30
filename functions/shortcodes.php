@@ -193,67 +193,6 @@ function usp_logout_button( $args ) {
 	] );
 }
 
-add_shortcode( 'usp-cache', 'usp_cache_shortcode' );
-/**
- * Builds shortcode allows you to cache the content.
- * As a rule, these are other shortcodes.
- *
- * Example: [usp-cache time="3600" key="my-unique-key"]say hello shortcode[/usp-cache]
- *
- * @param   $args       array   Additional settings:
- * <pre>
- * $args['time']        int     Caching time in seconds.
- * $args['key']         string  Unique key.
- * $args['only_guest']  int     Cached for guests only (set "1" - enables only guests).
- *                              Default: false
- * </pre>
- *
- * @return string       HTML cached content.
- * @since               1.0.0
- *
- */
-function usp_cache_shortcode( $args, $content_in = null ) {
-	global $post;
-
-	$attr = shortcode_atts( [
-		'key'        => '',
-		'only_guest' => false,
-		'time'       => false
-	], $args );
-
-	if ( 'publish' == $post->post_status ) {
-
-		$attr['key'] .= '-cache-' . $post->ID;
-
-		$usp_cache = new USP_Cache( $attr['time'], $attr['only_guest'] );
-
-		if ( $usp_cache->is_cache ) {
-
-			$file = $usp_cache->get_file( $attr['key'] );
-
-			if ( ! $file->need_update ) {
-				return $usp_cache->get_cache();
-			}
-		}
-	}
-
-	$content = do_shortcode( shortcode_unautop( $content_in ) );
-
-	if ( '</p>' == substr( $content, 0, 4 ) && '<p>' == substr( $content, strlen( $content ) - 3 ) ) {
-		$content = substr( $content, 4, strlen( $content ) - 7 );
-	}
-
-	if ( 'publish' == $post->post_status ) {
-
-		if ( isset( $usp_cache ) && $usp_cache->is_cache ) {
-			$usp_cache->update_cache( $content );
-		}
-	}
-
-	return $content;
-}
-
-
 add_shortcode( 'usp-notice', 'usp_notice_shortcode' );
 /**
  * Builds shortcode, displays a notification window.
