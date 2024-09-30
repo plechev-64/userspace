@@ -2,6 +2,7 @@
 
 namespace USP\Core\Module\FieldsManager;
 
+use USP\Core\Module\Fields\FieldAbstract;
 use USP\Core\Module\Fields\Fields;
 
 class FieldsManager extends Fields {

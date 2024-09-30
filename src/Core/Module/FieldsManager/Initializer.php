@@ -13,9 +13,7 @@ class Initializer {
 			add_action( 'usp_enqueue_scripts', [$this, 'usp_fields_scripts'], 10 );
 		}
 
-		add_filter( 'usp_field_options', [$this, 'usp_edit_field_options'], 10, 3 );
-
-		require_once 'ajax.php';
+		require_once 'hooks.php';
 
 	}
 

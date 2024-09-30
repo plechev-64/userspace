@@ -197,7 +197,7 @@ class Initializer {
 	}
 
 	public function usp_profile_admin_menu() {
-		add_submenu_page( 'manage-userspace', __( 'The form of profile', 'userspace' ), __( 'The form of profile', 'userspace' ), 'manage_options', 'manage-userfield', 'usp_profile_fields_manager' );
+		add_submenu_page( 'manage-userspace', __( 'The form of profile', 'userspace' ), __( 'The form of profile', 'userspace' ), 'manage_options', 'manage-userfield', [$this, 'usp_profile_fields_manager'] );
 	}
 
 	public function usp_profile_fields_manager() {
