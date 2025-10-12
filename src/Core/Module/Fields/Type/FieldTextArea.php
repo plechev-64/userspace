@@ -28,7 +28,7 @@ class FieldTextArea extends FieldAbstract {
 	}
 
 	public function get_input(): string {
-		return '<textarea name="' . esc_attr( $this->input_name ) . '" ' . $this->get_maxlength() . ' ' . $this->get_required() . ' ' . $this->get_placeholder() . ' ' . $this->get_class() . ' id="' . esc_attr( $this->input_id ) . '" rows="5" cols="50">' . esc_textarea( $this->value ) . '</textarea>';
+		return '<textarea name="' . esc_attr( $this->input_name ) . '" ' . $this->get_maxlength() . ' ' . $this->get_required() . ' ' . $this->get_placeholder() . ' ' . $this->get_class() . ' id="' . esc_attr( $this->input_id ) . '" rows="5" cols="50">' . esc_textarea( $this->value?? '' ) . '</textarea>';
 	}
 
 	public function get_value(): ?string {

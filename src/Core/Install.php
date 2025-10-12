@@ -2,6 +2,9 @@
 
 namespace USP\Core;
 
+use USP\UserSpace;
+
+
 class Install {
 	public static function init(): void {
 		add_action( 'init', array( __CLASS__, 'init_global' ) );
@@ -14,7 +17,9 @@ class Install {
 			define( 'USP_INSTALLING', true );
 		}
 
-		USP()->init();
+		// Получаем экземпляр UserSpace из контейнера и инициализируем его
+		$container = Container::getInstance();
+		$container->get( UserSpace::class )->init();
 
 		//FIXME: Deal with these global ones. Whether they are needed here is still unclear.
 		self::init_global();

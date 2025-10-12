@@ -5,7 +5,9 @@ namespace USP\Admin\OptionsManager;
 class Initializer {
 	public function init(): void {
 		if ( is_admin() || isset( $_REQUEST['rest_route'] ) ) {
-			$this->usp_options_manager_scripts();
+            add_action('admin_enqueue_scripts', function(){
+                $this->usp_options_manager_scripts();
+            });
 		} else {
 			add_action( 'usp_enqueue_scripts', [$this, 'usp_options_manager_scripts'], 10 );
 		}

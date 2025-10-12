@@ -12,12 +12,21 @@
 
 /*  Copyright 2024  UserSpace  (email : support {at} user-space.com)  */
 
+use USP\Core\Install;
+use USP\Core\Container;
 use USP\UserSpace;
 
 require_once 'vendor/autoload.php';
 
-function USP(): ?UserSpace {
-	return UserSpace::getInstance();
-}
+register_activation_hook( __FILE__, [ Install::class, 'install' ] );
 
-$GLOBALS['userspace'] = USP();
+// Инициализируем контейнер зависимостей
+$container = Container::getInstance();
+
+// Получаем главный класс плагина из контейнера и запускаем его
+$GLOBALS['userspace'] = $container->get( UserSpace::class );
+$GLOBALS['userspace']->run();
+
+function USP(): UserSpace {
+	return $GLOBALS['userspace'];
+}

@@ -1,5 +1,7 @@
 <?php
 
+use USP\Admin\RegisterFormManager;
+
 add_action( 'admin_menu', 'usp_admin_menu', 19 );
 function usp_admin_menu() {
 	add_menu_page( __( 'UserSpace', 'userspace' ), __( 'UserSpace', 'userspace' ), 'manage_options', 'manage-userspace', 'usp_global_options' );

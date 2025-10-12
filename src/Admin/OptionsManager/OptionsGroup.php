@@ -15,7 +15,7 @@ class OptionsGroup {
 
 		$this->group_id = $group_id;
 		$this->option_name = $option_name;
-		$this->option_values = $this->get_option( $this->option_name );
+		$this->option_values = $this->get_option( $this->option_name )?: [];
 
 		if ( $args ) {
 			$this->init_properties( $args );

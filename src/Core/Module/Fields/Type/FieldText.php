@@ -45,17 +45,17 @@ class FieldText extends FieldAbstract {
 		}
 
 		if ( $this->type == 'email' ) {
-			return '<a rel="nofollow" target="_blank" href="mailto:' . esc_attr( $this->value ) . '">' . esc_html( $this->value ) . '</a>';
+			return '<a rel="nofollow" target="_blank" href="mailto:' . esc_attr( $this->value ) . '">' . esc_html( $this->value?? '' ) . '</a>';
 		}
 		if ( $this->type == 'url' ) {
-			return '<a rel="nofollow" target="_blank" href="' . esc_url( $this->value ) . '">' . esc_html( $this->value ) . '</a>';
+			return '<a rel="nofollow" target="_blank" href="' . esc_url( $this->value ) . '">' . esc_html( $this->value?? '' ) . '</a>';
 		}
 
 		return $this->value;
 	}
 
 	public function get_filter_value(): string {
-		return '<a href="' . $this->get_filter_url() . '" target="_blank">' . esc_html( $this->value ) . '</a>';
+		return '<a href="' . $this->get_filter_url() . '" target="_blank">' . esc_html( $this->value?? '' ) . '</a>';
 	}
 
 	public function is_valid_value( $value ): bool {
