@@ -13,9 +13,9 @@ add_shortcode( 'userspace', 'usp_userspace_shortcode' );
  *
  */
 function usp_userspace_shortcode(): bool|string {
-//	if ( USP()->office()->on_page() && empty( USP()->office()->get_var( 'member' ) ) ) {
-//		return usp_get_variations_buttons();
-//	}
+	if ( USP()->office()->on_page() && empty( USP()->office()->get_var( 'member' ) ) ) {
+		return usp_get_variations_buttons();
+	}
 
 	/**
 	 * Filters allow closes someone else's personal account.
@@ -67,6 +67,8 @@ function usp_get_variations_buttons() {
 			'href'  => usp_user_get_url( get_current_user_id() )
 		] );
 	}
+
+    require_once 'loginform.php';
 
 	return usp_control_panel_shortcode();
 }
