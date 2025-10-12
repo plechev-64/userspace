@@ -650,7 +650,7 @@ class QueryBuilder {
 		return $this->get_data( 'get_results', $cache, $return_as, $get_found_rows );
 	}
 
-	public function get_row( bool $cache = false ): array|object {
+	public function get_row( bool $cache = false ): array|object|null {
 		return $this->get_data( 'get_row', $cache );
 	}
 

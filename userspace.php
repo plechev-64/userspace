@@ -27,6 +27,8 @@ $container = Container::getInstance();
 $GLOBALS['userspace'] = $container->get( UserSpace::class );
 $GLOBALS['userspace']->run();
 
+do_action( 'userspace_loaded', $container );
+
 function USP(): UserSpace {
 	return $GLOBALS['userspace'];
 }
