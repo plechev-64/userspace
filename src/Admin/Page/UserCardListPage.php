@@ -3,7 +3,7 @@
 namespace UserSpace\Admin\Page;
 
 use UserSpace\Admin\Abstract\AbstractAdminPage;
-use UserSpace\Core\Grid\UserListGrid;
+use UserSpace\Grid\UserListGrid;
 
 class UserCardListPage extends AbstractAdminPage
 {
@@ -25,41 +25,6 @@ class UserCardListPage extends AbstractAdminPage
         echo $this->userListGrid->render();
 
         echo '</div>';
-    }
-
-    public function enqueueAssets(string $hook): void
-    {
-        if ($this->hookSuffix !== $hook) {
-            return;
-        }
-
-        wp_enqueue_style(
-            'usp-base-grid-style',
-            USERSPACE_PLUGIN_URL . 'assets/css/base-grid.css',
-            [],
-            USERSPACE_VERSION
-        );
-        wp_enqueue_style(
-            'usp-card-grid-style',
-            USERSPACE_PLUGIN_URL . 'assets/css/card-grid.css',
-            ['usp-base-grid-style'],
-            USERSPACE_VERSION
-        );
-
-        wp_enqueue_script(
-            'usp-card-grid-script',
-            USERSPACE_PLUGIN_URL . 'assets/js/card-grid.js',
-            ['usp-core'],
-            USERSPACE_VERSION,
-            true
-        );
-
-        wp_localize_script('usp-card-grid-script', 'uspGridL10n', [
-            'text' => [
-                'loading' => __('Loading...', 'usp'),
-                'error'   => __('An error occurred. Please try again.', 'usp'),
-            ],
-        ]);
     }
 
     protected function getMenuTitle(): string

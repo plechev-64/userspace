@@ -3,15 +3,15 @@
 namespace UserSpace\Tabs;
 
 use UserSpace\Core\Tabs\AbstractTab;
-use UserSpace\Service\ShortcodeManager;
+use UserSpace\Renderer\GenericFormRenderer;
 
 class EditProfileTab extends AbstractTab
 {
-    private ShortcodeManager $shortcodeManager;
+    private readonly GenericFormRenderer $genericFormRenderer;
 
-    public function __construct(ShortcodeManager $shortcodeManager)
+    public function __construct(GenericFormRenderer $genericFormRenderer)
     {
-        $this->shortcodeManager = $shortcodeManager;
+        $this->genericFormRenderer = $genericFormRenderer;
 
         $this->id = 'edit_profile';
         $this->title = __('Edit Profile', 'usp');
@@ -21,6 +21,6 @@ class EditProfileTab extends AbstractTab
 
     public function getContent(): string
     {
-        return $this->shortcodeManager->renderProfileFormForAccount();
+        return $this->genericFormRenderer->render(['type' => 'profile', 'action' => '/profile/save']);
     }
 }

@@ -3,7 +3,6 @@
 namespace UserSpace\Form;
 
 use InvalidArgumentException;
-use UserSpace\Form\Field;
 
 // Защита от прямого доступа к файлу
 if ( ! defined( 'ABSPATH' ) ) {

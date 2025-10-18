@@ -4,7 +4,6 @@ namespace UserSpace\Service;
 
 use UserSpace\Core\Theme\ThemeManager;
 use UserSpace\Renderer\ForgotPasswordFormRenderer;
-use UserSpace\Renderer\GenericFormRenderer;
 use UserSpace\Renderer\LoginFormRenderer;
 use UserSpace\Renderer\RegistrationFormRenderer;
 
@@ -20,7 +19,6 @@ class ShortcodeManager
 {
 
     public function __construct(
-        private readonly GenericFormRenderer        $genericFormRenderer,
         private readonly LoginFormRenderer          $loginFormRenderer,
         private readonly RegistrationFormRenderer   $registrationFormRenderer,
         private readonly ForgotPasswordFormRenderer $forgotPasswordFormRenderer,
@@ -74,19 +72,5 @@ class ShortcodeManager
     public function renderForgotPasswordForm( array $atts ): string
     {
 		return $this->forgotPasswordFormRenderer->render();
-    }
-
-    /**
-     * Рендерит форму профиля для страницы аккаунта.
-     * @return string
-     * @deprecated
-     */
-    public function renderProfileFormForAccount(): string
-    {
-		// Этот метод больше не должен использоваться напрямую.
-		// Логика рендеринга формы профиля должна быть в своем собственном рендерере,
-		// который будет вызываться из AccountThemeManager.
-		// Для обратной совместимости пока оставим вызов GenericFormRenderer.
-		return $this->genericFormRenderer->render( [ 'type' => 'profile', 'action' => '/profile/save' ] );
     }
 }

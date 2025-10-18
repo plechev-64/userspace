@@ -2,13 +2,13 @@
 
 namespace UserSpace\Controller;
 
-use UserSpace\Core\Grid\UserListTableGrid;
 use UserSpace\Core\Grid\DTO\GridRequestParamsDto;
-use UserSpace\Core\Grid\UserListGrid;
 use UserSpace\Core\Http\JsonResponse;
 use UserSpace\Core\Http\Request;
 use UserSpace\Core\Rest\Abstract\AbstractController;
 use UserSpace\Core\Rest\Attributes\Route;
+use UserSpace\Grid\UserListGrid;
+use UserSpace\Grid\UserListTableGrid;
 
 class GridController extends AbstractController
 {

@@ -2,12 +2,14 @@
 
 namespace UserSpace;
 
+use UserSpace\Core\Tabs\AbstractTab;
 use UserSpace\Core\Tabs\TabConfigManager;
 use UserSpace\Core\Tabs\TabManager;
 use UserSpace\Tabs\ActivityTab;
 use UserSpace\Tabs\EditProfileTab;
 use UserSpace\Tabs\ProfileTab;
 use UserSpace\Tabs\SecurityTab;
+use UserSpace\Tabs\UserListTab;
 
 class TabProvider
 {
@@ -19,45 +21,62 @@ class TabProvider
 
     public function registerDefaultTabs(): void
     {
-        $config = $this->tabConfigManager->load();
+        $config = $this->tabConfigManager->load() ?? [];
+        $hardcodedClasses = $this->getHardcodedTabClasses();
 
-        if (null !== $config) {
-            // Регистрируем вкладки из сохраненной конфигурации
-            foreach ($config as $tabData) {
-                if (isset($tabData['class'])) {
-                    // Регистрируем класс и сразу передаем данные для обновления состояния
-                    $this->tabManager->registerTab($tabData['class'], $tabData);
-                }
+        $configTabsByClass = [];
+        foreach ($config as $tabData) {
+            if (isset($tabData['class'])) {
+                $configTabsByClass[$tabData['class']] = $tabData;
             }
-        } else {
-            // Если конфигурации нет, регистрируем вкладки по умолчанию
-            $this->registerHardcodedDefaults();
+        }
 
-            // ... и сразу создаем для них файл конфигурации
-            $registeredTabs = $this->tabManager->getAllRegisteredTabs(true); // Получаем плоский список
+        // 1. Регистрируем все вкладки (и из конфига, и новые системные)
+        $allClassesToRegister = array_unique(array_merge($hardcodedClasses, array_keys($configTabsByClass)));
 
-            $defaultConfig = [];
-            foreach ($registeredTabs as $tab) {
-                $tabData = $tab->toArray();
-                $tabData['class'] = get_class($tab); // Добавляем имя класса
-                $defaultConfig[] = $tabData;
-            }
+        foreach ($allClassesToRegister as $class) {
+            // Применяем сохраненную конфигурацию, если она есть для этого класса
+            $tabConfig = $configTabsByClass[$class] ?? null;
+            $this->tabManager->registerTab($class, $tabConfig);
+        }
 
-            $this->tabConfigManager->save($defaultConfig);
+        // 2. Если были добавлены новые системные вкладки, которых не было в конфиге,
+        // то обновляем конфиг, чтобы они появились в конструкторе.
+        $newClasses = array_diff($hardcodedClasses, array_keys($configTabsByClass));
+        if ( ! empty($newClasses)) {
+            $this->updateConfigWithNewTabs();
         }
     }
 
-    private function registerHardcodedDefaults(): void
+    /**
+     * Возвращает список всех "жестко" закодированных системных вкладок.
+     *
+     * @return array<int, class-string<AbstractTab>>
+     */
+    private function getHardcodedTabClasses(): array
     {
-        $tabClasses = [
+        return [
             ProfileTab::class,
             EditProfileTab::class,
             SecurityTab::class,
             ActivityTab::class,
+            UserListTab::class,
         ];
 
-        foreach ($tabClasses as $tabClass) {
-            $this->tabManager->registerTab($tabClass);
+    }
+
+    /**
+     * Обновляет сохраненную конфигурацию, добавляя в нее новые системные вкладки.
+     */
+    private function updateConfigWithNewTabs(): void
+    {
+        $allTabs = $this->tabManager->getAllRegisteredTabs(true); // Получаем плоский список
+        $newConfig = [];
+        foreach ($allTabs as $tab) {
+            $tabData = $tab->toArray();
+            $tabData['class'] = get_class($tab);
+            $newConfig[] = $tabData;
         }
+        $this->tabConfigManager->save($newConfig);
     }
 }

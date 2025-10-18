@@ -1,9 +1,53 @@
 <?php
 
-namespace UserSpace\Core\Grid;
+namespace UserSpace\Grid;
+
+use UserSpace\Core\Grid\TableContentGrid;
 
 class UserListTableGrid extends TableContentGrid
 {
+    public function render(): string
+    {
+        $this->registerAssets();
+
+        return parent::render();
+    }
+
+    private function registerAssets(): void
+    {
+        wp_enqueue_style(
+            'usp-base-grid-style',
+            USERSPACE_PLUGIN_URL . 'assets/css/base-grid.css',
+            [],
+            USERSPACE_VERSION
+        );
+        wp_enqueue_style(
+            'usp-table-grid-style',
+            USERSPACE_PLUGIN_URL . 'assets/css/table-grid.css',
+            ['usp-base-grid-style'],
+            USERSPACE_VERSION
+        );
+
+        wp_enqueue_script(
+            'usp-table-grid-script',
+            USERSPACE_PLUGIN_URL . 'assets/js/table-grid.js',
+            ['usp-core'],
+            USERSPACE_VERSION,
+            true
+        );
+
+        wp_localize_script('usp-table-grid-script', 'uspGridL10n', [ 'text' => [
+                'loading' => __('Loading...', 'usp'),
+                'error' => __('An error occurred. Please try again.', 'usp'),
+            ]
+        ]);
+    }
+
+    public function getEndpointPath(): string
+    {
+        return '/grid/users-table';
+    }
+
     protected function getTableName(): string
     {
         return $this->queryBuilder->getWpdb()->users;
@@ -40,11 +84,6 @@ class UserListTableGrid extends TableContentGrid
         ];
     }
 
-    public function getEndpointPath(): string
-    {
-        return '/grid/users-table';
-    }
-
     protected function getColumnsConfig(): array
     {
         return [
@@ -69,16 +108,5 @@ class UserListTableGrid extends TableContentGrid
                 'sortable' => true,
             ],
         ];
-    }
-
-    /**
-     * Переопределяем, чтобы добавить форматирование даты
-     */
-    public function renderItems(array $items): string
-    {
-        foreach ($items as $item) {
-            $item->registered = mysql2date(get_option('date_format'), $item->registered);
-        }
-        return parent::renderItems($items);
     }
 }
