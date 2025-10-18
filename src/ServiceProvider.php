@@ -24,6 +24,7 @@ use UserSpace\Core\Rest\Helper\RestHelper;
 use UserSpace\Core\Rest\RestApi;
 use UserSpace\Core\Rest\Route\RouteCollector;
 use UserSpace\Core\Rest\Route\RouteParser;
+use UserSpace\Core\SetupWizard\SetupWizardController;
 
 /**
  * Регистрирует все сервисы плагина в DI-контейнере.
@@ -73,6 +74,7 @@ class ServiceProvider
                 FileUploaderController::class,
                 UserController::class,
                 GridController::class,
+                SetupWizardController::class
             ];
             return new RestApi($controllers, $c->get('rest.namespace'), $c->get(RouteParser::class), $c);
         });

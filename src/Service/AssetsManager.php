@@ -5,9 +5,8 @@ namespace UserSpace\Service;
 use UserSpace\Admin\Page\ProfileFormPage;
 use UserSpace\Admin\Page\RegistrationFormPage;
 use UserSpace\Admin\Page\SettingsPage;
+use UserSpace\Admin\Page\SetupWizardPage;
 use UserSpace\Admin\Page\TabsConfigPage;
-use UserSpace\Admin\Page\UserCardListPage;
-use UserSpace\Admin\Page\UserTableListPage;
 
 class AssetsManager
 {
@@ -16,6 +15,7 @@ class AssetsManager
         protected readonly ProfileFormPage      $profileFormPage,
         protected readonly RegistrationFormPage $registrationFormPage,
         protected readonly TabsConfigPage       $tabsConfigPage,
+        protected readonly SetupWizardPage      $setupWizardPage
     )
     {
     }
@@ -71,6 +71,7 @@ class AssetsManager
         $this->registrationFormPage->enqueueAssets($hook);
         $this->settingsPage->enqueueAssets($hook);
         $this->tabsConfigPage->enqueueAssets($hook);
+        $this->setupWizardPage->enqueueAssets($hook);
     }
 
     /**

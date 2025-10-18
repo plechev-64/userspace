@@ -3,6 +3,7 @@
 namespace UserSpace\Admin;
 
 use UserSpace\Admin\Page\ProfileFormPage;
+use UserSpace\Admin\Page\SetupWizardPage;
 use UserSpace\Admin\Page\RegistrationFormPage;
 use UserSpace\Admin\Page\SettingsPage;
 use UserSpace\Admin\Page\TabsConfigPage;
@@ -18,7 +19,8 @@ class AdminManager
         private readonly TabsConfigPage       $tabsConfigPage,
         private readonly AdminProfileFields   $adminProfileFields,
         private readonly UserCardListPage     $userListPage,
-        private readonly UserTableListPage    $userListTablePage
+        private readonly UserTableListPage    $userListTablePage,
+        private readonly SetupWizardPage      $setupWizardPage
     )
     {
     }
@@ -42,6 +44,7 @@ class AdminManager
         $this->tabsConfigPage->register();
         $this->userListPage->register();
         $this->userListTablePage->register();
+        $this->setupWizardPage->register();
     }
 
     public function registerPluginSettings(): void

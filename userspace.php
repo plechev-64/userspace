@@ -15,13 +15,16 @@
  */
 
 // Защита от прямого доступа к файлу
+use UserSpace\Core\PluginLifecycle;
+use UserSpace\Plugin;
+
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
 // 1. Определение констант плагина
-define( 'USERSPACE_VERSION', '1.0.0' );
-define( 'USERSPACE_PLUGIN_FILE', __FILE__ );
+const USERSPACE_VERSION = '1.0.0';
+const USERSPACE_PLUGIN_FILE = __FILE__;
 define( 'USERSPACE_PLUGIN_DIR', plugin_dir_path( USERSPACE_PLUGIN_FILE ) );
 define( 'USERSPACE_PLUGIN_URL', plugin_dir_url( USERSPACE_PLUGIN_FILE ) );
 
@@ -33,22 +36,20 @@ if ( file_exists( USERSPACE_PLUGIN_DIR . 'vendor/autoload.php' ) ) {
     // Например, через add_action( 'admin_notices', '...' );
 }
 
-// 3. Регистрация хуков активации и деактивации
-// Обратите внимание, что мы используем полное имя класса с пространством имен
-register_activation_hook( USERSPACE_PLUGIN_FILE, ['UserSpace\Plugin', 'activate' ] );
-register_deactivation_hook( USERSPACE_PLUGIN_FILE, ['UserSpace\Plugin', 'deactivate' ] );
+$lifecycle = new PluginLifecycle();
+register_activation_hook(USERSPACE_PLUGIN_FILE, [$lifecycle, 'onActivation']);
+register_deactivation_hook(USERSPACE_PLUGIN_FILE, [$lifecycle, 'onDeactivation']);
+add_action('admin_init', [$lifecycle, 'redirectOnActivation']);
 
 // 4. Запуск плагина
-if ( class_exists('UserSpace\Plugin') ) {
-    /**
-     * Возвращает основной экземпляр плагина UserSpace.
-     *
-     * @return \UserSpace\Plugin
-     */
-    function userspace(): \UserSpace\Plugin {
-        return \UserSpace\Plugin::getInstance();
-    }
-
-    // Запускаем плагин.
-    userspace();
+/**
+ * Возвращает основной экземпляр плагина UserSpace.
+ *
+ * @return Plugin
+ */
+function userspace(): Plugin {
+    return Plugin::getInstance();
 }
+
+// Запускаем плагин.
+userspace();

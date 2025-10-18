@@ -109,49 +109,6 @@ final class Plugin
     }
 
     /**
-     * Метод, выполняемый при активации плагина.
-     *
-     * @return void
-     */
-    public static function activate(): void
-    {
-        global $wpdb;
-
-        require_once ABSPATH . 'wp-admin/includes/upgrade.php';
-
-        $table_name = $wpdb->prefix . 'userspace_forms';
-        $charset_collate = $wpdb->get_charset_collate();
-
-        $sql = "CREATE TABLE {$table_name} (
-			id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-			type VARCHAR(100) NOT NULL,
-			config LONGTEXT NOT NULL,
-			created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
-			PRIMARY KEY  (id),
-			KEY type (type)
-		) {$charset_collate};";
-
-        dbDelta($sql);
-
-        // Устанавливаем опцию, которая может понадобиться в будущем.
-        add_option('userspace_version', USERSPACE_VERSION);
-
-        flush_rewrite_rules();
-    }
-
-    /**
-     * Метод, выполняемый при деактивации плагина.
-     *
-     * @return void
-     */
-    public static function deactivate(): void
-    {
-        // Код для выполнения при деактивации
-        // Например, очистка временных данных.
-        flush_rewrite_rules();
-    }
-
-    /**
      * Возвращает контейнер зависимостей.
      *
      * @return ContainerInterface
