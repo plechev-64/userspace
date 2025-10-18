@@ -63,6 +63,12 @@ class QueueJobsPage extends AbstractAdminPage
 
     public function enqueuePageScripts(): void
     {
+        wp_enqueue_style(
+            'usp-queue-page-style',
+            USERSPACE_PLUGIN_URL . 'assets/css/queue-page.css',
+            [],
+            USERSPACE_VERSION
+        );
         wp_enqueue_script(
             'usp-queue-page-script',
             USERSPACE_PLUGIN_URL . 'assets/js/queue-page.js',
