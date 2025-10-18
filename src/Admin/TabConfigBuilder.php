@@ -2,7 +2,9 @@
 
 namespace UserSpace\Admin;
 
-use UserSpace\Core\Tabs\TabDto;
+use UserSpace\Core\Tabs\AbstractTab;
+use UserSpace\Core\Tabs\TabLocationManager;
+use UserSpace\Core\Tabs\TabManager;
 
 /**
  * Генерирует HTML-представление конструктора вкладок.
@@ -10,24 +12,26 @@ use UserSpace\Core\Tabs\TabDto;
 class TabConfigBuilder
 {
     /**
-     * @param array<string, string> $locations
-     * @param TabDto[] $tabs
      */
     public function __construct(
-        private array $locations,
-        private array $tabs
+        private readonly TabManager $tabManager,
+        private readonly TabLocationManager $tabLocationManager
     ) {
     }
 
     /**
      * Генерирует HTML-код конструктора.
      */
-    public function render(): string
+    final public function render(): string
     {
+        // Получаем все зарегистрированные вкладки и локации
+        $tabs = $this->tabManager->getAllRegisteredTabs();
+        $locations = $this->tabLocationManager->getRegisteredLocations();
+
         $output = '<div class="usp-tabs-config-builder" data-usp-tab-builder>';
 
-        foreach ($this->locations as $locationId => $locationLabel) {
-            $output .= $this->renderLocation($locationId, $locationLabel);
+        foreach ($locations as $locationId => $locationLabel) {
+            $output .= $this->renderLocation($locationId, $locationLabel, $tabs);
         }
 
         $output .= '</div>';
@@ -37,8 +41,10 @@ class TabConfigBuilder
 
     /**
      * Рендерит контейнер для одного места вывода.
+     *
+     * @param AbstractTab[] $tabs
      */
-    private function renderLocation(string $id, string $label): string
+    private function renderLocation(string $id, string $label, array $tabs): string
     {
         $output = sprintf(
             '<div class="usp-tab-builder-location" data-location-id="%s">',
@@ -51,8 +57,8 @@ class TabConfigBuilder
         $output .= '<div class="usp-tab-builder-tabs" data-sortable="tabs">';
 
         // Фильтруем и сортируем вкладки для этой локации
-        $locationTabs = array_filter($this->tabs, fn($tab) => $tab->location === $id && $tab->parentId === null);
-        usort($locationTabs, fn($a, $b) => $a->order <=> $b->order);
+        $locationTabs = array_filter($tabs, fn(AbstractTab $tab) => $tab->getLocation() === $id && $tab->getParentId() === null);
+        usort($locationTabs, fn(AbstractTab $a, AbstractTab $b) => $a->getOrder() <=> $b->getOrder());
 
         foreach ($locationTabs as $tab) {
             $output .= $this->renderTab($tab);
@@ -66,37 +72,45 @@ class TabConfigBuilder
     /**
      * Рендерит одну вкладку (и ее подвкладки).
      */
-    private function renderTab(TabDto $tab): string
+    private function renderTab(AbstractTab $tab): string
     {
-        $configData = (array)$tab;
-        // Исключаем не-сериализуемые свойства перед передачей на фронтенд
-        unset($configData['contentSource'], $configData['subTabs']);
+        $configData      = $tab->toArray();
+        $configData['class'] = get_class($tab);
+        $configJson = wp_json_encode($configData);
 
-        $configJson      = wp_json_encode($configData);
-        $hasSubtabsClass = !empty($tab->subTabs) ? 'has-subtabs' : '';
+        // Вкладка может иметь дочерние, если у нее есть свой контент.
+        $canHaveSubtabs = ! empty(trim($tab->getContent()));
+        // Класс для стилизации добавляем, только если дочерние вкладки уже есть.
+        $hasSubtabsClass = ! empty($tab->getSubTabs()) ? 'has-subtabs' : '';
 
         $output = sprintf(
             '<div class="usp-tab-builder-tab %s" data-id="%s" data-config="%s">',
             esc_attr($hasSubtabsClass),
-            esc_attr($tab->id),
+            esc_attr($tab->getId()),
             esc_attr($configJson)
         );
 
         $output .= '<div class="usp-tab-builder-tab-header">';
         $output .= sprintf(
             '<span class="dashicons %s"></span> <span class="tab-title">%s</span>',
-            esc_attr($tab->icon ?? 'dashicons-admin-page'),
-            esc_html($tab->title)
+            esc_attr($tab->getIcon() ?? 'dashicons-admin-page'),
+            esc_html($tab->getTitle())
         );
         $output .= '<div class="usp-tab-builder-tab-actions">';
         $output .= '<button type="button" class="button button-small" data-action="edit-tab">' . esc_html__('Edit', 'usp') . '</button>';
         $output .= '</div></div>';
 
-        if (!empty($tab->subTabs)) {
+        // Если вкладка может иметь дочерние, всегда рендерим для них контейнер (drop-зону).
+        if ($canHaveSubtabs) {
             $output .= '<div class="usp-tab-builder-subtabs" data-sortable="subtabs">';
+            $subTabs = $tab->getSubTabs();
             // Сортируем подвкладки
-            usort($tab->subTabs, fn($a, $b) => $a->order <=> $b->order);
-            foreach ($tab->subTabs as $subTab) {
+            usort($subTabs, fn(AbstractTab $a, AbstractTab $b) => $a->getOrder() <=> $b->getOrder());
+            foreach ($subTabs as $subTab) {
+                // Пропускаем рендеринг служебных "обзорных" вкладок
+                if (str_ends_with($subTab->getId(), '_overview')) {
+                    continue;
+                }
                 $output .= $this->renderTab($subTab);
             }
             $output .= '</div>';

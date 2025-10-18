@@ -26,23 +26,14 @@ class TabContentController extends AbstractController
      * @return JsonResponse
      * @throws \Exception
      */
-    #[Route(path: '/(?P<tabId>[a-z\_]+)', method: 'GET')]
+    #[Route(path: '/(?P<tabId>[a-zA-Z0-9\-_]+)', method: 'GET')]
     public function getContent(string $tabId): JsonResponse
     {
         if (empty($tabId)) {
             return $this->error(__('Tab ID is missing.', 'usp'), 400);
         }
 
-        $allTabs = $this->tabManager->getAllRegisteredTabs();
-        $flatTabs = array_merge($allTabs, ...array_column($allTabs, 'subTabs'));
-
-        $foundTab = null;
-        foreach ($flatTabs as $tab) {
-            if ($tab->id === $tabId) {
-                $foundTab = $tab;
-                break;
-            }
-        }
+        $foundTab = $this->tabManager->getTab($tabId);
 
         if (!$foundTab) {
             return $this->error(__('Tab not found.', 'usp'), 404);

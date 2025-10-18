@@ -59,27 +59,24 @@ wp_localize_script(
     <div class="usp-account-header">
         <?php echo $avatarManager->renderAvatarBlock(); ?>
         <div class="usp-header-tabs">
-            <?php
-            // Выводим меню для 'header'
-            $tabs_to_render = $tabManager->getTabs('header');
-            $is_first_group = false; // Шапка не считается первой группой для активации
-            include __DIR__ . '/parts/tab-menu.php';
-            ?>
+            <div class="usp-account-menu">
+				<?php // Выводим меню для 'header', не активируя первый элемент
+				echo $tabRenderer->renderMenu('header', false); ?>
+            </div>
         </div>
     </div>
 
     <div class="usp-account-sidebar">
-        <?php
-        // Выводим меню для 'sidebar'
-        $tabs_to_render = $tabManager->getTabs('sidebar');
-        $is_first_group = true; // Сайдбар - основное меню, активируем первый элемент
-        include __DIR__ . '/parts/tab-menu.php';
-        ?>
+        <div class="usp-account-menu">
+			<?php // Выводим меню для 'sidebar', активируя первый элемент
+			echo $tabRenderer->renderMenu('sidebar', true); ?>
+        </div>
     </div>
     <div class="usp-account-content">
         <?php
         echo $tabRenderer->renderTabsContent(
             '<div class="usp-account-tab-pane %4$s" id="%1$s" data-content-type="%2$s" data-content-source="%3$s">%5$s</div>',
+            'sidebar' // Указываем, что 'sidebar' - это основная локация для определения активной вкладки
         );
         ?>
     </div>

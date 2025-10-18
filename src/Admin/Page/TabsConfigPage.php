@@ -2,18 +2,13 @@
 
 namespace UserSpace\Admin\Page;
 
-use UserSpace\Admin\TabConfigBuilder;
 use UserSpace\Admin\Abstract\AbstractAdminPage;
-use UserSpace\Core\Tabs\TabConfigManager;
-use UserSpace\Core\Tabs\TabLocationManager;
-use UserSpace\Core\Tabs\TabManager;
+use UserSpace\Admin\TabConfigBuilder;
 
 class TabsConfigPage extends AbstractAdminPage
 {
     public function __construct(
-        private readonly TabManager $tabManager,
-        private readonly TabLocationManager $tabLocationManager,
-        private readonly TabConfigManager $tabConfigManager
+        private readonly TabConfigBuilder $tabConfigBuilder
     ) {
     }
 
@@ -57,53 +52,13 @@ class TabsConfigPage extends AbstractAdminPage
      */
     public function render(): void
     {
-        // Загружаем сохраненную конфигурацию или берем дефолтную из TabManager
-        $config = $this->tabConfigManager->load();
-        if (null === $config) {
-            // Если конфига нет, генерируем его из того, что зарегистрировано в TabProvider
-            $registeredTabs = $this->tabManager->getAllRegisteredTabs();
-            $config = [];
-            foreach (array_merge($registeredTabs, ...array_column($registeredTabs, 'subTabs')) as $tab) {
-                $tabData = (array)$tab;
-                unset($tabData['contentSource'], $tabData['subTabs']);
-                $config[] = $tabData;
-            }
-            // И сразу сохраняем, чтобы при следующей загрузке он уже был
-            $this->tabConfigManager->save($config);
-        }
-
-        // Создаем DTO из конфигурации для передачи в билдер
-        $tabs = [];
-        foreach ($config as $tabData) {
-            $tabDto = new \UserSpace\Core\Tabs\TabDto($tabData['id'], $tabData['title'], $tabData['parentId'] ?? null);
-            foreach ($tabData as $key => $value) {
-                if (property_exists($tabDto, $key)) {
-                    $tabDto->{$key} = $value;
-                }
-            }
-            $tabs[$tabDto->id] = $tabDto;
-        }
-
-        // Строим иерархию
-        $tabsCopy = $tabs;
-        // Строим иерархию
-        foreach ($tabsCopy as $tab) {
-            if ($tab->parentId && isset($tabs[$tab->parentId])) {
-                $tabs[$tab->parentId]->subTabs[] = $tab;
-                unset($tabs[$tab->id]);
-            }
-        }
-
-        $locations = $this->tabLocationManager->getRegisteredLocations();
-        $builder = new TabConfigBuilder($locations, $tabs);
-
         echo '<div class="wrap">';
         echo '<h1>' . esc_html($this->getPageTitle()) . '</h1>';
         echo '<p>' . __('Here you will be able to configure the tabs of the user profile.', 'usp') . '</p>';
 
         echo '<div id="usp-tab-builder-notifications"></div>';
 
-        echo $builder->render();
+        echo $this->tabConfigBuilder->render();
 
         echo '<p class="submit">';
         echo '<button type="button" id="usp-save-tab-builder" class="button button-primary">' . __('Save Changes', 'usp') . '</button>';

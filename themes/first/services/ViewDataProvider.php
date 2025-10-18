@@ -26,7 +26,7 @@ class ViewDataProvider
     {
         $tabsByLocation = [];
         foreach (array_keys($this->tabLocationManager->getRegisteredLocations()) as $location) {
-            $tabsByLocation[$location] = $this->tabManager->getTabs($viewedUserId, $location);
+            $tabsByLocation[$location] = $this->tabManager->getTabs($viewedUserId);
         }
 
         return [

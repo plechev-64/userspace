@@ -182,6 +182,8 @@ document.addEventListener('DOMContentLoaded', function () {
             const siblings = Array.from(tabEl.parentNode.children);
             config.order = siblings.indexOf(tabEl) * 10;
 
+            // Поле 'class' уже должно быть в объекте config, так как оно берется из data-config.
+
             // Рекурсивно обрабатываем подвкладки
             const subTabsContainer = tabEl.querySelector('[data-sortable="subtabs"]');
             if (subTabsContainer) {
