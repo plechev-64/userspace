@@ -96,4 +96,13 @@ class Request
         }
         return $headers;
     }
+
+    /**
+     * Возвращает GET-параметры запроса.
+     * @return array
+     */
+    public function getGetParams(): array
+    {
+        return $this->get;
+    }
 }

@@ -265,6 +265,38 @@
             if (container) container.innerHTML = `<div class="notice notice-${type} is-dismissible"><p>${message}</p></div>`;
         }
 
+        /**
+         * Показывает стандартное уведомление WordPress вверху страницы.
+         * @param {string} message - Текст уведомления.
+         * @param {'success'|'error'|'warning'|'info'} type - Тип уведомления.
+         * @param {boolean} isDismissible - Можно ли закрыть уведомление.
+         */
+        showNotice(message, type = 'info', isDismissible = true) {
+            // Удаляем предыдущие динамические уведомления, чтобы они не накапливались
+            const oldNotices = document.querySelectorAll('.usp-dynamic-notice');
+            oldNotices.forEach(notice => notice.remove());
+
+            const notice = document.createElement('div');
+            // Добавляем кастомный класс для легкого поиска и удаления в будущем
+            notice.className = `notice notice-${type} usp-dynamic-notice`;
+            if (isDismissible) {
+                notice.classList.add('is-dismissible');
+            }
+            notice.innerHTML = `<p>${message}</p>`;
+
+            // Находим основной заголовок h1 в админке
+            const mainHeader = document.querySelector('.wrap h1');
+            if (mainHeader) {
+                mainHeader.after(notice);
+            } else {
+                // Если не нашли, вставляем в начало .wrap
+                const wrap = document.querySelector('.wrap');
+                if (wrap) {
+                    wrap.prepend(notice);
+                }
+            }
+        }
+
         async _loadRestContent(pane) {
             const url = pane.dataset.contentSource;
             const l10n = window.uspL10n || { loading: 'Loading...', loadError: 'Failed to load content.' };

@@ -74,3 +74,46 @@
     background: #f0f0f1;
     color: #1d2327;
 }
+
+/* Queue Status Widget */
+.usp-queue-status-widget {
+    background: #fff;
+    border: 1px solid #c3c4c7;
+    padding: 15px;
+    margin-bottom: 20px;
+    max-width: 600px;
+}
+.usp-queue-widget-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0;
+}
+
+.usp-queue-actions {
+    display: flex;
+}
+
+.usp-queue-status-indicator {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.usp-queue-status-indicator.running { background: #22c55e; } /* green */
+.usp-queue-status-indicator.idle { background: #64748b; } /* gray */
+.usp-queue-status-indicator.stalled { background: #ef4444; } /* red */
+
+.usp-queue-log {
+    background: #f0f0f1;
+    border: 1px solid #e0e0e0;
+    padding: 10px;
+    max-height: 200px;
+    overflow-y: auto;
+    font-family: monospace;
+    font-size: 12px;
+    white-space: pre-wrap;
+}

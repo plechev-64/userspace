@@ -3,6 +3,7 @@
 namespace UserSpace\Admin;
 
 use UserSpace\Admin\Page\ProfileFormPage;
+use UserSpace\Admin\Page\QueueJobsPage;
 use UserSpace\Admin\Page\SetupWizardPage;
 use UserSpace\Admin\Page\RegistrationFormPage;
 use UserSpace\Admin\Page\SettingsPage;
@@ -20,7 +21,8 @@ class AdminManager
         private readonly AdminProfileFields   $adminProfileFields,
         private readonly UserCardListPage     $userListPage,
         private readonly UserTableListPage    $userListTablePage,
-        private readonly SetupWizardPage      $setupWizardPage
+        private readonly SetupWizardPage      $setupWizardPage,
+        private readonly QueueJobsPage        $queueJobsGrid
     )
     {
     }
@@ -45,6 +47,7 @@ class AdminManager
         $this->userListPage->register();
         $this->userListTablePage->register();
         $this->setupWizardPage->register();
+        $this->queueJobsGrid->register();
     }
 
     public function registerPluginSettings(): void

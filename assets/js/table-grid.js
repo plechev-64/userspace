@@ -61,6 +61,13 @@ function initTableGrid(gridContainer) {
             currentOrderBy = orderby;
             currentOrder = order;
 
+            // Сохраняем текущее состояние грида в data-атрибут для внешнего доступа
+            gridContainer.dataset.gridState = JSON.stringify({
+                page: currentPage,
+                orderby: currentOrderBy,
+                order: currentOrder,
+            });
+
             if (itemsList) itemsList.innerHTML = data.items_html || '';
             if (paginationContainer) paginationContainer.innerHTML = data.pagination_html || '';
 

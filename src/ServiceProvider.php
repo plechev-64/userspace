@@ -13,6 +13,7 @@ use UserSpace\Controller\GridController;
 use UserSpace\Controller\LoginController;
 use UserSpace\Controller\ModalFormController;
 use UserSpace\Controller\PasswordResetController;
+use UserSpace\Controller\QueueActionsController;
 use UserSpace\Controller\ProfileFormController;
 use UserSpace\Controller\RegistrationController;
 use UserSpace\Controller\TabContentController;
@@ -20,11 +21,17 @@ use UserSpace\Controller\UserController;
 use UserSpace\Core\ContainerInterface;
 use UserSpace\Core\Database\QueryBuilder;
 use UserSpace\Core\Http\Request;
+use UserSpace\Core\Queue\QueueManager;
+use UserSpace\Core\Queue\QueueStatus;
 use UserSpace\Core\Rest\Helper\RestHelper;
 use UserSpace\Core\Rest\RestApi;
 use UserSpace\Core\Rest\Route\RouteCollector;
 use UserSpace\Core\Rest\Route\RouteParser;
 use UserSpace\Core\SetupWizard\SetupWizardController;
+use UserSpace\JobHandler\Message\PingMessage;
+use UserSpace\JobHandler\Message\SendWelcomeEmailMessage;
+use UserSpace\JobHandler\PingHandler;
+use UserSpace\JobHandler\SendWelcomeEmailHandler;
 
 /**
  * Регистрирует все сервисы плагина в DI-контейнере.
@@ -74,7 +81,8 @@ class ServiceProvider
                 FileUploaderController::class,
                 UserController::class,
                 GridController::class,
-                SetupWizardController::class
+                SetupWizardController::class,
+                QueueActionsController::class,
             ];
             return new RestApi($controllers, $c->get('rest.namespace'), $c->get(RouteParser::class), $c);
         });
@@ -87,5 +95,17 @@ class ServiceProvider
                 return new QueryBuilder($wpdb);
             }
         );
+
+        // --- Очередь ---
+
+        // Карта "Сообщение -> Обработчик"
+        $container->set('queue.message_handler_map', fn() => [
+            SendWelcomeEmailMessage::class => SendWelcomeEmailHandler::class,
+            PingMessage::class => PingHandler::class,
+        ]);
+
+        $container->set(QueueManager::class, function (ContainerInterface $c) {
+            return new QueueManager($c, $c->get(QueueStatus::class), $c->get('queue.message_handler_map'));
+        });
     }
 }
