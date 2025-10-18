@@ -53,7 +53,7 @@ class TabsConfigPage extends AbstractAdminPage
     public function render(): void
     {
         echo '<div class="wrap">';
-        echo '<h1>' . esc_html($this->getPageTitle()) . '</h1>';
+        echo '<h1>' . esc_html($this->getPageTitle()) . ' <a href="#" id="usp-create-new-tab" class="page-title-action">' . esc_html__('Add New Tab', 'usp') . '</a></h1>';
         echo '<p>' . __('Here you will be able to configure the tabs of the user profile.', 'usp') . '</p>';
 
         echo '<div id="usp-tab-builder-notifications"></div>';

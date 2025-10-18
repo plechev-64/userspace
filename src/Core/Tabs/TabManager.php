@@ -38,6 +38,12 @@ class TabManager
             $tab->updateFromArray($configData);
         }
 
+        // После всех инициализаций проверяем, что ID установлен.
+        if (empty($tab->getId())) {
+            // Логируем ошибку или бросаем исключение, так как вкладка без ID невалидна.
+            return;
+        }
+
         $this->tabs[$tab->getId()] = $tab;
     }
 

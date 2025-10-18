@@ -13,6 +13,10 @@ document.addEventListener('DOMContentLoaded', function () {
         cancel: 'Cancel',
         save: 'Save',
         close: 'Close',
+        create: 'Create',
+        addNewTab: 'Add New Tab',
+        newTabIdLabel: 'ID (unique, a-z, 0-9, _)',
+        newTabTitleLabel: 'Title',
         loading: 'Loading...',
         settingsLoadError: 'Error loading settings',
     };
@@ -24,11 +28,43 @@ document.addEventListener('DOMContentLoaded', function () {
             new Sortable(container, {
                 animation: 150,
                 handle: '.usp-tab-builder-tab-header',
-                group: 'tabs', // Все вкладки в одной группе для перемещения между локациями
-                onEnd: (evt) => {
-                    // Можно добавить логику для обновления parentId при перемещении
+                group: 'shared-tabs', // Все вкладки в одной группе для перемещения между локациями
+                onEnd: () => {
+                    // После любого перемещения обновляем состояние всех вкладок
+                    updateTabStates();
+                },
+                onMove: (evt) => {
+                    // evt.to - контейнер, КУДА перемещаем
+                    // evt.dragged - элемент, КОТОРЫЙ перемещаем
+
+                    // Если мы пытаемся переместить вкладку в контейнер для подвкладок
+                    if (evt.to.matches('[data-sortable="subtabs"]')) {
+                        // Запрещаем перемещать вкладку, у которой уже есть свои дочерние вкладки.
+                        // Это предотвращает создание 3-го уровня вложенности.
+                        const draggedSubtabs = evt.dragged.querySelector('[data-sortable="subtabs"]');
+                        if (draggedSubtabs && draggedSubtabs.children.length > 0) {
+                            return false; // Отменить перемещение
+                        }
+                    }
+                    return true; // Разрешить перемещение во всех остальных случаях
                 }
             });
+        });
+    };
+
+    /**
+     * Обновляет CSS-классы вкладок в зависимости от их уровня вложенности.
+     * Скрывает возможность добавления дочерних вкладок для вложенных элементов.
+     */
+    const updateTabStates = () => {
+        const allTabs = builder.querySelectorAll('.usp-tab-builder-tab');
+        allTabs.forEach(tab => {
+            // Проверяем, является ли вкладка вложенной (2-й уровень)
+            if (tab.closest('[data-sortable="subtabs"]')) {
+                tab.classList.add('is-nested');
+            } else {
+                tab.classList.remove('is-nested');
+            }
         });
     };
 
@@ -42,6 +78,15 @@ document.addEventListener('DOMContentLoaded', function () {
         const tabEl = target.closest('.usp-tab-builder-tab');
         await openEditModal(tabEl);
     });
+
+    // --- Логика создания новой вкладки ---
+    const createButton = document.getElementById('usp-create-new-tab');
+    if (createButton) {
+        createButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            openCreateModal();
+        });
+    }
 
     const openEditModal = async (tabEl) => {
         const currentConfig = tabEl.dataset.config;
@@ -136,6 +181,107 @@ document.addEventListener('DOMContentLoaded', function () {
         return newSettings;
     };
 
+    const openCreateModal = () => {
+        const modalHtml = `
+            <div class="usp-modal-backdrop is-visible" id="usp-create-tab-modal">
+                <div class="usp-modal-content">
+                    <div class="usp-modal-header">
+                        <h2>${l10n.addNewTab}</h2>
+                        <button type="button" class="usp-modal-close" aria-label="${l10n.close}">&times;</button>
+                    </div>
+                    <div class="usp-modal-body">
+                        <div class="usp-form">
+                            <div class="usp-form-group">
+                                <label for="new-tab-id">${l10n.newTabIdLabel}</label>
+                                <input type="text" id="new-tab-id" name="id" required pattern="[a-z0-9_]+">
+                                <p class="description"></p>
+                            </div>
+                            <div class="usp-form-group">
+                                <label for="new-tab-title">${l10n.newTabTitleLabel}</label>
+                                <input type="text" id="new-tab-title" name="title" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="usp-modal-footer">
+                        <button type="button" class="button" data-action="cancel-create">${l10n.cancel}</button>
+                        <button type="button" class="button button-primary" data-action="save-create">${l10n.create}</button>
+                    </div>
+                </div>
+            </div>
+        `;
+        document.body.insertAdjacentHTML('beforeend', modalHtml);
+
+        const modal = document.getElementById('usp-create-tab-modal');
+        const idInput = modal.querySelector('#new-tab-id');
+        const titleInput = modal.querySelector('#new-tab-title');
+        const descriptionEl = idInput.nextElementSibling;
+
+        modal.addEventListener('click', (e) => {
+            if (e.target.matches('.usp-modal-close') || e.target.matches('[data-action="cancel-create"]')) {
+                modal.remove();
+            }
+
+            if (e.target.matches('[data-action="save-create"]')) {
+                const id = idInput.value.trim();
+                const title = titleInput.value.trim();
+
+                // Валидация
+                if (!id || !title || !/^[a-z0-9_]+$/.test(id)) {
+                    descriptionEl.textContent = 'ID is required and can only contain lowercase letters, numbers, and underscores.';
+                    descriptionEl.style.color = 'red';
+                    return;
+                }
+                if (document.querySelector(`[data-id="${id}"]`)) {
+                    descriptionEl.textContent = 'This ID is already in use.';
+                    descriptionEl.style.color = 'red';
+                    return;
+                }
+
+                createNewTabElement({ id, title });
+                modal.remove();
+            }
+        });
+    };
+
+    const createNewTabElement = (config) => {
+        const firstLocation = builder.querySelector('.usp-tab-builder-tabs[data-sortable="tabs"]');
+        if (!firstLocation) {
+            console.error('No tab locations found to add the new tab.');
+            return;
+        }
+
+        const defaultConfig = {
+            id: config.id,
+            title: config.title,
+            location: firstLocation.closest('.usp-tab-builder-location').dataset.locationId,
+            order: 1000, // Помещаем в конец
+            parentId: null,
+            isPrivate: false,
+            capability: 'read',
+            icon: 'dashicons-admin-page',
+            contentType: 'rest',
+            class: 'UserSpace\\Tabs\\CustomTab' // Указываем класс для кастомной вкладки
+        };
+
+        const tabHtml = `
+            <div class="usp-tab-builder-tab" data-id="${defaultConfig.id}" data-config='${JSON.stringify(defaultConfig)}'>
+                <div class="usp-tab-builder-tab-header">
+                    <span class="dashicons ${defaultConfig.icon}"></span>
+                    <span class="tab-title">${defaultConfig.title}</span>
+                    <div class="usp-tab-builder-tab-actions">
+                        <button type="button" class="button button-small" data-action="edit-tab">${l10n.edit || 'Edit'}</button>
+                    </div>
+                </div>
+                <div class="usp-tab-builder-subtabs" data-sortable="subtabs"></div>
+            </div>
+        `;
+
+        firstLocation.insertAdjacentHTML('beforeend', tabHtml);
+
+        // Re-initialize sortable for the new element's parent container if needed,
+        // but since we add to an existing one, it should be fine.
+    };
+
     // --- Логика сохранения через REST API ---
     const saveButton = document.getElementById('usp-save-tab-builder');
     if (saveButton) {
@@ -212,4 +358,5 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Первичная инициализация
     initSortable();
+    updateTabStates(); // Устанавливаем начальное состояние
 });

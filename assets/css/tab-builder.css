@@ -1,7 +1,8 @@
 /* Main Builder Container */
 .usp-tabs-config-builder {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
     gap: 20px;
     margin-top: 20px;
 }
@@ -12,6 +13,8 @@
     border: 1px solid #ccd0d4;
     border-radius: 4px;
     box-shadow: 0 1px 1px rgba(0, 0, 0, .04);
+    flex: 1 1 450px; /* Позволяет блокам сжиматься, но не расти бесконечно */
+    max-width: 500px;
 }
 
 .usp-tab-builder-location-title {
@@ -69,14 +72,19 @@
 
 /* Sub-tabs container */
 .usp-tab-builder-subtabs {
-    padding: 10px;
+    padding: 5px;
     margin: 0 10px 10px 30px; /* Indentation for sub-tabs */
     border-left: 3px solid #8c8f94;
     background: #fff;
-    min-height: 40px; /* Drop area for sub-tabs */
+    min-height: 10px; /* Drop area for sub-tabs */
     display: flex;
     flex-direction: column;
     gap: 10px;
+}
+
+/* Скрываем контейнер для подвкладок у вложенных элементов (2-го уровня) */
+.usp-tab-builder-tab.is-nested .usp-tab-builder-subtabs {
+    display: none;
 }
 
 /* SortableJS helper classes */

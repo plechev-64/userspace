@@ -4,7 +4,7 @@ namespace UserSpace\Core\Tabs;
 
 abstract class AbstractTab
 {
-    protected string $id;
+    protected string $id = '';
     protected string $title;
     protected string $location = 'main';
     protected int $order = 100;
@@ -103,6 +103,11 @@ abstract class AbstractTab
      */
     public function updateFromArray(array $data): void
     {
+        // ID можно установить только один раз, если он еще не инициализирован.
+        if (empty($this->id) && !empty($data['id'])) {
+            $this->id = (string) $data['id'];
+        }
+
         if (isset($data['title'])) {
             $this->title = (string) $data['title'];
         }
