@@ -1,0 +1,191 @@
+.usp-form {
+    max-width: 800px;
+}
+
+.usp-form *,
+.usp-form *::before,
+.usp-form *::after {
+    box-sizing: border-box;
+}
+
+.usp-form .usp-form-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+/* Section Styles */
+.usp-form .usp-form-section {
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    padding: 20px;
+    background-color: #fdfdfd;
+}
+
+.usp-form .usp-form-section-title {
+    margin-top: 0;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #ddd;
+    font-size: 1.5em;
+    font-weight: 600;
+    color: #2c3338;
+}
+
+.usp-form .usp-form-section-blocks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 25px;
+}
+
+/* Block Styles */
+.usp-form .usp-form-block {
+    flex: 1 1 0;
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.usp-form .usp-form-block-title {
+    margin-top: 0;
+    margin-bottom: 5px;
+    font-size: 1.2em;
+    font-weight: 600;
+    color: #444;
+}
+
+/* Field Wrapper & Label Styles */
+.usp-form .usp-form-field-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.usp-form .usp-form-field-wrapper label {
+    font-weight: 600;
+}
+
+.usp-form .usp-required {
+    color: red;
+    margin-left: 2px;
+}
+
+/* Input Styles */
+.usp-form input[type="text"],
+.usp-form input[type="email"],
+.usp-form input[type="url"],
+.usp-form input[type="password"],
+.usp-form input[type="date"],
+.usp-form select,
+.usp-form textarea {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+/* Radio Group Styles */
+.usp-form .usp-radio-group {
+    display: flex;
+    gap: 15px;
+}
+
+/* Submit Button */
+.usp-form .usp-form-submit-wrapper {
+    margin-top: 20px;
+}
+
+/* Notice Messages */
+.usp-notice {
+    padding: 10px 15px;
+    margin-bottom: 20px;
+    border-left-width: 4px;
+    border-left-style: solid;
+}
+.usp-notice-success {
+    background-color: #f0f8ff;
+    border-left-color: #7ad03a;
+}
+.usp-notice-error {
+    background-color: #fff5f5;
+    border-left-color: #d63638;
+}
+.usp-notice-error ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+/* Uploader Styles */
+.usp-uploader {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+}
+
+.usp-uploader-preview-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    min-height: 150px;
+    border: 1px dashed #ccc;
+    padding: 10px;
+    background-color: #f9f9f9;
+    flex-grow: 1;
+}
+
+.usp-uploader.has-file .usp-uploader-preview-wrapper {
+    border-style: solid;
+}
+
+.usp-uploader-preview-item {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    overflow: hidden;
+}
+
+.usp-uploader-preview-item .usp-remove-item-button {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    line-height: 18px;
+    text-align: center;
+    cursor: pointer;
+    display: none;
+    padding: 0;
+    font-size: 16px;
+}
+
+.usp-uploader-preview-item:hover .usp-remove-item-button {
+    display: block;
+}
+
+.usp-uploader-preview-wrapper img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    display: block;
+}
+
+.usp-uploader .usp-remove-button {
+    display: none;
+}
+.usp-uploader.has-file:not([data-multiple="true"]) .usp-remove-button {
+    display: inline-block;
+}
+.usp-uploader.has-file:not([data-multiple="true"]) .usp-upload-button {
+    display: none;
+}

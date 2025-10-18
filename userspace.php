@@ -1,34 +1,54 @@
 <?php
-/*
-  Plugin Name: UserSpace
-  Plugin URI: http://user-space.com/
-  Description: Login & registration form, profile fields, front-end profile, user account and core for WordPress membership.
-  Version: 0.1
-  Author: UserSpace
-  Author URI: http://user-space.com/
-  Text Domain: userspace
-  License: GPLv2 or later (license.txt)
+/**
+ * Plugin Name:       UserSpace
+ * Plugin URI:        https://example.com/
+ * Description:       Плагин для создания личного кабинета (личного пространства пользователя).
+ * Version:           1.0.0
+ * Requires at least: 5.2
+ * Requires PHP:      8.1
+ * Author:            Your Name
+ * Author URI:        https://example.com/
+ * License:           GPL v2 or later
+ * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
+ * Text Domain:       userspace
+ * Domain Path:       /languages
  */
 
-/*  Copyright 2024  UserSpace  (email : support {at} user-space.com)  */
+// Защита от прямого доступа к файлу
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
 
-use USP\Core\Install;
-use USP\Core\Container;
-use USP\UserSpace;
+// 1. Определение констант плагина
+define( 'USERSPACE_VERSION', '1.0.0' );
+define( 'USERSPACE_PLUGIN_FILE', __FILE__ );
+define( 'USERSPACE_PLUGIN_DIR', plugin_dir_path( USERSPACE_PLUGIN_FILE ) );
+define( 'USERSPACE_PLUGIN_URL', plugin_dir_url( USERSPACE_PLUGIN_FILE ) );
 
-require_once 'vendor/autoload.php';
+// 2. Подключение автозагрузчика Composer
+if ( file_exists( USERSPACE_PLUGIN_DIR . 'vendor/autoload.php' ) ) {
+    require_once USERSPACE_PLUGIN_DIR . 'vendor/autoload.php';
+} else {
+    // Можно добавить уведомление в админ-панель о необходимости выполнить `composer install`
+    // Например, через add_action( 'admin_notices', '...' );
+}
 
-register_activation_hook( __FILE__, [ Install::class, 'install' ] );
+// 3. Регистрация хуков активации и деактивации
+// Обратите внимание, что мы используем полное имя класса с пространством имен
+register_activation_hook( USERSPACE_PLUGIN_FILE, ['UserSpace\Plugin', 'activate' ] );
+register_deactivation_hook( USERSPACE_PLUGIN_FILE, ['UserSpace\Plugin', 'deactivate' ] );
 
-// Инициализируем контейнер зависимостей
-$container = Container::getInstance();
+// 4. Запуск плагина
+if ( class_exists('UserSpace\Plugin') ) {
+    /**
+     * Возвращает основной экземпляр плагина UserSpace.
+     *
+     * @return \UserSpace\Plugin
+     */
+    function userspace(): \UserSpace\Plugin {
+        return \UserSpace\Plugin::getInstance();
+    }
 
-// Получаем главный класс плагина из контейнера и запускаем его
-$GLOBALS['userspace'] = $container->get( UserSpace::class );
-$GLOBALS['userspace']->run();
-
-do_action( 'userspace_loaded', $container );
-
-function USP(): UserSpace {
-	return $GLOBALS['userspace'];
+    // Запускаем плагин.
+    userspace();
 }

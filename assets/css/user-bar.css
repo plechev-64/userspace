@@ -1,0 +1,58 @@
+html.usp-user-bar-active {
+    margin-top: 32px !important;
+}
+
+.usp-user-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 32px;
+    background: #1d2327;
+    color: #eee;
+    z-index: 99999;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    font-size: 13px;
+}
+
+.usp-user-bar-inner {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 100%;
+    padding: 0 15px;
+}
+
+.usp-user-bar-menu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.usp-user-bar-menu li {
+    margin: 0;
+    padding: 0;
+}
+
+.usp-user-bar-menu a {
+    color: #eee;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.usp-user-bar-menu a:hover {
+    color: #00a0d2;
+}
+
+.usp-user-bar-menu .usp-user-avatar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.usp-user-bar-menu .usp-user-avatar img {
+    border-radius: 50%;
+}

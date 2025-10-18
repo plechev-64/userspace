@@ -1,100 +1,127 @@
 <?php
 
-namespace USP\Core;
+namespace UserSpace\Core;
 
-use USP\Core\Module\Tabs\Tabs;
-use USP\UserSpace;
+use Exception;
+use ReflectionClass;
 
-final class Container {
-	private static ?Container $instance = null;
-	private array $services = [];
-	private array $resolved = [];
+// Защита от прямого доступа к файлу
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+/**
+ * Простой контейнер для внедрения зависимостей (DI Container).
+ *
+ * Управляет жизненным циклом объектов (сервисов) в плагине.
+ */
+class Container implements ContainerInterface {
 
 	/**
-	 * Конструктор сделан приватным, чтобы предотвратить создание через new.
+	 * Массив для хранения фабрик, создающих сервисы.
+	 * @var array<string, callable>
 	 */
-	private function __construct() {
-		$this->registerServices();
+	private array $factories = [];
+
+	/**
+	 * Массив для хранения уже созданных экземпляров сервисов (синглтонов).
+	 * @var array<string, mixed>
+	 */
+	private array $instances = [];
+
+	/**
+	 * Регистрирует фабрику для создания сервиса.
+	 *
+	 * @param string   $id        Идентификатор сервиса (обычно имя класса).
+	 * @param callable $factory Функция-замыкание, которая создает экземпляр сервиса.
+	 */
+	public function set( string $id, callable $factory ): void {
+		$this->factories[ $id ] = $factory;
 	}
 
-	/**
-	 * Получение единственного экземпляра контейнера.
-	 * @return Container
-	 */
-	public static function getInstance(): Container {
-		if ( self::$instance === null ) {
-			self::$instance = new self();
-		}
-		return self::$instance;
-	}
-
-	/**
-	 * Добавляет определение сервиса в контейнер.
-	 *
-	 * @param string $id Идентификатор сервиса (обычно имя класса).
-	 * @param callable $resolver Функция-замыкание, которая создает сервис.
-	 */
-	public function add( string $id, callable $resolver ): void {
-		$this->services[ $id ] = $resolver;
-	}
-
-	/**
-	 * Получает сервис из контейнера. Создает его при первом вызове.
-	 *
-	 * @param string $id Идентификатор сервиса.
-	 *
-	 * @return mixed
-	 * @throws \Exception Если сервис не найден.
-	 */
+    /**
+     * Возвращает экземпляр сервиса по его идентификатору.
+     * При первом вызове создает его с помощью фабрики и кэширует.
+     *
+     * @template T
+     * @param class-string<T> $id Идентификатор сервиса (имя класса).
+     * @return T Экземпляр сервиса.
+     * @throws Exception Если сервис не зарегистрирован в контейнере.
+     */
 	public function get( string $id ) {
-		if ( isset( $this->resolved[ $id ] ) ) {
-			return $this->resolved[ $id ];
-		}
+        // 1. Проверяем, есть ли уже готовый экземпляр
+        if (isset($this->instances[$id])) {
+            return $this->instances[$id];
+        }
 
-		if ( ! isset( $this->services[ $id ] ) ) {
-			throw new \Exception( "Service not found: {$id}" );
-		}
+        // 2. Проверяем, есть ли для него явная фабрика
+        if (isset($this->factories[$id])) {
+            $this->instances[$id] = $this->factories[$id]($this);
+            return $this->instances[$id];
+        }
 
-		$this->resolved[ $id ] = $this->services[ $id ]( $this );
-
-		return $this->resolved[ $id ];
+        // 3. Пытаемся создать экземпляр автоматически через рефлексию
+        $this->instances[$id] = $this->createInstance($id);
+		return $this->instances[ $id ];
 	}
 
-	/**
-	 * Регистрация основных сервисов плагина.
-	 */
-	private function registerServices(): void {
-		// Явно указываем, как создавать каждый сервис.
-		// Это решает проблему с приватными конструкторами и Singleton'ами.
-		$this->add( Options::class, function () {
-			return Options::getInstance();
-		} );
+    /**
+     * Проверяет, зарегистрирован ли сервис в контейнере.
+     *
+     * @param string $id Идентификатор сервиса.
+     * @return bool
+     */
+    public function has( string $id ): bool
+    {
+        // Сервис существует, если для него есть фабрика или если такой класс в принципе существует
+        return isset( $this->factories[ $id ] ) || class_exists($id);
+    }
 
-		$this->add( Users::class, function () {
-			return Users::getInstance();
-		} );
+    /**
+     * Создает экземпляр класса с помощью рефлексии, автоматически разрешая зависимости.
+     *
+     * @template T
+     * @param class-string<T> $id
+     * @return T
+     * @throws Exception
+     */
+    private function createInstance(string $id)
+    {
+        if (!$this->has($id)) {
+            throw new Exception("Service or class '{$id}' not found.");
+        }
 
-		$this->add( Office::class, function () {
-			return Office::getInstance();
-		} );
+        $reflection = new ReflectionClass($id);
 
-		$this->add( Tabs::class, function () {
-			return Tabs::instance();
-		} );
+        if (!$reflection->isInstantiable()) {
+            throw new Exception("Class '{$id}' is not instantiable.");
+        }
 
-		$this->add( Themes::class, function () {
-			return new Themes();
-		} );
+        $constructor = $reflection->getConstructor();
 
-		// Главный класс плагина, который зависит от других сервисов.
-		$this->add( UserSpace::class, function ( Container $container ) {
-			return new UserSpace(
-				$container->get( Users::class ),
-				$container->get( Office::class ),
-				$container->get( Tabs::class ),
-				$container->get( Themes::class ),
-				$container->get( Options::class )
-			);
-		} );
-	}
+        if ($constructor === null) {
+            // Если нет конструктора, просто создаем экземпляр
+            return new $id();
+        }
+
+        $parameters = $constructor->getParameters();
+        $dependencies = [];
+
+        foreach ($parameters as $parameter) {
+            $paramType = $parameter->getType();
+
+            // Пропускаем параметры без типа или со встроенным (скалярным) типом
+            if (!$paramType || $paramType->isBuiltin()) {
+                // Если для скалярного параметра есть значение по умолчанию, используем его
+                if ($parameter->isDefaultValueAvailable()) {
+                    $dependencies[] = $parameter->getDefaultValue();
+                }
+                continue;
+            }
+
+            $dependencies[] = $this->get($paramType->getName());
+        }
+
+        return new $id(...$dependencies);
+    }
 }
