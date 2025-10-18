@@ -77,6 +77,8 @@ class SettingsPage extends AbstractAdminPage
 
         wp_enqueue_script('usp-uploader-handler');
 
+        wp_enqueue_style('usp-form-style', USERSPACE_PLUGIN_URL . 'assets/css/form.css', [], USERSPACE_VERSION);
+
         wp_enqueue_style(
             'usp-admin-settings',
             USERSPACE_PLUGIN_URL . 'assets/css/admin-settings.css',
@@ -107,8 +109,8 @@ class SettingsPage extends AbstractAdminPage
             'uspL10n',
             [
                 'adminSettings' => [
-                    'saving'       => __( 'Saving...', 'usp' ),
-                    'networkError' => __( 'Network error occurred.', 'usp' ),
+                    'saving' => __('Saving...', 'usp'),
+                    'networkError' => __('Network error occurred.', 'usp'),
                 ],
             ]
         );
@@ -158,13 +160,13 @@ class SettingsPage extends AbstractAdminPage
         // Контент табов
         echo '<div class="usp-settings-tabs-content">';
         echo '<div id="usp-settings-form-wrapper">'; // Обертка вместо <form>
-        
+
         $allSections = $formConfig->toArray()['sections'];
         foreach ($allSections as $index => $section) {
             $id = $section['id'] ?? 'section-' . $index;
             $class = $index === 0 ? 'active' : '';
             echo '<div id="' . esc_attr($id) . '" class="usp-tab-pane ' . esc_attr($class) . '">';
-            
+
             // Создаем FormConfig для ОДНОЙ текущей секции, чтобы отрендерить ее отдельно
             $sectionFormConfig = new FormConfig();
             $sectionFormConfig->addSection($section['title']);
@@ -244,6 +246,10 @@ class SettingsPage extends AbstractAdminPage
             ]))
             ->addOption(new SelectFieldDto('registration_page_id', [
                 'label' => __('Registration Page', 'usp'),
+                'options' => $this->getPagesAsOptions(),
+            ]))
+            ->addOption(new SelectFieldDto('password_reset_page_id', [
+                'label' => __('Password Recovery Page', 'usp'),
                 'options' => $this->getPagesAsOptions(),
             ]))
             ->addOption(new SelectFieldDto('profile_page_id', [
