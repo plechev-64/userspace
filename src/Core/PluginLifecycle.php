@@ -51,6 +51,17 @@ class PluginLifecycle
          ) $charset_collate;";
         dbDelta( $sql );
 
+        $table_name      = $wpdb->prefix . 'userspace_sse_events';
+        $charset_collate = $wpdb->get_charset_collate();
+        $sql = "CREATE TABLE $table_name (
+            id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+            event_type VARCHAR(255) NOT NULL,
+            payload LONGTEXT NOT NULL,
+            created_at DATETIME NOT NULL,
+            PRIMARY KEY  (id)
+        ) $charset_collate;";
+        dbDelta($sql);
+
         // Устанавливаем опцию, которая может понадобиться в будущем.
         add_option('userspace_version', USERSPACE_VERSION);
 
@@ -64,6 +75,9 @@ class PluginLifecycle
     {
         global $wpdb;
         $table_name = $wpdb->prefix . 'userspace_jobs';
+        $wpdb->query( "DROP TABLE IF EXISTS $table_name" );
+
+        $table_name = $wpdb->prefix . 'userspace_sse_events';
         $wpdb->query( "DROP TABLE IF EXISTS $table_name" );
 
         flush_rewrite_rules();

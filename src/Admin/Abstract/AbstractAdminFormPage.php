@@ -75,7 +75,7 @@ abstract class AbstractAdminFormPage extends AbstractAdminPage
             'uspApiSettings',
             [
                 'root' => esc_url_raw(rest_url()),
-                'namespace' => 'userspace/v1',
+                'namespace' => USERSPACE_REST_NAMESPACE,
                 'nonce' => wp_create_nonce('wp_rest'),
                 'formType' => $this->getFormType(),
                 'fieldTypes' => $this->fieldMapper->getMap(), // Это остается здесь, так как нужно только в билдере

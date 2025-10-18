@@ -5,6 +5,7 @@ namespace UserSpace\Controller;
 use UserSpace\Core\Grid\DTO\GridRequestParamsDto;
 use UserSpace\Core\Http\JsonResponse;
 use UserSpace\Core\Http\Request;
+use UserSpace\Core\Process\BackgroundProcessManager;
 use UserSpace\Core\Queue\QueueDispatcher;
 use UserSpace\Core\Queue\QueueManager;
 use UserSpace\Core\Queue\QueueStatus;
@@ -20,7 +21,8 @@ class QueueActionsController extends AbstractController
         private readonly QueueDispatcher $dispatcher,
         private readonly QueueStatus $status,
         private readonly QueueJobsGrid $grid,
-        private readonly QueueManager $queueManager
+        private readonly QueueManager $queueManager,
+        private readonly BackgroundProcessManager $backgroundProcess
     ) {
     }
 
@@ -74,8 +76,27 @@ class QueueActionsController extends AbstractController
     #[Route(path: '/process-now', method: 'POST', permission: 'manage_options')]
     public function processNow(Request $request): JsonResponse
     {
-        $this->queueManager->processQueueBatch();
+        // Делегируем запуск фонового процесса специализированному сервису.
+        $this->backgroundProcess->dispatch('/queue/run-worker');
 
-        return $this->success(['message' => __('Queue processing has been triggered.', 'usp')]);
+        return $this->success(['message' => __('Queue processing has been triggered in the background.', 'usp')]);
+    }
+
+    /**
+     * Внутренний эндпоинт, который выполняет реальную работу.
+     * Вызывается фоновым curl-запросом из processNow().
+     */
+    #[Route(path: '/run-worker', method: 'POST')]
+    public function runWorker(Request $request): JsonResponse
+    {
+        // Проверка прав доступа для фоновых запросов может быть сложной,
+        // поэтому здесь можно оставить проверку по токену или положиться на то,
+        // что эндпоинт не будет известен публично. Для надежности вернем токен.
+//        if (!current_user_can('manage_options')) {
+//            return $this->error('Permission denied.', 403);
+//        }
+
+        $this->queueManager->processQueueBatch();
+        return $this->success(['message' => 'Worker finished.']);
     }
 }

@@ -12,6 +12,15 @@
             this.settings = settings;
         }
 
+        /**
+         * Constructs the full URL for a given REST API endpoint.
+         * @param {string} endpoint The relative path of the endpoint (e.g., '/sse/events').
+         * @returns {string} The full URL.
+         */
+        getEndpointUrl(endpoint) {
+            return `${this.settings.root}${this.settings.namespace}${endpoint}`;
+        }
+
         async post(endpoint, body) {
             const apiUrl = `${this.settings.root}${this.settings.namespace}${endpoint}`;
             const headers = { 'X-WP-Nonce': this.settings.nonce };

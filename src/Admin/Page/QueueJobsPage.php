@@ -70,9 +70,16 @@ class QueueJobsPage extends AbstractAdminPage
             USERSPACE_VERSION
         );
         wp_enqueue_script(
+            'usp-sse-client-script',
+            USERSPACE_PLUGIN_URL . 'assets/js/sse-client.js',
+            [],
+            USERSPACE_VERSION,
+            true
+        );
+        wp_enqueue_script(
             'usp-queue-page-script',
             USERSPACE_PLUGIN_URL . 'assets/js/queue-page.js',
-            ['usp-core', 'wp-i18n'],
+            ['usp-core', 'wp-i18n', 'usp-sse-client-script'],
             USERSPACE_VERSION,
             true
         );
@@ -80,6 +87,7 @@ class QueueJobsPage extends AbstractAdminPage
             'statusEndpoint' => '/queue/status',
             'pingEndpoint'   => '/queue/ping',
             'processEndpoint' => '/queue/process-now',
+            'eventsEndpoint' => '/sse/events',
             'ping_error' => __('Failed to dispatch ping task.', 'usp'),
             'ping_sending' => __('Sending...', 'usp'),
             'processing' => __('Processing...', 'usp'),

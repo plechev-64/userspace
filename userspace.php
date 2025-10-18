@@ -25,8 +25,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 // 1. Определение констант плагина
 const USERSPACE_VERSION = '1.0.0';
 const USERSPACE_PLUGIN_FILE = __FILE__;
+const USERSPACE_REST_NAMESPACE = 'userspace/v1';
 define( 'USERSPACE_PLUGIN_DIR', plugin_dir_path( USERSPACE_PLUGIN_FILE ) );
 define( 'USERSPACE_PLUGIN_URL', plugin_dir_url( USERSPACE_PLUGIN_FILE ) );
+define( 'USERSPACE_WORKER_TOKEN', hash('sha256', NONCE_KEY . NONCE_SALT . 'userspace-worker') );
+
+// Имя сервиса веб-сервера в Docker для внутренних запросов.
+// Если вы не в Docker, оставьте пустым.
+// Можно переопределить в wp-config.php для разных окружений.
+defined('USERSPACE_DOCKER_HOST') || define('USERSPACE_DOCKER_HOST', 'nginx');
 
 // 2. Подключение автозагрузчика Composer
 if ( file_exists( USERSPACE_PLUGIN_DIR . 'vendor/autoload.php' ) ) {

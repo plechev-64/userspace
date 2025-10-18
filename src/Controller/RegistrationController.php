@@ -146,7 +146,7 @@ class RegistrationController extends AbstractController
         ];
         $token = base64_encode(json_encode($tokenData));
 
-        $confirmationUrl = add_query_arg(['token' => $token], rest_url('userspace/v1/confirm-registration'));
+        $confirmationUrl = add_query_arg(['token' => $token], rest_url(USERSPACE_REST_NAMESPACE . '/confirm-registration'));
 
         $subject = sprintf(__('[%s] Activate Your Account', 'usp'), get_bloginfo('name'));
         $message = sprintf(__("Thanks for signing up! To activate your account, please click this link:\n\n%s", 'usp'), $confirmationUrl);

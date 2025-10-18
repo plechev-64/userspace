@@ -20,6 +20,7 @@ use UserSpace\Controller\TabContentController;
 use UserSpace\Controller\UserController;
 use UserSpace\Core\ContainerInterface;
 use UserSpace\Core\Database\QueryBuilder;
+use UserSpace\Core\Process\BackgroundProcessManager;
 use UserSpace\Core\Http\Request;
 use UserSpace\Core\Queue\QueueManager;
 use UserSpace\Core\Queue\QueueStatus;
@@ -28,13 +29,16 @@ use UserSpace\Core\Rest\RestApi;
 use UserSpace\Core\Rest\Route\RouteCollector;
 use UserSpace\Core\Rest\Route\RouteParser;
 use UserSpace\Core\SetupWizard\SetupWizardController;
+use UserSpace\Core\SSE\SseController;
+use UserSpace\Core\SSE\SseManager;
 use UserSpace\JobHandler\Message\PingMessage;
 use UserSpace\JobHandler\Message\SendWelcomeEmailMessage;
 use UserSpace\JobHandler\PingHandler;
 use UserSpace\JobHandler\SendWelcomeEmailHandler;
 
 /**
- * Регистрирует все сервисы плагина в DI-контейнере.
+ * Регистрирует сервисы плагина в DI-контейнере.
+ * Все сервисы собирать не нужно, работает autowiring
  */
 class ServiceProvider
 {
@@ -51,7 +55,7 @@ class ServiceProvider
 
         // REST API Params
         $container->set('rest.prefix', fn() => 'wp-json');
-        $container->set('rest.namespace', fn() => 'userspace/v1');
+        $container->set('rest.namespace', fn() => USERSPACE_REST_NAMESPACE);
 
         // REST Core
         // Эти сервисы необходимы для RestApi, поэтому их нужно зарегистрировать явно.
@@ -83,6 +87,7 @@ class ServiceProvider
                 GridController::class,
                 SetupWizardController::class,
                 QueueActionsController::class,
+                SseController::class
             ];
             return new RestApi($controllers, $c->get('rest.namespace'), $c->get(RouteParser::class), $c);
         });
@@ -96,6 +101,9 @@ class ServiceProvider
             }
         );
 
+        // --- Фоновые процессы ---
+        $container->set(BackgroundProcessManager::class, fn() => new BackgroundProcessManager());
+
         // --- Очередь ---
 
         // Карта "Сообщение -> Обработчик"
@@ -105,7 +113,12 @@ class ServiceProvider
         ]);
 
         $container->set(QueueManager::class, function (ContainerInterface $c) {
-            return new QueueManager($c, $c->get(QueueStatus::class), $c->get('queue.message_handler_map'));
+            return new QueueManager(
+                $c,
+                $c->get(QueueStatus::class),
+                $c->get(SseManager::class),
+                $c->get('queue.message_handler_map')
+            );
         });
     }
 }

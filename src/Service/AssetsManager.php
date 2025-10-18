@@ -84,7 +84,7 @@ class AssetsManager
             'uspApiSettings',
             [
                 'root' => esc_url_raw(rest_url()),
-                'namespace' => 'userspace/v1',
+                'namespace' => USERSPACE_REST_NAMESPACE,
                 'nonce' => wp_create_nonce('wp_rest'),
             ]
         );

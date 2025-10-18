@@ -112,6 +112,35 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // Запускаем периодическое обновление каждые 5 секунд
-    setInterval(fetchStatus, 5000);
+    /**
+     * Инициализирует Server-Sent Events для получения обновлений в реальном времени.
+     */
+    const initQueueSse = () => {
+        let debounceTimer;
+
+        /**
+         * Функция-обертка с "дебаунсом" для предотвращения лавины запросов.
+         * Запускает fetchStatus только один раз после серии быстрых событий.
+         */
+        const debouncedFetchStatus = () => {
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(() => {
+                fetchStatus();
+            }, 500); // Пауза в 500 мс
+        };
+
+        const eventsUrl = UspCore.api.getEndpointUrl(pageData.eventsEndpoint);
+        const sseClient = new SSEClient(eventsUrl);
+
+        sseClient.on('batch_processed', (data) => {
+            console.log(`Received batch_processed event. Jobs processed: ${data.jobsProcessed}. Debouncing status fetch.`);
+            // Вызываем обертку вместо прямого вызова fetchStatus()
+            debouncedFetchStatus();
+        });
+
+        sseClient.connect();
+    };
+
+    // Запускаем SSE
+    initQueueSse();
 });
