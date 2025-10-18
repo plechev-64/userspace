@@ -4,6 +4,7 @@ namespace UserSpace\Admin\Page;
 
 use UserSpace\Admin\Abstract\AbstractAdminFormPage;
 use UserSpace\Core\ContainerInterface;
+use UserSpace\Form\FormConfig;
 use UserSpace\Plugin;
 
 class RegistrationFormPage extends AbstractAdminFormPage
@@ -28,12 +29,10 @@ class RegistrationFormPage extends AbstractAdminFormPage
         return 'registration';
     }
 
-    protected function createDefaultConfig(): array
+    protected function createDefaultConfig(): FormConfig
     {
         // Для примера, используем поля из профиля + добавляем свои
-        /** @var ContainerInterface $container */
         $container = Plugin::getInstance()->getContainer();
-        /** @var ProfileFormPage $profilePage */
         $profilePage   = $container->get(ProfileFormPage::class);
         $profileConfig = $profilePage->createDefaultConfig();
 

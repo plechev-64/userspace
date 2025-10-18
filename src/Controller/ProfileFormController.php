@@ -35,16 +35,13 @@ class ProfileFormController extends AbstractController
             return $this->error(['message' => __('Form configuration not found.', 'usp')], 404);
         }
 
-        // Заполняем конфигурацию данными из запроса
-        foreach ($config['sections'] as &$section) {
-            foreach ($section['blocks'] as &$block) {
-                foreach ($block['fields'] as $name => &$fieldConfig) {
-                    $postValue = $request->getPost($name);
-                    if ($postValue !== null) {
-                        // Здесь можно добавить более сложную санацию в зависимости от типа поля
-                        $fieldConfig['value'] = sanitize_text_field(wp_unslash($postValue));
-                    }
-                }
+        // Обновляем DTO данными из запроса, не пересобирая его
+        $fields = $config->getFields();
+        foreach (array_keys($fields) as $fieldName) {
+            $postValue = $request->getPost($fieldName);
+            if ($postValue !== null) {
+                // Здесь можно добавить более сложную санацию в зависимости от типа поля
+                $config->updateFieldValue($fieldName, wp_unslash($postValue));
             }
         }
 

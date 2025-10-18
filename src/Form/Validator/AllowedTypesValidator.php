@@ -14,9 +14,9 @@ class AllowedTypesValidator implements FileValidatorInterface {
 	private array $allowedTypes;
 
 	/**
-	 * @param string|array $allowedTypes Кома-сепарированная строка или массив MIME-типов.
+	 * @param array|string $allowedTypes Кома-сепарированная строка или массив MIME-типов.
 	 */
-	public function __construct( $allowedTypes ) {
+	public function __construct(array|string $allowedTypes ) {
 		if ( is_string( $allowedTypes ) ) {
 			$this->allowedTypes = array_map( 'trim', explode( ',', $allowedTypes ) );
 		} else {

@@ -43,14 +43,14 @@ class GenericFormRenderer {
 			]
 		);
 
+		// Если форма была отправлена (например, после неудачной валидации на стороне сервера),
+		// заполняем DTO данными из $_POST, не пересобирая его.
 		if ( ! empty( $_POST ) ) {
-			foreach ( $config['sections'] as &$section ) {
-				foreach ( $section['blocks'] as &$block ) {
-					foreach ( $block['fields'] as $name => &$field_config ) {
-						if ( isset( $_POST[ $name ] ) ) {
-							$field_config['value'] = sanitize_text_field( wp_unslash( $_POST[ $name ] ) );
-						}
-					}
+			$fields = $config->getFields();
+			foreach ( array_keys( $fields ) as $fieldName ) {
+				if ( isset( $_POST[ $fieldName ] ) ) {
+					// Санация будет происходить внутри объектов полей при валидации
+					$config->updateFieldValue( $fieldName, wp_unslash( $_POST[ $fieldName ] ) );
 				}
 			}
 		}

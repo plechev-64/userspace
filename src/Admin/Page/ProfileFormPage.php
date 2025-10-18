@@ -3,6 +3,7 @@
 namespace UserSpace\Admin\Page;
 
 use UserSpace\Admin\Abstract\AbstractAdminFormPage;
+use UserSpace\Form\FormConfig;
 
 class ProfileFormPage extends AbstractAdminFormPage
 {
@@ -26,34 +27,34 @@ class ProfileFormPage extends AbstractAdminFormPage
         return 'profile';
     }
 
-    protected function createDefaultConfig(): array
+    protected function createDefaultConfig(): FormConfig
     {
         $this->formBuilder
             ->reset() // Сбрасываем состояние перед построением
             ->addSection('main', __('Main Information', 'usp'))
             ->addBlock('main_block');
         $this->formBuilder->addField('user_email', [
-                'type'  => 'text',
+            'type' => 'text',
             'label' => __('Email', 'usp'),
-                'rules' => [ 'required' => true ],
+            'rules' => ['required' => true],
         ])
             ->addField('display_name', [
-                'type'  => 'text',
+                'type' => 'text',
                 'label' => __('Display Name', 'usp'),
-                'rules' => [ 'required' => true ],
+                'rules' => ['required' => true],
             ])
             ->addField('about', [
-                'type'  => 'textarea',
+                'type' => 'textarea',
                 'label' => __('About Me', 'usp'),
             ])
             ->addField('gender', [
-                'type'    => 'radio',
-                'label'   => __('Gender', 'usp'),
+                'type' => 'radio',
+                'label' => __('Gender', 'usp'),
                 'options' => ['male' => __('Male', 'usp'), 'female' => __('Female', 'usp')],
             ])
             ->addField('hair_color', [
-                'type'    => 'select',
-                'label'   => __('Hair Color', 'usp'),
+                'type' => 'select',
+                'label' => __('Hair Color', 'usp'),
                 'options' => ['blond' => __('Blond', 'usp'), 'brunette' => __('Brunette', 'usp'), 'red' => __('Red', 'usp')],
             ]);
 

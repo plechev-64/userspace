@@ -2,7 +2,7 @@
 
 namespace UserSpace\Admin\Abstract;
 
-use UserSpace\Form\FieldMapper;
+use UserSpace\Form\FormConfig;
 use UserSpace\Form\FormConfigBuilder;
 use UserSpace\Form\FormManager;
 
@@ -11,12 +11,14 @@ use UserSpace\Form\FormManager;
  */
 abstract class AbstractAdminFormPage extends AbstractAdminPage
 {
+    protected readonly \UserSpace\Form\FieldMapper $fieldMapper;
+
     public function __construct(
-        protected readonly FieldMapper       $fieldMapper,
         protected readonly FormManager       $formManager,
-        protected readonly FormConfigBuilder $formBuilder
-    )
-    {
+        protected readonly FormConfigBuilder $formBuilder,
+        \UserSpace\Form\FieldMapper $fieldMapper
+    ) {
+        $this->fieldMapper = $fieldMapper;
     }
 
     /**
@@ -123,13 +125,11 @@ abstract class AbstractAdminFormPage extends AbstractAdminPage
         $config = $this->formManager->load($formType);
 
         if (null === $config) {
-            $this->createDefaultConfig();
-            $config = $this->formBuilder->build();
-            $this->formManager->save($formType, $config, []);
+            $config = $this->createDefaultConfig();
+            $this->formManager->save($formType, $config);
         }
 
-        $defaultConfig = $this->createDefaultConfig();
-        $defaultFields = $this->getFieldsFromConfig($defaultConfig);
+        $defaultFields = $this->getFieldsFromConfig($this->createDefaultConfig());
         $currentFields = $this->getFieldsFromConfig($config);
         $availableFields = array_diff_key($defaultFields, $currentFields);
 
@@ -153,24 +153,24 @@ abstract class AbstractAdminFormPage extends AbstractAdminPage
 
     /**
      * Извлекает плоский список полей из конфигурации.
-     * @param array $config
+     * @param FormConfig $formConfig
      * @return array
      */
-    protected function getFieldsFromConfig(array $config): array
+    protected function getFieldsFromConfig(FormConfig $formConfig): array
     {
         $fields = [];
-        if (empty($config['sections'])) {
+        $configArray = $formConfig->toArray();
+        if (empty($configArray['sections'])) {
             return [];
         }
-        foreach ($config['sections'] as $section) {
+        foreach ($configArray['sections'] as $section) {
             foreach ($section['blocks'] as $block) {
                 $fields = array_merge($fields, $block['fields'] ?? []);
             }
         }
         return $fields;
     }
-
     abstract protected function getFormType(): string;
 
-    abstract protected function createDefaultConfig(): array;
+    abstract protected function createDefaultConfig(): FormConfig;
 }

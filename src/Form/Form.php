@@ -3,14 +3,18 @@
 namespace UserSpace\Form;
 
 // Защита от прямого доступа к файлу
-if ( ! defined( 'ABSPATH' ) ) {
+use UserSpace\Core\Form\FormInterface;
+use UserSpace\Core\Form\Field\FieldInterface;
+
+if (!defined('ABSPATH')) {
     exit;
 }
 
 /**
  * Класс для управления формой и ее полями.
  */
-class Form {
+class Form implements FormInterface
+{
 
     /**
      * @var Section[] Массив секций формы.
@@ -25,7 +29,8 @@ class Form {
     /**
      * @param Section[] $sections Массив объектов секций.
      */
-    public function __construct( array $sections ) {
+    public function __construct(array $sections)
+    {
         $this->sections = $sections;
     }
 
@@ -35,17 +40,18 @@ class Form {
      * @param bool $isAdminContext Указывает, происходит ли рендеринг в админ-контексте (например, на странице профиля).
      * @return string
      */
-    public function render( bool $isAdminContext = false ): string {
+    public function render(bool $isAdminContext = false): string
+    {
         $output = '';
-        if ( ! $isAdminContext ) {
+        if (!$isAdminContext) {
             $output .= '<div class="usp-form-wrapper">';
         }
 
-        foreach ( $this->sections as $section ) {
-            $output .= $section->render( $isAdminContext );
+        foreach ($this->sections as $section) {
+            $output .= $section->render($isAdminContext);
         }
 
-        if ( ! $isAdminContext ) {
+        if (!$isAdminContext) {
             $output .= '</div>';
         }
 
@@ -57,16 +63,17 @@ class Form {
      *
      * @return bool True, если все поля валидны, иначе false.
      */
-    public function validate(): bool {
+    public function validate(): bool
+    {
         $this->errors = [];
-        $is_valid     = true;
+        $is_valid = true;
 
-        foreach ( $this->sections as $section ) {
-            foreach ( $section->getBlocks() as $block ) {
-                foreach ( $block->getFields() as $field ) {
-                    if ( ! $field->validate() ) {
+        foreach ($this->sections as $section) {
+            foreach ($section->getBlocks() as $block) {
+                foreach ($block->getFields() as $field) {
+                    if (!$field->validate()) {
                         $is_valid = false;
-                        $this->errors = array_merge( $this->errors, $field->getErrors() );
+                        $this->errors = array_merge($this->errors, $field->getErrors());
                     }
                 }
             }
@@ -80,13 +87,14 @@ class Form {
      *
      * @return string[]
      */
-    public function getErrors(): array {
+    public function getErrors(): array
+    {
         return $this->errors;
     }
 
     /**
      * Возвращает плоский массив всех полей формы.
-     * @return \UserSpace\Core\Form\Field\FieldInterface[]
+     * @return FieldInterface[]
      */
     public function getFields(): array
     {

@@ -14,6 +14,7 @@ use UserSpace\Form\Field\DTO\TextFieldDto;
 use UserSpace\Form\Field\DTO\UploaderFieldDto;
 use UserSpace\Form\Field\DTO\UrlFieldDto;
 use UserSpace\Form\FormFactory;
+use UserSpace\Form\FormConfig;
 
 /**
  * Управляет главной страницей настроек плагина.
@@ -118,22 +119,25 @@ class SettingsPage extends AbstractAdminPage
      */
     public function render(): void
     {
-        $config = $this->getSettingsConfig()->toArray();
+        $settingsConfig = $this->getSettingsConfig();
+        $config = $settingsConfig->toArray();
         $options = get_option(self::OPTION_NAME, []);
 
-        // Заполняем конфигурацию сохраненными значениями
-        foreach ($config['sections'] as &$section) {
-            foreach ($section['blocks'] as &$block) {
-                foreach ($block['fields'] as $name => &$fieldConfig) {
+        $formConfig = new FormConfig();
+        foreach ($config['sections'] as $section) {
+            $formConfig->addSection($section['title']);
+
+            foreach ($section['blocks'] as $block) {
+                $formConfig->addBlock($block['title']);
+
+                foreach ($block['fields'] as $name => $fieldData) {
                     if (isset($options[$name])) {
-                        $fieldConfig['value'] = $options[$name];
+                        $fieldData['value'] = $options[$name];
                     }
+                    $formConfig->addField($name, $fieldData);
                 }
             }
         }
-        unset($section, $block, $fieldConfig); // Разрываем ссылки после цикла
-
-        //$form = $this->formFactory->create($config);
 
         echo '<div class="wrap usp-settings-wrap">';
         echo '<h1>' . esc_html(get_admin_page_title()) . '</h1>';
@@ -144,7 +148,7 @@ class SettingsPage extends AbstractAdminPage
 
         // Меню табов
         echo '<ul class="usp-settings-tabs-menu">';
-        foreach ($config['sections'] as $index => $section) {
+        foreach ($formConfig->toArray()['sections'] as $index => $section) {
             $id = $section['id'] ?? 'section-' . $index;
             $class = $index === 0 ? 'active' : '';
             echo '<li><a href="#' . esc_attr($id) . '" class="' . esc_attr($class) . '">' . esc_html($section['title']) . '</a></li>';
@@ -154,13 +158,23 @@ class SettingsPage extends AbstractAdminPage
         // Контент табов
         echo '<div class="usp-settings-tabs-content">';
         echo '<div id="usp-settings-form-wrapper">'; // Обертка вместо <form>
-
-        foreach ($config['sections'] as $index => $section) {
+        
+        $allSections = $formConfig->toArray()['sections'];
+        foreach ($allSections as $index => $section) {
             $id = $section['id'] ?? 'section-' . $index;
             $class = $index === 0 ? 'active' : '';
             echo '<div id="' . esc_attr($id) . '" class="usp-tab-pane ' . esc_attr($class) . '">';
-            // Мы не можем использовать $form->render() напрямую, так как нам нужно рендерить секции по одной
-            $sectionForm = $this->formFactory->create(['sections' => [$section]]);
+            
+            // Создаем FormConfig для ОДНОЙ текущей секции, чтобы отрендерить ее отдельно
+            $sectionFormConfig = new FormConfig();
+            $sectionFormConfig->addSection($section['title']);
+            foreach ($section['blocks'] as $block) {
+                $sectionFormConfig->addBlock($block['title']);
+                foreach ($block['fields'] as $name => $fieldData) {
+                    $sectionFormConfig->addField($name, $fieldData);
+                }
+            }
+            $sectionForm = $this->formFactory->create($sectionFormConfig);
             echo $sectionForm->render();
             echo '</div>';
         }

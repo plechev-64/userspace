@@ -35,30 +35,23 @@ class AdminProfileFields
     public function renderProfileFields(\WP_User $user): void
     {
         $config = $this->formManager->load('profile');
-        if (!$config) {
+        if ( ! $config) {
             return;
         }
 
-        // Заполняем значениями текущего пользователя
-        foreach ($config['sections'] as &$section) {
-            foreach ($section['blocks'] as &$block) {
-                foreach ($block['fields'] as $name => &$fieldConfig) {
-                    // Пропускаем основные поля, так как WordPress рендерит их сам
-                    if (in_array($name, ['user_login', 'user_email', 'display_name', 'user_pass', 'password_repeat'])) {
-                        unset($block['fields'][$name]);
-                        continue;
-                    }
+		// Получаем все поля из конфигурации
+		$fields = $config->getFields();
 
-                    if (isset($user->$name)) {
-                        $fieldConfig['value'] = $user->$name;
-                    } else {
-                        $fieldConfig['value'] = get_user_meta($user->ID, $name, true);
-                    }
-                }
-            }
-        }
+		foreach ( array_keys( $fields ) as $fieldName ) {
+			// Пропускаем поля, которые WordPress рендерит и обрабатывает сам
+			if ( in_array( $fieldName, [ 'user_login', 'user_email', 'display_name', 'user_pass', 'password_repeat' ] ) ) {
+				$config->removeField( $fieldName );
+				continue;
+			}
+			$config->updateFieldValue( $fieldName, $user->$fieldName ?? get_user_meta( $user->ID, $fieldName, true ) );
+		}
 
-        $form = $this->formFactory->create($config);
+        $form = $this->formFactory->create( $config );
 
         echo '<h2>' . __('Additional Information', 'usp') . '</h2>';
         echo '<table class="form-table" role="presentation">';
@@ -73,31 +66,30 @@ class AdminProfileFields
      */
     public function saveProfileFields(int $userId): void
     {
-        if (!current_user_can('edit_user', $userId)) {
+        if ( ! current_user_can('edit_user', $userId)) {
             return;
         }
 
         $config = $this->formManager->load('profile');
-        if (!$config) {
+        if ( ! $config) {
             return;
         }
 
-        foreach ($config['sections'] as $section) {
-            foreach ($section['blocks'] as $block) {
-                foreach ($block['fields'] as $name => $fieldConfig) {
-                    // Сохраняем только если поле было отправлено в POST
-                    if (isset($_POST[$name])) {
-                        // Пропускаем основные поля, WordPress сохраняет их сам
-                        if (in_array($name, ['user_login', 'user_email', 'display_name', 'user_pass', 'password_repeat'])) {
-                            continue;
-                        }
+		// Получаем все поля из конфигурации, чтобы знать, какие данные ожидать
+		$fields = $config->getFields();
 
-                        // Здесь можно добавить более сложную санацию в зависимости от типа поля
-                        $value = sanitize_text_field(wp_unslash($_POST[$name]));
-                        update_user_meta($userId, $name, $value);
-                    }
-                }
-            }
-        }
+		foreach ( array_keys( $fields ) as $fieldName ) {
+			// Сохраняем только если поле было отправлено в POST
+			if ( isset( $_POST[ $fieldName ] ) ) {
+				// Пропускаем основные поля, WordPress сохраняет их сам
+				if ( in_array( $fieldName, [ 'user_login', 'user_email', 'display_name', 'user_pass', 'password_repeat' ] ) ) {
+					continue;
+				}
+
+				// Здесь можно добавить более сложную санацию в зависимости от типа поля
+				$value = wp_unslash( $_POST[ $fieldName ] );
+				update_user_meta( $userId, $fieldName, $value );
+			}
+		}
     }
 }

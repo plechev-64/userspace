@@ -5,6 +5,7 @@ namespace UserSpace\Controller\Admin;
 use UserSpace\Core\Http\JsonResponse;
 use UserSpace\Core\Http\Request;
 use UserSpace\Core\Rest\Abstract\AbstractController;
+use UserSpace\Form\FormConfig;
 use UserSpace\Core\Rest\Attributes\Route;
 use UserSpace\Form\FormFactory;
 
@@ -32,8 +33,14 @@ class TabSettingsController extends AbstractController
             }
         }
 
-        $settingsFormConfig = ['sections' => [['blocks' => [['fields' => $settingsFields]]]]];
-        $settingsForm = $this->formFactory->create($settingsFormConfig);
+        $formConfig = new FormConfig();
+        $formConfig->addSection(''); // Секция без заголовка
+        $formConfig->addBlock('');   // Блок без заголовка
+
+        foreach ($settingsFields as $name => $fieldData) {
+            $formConfig->addField($name, $fieldData);
+        }
+        $settingsForm = $this->formFactory->create($formConfig);
 
         return $this->success(['html' => '<form class="usp-form">' . $settingsForm->render() . '</form>']);
     }

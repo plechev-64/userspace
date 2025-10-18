@@ -2,6 +2,7 @@
 
 namespace UserSpace\Renderer;
 
+use UserSpace\Form\FormConfig;
 use UserSpace\Form\FormFactory;
 use UserSpace\Form\FormManager;
 
@@ -33,6 +34,7 @@ class RegistrationFormRenderer {
 		wp_enqueue_style( 'usp-form' );
 		wp_enqueue_script( 'usp-registration-handler' );
 
+		// $config уже является DTO, передаем его напрямую в фабрику
 		$form     = $this->formFactory->create( $config );
 		$settings = get_option( 'usp_settings', [] );
 

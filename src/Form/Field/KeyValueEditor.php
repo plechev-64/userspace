@@ -3,7 +3,7 @@
 namespace UserSpace\Form\Field;
 
 use UserSpace\Core\Form\Field\AbstractField;
-use UserSpace\Form\KeyValueEditorFieldDto;
+use UserSpace\Form\Field\DTO\KeyValueEditorFieldDto;
 
 // Защита от прямого доступа к файлу
 if ( ! defined( 'ABSPATH' ) ) {

@@ -39,15 +39,13 @@ class RegistrationController extends AbstractController
             return $this->error(['message' => __('Registration form configuration not found.', 'usp')], 500);
         }
 
-        // Заполняем конфигурацию данными из запроса
-        foreach ($config['sections'] as &$section) {
-            foreach ($section['blocks'] as &$block) {
-                foreach ($block['fields'] as $name => &$fieldConfig) {
-                    $postValue = $request->getPost($name);
-                    if ($postValue !== null) {
-                        $fieldConfig['value'] = sanitize_text_field(wp_unslash($postValue));
-                    }
-                }
+        // Обновляем DTO данными из запроса, не пересобирая его
+        $fields = $config->getFields();
+        foreach (array_keys($fields) as $fieldName) {
+            $postValue = $request->getPost($fieldName);
+            if ($postValue !== null) {
+                // Санация будет происходить внутри объектов полей при валидации
+                $config->updateFieldValue($fieldName, wp_unslash($postValue));
             }
         }
 

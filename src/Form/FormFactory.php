@@ -2,6 +2,7 @@
 
 namespace UserSpace\Form;
 
+use UserSpace\Core\Form\FormInterface;
 use InvalidArgumentException;
 
 // Защита от прямого доступа к файлу
@@ -21,12 +22,13 @@ class FormFactory {
 	/**
 	 * Создает экземпляр формы на основе конфигурации.
 	 *
-	 * @param array $config Конфигурация полей формы.
+	 * @param FormConfig $formConfig Конфигурация полей формы.
 	 *
-	 * @return Form
+	 * @return FormInterface
 	 * @throws InvalidArgumentException Если указан неподдерживаемый тип поля.
 	 */
-	public function create( array $config ): Form {
+	public function create( FormConfig $formConfig ): FormInterface {
+		$config   = $formConfig->toArray();
 		$sections = [];
 		$section_configs = $config['sections'] ?? [];
 

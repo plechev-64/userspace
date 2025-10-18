@@ -51,7 +51,7 @@ interface FieldInterface {
 	 *
 	 * @return mixed
 	 */
-    public function getValue();
+    public function getValue(): mixed;
 
     /**
      * Возвращает имя (атрибут name) поля.

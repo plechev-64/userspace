@@ -3,7 +3,6 @@
 namespace UserSpace\Admin;
 
 use UserSpace\Form\Field\DTO\FieldDto;
-use UserSpace\Form\FieldMapper;
 
 /**
  * Конструктор для создания конфигурации страницы настроек.
