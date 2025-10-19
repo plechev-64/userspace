@@ -4,12 +4,12 @@ namespace UserSpace\Controller;
 
 use UserSpace\Core\Http\JsonResponse;
 use UserSpace\Core\Http\Request;
-use UserSpace\Core\SecurityHelper;
 use UserSpace\Core\Rest\Abstract\AbstractController;
 use UserSpace\Core\Rest\Attributes\Route;
-use UserSpace\Form\Validator\AllowedTypesValidator;
-use UserSpace\Form\Validator\ImageDimensionsValidator;
-use UserSpace\Form\Validator\MaxFileSizeValidator;
+use UserSpace\Core\SecurityHelper;
+use UserSpace\Module\Form\Src\Infrastructure\Validator\AllowedTypesValidator;
+use UserSpace\Module\Form\Src\Infrastructure\Validator\ImageDimensionsValidator;
+use UserSpace\Module\Form\Src\Infrastructure\Validator\MaxFileSizeValidator;
 use UserSpace\Service\UploadedFileValidator;
 
 class FileUploaderController extends AbstractController

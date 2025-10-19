@@ -2,7 +2,7 @@
 
 namespace UserSpace\Admin;
 
-use UserSpace\Form\Field\DTO\FieldDto;
+use UserSpace\Module\Form\Src\Domain\Field\DTO\FieldDto;
 
 /**
  * Конструктор для создания конфигурации страницы настроек.

@@ -3,7 +3,7 @@
 namespace UserSpace\Admin\Page;
 
 use UserSpace\Admin\Abstract\AbstractAdminFormPage;
-use UserSpace\Form\FormConfig;
+use UserSpace\Module\Form\Src\Infrastructure\FormConfig;
 
 class ProfileFormPage extends AbstractAdminFormPage
 {

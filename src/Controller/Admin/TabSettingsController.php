@@ -5,9 +5,9 @@ namespace UserSpace\Controller\Admin;
 use UserSpace\Core\Http\JsonResponse;
 use UserSpace\Core\Http\Request;
 use UserSpace\Core\Rest\Abstract\AbstractController;
-use UserSpace\Form\FormConfig;
 use UserSpace\Core\Rest\Attributes\Route;
-use UserSpace\Form\FormFactory;
+use UserSpace\Module\Form\Src\Infrastructure\FormConfig;
+use UserSpace\Module\Form\Src\Infrastructure\FormFactory;
 
 #[Route(path: '/tab-settings')]
 class TabSettingsController extends AbstractController

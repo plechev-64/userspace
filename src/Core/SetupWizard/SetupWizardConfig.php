@@ -2,7 +2,7 @@
 
 namespace UserSpace\Core\SetupWizard;
 
-use UserSpace\Form\Field\DTO\FieldDto;
+use UserSpace\Module\Form\Src\Domain\Field\DTO\FieldDto;
 
 /**
  * Конфигуратор для пошагового мастера настройки.

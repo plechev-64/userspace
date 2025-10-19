@@ -5,16 +5,16 @@ namespace UserSpace\Admin\Page;
 use UserSpace\Admin\Abstract\AbstractAdminPage;
 use UserSpace\Admin\SettingsConfig;
 use UserSpace\Core\Theme\ThemeManager;
-use UserSpace\Form\Field\DTO\BooleanFieldDto;
-use UserSpace\Form\Field\DTO\CheckboxFieldDto;
-use UserSpace\Form\Field\DTO\RadioFieldDto;
-use UserSpace\Form\Field\DTO\SelectFieldDto;
-use UserSpace\Form\Field\DTO\TextareaFieldDto;
-use UserSpace\Form\Field\DTO\TextFieldDto;
-use UserSpace\Form\Field\DTO\UploaderFieldDto;
-use UserSpace\Form\Field\DTO\UrlFieldDto;
-use UserSpace\Form\FormFactory;
-use UserSpace\Form\FormConfig;
+use UserSpace\Module\Form\Src\Infrastructure\Field\DTO\BooleanFieldDto;
+use UserSpace\Module\Form\Src\Infrastructure\Field\DTO\CheckboxFieldDto;
+use UserSpace\Module\Form\Src\Infrastructure\Field\DTO\RadioFieldDto;
+use UserSpace\Module\Form\Src\Infrastructure\Field\DTO\SelectFieldDto;
+use UserSpace\Module\Form\Src\Infrastructure\Field\DTO\TextareaFieldDto;
+use UserSpace\Module\Form\Src\Infrastructure\Field\DTO\TextFieldDto;
+use UserSpace\Module\Form\Src\Infrastructure\Field\DTO\UploaderFieldDto;
+use UserSpace\Module\Form\Src\Infrastructure\Field\DTO\UrlFieldDto;
+use UserSpace\Module\Form\Src\Infrastructure\FormConfig;
+use UserSpace\Module\Form\Src\Infrastructure\FormFactory;
 
 /**
  * Управляет главной страницей настроек плагина.

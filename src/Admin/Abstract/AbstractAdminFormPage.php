@@ -2,21 +2,21 @@
 
 namespace UserSpace\Admin\Abstract;
 
-use UserSpace\Form\FormConfig;
-use UserSpace\Form\FormConfigBuilder;
-use UserSpace\Form\FormManager;
+use UserSpace\Module\Form\Src\Infrastructure\FormConfig;
+use UserSpace\Module\Form\Src\Infrastructure\FormConfigBuilder;
+use UserSpace\Module\Form\Src\Infrastructure\FormManager;
 
 /**
  * Абстрактный базовый класс для страниц конструкторов форм.
  */
 abstract class AbstractAdminFormPage extends AbstractAdminPage
 {
-    protected readonly \UserSpace\Form\FieldMapper $fieldMapper;
+    protected readonly \UserSpace\Module\Form\Src\Infrastructure\FieldMapper $fieldMapper;
 
     public function __construct(
-        protected readonly FormManager       $formManager,
-        protected readonly FormConfigBuilder $formBuilder,
-        \UserSpace\Form\FieldMapper $fieldMapper
+        protected readonly FormManager                        $formManager,
+        protected readonly FormConfigBuilder                  $formBuilder,
+        \UserSpace\Module\Form\Src\Infrastructure\FieldMapper $fieldMapper
     ) {
         $this->fieldMapper = $fieldMapper;
     }

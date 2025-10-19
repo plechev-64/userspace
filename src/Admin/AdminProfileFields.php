@@ -2,8 +2,8 @@
 
 namespace UserSpace\Admin;
 
-use UserSpace\Form\FormFactory;
-use UserSpace\Form\FormManager;
+use UserSpace\Module\Form\Src\Infrastructure\FormFactory;
+use UserSpace\Module\Form\Src\Infrastructure\FormManager;
 
 /**
  * Управляет отображением и сохранением кастомных полей на странице профиля пользователя в админ-панели.

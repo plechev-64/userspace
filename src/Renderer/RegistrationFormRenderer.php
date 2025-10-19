@@ -2,9 +2,8 @@
 
 namespace UserSpace\Renderer;
 
-use UserSpace\Form\FormConfig;
-use UserSpace\Form\FormFactory;
-use UserSpace\Form\FormManager;
+use UserSpace\Module\Form\Src\Infrastructure\FormFactory;
+use UserSpace\Module\Form\Src\Infrastructure\FormManager;
 
 // Защита от прямого доступа к файлу
 if ( ! defined( 'ABSPATH' ) ) {

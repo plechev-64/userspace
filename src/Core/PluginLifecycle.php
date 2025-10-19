@@ -3,9 +3,9 @@
 namespace UserSpace\Core;
 
 use UserSpace\Core\Cron\CronManager;
-use UserSpace\Form\Repository\FormRepository;
 use UserSpace\Core\Queue\Repository\JobRepository;
 use UserSpace\Core\SSE\Repository\SseEventRepository;
+use UserSpace\Module\Form\Src\Infrastructure\Repository\FormRepository;
 
 /**
  * Управляет жизненным циклом плагина (активация, деактивация, удаление).

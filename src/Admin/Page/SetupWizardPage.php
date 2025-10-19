@@ -4,9 +4,9 @@ namespace UserSpace\Admin\Page;
 
 use UserSpace\Admin\Abstract\AbstractAdminPage;
 use UserSpace\Core\SetupWizard\SetupWizardConfig;
-use UserSpace\Form\Field\DTO\SelectFieldDto;
-use UserSpace\Form\FormConfig;
-use UserSpace\Form\FormFactory;
+use UserSpace\Module\Form\Src\Infrastructure\Field\DTO\SelectFieldDto;
+use UserSpace\Module\Form\Src\Infrastructure\FormConfig;
+use UserSpace\Module\Form\Src\Infrastructure\FormFactory;
 
 /**
  * Управляет страницей пошаговой настройки плагина.

@@ -2,7 +2,7 @@
 
 namespace UserSpace\Service;
 
-use UserSpace\Core\Form\FileValidatorInterface;
+use UserSpace\Module\Form\Src\Domain\FileValidatorInterface;
 
 // Защита от прямого доступа к файлу
 if ( ! defined( 'ABSPATH' ) ) {
