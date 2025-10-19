@@ -4,7 +4,7 @@ namespace UserSpace\Admin\Page;
 
 use UserSpace\Admin\Abstract\AbstractAdminPage;
 use UserSpace\Grid\QueueJobsGrid;
-use UserSpace\Core\Queue\QueueStatus;
+use UserSpace\Module\Queue\Src\Infrastructure\QueueStatus;
 
 class QueueJobsPage extends AbstractAdminPage
 {

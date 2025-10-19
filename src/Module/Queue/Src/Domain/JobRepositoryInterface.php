@@ -1,6 +1,6 @@
 <?php
 
-namespace UserSpace\Core\Queue\Repository;
+namespace UserSpace\Module\Queue\Src\Domain;
 
 if ( ! defined('ABSPATH')) {
     exit;

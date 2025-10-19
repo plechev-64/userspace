@@ -6,7 +6,6 @@ use UserSpace\Admin\AdminManager;
 use UserSpace\Core\Container;
 use UserSpace\Core\ContainerInterface;
 use UserSpace\Core\Cron\CronManager;
-use UserSpace\Core\Queue\QueueManager;
 use UserSpace\Core\InitWpRest;
 use UserSpace\Core\Theme\ThemeManager;
 use UserSpace\Service\AssetsManager;

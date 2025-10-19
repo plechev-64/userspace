@@ -2,7 +2,7 @@
 
 namespace UserSpace\Core\Cron;
 
-use UserSpace\Core\Queue\QueueManager;
+use UserSpace\Module\Queue\Src\Infrastructure\QueueManager;
 
 if ( ! defined('ABSPATH')) {
     exit;

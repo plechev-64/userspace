@@ -3,8 +3,8 @@
 namespace UserSpace\Core;
 
 use UserSpace\Core\Cron\CronManager;
-use UserSpace\Core\Queue\Repository\JobRepository;
 use UserSpace\Module\Form\Src\Infrastructure\Repository\FormRepository;
+use UserSpace\Module\Queue\Src\Infrastructure\JobRepository;
 use UserSpace\Module\SSE\Src\Infrastructure\Repository\SseEventRepository;
 
 /**

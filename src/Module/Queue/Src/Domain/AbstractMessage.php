@@ -1,6 +1,6 @@
 <?php
 
-namespace UserSpace\Core\Queue;
+namespace UserSpace\Module\Queue\Src\Domain;
 
 use ReflectionClass;
 

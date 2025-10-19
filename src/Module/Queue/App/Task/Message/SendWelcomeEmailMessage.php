@@ -1,8 +1,8 @@
 <?php
 
-namespace UserSpace\JobHandler\Message;
+namespace UserSpace\Module\Queue\App\Task\Message;
 
-use UserSpace\Core\Queue\AbstractMessage;
+use UserSpace\Module\Queue\Src\Domain\AbstractMessage;
 
 // Защита от прямого доступа к файлу
 if ( ! defined( 'ABSPATH' ) ) {

@@ -1,6 +1,8 @@
 <?php
 
-namespace UserSpace\Core\Queue\Repository;
+namespace UserSpace\Module\Queue\Src\Infrastructure;
+
+use UserSpace\Module\Queue\Src\Domain\JobRepositoryInterface;
 
 if ( ! defined('ABSPATH')) {
     exit;

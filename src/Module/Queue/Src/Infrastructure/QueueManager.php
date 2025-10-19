@@ -1,10 +1,12 @@
 <?php
 
-namespace UserSpace\Core\Queue;
+namespace UserSpace\Module\Queue\Src\Infrastructure;
 
 use UserSpace\Core\ContainerInterface;
 use UserSpace\Core\Cron\CronManager;
-use UserSpace\Core\Queue\Repository\JobRepositoryInterface;
+use UserSpace\Module\Queue\Src\Domain\JobRepositoryInterface;
+use UserSpace\Module\Queue\Src\Domain\MessageHandler;
+use UserSpace\Module\Queue\Src\Domain\QueueableMessage;
 use UserSpace\Module\SSE\Src\Domain\Repository\SseEventRepositoryInterface;
 use UserSpace\Module\SSE\Src\Domain\SseEventDispatcherInterface;
 

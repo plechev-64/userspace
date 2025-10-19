@@ -1,10 +1,9 @@
 <?php
 
-namespace UserSpace\JobHandler;
+namespace UserSpace\Module\Queue\App\Task;
 
-use UserSpace\Core\Queue\MessageHandler;
-use UserSpace\Core\Queue\QueueableMessage;
-use UserSpace\JobHandler\Message\SendWelcomeEmailMessage;
+use UserSpace\Module\Queue\Src\Domain\MessageHandler;
+use UserSpace\Module\Queue\Src\Domain\QueueableMessage;
 
 // Защита от прямого доступа к файлу
 if ( ! defined( 'ABSPATH' ) ) {

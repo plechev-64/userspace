@@ -1,9 +1,10 @@
 <?php
 
-namespace UserSpace\Core\Queue;
+namespace UserSpace\Module\Queue\Src\Infrastructure;
 
 // Защита от прямого доступа к файлу
-use UserSpace\Core\Queue\Repository\JobRepositoryInterface;
+use UserSpace\Module\Queue\Src\Domain\JobRepositoryInterface;
+use UserSpace\Module\Queue\Src\Domain\QueueableMessage;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

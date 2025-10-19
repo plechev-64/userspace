@@ -1,18 +1,18 @@
 <?php
 
-namespace UserSpace\Controller;
+namespace UserSpace\Module\Queue\App;
 
 use UserSpace\Core\Grid\DTO\GridRequestParamsDto;
 use UserSpace\Core\Http\JsonResponse;
 use UserSpace\Core\Http\Request;
 use UserSpace\Core\Process\BackgroundProcessManager;
-use UserSpace\Core\Queue\QueueDispatcher;
-use UserSpace\Core\Queue\QueueManager;
-use UserSpace\Core\Queue\QueueStatus;
 use UserSpace\Core\Rest\Abstract\AbstractController;
 use UserSpace\Core\Rest\Attributes\Route;
 use UserSpace\Grid\QueueJobsGrid;
-use UserSpace\JobHandler\Message\PingMessage;
+use UserSpace\Module\Queue\App\Task\Message\PingMessage;
+use UserSpace\Module\Queue\Src\Infrastructure\QueueDispatcher;
+use UserSpace\Module\Queue\Src\Infrastructure\QueueManager;
+use UserSpace\Module\Queue\Src\Infrastructure\QueueStatus;
 
 #[Route(path: '/queue')]
 class QueueActionsController extends AbstractController
