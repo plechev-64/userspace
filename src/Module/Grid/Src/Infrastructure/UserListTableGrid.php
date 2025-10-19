@@ -1,8 +1,8 @@
 <?php
 
-namespace UserSpace\Grid;
+namespace UserSpace\Module\Grid\Src\Infrastructure;
 
-use UserSpace\Core\Grid\TableContentGrid;
+use UserSpace\Module\Grid\Src\Domain\TableContentGrid;
 
 class UserListTableGrid extends TableContentGrid
 {

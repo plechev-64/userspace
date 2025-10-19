@@ -3,7 +3,7 @@
 namespace UserSpace\Admin\Page;
 
 use UserSpace\Admin\Abstract\AbstractAdminPage;
-use UserSpace\Grid\UserListTableGrid;
+use UserSpace\Module\Grid\Src\Infrastructure\UserListTableGrid;
 
 class UserTableListPage extends AbstractAdminPage
 {

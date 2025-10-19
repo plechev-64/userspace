@@ -1,9 +1,9 @@
 <?php
 
-namespace UserSpace\Core\Grid;
+namespace UserSpace\Module\Grid\Src\Domain;
 
 use UserSpace\Core\Database\QueryBuilder;
-use UserSpace\Core\Grid\DTO\GridRequestParamsDto;
+use UserSpace\Module\Grid\Src\Domain\DTO\GridRequestParamsDto;
 
 abstract class AbstractListContentGrid
 {

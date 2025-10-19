@@ -3,7 +3,7 @@
 namespace UserSpace\Admin\Page;
 
 use UserSpace\Admin\Abstract\AbstractAdminPage;
-use UserSpace\Grid\QueueJobsGrid;
+use UserSpace\Module\Grid\Src\Infrastructure\QueueJobsGrid;
 use UserSpace\Module\Queue\Src\Infrastructure\QueueStatus;
 
 class QueueJobsPage extends AbstractAdminPage

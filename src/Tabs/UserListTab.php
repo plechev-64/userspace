@@ -3,7 +3,7 @@
 namespace UserSpace\Tabs;
 
 use UserSpace\Core\Tabs\AbstractTab;
-use UserSpace\Grid\UserListGrid;
+use UserSpace\Module\Grid\Src\Infrastructure\UserListGrid;
 
 class UserListTab extends AbstractTab
 {

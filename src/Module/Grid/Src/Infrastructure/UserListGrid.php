@@ -1,8 +1,8 @@
 <?php
 
-namespace UserSpace\Grid;
+namespace UserSpace\Module\Grid\Src\Infrastructure;
 
-use UserSpace\Core\Grid\AbstractListContentGrid;
+use UserSpace\Module\Grid\Src\Domain\AbstractListContentGrid;
 
 class UserListGrid extends AbstractListContentGrid
 {

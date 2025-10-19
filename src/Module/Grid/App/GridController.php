@@ -1,16 +1,17 @@
 <?php
 
-namespace UserSpace\Controller;
+namespace UserSpace\Module\Grid\App;
 
-use UserSpace\Core\Grid\DTO\GridRequestParamsDto;
 use UserSpace\Core\Http\JsonResponse;
 use UserSpace\Core\Http\Request;
 use UserSpace\Core\Rest\Abstract\AbstractController;
 use UserSpace\Core\Rest\Attributes\Route;
-use UserSpace\Grid\QueueJobsGrid;
-use UserSpace\Grid\UserListGrid;
-use UserSpace\Grid\UserListTableGrid;
+use UserSpace\Module\Grid\Src\Domain\DTO\GridRequestParamsDto;
+use UserSpace\Module\Grid\Src\Infrastructure\QueueJobsGrid;
+use UserSpace\Module\Grid\Src\Infrastructure\UserListGrid;
+use UserSpace\Module\Grid\Src\Infrastructure\UserListTableGrid;
 
+#[Route(path: '/grid')]
 class GridController extends AbstractController
 {
     public function __construct(
@@ -25,7 +26,7 @@ class GridController extends AbstractController
      * @param Request $request
      * @return JsonResponse
      */
-    #[Route(path: '/grid/users', method: 'POST', permission: 'manage_options')]
+    #[Route(path: '/users', method: 'POST', permission: 'manage_options')]
     public function fetchUsers(Request $request): JsonResponse
     {
         $paramsDto = new GridRequestParamsDto($request->getPostParams());
@@ -48,7 +49,7 @@ class GridController extends AbstractController
      * @param Request $request
      * @return JsonResponse
      */
-    #[Route(path: '/grid/users-table', method: 'POST', permission: 'manage_options')]
+    #[Route(path: '/users-table', method: 'POST', permission: 'manage_options')]
     public function fetchUsersTable(Request $request): JsonResponse
     {
         $paramsDto = new GridRequestParamsDto($request->getPostParams());
@@ -71,7 +72,7 @@ class GridController extends AbstractController
      * @param Request $request
      * @return JsonResponse
      */
-    #[Route(path: '/grid/queue-jobs', method: 'POST', permission: 'manage_options')]
+    #[Route(path: '/queue-jobs', method: 'POST', permission: 'manage_options')]
     public function fetchQueueJobs(Request $request): JsonResponse
     {
         $paramsDto = new GridRequestParamsDto($request->getPostParams());

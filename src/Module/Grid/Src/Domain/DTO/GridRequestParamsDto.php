@@ -1,6 +1,6 @@
 <?php
 
-namespace UserSpace\Core\Grid\DTO;
+namespace UserSpace\Module\Grid\Src\Domain\DTO;
 
 class GridRequestParamsDto
 {

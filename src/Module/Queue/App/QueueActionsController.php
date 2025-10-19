@@ -2,13 +2,13 @@
 
 namespace UserSpace\Module\Queue\App;
 
-use UserSpace\Core\Grid\DTO\GridRequestParamsDto;
 use UserSpace\Core\Http\JsonResponse;
 use UserSpace\Core\Http\Request;
 use UserSpace\Core\Process\BackgroundProcessManager;
 use UserSpace\Core\Rest\Abstract\AbstractController;
 use UserSpace\Core\Rest\Attributes\Route;
-use UserSpace\Grid\QueueJobsGrid;
+use UserSpace\Module\Grid\Src\Domain\DTO\GridRequestParamsDto;
+use UserSpace\Module\Grid\Src\Infrastructure\QueueJobsGrid;
 use UserSpace\Module\Queue\App\Task\Message\PingMessage;
 use UserSpace\Module\Queue\Src\Infrastructure\QueueDispatcher;
 use UserSpace\Module\Queue\Src\Infrastructure\QueueManager;
