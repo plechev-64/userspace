@@ -2,13 +2,13 @@
 
 namespace UserSpace\Common\Module\Form\App\Controller;
 
-use UserSpace\Core\Helper\StringFilterInterface;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormFactory;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormManager;
 use UserSpace\Core\Http\JsonResponse;
 use UserSpace\Core\Http\Request;
 use UserSpace\Core\Rest\Abstract\AbstractController;
 use UserSpace\Core\Rest\Attributes\Route;
+use UserSpace\Core\StringFilterInterface;
 
 #[Route(path: '/profile')]
 class ProfileFormController extends AbstractController

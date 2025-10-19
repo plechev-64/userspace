@@ -14,7 +14,8 @@ use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\UploaderFieldDto;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\UrlFieldDto;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormConfig;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormFactory;
-use UserSpace\Core\Helper\StringFilterInterface;
+use UserSpace\Core\OptionManagerInterface;
+use UserSpace\Core\StringFilterInterface;
 use UserSpace\Core\Theme\ThemeManager;
 
 /**
@@ -29,34 +30,10 @@ class SettingsPage extends AbstractAdminPage
         private readonly FormFactory           $formFactory,
         private readonly ThemeManager          $themeManager,
         private readonly SettingsConfig        $settingsConfig,
-        private readonly StringFilterInterface $str
+        private readonly StringFilterInterface $str,
+        private readonly OptionManagerInterface $optionManager
     )
     {
-    }
-
-    protected function getPageTitle(): string
-    {
-        return $this->str->translate('UserSpace Settings');
-    }
-
-    protected function getMenuTitle(): string
-    {
-        return 'UserSpace';
-    }
-
-    protected function getMenuSlug(): string
-    {
-        return 'userspace-settings';
-    }
-
-    protected function getIcon(): string
-    {
-        return 'dashicons-admin-users';
-    }
-
-    protected function getPosition(): ?int
-    {
-        return 30;
     }
 
     /**
@@ -64,7 +41,7 @@ class SettingsPage extends AbstractAdminPage
      */
     public function registerSettings(): void
     {
-        register_setting(self::OPTION_GROUP, self::OPTION_NAME);
+        $this->optionManager->register(self::OPTION_GROUP, self::OPTION_NAME);
     }
 
     /**
@@ -125,7 +102,7 @@ class SettingsPage extends AbstractAdminPage
     {
         $settingsConfig = $this->getSettingsConfig();
         $config = $settingsConfig->toArray();
-        $options = get_option(self::OPTION_NAME, []);
+        $options = $this->optionManager->get(self::OPTION_NAME, []);
 
         $formConfig = new FormConfig();
         foreach ($config['sections'] as $section) {
@@ -191,6 +168,31 @@ class SettingsPage extends AbstractAdminPage
 
         echo '</div>'; // .usp-settings-layout
         echo '</div>'; // .wrap
+    }
+
+    protected function getPageTitle(): string
+    {
+        return $this->str->translate('UserSpace Settings');
+    }
+
+    protected function getMenuTitle(): string
+    {
+        return 'UserSpace';
+    }
+
+    protected function getMenuSlug(): string
+    {
+        return 'userspace-settings';
+    }
+
+    protected function getIcon(): string
+    {
+        return 'dashicons-admin-users';
+    }
+
+    protected function getPosition(): ?int
+    {
+        return 30;
     }
 
     /**

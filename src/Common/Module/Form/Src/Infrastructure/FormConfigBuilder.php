@@ -2,8 +2,8 @@
 
 namespace UserSpace\Common\Module\Form\Src\Infrastructure;
 
-use UserSpace\Core\Helper\StringFilterInterface;
 use InvalidArgumentException;
+use UserSpace\Core\StringFilterInterface;
 
 // Защита от прямого доступа к файлу
 if (!defined('ABSPATH')) {

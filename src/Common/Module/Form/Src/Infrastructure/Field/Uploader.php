@@ -7,8 +7,8 @@ use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\UploaderFieldDto;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Validator\AllowedTypesValidator;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Validator\ImageDimensionsValidator;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Validator\MaxFileSizeValidator;
-use UserSpace\Core\Helper\StringFilter;
 use UserSpace\Core\SecurityHelper;
+use UserSpace\WpAdapter\StringFilter;
 
 class Uploader extends AbstractField
 {

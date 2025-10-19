@@ -4,7 +4,7 @@ namespace UserSpace\Common\Module\Grid\Src\Domain;
 
 use UserSpace\Common\Module\Grid\Src\Domain\DTO\GridRequestParamsDto;
 use UserSpace\Core\Database\QueryBuilderInterface;
-use UserSpace\Core\Helper\StringFilterInterface;
+use UserSpace\Core\StringFilterInterface;
 
 abstract class TableContentGrid extends AbstractListContentGrid
 {

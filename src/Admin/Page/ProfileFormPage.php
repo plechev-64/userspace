@@ -9,12 +9,12 @@ class ProfileFormPage extends AbstractAdminFormPage
 {
     protected function getPageTitle(): string
     {
-        return __('Profile Form Editor', 'usp');
+        return $this->str->translate('Profile Form Editor');
     }
 
     protected function getMenuTitle(): string
     {
-        return __('Profile Form', 'usp');
+        return $this->str->translate('Profile Form');
     }
 
     protected function getMenuSlug(): string
@@ -31,31 +31,31 @@ class ProfileFormPage extends AbstractAdminFormPage
     {
         $this->formBuilder
             ->reset() // Сбрасываем состояние перед построением
-            ->addSection('main', __('Main Information', 'usp'))
+            ->addSection('main', $this->str->translate('Main Information'))
             ->addBlock('main_block');
         $this->formBuilder->addField('user_email', [
             'type' => 'text',
-            'label' => __('Email', 'usp'),
+            'label' => $this->str->translate('Email'),
             'rules' => ['required' => true],
         ])
             ->addField('display_name', [
                 'type' => 'text',
-                'label' => __('Display Name', 'usp'),
+                'label' => $this->str->translate('Display Name'),
                 'rules' => ['required' => true],
             ])
             ->addField('about', [
                 'type' => 'textarea',
-                'label' => __('About Me', 'usp'),
+                'label' => $this->str->translate('About Me'),
             ])
             ->addField('gender', [
                 'type' => 'radio',
-                'label' => __('Gender', 'usp'),
-                'options' => ['male' => __('Male', 'usp'), 'female' => __('Female', 'usp')],
+                'label' => $this->str->translate('Gender'),
+                'options' => ['male' => $this->str->translate('Male'), 'female' => $this->str->translate('Female')],
             ])
             ->addField('hair_color', [
                 'type' => 'select',
-                'label' => __('Hair Color', 'usp'),
-                'options' => ['blond' => __('Blond', 'usp'), 'brunette' => __('Brunette', 'usp'), 'red' => __('Red', 'usp')],
+                'label' => $this->str->translate('Hair Color'),
+                'options' => ['blond' => $this->str->translate('Blond'), 'brunette' => $this->str->translate('Brunette'), 'red' => $this->str->translate('Red')],
             ]);
 
         return $this->formBuilder->build();

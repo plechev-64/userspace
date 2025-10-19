@@ -1,8 +1,10 @@
 <?php
 
-namespace UserSpace\Core\Helper;
+namespace UserSpace\WpAdapter;
 
 // Защита от прямого доступа к файлу
+use UserSpace\Core\StringFilterInterface;
+
 if (!defined('ABSPATH')) {
     exit;
 }
@@ -69,5 +71,25 @@ class StringFilter implements StringFilterInterface
     public function unslash(string|array $value): string|array
     {
         return wp_unslash($value);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function sanitizeKey(string $key): string
+    {
+        return sanitize_key($key);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function sanitizeTextField(string|array $value): string|array
+    {
+        if (is_array($value)) {
+            return array_map('sanitize_text_field', $value);
+        }
+
+        return sanitize_text_field($value);
     }
 }

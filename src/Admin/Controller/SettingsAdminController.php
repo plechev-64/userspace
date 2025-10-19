@@ -6,11 +6,16 @@ use UserSpace\Core\Http\JsonResponse;
 use UserSpace\Core\Http\Request;
 use UserSpace\Core\Rest\Abstract\AbstractController;
 use UserSpace\Core\Rest\Attributes\Route;
+use UserSpace\Core\StringFilterInterface;
 
 #[Route(path: '/admin')]
 class SettingsAdminController extends AbstractController
 {
     private const OPTION_NAME = 'usp_settings';
+
+    public function __construct(private readonly StringFilterInterface $str)
+    {
+    }
 
     #[Route(path: '/settings', method: 'POST', permission: 'manage_options')]
     public function saveSettings(Request $request): JsonResponse
@@ -21,16 +26,12 @@ class SettingsAdminController extends AbstractController
 
         if (is_array($payload)) {
             foreach ($payload as $key => $value) {
-                if (is_array($value)) {
-                    $settings[sanitize_key($key)] = array_map('sanitize_text_field', $value);
-                } else {
-                    $settings[sanitize_key($key)] = sanitize_text_field($value);
-                }
+                $settings[$this->str->sanitizeKey($key)] = $this->str->sanitizeTextField($value);
             }
         }
 
         update_option(self::OPTION_NAME, $settings);
 
-        return $this->success(['message' => __('Settings saved successfully.', 'usp')]);
+        return $this->success(['message' => $this->str->translate('Settings saved successfully.')]);
     }
 }

@@ -7,7 +7,7 @@ use UserSpace\Admin\SetupWizard\SetupWizardConfig;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\SelectFieldDto;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormConfig;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormFactory;
-use UserSpace\Core\Helper\StringFilterInterface;
+use UserSpace\Core\StringFilterInterface;
 
 /**
  * Управляет страницей пошаговой настройки плагина.

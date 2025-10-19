@@ -7,7 +7,7 @@ use UserSpace\Admin\Page\RegistrationFormPage;
 use UserSpace\Admin\Page\SettingsPage;
 use UserSpace\Admin\Page\SetupWizardPage;
 use UserSpace\Admin\Page\TabsConfigPage;
-use UserSpace\Core\Helper\StringFilterInterface;
+use UserSpace\Core\StringFilterInterface;
 
 class AssetsManager
 {

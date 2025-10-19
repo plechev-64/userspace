@@ -2,6 +2,7 @@
 
 namespace UserSpace\Common\Service;
 
+use UserSpace\Core\OptionManagerInterface;
 use WP_User;
 
 /**
@@ -19,7 +20,7 @@ class ViewedUserContext
     private bool $isProfileRequestedViaQueryVar = false;
     private bool $isInitialized = false;
 
-    public function __construct()
+    public function __construct(private readonly OptionManagerInterface $optionManager)
     {
         // Инициализация будет отложена до первого вызова метода.
     }
@@ -114,7 +115,7 @@ class ViewedUserContext
      */
     private function getQueryVarName(): string
     {
-        $options = get_option(self::OPTION_NAME, []);
+        $options = $this->optionManager->get(self::OPTION_NAME, []);
 
         return $options['profile_user_query_var'] ?? self::DEFAULT_QUERY_VAR;
     }

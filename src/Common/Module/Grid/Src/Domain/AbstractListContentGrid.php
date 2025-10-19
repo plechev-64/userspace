@@ -2,9 +2,9 @@
 
 namespace UserSpace\Common\Module\Grid\Src\Domain;
 
-use UserSpace\Core\Helper\StringFilterInterface;
 use UserSpace\Common\Module\Grid\Src\Domain\DTO\GridRequestParamsDto;
 use UserSpace\Core\Database\QueryBuilder;
+use UserSpace\Core\StringFilterInterface;
 
 abstract class AbstractListContentGrid
 {

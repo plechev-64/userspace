@@ -2,14 +2,15 @@
 
 namespace UserSpace\Common\Module\Form\App\Controller;
 
-use UserSpace\Core\Helper\StringFilterInterface;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormFactory;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormManager;
 use UserSpace\Core\Http\JsonResponse;
 use UserSpace\Core\Http\Request;
+use UserSpace\Core\OptionManagerInterface;
 use UserSpace\Core\Rest\Abstract\AbstractController;
 use UserSpace\Core\Rest\Attributes\Route;
 use UserSpace\Core\SecurityHelper;
+use UserSpace\Core\StringFilterInterface;
 
 class RegistrationController extends AbstractController
 {
@@ -23,7 +24,8 @@ class RegistrationController extends AbstractController
         private readonly FormManager           $formManager,
         private readonly FormFactory           $formFactory,
         private readonly SecurityHelper        $securityHelper,
-        private readonly StringFilterInterface $str
+        private readonly StringFilterInterface $str,
+        private readonly OptionManagerInterface $optionManager
     )
     {
     }
@@ -72,7 +74,7 @@ class RegistrationController extends AbstractController
             }
         }
 
-        $settings = get_option('usp_settings', []);
+        $settings = $this->optionManager->get('usp_settings', []);
         $requireConfirmation = !empty($settings['require_email_confirmation']);
 
         if ($requireConfirmation) {
@@ -131,10 +133,10 @@ class RegistrationController extends AbstractController
         }
 
         // Активируем пользователя, устанавливая ему роль по умолчанию
-        wp_update_user(['ID' => $user->ID, 'role' => get_option('default_role')]);
+        wp_update_user(['ID' => $user->ID, 'role' => $this->optionManager->get('default_role')]);
 
         // Перенаправляем на страницу входа с сообщением об успехе
-        $settings = get_option('usp_settings', []);
+        $settings = $this->optionManager->get('usp_settings', []);
         $loginPageUrl = !empty($settings['login_page_id']) ? get_permalink($settings['login_page_id']) : wp_login_url();
         wp_safe_redirect(add_query_arg('reg-success', 'confirmed', $loginPageUrl));
         exit;

@@ -3,7 +3,7 @@
 namespace UserSpace\Common\Renderer;
 
 use UserSpace\Common\Service\TemplateManagerInterface;
-use UserSpace\Core\Helper\StringFilterInterface;
+use UserSpace\Core\StringFilterInterface;
 
 // Защита от прямого доступа к файлу
 if (!defined('ABSPATH')) {

@@ -3,7 +3,7 @@
 namespace UserSpace\Common\Service;
 
 use InvalidArgumentException;
-use UserSpace\Core\Helper\StringFilterInterface;
+use UserSpace\Core\StringFilterInterface;
 
 class TemplateManager implements TemplateManagerInterface
 {

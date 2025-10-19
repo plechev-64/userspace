@@ -2,9 +2,10 @@
 
 namespace UserSpace\Common\Service;
 
-use UserSpace\Core\Helper\StringFilterInterface;
 use UserSpace\Common\Controller\UserController;
+use UserSpace\Core\OptionManagerInterface;
 use UserSpace\Core\SecurityHelper;
+use UserSpace\Core\StringFilterInterface;
 use WP_User;
 
 /**
@@ -13,11 +14,11 @@ use WP_User;
 class AvatarManager
 {
     public function __construct(
-        private readonly SecurityHelper        $securityHelper,
-        private readonly ViewedUserContext     $viewedUserContext,
-        private readonly StringFilterInterface $str
-    )
-    {
+        private readonly SecurityHelper $securityHelper,
+        private readonly ViewedUserContext $viewedUserContext,
+        private readonly StringFilterInterface $str,
+        private readonly OptionManagerInterface $optionManager
+    ) {
     }
 
     /**
@@ -80,7 +81,7 @@ class AvatarManager
 
         // Если персональный аватар не найден, ищем аватар по умолчанию в настройках плагина
         if (!$avatarId) {
-            $options = get_option('usp_settings', []);
+            $options = $this->optionManager->get('usp_settings', []);
             if (!empty($options['default_avatar_id'])) {
                 $avatarId = (int)$options['default_avatar_id'];
             }

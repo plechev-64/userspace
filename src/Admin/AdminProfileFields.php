@@ -2,9 +2,9 @@
 
 namespace UserSpace\Admin;
 
-use UserSpace\Core\Helper\StringFilterInterface;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormFactory;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormManager;
+use UserSpace\Core\StringFilterInterface;
 
 /**
  * Управляет отображением и сохранением кастомных полей на странице профиля пользователя в админ-панели.

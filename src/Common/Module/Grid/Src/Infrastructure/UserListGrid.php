@@ -5,7 +5,7 @@ namespace UserSpace\Common\Module\Grid\Src\Infrastructure;
 use UserSpace\Common\Module\Grid\Src\Domain\AbstractListContentGrid;
 use UserSpace\Common\Service\TemplateManager;
 use UserSpace\Core\Database\QueryBuilder;
-use UserSpace\Core\Helper\StringFilterInterface;
+use UserSpace\Core\StringFilterInterface;
 
 class UserListGrid extends AbstractListContentGrid
 {

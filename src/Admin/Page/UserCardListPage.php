@@ -2,9 +2,9 @@
 
 namespace UserSpace\Admin\Page;
 
-use UserSpace\Core\Helper\StringFilterInterface;
 use UserSpace\Admin\Abstract\AbstractAdminPage;
 use UserSpace\Common\Module\Grid\Src\Infrastructure\UserListGrid;
+use UserSpace\Core\StringFilterInterface;
 
 class UserCardListPage extends AbstractAdminPage
 {

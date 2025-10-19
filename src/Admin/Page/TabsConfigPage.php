@@ -2,9 +2,9 @@
 
 namespace UserSpace\Admin\Page;
 
-use UserSpace\Core\Helper\StringFilterInterface;
 use UserSpace\Admin\Abstract\AbstractAdminPage;
 use UserSpace\Admin\TabConfigBuilder;
+use UserSpace\Core\StringFilterInterface;
 
 class TabsConfigPage extends AbstractAdminPage
 {

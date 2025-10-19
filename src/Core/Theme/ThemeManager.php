@@ -3,6 +3,7 @@
 namespace UserSpace\Core\Theme;
 
 use UserSpace\Common\Service\ViewedUserContext;
+use UserSpace\Core\OptionManagerInterface;
 
 /**
  * Управляет темами личного кабинета.
@@ -12,7 +13,10 @@ class ThemeManager
     private string $themesDir;
     private ?string $activeTheme = null;
 
-    public function __construct(private readonly ViewedUserContext $viewedUserContext)
+    public function __construct(
+        private readonly ViewedUserContext $viewedUserContext,
+        private readonly OptionManagerInterface $optionManager
+    )
     {
         $this->themesDir = USERSPACE_PLUGIN_DIR . 'themes/';
     }
@@ -50,7 +54,7 @@ class ThemeManager
      */
     public function loadActiveTheme(): void
     {
-        $settings = get_option('usp_settings', []);
+        $settings = $this->optionManager->get('usp_settings', []);
         $this->activeTheme = $settings['account_theme'] ?? 'first'; // 'first' как тема по умолчанию
 
         $themeEntryPoint = $this->themesDir . $this->activeTheme . '/index.php';

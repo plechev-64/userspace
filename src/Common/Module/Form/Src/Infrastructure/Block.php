@@ -2,8 +2,8 @@
 
 namespace UserSpace\Common\Module\Form\Src\Infrastructure;
 
-use UserSpace\Core\Helper\StringFilter;
 use UserSpace\Common\Module\Form\Src\Domain\Field\FieldInterface;
+use UserSpace\WpAdapter\StringFilter;
 
 // Защита от прямого доступа к файлу
 if (!defined('ABSPATH')) {

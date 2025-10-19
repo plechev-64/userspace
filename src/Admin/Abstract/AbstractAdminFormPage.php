@@ -5,9 +5,9 @@ namespace UserSpace\Admin\Abstract;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FieldMapper;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormConfig;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormConfigBuilder;
-use UserSpace\Core\Helper\StringFilterInterface;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormManager;
 use UserSpace\Common\Service\TemplateManagerInterface;
+use UserSpace\Core\StringFilterInterface;
 
 /**
  * Абстрактный базовый класс для страниц конструкторов форм.

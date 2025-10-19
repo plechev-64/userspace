@@ -5,13 +5,13 @@ namespace UserSpace\Common\Controller;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Validator\AllowedTypesValidator;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Validator\ImageDimensionsValidator;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Validator\MaxFileSizeValidator;
-use UserSpace\Core\Helper\StringFilterInterface;
 use UserSpace\Common\Service\UploadedFileValidator;
 use UserSpace\Core\Http\JsonResponse;
 use UserSpace\Core\Http\Request;
 use UserSpace\Core\Rest\Abstract\AbstractController;
 use UserSpace\Core\Rest\Attributes\Route;
 use UserSpace\Core\SecurityHelper;
+use UserSpace\Core\StringFilterInterface;
 
 class FileUploaderController extends AbstractController
 {

@@ -2,11 +2,11 @@
 
 namespace UserSpace\Common\Module\SSE\App;
 
-use UserSpace\Core\Helper\StringFilterInterface;
 use UserSpace\Common\Module\SSE\Src\Domain\Repository\SseEventRepositoryInterface;
 use UserSpace\Core\Http\Request;
 use UserSpace\Core\Rest\Abstract\AbstractController;
 use UserSpace\Core\Rest\Attributes\Route;
+use UserSpace\Core\StringFilterInterface;
 
 if (!defined('ABSPATH')) {
     exit;

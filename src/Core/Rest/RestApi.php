@@ -5,7 +5,6 @@ namespace UserSpace\Core\Rest;
 use UserSpace\Core\ContainerInterface;
 use UserSpace\Core\Http\JsonResponse;
 use UserSpace\Core\Http\Request;
-use UserSpace\Core\Rest\Exception\RestException;
 use UserSpace\Core\Rest\Helper\RestHelper;
 use UserSpace\Core\Rest\Route\RouteArgsResolver;
 use UserSpace\Core\Rest\Route\RouteCollector;

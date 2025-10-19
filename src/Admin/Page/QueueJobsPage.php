@@ -2,10 +2,10 @@
 
 namespace UserSpace\Admin\Page;
 
-use UserSpace\Core\Helper\StringFilterInterface;
 use UserSpace\Admin\Abstract\AbstractAdminPage;
 use UserSpace\Common\Module\Grid\Src\Infrastructure\QueueJobsGrid;
 use UserSpace\Common\Module\Queue\Src\Infrastructure\QueueStatus;
+use UserSpace\Core\StringFilterInterface;
 
 class QueueJobsPage extends AbstractAdminPage
 {

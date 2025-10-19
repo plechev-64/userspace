@@ -1,6 +1,6 @@
 <?php
 
-namespace UserSpace\Core\Helper;
+namespace UserSpace\Core;
 
 // Защита от прямого доступа к файлу
 if (!defined('ABSPATH')) {
@@ -66,4 +66,21 @@ interface StringFilterInterface
      * @return string|array<mixed>
      */
     public function unslash(string|array $value): string|array;
+
+    /**
+     * Очищает ключ (например, для мета-полей или опций).
+     * Обертка для sanitize_key().
+     *
+     * @param string $key Ключ для санации.
+     * @return string
+     */
+    public function sanitizeKey(string $key): string;
+
+    /**
+     * Очищает текстовое поле или массив полей.
+     * Обертка для sanitize_text_field().
+     * @param string|array<string> $value Значение для санации.
+     * @return string|array<string>
+     */
+    public function sanitizeTextField(string|array $value): string|array;
 }

@@ -6,17 +6,21 @@ class SecurityHelper
 {
     private const SECURITY_KEY_OPTION = 'usp_security_key';
 
+    public function __construct(private readonly OptionManagerInterface $optionManager)
+    {
+    }
+
     /**
      * Получает или генерирует уникальный ключ безопасности для сайта.
      * @return string
      */
     public function getSecurityKey(): string
     {
-        $key = get_option(self::SECURITY_KEY_OPTION);
+        $key = $this->optionManager->get(self::SECURITY_KEY_OPTION);
 
         if (empty($key)) {
-            $key = wp_generate_password(64, true, true);
-            update_option(self::SECURITY_KEY_OPTION, $key);
+            $key = \wp_generate_password(64, true, true);
+            $this->optionManager->update(self::SECURITY_KEY_OPTION, $key);
         }
 
         return $key;
@@ -31,10 +35,10 @@ class SecurityHelper
      */
     public function sign(array $data): string
     {
-        ksort($data);
-        $serializedData = wp_json_encode($data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+        \ksort($data);
+        $serializedData = \wp_json_encode($data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
 
-        return hash_hmac('sha256', $serializedData, $this->getSecurityKey());
+        return \hash_hmac('sha256', $serializedData, $this->getSecurityKey());
     }
 
     /**
@@ -50,6 +54,6 @@ class SecurityHelper
         if (empty($signature)) {
             return false;
         }
-        return hash_equals($this->sign($data), $signature);
+        return \hash_equals($this->sign($data), $signature);
     }
 }

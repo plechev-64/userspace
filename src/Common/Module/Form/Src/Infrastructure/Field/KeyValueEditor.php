@@ -4,7 +4,6 @@ namespace UserSpace\Common\Module\Form\Src\Infrastructure\Field;
 
 use UserSpace\Common\Module\Form\Src\Domain\Field\AbstractField;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\KeyValueEditorFieldDto;
-use UserSpace\Core\Helper\StringFilterInterface;
 
 // Защита от прямого доступа к файлу
 if (!defined('ABSPATH')) {

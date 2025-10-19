@@ -2,9 +2,9 @@
 
 namespace UserSpace\Common\Renderer;
 
-use UserSpace\Core\Helper\StringFilterInterface;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormFactory;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormManager;
+use UserSpace\Core\StringFilterInterface;
 
 // Защита от прямого доступа к файлу
 if (!defined('ABSPATH')) {

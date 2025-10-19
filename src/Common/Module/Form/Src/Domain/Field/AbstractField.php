@@ -3,10 +3,9 @@
 namespace UserSpace\Common\Module\Form\Src\Domain\Field;
 
 use InvalidArgumentException;
-use UserSpace\Core\Helper\StringFilter;
-use UserSpace\Core\Helper\StringFilterInterface;
 use UserSpace\Common\Module\Form\Src\Domain\Field\DTO\FieldDto;
 use UserSpace\Common\Module\Form\Src\Domain\ValidatorInterface;
+use UserSpace\WpAdapter\StringFilter;
 
 // Защита от прямого доступа к файлу
 if (!defined('ABSPATH')) {

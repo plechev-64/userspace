@@ -42,22 +42,24 @@ use UserSpace\Common\Module\Tabs\App\Tabs\UserListTab;
 use UserSpace\Common\Module\Tabs\Src\Infrastructure\TabConfigManager;
 use UserSpace\Common\Module\Tabs\Src\Infrastructure\TabManager;
 use UserSpace\Common\Module\Tabs\Src\Infrastructure\TabProvider;
+use UserSpace\Common\Service\CronManager;
 use UserSpace\Common\Service\TemplateManager;
 use UserSpace\Common\Service\TemplateManagerInterface;
-use UserSpace\Common\Service\CronManager;
-use UserSpace\Core\Database\TransactionService;
-use UserSpace\Core\Database\QueryBuilderInterface;
-use UserSpace\Core\Database\TransactionServiceInterface;
 use UserSpace\Core\ContainerInterface;
 use UserSpace\Core\Database\QueryBuilder;
-use UserSpace\Core\Helper\StringFilter;
-use UserSpace\Core\Helper\StringFilterInterface;
+use UserSpace\Core\Database\QueryBuilderInterface;
+use UserSpace\Core\Database\TransactionService;
+use UserSpace\Core\Database\TransactionServiceInterface;
 use UserSpace\Core\Http\Request;
+use UserSpace\Core\OptionManagerInterface;
 use UserSpace\Core\Process\BackgroundProcessManager;
 use UserSpace\Core\Rest\Helper\RestHelper;
 use UserSpace\Core\Rest\RestApi;
 use UserSpace\Core\Rest\Route\RouteCollector;
 use UserSpace\Core\Rest\Route\RouteParser;
+use UserSpace\Core\StringFilterInterface;
+use UserSpace\WpAdapter\OptionManager;
+use UserSpace\WpAdapter\StringFilter;
 
 /**
  * Регистрирует сервисы плагина в DI-контейнере.
@@ -190,6 +192,10 @@ class ServiceProvider
             $queueManager->setCronManager($cronManager);
             return $cronManager;
         });
+
+        // --- Options ---
+        $container->set(OptionManagerInterface::class, fn() => new OptionManager());
+        $container->set(OptionManager::class, fn(ContainerInterface $c) => $c->get(OptionManagerInterface::class));
 
         // --- Формы ---
         $container->set(FormRepositoryInterface::class, fn(ContainerInterface $c) => $c->get(FormRepository::class));

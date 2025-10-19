@@ -3,6 +3,8 @@
 namespace UserSpace\Common\Module\Queue\Src\Infrastructure;
 
 // Защита от прямого доступа к файлу
+use UserSpace\Core\OptionManagerInterface;
+
 if (!defined('ABSPATH')) {
     exit;
 }
@@ -14,6 +16,10 @@ class QueueStatus
 {
     private const OPTION_NAME = 'userspace_queue_status';
     private const LOG_LIMIT = 20;
+
+    public function __construct(private readonly OptionManagerInterface $optionManager)
+    {
+    }
 
     /**
      * Получает текущий статус и логи.
@@ -31,7 +37,7 @@ class QueueStatus
             'log' => [],
         ];
 
-        $status = get_option(self::OPTION_NAME, $default);
+        $status = $this->optionManager->get(self::OPTION_NAME, $default);
 
         // Если воркер "завис" (работает дольше 5 минут), считаем его остановившимся
         if ($status['state'] === 'running' && (time() - $status['last_start']) > 300) {
@@ -59,7 +65,7 @@ class QueueStatus
         // Ограничиваем размер лога
         $status['log'] = array_slice($status['log'], 0, self::LOG_LIMIT);
 
-        update_option(self::OPTION_NAME, $status, false);
+        $this->optionManager->update(self::OPTION_NAME, $status, false);
     }
 
     /**
@@ -74,7 +80,7 @@ class QueueStatus
         $status['last_start'] = time();
         $status['jobs_processed'] = 0;
 
-        update_option(self::OPTION_NAME, $status, false);
+        $this->optionManager->update(self::OPTION_NAME, $status, false);
         $this->log('Worker batch started.');
     }
 
@@ -93,7 +99,7 @@ class QueueStatus
         $status['last_duration'] = $status['last_finish'] - $status['last_start'];
         $status['jobs_processed'] = $jobsProcessed;
 
-        update_option(self::OPTION_NAME, $status, false);
+        $this->optionManager->update(self::OPTION_NAME, $status, false);
         $this->log(sprintf('Worker batch finished. Processed %d job(s) in %d sec.', $jobsProcessed, $status['last_duration']));
     }
 }

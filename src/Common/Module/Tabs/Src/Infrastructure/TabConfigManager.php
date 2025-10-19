@@ -2,12 +2,18 @@
 
 namespace UserSpace\Common\Module\Tabs\Src\Infrastructure;
 
+use UserSpace\Core\OptionManagerInterface;
+
 /**
  * Управляет сохранением и загрузкой конфигурации вкладок из базы данных.
  */
 class TabConfigManager
 {
     private const OPTION_NAME = 'usp_tabs_config';
+
+    public function __construct(private readonly OptionManagerInterface $optionManager)
+    {
+    }
 
     /**
      * Загружает конфигурацию вкладок.
@@ -16,7 +22,7 @@ class TabConfigManager
      */
     public function load(): ?array
     {
-        $config = get_option(self::OPTION_NAME);
+        $config = $this->optionManager->get(self::OPTION_NAME);
         return is_array($config) ? $config : null;
     }
 
@@ -25,6 +31,6 @@ class TabConfigManager
      */
     public function save(array $config): bool
     {
-        return update_option(self::OPTION_NAME, $config);
+        return $this->optionManager->update(self::OPTION_NAME, $config);
     }
 }
