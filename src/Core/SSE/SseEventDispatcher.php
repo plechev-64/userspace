@@ -11,7 +11,7 @@ if ( ! defined('ABSPATH')) {
 /**
  * Управляет отправкой событий для трансляции через Server-Sent Events.
  */
-class SseManager implements SseManagerInterface
+class SseEventDispatcher implements SseEventDispatcherInterface
 {
     private SseEventRepositoryInterface $repository;
 

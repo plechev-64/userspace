@@ -9,7 +9,7 @@ if ( ! defined('ABSPATH')) {
 /**
  * Интерфейс для управления отправкой событий для трансляции через Server-Sent Events.
  */
-interface SseManagerInterface
+interface SseEventDispatcherInterface
 {
     /**
      * Отправляет событие в "почтовый ящик" (БД) для последующей трансляции.

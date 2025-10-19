@@ -6,7 +6,7 @@ use UserSpace\Core\Cron\CronManager;
 use UserSpace\Core\ContainerInterface;
 use UserSpace\Core\Queue\Repository\JobRepositoryInterface;
 use UserSpace\Core\SSE\Repository\SseEventRepositoryInterface;
-use UserSpace\Core\SSE\SseManagerInterface;
+use UserSpace\Core\SSE\SseEventDispatcherInterface;
 
 // Защита от прямого доступа к файлу
 if (!defined('ABSPATH')) {
@@ -25,7 +25,7 @@ class QueueManager
     public function __construct(
         private readonly ContainerInterface          $container,
         private readonly QueueStatus                 $status,
-        private readonly SseManagerInterface         $sseManager,
+        private readonly SseEventDispatcherInterface $sseManager,
         private readonly JobRepositoryInterface      $jobRepository,
         private readonly SseEventRepositoryInterface $sseEventRepository,
         private readonly array                       $messageHandlerMap

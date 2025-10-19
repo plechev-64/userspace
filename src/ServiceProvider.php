@@ -35,8 +35,8 @@ use UserSpace\Core\SetupWizard\SetupWizardController;
 use UserSpace\Core\SSE\Repository\SseEventRepository;
 use UserSpace\Core\SSE\Repository\SseEventRepositoryInterface;
 use UserSpace\Core\SSE\SseController;
-use UserSpace\Core\SSE\SseManager;
-use UserSpace\Core\SSE\SseManagerInterface;
+use UserSpace\Core\SSE\SseEventDispatcher;
+use UserSpace\Core\SSE\SseEventDispatcherInterface;
 use UserSpace\Form\Repository\FormRepository;
 use UserSpace\Form\Repository\FormRepositoryInterface;
 use UserSpace\JobHandler\Message\PingMessage;
@@ -127,7 +127,7 @@ class ServiceProvider
 
         // --- SSE ---
         $container->set(SseEventRepositoryInterface::class, fn() => new SseEventRepository());
-        $container->set(SseManagerInterface::class, fn(ContainerInterface $c) => $c->get(SseManager::class));
+        $container->set(SseEventDispatcherInterface::class, fn(ContainerInterface $c) => $c->get(SseEventDispatcher::class));
 
         // --- Очередь ---
 
@@ -143,7 +143,7 @@ class ServiceProvider
         $container->set(QueueManager::class, fn(ContainerInterface $c) => new QueueManager(
             $c,
             $c->get(QueueStatus::class),
-            $c->get(SseManager::class),
+            $c->get(SseEventDispatcher::class),
             $c->get(JobRepository::class),
             $c->get(SseEventRepository::class),
             $c->get('queue.message_handler_map')
