@@ -2,9 +2,9 @@
 
 namespace UserSpace\Admin;
 
-use UserSpace\Core\Tabs\AbstractTab;
-use UserSpace\Core\Tabs\TabLocationManager;
-use UserSpace\Core\Tabs\TabManager;
+use UserSpace\Common\Module\Tabs\Src\Domain\AbstractTab;
+use UserSpace\Common\Module\Tabs\Src\Infrastructure\TabLocationManager;
+use UserSpace\Common\Module\Tabs\Src\Infrastructure\TabManager;
 
 /**
  * Генерирует HTML-представление конструктора вкладок.

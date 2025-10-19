@@ -2,28 +2,31 @@
 
 namespace UserSpace\Admin\Abstract;
 
-use UserSpace\Module\Form\Src\Infrastructure\FormConfig;
-use UserSpace\Module\Form\Src\Infrastructure\FormConfigBuilder;
-use UserSpace\Module\Form\Src\Infrastructure\FormManager;
+use UserSpace\Common\Module\Form\Src\Infrastructure\FieldMapper;
+use UserSpace\Common\Module\Form\Src\Infrastructure\FormConfig;
+use UserSpace\Common\Module\Form\Src\Infrastructure\FormConfigBuilder;
+use UserSpace\Common\Module\Form\Src\Infrastructure\FormManager;
+use UserSpace\Common\Service\TemplateManager;
 
 /**
  * Абстрактный базовый класс для страниц конструкторов форм.
  */
 abstract class AbstractAdminFormPage extends AbstractAdminPage
 {
-    protected readonly \UserSpace\Module\Form\Src\Infrastructure\FieldMapper $fieldMapper;
+    protected readonly FieldMapper $fieldMapper;
 
     public function __construct(
         protected readonly FormManager                        $formManager,
         protected readonly FormConfigBuilder                  $formBuilder,
-        \UserSpace\Module\Form\Src\Infrastructure\FieldMapper $fieldMapper
+        protected readonly TemplateManager                    $templateManager,
+        FieldMapper $fieldMapper
     ) {
         $this->fieldMapper = $fieldMapper;
     }
 
     /**
      * Регистрирует страницу как подменю.
-     * @param string $parentSlug
+     * @return string|null
      */
     protected function getParentSlug(): ?string
     {
@@ -146,7 +149,7 @@ abstract class AbstractAdminFormPage extends AbstractAdminPage
         echo '</p>';
 
         // Подключаем скрытые HTML-шаблоны для JavaScript
-        require_once USERSPACE_PLUGIN_DIR . 'views/admin/form-builder-templates.php';
+        require_once $this->templateManager->getTemplatePath('admin_form_builder_templates');
 
         echo '</div>';
     }

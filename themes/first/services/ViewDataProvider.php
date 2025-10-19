@@ -2,8 +2,8 @@
 
 namespace UserSpace\Theme\First\Service;
 
-use UserSpace\Core\Tabs\TabLocationManager;
-use UserSpace\Core\Tabs\TabManager;
+use UserSpace\Common\Module\Tabs\Src\Infrastructure\TabLocationManager;
+use UserSpace\Common\Module\Tabs\Src\Infrastructure\TabManager;
 
 /**
  * Готовит данные для передачи в шаблоны темы.

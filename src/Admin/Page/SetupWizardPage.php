@@ -3,10 +3,10 @@
 namespace UserSpace\Admin\Page;
 
 use UserSpace\Admin\Abstract\AbstractAdminPage;
-use UserSpace\Core\SetupWizard\SetupWizardConfig;
-use UserSpace\Module\Form\Src\Infrastructure\Field\DTO\SelectFieldDto;
-use UserSpace\Module\Form\Src\Infrastructure\FormConfig;
-use UserSpace\Module\Form\Src\Infrastructure\FormFactory;
+use UserSpace\Admin\SetupWizard\SetupWizardConfig;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\SelectFieldDto;
+use UserSpace\Common\Module\Form\Src\Infrastructure\FormConfig;
+use UserSpace\Common\Module\Form\Src\Infrastructure\FormFactory;
 
 /**
  * Управляет страницей пошаговой настройки плагина.

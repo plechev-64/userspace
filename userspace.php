@@ -15,7 +15,7 @@
  */
 
 // Защита от прямого доступа к файлу
-use UserSpace\Core\PluginLifecycle;
+use UserSpace\Common\Service\PluginLifecycle;
 use UserSpace\Plugin;
 
 if ( ! defined( 'ABSPATH' ) ) {

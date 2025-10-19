@@ -3,7 +3,7 @@
  * Theme Name: Second
  */
 
-use UserSpace\Core\Tabs\TabManager;
+use UserSpace\Common\Module\Tabs\Src\Infrastructure\TabManager;
 use UserSpace\Plugin;
 
 if (!defined('ABSPATH')) {

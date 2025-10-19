@@ -33,4 +33,14 @@ interface ContainerInterface {
 	 * @return bool
 	 */
 	public function has( string $id ): bool;
+
+    /**
+     * Создает новый экземпляр класса, не кэшируя его.
+     *
+     * @template T
+     * @param class-string<T> $id Идентификатор сервиса (имя класса).
+     * @return T Новый экземпляр сервиса.
+     * @throws \Exception Если сервис не может быть создан.
+     */
+    public function build(string $id);
 }

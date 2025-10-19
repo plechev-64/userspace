@@ -2,10 +2,10 @@
 
 namespace UserSpace\Theme\First\Service;
 
+use UserSpace\Common\Module\Tabs\Src\Infrastructure\TabLocationManager;
+use UserSpace\Common\Module\Tabs\Src\Infrastructure\TabManager;
 use UserSpace\Core\Container;
 use UserSpace\Core\ContainerInterface;
-use UserSpace\Core\Tabs\TabLocationManager;
-use UserSpace\Core\Tabs\TabManager;
 
 /**
  * Регистрирует сервисы, специфичные для данной темы.

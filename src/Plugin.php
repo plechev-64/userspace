@@ -3,13 +3,13 @@
 namespace UserSpace;
 
 use UserSpace\Admin\AdminManager;
+use UserSpace\Common\Service\AssetsManager;
+use UserSpace\Common\Service\CronManager;
+use UserSpace\Common\Service\FrontendManager;
 use UserSpace\Core\Container;
 use UserSpace\Core\ContainerInterface;
-use UserSpace\Core\Cron\CronManager;
-use UserSpace\Core\InitWpRest;
+use UserSpace\Core\Rest\InitWpRest;
 use UserSpace\Core\Theme\ThemeManager;
-use UserSpace\Service\AssetsManager;
-use UserSpace\Service\FrontendManager;
 
 // Защита от прямого доступа к файлу
 if (!defined('ABSPATH')) {
@@ -66,7 +66,7 @@ final class Plugin
         $this->container->get(CronManager::class)->registerHooks();
 
         // Хук для подмены стандартных аватаров
-        $avatarManager = $this->container->get(Service\AvatarManager::class);
+        $avatarManager = $this->container->get(Common\Service\AvatarManager::class);
         add_filter('pre_get_avatar_data', [$avatarManager, 'replaceAvatarData'], 20, 2);
     }
 

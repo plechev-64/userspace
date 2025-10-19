@@ -2,7 +2,7 @@
 /**
  * Шаблон формы регистрации.
  *
- * @var \UserSpace\Module\Form\Src\Infrastructure\Form $form
+ * @var \UserSpace\Common\Module\Form\Src\Infrastructure\Form $form
  * @var array $settings
  * @package UserSpace
  */

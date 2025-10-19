@@ -4,17 +4,17 @@ namespace UserSpace\Admin\Page;
 
 use UserSpace\Admin\Abstract\AbstractAdminPage;
 use UserSpace\Admin\SettingsConfig;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\BooleanFieldDto;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\CheckboxFieldDto;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\RadioFieldDto;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\SelectFieldDto;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\TextareaFieldDto;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\TextFieldDto;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\UploaderFieldDto;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\UrlFieldDto;
+use UserSpace\Common\Module\Form\Src\Infrastructure\FormConfig;
+use UserSpace\Common\Module\Form\Src\Infrastructure\FormFactory;
 use UserSpace\Core\Theme\ThemeManager;
-use UserSpace\Module\Form\Src\Infrastructure\Field\DTO\BooleanFieldDto;
-use UserSpace\Module\Form\Src\Infrastructure\Field\DTO\CheckboxFieldDto;
-use UserSpace\Module\Form\Src\Infrastructure\Field\DTO\RadioFieldDto;
-use UserSpace\Module\Form\Src\Infrastructure\Field\DTO\SelectFieldDto;
-use UserSpace\Module\Form\Src\Infrastructure\Field\DTO\TextareaFieldDto;
-use UserSpace\Module\Form\Src\Infrastructure\Field\DTO\TextFieldDto;
-use UserSpace\Module\Form\Src\Infrastructure\Field\DTO\UploaderFieldDto;
-use UserSpace\Module\Form\Src\Infrastructure\Field\DTO\UrlFieldDto;
-use UserSpace\Module\Form\Src\Infrastructure\FormConfig;
-use UserSpace\Module\Form\Src\Infrastructure\FormFactory;
 
 /**
  * Управляет главной страницей настроек плагина.

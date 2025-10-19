@@ -4,7 +4,7 @@
  *
  * @package UserSpace
  *
- * @var \UserSpace\Core\Tabs\TabDto[] $tabs_to_render Массив вкладок для отображения.
+ * @var \UserSpace\Common\Module\Tabs\Src\Domain\TabDto[] $tabs_to_render Массив вкладок для отображения.
  * @var bool                          $is_first_group Флаг, указывающий, является ли это первой группой вкладок на странице.
  */
 

@@ -3,7 +3,7 @@
  * Шаблон личного кабинета (Тема "Second").
  * @package UserSpace
  *
- * @var \UserSpace\Core\Tabs\TabDto[] $tabs
+ * @var \UserSpace\Common\Module\Tabs\Src\Domain\TabDto[] $tabs
  */
 
 if (!defined('ABSPATH')) {

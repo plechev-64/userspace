@@ -3,11 +3,11 @@
  * Шаблон личного кабинета для темы "First".
  */
 
-use UserSpace\Core\Tabs\TabManager;
-use UserSpace\Core\Tabs\TabRenderer;
-use UserSpace\Core\ViewedUserContext;
+use UserSpace\Common\Module\Tabs\Src\Infrastructure\TabManager;
+use UserSpace\Common\Module\Tabs\Src\Infrastructure\TabRenderer;
+use UserSpace\Common\Service\AvatarManager;
+use UserSpace\Common\Service\ViewedUserContext;
 use UserSpace\Plugin;
-use UserSpace\Service\AvatarManager;
 
 if (!defined('ABSPATH')) {
     exit;

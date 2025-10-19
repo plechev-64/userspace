@@ -61,8 +61,8 @@ class Container implements ContainerInterface {
         }
 
         // 3. Пытаемся создать экземпляр автоматически через рефлексию
-        $this->instances[$id] = $this->createInstance($id);
-		return $this->instances[ $id ];
+        $this->instances[$id] = $this->build($id);
+        return $this->instances[$id];
 	}
 
     /**
@@ -78,14 +78,14 @@ class Container implements ContainerInterface {
     }
 
     /**
-     * Создает экземпляр класса с помощью рефлексии, автоматически разрешая зависимости.
+     * Создает новый экземпляр класса, не кэшируя его.
      *
      * @template T
-     * @param class-string<T> $id
-     * @return T
-     * @throws Exception
+     * @param class-string<T> $id Идентификатор сервиса (имя класса).
+     * @return T Новый экземпляр сервиса.
+     * @throws \Exception Если сервис не может быть создан.
      */
-    private function createInstance(string $id)
+    public function build(string $id)
     {
         if (!$this->has($id)) {
             throw new Exception("Service or class '{$id}' not found.");

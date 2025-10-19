@@ -2,7 +2,7 @@
 
 namespace UserSpace\Core\Theme;
 
-use UserSpace\Core\ViewedUserContext;
+use UserSpace\Common\Service\ViewedUserContext;
 
 /**
  * Управляет темами личного кабинета.

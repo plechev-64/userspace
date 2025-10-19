@@ -2,7 +2,7 @@
 
 namespace UserSpace\Theme\First\Service;
 
-use UserSpace\Core\Tabs\TabLocationManager;
+use UserSpace\Common\Module\Tabs\Src\Infrastructure\TabLocationManager;
 
 /**
  * Управляет регистрацией мест вывода вкладок для темы "First".
