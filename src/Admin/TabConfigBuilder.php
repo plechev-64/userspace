@@ -3,6 +3,7 @@
 namespace UserSpace\Admin;
 
 use UserSpace\Common\Module\Tabs\Src\Domain\AbstractTab;
+use UserSpace\Core\Helper\StringFilterInterface;
 use UserSpace\Common\Module\Tabs\Src\Infrastructure\TabLocationManager;
 use UserSpace\Common\Module\Tabs\Src\Infrastructure\TabManager;
 
@@ -14,9 +15,11 @@ class TabConfigBuilder
     /**
      */
     public function __construct(
-        private readonly TabManager $tabManager,
-        private readonly TabLocationManager $tabLocationManager
-    ) {
+        private readonly TabManager            $tabManager,
+        private readonly TabLocationManager    $tabLocationManager,
+        private readonly StringFilterInterface $str
+    )
+    {
     }
 
     /**
@@ -48,11 +51,11 @@ class TabConfigBuilder
     {
         $output = sprintf(
             '<div class="usp-tab-builder-location" data-location-id="%s">',
-            esc_attr($id)
+            $this->str->escAttr($id)
         );
         $output .= sprintf(
             '<h3 class="usp-tab-builder-location-title">%s</h3>',
-            esc_html($label)
+            $this->str->escHtml($label)
         );
         $output .= '<div class="usp-tab-builder-tabs" data-sortable="tabs">';
 
@@ -74,30 +77,30 @@ class TabConfigBuilder
      */
     private function renderTab(AbstractTab $tab): string
     {
-        $configData      = $tab->toArray();
+        $configData = $tab->toArray();
         $configData['class'] = get_class($tab);
         $configJson = wp_json_encode($configData);
 
         // Вкладка может иметь дочерние, если у нее есть свой контент.
-        $canHaveSubtabs = ! empty(trim($tab->getContent()));
+        $canHaveSubtabs = !empty(trim($tab->getContent()));
         // Класс для стилизации добавляем, только если дочерние вкладки уже есть.
-        $hasSubtabsClass = ! empty($tab->getSubTabs()) ? 'has-subtabs' : '';
+        $hasSubtabsClass = !empty($tab->getSubTabs()) ? 'has-subtabs' : '';
 
         $output = sprintf(
             '<div class="usp-tab-builder-tab %s" data-id="%s" data-config="%s">',
-            esc_attr($hasSubtabsClass),
-            esc_attr($tab->getId()),
-            esc_attr($configJson)
+            $this->str->escAttr($hasSubtabsClass),
+            $this->str->escAttr($tab->getId()),
+            $this->str->escAttr($configJson)
         );
 
         $output .= '<div class="usp-tab-builder-tab-header">';
         $output .= sprintf(
             '<span class="dashicons %s"></span> <span class="tab-title">%s</span>',
-            esc_attr($tab->getIcon() ?? 'dashicons-admin-page'),
-            esc_html($tab->getTitle())
+            $this->str->escAttr($tab->getIcon() ?? 'dashicons-admin-page'),
+            $this->str->escHtml($tab->getTitle())
         );
         $output .= '<div class="usp-tab-builder-tab-actions">';
-        $output .= '<button type="button" class="button button-small" data-action="edit-tab">' . esc_html__('Edit', 'usp') . '</button>';
+        $output .= '<button type="button" class="button button-small" data-action="edit-tab">' . $this->str->translate('Edit') . '</button>';
         $output .= '</div></div>';
 
         // Если вкладка может иметь дочерние, всегда рендерим для них контейнер (drop-зону).

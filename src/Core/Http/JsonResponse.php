@@ -6,9 +6,10 @@ class JsonResponse
 {
     public function __construct(
         private mixed $data = null,
-        private int $statusCode = 200,
+        private int   $statusCode = 200,
         private array $headers = []
-    ) {
+    )
+    {
     }
 
     /**

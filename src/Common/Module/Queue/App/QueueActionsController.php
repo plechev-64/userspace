@@ -18,12 +18,13 @@ use UserSpace\Core\Rest\Attributes\Route;
 class QueueActionsController extends AbstractController
 {
     public function __construct(
-        private readonly QueueDispatcher $dispatcher,
-        private readonly QueueStatus $status,
-        private readonly QueueJobsGrid $grid,
-        private readonly QueueManager $queueManager,
+        private readonly QueueDispatcher          $dispatcher,
+        private readonly QueueStatus              $status,
+        private readonly QueueJobsGrid            $grid,
+        private readonly QueueManager             $queueManager,
         private readonly BackgroundProcessManager $backgroundProcess
-    ) {
+    )
+    {
     }
 
     /**
@@ -91,7 +92,7 @@ class QueueActionsController extends AbstractController
     {
         // Проверяем наш внутренний токен. Это гарантирует, что эндпоинт вызван только нашим плагином.
         $token = $request->getHeader('X-Worker-Token');
-        if ( ! $token || ! hash_equals(USERSPACE_WORKER_TOKEN, $token)) {
+        if (!$token || !hash_equals(USERSPACE_WORKER_TOKEN, $token)) {
             return $this->error('Invalid worker token.', 403);
         }
 

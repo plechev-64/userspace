@@ -8,11 +8,11 @@ class RadioFieldDto extends FieldDto
 {
     public array $options = [];
 
-	public function __construct(string $name, array $config)
-	{
-		parent::__construct($name, 'radio', $config);
+    public function __construct(string $name, array $config)
+    {
+        parent::__construct($name, 'radio', $config);
         $this->options = $config['options'] ?? [];
-	}
+    }
 
     public function toArray(): array
     {

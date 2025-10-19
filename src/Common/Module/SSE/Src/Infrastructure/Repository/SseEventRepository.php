@@ -4,7 +4,7 @@ namespace UserSpace\Common\Module\SSE\Src\Infrastructure\Repository;
 
 use UserSpace\Common\Module\SSE\Src\Domain\Repository\SseEventRepositoryInterface;
 
-if ( ! defined('ABSPATH')) {
+if (!defined('ABSPATH')) {
     exit;
 }
 
@@ -36,7 +36,7 @@ class SseEventRepository implements SseEventRepositoryInterface
             $this->wpdb->prefix . self::TABLE_NAME,
             [
                 'event_type' => $eventType,
-                'payload'    => wp_json_encode($payload),
+                'payload' => wp_json_encode($payload),
                 'created_at' => gmdate('Y-m-d H:i:s'),
             ]
         );
@@ -93,7 +93,7 @@ class SseEventRepository implements SseEventRepositoryInterface
     public static function createTable(): void
     {
         global $wpdb;
-        $table_name      = $wpdb->prefix . self::TABLE_NAME;
+        $table_name = $wpdb->prefix . self::TABLE_NAME;
         $charset_collate = $wpdb->get_charset_collate();
 
         $sql = "CREATE TABLE {$table_name} (

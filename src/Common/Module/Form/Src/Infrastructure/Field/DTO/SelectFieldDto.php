@@ -10,9 +10,10 @@ class SelectFieldDto extends FieldDto
 
     public function __construct(
         string $name,
-        array $config
-    ) {
-        parent::__construct( $name, 'select', $config );
+        array  $config
+    )
+    {
+        parent::__construct($name, 'select', $config);
         $this->options = $config['options'] ?? [];
     }
 

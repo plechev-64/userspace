@@ -13,7 +13,8 @@ abstract class AbstractAdminFormController extends AbstractController
 {
     public function __construct(
         protected readonly FormManager $formManager
-    ) {
+    )
+    {
     }
 
     #[Route(path: '/config', method: 'POST', permission: 'manage_options')]

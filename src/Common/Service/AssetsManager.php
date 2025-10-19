@@ -7,15 +7,17 @@ use UserSpace\Admin\Page\RegistrationFormPage;
 use UserSpace\Admin\Page\SettingsPage;
 use UserSpace\Admin\Page\SetupWizardPage;
 use UserSpace\Admin\Page\TabsConfigPage;
+use UserSpace\Core\Helper\StringFilterInterface;
 
 class AssetsManager
 {
     public function __construct(
-        protected readonly SettingsPage         $settingsPage,
-        protected readonly ProfileFormPage      $profileFormPage,
-        protected readonly RegistrationFormPage $registrationFormPage,
-        protected readonly TabsConfigPage       $tabsConfigPage,
-        protected readonly SetupWizardPage      $setupWizardPage
+        protected readonly SettingsPage          $settingsPage,
+        protected readonly ProfileFormPage       $profileFormPage,
+        protected readonly RegistrationFormPage  $registrationFormPage,
+        protected readonly TabsConfigPage        $tabsConfigPage,
+        protected readonly SetupWizardPage       $setupWizardPage,
+        protected readonly StringFilterInterface $str
     )
     {
     }
@@ -83,7 +85,7 @@ class AssetsManager
             'usp-core',
             'uspApiSettings',
             [
-                'root' => esc_url_raw(rest_url()),
+                'root' => $this->str->escUrlRaw(rest_url()),
                 'namespace' => USERSPACE_REST_NAMESPACE,
                 'nonce' => wp_create_nonce('wp_rest'),
             ]
@@ -95,23 +97,23 @@ class AssetsManager
             'uspL10n',
             [
                 'uploader' => [
-                    'validating' => __('Validating...', 'usp'),
-                    'uploading' => __('Uploading...', 'usp'),
-                    'success' => __('Success!', 'usp'),
-                    'error' => __('Error: {message}', 'usp'),
-                    'fileTooLarge' => __('File is too large. Maximum size is {maxSize} MB.', 'usp'),
-                    'invalidFileType' => __('Invalid file type.', 'usp'),
-                    'imageTooSmall' => __('Image is too small. Minimum dimensions are {minWidth}x{minHeight}px.', 'usp'),
-                    'imageTooLarge' => __('Image is too large. Maximum dimensions are {maxWidth}x{maxHeight}px.', 'usp'),
-                    'imageReadError' => __('Could not read image dimensions.', 'usp'),
-                    'remove' => __('Remove', 'usp'),
-                    'previewAlt' => __('Preview', 'usp'),
+                    'validating' => $this->str->translate('Validating...'),
+                    'uploading' => $this->str->translate('Uploading...'),
+                    'success' => $this->str->translate('Success!'),
+                    'error' => $this->str->translate('Error: {message}'),
+                    'fileTooLarge' => $this->str->translate('File is too large. Maximum size is {maxSize} MB.'),
+                    'invalidFileType' => $this->str->translate('Invalid file type.'),
+                    'imageTooSmall' => $this->str->translate('Image is too small. Minimum dimensions are {minWidth}x{minHeight}px.'),
+                    'imageTooLarge' => $this->str->translate('Image is too large. Maximum dimensions are {maxWidth}x{maxHeight}px.'),
+                    'imageReadError' => $this->str->translate('Could not read image dimensions.'),
+                    'remove' => $this->str->translate('Remove'),
+                    'previewAlt' => $this->str->translate('Preview'),
                 ],
                 'login' => [
-                    'loggingIn' => __('Logging in...', 'usp'),
+                    'loggingIn' => $this->str->translate('Logging in...'),
                 ],
                 'registration' => [
-                    'registering' => __('Registering...', 'usp'),
+                    'registering' => $this->str->translate('Registering...'),
                 ],
             ]
         );

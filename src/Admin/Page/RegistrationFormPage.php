@@ -32,7 +32,7 @@ class RegistrationFormPage extends AbstractAdminFormPage
     {
         // Для примера, используем поля из профиля + добавляем свои
         $container = Plugin::getInstance()->getContainer();
-        $profilePage   = $container->get(ProfileFormPage::class);
+        $profilePage = $container->get(ProfileFormPage::class);
         $profileConfig = $profilePage->createDefaultConfig();
 
         // Добавляем обязательные поля для регистрации

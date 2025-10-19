@@ -6,28 +6,31 @@ use UserSpace\Common\Module\Form\Src\Domain\Field\AbstractField;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\DateFieldDto;
 
 // Защита от прямого доступа к файлу
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
+if (!defined('ABSPATH')) {
+    exit;
 }
 
 /**
  * Класс для поля даты (input type="date").
  */
-class Date extends AbstractField {
+class Date extends AbstractField
+{
 
-	public function __construct( DateFieldDto $dto ) {
-		parent::__construct( $dto );
-	}
+    public function __construct(DateFieldDto $dto)
+    {
+        parent::__construct($dto);
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public function renderInput(): string {
-		$attributes = $this->renderAttributes( [
-			'type'  => 'date',
-			'value' => $this->value,
-		] );
+    /**
+     * @inheritDoc
+     */
+    public function renderInput(): string
+    {
+        $attributes = $this->renderAttributes([
+            'type' => 'date',
+            'value' => $this->value,
+        ]);
 
-		return "<input {$attributes}>";
-	}
+        return "<input {$attributes}>";
+    }
 }

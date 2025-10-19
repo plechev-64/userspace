@@ -2,7 +2,7 @@
 
 namespace UserSpace\Common\Module\SSE\Src\Domain\Repository;
 
-if ( ! defined('ABSPATH')) {
+if (!defined('ABSPATH')) {
     exit;
 }
 

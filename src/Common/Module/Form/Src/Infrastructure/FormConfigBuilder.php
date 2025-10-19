@@ -2,6 +2,7 @@
 
 namespace UserSpace\Common\Module\Form\Src\Infrastructure;
 
+use UserSpace\Core\Helper\StringFilterInterface;
 use InvalidArgumentException;
 
 // Защита от прямого доступа к файлу
@@ -14,6 +15,11 @@ if (!defined('ABSPATH')) {
  */
 class FormConfigBuilder
 {
+    public function __construct(
+        private readonly StringFilterInterface $str
+    )
+    {
+    }
 
     private array $config = [
         'sections' => [],
@@ -211,15 +217,15 @@ class FormConfigBuilder
 
     private function renderSection(string $id, array $section): string
     {
-        $output = sprintf('<div class="usp-form-builder-section" data-id="%s">', esc_attr($id));
+        $output = sprintf('<div class="usp-form-builder-section" data-id="%s">', $this->str->escAttr($id));
         $output .= '<div class="usp-form-builder-section-header">
 						<h3 class="usp-form-builder-section-title"><input type="text" class="title-input" value="%s" placeholder="%s" /></h3>
 						<div class="usp-form-builder-section-actions">
-							<button type="button" class="button" data-action="add-block">' . esc_html__('Add Block', 'usp') . '</button>
-							<button type="button" class="button usp-button-link-delete" data-action="delete-section">' . esc_html__('Delete', 'usp') . '</button>
+							<button type="button" class="button" data-action="add-block">' . $this->str->translate('Add Block') . '</button>
+							<button type="button" class="button usp-button-link-delete" data-action="delete-section">' . $this->str->translate('Delete') . '</button>
 						</div>
 					</div>';
-        $output = sprintf($output, esc_attr($section['title'] ?? ''), esc_attr__('Untitled Section', 'usp'));
+        $output = sprintf($output, $this->str->escAttr($section['title'] ?? ''), $this->str->escAttr($this->str->translate('Untitled Section')));
         $output .= '<div class="usp-form-builder-blocks" data-sortable="blocks">';
 
         foreach ($section['blocks'] as $block_id => $block) {
@@ -233,14 +239,14 @@ class FormConfigBuilder
 
     private function renderBlock(string $id, array $block): string
     {
-        $output = sprintf('<div class="usp-form-builder-block" data-id="%s">', esc_attr($id));
+        $output = sprintf('<div class="usp-form-builder-block" data-id="%s">', $this->str->escAttr($id));
         $output .= '<div class="usp-form-builder-block-header">
 						<h4 class="usp-form-builder-block-title"><input type="text" class="title-input" value="%s" placeholder="%s" /></h4>
 						<div class="usp-form-builder-block-actions">
-							<button type="button" class="button usp-button-link-delete" data-action="delete-block">' . esc_html__('Delete', 'usp') . '</button>
+							<button type="button" class="button usp-button-link-delete" data-action="delete-block">' . $this->str->translate('Delete') . '</button>
 						</div>
 					</div>';
-        $output = sprintf($output, esc_attr($block['title'] ?? ''), esc_attr__('Untitled Block', 'usp'));
+        $output = sprintf($output, $this->str->escAttr($block['title'] ?? ''), $this->str->escAttr($this->str->translate('Untitled Block')));
         $output .= '<div class="usp-form-builder-fields" data-sortable="fields">';
 
         foreach ($block['fields'] as $name => $fieldConfig) {
@@ -248,7 +254,7 @@ class FormConfigBuilder
         }
 
         $output .= '</div>'; // .usp-form-builder-fields
-        $output .= '<div class="usp-form-builder-block-footer"><button type="button" class="button button-secondary" data-action="add-custom-field">' . esc_html__('Add Field', 'usp') . '</button></div>';
+        $output .= '<div class="usp-form-builder-block-footer"><button type="button" class="button button-secondary" data-action="add-custom-field">' . $this->str->translate('Add Field') . '</button></div>';
         $output .= '</div>'; // .usp-form-builder-block
 
         return $output;
@@ -265,14 +271,14 @@ class FormConfigBuilder
 				<span class="field-label">%s</span>
 				<span class="field-type">[%s]</span>
 				<div class="usp-form-builder-field-actions">
-					<button type="button" class="button button-small" data-action="edit-field">' . esc_html__('Edit', 'usp') . '</button><button type="button" class="button button-small usp-button-link-delete" data-action="delete-field">' . esc_html__('Delete', 'usp') . '</button>
+					<button type="button" class="button button-small" data-action="edit-field">' . $this->str->translate('Edit') . '</button><button type="button" class="button button-small usp-button-link-delete" data-action="delete-field">' . $this->str->translate('Delete') . '</button>
 				</div>
 			</div>',
-            esc_attr($name),
-            esc_attr($type),
-            esc_attr($config_json),
-            esc_html($label),
-            esc_html($type)
+            $this->str->escAttr($name),
+            $this->str->escAttr($type),
+            $this->str->escAttr($config_json),
+            $this->str->escHtml($label),
+            $this->str->escHtml($type)
         );
     }
 
@@ -283,7 +289,7 @@ class FormConfigBuilder
         }
 
         $output = '<div class="usp-form-builder-available-fields">';
-        $output .= '<h4>' . esc_html__('Available Fields', 'usp') . '</h4>';
+        $output .= '<h4>' . $this->str->translate('Available Fields') . '</h4>';
         $output .= '<div class="usp-form-builder-fields" data-sortable="fields">';
 
         foreach ($this->availableFields as $name => $fieldConfig) {

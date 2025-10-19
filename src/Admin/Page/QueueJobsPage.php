@@ -2,6 +2,7 @@
 
 namespace UserSpace\Admin\Page;
 
+use UserSpace\Core\Helper\StringFilterInterface;
 use UserSpace\Admin\Abstract\AbstractAdminPage;
 use UserSpace\Common\Module\Grid\Src\Infrastructure\QueueJobsGrid;
 use UserSpace\Common\Module\Queue\Src\Infrastructure\QueueStatus;
@@ -9,9 +10,11 @@ use UserSpace\Common\Module\Queue\Src\Infrastructure\QueueStatus;
 class QueueJobsPage extends AbstractAdminPage
 {
     public function __construct(
-        private readonly QueueJobsGrid $grid,
-        private readonly QueueStatus $status
-    ) {
+        private readonly QueueJobsGrid         $grid,
+        private readonly QueueStatus           $status,
+        private readonly StringFilterInterface $str
+    )
+    {
     }
 
     public function render(): void
@@ -19,7 +22,7 @@ class QueueJobsPage extends AbstractAdminPage
         $this->enqueuePageScripts();
 
         echo '<div class="wrap">';
-        echo '<h1>' . esc_html($this->getPageTitle()) . '</h1>';
+        echo '<h1>' . $this->str->escHtml($this->getPageTitle()) . '</h1>';
 
         $this->renderStatusWidget();
 
@@ -32,29 +35,31 @@ class QueueJobsPage extends AbstractAdminPage
     {
         $status = $this->status->getStatus();
         $state_text = [
-            'running' => __('Running', 'usp'),
-            'idle' => __('Idle', 'usp'),
-            'stalled' => __('Stalled', 'usp'),
+            'running' => $this->str->translate('Running'),
+            'idle' => $this->str->translate('Idle'),
+            'stalled' => $this->str->translate('Stalled'),
         ];
         ?>
         <div class="usp-queue-status-widget">
             <div class="usp-queue-widget-header" id="usp-queue-widget-header">
-                <h3><?php esc_html_e('Queue Status', 'usp'); ?></h3>
+                <h3><?php echo $this->str->translate('Queue Status'); ?></h3>
                 <div class="usp-queue-actions">
-                    <button type="button" id="usp-process-now-btn" class="button button-secondary" style="margin-right: 10px;"><?php esc_html_e('Process Now', 'usp'); ?></button>
-                    <button type="button" id="usp-send-ping-btn" class="button"><?php esc_html_e('Send Ping Task', 'usp'); ?></button>
+                    <button type="button" id="usp-process-now-btn" class="button button-secondary"
+                            style="margin-right: 10px;"><?php echo $this->str->translate('Process Now'); ?></button>
+                    <button type="button" id="usp-send-ping-btn"
+                            class="button"><?php echo $this->str->translate('Send Ping Task'); ?></button>
                 </div>
             </div>
             <p id="usp-queue-status-text">
-                <span class="usp-queue-status-indicator <?php echo esc_attr($status['state']); ?>"></span>
-                <strong><?php echo esc_html($state_text[$status['state']] ?? 'Unknown'); ?></strong>
+                <span class="usp-queue-status-indicator <?php echo $this->str->escAttr($status['state']); ?>"></span>
+                <strong><?php echo $this->str->escHtml($state_text[$status['state']] ?? 'Unknown'); ?></strong>
             </p>
-            <h4><?php esc_html_e('Recent Activity', 'usp'); ?></h4>
+            <h4><?php echo $this->str->translate('Recent Activity'); ?></h4>
             <div class="usp-queue-log" id="usp-queue-log">
                 <?php if (empty($status['log'])): ?>
-                    <?php esc_html_e('No recent activity.', 'usp'); ?>
+                    <?php echo $this->str->translate('No recent activity.'); ?>
                 <?php else: ?>
-                    <?php echo implode("\n", array_map('esc_html', $status['log'])); ?>
+                    <?php echo implode("\n", array_map([$this->str, 'escHtml'], $status['log'])); ?>
                 <?php endif; ?>
             </div>
         </div>
@@ -78,29 +83,30 @@ class QueueJobsPage extends AbstractAdminPage
         );
         wp_localize_script('usp-queue-page-script', 'uspQueuePageData', [
             'statusEndpoint' => '/queue/status',
-            'pingEndpoint'   => '/queue/ping',
+            'pingEndpoint' => '/queue/ping',
             'processEndpoint' => '/queue/process-now',
             'eventsEndpoint' => '/sse/events',
-            'ping_error' => __('Failed to dispatch ping task.', 'usp'),
-            'ping_sending' => __('Sending...', 'usp'),
-            'processing' => __('Processing...', 'usp'),
+            'ping_error' => $this->str->translate('Failed to dispatch ping task.'),
+            'ping_sending' => $this->str->translate('Sending...'),
+            'processing' => $this->str->translate('Processing...'),
         ]);
     }
 
     public function getPageTitle(): string
     {
-        return __('Jobs Queue', 'usp');
+        return $this->str->translate('Jobs Queue');
     }
 
     public function getMenuTitle(): string
     {
-        return __('Jobs Queue', 'usp');
+        return $this->str->translate('Jobs Queue');
     }
 
     protected function getMenuSlug(): string
     {
         return 'userspace-queue-jobs';
     }
+
     protected function getParentSlug(): ?string
     {
         return 'userspace-settings';

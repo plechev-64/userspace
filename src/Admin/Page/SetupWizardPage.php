@@ -7,6 +7,7 @@ use UserSpace\Admin\SetupWizard\SetupWizardConfig;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\SelectFieldDto;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormConfig;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormFactory;
+use UserSpace\Core\Helper\StringFilterInterface;
 
 /**
  * Управляет страницей пошаговой настройки плагина.
@@ -16,8 +17,9 @@ class SetupWizardPage extends AbstractAdminPage
     private const OPTION_NAME = 'usp_settings';
 
     public function __construct(
-        private readonly FormFactory       $formFactory,
-        private readonly SetupWizardConfig $wizardConfig
+        private readonly FormFactory           $formFactory,
+        private readonly SetupWizardConfig     $wizardConfig,
+        private readonly StringFilterInterface $str
     )
     {
     }
@@ -56,30 +58,12 @@ class SetupWizardPage extends AbstractAdminPage
             USERSPACE_VERSION
         );
 
-        // Подключаем основной скрипт core.js, если он еще не подключен
-        wp_enqueue_script('usp-core-js',
-            USERSPACE_PLUGIN_URL . 'assets/js/core.js',
-            [],
-            USERSPACE_VERSION,
-            true
-        );
-
         wp_enqueue_script(
             'usp-setup-wizard-js',
             USERSPACE_PLUGIN_URL . 'assets/js/setup-wizard.js',
-            ['usp-core-js'],
+            ['usp-core'],
             USERSPACE_VERSION,
             true
-        );
-
-        wp_localize_script(
-            'usp-core-js', // Локализация теперь привязывается к core.js
-            'uspApiSettings',
-            [
-                'root' => esc_url_raw(rest_url()),
-                'namespace' => USERSPACE_REST_NAMESPACE,
-                'nonce' => wp_create_nonce('wp_rest'),
-            ]
         );
 
         wp_localize_script(
@@ -87,10 +71,10 @@ class SetupWizardPage extends AbstractAdminPage
             'uspL10n',
             [
                 'wizard' => [
-                    'saving' => __('Saving...', 'usp'),
-                    'networkError' => __('Network error occurred.', 'usp'),
-                    'finish' => __('Finish', 'usp'),
-                    'next' => __('Next', 'usp'),
+                    'saving' => $this->str->translate('Saving...'),
+                    'networkError' => $this->str->translate('Network error occurred.'),
+                    'finish' => $this->str->translate('Finish'),
+                    'next' => $this->str->translate('Next'),
                 ],
             ]
         );
@@ -103,7 +87,7 @@ class SetupWizardPage extends AbstractAdminPage
         $options = get_option(self::OPTION_NAME, []);
 
         echo '<div class="wrap usp-setup-wizard-wrap">';
-        echo '<h1>' . esc_html($this->getPageTitle()) . '</h1>';
+        echo '<h1>' . $this->str->escHtml($this->getPageTitle()) . '</h1>';
 
         echo '<div id="usp-wizard-notifications"></div>';
 
@@ -111,9 +95,9 @@ class SetupWizardPage extends AbstractAdminPage
         echo '<div class="usp-wizard-steps">';
         foreach ($config['steps'] as $index => $step) {
             $class = $index === 0 ? 'active' : '';
-            echo '<div class="usp-wizard-step ' . esc_attr($class) . '" data-step="' . esc_attr($index) . '">';
+            echo '<div class="usp-wizard-step ' . $this->str->escAttr($class) . '" data-step="' . $this->str->escAttr($index) . '">';
             echo '<div class="usp-wizard-step-number">' . ($index + 1) . '</div>';
-            echo '<div class="usp-wizard-step-title">' . esc_html($step['title']) . '</div>';
+            echo '<div class="usp-wizard-step-title">' . $this->str->escHtml($step['title']) . '</div>';
             echo '</div>';
         }
         echo '</div>';
@@ -124,12 +108,12 @@ class SetupWizardPage extends AbstractAdminPage
 
         foreach ($config['steps'] as $index => $step) {
             $class = $index === 0 ? 'active' : '';
-            echo '<div class="usp-wizard-pane ' . esc_attr($class) . '" data-step-content="' . esc_attr($index) . '">';
+            echo '<div class="usp-wizard-pane ' . $this->str->escAttr($class) . '" data-step-content="' . $this->str->escAttr($index) . '">';
 
             if ($index === 0) {
-                echo '<p class="usp-wizard-intro">' . __('Welcome! This wizard will help you with the initial setup of the plugin. Please follow the steps to configure the most important options.', 'usp') . '</p>';
+                echo '<p class="usp-wizard-intro">' . $this->str->translate('Welcome! This wizard will help you with the initial setup of the plugin. Please follow the steps to configure the most important options.') . '</p>';
             } elseif ($index === count($config['steps']) - 1) {
-                echo '<p class="usp-wizard-intro">' . __('Setup is complete! You have configured the basic settings. You can change them at any time on the plugin settings page.', 'usp') . '</p>';
+                echo '<p class="usp-wizard-intro">' . $this->str->translate('Setup is complete! You have configured the basic settings. You can change them at any time on the plugin settings page.') . '</p>';
             }
 
             $stepFormConfig = new FormConfig();
@@ -155,9 +139,9 @@ class SetupWizardPage extends AbstractAdminPage
 
         // Кнопки управления
         echo '<div class="usp-wizard-actions">';
-        echo '<button type="button" id="usp-wizard-prev" class="button" style="display: none;">' . __('Previous', 'usp') . '</button>';
-        echo '<button type="button" id="usp-wizard-next" class="button button-primary">' . __('Next', 'usp') . '</button>';
-        echo '<a href="' . esc_url(admin_url('admin.php?page=userspace-settings')) . '" id="usp-wizard-finish" class="button button-primary" style="display: none;">' . __('Go to Settings', 'usp') . '</a>';
+        echo '<button type="button" id="usp-wizard-prev" class="button" style="display: none;">' . $this->str->translate('Previous') . '</button>';
+        echo '<button type="button" id="usp-wizard-next" class="button button-primary">' . $this->str->translate('Next') . '</button>';
+        echo '<a href="' . $this->str->escUrl(admin_url('admin.php?page=userspace-settings')) . '" id="usp-wizard-finish" class="button button-primary" style="display: none;">' . $this->str->translate('Go to Settings') . '</a>';
         echo '</div>';
 
         echo '</div>'; // .wrap
@@ -165,12 +149,12 @@ class SetupWizardPage extends AbstractAdminPage
 
     protected function getPageTitle(): string
     {
-        return __('UserSpace Setup Wizard', 'usp');
+        return $this->str->translate('UserSpace Setup Wizard');
     }
 
     protected function getMenuTitle(): string
     {
-        return __('Setup Wizard', 'usp');
+        return $this->str->translate('Setup Wizard');
     }
 
     protected function getMenuSlug(): string
@@ -186,27 +170,27 @@ class SetupWizardPage extends AbstractAdminPage
     {
         $config = $this->wizardConfig
             //-- Шаг 1: Основные страницы
-            ->addStep('pages', __('Page Assignment', 'usp'))
+            ->addStep('pages', $this->str->translate('Page Assignment'))
             ->addOption(new SelectFieldDto('login_page_id', [
-                'label' => __('Login Page', 'usp'),
+                'label' => $this->str->translate('Login Page'),
                 'options' => $this->getPagesAsOptions(),
-                'description' => __('Select the page where the login form will be displayed.', 'usp'),
+                'description' => $this->str->translate('Select the page where the login form will be displayed.'),
             ]))
             ->addOption(new SelectFieldDto('registration_page_id', [
-                'label' => __('Registration Page', 'usp'),
+                'label' => $this->str->translate('Registration Page'),
                 'options' => $this->getPagesAsOptions(),
-                'description' => __('Select the page for the user registration form.', 'usp'),
+                'description' => $this->str->translate('Select the page for the user registration form.'),
             ]))
             ->addOption(new SelectFieldDto('profile_page_id', [
-                'label' => __('User Profile Page', 'usp'),
+                'label' => $this->str->translate('User Profile Page'),
                 'options' => $this->getPagesAsOptions(),
-                'description' => __('Select the page to display user profiles.', 'usp'),
+                'description' => $this->str->translate('Select the page to display user profiles.'),
             ]))
 
             //-- Шаг 2: Дополнительные настройки
-            ->addStep('advanced', __('Advanced Settings', 'usp'))
+            ->addStep('advanced', $this->str->translate('Advanced Settings'))
             ->addOption(new SelectFieldDto('password_reset_page_id', [
-                'label' => __('Password Recovery Page', 'usp'),
+                'label' => $this->str->translate('Password Recovery Page'),
                 'options' => $this->getPagesAsOptions(),
             ]));
 
@@ -216,7 +200,7 @@ class SetupWizardPage extends AbstractAdminPage
     private function getPagesAsOptions(): array
     {
         $pages = get_pages();
-        $options = ['' => __('— Select a page —', 'usp')];
+        $options = ['' => $this->str->translate('— Select a page —')];
         foreach ($pages as $page) {
             $options[$page->ID] = $page->post_title;
         }

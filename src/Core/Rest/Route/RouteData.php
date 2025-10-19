@@ -13,7 +13,7 @@ class RouteData
         private readonly string $permission,
         private readonly string $actions,
         private readonly bool   $isFastApi,
-        private readonly array $env,
+        private readonly array  $env,
     )
     {
     }

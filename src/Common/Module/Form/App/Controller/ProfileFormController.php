@@ -2,6 +2,7 @@
 
 namespace UserSpace\Common\Module\Form\App\Controller;
 
+use UserSpace\Core\Helper\StringFilterInterface;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormFactory;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormManager;
 use UserSpace\Core\Http\JsonResponse;
@@ -20,9 +21,11 @@ class ProfileFormController extends AbstractController
     private array $coreUserFields = ['user_email', 'display_name', 'user_url', 'user_pass', 'nickname'];
 
     public function __construct(
-        private readonly FormManager $formManager,
-        private readonly FormFactory $formFactory
-    ) {
+        private readonly FormManager           $formManager,
+        private readonly FormFactory           $formFactory,
+        private readonly StringFilterInterface $str
+    )
+    {
     }
 
     #[Route(path: '/save', method: 'POST')]
@@ -32,7 +35,7 @@ class ProfileFormController extends AbstractController
         $config = $this->formManager->load($formType);
 
         if (null === $config) {
-            return $this->error(['message' => __('Form configuration not found.', 'usp')], 404);
+            return $this->error(['message' => $this->str->translate('Form configuration not found.')], 404);
         }
 
         // Обновляем DTO данными из запроса, не пересобирая его
@@ -41,7 +44,7 @@ class ProfileFormController extends AbstractController
             $postValue = $request->getPost($fieldName);
             if ($postValue !== null) {
                 // Здесь можно добавить более сложную санацию в зависимости от типа поля
-                $config->updateFieldValue($fieldName, wp_unslash($postValue));
+                $config->updateFieldValue($fieldName, $this->str->unslash($postValue));
             }
         }
 
@@ -50,7 +53,7 @@ class ProfileFormController extends AbstractController
         if ($form->validate()) {
             $userId = get_current_user_id();
             if (!$userId) {
-                return $this->error(['message' => __('You must be logged in to save the profile.', 'usp')], 401);
+                return $this->error(['message' => $this->str->translate('You must be logged in to save the profile.')], 401);
             }
 
             $coreData = ['ID' => $userId];
@@ -77,11 +80,11 @@ class ProfileFormController extends AbstractController
                 update_user_meta($userId, $key, $value);
             }
 
-            return $this->success(['message' => __('Data saved successfully!', 'usp')]);
+            return $this->success(['message' => $this->str->translate('Data saved successfully!')]);
         }
 
         return $this->error([
-            'message' => __('Validation error. Please check the fields.', 'usp'),
+            'message' => $this->str->translate('Validation error. Please check the fields.'),
             'errors' => $form->getErrors(),
         ], 422); // 422 Unprocessable Entity - стандарт для ошибок валидации
     }

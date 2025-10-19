@@ -13,9 +13,9 @@ class ModalFormController extends AbstractController
     public function getFormHtml(string $type): JsonResponse
     {
         $shortcodeMap = [
-            'login'            => '[usp_login_form]',
-            'registration'     => '[usp_registration_form]',
-            'forgot-password'  => '[usp_forgot_password_form]',
+            'login' => '[usp_login_form]',
+            'registration' => '[usp_registration_form]',
+            'forgot-password' => '[usp_forgot_password_form]',
         ];
 
         if (!isset($shortcodeMap[$type])) {

@@ -6,8 +6,8 @@ use Exception;
 use ReflectionClass;
 
 // Защита от прямого доступа к файлу
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
+if (!defined('ABSPATH')) {
+    exit;
 }
 
 /**
@@ -15,29 +15,31 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * Управляет жизненным циклом объектов (сервисов) в плагине.
  */
-class Container implements ContainerInterface {
+class Container implements ContainerInterface
+{
 
-	/**
-	 * Массив для хранения фабрик, создающих сервисы.
-	 * @var array<string, callable>
-	 */
-	private array $factories = [];
+    /**
+     * Массив для хранения фабрик, создающих сервисы.
+     * @var array<string, callable>
+     */
+    private array $factories = [];
 
-	/**
-	 * Массив для хранения уже созданных экземпляров сервисов (синглтонов).
-	 * @var array<string, mixed>
-	 */
-	private array $instances = [];
+    /**
+     * Массив для хранения уже созданных экземпляров сервисов (синглтонов).
+     * @var array<string, mixed>
+     */
+    private array $instances = [];
 
-	/**
-	 * Регистрирует фабрику для создания сервиса.
-	 *
-	 * @param string   $id        Идентификатор сервиса (обычно имя класса).
-	 * @param callable $factory Функция-замыкание, которая создает экземпляр сервиса.
-	 */
-	public function set( string $id, callable $factory ): void {
-		$this->factories[ $id ] = $factory;
-	}
+    /**
+     * Регистрирует фабрику для создания сервиса.
+     *
+     * @param string $id Идентификатор сервиса (обычно имя класса).
+     * @param callable $factory Функция-замыкание, которая создает экземпляр сервиса.
+     */
+    public function set(string $id, callable $factory): void
+    {
+        $this->factories[$id] = $factory;
+    }
 
     /**
      * Возвращает экземпляр сервиса по его идентификатору.
@@ -48,7 +50,8 @@ class Container implements ContainerInterface {
      * @return T Экземпляр сервиса.
      * @throws Exception Если сервис не зарегистрирован в контейнере.
      */
-	public function get( string $id ) {
+    public function get(string $id)
+    {
         // 1. Проверяем, есть ли уже готовый экземпляр
         if (isset($this->instances[$id])) {
             return $this->instances[$id];
@@ -63,7 +66,7 @@ class Container implements ContainerInterface {
         // 3. Пытаемся создать экземпляр автоматически через рефлексию
         $this->instances[$id] = $this->build($id);
         return $this->instances[$id];
-	}
+    }
 
     /**
      * Проверяет, зарегистрирован ли сервис в контейнере.
@@ -71,10 +74,10 @@ class Container implements ContainerInterface {
      * @param string $id Идентификатор сервиса.
      * @return bool
      */
-    public function has( string $id ): bool
+    public function has(string $id): bool
     {
         // Сервис существует, если для него есть фабрика или если такой класс в принципе существует
-        return isset( $this->factories[ $id ] ) || class_exists($id);
+        return isset($this->factories[$id]) || class_exists($id);
     }
 
     /**

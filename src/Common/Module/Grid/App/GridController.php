@@ -15,10 +15,11 @@ use UserSpace\Core\Rest\Attributes\Route;
 class GridController extends AbstractController
 {
     public function __construct(
-        private readonly UserListGrid $userListGrid,
+        private readonly UserListGrid      $userListGrid,
         private readonly UserListTableGrid $userListTableGrid,
-        private readonly QueueJobsGrid $queueJobsGrid
-    ) {
+        private readonly QueueJobsGrid     $queueJobsGrid
+    )
+    {
     }
 
     /**

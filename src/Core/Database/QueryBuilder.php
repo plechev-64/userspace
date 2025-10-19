@@ -5,18 +5,19 @@ namespace UserSpace\Core\Database;
 use wpdb;
 
 // Защита от прямого доступа к файлу
-if ( ! defined( 'ABSPATH' ) ) {
+if (!defined('ABSPATH')) {
     exit;
 }
 
 /**
  * Конструктор SQL-запросов для безопасного взаимодействия с базой данных WordPress.
  */
-class QueryBuilder {
+class QueryBuilder
+{
 
     private readonly wpdb $wpdb;
 
-    private array $select = [ '*' ];
+    private array $select = ['*'];
     private ?string $fromAlias = null;
     private ?string $from = null;
     private array $joins = [];
@@ -28,7 +29,8 @@ class QueryBuilder {
     /**
      * @param wpdb $wpdb Экземпляр класса wpdb.
      */
-    public function __construct( wpdb $wpdb ) {
+    public function __construct(wpdb $wpdb)
+    {
         $this->wpdb = $wpdb;
     }
 
@@ -44,8 +46,9 @@ class QueryBuilder {
      *
      * @return $this
      */
-    public function select( $columns = [ '*' ] ): self {
-        $this->select = is_array( $columns ) ? $columns : func_get_args();
+    public function select($columns = ['*']): self
+    {
+        $this->select = is_array($columns) ? $columns : func_get_args();
 
         return $this;
     }
@@ -58,7 +61,8 @@ class QueryBuilder {
      *
      * @return $this
      */
-    public function from( string $table, ?string $alias = null ): self {
+    public function from(string $table, ?string $alias = null): self
+    {
         if (strpos($table, $this->wpdb->prefix) !== 0) {
             $this->from = $this->wpdb->prefix . $table;
         } else {
@@ -72,24 +76,25 @@ class QueryBuilder {
     /**
      * Добавляет условие WHERE.
      *
-     * @param string $column   Столбец.
+     * @param string $column Столбец.
      * @param string $operator Оператор сравнения (=, !=, >, <, IN, и т.д.).
-     * @param mixed  $value    Значение для сравнения.
+     * @param mixed $value Значение для сравнения.
      *
      * @return $this
      */
-    public function where( string|callable $column, ?string $operator = null, mixed $value = null ): self {
+    public function where(string|callable $column, ?string $operator = null, mixed $value = null): self
+    {
         if (is_callable($column)) {
             $query = new self($this->wpdb);
             $column($query);
-            $this->where[] = [ 'type' => 'AND', 'condition' => $query ];
+            $this->where[] = ['type' => 'AND', 'condition' => $query];
             return $this;
         }
 
-        $this->where[] = [ 'type' => 'AND', 'condition' => [
-            'column'   => $column,
+        $this->where[] = ['type' => 'AND', 'condition' => [
+            'column' => $column,
             'operator' => $operator,
-            'value'    => $value,
+            'value' => $value,
         ]];
 
 
@@ -107,10 +112,10 @@ class QueryBuilder {
     public function orWhere(string|callable $column, ?string $operator = null, mixed $value = null): self
     {
         // Логика для orWhere идентична where, но с другим типом соединения
-        $this->where[] = [ 'type' => 'OR', 'condition' => [
-            'column'   => $column,
+        $this->where[] = ['type' => 'OR', 'condition' => [
+            'column' => $column,
             'operator' => $operator,
-            'value'    => $value,
+            'value' => $value,
         ]];
 
         return $this;
@@ -120,11 +125,12 @@ class QueryBuilder {
      * Добавляет LEFT JOIN.
      *
      * @param string $table Таблица для присоединения (без префикса).
-     * @param string $on    Условие для JOIN (например, 't1.id = t2.t1_id').
+     * @param string $on Условие для JOIN (например, 't1.id = t2.t1_id').
      *
      * @return $this
      */
-    public function leftJoin( string $table, string $on ): self {
+    public function leftJoin(string $table, string $on): self
+    {
         return $this->addJoin('LEFT', $table, null, $on);
     }
 
@@ -160,13 +166,14 @@ class QueryBuilder {
     /**
      * Устанавливает сортировку.
      *
-     * @param string $column    Столбец для сортировки.
+     * @param string $column Столбец для сортировки.
      * @param string $direction Направление (ASC или DESC).
      *
      * @return $this
      */
-    public function orderBy( string $column, string $direction = 'ASC' ): self {
-        $this->orderBy[] = $column . ' ' . ( 'DESC' === strtoupper( $direction ) ? 'DESC' : 'ASC' );
+    public function orderBy(string $column, string $direction = 'ASC'): self
+    {
+        $this->orderBy[] = $column . ' ' . ('DESC' === strtoupper($direction) ? 'DESC' : 'ASC');
 
         return $this;
     }
@@ -178,7 +185,8 @@ class QueryBuilder {
      *
      * @return $this
      */
-    public function limit( int $limit ): self {
+    public function limit(int $limit): self
+    {
         $this->limit = $limit;
 
         return $this;
@@ -191,7 +199,8 @@ class QueryBuilder {
      *
      * @return $this
      */
-    public function offset( int $offset ): self {
+    public function offset(int $offset): self
+    {
         $this->offset = $offset;
 
         return $this;
@@ -202,9 +211,10 @@ class QueryBuilder {
      *
      * @return array
      */
-    public function get(): array {
-        list( $query, $bindings ) = $this->buildQuery();
-        return $this->wpdb->get_results( $this->wpdb->prepare( $query, $bindings ) );
+    public function get(): array
+    {
+        list($query, $bindings) = $this->buildQuery();
+        return $this->wpdb->get_results($this->wpdb->prepare($query, $bindings));
     }
 
     /**
@@ -212,10 +222,11 @@ class QueryBuilder {
      *
      * @return object|null
      */
-    public function first(): ?object {
-        list( $query, $bindings ) = $this->buildQuery();
+    public function first(): ?object
+    {
+        list($query, $bindings) = $this->buildQuery();
 
-        return $this->wpdb->get_row( $this->wpdb->prepare( $query, $bindings ) );
+        return $this->wpdb->get_row($this->wpdb->prepare($query, $bindings));
     }
 
     /**
@@ -223,11 +234,12 @@ class QueryBuilder {
      *
      * @return mixed|null
      */
-    public function value(string $column) {
+    public function value(string $column)
+    {
         $this->select($column);
-        list( $query, $bindings ) = $this->buildQuery();
+        list($query, $bindings) = $this->buildQuery();
 
-        return $this->wpdb->get_var( $this->wpdb->prepare( $query, $bindings ) );
+        return $this->wpdb->get_var($this->wpdb->prepare($query, $bindings));
     }
 
     /**
@@ -238,7 +250,7 @@ class QueryBuilder {
      */
     public function count(string $column = '*'): int
     {
-        return (int) $this->value("COUNT({$column})");
+        return (int)$this->value("COUNT({$column})");
     }
 
     /**
@@ -246,13 +258,14 @@ class QueryBuilder {
      *
      * @return array
      */
-    public function buildQuery(): array {
-        $query    = 'SELECT ' . implode( ', ', $this->select );
-        $query    .= ' FROM ' . $this->from . ($this->fromAlias ? ' AS ' . $this->fromAlias : '');
+    public function buildQuery(): array
+    {
+        $query = 'SELECT ' . implode(', ', $this->select);
+        $query .= ' FROM ' . $this->from . ($this->fromAlias ? ' AS ' . $this->fromAlias : '');
         $bindings = [];
 
-        if ( ! empty( $this->joins ) ) {
-            $query .= ' ' . implode( ' ', $this->joins );
+        if (!empty($this->joins)) {
+            $query .= ' ' . implode(' ', $this->joins);
         }
 
         if (!empty($this->where)) {
@@ -293,21 +306,21 @@ class QueryBuilder {
             $query .= implode(' ', $whereClauses);
         }
 
-        if ( ! empty( $this->orderBy ) ) {
-            $query .= ' ORDER BY ' . implode( ', ', $this->orderBy );
+        if (!empty($this->orderBy)) {
+            $query .= ' ORDER BY ' . implode(', ', $this->orderBy);
         }
 
-        if ( null !== $this->limit ) {
-            $query      .= ' LIMIT %d';
+        if (null !== $this->limit) {
+            $query .= ' LIMIT %d';
             $bindings[] = $this->limit;
         }
 
-        if ( null !== $this->offset ) {
-            $query      .= ' OFFSET %d';
+        if (null !== $this->offset) {
+            $query .= ' OFFSET %d';
             $bindings[] = $this->offset;
         }
 
-        return [ $query, $bindings ];
+        return [$query, $bindings];
     }
 
     /**

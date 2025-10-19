@@ -69,14 +69,14 @@ class ThemeManager
     public function renderActiveTheme(): string
     {
         // Если пользователь не авторизован и не пытается посмотреть чужой профиль, показываем форму входа.
-        if ( ! is_user_logged_in() && ! $this->viewedUserContext->isProfileRequestedViaQueryVar()) {
+        if (!is_user_logged_in() && !$this->viewedUserContext->isProfileRequestedViaQueryVar()) {
             return do_shortcode('[usp_login_form]');
         }
 
         if (null === $this->activeTheme) {
             return __('Active theme is not loaded. Please check plugin initialization.', 'usp');
         }
-        
+
         $themePath = $this->themesDir . $this->activeTheme . '/template.php';
 
         if (!file_exists($themePath)) {

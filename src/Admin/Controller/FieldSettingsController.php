@@ -16,7 +16,8 @@ class FieldSettingsController extends AbstractController
     public function __construct(
         private readonly FieldMapper $fieldMapper,
         private readonly FormFactory $formFactory
-    ) {
+    )
+    {
     }
 
     #[Route(path: '/settings', method: 'POST', permission: 'manage_options')]

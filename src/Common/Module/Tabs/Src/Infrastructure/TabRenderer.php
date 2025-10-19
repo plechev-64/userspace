@@ -1,7 +1,9 @@
 <?php
 
 namespace UserSpace\Common\Module\Tabs\Src\Infrastructure;
+
 use UserSpace\Common\Module\Tabs\Src\Domain\AbstractTab;
+use UserSpace\Common\Service\TemplateManagerInterface;
 use UserSpace\Common\Service\ViewedUserContext;
 
 /**
@@ -9,26 +11,28 @@ use UserSpace\Common\Service\ViewedUserContext;
  */
 class TabRenderer
 {
-	public function __construct(
-		private readonly TabManager $tabManager,
-        private readonly ViewedUserContext $viewedUserContext
-	) {
-	}
+    public function __construct(
+        private readonly TabManager               $tabManager,
+        private readonly ViewedUserContext        $viewedUserContext,
+        private readonly TemplateManagerInterface $templateManager
+    )
+    {
+    }
 
     /**
      * Рендерит HTML для всех панелей контента вкладок.
      *
-     * @param string      $paneWrapperHtml HTML-шаблон для обертки одной панели, использующий плейсхолдеры sprintf.
-     * @param string|null $mainLocation    Идентификатор локации, чья первая вкладка должна быть активна по умолчанию.
+     * @param string $paneWrapperHtml HTML-шаблон для обертки одной панели, использующий плейсхолдеры sprintf.
+     * @param string|null $mainLocation Идентификатор локации, чья первая вкладка должна быть активна по умолчанию.
      *
      * @return string
      * @throws \Exception
      */
-	public function renderTabsContent(string $paneWrapperHtml, ?string $mainLocation = null): string
-	{
+    public function renderTabsContent(string $paneWrapperHtml, ?string $mainLocation = null): string
+    {
         $output = '';
         $viewedUser = $this->viewedUserContext->getViewedUser();
-        if ( ! $viewedUser) {
+        if (!$viewedUser) {
             return '';
         }
 
@@ -37,46 +41,46 @@ class TabRenderer
         if ($mainLocation) {
             $mainLocationTabs = $this->tabManager->getTabs($mainLocation);
 
-            if ( ! empty($mainLocationTabs)) {
+            if (!empty($mainLocationTabs)) {
                 $firstParent = $mainLocationTabs[0];
                 $subTabs = $firstParent->getSubTabs();
-                $firstActiveTabId = ! empty($subTabs) ? $subTabs[0]->getId() : $firstParent->getId();
+                $firstActiveTabId = !empty($subTabs) ? $subTabs[0]->getId() : $firstParent->getId();
             }
         }
 
         // Получаем плоский список всех зарегистрированных вкладок
-		$flatTabs = $this->tabManager->getAllRegisteredTabs(true);
+        $flatTabs = $this->tabManager->getAllRegisteredTabs(true);
 
-		foreach ($flatTabs as $tab) {
-			// Не рендерим контент-блок для "чистой" родительской вкладки,
-			// так как ее роль - быть контейнером для подменю в навигации.
-			// Ее собственный контент отображается через специальную "обзорную" вкладку (__overview).
-			if ( ! empty($tab->getSubTabs()) && ! str_ends_with($tab->getId(), '__overview')) {
-				continue;
-			}
+        foreach ($flatTabs as $tab) {
+            // Не рендерим контент-блок для "чистой" родительской вкладки,
+            // так как ее роль - быть контейнером для подменю в навигации.
+            // Ее собственный контент отображается через специальную "обзорную" вкладку (__overview).
+            if (!empty($tab->getSubTabs()) && !str_ends_with($tab->getId(), '__overview')) {
+                continue;
+            }
 
-			$isInitialActive = ($tab->getId() === $firstActiveTabId);
-			$innerContent = $isInitialActive ? $this->render($tab) : '';
-			$restUrl = "/tab-content/{$tab->getId()}";
+            $isInitialActive = ($tab->getId() === $firstActiveTabId);
+            $innerContent = $isInitialActive ? $this->render($tab) : '';
+            $restUrl = "/tab-content/{$tab->getId()}";
 
-			$output .= sprintf(
-				$paneWrapperHtml,
-				esc_attr($tab->getId()),
-				esc_attr($tab->getContentType()),
-				esc_url($restUrl),
-				$isInitialActive ? 'is-loaded active' : '', // Добавляем классы, если контент уже загружен
-				$innerContent
-			);
-		}
+            $output .= sprintf(
+                $paneWrapperHtml,
+                $this->str->escAttr($tab->getId()),
+                $this->str->escAttr($tab->getContentType()),
+                $this->str->escUrl($restUrl),
+                $isInitialActive ? 'is-loaded active' : '', // Добавляем классы, если контент уже загружен
+                $innerContent
+            );
+        }
 
-		return $output;
-	}
+        return $output;
+    }
 
     /**
      * Рендерит меню вкладок для указанной локации.
      *
-     * @param string $location       Идентификатор локации ('header', 'sidebar', etc.).
-     * @param bool   $activate_first Сделать ли первую вкладку в меню активной.
+     * @param string $location Идентификатор локации ('header', 'sidebar', etc.).
+     * @param bool $activate_first Сделать ли первую вкладку в меню активной.
      *
      * @return string Сгенерированный HTML-код меню.
      */
@@ -91,8 +95,11 @@ class TabRenderer
         // Используем буферизацию вывода для захвата HTML из файла шаблона.
         ob_start();
         // Передаем переменные в область видимости файла.
-        include USERSPACE_PLUGIN_DIR . 'themes/first/parts/tab-menu.php';
-
+        echo $this->templateManager->render('tab_menu', [
+            'tabs_to_render' => $tabs_to_render,
+            'activate_first' => $activate_first,
+            'location' => $location,
+        ]);
         return ob_get_clean();
     }
 

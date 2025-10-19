@@ -36,7 +36,7 @@ class Route
          *
          * @var bool
          */
-        public bool $isFastApi = false,
+        public bool   $isFastApi = false,
 
         /**
          * Неймспейс эндпоинта, если не указан - используетс стандартный
@@ -52,7 +52,7 @@ class Route
          *
          * @var array
          */
-        public array $env = [],
+        public array  $env = [],
     )
     {
     }

@@ -32,7 +32,7 @@ class ViewedUserContext
         if ($this->isInitialized) return;
 
         $this->currentUser = wp_get_current_user();
-        if ( ! $this->currentUser->ID) {
+        if (!$this->currentUser->ID) {
             $this->currentUser = null;
         }
 
@@ -40,7 +40,7 @@ class ViewedUserContext
         $userId = get_query_var($queryVarName);
 
         if (empty($userId) && isset($_GET[$queryVarName])) {
-            $userId = (int) $_GET[$queryVarName];
+            $userId = (int)$_GET[$queryVarName];
         }
 
         if (empty($userId)) {
@@ -89,7 +89,7 @@ class ViewedUserContext
     public function isOwner(): bool
     {
         $this->init();
-        if ( ! $this->viewedUser || ! $this->currentUser) {
+        if (!$this->viewedUser || !$this->currentUser) {
             return false;
         }
 

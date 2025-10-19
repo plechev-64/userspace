@@ -13,8 +13,9 @@ class TabManager
 
     public function __construct(
         private readonly ContainerInterface $container,
-        private readonly ViewedUserContext $viewedUserContext
-    ) {
+        private readonly ViewedUserContext  $viewedUserContext
+    )
+    {
     }
 
     /**
@@ -96,7 +97,7 @@ class TabManager
             }
 
             // 2. Проверка приватности: показываем, только если это владелец аккаунта
-            if ($tab->isPrivate() && (int) $currentUserId !== (int) $displayedUserId) {
+            if ($tab->isPrivate() && (int)$currentUserId !== (int)$displayedUserId) {
                 continue;
             }
 
@@ -105,7 +106,7 @@ class TabManager
                 $allowedSubTabs = [];
                 foreach ($tab->getSubTabs() as $subTab) {
                     // Проверка приватности и прав для дочерних вкладок
-                    if ($subTab->isPrivate() && (int) $currentUserId !== (int) $displayedUserId) {
+                    if ($subTab->isPrivate() && (int)$currentUserId !== (int)$displayedUserId) {
                         continue;
                     }
                     if (current_user_can($subTab->getCapability(), $displayedUserId)) {
@@ -113,7 +114,7 @@ class TabManager
                     }
                 }
                 // Сортируем подвкладки по полю order
-                usort($allowedSubTabs, static fn (AbstractTab $a, AbstractTab $b): int => $a->getOrder() <=> $b->getOrder());
+                usort($allowedSubTabs, static fn(AbstractTab $a, AbstractTab $b): int => $a->getOrder() <=> $b->getOrder());
 
                 // Перезаписываем subTabs только отфильтрованными и отсортированными
                 // Для этого нужно создать клон, чтобы не изменять исходный объект в $this->tabs
@@ -124,7 +125,7 @@ class TabManager
         }
 
         // 4. Сортируем основные вкладки по полю order
-        usort($allowedTabs, static fn (AbstractTab $a, AbstractTab $b): int => $a->getOrder() <=> $b->getOrder());
+        usort($allowedTabs, static fn(AbstractTab $a, AbstractTab $b): int => $a->getOrder() <=> $b->getOrder());
 
         return $allowedTabs;
     }
@@ -145,7 +146,7 @@ class TabManager
             $flattener = static function (array $tabs) use (&$flatList, &$flattener): void {
                 foreach ($tabs as $tab) {
                     $flatList[] = $tab;
-                    if ( ! empty($tab->getSubTabs())) {
+                    if (!empty($tab->getSubTabs())) {
                         $flattener($tab->getSubTabs());
                     }
                 }
@@ -155,7 +156,7 @@ class TabManager
             return $flatList;
         }
 
-        usort($hierarchicalTabs, static fn (AbstractTab $a, AbstractTab $b): int => $a->getOrder() <=> $b->getOrder());
+        usort($hierarchicalTabs, static fn(AbstractTab $a, AbstractTab $b): int => $a->getOrder() <=> $b->getOrder());
 
         return $hierarchicalTabs;
     }
@@ -197,7 +198,7 @@ class TabManager
             }
         }
 
-        return array_filter($tabsById, fn (AbstractTab $tab) => $tab->getParentId() === null);
+        return array_filter($tabsById, fn(AbstractTab $tab) => $tab->getParentId() === null);
     }
 
     /**

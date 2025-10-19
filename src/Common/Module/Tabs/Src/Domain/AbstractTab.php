@@ -105,44 +105,44 @@ abstract class AbstractTab
     {
         // ID можно установить только один раз, если он еще не инициализирован.
         if (empty($this->id) && !empty($data['id'])) {
-            $this->id = (string) $data['id'];
+            $this->id = (string)$data['id'];
         }
 
         if (isset($data['title'])) {
-            $this->title = (string) $data['title'];
+            $this->title = (string)$data['title'];
         }
         if (isset($data['location'])) {
-            $this->location = (string) $data['location'];
+            $this->location = (string)$data['location'];
         }
         if (isset($data['order'])) {
-            $this->order = (int) $data['order'];
+            $this->order = (int)$data['order'];
         }
         // parentId может быть null
         if (array_key_exists('parentId', $data)) {
-            $this->parentId = $data['parentId'] ? (string) $data['parentId'] : null;
+            $this->parentId = $data['parentId'] ? (string)$data['parentId'] : null;
         }
         if (isset($data['isPrivate'])) {
-            $this->isPrivate = (bool) $data['isPrivate'];
+            $this->isPrivate = (bool)$data['isPrivate'];
         }
         if (isset($data['capability'])) {
-            $this->capability = (string) $data['capability'];
+            $this->capability = (string)$data['capability'];
         }
         if (isset($data['icon'])) {
-            $this->icon = $data['icon'] ? (string) $data['icon'] : null;
+            $this->icon = $data['icon'] ? (string)$data['icon'] : null;
         }
     }
 
     public function toArray(): array
     {
         return [
-            'id'          => $this->id,
-            'title'       => $this->title,
-            'location'    => $this->location,
-            'order'       => $this->order,
-            'parentId'    => $this->parentId,
-            'isPrivate'   => $this->isPrivate,
-            'capability'  => $this->capability,
-            'icon'        => $this->icon,
+            'id' => $this->id,
+            'title' => $this->title,
+            'location' => $this->location,
+            'order' => $this->order,
+            'parentId' => $this->parentId,
+            'isPrivate' => $this->isPrivate,
+            'capability' => $this->capability,
+            'icon' => $this->icon,
             'contentType' => $this->contentType,
         ];
     }

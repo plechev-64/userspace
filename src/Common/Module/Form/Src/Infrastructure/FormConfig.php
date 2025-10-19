@@ -93,86 +93,90 @@ class FormConfig
         return $this->config;
     }
 
-	/**
-	 * Обновляет значение ('value') для указанного поля.
-	 *
-	 * @param string $fieldName Имя поля для обновления.
-	 * @param mixed  $value     Новое значение.
-	 *
-	 * @return bool True, если поле найдено и обновлено, иначе false.
-	 */
-	public function updateFieldValue( string $fieldName, mixed $value ): bool {
-		foreach ( $this->config['sections'] as &$section ) {
-			foreach ( $section['blocks'] as &$block ) {
-				if ( isset( $block['fields'][ $fieldName ] ) ) {
-					$block['fields'][ $fieldName ]['value'] = $value;
+    /**
+     * Обновляет значение ('value') для указанного поля.
+     *
+     * @param string $fieldName Имя поля для обновления.
+     * @param mixed $value Новое значение.
+     *
+     * @return bool True, если поле найдено и обновлено, иначе false.
+     */
+    public function updateFieldValue(string $fieldName, mixed $value): bool
+    {
+        foreach ($this->config['sections'] as &$section) {
+            foreach ($section['blocks'] as &$block) {
+                if (isset($block['fields'][$fieldName])) {
+                    $block['fields'][$fieldName]['value'] = $value;
 
-					return true;
-				}
-			}
-		}
+                    return true;
+                }
+            }
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	/**
-	 * Удаляет поле из конфигурации.
-	 *
-	 * @param string $fieldName Имя поля для удаления.
-	 *
-	 * @return bool True, если поле найдено и удалено, иначе false.
-	 */
-	public function removeField( string $fieldName ): bool {
-		foreach ( $this->config['sections'] as &$section ) {
-			foreach ( $section['blocks'] as &$block ) {
-				if ( isset( $block['fields'][ $fieldName ] ) ) {
-					unset( $block['fields'][ $fieldName ] );
+    /**
+     * Удаляет поле из конфигурации.
+     *
+     * @param string $fieldName Имя поля для удаления.
+     *
+     * @return bool True, если поле найдено и удалено, иначе false.
+     */
+    public function removeField(string $fieldName): bool
+    {
+        foreach ($this->config['sections'] as &$section) {
+            foreach ($section['blocks'] as &$block) {
+                if (isset($block['fields'][$fieldName])) {
+                    unset($block['fields'][$fieldName]);
 
-					return true;
-				}
-			}
-		}
+                    return true;
+                }
+            }
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	/**
-	 * Создает экземпляр FormConfig из массива.
-	 *
-	 * @param array $configData Массив с конфигурацией.
-	 *
-	 * @return self
-	 */
-	public static function fromArray( array $configData ): self {
-		$formConfig = new self();
+    /**
+     * Создает экземпляр FormConfig из массива.
+     *
+     * @param array $configData Массив с конфигурацией.
+     *
+     * @return self
+     */
+    public static function fromArray(array $configData): self
+    {
+        $formConfig = new self();
 
-		foreach ( $configData['sections'] ?? [] as $sectionData ) {
-			$formConfig->addSection( $sectionData['title'] ?? '' );
-			foreach ( $sectionData['blocks'] ?? [] as $blockData ) {
-				$formConfig->addBlock( $blockData['title'] ?? '' );
-				foreach ( $blockData['fields'] ?? [] as $name => $fieldData ) {
-					$formConfig->addField( $name, $fieldData );
-				}
-			}
-		}
-		return $formConfig;
-	}
+        foreach ($configData['sections'] ?? [] as $sectionData) {
+            $formConfig->addSection($sectionData['title'] ?? '');
+            foreach ($sectionData['blocks'] ?? [] as $blockData) {
+                $formConfig->addBlock($blockData['title'] ?? '');
+                foreach ($blockData['fields'] ?? [] as $name => $fieldData) {
+                    $formConfig->addField($name, $fieldData);
+                }
+            }
+        }
+        return $formConfig;
+    }
 
-	/**
-	 * Возвращает плоский список всех полей из конфигурации.
-	 *
-	 * @return array
-	 */
-	public function getFields(): array {
-		$allFields = [];
-		foreach ( $this->config['sections'] as $section ) {
-			foreach ( $section['blocks'] as $block ) {
-				if ( ! empty( $block['fields'] ) ) {
-					$allFields = array_merge( $allFields, $block['fields'] );
-				}
-			}
-		}
+    /**
+     * Возвращает плоский список всех полей из конфигурации.
+     *
+     * @return array
+     */
+    public function getFields(): array
+    {
+        $allFields = [];
+        foreach ($this->config['sections'] as $section) {
+            foreach ($section['blocks'] as $block) {
+                if (!empty($block['fields'])) {
+                    $allFields = array_merge($allFields, $block['fields']);
+                }
+            }
+        }
 
-		return $allFields;
-	}
+        return $allFields;
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace UserSpace\Common\Module\Form\App\Controller;
 
+use UserSpace\Core\Helper\StringFilterInterface;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormFactory;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormManager;
 use UserSpace\Core\Http\JsonResponse;
@@ -19,24 +20,26 @@ class RegistrationController extends AbstractController
     private array $coreUserFields = ['user_login', 'user_email', 'user_pass'];
 
     public function __construct(
-        private readonly FormManager $formManager,
-        private readonly FormFactory $formFactory,
-        private readonly SecurityHelper $securityHelper
-    ) {
+        private readonly FormManager           $formManager,
+        private readonly FormFactory           $formFactory,
+        private readonly SecurityHelper        $securityHelper,
+        private readonly StringFilterInterface $str
+    )
+    {
     }
 
     #[Route(path: '/register', method: 'POST')]
     public function handleRegistration(Request $request): JsonResponse
     {
         if (is_user_logged_in()) {
-            return $this->error(['message' => __('You are already registered and logged in.', 'usp')], 403);
+            return $this->error(['message' => $this->str->translate('You are already registered and logged in.')], 403);
         }
 
         $formType = 'registration';
         $config = $this->formManager->load($formType);
 
         if (null === $config) {
-            return $this->error(['message' => __('Registration form configuration not found.', 'usp')], 500);
+            return $this->error(['message' => $this->str->translate('Registration form configuration not found.')], 500);
         }
 
         // Обновляем DTO данными из запроса, не пересобирая его
@@ -45,14 +48,14 @@ class RegistrationController extends AbstractController
             $postValue = $request->getPost($fieldName);
             if ($postValue !== null) {
                 // Санация будет происходить внутри объектов полей при валидации
-                $config->updateFieldValue($fieldName, wp_unslash($postValue));
+                $config->updateFieldValue($fieldName, $this->str->unslash($postValue));
             }
         }
 
         $form = $this->formFactory->create($config);
 
         if (!$form->validate()) {
-            return $this->error(['message' => __('Validation error.', 'usp'), 'errors' => $form->getErrors()], 422);
+            return $this->error(['message' => $this->str->translate('Validation error.'), 'errors' => $form->getErrors()], 422);
         }
 
         $userData = [];
@@ -89,7 +92,7 @@ class RegistrationController extends AbstractController
 
             $this->sendConfirmationEmail($userId, $userData);
 
-            return $this->success(['message' => __('Registration successful! Please check your email to activate your account.', 'usp')]);
+            return $this->success(['message' => $this->str->translate('Registration successful! Please check your email to activate your account.')]);
 
         } else {
             // Регистрация без подтверждения
@@ -103,7 +106,7 @@ class RegistrationController extends AbstractController
                 update_user_meta($userId, $key, $value);
             }
 
-            return $this->success(['message' => __('Registration successful!', 'usp')]);
+            return $this->success(['message' => $this->str->translate('Registration successful!')]);
         }
     }
 
@@ -148,8 +151,8 @@ class RegistrationController extends AbstractController
 
         $confirmationUrl = add_query_arg(['token' => $token], rest_url(USERSPACE_REST_NAMESPACE . '/confirm-registration'));
 
-        $subject = sprintf(__('[%s] Activate Your Account', 'usp'), get_bloginfo('name'));
-        $message = sprintf(__("Thanks for signing up! To activate your account, please click this link:\n\n%s", 'usp'), $confirmationUrl);
+        $subject = sprintf($this->str->translate('[%s] Activate Your Account'), get_bloginfo('name'));
+        $message = sprintf($this->str->translate("Thanks for signing up! To activate your account, please click this link:\n\n%s"), $confirmationUrl);
 
         wp_mail($userData['user_email'], $subject, $message);
     }

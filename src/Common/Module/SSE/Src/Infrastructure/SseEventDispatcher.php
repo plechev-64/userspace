@@ -5,7 +5,7 @@ namespace UserSpace\Common\Module\SSE\Src\Infrastructure;
 use UserSpace\Common\Module\SSE\Src\Domain\Repository\SseEventRepositoryInterface;
 use UserSpace\Common\Module\SSE\Src\Domain\SseEventDispatcherInterface;
 
-if ( ! defined('ABSPATH')) {
+if (!defined('ABSPATH')) {
     exit;
 }
 

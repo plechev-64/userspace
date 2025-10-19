@@ -3,6 +3,8 @@
 namespace UserSpace\Common\Module\Form\Src\Domain\Field;
 
 use InvalidArgumentException;
+use UserSpace\Core\Helper\StringFilter;
+use UserSpace\Core\Helper\StringFilterInterface;
 use UserSpace\Common\Module\Form\Src\Domain\Field\DTO\FieldDto;
 use UserSpace\Common\Module\Form\Src\Domain\ValidatorInterface;
 
@@ -26,6 +28,7 @@ abstract class AbstractField implements FieldInterface
     protected array $attributes;
     protected array $rules;
     protected array $errors = [];
+    protected StringFilter $str;
 
     /**
      * Конструктор поля.
@@ -37,13 +40,16 @@ abstract class AbstractField implements FieldInterface
     public function __construct(FieldDto $dto)
     {
         if (empty(trim($dto->name))) {
-            throw new InvalidArgumentException(__('Field name cannot be empty.', 'usp'));
+            throw new InvalidArgumentException('Field name cannot be empty.');
         }
         $this->name = $dto->name;
         $this->label = $dto->label;
         $this->value = $dto->value;
         $this->attributes = $dto->attributes;
         $this->rules = $dto->rules;
+
+        // Временное решение, пока нет DI в полях
+        $this->str = new StringFilter();
     }
 
     /**
@@ -69,7 +75,7 @@ abstract class AbstractField implements FieldInterface
         $id = $this->attributes['id'] ?? 'field-' . $this->name;
         $required_indicator = !empty($this->rules['required']) ? ' <span class="usp-required">*</span>' : '';
 
-        return sprintf('<label for="%s">%s%s</label>', esc_attr($id), esc_html($this->label), $required_indicator);
+        return sprintf('<label for="%s">%s%s</label>', $this->str->escAttr($id), $this->str->escHtml($this->label), $required_indicator);
     }
 
     /**
@@ -107,10 +113,10 @@ abstract class AbstractField implements FieldInterface
         foreach ($attributes as $key => $val) {
             if (is_bool($val)) {
                 if ($val) {
-                    $attribute_strings[] = esc_attr($key);
+                    $attribute_strings[] = $this->str->escAttr($key);
                 }
             } else {
-                $attribute_strings[] = sprintf('%s="%s"', esc_attr($key), esc_attr($val));
+                $attribute_strings[] = sprintf('%s="%s"', $this->str->escAttr($key), $this->str->escAttr($val));
             }
         }
 
@@ -186,14 +192,15 @@ abstract class AbstractField implements FieldInterface
      */
     public static function getSettingsFormConfig(): array
     {
+        $str = new StringFilter();
         return [
             'label' => [
                 'type' => 'text',
-                'label' => __('Label', 'usp'),
+                'label' => $str->translate('Label'),
             ],
             'required' => [
                 'type' => 'boolean',
-                'label' => __('Required', 'usp'),
+                'label' => $str->translate('Required'),
             ],
         ];
     }

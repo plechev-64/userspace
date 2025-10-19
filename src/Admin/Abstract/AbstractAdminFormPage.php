@@ -5,8 +5,9 @@ namespace UserSpace\Admin\Abstract;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FieldMapper;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormConfig;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormConfigBuilder;
+use UserSpace\Core\Helper\StringFilterInterface;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormManager;
-use UserSpace\Common\Service\TemplateManager;
+use UserSpace\Common\Service\TemplateManagerInterface;
 
 /**
  * Абстрактный базовый класс для страниц конструкторов форм.
@@ -16,11 +17,13 @@ abstract class AbstractAdminFormPage extends AbstractAdminPage
     protected readonly FieldMapper $fieldMapper;
 
     public function __construct(
-        protected readonly FormManager                        $formManager,
-        protected readonly FormConfigBuilder                  $formBuilder,
-        protected readonly TemplateManager                    $templateManager,
-        FieldMapper $fieldMapper
-    ) {
+        protected readonly FormManager              $formManager,
+        protected readonly FormConfigBuilder        $formBuilder,
+        protected readonly TemplateManagerInterface $templateManager,
+        protected readonly StringFilterInterface    $str,
+        FieldMapper                                 $fieldMapper
+    )
+    {
         $this->fieldMapper = $fieldMapper;
     }
 
@@ -74,14 +77,11 @@ abstract class AbstractAdminFormPage extends AbstractAdminPage
         );
 
         wp_localize_script(
-            'usp-core', // Привязываем настройки к нашему новому ядру
+            'usp-form-builder-js',
             'uspApiSettings',
             [
-                'root' => esc_url_raw(rest_url()),
-                'namespace' => USERSPACE_REST_NAMESPACE,
-                'nonce' => wp_create_nonce('wp_rest'),
                 'formType' => $this->getFormType(),
-                'fieldTypes' => $this->fieldMapper->getMap(), // Это остается здесь, так как нужно только в билдере
+                'fieldTypes' => $this->fieldMapper->getMap(),
             ]
         );
 
@@ -91,29 +91,29 @@ abstract class AbstractAdminFormPage extends AbstractAdminPage
             'uspL10n',
             [
                 'formBuilder' => [
-                    'confirmDeleteSectionWithCustom' => __('This section contains custom fields. Deleting the section will permanently remove all data for these fields from all users. Are you sure?', 'usp'),
-                    'confirmDeleteBlockWithCustom' => __('This block contains custom fields. Deleting the block will permanently remove all data for these fields from all users. Are you sure?', 'usp'),
-                    'confirmMoveFields' => __('This section contains fields. They will be moved to "Available Fields". Are you sure?', 'usp'),
-                    'confirmDeleteCustomField' => __('This is a custom field. Deleting it will permanently remove all its data from all users. Are you sure?', 'usp'),
-                    'errorPrefix' => __('Error: ', 'usp'),
-                    'fieldSettingsTitle' => __('Field Settings:', 'usp'),
-                    'fieldNameLabel' => __('Name (read-only)', 'usp'),
-                    'cancel' => __('Cancel', 'usp'),
-                    'save' => __('Save', 'usp'),
-                    'close' => __('Close', 'usp'),
-                    'createFieldTitle' => __('Create New Field', 'usp'),
-                    'newFieldNameLabel' => __('Name (unique identifier)', 'usp'),
-                    'newFieldTypeLabel' => __('Field Type', 'usp'),
-                    'selectType' => __('-- Select type --', 'usp'),
-                    'createFieldButton' => __('Create Field', 'usp'),
-                    'loading' => __('Loading...', 'usp'),
-                    'settingsLoadError' => __('Error loading settings', 'usp'),
-                    'nameAndTypeRequired' => __('Field name and type are required.', 'usp'),
-                    'kvValuePlaceholder' => __('Value', 'usp'),
-                    'kvLabelPlaceholder' => __('Label', 'usp'),
-                    'remove' => __('Remove', 'usp'),
-                    'saving' => __('Saving...', 'usp'),
-                    'unknownError' => __('Unknown error', 'usp'),
+                    'confirmDeleteSectionWithCustom' => $this->str->translate('This section contains custom fields. Deleting the section will permanently remove all data for these fields from all users. Are you sure?'),
+                    'confirmDeleteBlockWithCustom' => $this->str->translate('This block contains custom fields. Deleting the block will permanently remove all data for these fields from all users. Are you sure?'),
+                    'confirmMoveFields' => $this->str->translate('This section contains fields. They will be moved to "Available Fields". Are you sure?'),
+                    'confirmDeleteCustomField' => $this->str->translate('This is a custom field. Deleting it will permanently remove all its data from all users. Are you sure?'),
+                    'errorPrefix' => $this->str->translate('Error: '),
+                    'fieldSettingsTitle' => $this->str->translate('Field Settings:'),
+                    'fieldNameLabel' => $this->str->translate('Name (read-only)'),
+                    'cancel' => $this->str->translate('Cancel'),
+                    'save' => $this->str->translate('Save'),
+                    'close' => $this->str->translate('Close'),
+                    'createFieldTitle' => $this->str->translate('Create New Field'),
+                    'newFieldNameLabel' => $this->str->translate('Name (unique identifier)'),
+                    'newFieldTypeLabel' => $this->str->translate('Field Type'),
+                    'selectType' => $this->str->translate('-- Select type --'),
+                    'createFieldButton' => $this->str->translate('Create Field'),
+                    'loading' => $this->str->translate('Loading...'),
+                    'settingsLoadError' => $this->str->translate('Error loading settings'),
+                    'nameAndTypeRequired' => $this->str->translate('Field name and type are required.'),
+                    'kvValuePlaceholder' => $this->str->translate('Value'),
+                    'kvLabelPlaceholder' => $this->str->translate('Label'),
+                    'remove' => $this->str->translate('Remove'),
+                    'saving' => $this->str->translate('Saving...'),
+                    'unknownError' => $this->str->translate('Unknown error'),
                 ],
             ]
         );
@@ -141,11 +141,11 @@ abstract class AbstractAdminFormPage extends AbstractAdminPage
         $builderHtml = $this->formBuilder->load($config)->render();
 
         echo '<div class="wrap">';
-        echo '<h1>' . esc_html($this->getPageTitle()) . '</h1>';
+        echo '<h1>' . $this->str->escHtml($this->getPageTitle()) . '</h1>';
         echo '<div id="usp-form-builder-notifications"></div>';
         echo $builderHtml;
         echo '<p class="submit">';
-        echo '<button type="button" id="usp-save-form-builder" class="button button-primary">' . __('Save Changes', 'usp') . '</button>';
+        echo '<button type="button" id="usp-save-form-builder" class="button button-primary">' . $this->str->translate('Save Changes') . '</button>';
         echo '</p>';
 
         // Подключаем скрытые HTML-шаблоны для JavaScript
@@ -173,6 +173,7 @@ abstract class AbstractAdminFormPage extends AbstractAdminPage
         }
         return $fields;
     }
+
     abstract protected function getFormType(): string;
 
     abstract protected function createDefaultConfig(): FormConfig;

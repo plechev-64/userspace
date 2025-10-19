@@ -36,10 +36,10 @@ class QueueJobsGrid extends TableContentGrid
             true
         );
 
-        wp_localize_script('usp-table-grid-script', 'uspGridL10n', [ 'text' => [
-                'loading' => __('Loading...', 'usp'),
-                'error' => __('An error occurred. Please try again.', 'usp'),
-            ]
+        wp_localize_script('usp-table-grid-script', 'uspGridL10n', ['text' => [
+            'loading' => __('Loading...', 'usp'),
+            'error' => __('An error occurred. Please try again.', 'usp'),
+        ]
         ]);
     }
 

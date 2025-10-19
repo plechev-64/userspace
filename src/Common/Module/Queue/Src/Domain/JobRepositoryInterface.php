@@ -2,7 +2,7 @@
 
 namespace UserSpace\Common\Module\Queue\Src\Domain;
 
-if ( ! defined('ABSPATH')) {
+if (!defined('ABSPATH')) {
     exit;
 }
 

@@ -2,6 +2,7 @@
 
 namespace UserSpace\Admin;
 
+use UserSpace\Core\Helper\StringFilterInterface;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormFactory;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormManager;
 
@@ -11,9 +12,11 @@ use UserSpace\Common\Module\Form\Src\Infrastructure\FormManager;
 class AdminProfileFields
 {
     public function __construct(
-        private readonly FormManager $formManager,
-        private readonly FormFactory $formFactory
-    ) {
+        private readonly FormManager           $formManager,
+        private readonly FormFactory           $formFactory,
+        private readonly StringFilterInterface $str
+    )
+    {
     }
 
     /**
@@ -35,28 +38,28 @@ class AdminProfileFields
     public function renderProfileFields(\WP_User $user): void
     {
         $config = $this->formManager->load('profile');
-        if ( ! $config) {
+        if (!$config) {
             return;
         }
 
-		// Получаем все поля из конфигурации
-		$fields = $config->getFields();
+        // Получаем все поля из конфигурации
+        $fields = $config->getFields();
 
-		foreach ( array_keys( $fields ) as $fieldName ) {
-			// Пропускаем поля, которые WordPress рендерит и обрабатывает сам
-			if ( in_array( $fieldName, [ 'user_login', 'user_email', 'display_name', 'user_pass', 'password_repeat' ] ) ) {
-				$config->removeField( $fieldName );
-				continue;
-			}
-			$config->updateFieldValue( $fieldName, $user->$fieldName ?? get_user_meta( $user->ID, $fieldName, true ) );
-		}
+        foreach (array_keys($fields) as $fieldName) {
+            // Пропускаем поля, которые WordPress рендерит и обрабатывает сам
+            if (in_array($fieldName, ['user_login', 'user_email', 'display_name', 'user_pass', 'password_repeat'])) {
+                $config->removeField($fieldName);
+                continue;
+            }
+            $config->updateFieldValue($fieldName, $user->$fieldName ?? get_user_meta($user->ID, $fieldName, true));
+        }
 
-        $form = $this->formFactory->create( $config );
+        $form = $this->formFactory->create($config);
 
-        echo '<h2>' . __('Additional Information', 'usp') . '</h2>';
+        echo '<h2>' . $this->str->translate('Additional Information') . '</h2>';
         echo '<table class="form-table" role="presentation">';
         // Рендерим форму в специальном режиме для админ-панели
-        echo $form->render( true );
+        echo $form->render(true);
         echo '</table>';
     }
 
@@ -66,30 +69,30 @@ class AdminProfileFields
      */
     public function saveProfileFields(int $userId): void
     {
-        if ( ! current_user_can('edit_user', $userId)) {
+        if (!current_user_can('edit_user', $userId)) {
             return;
         }
 
         $config = $this->formManager->load('profile');
-        if ( ! $config) {
+        if (!$config) {
             return;
         }
 
-		// Получаем все поля из конфигурации, чтобы знать, какие данные ожидать
-		$fields = $config->getFields();
+        // Получаем все поля из конфигурации, чтобы знать, какие данные ожидать
+        $fields = $config->getFields();
 
-		foreach ( array_keys( $fields ) as $fieldName ) {
-			// Сохраняем только если поле было отправлено в POST
-			if ( isset( $_POST[ $fieldName ] ) ) {
-				// Пропускаем основные поля, WordPress сохраняет их сам
-				if ( in_array( $fieldName, [ 'user_login', 'user_email', 'display_name', 'user_pass', 'password_repeat' ] ) ) {
-					continue;
-				}
+        foreach (array_keys($fields) as $fieldName) {
+            // Сохраняем только если поле было отправлено в POST
+            if (isset($_POST[$fieldName])) {
+                // Пропускаем основные поля, WordPress сохраняет их сам
+                if (in_array($fieldName, ['user_login', 'user_email', 'display_name', 'user_pass', 'password_repeat'])) {
+                    continue;
+                }
 
-				// Здесь можно добавить более сложную санацию в зависимости от типа поля
-				$value = wp_unslash( $_POST[ $fieldName ] );
-				update_user_meta( $userId, $fieldName, $value );
-			}
-		}
+                // Здесь можно добавить более сложную санацию в зависимости от типа поля
+                $value = $this->str->unslash($_POST[$fieldName]);
+                update_user_meta($userId, $fieldName, $value);
+            }
+        }
     }
 }

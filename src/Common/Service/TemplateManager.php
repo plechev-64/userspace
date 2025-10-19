@@ -3,13 +3,17 @@
 namespace UserSpace\Common\Service;
 
 use InvalidArgumentException;
+use UserSpace\Core\Helper\StringFilterInterface;
 
-class TemplateManager
+class TemplateManager implements TemplateManagerInterface
 {
     /**
      * @param array<string, string> $templates
      */
-    public function __construct(private readonly array $templates)
+    public function __construct(
+        private readonly array                 $templates,
+        private readonly StringFilterInterface $str
+    )
     {
     }
 
@@ -27,7 +31,7 @@ class TemplateManager
         if (!is_readable($templatePath)) {
             // В режиме разработки можно выводить более явную ошибку
             if (defined('WP_DEBUG') && WP_DEBUG) {
-                return sprintf('<!-- Template "%s" not found or not readable at path: %s -->', esc_html($key), esc_html($templatePath));
+                return sprintf('<!-- Template "%s" not found or not readable at path: %s -->', $this->str->escHtml($key), $this->str->escHtml($templatePath));
             }
             return '';
         }
@@ -49,7 +53,7 @@ class TemplateManager
     public function getTemplatePath(string $key): string
     {
         if (!isset($this->templates[$key])) {
-            throw new InvalidArgumentException(sprintf('Template with key "%s" is not registered.', $key));
+            throw new InvalidArgumentException(sprintf($this->str->translate('Template with key "%s" is not registered.'), $key));
         }
 
         return $this->templates[$key];

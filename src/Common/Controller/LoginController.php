@@ -13,9 +13,9 @@ class LoginController extends AbstractController
     public function handleLogin(Request $request): JsonResponse
     {
         $credentials = [
-            'user_login'    => $request->getPost('log', ''),
+            'user_login' => $request->getPost('log', ''),
             'user_password' => $request->getPost('pwd', ''),
-            'remember'      => $request->getPost('rememberme') === 'forever',
+            'remember' => $request->getPost('rememberme') === 'forever',
         ];
 
         // Проверяем, что поля не пустые

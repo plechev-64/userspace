@@ -43,9 +43,12 @@ use UserSpace\Common\Module\Tabs\Src\Infrastructure\TabConfigManager;
 use UserSpace\Common\Module\Tabs\Src\Infrastructure\TabManager;
 use UserSpace\Common\Module\Tabs\Src\Infrastructure\TabProvider;
 use UserSpace\Common\Service\TemplateManager;
+use UserSpace\Common\Service\TemplateManagerInterface;
 use UserSpace\Common\Service\CronManager;
 use UserSpace\Core\ContainerInterface;
 use UserSpace\Core\Database\QueryBuilder;
+use UserSpace\Core\Helper\StringFilter;
+use UserSpace\Core\Helper\StringFilterInterface;
 use UserSpace\Core\Http\Request;
 use UserSpace\Core\Process\BackgroundProcessManager;
 use UserSpace\Core\Rest\Helper\RestHelper;
@@ -62,13 +65,13 @@ class ServiceProvider
     public function register(ContainerInterface $container): void
     {
         // Основной класс плагина
-        $container->set(Plugin::class, fn () => Plugin::getInstance());
+        $container->set(Plugin::class, fn() => Plugin::getInstance());
 
         // Регистрируем сам контейнер, чтобы его можно было внедрять по интерфейсу
-        $container->set(ContainerInterface::class, fn () => $container);
+        $container->set(ContainerInterface::class, fn() => $container);
 
         // HTTP
-        $container->set(Request::class, fn () => Request::createFromGlobals());
+        $container->set(Request::class, fn() => Request::createFromGlobals());
 
         // REST API Params
         $container->set('rest.prefix', fn() => 'wp-json');
@@ -81,7 +84,11 @@ class ServiceProvider
         // RestHelper требует скалярные параметры, поэтому регистрируем его явно.
         $container->set(
             RestHelper::class,
-            fn(ContainerInterface $c) => new RestHelper($c->get(Request::class), $c->get('rest.prefix'), $c->get('rest.namespace'))
+            fn(ContainerInterface $c) => new RestHelper(
+                $c->get(Request::class),
+                $c->get('rest.prefix'),
+                $c->get('rest.namespace')
+            )
         );
 
         // --- Шаблоны ---
@@ -95,8 +102,13 @@ class ServiceProvider
             'admin_form_builder_templates' => USERSPACE_PLUGIN_DIR . 'views/admin/form-builder-templates.php',
         ]);
 
-        $container->set(TemplateManager::class, fn(ContainerInterface $c) => new TemplateManager($c->get('app.templates')));
+        $container->set(TemplateManagerInterface::class, fn(ContainerInterface $c) => new TemplateManager(
+            $c->get('app.templates'),
+            $c->get(StringFilterInterface::class)
+        ));
 
+        // Создаем алиас, чтобы при запросе конкретного класса контейнер использовал фабрику интерфейса
+        $container->set(TemplateManager::class, fn(ContainerInterface $c) => $c->get(TemplateManagerInterface::class));
 
         $container->set('app.tabs', fn() => [
             ProfileTab::class,
@@ -105,13 +117,13 @@ class ServiceProvider
             ActivityTab::class,
             UserListTab::class,
         ]);
-        
+
         $container->set(TabProvider::class, fn(ContainerInterface $c) => new TabProvider(
             $c->get(TabManager::class),
             $c->get(TabConfigManager::class),
             $c->get('app.tabs')
         ));
-        
+
         // Контроллеры
 
         $container->set('app.controllers', fn() => [
@@ -138,9 +150,9 @@ class ServiceProvider
 
         $container->set(RestApi::class, function (ContainerInterface $c) {
             return new RestApi(
-                $c->get('app.controllers'), 
-                $c->get('rest.namespace'), 
-                $c->get(RouteParser::class), 
+                $c->get('app.controllers'),
+                $c->get('rest.namespace'),
+                $c->get(RouteParser::class),
                 $c
             );
         });
@@ -156,6 +168,9 @@ class ServiceProvider
 
         // --- Фоновые процессы ---
         $container->set(BackgroundProcessManager::class, fn() => new BackgroundProcessManager());
+
+        // --- Строки ---
+        $container->set(StringFilterInterface::class, fn() => new StringFilter());
 
         // --- Cron ---
         $container->set(CronManager::class, function (ContainerInterface $c) {

@@ -16,19 +16,19 @@ class AssetRegistry
      */
     public function getAssets(): array
     {
-        $scripts   = [];
-        $styles    = [];
+        $scripts = [];
+        $styles = [];
         $localized = [];
 
         $wp_scripts = wp_scripts();
-        $wp_styles  = wp_styles();
+        $wp_styles = wp_styles();
 
         // Собираем стили из очереди
         foreach ($wp_styles->queue as $handle) {
             if (isset($wp_styles->registered[$handle]) && !empty($wp_styles->registered[$handle]->src)) {
                 $dependency = $wp_styles->registered[$handle];
-                $src        = $dependency->src;
-                $styles[]   = add_query_arg('ver', $dependency->ver, $src);
+                $src = $dependency->src;
+                $styles[] = add_query_arg('ver', $dependency->ver, $src);
             }
         }
 
@@ -36,8 +36,8 @@ class AssetRegistry
         foreach ($wp_scripts->queue as $handle) {
             if (isset($wp_scripts->registered[$handle]) && !empty($wp_scripts->registered[$handle]->src)) {
                 $dependency = $wp_scripts->registered[$handle];
-                $src        = $dependency->src;
-                $scripts[]  = add_query_arg('ver', $dependency->ver, $src);
+                $src = $dependency->src;
+                $scripts[] = add_query_arg('ver', $dependency->ver, $src);
 
                 // Проверяем, есть ли для этого скрипта локализованные данные
                 if (!empty($wp_scripts->registered[$handle]->extra['data'])) {
@@ -64,6 +64,6 @@ class AssetRegistry
     public function clear(): void
     {
         wp_scripts()->queue = [];
-        wp_styles()->queue  = [];
+        wp_styles()->queue = [];
     }
 }

@@ -3,20 +3,21 @@
 namespace UserSpace\Common\Module\Form\Src\Domain\Field;
 
 // Защита от прямого доступа к файлу
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
+if (!defined('ABSPATH')) {
+    exit;
 }
 
 /**
  * Интерфейс для всех полей формы.
  */
-interface FieldInterface {
-	/**
-	 * Генерирует и возвращает HTML-представление поля.
-	 *
-	 * @return string
-	 */
-	public function render(): string;
+interface FieldInterface
+{
+    /**
+     * Генерирует и возвращает HTML-представление поля.
+     *
+     * @return string
+     */
+    public function render(): string;
 
     /**
      * Генерирует HTML-код только для элемента ввода (input, select, etc.).
@@ -25,32 +26,32 @@ interface FieldInterface {
      */
     public function renderInput(): string;
 
-	/**
-	 * Проверяет значение поля на соответствие правилам.
-	 *
-	 * @return bool True, если значение валидно, иначе false.
-	 */
-	public function validate(): bool;
+    /**
+     * Проверяет значение поля на соответствие правилам.
+     *
+     * @return bool True, если значение валидно, иначе false.
+     */
+    public function validate(): bool;
 
-	/**
-	 * Возвращает true, если поле прошло валидацию.
-	 *
-	 * @return bool
-	 */
-	public function isValid(): bool;
+    /**
+     * Возвращает true, если поле прошло валидацию.
+     *
+     * @return bool
+     */
+    public function isValid(): bool;
 
-	/**
-	 * Возвращает массив с сообщениями об ошибках валидации.
-	 *
-	 * @return string[]
-	 */
-	public function getErrors(): array;
+    /**
+     * Возвращает массив с сообщениями об ошибках валидации.
+     *
+     * @return string[]
+     */
+    public function getErrors(): array;
 
-	/**
-	 * Возвращает текущее значение поля.
-	 *
-	 * @return mixed
-	 */
+    /**
+     * Возвращает текущее значение поля.
+     *
+     * @return mixed
+     */
     public function getValue(): mixed;
 
     /**

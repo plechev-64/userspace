@@ -3,9 +3,19 @@
 namespace UserSpace\Common\Module\Grid\Src\Domain;
 
 use UserSpace\Common\Module\Grid\Src\Domain\DTO\GridRequestParamsDto;
+use UserSpace\Core\Database\QueryBuilder;
+use UserSpace\Core\Helper\StringFilterInterface;
 
 abstract class TableContentGrid extends AbstractListContentGrid
 {
+    public function __construct(
+        QueryBuilder          $queryBuilder,
+        StringFilterInterface $str
+    )
+    {
+        parent::__construct($queryBuilder, $str);
+    }
+
     /**
      * Возвращает конфигурацию колонок для таблицы.
      *
@@ -52,43 +62,46 @@ abstract class TableContentGrid extends AbstractListContentGrid
     {
         ob_start();
         ?>
-        <div id="<?= esc_attr($this->getId()); ?>" class="usp-grid-container usp-table-grid-container"
-             data-endpoint="<?= esc_attr($this->getEndpointPath()); ?>">
+        <div id="<?= $this->str->escAttr($this->getId()); ?>" class="usp-grid-container usp-table-grid-container"
+             data-endpoint="<?= $this->str->escAttr($this->getEndpointPath()); ?>">
             <div class="usp-grid-header">
                 <div class="usp-grid-settings">
                     <button type="button" class="button usp-grid-settings-toggle">
                         <span class="dashicons dashicons-admin-settings"></span>
-                        <?= esc_html__('Settings', 'usp'); ?>
+                        <?= $this->str->translate('Settings'); ?>
                     </button>
                     <div class="usp-grid-settings-dropdown">
-                        <p><?= esc_html__('Toggle columns:', 'usp'); ?></p>
+                        <p><?= $this->str->translate('Toggle columns:'); ?></p>
                         <?php foreach ($this->getColumnsConfig() as $key => $column): ?>
                             <label>
-                                <input type="checkbox" data-column-key="<?= esc_attr($key); ?>" checked>
-                                <?= esc_html($column['title']); ?>
+                                <input type="checkbox" data-column-key="<?= $this->str->escAttr($key); ?>" checked>
+                                <?= $this->str->escHtml($column['title']); ?>
                             </label>
                         <?php endforeach; ?>
                     </div>
                 </div>
                 <div class="usp-grid-search">
                     <input type="search" class="usp-grid-search-input"
-                           placeholder="<?= esc_attr__('Search...', 'usp'); ?>">
-                    <button type="button" class="button usp-grid-search-button"><?= esc_html__('Search', 'usp'); ?></button>
+                           placeholder="<?= $this->str->escAttr($this->str->translate('Search...')); ?>">
+                    <button type="button"
+                            class="button usp-grid-search-button"><?= $this->str->translate('Search'); ?></button>
                 </div>
             </div>
 
             <div class="usp-grid-body">
                 <div class="usp-grid-items-list">
-                    <?php // Сюда будет загружаться таблица через AJAX ?>
+                    <?php // Сюда будет загружаться таблица через AJAX
+                    ?>
                 </div>
                 <div class="usp-grid-loader">
-                    <?= esc_html__('Loading...', 'usp'); ?>
+                    <?= $this->str->translate('Loading...'); ?>
                 </div>
             </div>
 
             <div class="usp-grid-footer">
                 <div class="usp-grid-pagination">
-                    <?php // Сюда будет загружаться пагинация ?>
+                    <?php // Сюда будет загружаться пагинация
+                    ?>
                 </div>
             </div>
         </div>
@@ -110,9 +123,11 @@ abstract class TableContentGrid extends AbstractListContentGrid
             <thead>
             <tr>
                 <?php foreach ($columns as $key => $column): ?>
-                    <th scope="col" class="manage-column column-<?= esc_attr($key); ?> <?= !empty($column['sortable']) ? 'sortable' : '' ?>" data-sort-key="<?= esc_attr($key); ?>">
+                    <th scope="col"
+                        class="manage-column column-<?= $this->str->escAttr($key); ?> <?= !empty($column['sortable']) ? 'sortable' : '' ?>"
+                        data-sort-key="<?= $this->str->escAttr($key); ?>">
                         <a href="#">
-                            <span><?= esc_html($column['title']); ?></span>
+                            <span><?= $this->str->escHtml($column['title']); ?></span>
                             <span class="sorting-indicator"></span>
                         </a>
                     </th>
@@ -122,14 +137,14 @@ abstract class TableContentGrid extends AbstractListContentGrid
             <tbody id="the-list">
             <?php if (empty($items)): ?>
                 <tr>
-                    <td colspan="<?= count($columns); ?>"><?= esc_html__('No items found.', 'usp'); ?></td>
+                    <td colspan="<?= count($columns); ?>"><?= $this->str->translate('No items found.'); ?></td>
                 </tr>
             <?php else: ?>
                 <?php foreach ($items as $item): ?>
                     <tr>
                         <?php foreach ($columns as $key => $column): ?>
-                            <td class="column-<?= esc_attr($key); ?>">
-                                <?= esc_html($item->{$key} ?? ''); ?>
+                            <td class="column-<?= $this->str->escAttr($key); ?>">
+                                <?= $this->str->escHtml($item->{$key} ?? ''); ?>
                             </td>
                         <?php endforeach; ?>
                     </tr>
@@ -139,8 +154,8 @@ abstract class TableContentGrid extends AbstractListContentGrid
             <tfoot>
             <tr>
                 <?php foreach ($columns as $key => $column): ?>
-                    <th scope="col" class="manage-column column-<?= esc_attr($key); ?>">
-                        <?= esc_html($column['title']); ?>
+                    <th scope="col" class="manage-column column-<?= $this->str->escAttr($key); ?>">
+                        <?= $this->str->escHtml($column['title']); ?>
                     </th>
                 <?php endforeach; ?>
             </tr>

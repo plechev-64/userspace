@@ -7,6 +7,7 @@ use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\UploaderFieldDto;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Validator\AllowedTypesValidator;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Validator\ImageDimensionsValidator;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Validator\MaxFileSizeValidator;
+use UserSpace\Core\Helper\StringFilter;
 use UserSpace\Core\SecurityHelper;
 
 class Uploader extends AbstractField
@@ -17,35 +18,37 @@ class Uploader extends AbstractField
     /**
      * @param UploaderFieldDto $dto
      */
-    public function __construct( UploaderFieldDto $dto ) {
-        parent::__construct( $dto );
-        $this->multiple       = $dto->multiple;
+    public function __construct(UploaderFieldDto $dto)
+    {
+        parent::__construct($dto);
+        $this->multiple = $dto->multiple;
         // В реальном приложении это будет внедряться через DI контейнер
         $this->securityHelper = new SecurityHelper();
     }
 
-    public function renderInput(): string {
-        $attachmentIds = array_filter( (array) $this->value );
-        $previewHtml   = '';
-        $hasFileClass  = ! empty( $attachmentIds ) ? 'has-file' : '';
-        $isMultiple    = $this->multiple;
+    public function renderInput(): string
+    {
+        $attachmentIds = array_filter((array)$this->value);
+        $previewHtml = '';
+        $hasFileClass = !empty($attachmentIds) ? 'has-file' : '';
+        $isMultiple = $this->multiple;
 
-        foreach ( $attachmentIds as $attachmentId ) {
-            $thumbnail_data = wp_get_attachment_image_src( (int) $attachmentId, 'thumbnail' );
+        foreach ($attachmentIds as $attachmentId) {
+            $thumbnail_data = wp_get_attachment_image_src((int)$attachmentId, 'thumbnail');
 
-            if ( $thumbnail_data ) {
+            if ($thumbnail_data) {
                 $previewUrl = $thumbnail_data[0];
             } else {
                 // Если миниатюра не найдена, пытаемся получить иконку типа файла
-                $previewUrl = wp_mime_type_icon( $attachmentId );
+                $previewUrl = wp_mime_type_icon($attachmentId);
             }
             $previewHtml .= sprintf(
                 '<div class="usp-uploader-preview-item" data-id="%d">
                     <img src="%s" alt="">
                     <button type="button" class="usp-remove-item-button">&times;</button>
                 </div>',
-                (int) $attachmentId,
-                esc_url( $previewUrl )
+                (int)$attachmentId,
+                $this->str->escUrl($previewUrl)
             );
         }
 
@@ -71,32 +74,32 @@ class Uploader extends AbstractField
         }
 
         $config = [
-            'name'         => $this->name,
-            'multiple'     => $this->multiple,
+            'name' => $this->name,
+            'multiple' => $this->multiple,
             'allowedTypes' => $allowedTypes,
-            'maxSize'      => $maxSize,
-            'minWidth'     => $minWidth,
-            'minHeight'    => $minHeight,
-            'maxWidth'     => $maxWidth,
-            'maxHeight'    => $maxHeight,
+            'maxSize' => $maxSize,
+            'minWidth' => $minWidth,
+            'minHeight' => $minHeight,
+            'maxWidth' => $maxWidth,
+            'maxHeight' => $maxHeight,
         ];
 
         $validation_attrs = [
-            'data-config'        => esc_attr( wp_json_encode( $config ) ),
-            'data-signature'     => esc_attr( $this->securityHelper->sign( $config ) ),
-            'data-max-size'      => esc_attr( $maxSize ),
-            'data-min-width'     => esc_attr( $minWidth ),
-            'data-min-height'    => esc_attr( $minHeight ),
-            'data-max-width'     => esc_attr( $maxWidth ),
-            'data-max-height'    => esc_attr( $maxHeight ),
-            'data-multiple'      => $isMultiple ? 'true' : 'false',
+            'data-config' => $this->str->escAttr(wp_json_encode($config)),
+            'data-signature' => $this->str->escAttr($this->securityHelper->sign($config)),
+            'data-max-size' => $this->str->escAttr($maxSize),
+            'data-min-width' => $this->str->escAttr($minWidth),
+            'data-min-height' => $this->str->escAttr($minHeight),
+            'data-max-width' => $this->str->escAttr($maxWidth),
+            'data-max-height' => $this->str->escAttr($maxHeight),
+            'data-multiple' => $isMultiple ? 'true' : 'false',
         ];
 
         $removeButtonHtml = '';
-        if ( ! empty( $attachmentIds ) ) {
+        if (!empty($attachmentIds)) {
             $removeButtonHtml = sprintf(
                 '<button type="button" class="button button-link-delete usp-remove-button">%s</button>',
-                esc_html__( 'Remove', 'usp' )
+                $this->str->translate('Remove')
             );
         }
 
@@ -111,53 +114,57 @@ class Uploader extends AbstractField
                 <input type="file" class="usp-uploader-input" style="display: none;" %s>
                 <input type="hidden" name="%s" value="%s" class="usp-uploader-value">
             </div>',
-            esc_attr( $hasFileClass ),
-            esc_attr( $this->name ),
-            implode( ' ', array_map( fn( $k, $v ) => "$k=$v", array_keys( $validation_attrs ), $validation_attrs ) ),
+            $this->str->escAttr($hasFileClass),
+            $this->str->escAttr($this->name),
+            implode(' ', array_map(fn($k, $v) => "$k=$v", array_keys($validation_attrs), $validation_attrs)),
             $previewHtml,
-            esc_html__( 'Select File', 'usp' ),
+            $this->str->translate('Select File'),
             $removeButtonHtml,
             $isMultiple ? 'multiple' : '',
-            esc_attr( $this->name . ( $isMultiple ? '[]' : '' ) ),
-            esc_attr( implode( ',', $attachmentIds ) )
+            $this->str->escAttr($this->name . ($isMultiple ? '[]' : '')),
+            $this->str->escAttr(implode(',', $attachmentIds))
         );
 
         return $output;
     }
 
-    public static function getSettingsFormConfig(): array {
+    public static function getSettingsFormConfig(): array
+    {
+
+        $str = new StringFilter();
+
         return array_merge(
             parent::getSettingsFormConfig(),
             [
-                'multiple'         => [
-                    'type'  => 'boolean',
-                    'label' => __( 'Allow multiple file upload', 'usp' ),
+                'multiple' => [
+                    'type' => 'boolean',
+                    'label' => $str->translate('Allow multiple file upload'),
                 ],
-                'allowed_types'    => [
-                    'type'        => 'text',
-                    'label'       => __( 'Allowed file types', 'usp' ),
-                    'description' => __( 'Comma-separated MIME types, e.g., image/jpeg,image/png,application/pdf', 'usp' ),
+                'allowed_types' => [
+                    'type' => 'text',
+                    'label' => $str->translate('Allowed file types'),
+                    'description' => $str->translate('Comma-separated MIME types, e.g., image/jpeg,image/png,application/pdf'),
                 ],
-                'max_size'         => [
-                    'type'        => 'number',
-                    'label'       => __( 'Max file size (MB)', 'usp' ),
-                    'description' => __( 'Leave empty for no limit.', 'usp' ),
+                'max_size' => [
+                    'type' => 'number',
+                    'label' => $str->translate('Max file size (MB)'),
+                    'description' => $str->translate('Leave empty for no limit.'),
                 ],
-                'image_min_width'  => [
-                    'type'  => 'number',
-                    'label' => __( 'Min image width (px)', 'usp' ),
+                'image_min_width' => [
+                    'type' => 'number',
+                    'label' => $str->translate('Min image width (px)'),
                 ],
                 'image_min_height' => [
-                    'type'  => 'number',
-                    'label' => __( 'Min image height (px)', 'usp' ),
+                    'type' => 'number',
+                    'label' => $str->translate('Min image height (px)'),
                 ],
-                'image_max_width'  => [
-                    'type'  => 'number',
-                    'label' => __( 'Max image width (px)', 'usp' ),
+                'image_max_width' => [
+                    'type' => 'number',
+                    'label' => $str->translate('Max image width (px)'),
                 ],
                 'image_max_height' => [
-                    'type'  => 'number',
-                    'label' => __( 'Max image height (px)', 'usp' ),
+                    'type' => 'number',
+                    'label' => $str->translate('Max image height (px)'),
                 ],
             ]
         );

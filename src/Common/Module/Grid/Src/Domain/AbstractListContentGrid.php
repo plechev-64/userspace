@@ -2,6 +2,7 @@
 
 namespace UserSpace\Common\Module\Grid\Src\Domain;
 
+use UserSpace\Core\Helper\StringFilterInterface;
 use UserSpace\Common\Module\Grid\Src\Domain\DTO\GridRequestParamsDto;
 use UserSpace\Core\Database\QueryBuilder;
 
@@ -9,7 +10,10 @@ abstract class AbstractListContentGrid
 {
     protected string $gridId;
 
-    public function __construct(protected readonly QueryBuilder $queryBuilder)
+    public function __construct(
+        protected readonly QueryBuilder          $queryBuilder,
+        protected readonly StringFilterInterface $str
+    )
     {
         $this->gridId = uniqid('usp-grid-');
     }
@@ -109,26 +113,31 @@ abstract class AbstractListContentGrid
     {
         ob_start();
         ?>
-        <div id="<?= esc_attr($this->getId()); ?>" class="usp-grid-container" data-endpoint="<?= esc_attr($this->getEndpointPath()); ?>">
+        <div id="<?= $this->str->escAttr($this->getId()); ?>" class="usp-grid-container"
+             data-endpoint="<?= $this->str->escAttr($this->getEndpointPath()); ?>">
             <div class="usp-grid-header">
                 <div class="usp-grid-search">
-                    <input type="search" class="usp-grid-search-input" placeholder="<?= esc_attr__('Search...', 'usp'); ?>">
-                    <button type="button" class="button usp-grid-search-button"><?= esc_html__('Search', 'usp'); ?></button>
+                    <input type="search" class="usp-grid-search-input"
+                           placeholder="<?= $this->str->escAttr($this->str->translate('Search...')); ?>">
+                    <button type="button"
+                            class="button usp-grid-search-button"><?= $this->str->translate('Search'); ?></button>
                 </div>
             </div>
 
             <div class="usp-grid-body">
                 <div class="usp-grid-items-list">
-                    <?php // Сюда будут загружаться элементы через AJAX ?>
+                    <?php // Сюда будут загружаться элементы через AJAX
+                    ?>
                 </div>
                 <div class="usp-grid-loader">
-                    <?= esc_html__('Loading...', 'usp'); ?>
+                    <?= $this->str->translate('Loading...'); ?>
                 </div>
             </div>
 
             <div class="usp-grid-footer">
                 <div class="usp-grid-pagination">
-                    <?php // Сюда будет загружаться пагинация ?>
+                    <?php // Сюда будет загружаться пагинация
+                    ?>
                 </div>
             </div>
         </div>
@@ -144,7 +153,7 @@ abstract class AbstractListContentGrid
     {
         ob_start();
         if (empty($items)) {
-            echo '<p>' . esc_html__('No items found.', 'usp') . '</p>';
+            echo '<p>' . $this->str->translate('No items found.') . '</p>';
         } else {
             foreach ($items as $item) {
                 include $this->getItemTemplatePath();
@@ -170,8 +179,8 @@ abstract class AbstractListContentGrid
             'format' => '',
             'total' => $totalPages,
             'current' => $currentPage,
-            'prev_text' => __('&laquo; Prev', 'usp'),
-            'next_text' => __('Next &raquo;', 'usp'),
+            'prev_text' => $this->str->translate('&laquo; Prev'),
+            'next_text' => $this->str->translate('Next &raquo;'),
             'add_fragment' => '',
             'type' => 'list',
         ]);

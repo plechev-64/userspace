@@ -2,25 +2,29 @@
 
 namespace UserSpace\Admin\Page;
 
+use UserSpace\Core\Helper\StringFilterInterface;
 use UserSpace\Admin\Abstract\AbstractAdminPage;
 use UserSpace\Common\Module\Grid\Src\Infrastructure\UserListGrid;
 
 class UserCardListPage extends AbstractAdminPage
 {
-    public function __construct(private readonly UserListGrid $userListGrid)
+    public function __construct(
+        private readonly UserListGrid          $userListGrid,
+        private readonly StringFilterInterface $str
+    )
     {
     }
 
-    protected function getPageTitle(): string
+    public function getPageTitle(): string
     {
-        return __('User List', 'usp');
+        return $this->str->translate('User List');
     }
-    
+
     public function render(): void
     {
         echo '<div class="wrap">';
-        echo '<h1>' . esc_html($this->getPageTitle()) . '</h1>';
-        echo '<p>' . __('A list of registered users with search and pagination.', 'usp') . '</p>';
+        echo '<h1>' . $this->str->escHtml($this->getPageTitle()) . '</h1>';
+        echo '<p>' . $this->str->translate('A list of registered users with search and pagination.') . '</p>';
 
         echo $this->userListGrid->render();
 
@@ -29,7 +33,7 @@ class UserCardListPage extends AbstractAdminPage
 
     protected function getMenuTitle(): string
     {
-        return __('Users (Cards)', 'usp');
+        return $this->str->translate('Users (Cards)');
     }
 
     protected function getMenuSlug(): string

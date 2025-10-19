@@ -2,12 +2,13 @@
 
 namespace UserSpace\Common\Module\SSE\App;
 
+use UserSpace\Core\Helper\StringFilterInterface;
 use UserSpace\Common\Module\SSE\Src\Domain\Repository\SseEventRepositoryInterface;
 use UserSpace\Core\Http\Request;
 use UserSpace\Core\Rest\Abstract\AbstractController;
 use UserSpace\Core\Rest\Attributes\Route;
 
-if ( ! defined('ABSPATH')) {
+if (!defined('ABSPATH')) {
     exit;
 }
 
@@ -15,10 +16,15 @@ if ( ! defined('ABSPATH')) {
 class SseController extends AbstractController
 {
     private SseEventRepositoryInterface $repository;
+    private StringFilterInterface $str;
 
-    public function __construct(SseEventRepositoryInterface $repository)
+    public function __construct(
+        SseEventRepositoryInterface $repository,
+        StringFilterInterface       $str
+    )
     {
         $this->repository = $repository;
+        $this->str = $str;
     }
 
     /**
@@ -56,8 +62,8 @@ class SseController extends AbstractController
 
             if ($events) {
                 foreach ($events as $event) {
-                    echo "id: " . esc_html($event->id) . "\n";
-                    echo "event: " . esc_html($event->event_type) . "\n";
+                    echo "id: " . $this->str->escHtml($event->id) . "\n";
+                    echo "event: " . $this->str->escHtml($event->event_type) . "\n";
                     echo "data: " . $event->payload . "\n\n";
                     $last_event_id = $event->id;
                 }

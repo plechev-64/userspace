@@ -4,7 +4,7 @@ namespace UserSpace\Common\Module\Form\Src\Infrastructure\Repository;
 
 use UserSpace\Common\Module\Form\Src\Domain\Repository\FormRepositoryInterface;
 
-if ( ! defined('ABSPATH')) {
+if (!defined('ABSPATH')) {
     exit;
 }
 
@@ -54,7 +54,7 @@ class FormRepository implements FormRepositoryInterface
         $existing = $this->findByType($type);
 
         $data = [
-            'type'   => $type,
+            'type' => $type,
             'config' => wp_json_encode($config),
         ];
 

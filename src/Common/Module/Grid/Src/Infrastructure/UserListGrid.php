@@ -5,12 +5,17 @@ namespace UserSpace\Common\Module\Grid\Src\Infrastructure;
 use UserSpace\Common\Module\Grid\Src\Domain\AbstractListContentGrid;
 use UserSpace\Common\Service\TemplateManager;
 use UserSpace\Core\Database\QueryBuilder;
+use UserSpace\Core\Helper\StringFilterInterface;
 
 class UserListGrid extends AbstractListContentGrid
 {
-    public function __construct(QueryBuilder $queryBuilder, private readonly TemplateManager $templateManager)
+    public function __construct(
+        QueryBuilder                     $queryBuilder,
+        private readonly TemplateManager $templateManager,
+        StringFilterInterface            $str
+    )
     {
-        parent::__construct($queryBuilder);
+        parent::__construct($queryBuilder, $str);
     }
 
     public function render(): string
@@ -47,7 +52,7 @@ class UserListGrid extends AbstractListContentGrid
         wp_localize_script('usp-card-grid-script', 'uspGridL10n', [
             'text' => [
                 'loading' => __('Loading...', 'usp'),
-                'error'   => __('An error occurred. Please try again.', 'usp'),
+                'error' => __('An error occurred. Please try again.', 'usp'),
             ],
         ]);
     }

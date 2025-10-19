@@ -7,11 +7,12 @@ use UserSpace\Common\Module\Form\Src\Domain\Field\DTO\FieldDto;
 class CheckboxFieldDto extends FieldDto
 {
     public array $options = [];
-	public function __construct(string $name, array $config)
-	{
-		parent::__construct($name, 'checkbox', $config);
+
+    public function __construct(string $name, array $config)
+    {
+        parent::__construct($name, 'checkbox', $config);
         $this->options = $config['options'] ?? [];
-	}
+    }
 
     public function toArray(): array
     {

@@ -24,16 +24,16 @@ class UserController extends AbstractController
         $attachmentId = $request->getPost('attachmentId', 'int');
         $userId = get_current_user_id();
 
-        if ( ! $userId) {
+        if (!$userId) {
             return $this->error(['message' => __('You must be logged in to update your avatar.', 'usp')], 403);
         }
 
-        if ( ! $attachmentId) {
+        if (!$attachmentId) {
             return $this->error(['message' => __('Attachment ID is missing.', 'usp')], 400);
         }
 
         // Проверяем, что файл является изображением
-        if ( ! wp_attachment_is_image($attachmentId)) {
+        if (!wp_attachment_is_image($attachmentId)) {
             return $this->error(['message' => __('The uploaded file is not an image.', 'usp')], 400);
         }
 

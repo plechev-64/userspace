@@ -13,10 +13,11 @@ use UserSpace\Core\Rest\Attributes\Route;
 class TabContentController extends AbstractController
 {
     public function __construct(
-        private readonly TabManager $tabManager,
-        private readonly TabRenderer $tabRenderer,
+        private readonly TabManager    $tabManager,
+        private readonly TabRenderer   $tabRenderer,
         private readonly AssetRegistry $assetRegistry
-    ) {
+    )
+    {
     }
 
     /**
@@ -45,7 +46,7 @@ class TabContentController extends AbstractController
         $html = $this->tabRenderer->render($foundTab);
 
         $response_data = [
-            'html'   => $html,
+            'html' => $html,
             'assets' => $this->assetRegistry->getAssets(),
         ];
 

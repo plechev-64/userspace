@@ -4,7 +4,7 @@ namespace UserSpace\Common\Module\Queue\Src\Infrastructure;
 
 use UserSpace\Common\Module\Queue\Src\Domain\JobRepositoryInterface;
 
-if ( ! defined('ABSPATH')) {
+if (!defined('ABSPATH')) {
     exit;
 }
 
@@ -40,7 +40,7 @@ class JobRepository implements JobRepositoryInterface
             gmdate('Y-m-d H:i:s')
         ));
 
-        if ( ! $job) {
+        if (!$job) {
             $this->wpdb->query('COMMIT');
 
             return null;
@@ -77,7 +77,7 @@ class JobRepository implements JobRepositoryInterface
         $this->wpdb->update(
             $this->wpdb->prefix . self::TABLE_NAME,
             [
-                'status'   => 'failed',
+                'status' => 'failed',
                 'attempts' => $newAttemptCount,
             ],
             ['id' => $jobId]
@@ -114,9 +114,9 @@ class JobRepository implements JobRepositoryInterface
     {
         $result = $this->wpdb->insert($this->wpdb->prefix . self::TABLE_NAME, [
                 'message_class' => $messageClass,
-                'args'          => serialize($args),
-                'available_at'  => gmdate('Y-m-d H:i:s', time() + $delaySeconds),
-                'created_at'    => gmdate('Y-m-d H:i:s'),
+                'args' => serialize($args),
+                'available_at' => gmdate('Y-m-d H:i:s', time() + $delaySeconds),
+                'created_at' => gmdate('Y-m-d H:i:s'),
             ]
         );
 

@@ -6,14 +6,15 @@ namespace UserSpace\Common\Module\Queue\Src\Infrastructure;
 use UserSpace\Common\Module\Queue\Src\Domain\JobRepositoryInterface;
 use UserSpace\Common\Module\Queue\Src\Domain\QueueableMessage;
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
+if (!defined('ABSPATH')) {
+    exit;
 }
 
 /**
  * Отправляет задачи в очередь.
  */
-class QueueDispatcher {
+class QueueDispatcher
+{
 
     private JobRepositoryInterface $jobRepository;
 

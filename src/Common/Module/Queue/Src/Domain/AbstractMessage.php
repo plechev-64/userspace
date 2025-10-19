@@ -5,26 +5,29 @@ namespace UserSpace\Common\Module\Queue\Src\Domain;
 use ReflectionClass;
 
 // Защита от прямого доступа к файлу
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
+if (!defined('ABSPATH')) {
+    exit;
 }
 
 /**
  * Базовый класс для сообщений, реализующий сериализацию/десериализацию.
  */
-abstract class AbstractMessage implements QueueableMessage {
+abstract class AbstractMessage implements QueueableMessage
+{
 
-	public function toArray(): array {
-		$properties = ( new ReflectionClass( $this ) )->getProperties( \ReflectionProperty::IS_PUBLIC );
-		$data       = [];
-		foreach ( $properties as $property ) {
-			$data[ $property->getName() ] = $property->getValue( $this );
-		}
+    public function toArray(): array
+    {
+        $properties = (new ReflectionClass($this))->getProperties(\ReflectionProperty::IS_PUBLIC);
+        $data = [];
+        foreach ($properties as $property) {
+            $data[$property->getName()] = $property->getValue($this);
+        }
 
-		return $data;
-	}
+        return $data;
+    }
 
-	public static function fromArray( array $data ): static {
+    public static function fromArray(array $data): static
+    {
         // Используем Reflection для динамического вызова конструктора с нужными аргументами,
         // что необходимо для работы со свойствами readonly.
         $reflectionClass = new ReflectionClass(static::class);
@@ -45,5 +48,5 @@ abstract class AbstractMessage implements QueueableMessage {
         }
 
         return $reflectionClass->newInstanceArgs($args);
-	}
+    }
 }

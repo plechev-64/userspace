@@ -14,6 +14,7 @@ use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\UploaderFieldDto;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\UrlFieldDto;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormConfig;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormFactory;
+use UserSpace\Core\Helper\StringFilterInterface;
 use UserSpace\Core\Theme\ThemeManager;
 
 /**
@@ -25,16 +26,17 @@ class SettingsPage extends AbstractAdminPage
     private const OPTION_NAME = 'usp_settings';
 
     public function __construct(
-        private readonly FormFactory    $formFactory,
-        private readonly ThemeManager   $themeManager,
-        private readonly SettingsConfig $settingsConfig
+        private readonly FormFactory           $formFactory,
+        private readonly ThemeManager          $themeManager,
+        private readonly SettingsConfig        $settingsConfig,
+        private readonly StringFilterInterface $str
     )
     {
     }
 
     protected function getPageTitle(): string
     {
-        return __('UserSpace Settings', 'usp');
+        return $this->str->translate('UserSpace Settings');
     }
 
     protected function getMenuTitle(): string
@@ -98,7 +100,7 @@ class SettingsPage extends AbstractAdminPage
             'usp-admin-settings-js',
             'uspApiSettings',
             [
-                'root' => esc_url_raw(rest_url()),
+                'root' => $this->str->escUrlRaw(rest_url()),
                 'namespace' => USERSPACE_REST_NAMESPACE,
                 'nonce' => wp_create_nonce('wp_rest'),
             ]
@@ -109,8 +111,8 @@ class SettingsPage extends AbstractAdminPage
             'uspL10n',
             [
                 'adminSettings' => [
-                    'saving' => __('Saving...', 'usp'),
-                    'networkError' => __('Network error occurred.', 'usp'),
+                    'saving' => $this->str->translate('Saving...'),
+                    'networkError' => $this->str->translate('Network error occurred.'),
                 ],
             ]
         );
@@ -142,7 +144,7 @@ class SettingsPage extends AbstractAdminPage
         }
 
         echo '<div class="wrap usp-settings-wrap">';
-        echo '<h1>' . esc_html(get_admin_page_title()) . '</h1>';
+        echo '<h1>' . $this->str->escHtml(get_admin_page_title()) . '</h1>';
 
         echo '<div id="usp-settings-notifications"></div>';
 
@@ -153,7 +155,7 @@ class SettingsPage extends AbstractAdminPage
         foreach ($formConfig->toArray()['sections'] as $index => $section) {
             $id = $section['id'] ?? 'section-' . $index;
             $class = $index === 0 ? 'active' : '';
-            echo '<li><a href="#' . esc_attr($id) . '" class="' . esc_attr($class) . '">' . esc_html($section['title']) . '</a></li>';
+            echo '<li><a href="#' . $this->str->escAttr($id) . '" class="' . $this->str->escAttr($class) . '">' . $this->str->escHtml($section['title']) . '</a></li>';
         }
         echo '</ul>';
 
@@ -165,7 +167,7 @@ class SettingsPage extends AbstractAdminPage
         foreach ($allSections as $index => $section) {
             $id = $section['id'] ?? 'section-' . $index;
             $class = $index === 0 ? 'active' : '';
-            echo '<div id="' . esc_attr($id) . '" class="usp-tab-pane ' . esc_attr($class) . '">';
+            echo '<div id="' . $this->str->escAttr($id) . '" class="usp-tab-pane ' . $this->str->escAttr($class) . '">';
 
             // Создаем FormConfig для ОДНОЙ текущей секции, чтобы отрендерить ее отдельно
             $sectionFormConfig = new FormConfig();
@@ -183,7 +185,7 @@ class SettingsPage extends AbstractAdminPage
 
         echo '</div>'; // #usp-settings-form-wrapper
 
-        echo '<p class="submit"><button type="button" id="usp-save-settings" class="button button-primary">' . __('Save Settings', 'usp') . '</button></p>';
+        echo '<p class="submit"><button type="button" id="usp-save-settings" class="button button-primary">' . $this->str->translate('Save Settings') . '</button></p>';
 
         echo '</div>'; // .usp-settings-tabs-content
 
@@ -199,72 +201,72 @@ class SettingsPage extends AbstractAdminPage
     {
         $config = $this->settingsConfig
             //-- Section
-            ->addSection('general', __('General', 'usp'))
-            ->addBlock('main', __('Main Settings', 'usp'))
-            ->addOption(new TextFieldDto('api_key', ['label' => __('API Key', 'usp')]))
-            ->addOption(new BooleanFieldDto('enable_feature_x', ['label' => __('Enable Feature X', 'usp')]))
+            ->addSection('general', $this->str->translate('General'))
+            ->addBlock('main', $this->str->translate('Main Settings'))
+            ->addOption(new TextFieldDto('api_key', ['label' => $this->str->translate('API Key')]))
+            ->addOption(new BooleanFieldDto('enable_feature_x', ['label' => $this->str->translate('Enable Feature X')]))
             ->addOption(new UploaderFieldDto('default_avatar_id', [
-                'label' => __('Default Avatar', 'usp'),
+                'label' => $this->str->translate('Default Avatar'),
                 'allowed_types' => 'image/jpeg',
                 'image_max_width' => 500,
             ]))
             ->addOption(new UploaderFieldDto('files', [
-                'label' => __('Files', 'usp'),
+                'label' => $this->str->translate('Files'),
                 'allowed_types' => 'image/jpeg',
                 'multiply' => true,
             ]))
-            ->addOption(new BooleanFieldDto('enable_user_bar', ['label' => __('Enable User Bar at the top of the site', 'usp')]))
-            ->addOption(new BooleanFieldDto('require_email_confirmation', ['label' => __('Require email confirmation for registration', 'usp')]))
+            ->addOption(new BooleanFieldDto('enable_user_bar', ['label' => $this->str->translate('Enable User Bar at the top of the site')]))
+            ->addOption(new BooleanFieldDto('require_email_confirmation', ['label' => $this->str->translate('Require email confirmation for registration')]))
             ->addOption(new CheckboxFieldDto('prefer_color', [
-                'label' => __('Prefer color', 'usp'),
+                'label' => $this->str->translate('Prefer color'),
                 'options' => [
-                    'white' => __('White', 'usp'),
-                    'black' => __('Black', 'usp'),
-                    'green' => __('Green', 'usp')
+                    'white' => $this->str->translate('White'),
+                    'black' => $this->str->translate('Black'),
+                    'green' => $this->str->translate('Green')
                 ],
             ]))
             //-- Section
-            ->addSection('advanced', __('Advanced', 'usp'))
-            ->addBlock('integration', __('Integration', 'usp'))
+            ->addSection('advanced', $this->str->translate('Advanced'))
+            ->addBlock('integration', $this->str->translate('Integration'))
             ->addOption(new SelectFieldDto('integration_mode', [
-                'label' => __('Integration Mode', 'usp'),
-                'options' => ['mode1' => __('Mode 1', 'usp'), 'mode2' => __('Mode 2', 'usp')],
+                'label' => $this->str->translate('Integration Mode'),
+                'options' => ['mode1' => $this->str->translate('Mode 1'), 'mode2' => $this->str->translate('Mode 2')],
             ]))
-            ->addOption(new UrlFieldDto('webhook_url', ['label' => __('Webhook URL', 'usp')]))
-            ->addBlock('other', __('Other', 'usp'))
+            ->addOption(new UrlFieldDto('webhook_url', ['label' => $this->str->translate('Webhook URL')]))
+            ->addBlock('other', $this->str->translate('Other'))
             ->addOption(new RadioFieldDto('user_role', [
-                'label' => __('Default Role', 'usp'),
-                'options' => ['subscriber' => __('Subscriber', 'usp'), 'editor' => __('Editor', 'usp')],
+                'label' => $this->str->translate('Default Role'),
+                'options' => ['subscriber' => $this->str->translate('Subscriber'), 'editor' => $this->str->translate('Editor')],
             ]))
-            ->addOption(new TextareaFieldDto('custom_css', ['label' => __('Custom CSS', 'usp')]))
+            ->addOption(new TextareaFieldDto('custom_css', ['label' => $this->str->translate('Custom CSS')]))
             //-- Section
-            ->addSection('page_settings', __('Page Assignment', 'usp'))
-            ->addBlock('core_pages', __('Core Pages', 'usp'))
+            ->addSection('page_settings', $this->str->translate('Page Assignment'))
+            ->addBlock('core_pages', $this->str->translate('Core Pages'))
             ->addOption(new SelectFieldDto('login_page_id', [
-                'label' => __('Login Page', 'usp'),
+                'label' => $this->str->translate('Login Page'),
                 'options' => $this->getPagesAsOptions(),
             ]))
             ->addOption(new SelectFieldDto('registration_page_id', [
-                'label' => __('Registration Page', 'usp'),
+                'label' => $this->str->translate('Registration Page'),
                 'options' => $this->getPagesAsOptions(),
             ]))
             ->addOption(new SelectFieldDto('password_reset_page_id', [
-                'label' => __('Password Recovery Page', 'usp'),
+                'label' => $this->str->translate('Password Recovery Page'),
                 'options' => $this->getPagesAsOptions(),
             ]))
             ->addOption(new SelectFieldDto('profile_page_id', [
-                'label' => __('User Profile Page', 'usp'),
+                'label' => $this->str->translate('User Profile Page'),
                 'options' => $this->getPagesAsOptions(),
             ]))
             ->addOption(new TextFieldDto('profile_user_query_var', [
-                'label' => __('User ID Query Variable', 'usp'),
-                'description' => __('The GET parameter in the URL to identify the user. Default: <code>user_id</code>.', 'usp'),
+                'label' => $this->str->translate('User ID Query Variable'),
+                'description' => $this->str->translate('The GET parameter in the URL to identify the user. Default: <code>user_id</code>.'),
             ]))
             //-- Section
-            ->addSection('appearance', __('Appearance', 'usp'))
-            ->addBlock('account_theme', __('Account Theme', 'usp'))
+            ->addSection('appearance', $this->str->translate('Appearance'))
+            ->addBlock('account_theme', $this->str->translate('Account Theme'))
             ->addOption(new SelectFieldDto('account_theme', [
-                'label' => __('Select Theme', 'usp'),
+                'label' => $this->str->translate('Select Theme'),
                 'options' => $this->themeManager->discoverThemes(),
             ]));
 
@@ -274,7 +276,7 @@ class SettingsPage extends AbstractAdminPage
     private function getPagesAsOptions(): array
     {
         $pages = get_pages();
-        $options = ['' => __('— Select a page —', 'usp')];
+        $options = ['' => $this->str->translate('— Select a page —')];
         foreach ($pages as $page) {
             $options[$page->ID] = $page->post_title;
         }

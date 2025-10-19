@@ -2,6 +2,7 @@
 
 namespace UserSpace\Common\Service;
 
+use UserSpace\Core\Helper\StringFilterInterface;
 use UserSpace\Common\Controller\UserController;
 use UserSpace\Core\SecurityHelper;
 use WP_User;
@@ -12,9 +13,11 @@ use WP_User;
 class AvatarManager
 {
     public function __construct(
-        private readonly SecurityHelper $securityHelper,
-        private readonly ViewedUserContext $viewedUserContext
-    ) {
+        private readonly SecurityHelper        $securityHelper,
+        private readonly ViewedUserContext     $viewedUserContext,
+        private readonly StringFilterInterface $str
+    )
+    {
     }
 
     /**
@@ -76,9 +79,9 @@ class AvatarManager
         }
 
         // Если персональный аватар не найден, ищем аватар по умолчанию в настройках плагина
-        if ( ! $avatarId) {
+        if (!$avatarId) {
             $options = get_option('usp_settings', []);
-            if ( ! empty($options['default_avatar_id'])) {
+            if (!empty($options['default_avatar_id'])) {
                 $avatarId = (int)$options['default_avatar_id'];
             }
         }
@@ -105,7 +108,7 @@ class AvatarManager
     public function renderAvatarBlock(): string
     {
         $viewedUser = $this->viewedUserContext->getViewedUser();
-        if ( ! $viewedUser) {
+        if (!$viewedUser) {
             return '';
         }
 
@@ -116,30 +119,32 @@ class AvatarManager
         ?>
         <div class="usp-avatar-block" id="usp-avatar-block">
             <div class="usp-account-avatar-wrapper">
-                <img src="<?php echo esc_url($avatarUrl); ?>" alt="<?php echo esc_attr($viewedUser->display_name); ?>" class="usp-account-avatar-img">
+                <img src="<?php echo $this->str->escAttr($avatarUrl); ?>"
+                     alt="<?php echo $this->str->escAttr($viewedUser->display_name); ?>" class="usp-account-avatar-img">
                 <?php if ($isOwner) : ?>
                     <?php
                     $config = [
-                        'name'         => 'user_avatar',
+                        'name' => 'user_avatar',
                         'allowedTypes' => 'image/jpeg,image/png,image/gif',
-                        'maxSize'      => 2, // Максимальный размер 2MB
+                        'maxSize' => 2, // Максимальный размер 2MB
                     ];
                     ?>
                     <div class="usp-account-avatar-uploader"
-                         data-config='<?php echo esc_attr(wp_json_encode($config)); ?>'
-                         data-signature="<?php echo esc_attr($this->securityHelper->sign($config)); ?>"
+                         data-config='<?php echo $this->str->escAttr(wp_json_encode($config)); ?>'
+                         data-signature="<?php echo $this->str->escAttr($this->securityHelper->sign($config)); ?>"
                     >
                         <button type="button" class="usp-change-avatar-btn">
                             <span class="dashicons dashicons-camera"></span>
                         </button>
-                        <input type="file" class="usp-avatar-input" style="display: none;" accept="<?php echo esc_attr($config['allowedTypes']); ?>">
+                        <input type="file" class="usp-avatar-input" style="display: none;"
+                               accept="<?php echo $this->str->escAttr($config['allowedTypes']); ?>">
                         <div class="usp-avatar-status"></div>
                     </div>
                 <?php endif; ?>
             </div>
             <div class="usp-account-user-info">
-                <h2 class="usp-account-display-name"><?php echo esc_html($viewedUser->display_name); ?></h2>
-                <p class="usp-account-user-email"><?php echo esc_html($viewedUser->user_email); ?></p>
+                <h2 class="usp-account-display-name"><?php echo $this->str->escHtml($viewedUser->display_name); ?></h2>
+                <p class="usp-account-user-email"><?php echo $this->str->escHtml($viewedUser->user_email); ?></p>
             </div>
         </div>
         <?php

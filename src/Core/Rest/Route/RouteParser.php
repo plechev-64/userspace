@@ -26,7 +26,7 @@ class RouteParser
         $classReflection = new ReflectionClass($routeClass);
         $attrs = $classReflection->getAttributes(Route::class);
 
-        $classRoute = isset($attrs[0])? $attrs[0]->getArguments()['path'] : '';
+        $classRoute = isset($attrs[0]) ? $attrs[0]->getArguments()['path'] : '';
 
         $this->collector->addGroup($classRoute, function (RouteCollector $collector) use ($classReflection) {
 
@@ -44,7 +44,7 @@ class RouteParser
                 $routeData = new RouteData(
                     $classReflection->getName(),
                     $method->getName(),
-	                $this->collector->currentGroup() . $endpointOptions['path'],
+                    $this->collector->currentGroup() . $endpointOptions['path'],
                     $endpointOptions['namespace'] ?? '',
                     $endpointOptions['permission'] ?? '',
                     $endpointOptions['method'] ?? 'GET',

@@ -7,10 +7,10 @@ use UserSpace\Common\Module\Tabs\Src\Infrastructure\TabProvider;
 class FrontendManager
 {
     private ShortcodeManager $shortcodeManager;
-    private TemplateManager $templateManager;
+    private TemplateManagerInterface $templateManager;
     private TabProvider $tabProvider;
 
-    public function __construct(ShortcodeManager $shortcodeManager, TemplateManager $templateManager, TabProvider $tabProvider)
+    public function __construct(ShortcodeManager $shortcodeManager, TemplateManagerInterface $templateManager, TabProvider $tabProvider)
     {
         $this->shortcodeManager = $shortcodeManager;
         $this->templateManager = $templateManager;

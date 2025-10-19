@@ -4,7 +4,7 @@ namespace UserSpace\Common\Service;
 
 use UserSpace\Common\Module\Queue\Src\Infrastructure\QueueManager;
 
-if ( ! defined('ABSPATH')) {
+if (!defined('ABSPATH')) {
     exit;
 }
 
@@ -50,10 +50,10 @@ class CronManager
 
         // Регистрация кастомных интервалов
         add_filter('cron_schedules', function ($schedules) {
-            if ( ! isset($schedules['five_minutes'])) {
+            if (!isset($schedules['five_minutes'])) {
                 $schedules['five_minutes'] = [
                     'interval' => 300,
-                    'display'  => __('Every 5 Minutes', 'userspace'),
+                    'display' => __('Every 5 Minutes', 'userspace'),
                 ];
             }
 
@@ -61,15 +61,15 @@ class CronManager
         });
 
         // Планирование задач
-        if ( ! wp_next_scheduled(self::CRON_HOOK_BATCH)) {
+        if (!wp_next_scheduled(self::CRON_HOOK_BATCH)) {
             wp_schedule_event(time(), 'five_minutes', self::CRON_HOOK_BATCH);
         }
 
-        if ( ! wp_next_scheduled(self::PRUNE_CRON_HOOK)) {
+        if (!wp_next_scheduled(self::PRUNE_CRON_HOOK)) {
             wp_schedule_event(time(), 'daily', self::PRUNE_CRON_HOOK);
         }
 
-        if ( ! wp_next_scheduled(self::PRUNE_SSE_CRON_HOOK)) {
+        if (!wp_next_scheduled(self::PRUNE_SSE_CRON_HOOK)) {
             wp_schedule_event(time(), 'daily', self::PRUNE_SSE_CRON_HOOK);
         }
     }
@@ -90,7 +90,7 @@ class CronManager
      */
     public function scheduleImmediateBatch(): void
     {
-        if ( ! wp_next_scheduled(self::SPAWN_CRON_HOOK)) {
+        if (!wp_next_scheduled(self::SPAWN_CRON_HOOK)) {
             wp_schedule_single_event(time(), self::SPAWN_CRON_HOOK);
         }
     }

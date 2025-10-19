@@ -14,7 +14,8 @@ class TabSettingsController extends AbstractController
 {
     public function __construct(
         private readonly FormFactory $formFactory
-    ) {
+    )
+    {
     }
 
     #[Route(path: '/get', method: 'POST', permission: 'manage_options')]

@@ -11,9 +11,9 @@ use UserSpace\Core\Rest\Exception\RestException;
 class RouteHandler
 {
     public function __construct(
-        private readonly RouteData $routeData,
+        private readonly RouteData          $routeData,
         private readonly ContainerInterface $di,
-        private readonly RouteArgsResolver $argsResolver
+        private readonly RouteArgsResolver  $argsResolver
     )
     {
     }
