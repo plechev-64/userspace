@@ -1,11 +1,11 @@
 <?php
 
-namespace UserSpace\Core\SSE;
+namespace UserSpace\Module\SSE\App;
 
 use UserSpace\Core\Http\Request;
 use UserSpace\Core\Rest\Abstract\AbstractController;
 use UserSpace\Core\Rest\Attributes\Route;
-use UserSpace\Core\SSE\Repository\SseEventRepositoryInterface;
+use UserSpace\Module\SSE\Src\Domain\Repository\SseEventRepositoryInterface;
 
 if ( ! defined('ABSPATH')) {
     exit;

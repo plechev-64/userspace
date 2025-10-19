@@ -1,6 +1,6 @@
 <?php
 
-namespace UserSpace\Core\SSE;
+namespace UserSpace\Module\SSE\Src\Domain;
 
 if ( ! defined('ABSPATH')) {
     exit;

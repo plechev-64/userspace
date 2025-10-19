@@ -1,8 +1,9 @@
 <?php
 
-namespace UserSpace\Core\SSE;
+namespace UserSpace\Module\SSE\Src\Infrastructure;
 
-use UserSpace\Core\SSE\Repository\SseEventRepositoryInterface;
+use UserSpace\Module\SSE\Src\Domain\Repository\SseEventRepositoryInterface;
+use UserSpace\Module\SSE\Src\Domain\SseEventDispatcherInterface;
 
 if ( ! defined('ABSPATH')) {
     exit;

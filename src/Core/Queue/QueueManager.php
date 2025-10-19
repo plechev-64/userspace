@@ -2,11 +2,11 @@
 
 namespace UserSpace\Core\Queue;
 
-use UserSpace\Core\Cron\CronManager;
 use UserSpace\Core\ContainerInterface;
+use UserSpace\Core\Cron\CronManager;
 use UserSpace\Core\Queue\Repository\JobRepositoryInterface;
-use UserSpace\Core\SSE\Repository\SseEventRepositoryInterface;
-use UserSpace\Core\SSE\SseEventDispatcherInterface;
+use UserSpace\Module\SSE\Src\Domain\Repository\SseEventRepositoryInterface;
+use UserSpace\Module\SSE\Src\Domain\SseEventDispatcherInterface;
 
 // Защита от прямого доступа к файлу
 if (!defined('ABSPATH')) {

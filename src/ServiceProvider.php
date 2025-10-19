@@ -30,11 +30,6 @@ use UserSpace\Core\Rest\RestApi;
 use UserSpace\Core\Rest\Route\RouteCollector;
 use UserSpace\Core\Rest\Route\RouteParser;
 use UserSpace\Core\SetupWizard\SetupWizardController;
-use UserSpace\Core\SSE\Repository\SseEventRepository;
-use UserSpace\Core\SSE\Repository\SseEventRepositoryInterface;
-use UserSpace\Core\SSE\SseController;
-use UserSpace\Core\SSE\SseEventDispatcher;
-use UserSpace\Core\SSE\SseEventDispatcherInterface;
 use UserSpace\JobHandler\Message\PingMessage;
 use UserSpace\JobHandler\Message\SendWelcomeEmailMessage;
 use UserSpace\JobHandler\PingHandler;
@@ -43,6 +38,11 @@ use UserSpace\Module\Form\App\Controller\ProfileFormController;
 use UserSpace\Module\Form\App\Controller\RegistrationController;
 use UserSpace\Module\Form\Src\Domain\Repository\FormRepositoryInterface;
 use UserSpace\Module\Form\Src\Infrastructure\Repository\FormRepository;
+use UserSpace\Module\SSE\App\SseController;
+use UserSpace\Module\SSE\Src\Domain\Repository\SseEventRepositoryInterface;
+use UserSpace\Module\SSE\Src\Domain\SseEventDispatcherInterface;
+use UserSpace\Module\SSE\Src\Infrastructure\Repository\SseEventRepository;
+use UserSpace\Module\SSE\Src\Infrastructure\SseEventDispatcher;
 
 /**
  * Регистрирует сервисы плагина в DI-контейнере.
