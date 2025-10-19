@@ -3,6 +3,7 @@
 namespace UserSpace\Common\Module\Form\Src\Infrastructure\Repository;
 
 use UserSpace\Common\Module\Form\Src\Domain\Repository\FormRepositoryInterface;
+use UserSpace\Core\Database\QueryBuilderInterface;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -15,12 +16,8 @@ class FormRepository implements FormRepositoryInterface
 {
     private const TABLE_NAME = 'userspace_forms';
 
-    private \wpdb $wpdb;
-
-    public function __construct()
+    public function __construct(private readonly QueryBuilderInterface $queryBuilder)
     {
-        global $wpdb;
-        $this->wpdb = $wpdb;
     }
 
     /**
@@ -31,14 +28,9 @@ class FormRepository implements FormRepositoryInterface
      */
     public function findByType(string $type): ?object
     {
-        $table_name = $this->wpdb->prefix . self::TABLE_NAME;
-
-        return $this->wpdb->get_row(
-            $this->wpdb->prepare(
-                "SELECT * FROM {$table_name} WHERE type = %s",
-                $type
-            )
-        );
+        return $this->queryBuilder->table(self::TABLE_NAME)
+            ->where('type', '=', $type)
+            ->first();
     }
 
     /**
@@ -50,7 +42,6 @@ class FormRepository implements FormRepositoryInterface
      */
     public function createOrUpdate(string $type, array $config): int|false
     {
-        $table_name = $this->wpdb->prefix . self::TABLE_NAME;
         $existing = $this->findByType($type);
 
         $data = [
@@ -59,21 +50,22 @@ class FormRepository implements FormRepositoryInterface
         ];
 
         if ($existing) {
-            return $this->wpdb->update($table_name, $data, ['id' => $existing->id]);
+            return $this->queryBuilder->table(self::TABLE_NAME)
+                ->where('id', '=', $existing->id)
+                ->update($data);
         }
 
         $data['created_at'] = current_time('mysql', 1);
-        return $this->wpdb->insert($table_name, $data);
+        return $this->queryBuilder->table(self::TABLE_NAME)->insert($data);
     }
 
     /**
      * Создает таблицу в БД.
      */
-    public static function createTable(): void
+    public function createTable(): void
     {
-        global $wpdb;
-        $table_name = $wpdb->prefix . self::TABLE_NAME;
-        $charset_collate = $wpdb->get_charset_collate();
+        $table_name = $this->queryBuilder->getTableName(self::TABLE_NAME);
+        $charset_collate = $this->queryBuilder->getCharsetCollate();
 
         $sql = "CREATE TABLE {$table_name} (
 			id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -84,17 +76,14 @@ class FormRepository implements FormRepositoryInterface
 			KEY type (type)
 		) {$charset_collate};";
 
-        require_once ABSPATH . 'wp-admin/includes/upgrade.php';
-        dbDelta($sql);
+        $this->queryBuilder->runDbDelta($sql);
     }
 
     /**
      * Удаляет таблицу.
      */
-    public static function dropTable(): void
+    public function dropTable(): void
     {
-        global $wpdb;
-        $table_name = $wpdb->prefix . self::TABLE_NAME;
-        $wpdb->query("DROP TABLE IF EXISTS {$table_name}");
+        $this->queryBuilder->dropTableIfExists(self::TABLE_NAME);
     }
 }

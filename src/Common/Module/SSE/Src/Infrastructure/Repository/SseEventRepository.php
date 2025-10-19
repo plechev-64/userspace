@@ -3,6 +3,7 @@
 namespace UserSpace\Common\Module\SSE\Src\Infrastructure\Repository;
 
 use UserSpace\Common\Module\SSE\Src\Domain\Repository\SseEventRepositoryInterface;
+use UserSpace\Core\Database\QueryBuilderInterface;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -15,12 +16,8 @@ class SseEventRepository implements SseEventRepositoryInterface
 {
     private const TABLE_NAME = 'userspace_sse_events';
 
-    private \wpdb $wpdb;
-
-    public function __construct()
+    public function __construct(private readonly QueryBuilderInterface $queryBuilder)
     {
-        global $wpdb;
-        $this->wpdb = $wpdb;
     }
 
     /**
@@ -32,16 +29,15 @@ class SseEventRepository implements SseEventRepositoryInterface
      */
     public function create(string $eventType, array $payload): ?int
     {
-        $result = $this->wpdb->insert(
-            $this->wpdb->prefix . self::TABLE_NAME,
-            [
-                'event_type' => $eventType,
-                'payload' => wp_json_encode($payload),
-                'created_at' => gmdate('Y-m-d H:i:s'),
-            ]
-        );
+        $data = [
+            'event_type' => $eventType,
+            'payload' => wp_json_encode($payload),
+            'created_at' => gmdate('Y-m-d H:i:s'),
+        ];
 
-        return $result ? $this->wpdb->insert_id : null;
+        $result = $this->queryBuilder->table(self::TABLE_NAME)->insert($data);
+
+        return $result ? $this->queryBuilder->getWpdb()->insert_id : null;
     }
 
     /**
@@ -52,10 +48,10 @@ class SseEventRepository implements SseEventRepositoryInterface
      */
     public function findNewerThan(int $lastEventId): array
     {
-        return $this->wpdb->get_results($this->wpdb->prepare(
-            "SELECT * FROM {$this->wpdb->prefix}" . self::TABLE_NAME . " WHERE id > %d ORDER BY id ASC",
-            $lastEventId
-        ));
+        return $this->queryBuilder->table(self::TABLE_NAME)
+            ->where('id', '>', $lastEventId)
+            ->orderBy('id', 'ASC')
+            ->get();
     }
 
     /**
@@ -65,10 +61,9 @@ class SseEventRepository implements SseEventRepositoryInterface
      */
     public function deleteOlderThanOrEqual(int $lastEventId): void
     {
-        $this->wpdb->query($this->wpdb->prepare(
-            "DELETE FROM {$this->wpdb->prefix}" . self::TABLE_NAME . " WHERE id <= %d",
-            $lastEventId
-        ));
+        $this->queryBuilder->table(self::TABLE_NAME)
+            ->where('id', '<=', $lastEventId)
+            ->delete();
     }
 
     /**
@@ -79,22 +74,20 @@ class SseEventRepository implements SseEventRepositoryInterface
      */
     public function pruneOldEvents(string $beforeDate): int
     {
-        $result = $this->wpdb->query($this->wpdb->prepare(
-            "DELETE FROM {$this->wpdb->prefix}" . self::TABLE_NAME . " WHERE created_at < %s",
-            $beforeDate
-        ));
+        $result = $this->queryBuilder->table(self::TABLE_NAME)
+            ->where('created_at', '<', $beforeDate)
+            ->delete();
 
         return $result === false ? 0 : $result;
     }
 
     /**
-     * Создает таблицу в БД.
+     * Создает таблицу в БД. Этот метод должен вызываться при активации плагина.
      */
-    public static function createTable(): void
+    public function createTable(): void
     {
-        global $wpdb;
-        $table_name = $wpdb->prefix . self::TABLE_NAME;
-        $charset_collate = $wpdb->get_charset_collate();
+        $table_name = $this->queryBuilder->getTableName(self::TABLE_NAME);
+        $charset_collate = $this->queryBuilder->getCharsetCollate();
 
         $sql = "CREATE TABLE {$table_name} (
             id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -104,17 +97,14 @@ class SseEventRepository implements SseEventRepositoryInterface
             PRIMARY KEY  (id)
         ) {$charset_collate};";
 
-        require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
-        dbDelta($sql);
+        $this->queryBuilder->runDbDelta($sql);
     }
 
     /**
      * Удаляет таблицу при деактивации плагина.
      */
-    public static function dropTable(): void
+    public function dropTable(): void
     {
-        global $wpdb;
-        $table_name = $wpdb->prefix . self::TABLE_NAME;
-        $wpdb->query("DROP TABLE IF EXISTS {$table_name}");
+        $this->queryBuilder->dropTableIfExists(self::TABLE_NAME);
     }
 }

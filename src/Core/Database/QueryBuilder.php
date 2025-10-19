@@ -12,7 +12,7 @@ if (!defined('ABSPATH')) {
 /**
  * Конструктор SQL-запросов для безопасного взаимодействия с базой данных WordPress.
  */
-class QueryBuilder
+class QueryBuilder implements QueryBuilderInterface
 {
 
     private readonly wpdb $wpdb;
@@ -46,7 +46,7 @@ class QueryBuilder
      *
      * @return $this
      */
-    public function select($columns = ['*']): self
+    public function select(array|string $columns = ['*']): self
     {
         $this->select = is_array($columns) ? $columns : func_get_args();
 
@@ -71,6 +71,19 @@ class QueryBuilder
         $this->fromAlias = $alias;
 
         return $this;
+    }
+
+    /**
+     * Устанавливает основную таблицу. Алиас для from().
+     *
+     * @param string $table Имя таблицы (без префикса).
+     * @param string|null $alias Псевдоним таблицы.
+     *
+     * @return $this
+     */
+    public function table(string $table, ?string $alias = null): self
+    {
+        return $this->from($table, $alias);
     }
 
     /**
@@ -234,7 +247,7 @@ class QueryBuilder
      *
      * @return mixed|null
      */
-    public function value(string $column)
+    public function value(string $column): mixed
     {
         $this->select($column);
         list($query, $bindings) = $this->buildQuery();
@@ -366,5 +379,147 @@ class QueryBuilder
         }
 
         return [implode(' ', $whereClauses), $bindings];
+    }
+
+    /**
+     * Выполняет операцию INSERT.
+     *
+     * @param array $data Ассоциативный массив данных для вставки (column => value).
+     * @return int|false Количество вставленных строк или false в случае ошибки.
+     */
+    public function insert(array $data): int|false
+    {
+        if (empty($this->from)) {
+            return false;
+        }
+
+        $result = $this->wpdb->insert($this->from, $data);
+        $this->reset();
+
+        return $result;
+    }
+
+    /**
+     * Выполняет операцию UPDATE.
+     *
+     * @param array $data Ассоциативный массив данных для обновления (column => value).
+     * @return int|false Количество обновленных строк или false в случае ошибки.
+     */
+    public function update(array $data): int|false
+    {
+        if (empty($this->from) || empty($this->where)) {
+            return false;
+        }
+
+        list($whereClause, $bindings) = $this->buildWhere();
+        $fullQuery = "UPDATE {$this->from} SET " .
+            implode(', ', array_map(fn($col) => "`{$col}` = %s", array_keys($data))) .
+            " WHERE " . $whereClause;
+
+        $bindings = array_merge(array_values($data), $bindings);
+
+        $result = $this->wpdb->query($this->wpdb->prepare($fullQuery, $bindings));
+        $this->reset();
+
+        return $result;
+    }
+
+    /**
+     * Выполняет операцию DELETE.
+     *
+     * @return int|false Количество удаленных строк или false в случае ошибки.
+     */
+    public function delete(): int|false
+    {
+        if (empty($this->from) || empty($this->where)) {
+            return false;
+        }
+
+        list($whereClause, $bindings) = $this->buildWhere();
+        $fullQuery = "DELETE FROM {$this->from} WHERE " . $whereClause;
+
+        $result = $this->wpdb->query($this->wpdb->prepare($fullQuery, $bindings));
+        $this->reset();
+
+        return $result;
+    }
+
+    /**
+     * Сбрасывает состояние конструктора для нового запроса.
+     */
+    private function reset(): void
+    {
+        $this->select = ['*'];
+        $this->from = null;
+        $this->fromAlias = null;
+        $this->joins = [];
+        $this->where = [];
+        $this->orderBy = [];
+        $this->limit = null;
+        $this->offset = null;
+    }
+
+    /**
+     * Выполняет SQL для создания или обновления таблицы с помощью dbDelta.
+     *
+     * @param string $schemaSql SQL-схема таблицы.
+     */
+    public function runDbDelta(string $schemaSql): void
+    {
+        if (!function_exists('dbDelta')) {
+            require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+        }
+        dbDelta($schemaSql);
+    }
+
+    /**
+     * Удаляет таблицу, если она существует.
+     *
+     * @param string $tableName Имя таблицы (без префикса).
+     */
+    public function dropTableIfExists(string $tableName): void
+    {
+        $fullTableName = $this->wpdb->prefix . $tableName;
+        $this->wpdb->query("DROP TABLE IF EXISTS {$fullTableName}");
+    }
+
+    /**
+     * Возвращает строку кодировки и сопоставления для создания таблицы.
+     * Обертка для $wpdb->get_charset_collate().
+     *
+     * @return string
+     */
+    public function getCharsetCollate(): string
+    {
+        return $this->wpdb->get_charset_collate();
+    }
+
+    /**
+     * Возвращает полное имя таблицы с префиксом WordPress.
+     *
+     * @param string $tableName Имя таблицы без префикса.
+     * @return string
+     */
+    public function getTableName(string $tableName): string
+    {
+        if (str_starts_with($tableName, $this->wpdb->prefix)) {
+            return $tableName;
+        }
+
+        return $this->wpdb->prefix . $tableName;
+    }
+
+    /**
+     * Выполняет "сырой" SQL-запрос и возвращает первую строку результата.
+     *
+     * @param string $query SQL-запрос с плейсхолдерами %s, %d, %f.
+     * @param mixed ...$args Аргументы для подстановки в запрос.
+     * @return object|null
+     */
+    public function firstRaw(string $query, ...$args): ?object
+    {
+        $this->reset(); // Сбрасываем состояние билдера, так как выполняется сырой запрос
+
+        return $this->wpdb->get_row($this->wpdb->prepare($query, $args));
     }
 }

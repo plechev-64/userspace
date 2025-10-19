@@ -77,7 +77,7 @@ class CronManager
     /**
      * Удаляет все запланированные Cron-задачи плагина.
      */
-    public static function unregisterHooks(): void
+    public function unregisterAllSchedules(): void
     {
         wp_clear_scheduled_hook(self::CRON_HOOK_BATCH);
         wp_clear_scheduled_hook(self::PRUNE_CRON_HOOK);

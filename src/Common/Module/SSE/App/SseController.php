@@ -35,8 +35,6 @@ class SseController extends AbstractController
     #[Route(path: '/events', method: 'GET')]
     public function streamEvents(Request $request): void
     {
-        global $wpdb;
-
         // Немедленно закрываем сессию, чтобы не блокировать другие запросы от этого же пользователя.
         session_write_close();
 
@@ -51,7 +49,6 @@ class SseController extends AbstractController
         @ini_set('zlib.output_compression', 0);
 
         $last_event_id = $request->getHeader('Last-Event-ID', 0);
-        $table_name = $wpdb->prefix . 'userspace_sse_events';
 
         $time_limit = 50;
         set_time_limit($time_limit + 5);

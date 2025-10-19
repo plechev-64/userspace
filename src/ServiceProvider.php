@@ -45,6 +45,9 @@ use UserSpace\Common\Module\Tabs\Src\Infrastructure\TabProvider;
 use UserSpace\Common\Service\TemplateManager;
 use UserSpace\Common\Service\TemplateManagerInterface;
 use UserSpace\Common\Service\CronManager;
+use UserSpace\Core\Database\TransactionService;
+use UserSpace\Core\Database\QueryBuilderInterface;
+use UserSpace\Core\Database\TransactionServiceInterface;
 use UserSpace\Core\ContainerInterface;
 use UserSpace\Core\Database\QueryBuilder;
 use UserSpace\Core\Helper\StringFilter;
@@ -159,11 +162,17 @@ class ServiceProvider
 
         // База данных
         $container->set(
-            QueryBuilder::class,
+            QueryBuilderInterface::class,
             function () {
                 global $wpdb;
                 return new QueryBuilder($wpdb);
             }
+        );
+        $container->set(QueryBuilder::class, fn(ContainerInterface $c) => $c->get(QueryBuilderInterface::class));
+
+        $container->set(
+            TransactionServiceInterface::class,
+            fn(ContainerInterface $c) => new TransactionService($c->get(QueryBuilderInterface::class))
         );
 
         // --- Фоновые процессы ---
@@ -183,16 +192,16 @@ class ServiceProvider
         });
 
         // --- Формы ---
-        $container->set(FormRepositoryInterface::class, fn() => new FormRepository());
+        $container->set(FormRepositoryInterface::class, fn(ContainerInterface $c) => $c->get(FormRepository::class));
 
         // --- SSE ---
-        $container->set(SseEventRepositoryInterface::class, fn() => new SseEventRepository());
+        $container->set(SseEventRepositoryInterface::class, fn(ContainerInterface $c) => $c->get(SseEventRepository::class));
         $container->set(SseEventDispatcherInterface::class, fn(ContainerInterface $c) => $c->get(SseEventDispatcher::class));
 
         // --- Очередь ---
 
         // Репозиторий для работы с задачами
-        $container->set(JobRepositoryInterface::class, fn() => new JobRepository());
+        $container->set(JobRepositoryInterface::class, fn(ContainerInterface $c) => $c->get(JobRepository::class));
 
         // Карта "Сообщение -> Обработчик"
         $container->set('queue.message_handler_map', fn() => [

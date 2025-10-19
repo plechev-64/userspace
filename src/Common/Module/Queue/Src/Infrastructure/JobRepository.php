@@ -2,6 +2,8 @@
 
 namespace UserSpace\Common\Module\Queue\Src\Infrastructure;
 
+use UserSpace\Core\Database\TransactionServiceInterface;
+use UserSpace\Core\Database\QueryBuilder;
 use UserSpace\Common\Module\Queue\Src\Domain\JobRepositoryInterface;
 
 if (!defined('ABSPATH')) {
@@ -16,12 +18,11 @@ class JobRepository implements JobRepositoryInterface
 {
     private const TABLE_NAME = 'userspace_jobs';
 
-    private \wpdb $wpdb;
-
-    public function __construct()
+    public function __construct(
+        private readonly QueryBuilder                $queryBuilder,
+        private readonly TransactionServiceInterface $transactionService
+    )
     {
-        global $wpdb;
-        $this->wpdb = $wpdb;
     }
 
     /**
@@ -31,23 +32,18 @@ class JobRepository implements JobRepositoryInterface
      */
     public function findAndLockOnePendingJob(): ?\stdClass
     {
-        $table_name = $this->wpdb->prefix . self::TABLE_NAME;
+        $this->transactionService->beginTransaction();
 
-        $this->wpdb->query('START TRANSACTION');
-        $job = $this->wpdb->get_row($this->wpdb->prepare(
-            "SELECT * FROM {$table_name} WHERE status = %s AND available_at <= %s ORDER BY id ASC LIMIT 1 FOR UPDATE",
-            'pending',
-            gmdate('Y-m-d H:i:s')
-        ));
+        $query = "SELECT * FROM {$this->queryBuilder->getTableName(self::TABLE_NAME)} WHERE status = %s AND available_at <= %s ORDER BY id ASC LIMIT 1 FOR UPDATE";
+        $job = $this->queryBuilder->firstRaw($query, 'pending', gmdate('Y-m-d H:i:s'));
 
         if (!$job) {
-            $this->wpdb->query('COMMIT');
-
+            $this->transactionService->commit();
             return null;
         }
 
-        $this->wpdb->update($table_name, ['status' => 'in_progress'], ['id' => $job->id]);
-        $this->wpdb->query('COMMIT');
+        $this->queryBuilder->table(self::TABLE_NAME)->where('id', '=', $job->id)->update(['status' => 'in_progress']);
+        $this->transactionService->commit();
 
         return $job;
     }
@@ -59,11 +55,9 @@ class JobRepository implements JobRepositoryInterface
      */
     public function markAsCompleted(int $jobId): void
     {
-        $this->wpdb->update(
-            $this->wpdb->prefix . self::TABLE_NAME,
-            ['status' => 'completed'],
-            ['id' => $jobId]
-        );
+        $this->queryBuilder->table(self::TABLE_NAME)
+            ->where('id', '=', $jobId)
+            ->update(['status' => 'completed']);
     }
 
     /**
@@ -74,14 +68,13 @@ class JobRepository implements JobRepositoryInterface
      */
     public function markAsFailed(int $jobId, int $newAttemptCount): void
     {
-        $this->wpdb->update(
-            $this->wpdb->prefix . self::TABLE_NAME,
-            [
-                'status' => 'failed',
-                'attempts' => $newAttemptCount,
-            ],
-            ['id' => $jobId]
-        );
+        $data = [
+            'status' => 'failed',
+            'attempts' => $newAttemptCount,
+        ];
+        $this->queryBuilder->table(self::TABLE_NAME)
+            ->where('id', '=', $jobId)
+            ->update($data);
     }
 
     /**
@@ -91,13 +84,10 @@ class JobRepository implements JobRepositoryInterface
      */
     public function hasPendingJobs(): bool
     {
-        $table_name = $this->wpdb->prefix . self::TABLE_NAME;
-
-        $count = $this->wpdb->get_var($this->wpdb->prepare(
-            "SELECT COUNT(*) FROM {$table_name} WHERE status = %s AND available_at <= %s",
-            'pending',
-            gmdate('Y-m-d H:i:s')
-        ));
+        $count = $this->queryBuilder->table(self::TABLE_NAME)
+            ->where('status', '=', 'pending')
+            ->where('available_at', '<=', gmdate('Y-m-d H:i:s'))
+            ->count();
 
         return (int)$count > 0;
     }
@@ -112,15 +102,15 @@ class JobRepository implements JobRepositoryInterface
      */
     public function create(string $messageClass, array $args, int $delaySeconds): ?int
     {
-        $result = $this->wpdb->insert($this->wpdb->prefix . self::TABLE_NAME, [
-                'message_class' => $messageClass,
-                'args' => serialize($args),
-                'available_at' => gmdate('Y-m-d H:i:s', time() + $delaySeconds),
-                'created_at' => gmdate('Y-m-d H:i:s'),
-            ]
-        );
+        $data = [
+            'message_class' => $messageClass,
+            'args' => serialize($args),
+            'available_at' => gmdate('Y-m-d H:i:s', time() + $delaySeconds),
+            'created_at' => gmdate('Y-m-d H:i:s'),
+        ];
+        $result = $this->queryBuilder->table(self::TABLE_NAME)->insert($data);
 
-        return $result ? $this->wpdb->insert_id : null;
+        return $result ? $this->queryBuilder->getWpdb()->insert_id : null;
     }
 
     /**
@@ -131,23 +121,21 @@ class JobRepository implements JobRepositoryInterface
      */
     public function pruneOldJobs(string $beforeDate): int
     {
-        $result = $this->wpdb->query($this->wpdb->prepare(
-            "DELETE FROM {$this->wpdb->prefix}" . self::TABLE_NAME . " WHERE status = %s AND created_at < %s",
-            'completed',
-            $beforeDate
-        ));
+        $result = $this->queryBuilder->table(self::TABLE_NAME)
+            ->where('status', '=', 'completed')
+            ->where('created_at', '<', $beforeDate)
+            ->delete();
 
         return $result === false ? 0 : $result;
     }
 
     /**
-     * Создает таблицу в БД при активации плагина.
+     * Создает таблицу в БД.
      */
-    public static function createTable(): void
+    public function createTable(): void
     {
-        global $wpdb;
-        $table_name = $wpdb->prefix . self::TABLE_NAME;
-        $charset_collate = $wpdb->get_charset_collate();
+        $table_name = $this->queryBuilder->getTableName(self::TABLE_NAME);
+        $charset_collate = $this->queryBuilder->getCharsetCollate();
 
         $sql = "CREATE TABLE {$table_name} (
             id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -161,17 +149,14 @@ class JobRepository implements JobRepositoryInterface
             KEY status_available_at (status, available_at)
         ) {$charset_collate};";
 
-        require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
-        dbDelta($sql);
+        $this->queryBuilder->runDbDelta($sql);
     }
 
     /**
-     * Удаляет таблицу при деактивации плагина.
+     * Удаляет таблицу.
      */
-    public static function dropTable(): void
+    public function dropTable(): void
     {
-        global $wpdb;
-        $table_name = $wpdb->prefix . self::TABLE_NAME;
-        $wpdb->query("DROP TABLE IF EXISTS {$table_name}");
+        $this->queryBuilder->dropTableIfExists(self::TABLE_NAME);
     }
 }

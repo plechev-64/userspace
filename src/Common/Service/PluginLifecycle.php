@@ -2,9 +2,12 @@
 
 namespace UserSpace\Common\Service;
 
+use UserSpace\Common\Module\Form\Src\Domain\Repository\FormRepositoryInterface;
+use UserSpace\Common\Module\Queue\Src\Domain\JobRepositoryInterface;
+use UserSpace\Common\Module\SSE\Src\Domain\Repository\SseEventRepositoryInterface;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Repository\FormRepository;
-use UserSpace\Common\Module\Queue\Src\Infrastructure\JobRepository;
-use UserSpace\Common\Module\SSE\Src\Infrastructure\Repository\SseEventRepository;
+use UserSpace\Core\ContainerInterface;
+use UserSpace\Plugin;
 
 /**
  * Управляет жизненным циклом плагина (активация, деактивация, удаление).
@@ -12,6 +15,13 @@ use UserSpace\Common\Module\SSE\Src\Infrastructure\Repository\SseEventRepository
 class PluginLifecycle
 {
     private const REDIRECT_TRANSIENT = 'usp_setup_wizard_redirect';
+    private ContainerInterface $container;
+
+    public function __construct()
+    {
+        // Получаем контейнер из основного класса плагина
+        $this->container = Plugin::getInstance()->getContainer();
+    }
 
     /**
      * Выполняется при активации плагина.
@@ -24,11 +34,9 @@ class PluginLifecycle
         // Устанавливаем флаг для редиректа на 30 секунд.
         set_transient(self::REDIRECT_TRANSIENT, true, 30);
 
-        require_once ABSPATH . 'wp-admin/includes/upgrade.php';
-
-        FormRepository::createTable();
-        JobRepository::createTable();
-        SseEventRepository::createTable();
+        $this->container->get(FormRepositoryInterface::class)->createTable();
+        $this->container->get(JobRepositoryInterface::class)->createTable();
+        $this->container->get(SseEventRepositoryInterface::class)->createTable();
 
         // Устанавливаем опцию, которая может понадобиться в будущем.
         add_option('userspace_version', USERSPACE_VERSION);
@@ -42,10 +50,10 @@ class PluginLifecycle
     public function onDeactivation(): void
     {
         // Удаляем все cron-задачи, связанные с очередью
-        CronManager::unregisterHooks();
-        FormRepository::dropTable();
-        JobRepository::dropTable();
-        SseEventRepository::dropTable();
+        $this->container->get(CronManager::class)->unregisterAllSchedules();
+        $this->container->get(FormRepositoryInterface::class)->dropTable();
+        $this->container->get(JobRepositoryInterface::class)->dropTable();
+        $this->container->get(SseEventRepositoryInterface::class)->dropTable();
         flush_rewrite_rules();
     }
 
