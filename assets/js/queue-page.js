@@ -130,12 +130,14 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         const eventsUrl = UspCore.api.getEndpointUrl(pageData.eventsEndpoint);
-        const sseClient = new SSEClient(eventsUrl);
+        const sseClient = UspCore.createSseClient(eventsUrl);
 
         sseClient.on('batch_processed', (data) => {
-            console.log(`Received batch_processed event. Jobs processed: ${data.jobsProcessed}. Debouncing status fetch.`);
-            // Вызываем обертку вместо прямого вызова fetchStatus()
-            debouncedFetchStatus();
+            if (data && typeof data.JobsProcessed !== 'undefined') {
+                console.log(`Received batch_processed event. Jobs processed: ${data.JobsProcessed}. Debouncing status fetch.`);
+                // Вызываем обертку вместо прямого вызова fetchStatus()
+                debouncedFetchStatus();
+            }
         });
 
         sseClient.connect();

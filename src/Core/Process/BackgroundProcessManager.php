@@ -19,7 +19,7 @@ class BackgroundProcessManager
      */
     public function dispatch(string $endpoint, array $body = []): void
     {
-        $url = rest_url('/'.USERSPACE_REST_NAMESPACE.'/' . ltrim($endpoint, '/'));
+        $url = rest_url('/' . USERSPACE_REST_NAMESPACE . '/' . ltrim($endpoint, '/'));
 
         // Собираем куки текущего пользователя для аутентификации в фоновом запросе.
         $cookies = [];
@@ -46,6 +46,9 @@ class BackgroundProcessManager
             'timeout' => 1,
             'sslverify' => false, // Для локальной разработки
             'cookies' => $cookies,
+            'headers' => [
+                'X-Worker-Token' => USERSPACE_WORKER_TOKEN,
+            ],
             'body' => $body,
         ];
 

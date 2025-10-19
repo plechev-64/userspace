@@ -2,8 +2,11 @@
 
 namespace UserSpace\Core\Queue;
 
+use UserSpace\Core\Cron\CronManager;
 use UserSpace\Core\ContainerInterface;
-use UserSpace\Core\SSE\SseManager;
+use UserSpace\Core\Queue\Repository\JobRepositoryInterface;
+use UserSpace\Core\SSE\Repository\SseEventRepositoryInterface;
+use UserSpace\Core\SSE\SseManagerInterface;
 
 // Защита от прямого доступа к файлу
 if (!defined('ABSPATH')) {
@@ -17,41 +20,25 @@ if (!defined('ABSPATH')) {
  */
 class QueueManager
 {
-
-    /**
-     * Имя кастомной таблицы в БД для хранения задач.
-     */
-    private const TABLE_NAME = 'userspace_jobs';
-
-    /**
-     * Имя хука для WP-Cron, запускающего пакетную обработку.
-     */
-    private const CRON_HOOK_BATCH = 'userspace_process_queue_batch';
-
-    /**
-     * Имя хука для немедленного запуска воркера.
-     */
-    private const SPAWN_CRON_HOOK = 'userspace_spawn_queue_worker';
-
-    /**
-     * @var array<class-string<QueueableMessage>, class-string<MessageHandler>>
-     */
-    private array $messageHandlerMap;
-    private ContainerInterface $container;
-    private QueueStatus $status;
-    private SseManager $sseManager;
+    private ?CronManager $cronManager = null;
 
     public function __construct(
-        ContainerInterface $container,
-        QueueStatus        $status,
-        SseManager         $sseManager,
-        array              $messageHandlerMap
+        private readonly ContainerInterface          $container,
+        private readonly QueueStatus                 $status,
+        private readonly SseManagerInterface         $sseManager,
+        private readonly JobRepositoryInterface      $jobRepository,
+        private readonly SseEventRepositoryInterface $sseEventRepository,
+        private readonly array                       $messageHandlerMap
     )
     {
-        $this->container = $container;
-        $this->status = $status;
-        $this->sseManager = $sseManager;
-        $this->messageHandlerMap = $messageHandlerMap;
+    }
+
+    /**
+     * Устанавливает зависимость от CronManager (Setter Injection для избежания циклической зависимости).
+     */
+    public function setCronManager(CronManager $cronManager): void
+    {
+        $this->cronManager = $cronManager;
     }
 
     /**
@@ -82,37 +69,24 @@ class QueueManager
 
         $this->status->endRun($jobsProcessed);
 
-        if ($this->hasPendingJobs()) {
-            if (!wp_next_scheduled(self::CRON_HOOK_BATCH)) {
-                wp_schedule_single_event(time(), self::CRON_HOOK_BATCH);
-            }
+        // Если были обработаны задачи и в очереди еще есть что-то, планируем немедленный перезапуск.
+        if ($this->cronManager && $jobsProcessed > 0 && $this->jobRepository->hasPendingJobs()) {
+            $this->cronManager->scheduleImmediateBatch();
         }
     }
 
     /**
      * Находит и обрабатывает одну задачу из очереди.
      *
-     * @return bool true, если задача была найдена и обработана, иначе false.
+     * @return int|null true, если задача была найдена и обработана, иначе false.
      */
     public function processSingleJob(): ?int
     {
-        global $wpdb;
-        $table_name = $wpdb->prefix . self::TABLE_NAME;
-
-        $wpdb->query('START TRANSACTION');
-        $job = $wpdb->get_row($wpdb->prepare(
-            "SELECT * FROM $table_name WHERE status = %s AND available_at <= %s ORDER BY id ASC LIMIT 1 FOR UPDATE",
-            'pending',
-            gmdate('Y-m-d H:i:s')
-        ));
+        $job = $this->jobRepository->findAndLockOnePendingJob();
 
         if (!$job) {
-            $wpdb->query('COMMIT');
             return null;
         }
-
-        $wpdb->update($table_name, ['status' => 'in_progress'], ['id' => $job->id]);
-        $wpdb->query('COMMIT');
 
         $this->status->log(sprintf('Processing job #%d (%s)...', $job->id, $job->message_class));
 
@@ -141,19 +115,12 @@ class QueueManager
 
             $handlerInstance->handle($message);
 
-            $wpdb->update($table_name, ['status' => 'completed'], ['id' => $job->id]);
+            $this->jobRepository->markAsCompleted($job->id);
             $this->status->log(sprintf('Job #%d completed successfully.', $job->id));
 
         } catch (\Throwable $e) {
             // В случае ошибки, пометить как 'failed'
-            $wpdb->update(
-                $table_name,
-                [
-                    'status' => 'failed',
-                    'attempts' => $job->attempts + 1,
-                ],
-                ['id' => $job->id]
-            );
+            $this->jobRepository->markAsFailed($job->id, $job->attempts + 1);
             $this->status->log(sprintf('Job #%d failed. Error: %s', $job->id, $e->getMessage()));
         }
 
@@ -161,74 +128,30 @@ class QueueManager
     }
 
     /**
-     * Регистрирует хуки для WP-Cron.
+     * Выполняет очистку старых выполненных задач.
      */
-    public function registerHooks(): void
+    public function pruneOldJobs(): void
     {
-        add_action(self::CRON_HOOK_BATCH, [$this, 'processQueueBatch']);
+        // Удаляем задачи старше 10 дней
+        $cutoffDate = (new \DateTime('-10 days'))->format('Y-m-d H:i:s');
+        $deletedRows = $this->jobRepository->pruneOldJobs($cutoffDate);
 
-        // Добавляем обработчик для немедленного запуска
-        add_action(self::SPAWN_CRON_HOOK, [$this, 'processQueueBatch']);
-
-        if (!wp_next_scheduled(self::CRON_HOOK_BATCH)) {
-            wp_schedule_event(time(), 'five_minutes', self::CRON_HOOK_BATCH);
+        if ($deletedRows > 0) {
+            $this->status->log(sprintf('Pruned %d old completed jobs from the queue.', $deletedRows));
         }
-
-        add_filter('cron_schedules', function ($schedules) {
-            if (!isset($schedules['five_minutes'])) {
-                $schedules['five_minutes'] = [
-                    'interval' => 300,
-                    'display' => __('Every 5 Minutes', 'userspace'),
-                ];
-            }
-
-            return $schedules;
-        });
     }
 
     /**
-     * Удаляет задачу из WP-Cron при деактивации.
+     * Выполняет очистку старых SSE-событий.
      */
-    public static function unregisterCronHooks(): void
+    public function pruneOldSseEvents(): void
     {
-        wp_clear_scheduled_hook(self::CRON_HOOK_BATCH);
-    }
+        // Удаляем события старше 1 дня
+        $cutoffDate = (new \DateTime('-1 day'))->format('Y-m-d H:i:s');
+        $deletedRows = $this->sseEventRepository->pruneOldEvents($cutoffDate);
 
-    /**
-     * Отправляет событие в таблицу для SSE.
-     *
-     * @param string $eventType
-     * @param array $payload
-     */
-    private function dispatchSseEvent(string $eventType, array $payload): void
-    {
-        global $wpdb;
-        $wpdb->insert(
-            $wpdb->prefix . 'userspace_sse_events',
-            [
-                'event_type' => $eventType,
-                'payload' => wp_json_encode($payload),
-                'created_at' => gmdate('Y-m-d H:i:s'),
-            ]
-        );
-    }
-
-    /**
-     * Проверяет, есть ли в очереди ожидающие задачи.
-     *
-     * @return bool
-     */
-    private function hasPendingJobs(): bool
-    {
-        global $wpdb;
-        $table_name = $wpdb->prefix . self::TABLE_NAME;
-
-        $count = $wpdb->get_var($wpdb->prepare(
-            "SELECT COUNT(*) FROM $table_name WHERE status = %s AND available_at <= %s",
-            'pending',
-            gmdate('Y-m-d H:i:s')
-        ));
-
-        return (int)$count > 0;
+        if ($deletedRows > 0) {
+            $this->status->log(sprintf('Pruned %d old SSE events.', $deletedRows));
+        }
     }
 }

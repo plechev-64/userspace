@@ -2,6 +2,11 @@
 
 namespace UserSpace\Core;
 
+use UserSpace\Core\Cron\CronManager;
+use UserSpace\Form\Repository\FormRepository;
+use UserSpace\Core\Queue\Repository\JobRepository;
+use UserSpace\Core\SSE\Repository\SseEventRepository;
+
 /**
  * Управляет жизненным циклом плагина (активация, деактивация, удаление).
  */
@@ -20,47 +25,11 @@ class PluginLifecycle
         // Устанавливаем флаг для редиректа на 30 секунд.
         set_transient(self::REDIRECT_TRANSIENT, true, 30);
 
-        global $wpdb;
-
         require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 
-        $table_name = $wpdb->prefix . 'userspace_forms';
-        $charset_collate = $wpdb->get_charset_collate();
-        $sql = "CREATE TABLE {$table_name} (
-			id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-			type VARCHAR(100) NOT NULL,
-			config LONGTEXT NOT NULL,
-			created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
-			PRIMARY KEY  (id),
-			KEY type (type)
-		) {$charset_collate};";
-        dbDelta($sql);
-
-        $table_name      = $wpdb->prefix . 'userspace_jobs';
-        $charset_collate = $wpdb->get_charset_collate();
-        $sql = "CREATE TABLE $table_name (
-             id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-             message_class VARCHAR(255) NOT NULL,
-             args LONGTEXT NOT NULL,
-             status VARCHAR(20) NOT NULL DEFAULT 'pending',
-             attempts INT(11) NOT NULL DEFAULT 0,
-             available_at DATETIME NOT NULL,
-             created_at DATETIME NOT NULL,
-             PRIMARY KEY  (id),
-             KEY status_available_at (status, available_at)
-         ) $charset_collate;";
-        dbDelta( $sql );
-
-        $table_name      = $wpdb->prefix . 'userspace_sse_events';
-        $charset_collate = $wpdb->get_charset_collate();
-        $sql = "CREATE TABLE $table_name (
-            id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-            event_type VARCHAR(255) NOT NULL,
-            payload LONGTEXT NOT NULL,
-            created_at DATETIME NOT NULL,
-            PRIMARY KEY  (id)
-        ) $charset_collate;";
-        dbDelta($sql);
+        FormRepository::createTable();
+        JobRepository::createTable();
+        SseEventRepository::createTable();
 
         // Устанавливаем опцию, которая может понадобиться в будущем.
         add_option('userspace_version', USERSPACE_VERSION);
@@ -73,13 +42,11 @@ class PluginLifecycle
      */
     public function onDeactivation(): void
     {
-        global $wpdb;
-        $table_name = $wpdb->prefix . 'userspace_jobs';
-        $wpdb->query( "DROP TABLE IF EXISTS $table_name" );
-
-        $table_name = $wpdb->prefix . 'userspace_sse_events';
-        $wpdb->query( "DROP TABLE IF EXISTS $table_name" );
-
+        // Удаляем все cron-задачи, связанные с очередью
+        CronManager::unregisterHooks();
+        FormRepository::dropTable();
+        JobRepository::dropTable();
+        SseEventRepository::dropTable();
         flush_rewrite_rules();
     }
 

@@ -2,7 +2,7 @@
 
 namespace UserSpace\Form;
 
-use UserSpace\Core\Database\QueryBuilder;
+use UserSpace\Form\Repository\FormRepositoryInterface;
 
 // Защита от прямого доступа к файлу
 if (!defined('ABSPATH')) {
@@ -14,16 +14,10 @@ if (!defined('ABSPATH')) {
  */
 class FormManager
 {
-
-    private readonly \wpdb $wpdb;
-    private readonly string $table_name;
-
-    public function __construct()
+    public function __construct(private readonly FormRepositoryInterface $repository)
     {
-        global $wpdb;
-        $this->wpdb = $wpdb;
-        $this->table_name = $this->wpdb->prefix . 'userspace_forms';
     }
+
 
     /**
      * Сохраняет конфигурацию формы в базу данных.
@@ -35,20 +29,7 @@ class FormManager
      */
     public function save(string $type, FormConfig $formConfig): int|false
     {
-        $data = [
-            'type' => $type,
-            'config' => wp_json_encode($formConfig->toArray(), JSON_UNESCAPED_UNICODE),
-        ];
-
-        $existing = $this->wpdb->get_var($this->wpdb->prepare("SELECT id FROM {$this->table_name} WHERE type = %s", $type));
-
-        if ($existing) {
-            return $this->wpdb->update($this->table_name, $data, ['id' => $existing]);
-        } else {
-            $data['created_at'] = current_time('mysql');
-
-            return $this->wpdb->insert($this->table_name, $data);
-        }
+        return $this->repository->createOrUpdate($type, $formConfig->toArray());
     }
 
     /**
@@ -60,7 +41,8 @@ class FormManager
      */
     public function load(string $type): ?FormConfig
     {
-        $config_json = $this->wpdb->get_var($this->wpdb->prepare("SELECT config FROM {$this->table_name} WHERE type = %s", $type));
+        $form = $this->repository->findByType($type);
+        $config_json = $form->config ?? null;
 
         if (!$config_json) {
             return null;

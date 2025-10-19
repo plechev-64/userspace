@@ -19,18 +19,26 @@ use UserSpace\Controller\RegistrationController;
 use UserSpace\Controller\TabContentController;
 use UserSpace\Controller\UserController;
 use UserSpace\Core\ContainerInterface;
+use UserSpace\Core\Cron\CronManager;
 use UserSpace\Core\Database\QueryBuilder;
 use UserSpace\Core\Process\BackgroundProcessManager;
 use UserSpace\Core\Http\Request;
 use UserSpace\Core\Queue\QueueManager;
 use UserSpace\Core\Queue\QueueStatus;
+use UserSpace\Core\Queue\Repository\JobRepository;
+use UserSpace\Core\Queue\Repository\JobRepositoryInterface;
 use UserSpace\Core\Rest\Helper\RestHelper;
 use UserSpace\Core\Rest\RestApi;
 use UserSpace\Core\Rest\Route\RouteCollector;
 use UserSpace\Core\Rest\Route\RouteParser;
 use UserSpace\Core\SetupWizard\SetupWizardController;
+use UserSpace\Core\SSE\Repository\SseEventRepository;
+use UserSpace\Core\SSE\Repository\SseEventRepositoryInterface;
 use UserSpace\Core\SSE\SseController;
 use UserSpace\Core\SSE\SseManager;
+use UserSpace\Core\SSE\SseManagerInterface;
+use UserSpace\Form\Repository\FormRepository;
+use UserSpace\Form\Repository\FormRepositoryInterface;
 use UserSpace\JobHandler\Message\PingMessage;
 use UserSpace\JobHandler\Message\SendWelcomeEmailMessage;
 use UserSpace\JobHandler\PingHandler;
@@ -104,7 +112,27 @@ class ServiceProvider
         // --- Фоновые процессы ---
         $container->set(BackgroundProcessManager::class, fn() => new BackgroundProcessManager());
 
+        // --- Cron ---
+        $container->set(CronManager::class, function (ContainerInterface $c) {
+            // Сначала создаем оба менеджера
+            $queueManager = $c->get(QueueManager::class);
+            $cronManager = new CronManager($queueManager);
+            // Затем "связываем" их, чтобы избежать циклической зависимости
+            $queueManager->setCronManager($cronManager);
+            return $cronManager;
+        });
+
+        // --- Формы ---
+        $container->set(FormRepositoryInterface::class, fn() => new FormRepository());
+
+        // --- SSE ---
+        $container->set(SseEventRepositoryInterface::class, fn() => new SseEventRepository());
+        $container->set(SseManagerInterface::class, fn(ContainerInterface $c) => $c->get(SseManager::class));
+
         // --- Очередь ---
+
+        // Репозиторий для работы с задачами
+        $container->set(JobRepositoryInterface::class, fn() => new JobRepository());
 
         // Карта "Сообщение -> Обработчик"
         $container->set('queue.message_handler_map', fn() => [
@@ -112,13 +140,13 @@ class ServiceProvider
             PingMessage::class => PingHandler::class,
         ]);
 
-        $container->set(QueueManager::class, function (ContainerInterface $c) {
-            return new QueueManager(
-                $c,
-                $c->get(QueueStatus::class),
-                $c->get(SseManager::class),
-                $c->get('queue.message_handler_map')
-            );
-        });
+        $container->set(QueueManager::class, fn(ContainerInterface $c) => new QueueManager(
+            $c,
+            $c->get(QueueStatus::class),
+            $c->get(SseManager::class),
+            $c->get(JobRepository::class),
+            $c->get(SseEventRepository::class),
+            $c->get('queue.message_handler_map')
+        ));
     }
 }

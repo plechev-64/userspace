@@ -89,12 +89,11 @@ class QueueActionsController extends AbstractController
     #[Route(path: '/run-worker', method: 'POST')]
     public function runWorker(Request $request): JsonResponse
     {
-        // Проверка прав доступа для фоновых запросов может быть сложной,
-        // поэтому здесь можно оставить проверку по токену или положиться на то,
-        // что эндпоинт не будет известен публично. Для надежности вернем токен.
-//        if (!current_user_can('manage_options')) {
-//            return $this->error('Permission denied.', 403);
-//        }
+        // Проверяем наш внутренний токен. Это гарантирует, что эндпоинт вызван только нашим плагином.
+        $token = $request->getHeader('X-Worker-Token');
+        if ( ! $token || ! hash_equals(USERSPACE_WORKER_TOKEN, $token)) {
+            return $this->error('Invalid worker token.', 403);
+        }
 
         $this->queueManager->processQueueBatch();
         return $this->success(['message' => 'Worker finished.']);

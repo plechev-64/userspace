@@ -3,6 +3,8 @@
 namespace UserSpace\Core\Queue;
 
 // Защита от прямого доступа к файлу
+use UserSpace\Core\Queue\Repository\JobRepositoryInterface;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -12,26 +14,24 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class QueueDispatcher {
 
-	/**
-	 * Добавляет задачу в очередь.
-	 *
-	 * @param QueueableMessage $message Объект сообщения для постановки в очередь.
-	 * @param int $delay_seconds Задержка перед выполнением в секундах.
-	 *
-	 * @return bool|int
-	 */
-	public function dispatch( QueueableMessage $message, int $delay_seconds = 0 ): bool|int {
-		global $wpdb;
-		$table_name = $wpdb->prefix . 'userspace_jobs';
+    private JobRepositoryInterface $jobRepository;
 
-		$available_at = gmdate( 'Y-m-d H:i:s', time() + $delay_seconds );
+    public function __construct(JobRepositoryInterface $jobRepository)
+    {
+        $this->jobRepository = $jobRepository;
+    }
 
-		return $wpdb->insert( $table_name, [
-				'message_class'      => get_class( $message ),
-				'args'         => serialize( $message->toArray() ),
-				'available_at' => $available_at,
-				'created_at'   => gmdate( 'Y-m-d H:i:s' ),
-			]
-		);
-	}
+    /**
+     * Добавляет задачу в очередь.
+     *
+     * @param QueueableMessage $message Объект сообщения для постановки в очередь.
+     * @param int $delay_seconds Задержка перед выполнением в секундах.
+     *
+     * @return int|null ID созданной задачи или null в случае ошибки.
+     */
+    public function dispatch(QueueableMessage $message, int $delay_seconds = 0): ?int
+    {
+        // Этот метод нужно будет реализовать в JobRepository
+        return $this->jobRepository->create(get_class($message), $message->toArray(), $delay_seconds);
+    }
 }

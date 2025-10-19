@@ -5,6 +5,7 @@ namespace UserSpace;
 use UserSpace\Admin\AdminManager;
 use UserSpace\Core\Container;
 use UserSpace\Core\ContainerInterface;
+use UserSpace\Core\Cron\CronManager;
 use UserSpace\Core\Queue\QueueManager;
 use UserSpace\Core\InitWpRest;
 use UserSpace\Core\Theme\ThemeManager;
@@ -63,7 +64,7 @@ final class Plugin
         $this->container->get(AssetsManager::class)->registerHooks();
         $this->container->get(AdminManager::class)->registerHooks();
         $this->container->get(FrontendManager::class)->registerHooks();
-        $this->container->get(QueueManager::class)->registerHooks();
+        $this->container->get(CronManager::class)->registerHooks();
 
         // Хук для подмены стандартных аватаров
         $avatarManager = $this->container->get(Service\AvatarManager::class);

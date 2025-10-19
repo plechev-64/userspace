@@ -2,6 +2,8 @@
 
 namespace UserSpace\Core\SSE;
 
+use UserSpace\Core\SSE\Repository\SseEventRepositoryInterface;
+
 if ( ! defined('ABSPATH')) {
     exit;
 }
@@ -9,9 +11,14 @@ if ( ! defined('ABSPATH')) {
 /**
  * Управляет отправкой событий для трансляции через Server-Sent Events.
  */
-class SseManager
+class SseManager implements SseManagerInterface
 {
-    private const TABLE_NAME = 'userspace_sse_events';
+    private SseEventRepositoryInterface $repository;
+
+    public function __construct(SseEventRepositoryInterface $repository)
+    {
+        $this->repository = $repository;
+    }
 
     /**
      * Отправляет событие в "почтовый ящик" (БД) для последующей трансляции.
@@ -19,16 +26,8 @@ class SseManager
      * @param string $eventType Тип события (например, 'job_processed').
      * @param array $payload Данные для передачи.
      */
-    public function dispatchEvent(string $eventType, array $payload): void
+    public function dispatchEvent(string $eventType, array $payload): ?int
     {
-        global $wpdb;
-        $wpdb->insert(
-            $wpdb->prefix . self::TABLE_NAME,
-            [
-                'event_type' => $eventType,
-                'payload'    => wp_json_encode($payload),
-                'created_at' => gmdate('Y-m-d H:i:s'),
-            ]
-        );
+        return $this->repository->create($eventType, $payload);
     }
 }

@@ -5,6 +5,7 @@ namespace UserSpace\Core\SSE;
 use UserSpace\Core\Http\Request;
 use UserSpace\Core\Rest\Abstract\AbstractController;
 use UserSpace\Core\Rest\Attributes\Route;
+use UserSpace\Core\SSE\Repository\SseEventRepositoryInterface;
 
 if ( ! defined('ABSPATH')) {
     exit;
@@ -13,6 +14,13 @@ if ( ! defined('ABSPATH')) {
 #[Route(path: '/sse')]
 class SseController extends AbstractController
 {
+    private SseEventRepositoryInterface $repository;
+
+    public function __construct(SseEventRepositoryInterface $repository)
+    {
+        $this->repository = $repository;
+    }
+
     /**
      * Открывает поток Server-Sent Events для отправки обновлений клиенту.
      *
@@ -44,10 +52,7 @@ class SseController extends AbstractController
         $start_time = time();
 
         while (time() - $start_time < $time_limit) {
-            $events = $wpdb->get_results($wpdb->prepare(
-                "SELECT * FROM $table_name WHERE id > %d ORDER BY id ASC",
-                $last_event_id
-            ));
+            $events = $this->repository->findNewerThan((int)$last_event_id);
 
             if ($events) {
                 foreach ($events as $event) {
@@ -59,6 +64,10 @@ class SseController extends AbstractController
             } else {
                 echo ":keep-alive\n\n";
             }
+
+            // Удаляем отправленные события, чтобы не накапливать их в БД
+            // В высоконагруженной системе здесь может быть гонка состояний, но для большинства случаев это приемлемо.
+            $this->repository->deleteOlderThanOrEqual((int)$last_event_id);
 
             @ob_flush();
             flush();
