@@ -14,7 +14,8 @@
     },
     "autoload": {
         "psr-4": {
-            "UserSpace\\": "src/"
+            "UserSpace\\": "src/",
+            "Adapters\\": "adapters/"
         }
     }
 }

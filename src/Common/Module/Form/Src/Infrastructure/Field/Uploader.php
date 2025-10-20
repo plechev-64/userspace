@@ -2,6 +2,7 @@
 
 namespace UserSpace\Common\Module\Form\Src\Infrastructure\Field;
 
+use Adapters\StringFilter;
 use UserSpace\Common\Module\Form\Src\Domain\Field\AbstractField;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\UploaderFieldDto;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Validator\AllowedTypesValidator;
@@ -9,7 +10,6 @@ use UserSpace\Common\Module\Form\Src\Infrastructure\Validator\ImageDimensionsVal
 use UserSpace\Common\Module\Form\Src\Infrastructure\Validator\MaxFileSizeValidator;
 use UserSpace\Core\Media\MediaApiInterface;
 use UserSpace\Core\SecurityHelper;
-use UserSpace\WpAdapter\StringFilter;
 
 class Uploader extends AbstractField
 {

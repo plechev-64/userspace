@@ -11,12 +11,20 @@ class ComposerStaticInitf1e12a7d004121d4d6a604f2a5665623
         array (
             'UserSpace\\' => 10,
         ),
+        'A' => 
+        array (
+            'Adapters\\' => 9,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
         'UserSpace\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',
+        ),
+        'Adapters\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/adapters',
         ),
     );
 

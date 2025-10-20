@@ -1,6 +1,6 @@
 <?php
 
-namespace UserSpace\WpAdapter;
+namespace Adapters;
 
 // Защита от прямого доступа к файлу
 use UserSpace\Core\String\StringFilterInterface;

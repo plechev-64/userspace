@@ -1,6 +1,6 @@
 <?php
 
-namespace UserSpace\WpAdapter;
+namespace Adapters;
 
 use UserSpace\Core\Admin\AdminApiInterface;
 

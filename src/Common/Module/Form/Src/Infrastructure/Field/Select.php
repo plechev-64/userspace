@@ -2,9 +2,9 @@
 
 namespace UserSpace\Common\Module\Form\Src\Infrastructure\Field;
 
+use Adapters\StringFilter;
 use UserSpace\Common\Module\Form\Src\Domain\Field\AbstractField;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\SelectFieldDto;
-use UserSpace\WpAdapter\StringFilter;
 
 // Защита от прямого доступа к файлу
 if (!defined('ABSPATH')) {

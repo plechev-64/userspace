@@ -3,11 +3,14 @@
 namespace UserSpace;
 
 use UserSpace\Admin\AdminManager;
+use UserSpace\Common\Service\AvatarManager;
 use UserSpace\Common\Service\AssetsManager;
 use UserSpace\Common\Service\CronManager;
 use UserSpace\Common\Service\FrontendManager;
 use UserSpace\Core\Container;
 use UserSpace\Core\ContainerInterface;
+use UserSpace\Core\Hooks\HookManagerInterface;
+use UserSpace\Core\Localization\LocalizationApiInterface;
 use UserSpace\Core\Rest\InitWpRest;
 use UserSpace\Core\Theme\ThemeManager;
 
@@ -27,47 +30,22 @@ final class Plugin
     /**
      * @var Plugin|null Экземпляр класса.
      */
-    private static ?Plugin $instance = null;
-
-    /**
-     * @var ContainerInterface Контейнер зависимостей.
-     */
-    private readonly ContainerInterface $container;
+    private static ?self $instance = null;
 
     /**
      * Конструктор класса.
-     * Приватный, чтобы предотвратить создание новых экземпляров.
+     * Приватный, чтобы предотвратить создание новых экземпляров. Принимает уже сконфигурированные зависимости.
+     *
+     * @param ContainerInterface $container
+     * @param HookManagerInterface $hookManager
+     * @param LocalizationApiInterface $localizationApi
      */
-    private function __construct()
-    {
-        $this->container = new Container();
-        (new ServiceProvider())->register($this->container);
+    private function __construct(
+        private readonly ContainerInterface $container,
+        private readonly HookManagerInterface $hookManager,
+        private readonly LocalizationApiInterface $localizationApi
+    ) {
         $this->initHooks();
-    }
-
-    /**
-     * Инициализация хуков WordPress.
-     */
-    private function initHooks(): void
-    {
-        $this->initRestApi();
-
-        // Хук для запуска основной логики плагина
-        add_action('plugins_loaded', [$this, 'run']);
-        add_action('plugins_loaded', [$this, 'loadTheme']);
-
-        // Хук для загрузки перевода
-        add_action('init', [$this, 'loadTextdomain']);
-
-        // Инициализация менеджеров
-        $this->container->get(AssetsManager::class)->registerHooks();
-        $this->container->get(AdminManager::class)->registerHooks();
-        $this->container->get(FrontendManager::class)->registerHooks();
-        $this->container->get(CronManager::class)->registerHooks();
-
-        // Хук для подмены стандартных аватаров
-        $avatarManager = $this->container->get(Common\Service\AvatarManager::class);
-        add_filter('pre_get_avatar_data', [$avatarManager, 'replaceAvatarData'], 20, 2);
     }
 
     /**
@@ -77,16 +55,6 @@ final class Plugin
     {
         $themeManager = $this->container->get(ThemeManager::class);
         $themeManager->loadActiveTheme();
-    }
-
-    /**
-     * Инициализирует и регистрирует REST роуты.
-     */
-    public function initRestApi(): void
-    {
-        /** @var InitWpRest $restInit */
-        $restInit = $this->container->get(InitWpRest::class);
-        $restInit->__invoke();
     }
 
     /**
@@ -103,9 +71,7 @@ final class Plugin
      */
     public function loadTextdomain(): void
     {
-        load_plugin_textdomain(
-            'usp',
-            false,
+        $this->localizationApi->loadPluginTextdomain('usp',
             dirname(plugin_basename(USERSPACE_PLUGIN_FILE)) . '/languages'
         );
     }
@@ -125,13 +91,51 @@ final class Plugin
      *
      * @return Plugin
      */
-    public static function getInstance(): Plugin
+    public static function getInstance(): self
     {
         if (null === self::$instance) {
-            self::$instance = new self();
+            $container = new Container();
+            // 1. Сначала конфигурируем контейнер
+            (new ServiceProvider())->register($container);
+
+            // 2. Затем создаем экземпляр Plugin, передавая ему уже готовые зависимости из контейнера
+            self::$instance = new self(
+                $container,
+                $container->get(HookManagerInterface::class),
+                $container->get(LocalizationApiInterface::class)
+            );
         }
 
         return self::$instance;
+    }
+
+    /**
+     * Инициализация хуков WordPress.
+     */
+    private function initHooks(): void
+    {
+        $this->initRestApi();
+
+        $this->hookManager->addAction('plugins_loaded', [$this, 'run']);
+        $this->hookManager->addAction('plugins_loaded', [$this, 'loadTheme']);
+        $this->hookManager->addAction('init', [$this, 'loadTextdomain']);
+
+        // Инициализация менеджеров
+        $this->container->get(AssetsManager::class)->registerHooks();
+        $this->container->get(AdminManager::class)->registerHooks();
+        $this->container->get(FrontendManager::class)->registerHooks();
+        $this->container->get(CronManager::class)->registerHooks();
+        $this->container->get(AvatarManager::class)->registerHooks();
+    }
+
+    /**
+     * Инициализирует и регистрирует REST роуты.
+     */
+    private function initRestApi(): void
+    {
+        /** @var InitWpRest $restInit */
+        $restInit = $this->container->get(InitWpRest::class);
+        $restInit->__invoke();
     }
 
     /**

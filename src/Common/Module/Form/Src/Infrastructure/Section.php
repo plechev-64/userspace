@@ -2,7 +2,7 @@
 
 namespace UserSpace\Common\Module\Form\Src\Infrastructure;
 
-use UserSpace\WpAdapter\StringFilter;
+use Adapters\StringFilter;
 
 // Защита от прямого доступа к файлу
 if (!defined('ABSPATH')) {

@@ -7,4 +7,5 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'UserSpace\\' => array($baseDir . '/src'),
+    'Adapters\\' => array($baseDir . '/adapters'),
 );
