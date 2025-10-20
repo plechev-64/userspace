@@ -14,6 +14,7 @@ use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\UploaderFieldDto;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\UrlFieldDto;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormConfig;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormFactory;
+use UserSpace\Core\AdminApiInterface;
 use UserSpace\Core\AssetRegistryInterface;
 use UserSpace\Core\OptionManagerInterface;
 use UserSpace\Core\StringFilterInterface;
@@ -28,14 +29,16 @@ class SettingsPage extends AbstractAdminPage
     private const OPTION_NAME = 'usp_settings';
 
     public function __construct(
-        private readonly FormFactory           $formFactory,
-        private readonly ThemeManager          $themeManager,
-        private readonly SettingsConfig        $settingsConfig,
-        private readonly StringFilterInterface $str,
+        private readonly FormFactory            $formFactory,
+        private readonly ThemeManager           $themeManager,
+        private readonly SettingsConfig         $settingsConfig,
+        private readonly StringFilterInterface  $str,
         private readonly OptionManagerInterface $optionManager,
-        private readonly AssetRegistryInterface $assetRegistry
+        private readonly AssetRegistryInterface $assetRegistry,
+        AdminApiInterface                       $adminApi
     )
     {
+        parent::__construct($adminApi);
     }
 
     /**
@@ -123,7 +126,7 @@ class SettingsPage extends AbstractAdminPage
         }
 
         echo '<div class="wrap usp-settings-wrap">';
-        echo '<h1>' . $this->str->escHtml(get_admin_page_title()) . '</h1>';
+        echo '<h1>' . $this->str->escHtml($this->adminApi->getAdminPageTitle()) . '</h1>';
 
         echo '<div id="usp-settings-notifications"></div>';
 

@@ -7,6 +7,7 @@ use UserSpace\Common\Module\Form\Src\Infrastructure\FormConfig;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormConfigBuilder;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormManager;
 use UserSpace\Common\Service\TemplateManagerInterface;
+use UserSpace\Core\AdminApiInterface;
 use UserSpace\Core\AssetRegistryInterface;
 use UserSpace\Core\StringFilterInterface;
 
@@ -24,9 +25,11 @@ abstract class AbstractAdminFormPage extends AbstractAdminPage
         protected readonly TemplateManagerInterface $templateManager,
         protected readonly StringFilterInterface    $str,
         FieldMapper                                 $fieldMapper,
-        AssetRegistryInterface                      $assetRegistry
+        AssetRegistryInterface                      $assetRegistry,
+        AdminApiInterface                           $adminApi
     )
     {
+        parent::__construct($adminApi);
         $this->fieldMapper = $fieldMapper;
         $this->assetRegistry = $assetRegistry;
     }

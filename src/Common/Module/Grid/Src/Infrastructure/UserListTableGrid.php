@@ -13,7 +13,8 @@ class UserListTableGrid extends TableContentGrid
         DatabaseConnectionInterface $db,
         StringFilterInterface       $str,
         AssetRegistryInterface      $assetRegistry
-    ) {
+    )
+    {
         parent::__construct($db, $str, $assetRegistry);
     }
 

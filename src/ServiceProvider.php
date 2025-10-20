@@ -45,6 +45,7 @@ use UserSpace\Common\Module\Tabs\Src\Infrastructure\TabProvider;
 use UserSpace\Common\Service\CronManager;
 use UserSpace\Common\Service\TemplateManager;
 use UserSpace\Common\Service\TemplateManagerInterface;
+use UserSpace\Core\AdminApiInterface;
 use UserSpace\Core\AssetRegistryInterface;
 use UserSpace\Core\ContainerInterface;
 use UserSpace\Core\Database\DatabaseConnectionInterface;
@@ -56,6 +57,7 @@ use UserSpace\Core\Rest\RestApi;
 use UserSpace\Core\Rest\Route\RouteCollector;
 use UserSpace\Core\Rest\Route\RouteParser;
 use UserSpace\Core\StringFilterInterface;
+use UserSpace\WpAdapter\AdminApi;
 use UserSpace\WpAdapter\AssetRegistry;
 use UserSpace\WpAdapter\DatabaseConnection;
 use UserSpace\WpAdapter\OptionManager;
@@ -180,6 +182,9 @@ class ServiceProvider
 
         // --- Ассеты ---
         $container->set(AssetRegistryInterface::class, fn() => new AssetRegistry());
+
+        // --- Admin API ---
+        $container->set(AdminApiInterface::class, fn() => new AdminApi());
 
         // --- Cron ---
         $container->set(CronManager::class, function (ContainerInterface $c) {

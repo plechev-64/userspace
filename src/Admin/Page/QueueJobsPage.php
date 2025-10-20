@@ -5,18 +5,21 @@ namespace UserSpace\Admin\Page;
 use UserSpace\Admin\Abstract\AbstractAdminPage;
 use UserSpace\Common\Module\Grid\Src\Infrastructure\QueueJobsGrid;
 use UserSpace\Common\Module\Queue\Src\Infrastructure\QueueStatus;
+use UserSpace\Core\AdminApiInterface;
 use UserSpace\Core\AssetRegistryInterface;
 use UserSpace\Core\StringFilterInterface;
 
 class QueueJobsPage extends AbstractAdminPage
 {
     public function __construct(
-        private readonly QueueJobsGrid         $grid,
-        private readonly QueueStatus           $status,
-        private readonly StringFilterInterface $str,
-        private readonly AssetRegistryInterface $assetRegistry
+        private readonly QueueJobsGrid          $grid,
+        private readonly QueueStatus            $status,
+        private readonly StringFilterInterface  $str,
+        private readonly AssetRegistryInterface $assetRegistry,
+        AdminApiInterface                       $adminApi
     )
     {
+        parent::__construct($adminApi);
     }
 
     public function render(): void
@@ -24,7 +27,7 @@ class QueueJobsPage extends AbstractAdminPage
         $this->enqueuePageScripts();
 
         echo '<div class="wrap">';
-        echo '<h1>' . $this->str->escHtml($this->getPageTitle()) . '</h1>';
+        echo '<h1>' . $this->str->escHtml($this->adminApi->getAdminPageTitle()) . '</h1>';
 
         $this->renderStatusWidget();
 

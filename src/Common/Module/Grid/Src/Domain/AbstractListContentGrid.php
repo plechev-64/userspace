@@ -15,9 +15,9 @@ abstract class AbstractListContentGrid
     protected readonly AssetRegistryInterface $assetRegistry;
 
     public function __construct(
-        DatabaseConnectionInterface $db,
+        DatabaseConnectionInterface              $db,
         protected readonly StringFilterInterface $str,
-        AssetRegistryInterface $assetRegistry
+        AssetRegistryInterface                   $assetRegistry
     )
     {
         $this->db = $db;

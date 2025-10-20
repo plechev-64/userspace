@@ -13,12 +13,12 @@ use UserSpace\Core\StringFilterInterface;
 class AssetsManager
 {
     public function __construct(
-        protected readonly SettingsPage          $settingsPage,
-        protected readonly ProfileFormPage       $profileFormPage,
-        protected readonly RegistrationFormPage  $registrationFormPage,
-        protected readonly TabsConfigPage        $tabsConfigPage,
-        protected readonly SetupWizardPage       $setupWizardPage,
-        protected readonly StringFilterInterface $str,
+        protected readonly SettingsPage           $settingsPage,
+        protected readonly ProfileFormPage        $profileFormPage,
+        protected readonly RegistrationFormPage   $registrationFormPage,
+        protected readonly TabsConfigPage         $tabsConfigPage,
+        protected readonly SetupWizardPage        $setupWizardPage,
+        protected readonly StringFilterInterface  $str,
         protected readonly AssetRegistryInterface $assetRegistry
     )
     {

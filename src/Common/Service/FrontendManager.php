@@ -9,12 +9,13 @@ use UserSpace\Core\OptionManagerInterface;
 class FrontendManager
 {
     public function __construct(
-        private readonly ShortcodeManager $shortcodeManager,
+        private readonly ShortcodeManager         $shortcodeManager,
         private readonly TemplateManagerInterface $templateManager,
-        private readonly TabProvider $tabProvider,
-        private readonly OptionManagerInterface $optionManager,
-        private readonly AssetRegistryInterface $assetRegistry
-    ) {
+        private readonly TabProvider              $tabProvider,
+        private readonly OptionManagerInterface   $optionManager,
+        private readonly AssetRegistryInterface   $assetRegistry
+    )
+    {
     }
 
     public function registerHooks(): void

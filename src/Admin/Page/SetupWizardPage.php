@@ -7,7 +7,9 @@ use UserSpace\Admin\SetupWizard\SetupWizardConfig;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\SelectFieldDto;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormConfig;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormFactory;
+use UserSpace\Core\AdminApiInterface;
 use UserSpace\Core\AssetRegistryInterface;
+use UserSpace\Core\OptionManagerInterface;
 use UserSpace\Core\StringFilterInterface;
 
 /**
@@ -18,17 +20,20 @@ class SetupWizardPage extends AbstractAdminPage
     private const OPTION_NAME = 'usp_settings';
 
     public function __construct(
-        private readonly FormFactory           $formFactory,
-        private readonly SetupWizardConfig     $wizardConfig,
-        private readonly StringFilterInterface $str,
-        private readonly AssetRegistryInterface $assetRegistry
+        private readonly FormFactory            $formFactory,
+        private readonly SetupWizardConfig      $wizardConfig,
+        private readonly StringFilterInterface  $str,
+        private readonly AssetRegistryInterface $assetRegistry,
+        private readonly OptionManagerInterface $optionManager,
+        AdminApiInterface                       $adminApi
     )
     {
+        parent::__construct($adminApi);
     }
 
     public function addPage(): void
     {
-        $this->hookSuffix = add_submenu_page(
+        $this->hookSuffix = $this->adminApi->addSubmenuPage(
             null, // Не добавляем в основное меню, страница будет скрытой
             $this->getPageTitle(),
             $this->getMenuTitle(),
@@ -86,10 +91,10 @@ class SetupWizardPage extends AbstractAdminPage
     {
         $wizardConfig = $this->getWizardConfig();
         $config = $wizardConfig->toArray();
-        $options = get_option(self::OPTION_NAME, []);
+        $options = $this->optionManager->get(self::OPTION_NAME, []);
 
         echo '<div class="wrap usp-setup-wizard-wrap">';
-        echo '<h1>' . $this->str->escHtml($this->getPageTitle()) . '</h1>';
+        echo '<h1>' . $this->str->escHtml($this->adminApi->getAdminPageTitle()) . '</h1>';
 
         echo '<div id="usp-wizard-notifications"></div>';
 
@@ -142,8 +147,8 @@ class SetupWizardPage extends AbstractAdminPage
         // Кнопки управления
         echo '<div class="usp-wizard-actions">';
         echo '<button type="button" id="usp-wizard-prev" class="button" style="display: none;">' . $this->str->translate('Previous') . '</button>';
-        echo '<button type="button" id="usp-wizard-next" class="button button-primary">' . $this->str->translate('Next') . '</button>';
-        echo '<a href="' . $this->str->escUrl(admin_url('admin.php?page=userspace-settings')) . '" id="usp-wizard-finish" class="button button-primary" style="display: none;">' . $this->str->translate('Go to Settings') . '</a>';
+        echo '<button type="button" id="usp-wizard-next" class="button button-primary">' . $this->str->translate('Next') . '</button>';;
+        echo '<a href="' . $this->str->escUrl($this->adminApi->adminUrl('admin.php?page=userspace-settings')) . '" id="usp-wizard-finish" class="button button-primary" style="display: none;">' . $this->str->translate('Go to Settings') . '</a>';
         echo '</div>';
 
         echo '</div>'; // .wrap

@@ -8,6 +8,7 @@ use UserSpace\Common\Module\Form\Src\Infrastructure\Validator\AllowedTypesValida
 use UserSpace\Common\Module\Form\Src\Infrastructure\Validator\ImageDimensionsValidator;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Validator\MaxFileSizeValidator;
 use UserSpace\Core\SecurityHelper;
+use UserSpace\Plugin;
 use UserSpace\WpAdapter\StringFilter;
 
 class Uploader extends AbstractField
@@ -17,13 +18,14 @@ class Uploader extends AbstractField
 
     /**
      * @param UploaderFieldDto $dto
+     * @throws \Exception
      */
     public function __construct(UploaderFieldDto $dto)
     {
         parent::__construct($dto);
         $this->multiple = $dto->multiple;
         // В реальном приложении это будет внедряться через DI контейнер
-        $this->securityHelper = new SecurityHelper();
+        $this->securityHelper = Plugin::getInstance()->getContainer()->get(SecurityHelper::class);
     }
 
     public function renderInput(): string

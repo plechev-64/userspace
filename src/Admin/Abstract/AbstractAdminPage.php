@@ -2,12 +2,18 @@
 
 namespace UserSpace\Admin\Abstract;
 
+use UserSpace\Core\AdminApiInterface;
+
 /**
  * Абстрактный базовый класс для страниц в админ-панели WordPress.
  */
 abstract class AbstractAdminPage
 {
     protected string $hookSuffix = '';
+
+    public function __construct(protected readonly AdminApiInterface $adminApi)
+    {
+    }
 
     /**
      * Регистрирует страницу в меню WordPress.
@@ -19,7 +25,7 @@ abstract class AbstractAdminPage
 
         if (null === $parentSlug) {
             // Создаем страницу верхнего уровня
-            $this->hookSuffix = add_menu_page(
+            $this->hookSuffix = $this->adminApi->addMenuPage(
                 $this->getPageTitle(),
                 $this->getMenuTitle(),
                 $this->getCapability(),
@@ -30,7 +36,7 @@ abstract class AbstractAdminPage
             );
         } else {
             // Создаем подменю
-            $this->hookSuffix = add_submenu_page(
+            $this->hookSuffix = $this->adminApi->addSubmenuPage(
                 $parentSlug,
                 $this->getPageTitle(),
                 $this->getMenuTitle(),

@@ -4,6 +4,7 @@ namespace UserSpace\Admin\Page;
 
 use UserSpace\Admin\Abstract\AbstractAdminPage;
 use UserSpace\Admin\TabConfigBuilder;
+use UserSpace\Core\AdminApiInterface;
 use UserSpace\Core\AssetRegistryInterface;
 use UserSpace\Core\StringFilterInterface;
 
@@ -12,9 +13,11 @@ class TabsConfigPage extends AbstractAdminPage
     public function __construct(
         private readonly TabConfigBuilder       $tabConfigBuilder,
         private readonly StringFilterInterface  $str,
-        private readonly AssetRegistryInterface $assetRegistry
+        private readonly AssetRegistryInterface $assetRegistry,
+        AdminApiInterface                       $adminApi
     )
     {
+        parent::__construct($adminApi);
     }
 
     /**
@@ -58,7 +61,7 @@ class TabsConfigPage extends AbstractAdminPage
     public function render(): void
     {
         echo '<div class="wrap">';
-        echo '<h1>' . $this->str->escHtml($this->getPageTitle()) . ' <a href="#" id="usp-create-new-tab" class="page-title-action">' . $this->str->translate('Add New Tab') . '</a></h1>';
+        echo '<h1>' . $this->str->escHtml($this->adminApi->getAdminPageTitle()) . ' <a href="#" id="usp-create-new-tab" class="page-title-action">' . $this->str->translate('Add New Tab') . '</a></h1>';
         echo '<p>' . $this->str->translate('Here you will be able to configure the tabs of the user profile.') . '</p>';
 
         echo '<div id="usp-tab-builder-notifications"></div>';

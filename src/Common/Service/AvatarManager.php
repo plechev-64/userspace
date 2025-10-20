@@ -14,11 +14,12 @@ use WP_User;
 class AvatarManager
 {
     public function __construct(
-        private readonly SecurityHelper $securityHelper,
-        private readonly ViewedUserContext $viewedUserContext,
-        private readonly StringFilterInterface $str,
+        private readonly SecurityHelper         $securityHelper,
+        private readonly ViewedUserContext      $viewedUserContext,
+        private readonly StringFilterInterface  $str,
         private readonly OptionManagerInterface $optionManager
-    ) {
+    )
+    {
     }
 
     /**

@@ -16,9 +16,9 @@ class GenericFormRenderer
 {
 
     public function __construct(
-        private readonly FormManager           $formManager,
-        private readonly FormFactory           $formFactory,
-        private readonly StringFilterInterface $str,
+        private readonly FormManager            $formManager,
+        private readonly FormFactory            $formFactory,
+        private readonly StringFilterInterface  $str,
         private readonly AssetRegistryInterface $assetRegistry
     )
     {

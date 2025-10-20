@@ -14,7 +14,7 @@ class ThemeManager
     private ?string $activeTheme = null;
 
     public function __construct(
-        private readonly ViewedUserContext $viewedUserContext,
+        private readonly ViewedUserContext      $viewedUserContext,
         private readonly OptionManagerInterface $optionManager
     )
     {

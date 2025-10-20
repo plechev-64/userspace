@@ -21,10 +21,10 @@ class RegistrationController extends AbstractController
     private array $coreUserFields = ['user_login', 'user_email', 'user_pass'];
 
     public function __construct(
-        private readonly FormManager           $formManager,
-        private readonly FormFactory           $formFactory,
-        private readonly SecurityHelper        $securityHelper,
-        private readonly StringFilterInterface $str,
+        private readonly FormManager            $formManager,
+        private readonly FormFactory            $formFactory,
+        private readonly SecurityHelper         $securityHelper,
+        private readonly StringFilterInterface  $str,
         private readonly OptionManagerInterface $optionManager
     )
     {

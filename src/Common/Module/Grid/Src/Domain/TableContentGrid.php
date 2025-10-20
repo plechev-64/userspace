@@ -11,8 +11,8 @@ abstract class TableContentGrid extends AbstractListContentGrid
 {
     public function __construct(
         DatabaseConnectionInterface $db,
-        StringFilterInterface $str,
-        AssetRegistryInterface $assetRegistry
+        StringFilterInterface       $str,
+        AssetRegistryInterface      $assetRegistry
     )
     {
         parent::__construct($db, $str, $assetRegistry);
