@@ -6,26 +6,35 @@ use UserSpace\Core\Http\JsonResponse;
 use UserSpace\Core\Http\Request;
 use UserSpace\Core\Rest\Abstract\AbstractController;
 use UserSpace\Core\Rest\Attributes\Route;
+use UserSpace\Core\String\StringFilterInterface;
+use UserSpace\Core\User\UserApiInterface;
+use UserSpace\Core\WpApiInterface;
 
 class PasswordResetController extends AbstractController
 {
+    public function __construct(
+        private readonly StringFilterInterface $str,
+        private readonly UserApiInterface      $userApi,
+        private readonly WpApiInterface        $wpApi
+    )
+    {
+    }
+
     #[Route(path: '/password/reset', method: 'POST')]
     public function handlePasswordReset(Request $request): JsonResponse
     {
-        $user_login = $request->getPost('user_login', '');
+        $userLogin = $request->getPost('user_login', 'string');
 
-        if (empty($user_login)) {
-            return $this->error(['message' => __('Please enter a username or email address.', 'usp')], 400);
+        if (empty($userLogin)) {
+            return $this->error(['message' => $this->str->translate('Please enter a username or email address.')], 400);
         }
 
-        // Используем стандартную, безопасную функцию WordPress для сброса пароля.
-        // Она генерирует ключ, сохраняет его и отправляет письмо пользователю.
-        $result = retrieve_password($user_login);
+        $result = $this->userApi->retrievePassword($userLogin);
 
-        if (is_wp_error($result)) {
+        if ($this->wpApi->isWpError($result)) {
             return $this->error(['message' => $result->get_error_message()], 404);
         }
 
-        return $this->success(['message' => __('Please check your email for a link to reset your password.', 'usp')]);
+        return $this->success(['message' => $this->str->translate('Please check your email for the confirmation link.')]);
     }
 }

@@ -2,6 +2,8 @@
 
 namespace UserSpace\Core\Option;
 
+use UserSpace\Core\TransientApiInterface;
+
 if (!defined('ABSPATH')) {
     exit;
 }
@@ -12,6 +14,13 @@ if (!defined('ABSPATH')) {
 interface OptionManagerInterface
 {
     /**
+     * Возвращает сервис для работы с временными данными (transients).
+     *
+     * @return TransientApiInterface
+     */
+    public function transient(): TransientApiInterface;
+
+    /**
      * Получает значение опции по ее имени.
      *
      * @param string $option Имя опции.
@@ -19,6 +28,14 @@ interface OptionManagerInterface
      * @return mixed Значение опции.
      */
     public function get(string $option, mixed $default = false): mixed;
+
+    /**
+     * Добавляет новую опцию, если она еще не существует.
+     * Обертка для add_option().
+     *
+     * @return bool True, если опция была добавлена, иначе false.
+     */
+    public function add(string $option, mixed $value, bool $autoload = true): bool;
 
     /**
      * Обновляет значение существующей опции.

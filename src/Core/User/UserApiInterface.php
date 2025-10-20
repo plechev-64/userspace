@@ -2,6 +2,8 @@
 
 namespace UserSpace\Core\User;
 
+use UserSpace\Core\Auth\AuthApiInterface;
+
 if (!defined('ABSPATH')) {
     exit;
 }
@@ -12,6 +14,13 @@ if (!defined('ABSPATH')) {
  */
 interface UserApiInterface
 {
+    /**
+     * Возвращает сервис для работы с аутентификацией.
+     *
+     * @return AuthApiInterface
+     */
+    public function auth(): AuthApiInterface;
+
     /**
      * Создает нового пользователя.
      * Обертка для wp_create_user().

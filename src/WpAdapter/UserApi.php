@@ -2,6 +2,7 @@
 
 namespace UserSpace\WpAdapter;
 
+use UserSpace\Core\Auth\AuthApiInterface;
 use UserSpace\Core\User\UserApiInterface;
 
 if (!defined('ABSPATH')) {
@@ -13,6 +14,15 @@ if (!defined('ABSPATH')) {
  */
 class UserApi implements UserApiInterface
 {
+    public function __construct(private readonly AuthApiInterface $authApi)
+    {
+    }
+
+    public function auth(): AuthApiInterface
+    {
+        return $this->authApi;
+    }
+
     public function createUser(string $username, string $password, string $email = ''): int|\WP_Error
     {
         return wp_create_user($username, $password, $email);

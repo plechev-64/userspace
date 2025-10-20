@@ -3,6 +3,7 @@
 namespace UserSpace\WpAdapter;
 
 use UserSpace\Core\Option\OptionManagerInterface;
+use UserSpace\Core\TransientApiInterface;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -13,12 +14,32 @@ if (!defined('ABSPATH')) {
  */
 class OptionManager implements OptionManagerInterface
 {
+    public function __construct(private readonly TransientApiInterface $transientApi)
+    {
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function transient(): TransientApiInterface
+    {
+        return $this->transientApi;
+    }
+
     /**
      * @inheritDoc
      */
     public function get(string $option, mixed $default = false): mixed
     {
         return get_option($option, $default);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function add(string $option, mixed $value, bool $autoload = true): bool
+    {
+        return add_option($option, $value, '', $autoload ? 'yes' : 'no');
     }
 
     /**

@@ -38,7 +38,8 @@ if ( file_exists( USERSPACE_PLUGIN_DIR . 'vendor/autoload.php' ) ) {
     // Например, через add_action( 'admin_notices', '...' );
 }
 
-$lifecycle = new PluginLifecycle();
+$container = Plugin::getInstance()->getContainer();
+$lifecycle = $container->get(PluginLifecycle::class);
 register_activation_hook(USERSPACE_PLUGIN_FILE, [$lifecycle, 'onActivation']);
 register_deactivation_hook(USERSPACE_PLUGIN_FILE, [$lifecycle, 'onDeactivation']);
 add_action('admin_init', [$lifecycle, 'redirectOnActivation']);

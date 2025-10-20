@@ -47,6 +47,7 @@ use UserSpace\Common\Service\TemplateManager;
 use UserSpace\Common\Service\TemplateManagerInterface;
 use UserSpace\Core\Admin\AdminApiInterface;
 use UserSpace\Core\Asset\AssetRegistryInterface;
+use UserSpace\Core\Auth\AuthApiInterface;
 use UserSpace\Core\ContainerInterface;
 use UserSpace\Core\Database\DatabaseConnectionInterface;
 use UserSpace\Core\Hooks\HookManagerInterface;
@@ -60,16 +61,21 @@ use UserSpace\Core\Rest\RestApi;
 use UserSpace\Core\Rest\Route\RouteCollector;
 use UserSpace\Core\Rest\Route\RouteParser;
 use UserSpace\Core\String\StringFilterInterface;
+use UserSpace\Core\TransientApiInterface;
 use UserSpace\Core\User\UserApiInterface;
+use UserSpace\Core\WpApiInterface;
 use UserSpace\WpAdapter\AdminApi;
 use UserSpace\WpAdapter\AssetRegistry;
+use UserSpace\WpAdapter\AuthApi;
 use UserSpace\WpAdapter\DatabaseConnection;
 use UserSpace\WpAdapter\HookManager;
 use UserSpace\WpAdapter\MediaApi;
 use UserSpace\WpAdapter\OptionManager;
 use UserSpace\WpAdapter\StringFilter;
+use UserSpace\WpAdapter\TransientApi;
 use UserSpace\WpAdapter\UserApi;
 use UserSpace\WpAdapter\QueryApi;
+use UserSpace\WpAdapter\WpApi;
 
 /**
  * Регистрирует сервисы плагина в DI-контейнере.
@@ -183,6 +189,9 @@ class ServiceProvider
         // Алиас для конкретной реализации, если потребуется
         $container->set(DatabaseConnection::class, fn(ContainerInterface $c) => $c->get(DatabaseConnectionInterface::class));
 
+        // --- Вспомогательные функции ---
+        $container->set(WpApiInterface::class, fn(ContainerInterface $c) => $c->get(WpApi::class));
+
         // --- Фоновые процессы ---
         $container->set(BackgroundProcessManager::class, fn() => new BackgroundProcessManager());
 
@@ -199,7 +208,8 @@ class ServiceProvider
         $container->set(HookManagerInterface::class, fn() => new HookManager());
 
         // --- User API ---
-        $container->set(UserApiInterface::class, fn() => new UserApi());
+        $container->set(UserApiInterface::class, fn(ContainerInterface $c) => $c->get(UserApi::class));
+        $container->set(AuthApiInterface::class, fn(ContainerInterface $c) => $c->get(AuthApi::class));
 
         // --- Media API ---
         $container->set(MediaApiInterface::class, fn() => new MediaApi());
@@ -218,8 +228,11 @@ class ServiceProvider
         });
 
         // --- Options ---
-        $container->set(OptionManagerInterface::class, fn() => new OptionManager());
+        $container->set(OptionManagerInterface::class, fn(ContainerInterface $c) => new OptionManager(
+            $c->get(TransientApiInterface::class)
+        ));
         $container->set(OptionManager::class, fn(ContainerInterface $c) => $c->get(OptionManagerInterface::class));
+        $container->set(TransientApiInterface::class, fn(ContainerInterface $c) => $c->get(TransientApi::class));
 
         // --- Формы ---
         $container->set(FormRepositoryInterface::class, fn(ContainerInterface $c) => $c->get(FormRepository::class));
