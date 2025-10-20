@@ -80,6 +80,9 @@ abstract class AbstractAdminFormPage extends AbstractAdminPage
             'usp-form-builder-js',
             'uspApiSettings',
             [
+                'root' => $this->str->escUrlRaw(rest_url()),
+                'namespace' => USERSPACE_REST_NAMESPACE,
+                'nonce' => wp_create_nonce('wp_rest'),
                 'formType' => $this->getFormType(),
                 'fieldTypes' => $this->fieldMapper->getMap(),
             ]

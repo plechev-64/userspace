@@ -225,7 +225,8 @@ document.addEventListener('DOMContentLoaded', function () {
             // Успешная загрузка, строим модальное окно
             buildAndShowEditModal(fieldEl, currentConfig, json.html);
         } catch (error) {
-            alert((l10n.errorPrefix || 'Error: ') + error.message);
+            const errorMessage = error.message || (typeof error === 'string' ? error : 'Unknown error');
+            alert((l10n.errorPrefix || 'Error: ') + errorMessage);
         }
     };
 
@@ -353,7 +354,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 settingsContainer.innerHTML = json.html;
                 createButton.disabled = false;
             } catch (error) {
-                settingsContainer.innerHTML = `<p style="color: red;">${error.message || l10n.settingsLoadError || 'Error loading settings'}</p>`;
+                const errorMessage = error.message || (typeof error === 'string' ? error : l10n.settingsLoadError || 'Error loading settings');
+                settingsContainer.innerHTML = `<p style="color: red;">${errorMessage}</p>`;
             }
         });
 

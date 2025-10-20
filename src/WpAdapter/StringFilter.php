@@ -43,12 +43,12 @@ class StringFilter implements StringFilterInterface
      * Очищает строку для безопасного использования в HTML-атрибутах.
      * Обертка для esc_attr()
      *
-     * @param string $text Текст для очистки.
+     * @param string|null $text Текст для очистки.
      * @return string Очищенный текст.
      */
-    public function escAttr(string $text): string
+    public function escAttr(?string $text): string
     {
-        return esc_attr($text);
+        return esc_attr($text ?? '');
     }
 
     public function escUrl(string $url): string
