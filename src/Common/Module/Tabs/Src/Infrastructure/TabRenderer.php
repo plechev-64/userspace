@@ -5,6 +5,7 @@ namespace UserSpace\Common\Module\Tabs\Src\Infrastructure;
 use UserSpace\Common\Module\Tabs\Src\Domain\AbstractTab;
 use UserSpace\Common\Service\TemplateManagerInterface;
 use UserSpace\Common\Service\ViewedUserContext;
+use UserSpace\Core\StringFilterInterface;
 
 /**
  * Сервис для рендеринга контента вкладки на основе ее contentSource.
@@ -14,7 +15,8 @@ class TabRenderer
     public function __construct(
         private readonly TabManager               $tabManager,
         private readonly ViewedUserContext        $viewedUserContext,
-        private readonly TemplateManagerInterface $templateManager
+        private readonly TemplateManagerInterface $templateManager,
+        private readonly StringFilterInterface    $str
     )
     {
     }
