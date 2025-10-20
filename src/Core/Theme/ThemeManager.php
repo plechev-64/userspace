@@ -68,6 +68,28 @@ class ThemeManager
     }
 
     /**
+     * Загружает конфигурационный файл активной темы, если он существует.
+     *
+     * @return array Конфигурация темы или пустой массив.
+     */
+    public function loadActiveThemeConfig(): array
+    {
+        $activeTheme = $this->getActiveTheme();
+        $configPath = USERSPACE_PLUGIN_DIR . 'themes/' . $activeTheme . '/config/container.php';
+
+        if (file_exists($configPath)) {
+            return require $configPath;
+        }
+
+        return [];
+    }
+
+    public function getActiveTheme(): ?string
+    {
+        return $this->activeTheme;
+    }
+
+    /**
      * Рендерит активную тему личного кабинета.
      *
      * @return string

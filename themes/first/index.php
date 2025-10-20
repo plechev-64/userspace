@@ -1,28 +1,12 @@
 <?php
 /**
  * Theme Name: First
+ * Description: The default theme for UserSpace plugin.
  *
- * Точка входа для инициализации темы личного кабинета "First".
- * * Этот файл отвечает за регистрацию сервисов и "мест вывода", специфичных для темы.
+ * Этот файл является точкой входа для темы. Основная логика инициализации,
+ * включая загрузку конфигурации и регистрацию сервисов, управляется ядром плагина.
  */
-
-use UserSpace\Plugin;
-use UserSpace\Theme\First\Service\TabLocationService;
-use UserSpace\Theme\First\Service\ThemeServiceProvider;
 
 if (!defined('ABSPATH')) {
     exit;
 }
-
-// 1. Инициализируем сервисы темы, чтобы они были доступны как на фронте, так и в админ-панели.
-require_once __DIR__ . '/services/ThemeServiceProvider.php';
-require_once __DIR__ . '/services/TabLocationService.php';
-require_once __DIR__ . '/services/ViewDataProvider.php';
-
-$pluginContainer = Plugin::getInstance()->getContainer();
-$themeServiceProvider = new ThemeServiceProvider($pluginContainer);
-$themeContainer = $themeServiceProvider->getContainer();
-
-/** @var TabLocationService $tabLocationService */
-$tabLocationService = $themeContainer->get(TabLocationService::class);
-$tabLocationService->registerThemeLocations();
