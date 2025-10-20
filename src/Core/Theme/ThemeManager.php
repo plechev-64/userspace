@@ -11,16 +11,40 @@ use UserSpace\Core\User\UserApiInterface;
  */
 class ThemeManager
 {
+    private const THEMES_DIR_NAME = 'themes';
+
     private string $themesDir;
-    private ?string $activeTheme = null;
+    private ?ThemeInterface $activeTheme = null;
+    private ?string $discoveredThemeName = null;
 
     public function __construct(
+        private readonly \UserSpace\Core\ContainerInterface $container,
         private readonly ViewedUserContext      $viewedUserContext,
         private readonly OptionManagerInterface $optionManager,
         private readonly UserApiInterface       $userApi
     )
     {
-        $this->themesDir = USERSPACE_PLUGIN_DIR . 'themes/';
+        $this->themesDir = USERSPACE_PLUGIN_DIR . self::THEMES_DIR_NAME . '/';
+    }
+    
+    /**
+     * Регистрирует класс темы.
+     * Этот метод вызывается из файла index.php темы.
+     *
+     * @param string $themeClassName Полное имя класса темы.
+     * @return ThemeInterface|null
+     */
+    public function register(string $themeClassName): ?ThemeInterface
+    {
+        if (!class_exists($themeClassName) || !is_subclass_of($themeClassName, ThemeInterface::class)) {
+            // В реальном приложении здесь можно логировать ошибку
+            return null;
+        }
+        
+        $themeObject = new $themeClassName();
+        
+        $this->discoveredThemeName = $themeObject->getName();
+        return $themeObject;
     }
 
     /**
@@ -40,10 +64,13 @@ class ThemeManager
         foreach ($dirs as $dir) {
             $indexPath = $this->themesDir . $dir . '/index.php';
             if (file_exists($indexPath)) {
-                // Читаем заголовок из файла, как в темах WordPress
-                $themeData = get_file_data($indexPath, ['Theme Name' => 'Theme Name']);
-                $themeName = !empty($themeData['Theme Name']) ? $themeData['Theme Name'] : ucfirst($dir);
-                $themes[$dir] = $themeName;
+                // Передаем себя в качестве регистратора
+                $themeRegistry = $this;
+                $themeObject = require $indexPath;
+                
+                if ($themeObject instanceof ThemeInterface) {
+                    $themes[$dir] = $themeObject->getName();
+                }
             }
         }
 
@@ -57,13 +84,19 @@ class ThemeManager
     public function loadActiveTheme(): void
     {
         $settings = $this->optionManager->get('usp_settings', []);
-        $this->activeTheme = $settings['account_theme'] ?? 'first'; // 'first' как тема по умолчанию
+        $activeThemeDir = $settings['account_theme'] ?? 'first'; // 'first' как тема по умолчанию
 
-        $themeEntryPoint = $this->themesDir . $this->activeTheme . '/index.php';
+        $themeEntryPoint = $this->themesDir . $activeThemeDir . '/index.php';
 
         if (file_exists($themeEntryPoint)) {
-            // Подключаем один раз, чтобы зарегистрировать сервисы темы, хуки и т.д.
-            include_once $themeEntryPoint;
+            // Передаем себя в качестве регистратора в область видимости файла
+            $themeRegistry = $this;
+            $themeObject = require_once $themeEntryPoint;
+
+            if ($themeObject instanceof ThemeInterface) {
+                $this->activeTheme = $themeObject;
+                $this->activeTheme->setup($this->container);
+            }
         }
     }
 
@@ -74,17 +107,17 @@ class ThemeManager
      */
     public function loadActiveThemeConfig(): array
     {
-        $activeTheme = $this->getActiveTheme();
-        $configPath = USERSPACE_PLUGIN_DIR . 'themes/' . $activeTheme . '/config/container.php';
-
-        if (file_exists($configPath)) {
-            return require $configPath;
+        if ($this->activeTheme && ($configPath = $this->activeTheme->getContainerConfigPath())) {
+            if (file_exists($configPath)) {
+                return require $configPath;
+            }
         }
+
 
         return [];
     }
 
-    public function getActiveTheme(): ?string
+    public function getActiveTheme(): ?ThemeInterface
     {
         return $this->activeTheme;
     }
@@ -105,13 +138,21 @@ class ThemeManager
             return __('Active theme is not loaded. Please check plugin initialization.', 'usp');
         }
 
-        $themePath = $this->themesDir . $this->activeTheme . '/template.php';
+        $themePath = $this->activeTheme->getTemplatePath();
 
         if (!file_exists($themePath)) {
             return __('Active account theme not found.', 'usp');
         }
 
+        // Готовим данные для передачи в шаблон
+        $data = [];
+        if (method_exists($this->activeTheme, 'prepareTemplateData')) {
+            $data = $this->activeTheme->prepareTemplateData();
+        }
+
         ob_start();
+        // Импортируем переменные в локальную область видимости шаблона
+        extract($data, EXTR_SKIP);
         include $themePath;
         return ob_get_clean();
     }

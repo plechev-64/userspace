@@ -15,8 +15,7 @@ class TabRenderer
     public function __construct(
         private readonly TabManager               $tabManager,
         private readonly ViewedUserContext        $viewedUserContext,
-        private readonly TemplateManagerInterface $templateManager,
-        private readonly StringFilterInterface    $str
+        private readonly StringFilterInterface    $stringFilter
     )
     {
     }
@@ -67,42 +66,15 @@ class TabRenderer
 
             $output .= sprintf(
                 $paneWrapperHtml,
-                $this->str->escAttr($tab->getId()),
-                $this->str->escAttr($tab->getContentType()),
-                $this->str->escUrl($restUrl),
+                $this->stringFilter->escAttr($tab->getId()),
+                $this->stringFilter->escAttr($tab->getContentType()),
+                $this->stringFilter->escUrl($restUrl),
                 $isInitialActive ? 'is-loaded active' : '', // Добавляем классы, если контент уже загружен
                 $innerContent
             );
         }
 
         return $output;
-    }
-
-    /**
-     * Рендерит меню вкладок для указанной локации.
-     *
-     * @param string $location Идентификатор локации ('header', 'sidebar', etc.).
-     * @param bool $activate_first Сделать ли первую вкладку в меню активной.
-     *
-     * @return string Сгенерированный HTML-код меню.
-     */
-    public function renderMenu(string $location, bool $activate_first = false): string
-    {
-        $tabs_to_render = $this->tabManager->getTabs($location);
-
-        if (empty($tabs_to_render)) {
-            return '';
-        }
-
-        // Используем буферизацию вывода для захвата HTML из файла шаблона.
-        ob_start();
-        // Передаем переменные в область видимости файла.
-        echo $this->templateManager->render('tab_menu', [
-            'tabs_to_render' => $tabs_to_render,
-            'activate_first' => $activate_first,
-            'location' => $location,
-        ]);
-        return ob_get_clean();
     }
 
     /**
