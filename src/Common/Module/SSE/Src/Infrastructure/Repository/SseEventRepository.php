@@ -92,9 +92,8 @@ class SseEventRepository implements SseEventRepositoryInterface
      */
     public function createTable(): void
     {
-        $queryBuilder = $this->db->queryBuilder();
-        $table_name = $queryBuilder->getTableName(self::TABLE_NAME);
-        $charset_collate = $queryBuilder->getCharsetCollate();
+        $table_name = $this->db->getTableName(self::TABLE_NAME);
+        $charset_collate = $this->db->getCharsetCollate();
 
         $sql = "CREATE TABLE {$table_name} (
             id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -104,7 +103,7 @@ class SseEventRepository implements SseEventRepositoryInterface
             PRIMARY KEY  (id)
         ) {$charset_collate};";
 
-        $queryBuilder->runDbDelta($sql);
+        $this->db->runDbDelta($sql);
     }
 
     /**
@@ -112,6 +111,6 @@ class SseEventRepository implements SseEventRepositoryInterface
      */
     public function dropTable(): void
     {
-        $this->db->queryBuilder()->dropTableIfExists(self::TABLE_NAME);
+        $this->db->dropTableIfExists(self::TABLE_NAME);
     }
 }

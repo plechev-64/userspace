@@ -451,41 +451,6 @@ class QueryBuilder implements QueryBuilderInterface
     }
 
     /**
-     * Выполняет SQL для создания или обновления таблицы с помощью dbDelta.
-     *
-     * @param string $schemaSql SQL-схема таблицы.
-     */
-    public function runDbDelta(string $schemaSql): void
-    {
-        if (!function_exists('dbDelta')) {
-            require_once ABSPATH . 'wp-admin/includes/upgrade.php';
-        }
-        dbDelta($schemaSql);
-    }
-
-    /**
-     * Удаляет таблицу, если она существует.
-     *
-     * @param string $tableName Имя таблицы (без префикса).
-     */
-    public function dropTableIfExists(string $tableName): void
-    {
-        $fullTableName = $this->db->getTableName($tableName);
-        $this->db->query("DROP TABLE IF EXISTS {$fullTableName}");
-    }
-
-    /**
-     * Возвращает строку кодировки и сопоставления для создания таблицы.
-     * Обертка для $wpdb->get_charset_collate().
-     *
-     * @return string
-     */
-    public function getCharsetCollate(): string
-    {
-        return $this->db->getCharsetCollate();
-    }
-
-    /**
      * Возвращает полное имя таблицы с префиксом WordPress.
      *
      * @param string $tableName Имя таблицы без префикса.

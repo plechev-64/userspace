@@ -63,12 +63,6 @@ interface QueryBuilderInterface
 
     public function delete(): int|false;
 
-    public function runDbDelta(string $schemaSql): void;
-
-    public function dropTableIfExists(string $tableName): void;
-
-    public function getCharsetCollate(): string;
-
     public function getTableName(string $tableName): string;
 
     public function firstRaw(string $query, ...$args): ?object;

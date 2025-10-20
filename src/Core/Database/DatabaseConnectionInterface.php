@@ -73,6 +73,20 @@ interface DatabaseConnectionInterface
     public function getCharsetCollate(): string;
 
     /**
+     * Выполняет SQL для создания или обновления таблицы с помощью dbDelta.
+     *
+     * @param string $schemaSql SQL-схема таблицы.
+     */
+    public function runDbDelta(string $schemaSql): void;
+
+    /**
+     * Удаляет таблицу, если она существует.
+     *
+     * @param string $tableName Имя таблицы (без префикса).
+     */
+    public function dropTableIfExists(string $tableName): void;
+
+    /**
      * Возвращает полное имя таблицы с префиксом.
      *
      * @param string $tableName Имя таблицы без префикса.

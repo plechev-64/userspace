@@ -74,6 +74,20 @@ class DatabaseConnection implements DatabaseConnectionInterface
         return $this->wpdb->get_charset_collate();
     }
 
+    public function runDbDelta(string $schemaSql): void
+    {
+        if (!function_exists('dbDelta')) {
+            require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+        }
+        dbDelta($schemaSql);
+    }
+
+    public function dropTableIfExists(string $tableName): void
+    {
+        $fullTableName = $this->getTableName($tableName);
+        $this->query("DROP TABLE IF EXISTS {$fullTableName}");
+    }
+
     public function getTableName(string $tableName): string
     {
         if (str_starts_with($tableName, $this->wpdb->prefix)) {
