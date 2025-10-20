@@ -4,6 +4,7 @@ namespace UserSpace\Common\Module\Form\Src\Infrastructure;
 
 use InvalidArgumentException;
 use UserSpace\Common\Module\Form\Src\Domain\FormInterface;
+use UserSpace\Core\ContainerInterface;
 
 // Защита от прямого доступа к файлу
 if (!defined('ABSPATH')) {
@@ -16,9 +17,13 @@ if (!defined('ABSPATH')) {
 class FormFactory
 {
 
-    public function __construct(private readonly FieldMapper $fieldMapper)
-    {
+    private readonly FieldMapper $fieldMapper;
+    private readonly ContainerInterface $container;
 
+    public function __construct(FieldMapper $fieldMapper, ContainerInterface $container)
+    {
+        $this->fieldMapper = $fieldMapper;
+        $this->container = $container;
     }
 
     /**
@@ -48,10 +53,9 @@ class FormFactory
                     $class_name = $this->fieldMapper->getClass($type);
                     $dtoClass = $this->fieldMapper->getDtoClass($type);
 
-                    // Делегируем создание DTO самому классу поля
-                    //$dto = $class_name::createDtoFromConfig( $name, $field_config );
-
-                    $fields[] = new $class_name(new $dtoClass($name, $field_config));
+                    // Используем DI-контейнер для создания экземпляра поля, передавая DTO как аргумент.
+                    // Контейнер автоматически внедрит остальные зависимости (StringFilter, SecurityHelper и т.д.).
+                    $fields[] = $this->container->build($class_name, ['dto' => new $dtoClass($name, $field_config)]);
                 }
                 $blocks[] = new Block($block_config['title'] ?? '', $fields);
             }

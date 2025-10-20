@@ -14,10 +14,11 @@ use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\UploaderFieldDto;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\UrlFieldDto;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormConfig;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormFactory;
-use UserSpace\Core\AdminApiInterface;
-use UserSpace\Core\AssetRegistryInterface;
-use UserSpace\Core\OptionManagerInterface;
-use UserSpace\Core\StringFilterInterface;
+use UserSpace\Core\Admin\AdminApiInterface;
+use UserSpace\Core\Asset\AssetRegistryInterface;
+use UserSpace\Core\Hooks\HookManagerInterface;
+use UserSpace\Core\Option\OptionManagerInterface;
+use UserSpace\Core\String\StringFilterInterface;
 use UserSpace\Core\Theme\ThemeManager;
 
 /**
@@ -35,10 +36,11 @@ class SettingsPage extends AbstractAdminPage
         private readonly StringFilterInterface  $str,
         private readonly OptionManagerInterface $optionManager,
         private readonly AssetRegistryInterface $assetRegistry,
-        AdminApiInterface                       $adminApi
+        AdminApiInterface                       $adminApi,
+        HookManagerInterface                    $hookManager
     )
     {
-        parent::__construct($adminApi);
+        parent::__construct($adminApi, $hookManager);
     }
 
     /**
@@ -277,7 +279,7 @@ class SettingsPage extends AbstractAdminPage
                 'options' => $this->themeManager->discoverThemes(),
             ]));
 
-        return apply_filters('usp_settings_config', $config);
+        return $this->hookManager->applyFilters('usp_settings_config', $config);
     }
 
     private function getPagesAsOptions(): array

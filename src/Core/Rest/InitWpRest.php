@@ -3,6 +3,7 @@
 namespace UserSpace\Core\Rest;
 
 use Exception;
+use UserSpace\Core\User\UserApiInterface;
 use UserSpace\Core\ContainerInterface;
 use UserSpace\Core\Http\Request;
 use UserSpace\Core\Rest\Helper\RestHelper;
@@ -68,9 +69,6 @@ class InitWpRest
      */
     public function processSensitiveEndpoints(): void
     {
-        /**
-         * @var Request $request
-         */
         $request = $this->container->get(Request::class);
         $requestUri = rtrim($request->getPathInfo(), '/');
         $restPrefix = $this->container->get('rest.prefix');
@@ -90,6 +88,11 @@ class InitWpRest
             ],
         ];
 
+        /**
+         * @var UserApiInterface $userApi
+         */
+        $userApi = $this->container->get(UserApiInterface::class);
+
         add_action('rest_api_init', function () use ($authRequired, $requestUri) {
 
             $sensitive = in_array(strtolower($requestUri), array_map('strtolower', $authRequired['equal']));
@@ -103,7 +106,7 @@ class InitWpRest
                 }
             }
 
-            if ($sensitive && !is_user_logged_in()) {
+            if ($sensitive && !$userApi->isUserLoggedIn()) {
                 die('Not allowed');
             }
 

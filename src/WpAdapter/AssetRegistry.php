@@ -2,7 +2,7 @@
 
 namespace UserSpace\WpAdapter;
 
-use UserSpace\Core\AssetRegistryInterface;
+use UserSpace\Core\Asset\AssetRegistryInterface;
 
 if (!defined('ABSPATH')) {
     exit;

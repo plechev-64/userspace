@@ -4,7 +4,7 @@ namespace UserSpace\Common\Module\Tabs\App\Controller;
 
 use UserSpace\Common\Module\Tabs\Src\Infrastructure\TabManager;
 use UserSpace\Common\Module\Tabs\Src\Infrastructure\TabRenderer;
-use UserSpace\Core\AssetRegistryInterface;
+use UserSpace\Core\Asset\AssetRegistryInterface;
 use UserSpace\Core\Http\JsonResponse;
 use UserSpace\Core\Rest\Abstract\AbstractController;
 use UserSpace\Core\Rest\Attributes\Route;

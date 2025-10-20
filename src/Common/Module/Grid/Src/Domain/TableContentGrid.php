@@ -3,9 +3,9 @@
 namespace UserSpace\Common\Module\Grid\Src\Domain;
 
 use UserSpace\Common\Module\Grid\Src\Domain\DTO\GridRequestParamsDto;
-use UserSpace\Core\AssetRegistryInterface;
+use UserSpace\Core\Asset\AssetRegistryInterface;
 use UserSpace\Core\Database\DatabaseConnectionInterface;
-use UserSpace\Core\StringFilterInterface;
+use UserSpace\Core\String\StringFilterInterface;
 
 abstract class TableContentGrid extends AbstractListContentGrid
 {

@@ -8,7 +8,8 @@ use UserSpace\Core\Http\JsonResponse;
 use UserSpace\Core\Http\Request;
 use UserSpace\Core\Rest\Abstract\AbstractController;
 use UserSpace\Core\Rest\Attributes\Route;
-use UserSpace\Core\StringFilterInterface;
+use UserSpace\Core\String\StringFilterInterface;
+use UserSpace\Core\User\UserApiInterface;
 
 #[Route(path: '/profile')]
 class ProfileFormController extends AbstractController
@@ -23,7 +24,8 @@ class ProfileFormController extends AbstractController
     public function __construct(
         private readonly FormManager           $formManager,
         private readonly FormFactory           $formFactory,
-        private readonly StringFilterInterface $str
+        private readonly StringFilterInterface $str,
+        private readonly UserApiInterface      $userApi
     )
     {
     }
@@ -51,7 +53,7 @@ class ProfileFormController extends AbstractController
         $form = $this->formFactory->create($config);
 
         if ($form->validate()) {
-            $userId = get_current_user_id();
+            $userId = $this->userApi->getCurrentUserId();
             if (!$userId) {
                 return $this->error(['message' => $this->str->translate('You must be logged in to save the profile.')], 401);
             }
@@ -72,12 +74,12 @@ class ProfileFormController extends AbstractController
 
             // Сохраняем основные данные пользователя
             if (count($coreData) > 1) {
-                wp_update_user($coreData);
+                $this->userApi->updateUser($coreData);
             }
 
             // Сохраняем мета-данные
             foreach ($metaData as $key => $value) {
-                update_user_meta($userId, $key, $value);
+                $this->userApi->updateUserMeta($userId, $key, $value);
             }
 
             return $this->success(['message' => $this->str->translate('Data saved successfully!')]);

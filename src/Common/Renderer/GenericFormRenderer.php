@@ -4,8 +4,8 @@ namespace UserSpace\Common\Renderer;
 
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormFactory;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormManager;
-use UserSpace\Core\AssetRegistryInterface;
-use UserSpace\Core\StringFilterInterface;
+use UserSpace\Core\Asset\AssetRegistryInterface;
+use UserSpace\Core\String\StringFilterInterface;
 
 // Защита от прямого доступа к файлу
 if (!defined('ABSPATH')) {

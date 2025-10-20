@@ -7,9 +7,10 @@ use UserSpace\Common\Module\Form\Src\Infrastructure\FormConfig;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormConfigBuilder;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormManager;
 use UserSpace\Common\Service\TemplateManagerInterface;
-use UserSpace\Core\AdminApiInterface;
-use UserSpace\Core\AssetRegistryInterface;
-use UserSpace\Core\StringFilterInterface;
+use UserSpace\Core\Admin\AdminApiInterface;
+use UserSpace\Core\Asset\AssetRegistryInterface;
+use UserSpace\Core\Hooks\HookManagerInterface;
+use UserSpace\Core\String\StringFilterInterface;
 
 /**
  * Абстрактный базовый класс для страниц конструкторов форм.
@@ -26,10 +27,11 @@ abstract class AbstractAdminFormPage extends AbstractAdminPage
         protected readonly StringFilterInterface    $str,
         FieldMapper                                 $fieldMapper,
         AssetRegistryInterface                      $assetRegistry,
-        AdminApiInterface                           $adminApi
+        AdminApiInterface                           $adminApi,
+        HookManagerInterface                        $hookManager
     )
     {
-        parent::__construct($adminApi);
+        parent::__construct($adminApi, $hookManager);
         $this->fieldMapper = $fieldMapper;
         $this->assetRegistry = $assetRegistry;
     }

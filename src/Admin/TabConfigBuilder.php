@@ -5,7 +5,7 @@ namespace UserSpace\Admin;
 use UserSpace\Common\Module\Tabs\Src\Domain\AbstractTab;
 use UserSpace\Common\Module\Tabs\Src\Infrastructure\TabLocationManager;
 use UserSpace\Common\Module\Tabs\Src\Infrastructure\TabManager;
-use UserSpace\Core\StringFilterInterface;
+use UserSpace\Core\String\StringFilterInterface;
 
 /**
  * Генерирует HTML-представление конструктора вкладок.

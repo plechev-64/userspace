@@ -2,7 +2,9 @@
 
 namespace UserSpace\Common\Service;
 
-use UserSpace\Core\OptionManagerInterface;
+use UserSpace\Core\Option\OptionManagerInterface;
+use UserSpace\Core\Query\QueryApiInterface;
+use UserSpace\Core\User\UserApiInterface;
 use WP_User;
 
 /**
@@ -20,7 +22,11 @@ class ViewedUserContext
     private bool $isProfileRequestedViaQueryVar = false;
     private bool $isInitialized = false;
 
-    public function __construct(private readonly OptionManagerInterface $optionManager)
+    public function __construct(
+        private readonly OptionManagerInterface $optionManager,
+        private readonly UserApiInterface       $userApi,
+        private readonly QueryApiInterface $wpQueryApi
+    )
     {
         // Инициализация будет отложена до первого вызова метода.
     }
@@ -32,13 +38,13 @@ class ViewedUserContext
     {
         if ($this->isInitialized) return;
 
-        $this->currentUser = wp_get_current_user();
+        $this->currentUser = $this->userApi->getCurrentUser();
         if (!$this->currentUser->ID) {
             $this->currentUser = null;
         }
 
         $queryVarName = $this->getQueryVarName();
-        $userId = get_query_var($queryVarName);
+        $userId = $this->wpQueryApi->getQueryVar($queryVarName);
 
         if (empty($userId) && isset($_GET[$queryVarName])) {
             $userId = (int)$_GET[$queryVarName];
@@ -51,7 +57,7 @@ class ViewedUserContext
             return;
         }
 
-        $user = get_user_by('ID', $userId);
+        $user = $this->userApi->getUserBy('ID', (int)$userId);
         if ($user) {
             $this->viewedUser = $user;
             $this->isProfileRequestedViaQueryVar = true;

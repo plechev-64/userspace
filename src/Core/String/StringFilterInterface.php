@@ -1,6 +1,6 @@
 <?php
 
-namespace UserSpace\Core;
+namespace UserSpace\Core\String;
 
 // Защита от прямого доступа к файлу
 if (!defined('ABSPATH')) {
@@ -12,6 +12,16 @@ if (!defined('ABSPATH')) {
  */
 interface StringFilterInterface
 {
+    /**
+     * Статически переводит и возвращает строку.
+     * Обертка для __() для использования в статическом контексте.
+     *
+     * @param string $text Текст для перевода.
+     * @param string $domain Текстовый домен.
+     * @return string Переведенный текст.
+     */
+    public static function sTranslate(string $text, string $domain = 'usp'): string;
+
     /**
      * Переводит и возвращает строку.
      * Обертка для __()
@@ -83,4 +93,22 @@ interface StringFilterInterface
      * @return string|array<string>
      */
     public function sanitizeTextField(string|array $value): string|array;
+
+    /**
+     * Проверяет, является ли строка валидным email-адресом.
+     * Обертка для is_email().
+     *
+     * @param string $email
+     * @return string|false Валидный email или false.
+     */
+    public function isEmail(string $email): string|false;
+
+    /**
+     * Кодирует переменную в формат JSON.
+     * Обертка для wp_json_encode().
+     *
+     * @param mixed $data
+     * @return string|false
+     */
+    public function jsonEncode(mixed $data): string|false;
 }

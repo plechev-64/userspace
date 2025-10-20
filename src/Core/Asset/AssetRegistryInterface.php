@@ -1,6 +1,6 @@
 <?php
 
-namespace UserSpace\Core;
+namespace UserSpace\Core\Asset;
 
 if (!defined('ABSPATH')) {
     exit;

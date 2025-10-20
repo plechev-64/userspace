@@ -6,7 +6,7 @@ use UserSpace\Common\Module\SSE\Src\Domain\Repository\SseEventRepositoryInterfac
 use UserSpace\Core\Http\Request;
 use UserSpace\Core\Rest\Abstract\AbstractController;
 use UserSpace\Core\Rest\Attributes\Route;
-use UserSpace\Core\StringFilterInterface;
+use UserSpace\Core\String\StringFilterInterface;
 
 if (!defined('ABSPATH')) {
     exit;

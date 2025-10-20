@@ -4,7 +4,9 @@ namespace UserSpace\Admin;
 
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormFactory;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormManager;
-use UserSpace\Core\StringFilterInterface;
+use UserSpace\Core\Hooks\HookManagerInterface;
+use UserSpace\Core\String\StringFilterInterface;
+use UserSpace\Core\User\UserApiInterface;
 
 /**
  * Управляет отображением и сохранением кастомных полей на странице профиля пользователя в админ-панели.
@@ -14,7 +16,9 @@ class AdminProfileFields
     public function __construct(
         private readonly FormManager           $formManager,
         private readonly FormFactory           $formFactory,
-        private readonly StringFilterInterface $str
+        private readonly StringFilterInterface $str,
+        private readonly HookManagerInterface  $hookManager,
+        private readonly UserApiInterface      $userApi
     )
     {
     }
@@ -24,11 +28,11 @@ class AdminProfileFields
      */
     public function registerHooks(): void
     {
-        add_action('show_user_profile', [$this, 'renderProfileFields']);
-        add_action('edit_user_profile', [$this, 'renderProfileFields']);
+        $this->hookManager->addAction('show_user_profile', [$this, 'renderProfileFields']);
+        $this->hookManager->addAction('edit_user_profile', [$this, 'renderProfileFields']);
 
-        add_action('personal_options_update', [$this, 'saveProfileFields']);
-        add_action('edit_user_profile_update', [$this, 'saveProfileFields']);
+        $this->hookManager->addAction('personal_options_update', [$this, 'saveProfileFields']);
+        $this->hookManager->addAction('edit_user_profile_update', [$this, 'saveProfileFields']);
     }
 
     /**
@@ -51,7 +55,7 @@ class AdminProfileFields
                 $config->removeField($fieldName);
                 continue;
             }
-            $config->updateFieldValue($fieldName, $user->$fieldName ?? get_user_meta($user->ID, $fieldName, true));
+            $config->updateFieldValue($fieldName, $user->$fieldName ?? $this->userApi->getUserMeta($user->ID, $fieldName, true));
         }
 
         $form = $this->formFactory->create($config);
@@ -69,7 +73,7 @@ class AdminProfileFields
      */
     public function saveProfileFields(int $userId): void
     {
-        if (!current_user_can('edit_user', $userId)) {
+        if (!$this->userApi->currentUserCan('edit_user', $userId)) {
             return;
         }
 
@@ -91,7 +95,7 @@ class AdminProfileFields
 
                 // Здесь можно добавить более сложную санацию в зависимости от типа поля
                 $value = $this->str->unslash($_POST[$fieldName]);
-                update_user_meta($userId, $fieldName, $value);
+                $this->userApi->updateUserMeta($userId, $fieldName, $value);
             }
         }
     }

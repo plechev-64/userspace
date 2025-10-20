@@ -40,8 +40,9 @@ interface ContainerInterface
      *
      * @template T
      * @param class-string<T> $id Идентификатор сервиса (имя класса).
+     * @param array<string, mixed> $parameters Ассоциативный массив параметров для конструктора.
      * @return T Новый экземпляр сервиса.
      * @throws \Exception Если сервис не может быть создан.
      */
-    public function build(string $id);
+    public function build(string $id, array $parameters = []);
 }

@@ -5,9 +5,10 @@ namespace UserSpace\Common\Renderer;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormFactory;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormManager;
 use UserSpace\Common\Service\TemplateManagerInterface;
-use UserSpace\Core\AssetRegistryInterface;
-use UserSpace\Core\OptionManagerInterface;
-use UserSpace\Core\StringFilterInterface;
+use UserSpace\Core\Asset\AssetRegistryInterface;
+use UserSpace\Core\Option\OptionManagerInterface;
+use UserSpace\Core\String\StringFilterInterface;
+use UserSpace\Core\User\UserApiInterface;
 
 // Защита от прямого доступа к файлу
 if (!defined('ABSPATH')) {
@@ -23,14 +24,15 @@ class RegistrationFormRenderer
         private readonly TemplateManagerInterface $templateManager,
         private readonly StringFilterInterface    $str,
         private readonly OptionManagerInterface   $optionManager,
-        private readonly AssetRegistryInterface   $assetRegistry
+        private readonly AssetRegistryInterface   $assetRegistry,
+        private readonly UserApiInterface         $userApi
     )
     {
     }
 
     public function render(): string
     {
-        if (is_user_logged_in()) {
+        if ($this->userApi->isUserLoggedIn()) {
             return '<p>' . $this->str->translate('You are already registered and logged in.') . '</p>';
         }
 

@@ -7,25 +7,27 @@ use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\UploaderFieldDto;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Validator\AllowedTypesValidator;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Validator\ImageDimensionsValidator;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Validator\MaxFileSizeValidator;
+use UserSpace\Core\Media\MediaApiInterface;
 use UserSpace\Core\SecurityHelper;
-use UserSpace\Plugin;
 use UserSpace\WpAdapter\StringFilter;
 
 class Uploader extends AbstractField
 {
-    private bool $multiple = false;
-    private SecurityHelper $securityHelper;
+    private readonly bool $multiple;
 
     /**
      * @param UploaderFieldDto $dto
-     * @throws \Exception
+     * @param SecurityHelper $securityHelper
+     * @param MediaApiInterface $mediaApi
      */
-    public function __construct(UploaderFieldDto $dto)
+    public function __construct(
+        UploaderFieldDto                   $dto,
+        private readonly SecurityHelper    $securityHelper,
+        private readonly MediaApiInterface $mediaApi
+    )
     {
         parent::__construct($dto);
         $this->multiple = $dto->multiple;
-        // В реальном приложении это будет внедряться через DI контейнер
-        $this->securityHelper = Plugin::getInstance()->getContainer()->get(SecurityHelper::class);
     }
 
     public function renderInput(): string
@@ -36,13 +38,11 @@ class Uploader extends AbstractField
         $isMultiple = $this->multiple;
 
         foreach ($attachmentIds as $attachmentId) {
-            $thumbnail_data = wp_get_attachment_image_src((int)$attachmentId, 'thumbnail');
+            $previewUrl = $this->mediaApi->getAttachmentImageUrl((int)$attachmentId, 'thumbnail');
 
-            if ($thumbnail_data) {
-                $previewUrl = $thumbnail_data[0];
-            } else {
+            if (!$previewUrl) {
                 // Если миниатюра не найдена, пытаемся получить иконку типа файла
-                $previewUrl = wp_mime_type_icon($attachmentId);
+                $previewUrl = $this->mediaApi->getMimeTypeIconUrl((int)$attachmentId);
             }
             $previewHtml .= sprintf(
                 '<div class="usp-uploader-preview-item" data-id="%d">
@@ -87,7 +87,7 @@ class Uploader extends AbstractField
         ];
 
         $validation_attrs = [
-            'data-config' => $this->str->escAttr(wp_json_encode($config)),
+            'data-config' => $this->str->escAttr($this->str->jsonEncode($config)),
             'data-signature' => $this->str->escAttr($this->securityHelper->sign($config)),
             'data-max-size' => $this->str->escAttr($maxSize),
             'data-min-width' => $this->str->escAttr($minWidth),
@@ -132,41 +132,38 @@ class Uploader extends AbstractField
 
     public static function getSettingsFormConfig(): array
     {
-
-        $str = new StringFilter();
-
         return array_merge(
             parent::getSettingsFormConfig(),
             [
                 'multiple' => [
                     'type' => 'boolean',
-                    'label' => $str->translate('Allow multiple file upload'),
+                    'label' => StringFilter::sTranslate('Allow multiple file upload'),
                 ],
                 'allowed_types' => [
                     'type' => 'text',
-                    'label' => $str->translate('Allowed file types'),
-                    'description' => $str->translate('Comma-separated MIME types, e.g., image/jpeg,image/png,application/pdf'),
+                    'label' => StringFilter::sTranslate('Allowed file types'),
+                    'description' => StringFilter::sTranslate('Comma-separated MIME types, e.g., image/jpeg,image/png,application/pdf'),
                 ],
                 'max_size' => [
                     'type' => 'number',
-                    'label' => $str->translate('Max file size (MB)'),
-                    'description' => $str->translate('Leave empty for no limit.'),
+                    'label' => StringFilter::sTranslate('Max file size (MB)'),
+                    'description' => StringFilter::sTranslate('Leave empty for no limit.'),
                 ],
                 'image_min_width' => [
                     'type' => 'number',
-                    'label' => $str->translate('Min image width (px)'),
+                    'label' => StringFilter::sTranslate('Min image width (px)'),
                 ],
                 'image_min_height' => [
                     'type' => 'number',
-                    'label' => $str->translate('Min image height (px)'),
+                    'label' => StringFilter::sTranslate('Min image height (px)'),
                 ],
                 'image_max_width' => [
                     'type' => 'number',
-                    'label' => $str->translate('Max image width (px)'),
+                    'label' => StringFilter::sTranslate('Max image width (px)'),
                 ],
                 'image_max_height' => [
                     'type' => 'number',
-                    'label' => $str->translate('Max image height (px)'),
+                    'label' => StringFilter::sTranslate('Max image height (px)'),
                 ],
             ]
         );

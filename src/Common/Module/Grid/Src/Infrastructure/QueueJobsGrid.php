@@ -3,9 +3,9 @@
 namespace UserSpace\Common\Module\Grid\Src\Infrastructure;
 
 use UserSpace\Common\Module\Grid\Src\Domain\TableContentGrid;
-use UserSpace\Core\AssetRegistryInterface;
+use UserSpace\Core\Asset\AssetRegistryInterface;
 use UserSpace\Core\Database\DatabaseConnectionInterface;
-use UserSpace\Core\StringFilterInterface;
+use UserSpace\Core\String\StringFilterInterface;
 
 class QueueJobsGrid extends TableContentGrid
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace UserSpace\Core;
+namespace UserSpace\Core\Admin;
 
 if (!defined('ABSPATH')) {
     exit;

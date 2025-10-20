@@ -5,7 +5,7 @@ namespace UserSpace\Common\Module\Tabs\Src\Infrastructure;
 use UserSpace\Common\Module\Tabs\Src\Domain\AbstractTab;
 use UserSpace\Common\Service\TemplateManagerInterface;
 use UserSpace\Common\Service\ViewedUserContext;
-use UserSpace\Core\StringFilterInterface;
+use UserSpace\Core\String\StringFilterInterface;
 
 /**
  * Сервис для рендеринга контента вкладки на основе ее contentSource.

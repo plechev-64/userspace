@@ -10,6 +10,7 @@ use UserSpace\Core\Rest\Route\RouteArgsResolver;
 use UserSpace\Core\Rest\Route\RouteCollector;
 use UserSpace\Core\Rest\Route\RouteData;
 use UserSpace\Core\Rest\Route\RouteHandler;
+use UserSpace\Core\User\UserApiInterface;
 use UserSpace\Core\Rest\Route\RouteParser;
 use WP_REST_Response;
 
@@ -21,7 +22,8 @@ class RestApi
         private readonly array              $controllers,
         private readonly string             $namespace,
         private readonly RouteParser        $routeParser,
-        private readonly ContainerInterface $container
+        private readonly ContainerInterface $container,
+        private readonly UserApiInterface   $userApi
     )
     {
 
@@ -73,7 +75,7 @@ class RestApi
             'callback' => $this->routeCallback($routeData),
             'permission_callback' => function () use ($routeData) {
                 $permission = $routeData->getPermission();
-                return !$permission || current_user_can($permission);
+                return !$permission || $this->userApi->currentUserCan($permission);
             }
         ];
 

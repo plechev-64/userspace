@@ -45,23 +45,31 @@ use UserSpace\Common\Module\Tabs\Src\Infrastructure\TabProvider;
 use UserSpace\Common\Service\CronManager;
 use UserSpace\Common\Service\TemplateManager;
 use UserSpace\Common\Service\TemplateManagerInterface;
-use UserSpace\Core\AdminApiInterface;
-use UserSpace\Core\AssetRegistryInterface;
+use UserSpace\Core\Admin\AdminApiInterface;
+use UserSpace\Core\Asset\AssetRegistryInterface;
 use UserSpace\Core\ContainerInterface;
 use UserSpace\Core\Database\DatabaseConnectionInterface;
+use UserSpace\Core\Hooks\HookManagerInterface;
 use UserSpace\Core\Http\Request;
-use UserSpace\Core\OptionManagerInterface;
+use UserSpace\Core\Media\MediaApiInterface;
+use UserSpace\Core\Option\OptionManagerInterface;
 use UserSpace\Core\Process\BackgroundProcessManager;
+use UserSpace\Core\Query\QueryApiInterface;
 use UserSpace\Core\Rest\Helper\RestHelper;
 use UserSpace\Core\Rest\RestApi;
 use UserSpace\Core\Rest\Route\RouteCollector;
 use UserSpace\Core\Rest\Route\RouteParser;
-use UserSpace\Core\StringFilterInterface;
+use UserSpace\Core\String\StringFilterInterface;
+use UserSpace\Core\User\UserApiInterface;
 use UserSpace\WpAdapter\AdminApi;
 use UserSpace\WpAdapter\AssetRegistry;
 use UserSpace\WpAdapter\DatabaseConnection;
+use UserSpace\WpAdapter\HookManager;
+use UserSpace\WpAdapter\MediaApi;
 use UserSpace\WpAdapter\OptionManager;
 use UserSpace\WpAdapter\StringFilter;
+use UserSpace\WpAdapter\UserApi;
+use UserSpace\WpAdapter\QueryApi;
 
 /**
  * Регистрирует сервисы плагина в DI-контейнере.
@@ -161,7 +169,8 @@ class ServiceProvider
                 $c->get('app.controllers'),
                 $c->get('rest.namespace'),
                 $c->get(RouteParser::class),
-                $c
+                $c,
+                $c->get(UserApiInterface::class)
             );
         });
 
@@ -185,6 +194,18 @@ class ServiceProvider
 
         // --- Admin API ---
         $container->set(AdminApiInterface::class, fn() => new AdminApi());
+
+        // --- Hooks ---
+        $container->set(HookManagerInterface::class, fn() => new HookManager());
+
+        // --- User API ---
+        $container->set(UserApiInterface::class, fn() => new UserApi());
+
+        // --- Media API ---
+        $container->set(MediaApiInterface::class, fn() => new MediaApi());
+
+        // --- WP Query API ---
+        $container->set(QueryApiInterface::class, fn() => new QueryApi());
 
         // --- Cron ---
         $container->set(CronManager::class, function (ContainerInterface $c) {

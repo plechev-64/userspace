@@ -3,9 +3,12 @@
 namespace UserSpace\Common\Service;
 
 use UserSpace\Common\Controller\UserController;
-use UserSpace\Core\OptionManagerInterface;
+use UserSpace\Core\Hooks\HookManagerInterface;
+use UserSpace\Core\Media\MediaApiInterface;
+use UserSpace\Core\Option\OptionManagerInterface;
 use UserSpace\Core\SecurityHelper;
-use UserSpace\Core\StringFilterInterface;
+use UserSpace\Core\String\StringFilterInterface;
+use UserSpace\Core\User\UserApiInterface;
 use WP_User;
 
 /**
@@ -17,9 +20,20 @@ class AvatarManager
         private readonly SecurityHelper         $securityHelper,
         private readonly ViewedUserContext      $viewedUserContext,
         private readonly StringFilterInterface  $str,
-        private readonly OptionManagerInterface $optionManager
+        private readonly OptionManagerInterface $optionManager,
+        private readonly UserApiInterface       $userApi,
+        private readonly MediaApiInterface      $mediaApi,
+        private readonly HookManagerInterface   $hookManager
     )
     {
+    }
+
+    /**
+     * Регистрирует хуки.
+     */
+    public function registerHooks(): void
+    {
+        $this->hookManager->addFilter('pre_get_avatar_data', [$this, 'replaceAvatarData'], 10, 2);
     }
 
     /**
@@ -32,18 +46,18 @@ class AvatarManager
     public function getAvatarUrl(WP_User|int $user): string
     {
         $userId = is_numeric($user) ? $user : $user->ID;
-        $customAvatarId = get_user_meta($userId, UserController::AVATAR_META_KEY, true);
+        $customAvatarId = $this->userApi->getUserMeta($userId, UserController::AVATAR_META_KEY, true);
 
         if ($customAvatarId) {
             // Используем размер 'thumbnail', который обычно 150x150.
-            $customAvatarUrl = wp_get_attachment_image_url($customAvatarId, 'thumbnail');
+            $customAvatarUrl = $this->mediaApi->getAttachmentImageUrl((int)$customAvatarId, 'thumbnail');
             if ($customAvatarUrl) {
                 return $customAvatarUrl;
             }
         }
 
         // Возвращаемся к стандартному аватару WordPress
-        return get_avatar_url($userId, ['size' => 96]);
+        return $this->mediaApi->getAvatarUrl($userId, ['size' => 96]);
     }
 
     /**
@@ -67,8 +81,8 @@ class AvatarManager
             } elseif (isset($id_or_email->ID)) {
                 $userId = (int)$id_or_email->ID;
             }
-        } elseif (is_string($id_or_email) && is_email($id_or_email)) {
-            $user = get_user_by('email', $id_or_email);
+        } elseif (is_string($id_or_email) && $this->str->isEmail($id_or_email)) {
+            $user = $this->userApi->getUserBy('email', $id_or_email);
             if ($user) {
                 $userId = $user->ID;
             }
@@ -77,7 +91,7 @@ class AvatarManager
         $avatarId = 0;
         if ($userId) {
             // Сначала ищем персональный аватар пользователя
-            $avatarId = get_user_meta($userId, UserController::AVATAR_META_KEY, true);
+            $avatarId = $this->userApi->getUserMeta($userId, UserController::AVATAR_META_KEY, true);
         }
 
         // Если персональный аватар не найден, ищем аватар по умолчанию в настройках плагина
@@ -90,7 +104,7 @@ class AvatarManager
 
         if ($avatarId) {
             $size = $args['size'] ?? 96;
-            $imageUrl = wp_get_attachment_image_url($avatarId, [$size, $size]);
+            $imageUrl = $this->mediaApi->getAttachmentImageUrl($avatarId, [$size, $size]);
 
             if ($imageUrl) {
                 $args['url'] = $imageUrl;

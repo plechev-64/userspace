@@ -5,7 +5,7 @@ namespace UserSpace\Admin\Controller;
 use UserSpace\Admin\Controller\Abstract\AbstractAdminFormController;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormManager;
 use UserSpace\Core\Rest\Attributes\Route;
-use UserSpace\Core\StringFilterInterface;
+use UserSpace\Core\String\StringFilterInterface;
 
 #[Route(path: '/admin/profile-form')]
 class ProfileAdminController extends AbstractAdminFormController

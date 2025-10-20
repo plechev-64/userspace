@@ -3,8 +3,9 @@
 namespace UserSpace\Common\Service;
 
 use UserSpace\Common\Module\Tabs\Src\Infrastructure\TabProvider;
-use UserSpace\Core\AssetRegistryInterface;
-use UserSpace\Core\OptionManagerInterface;
+use UserSpace\Core\Asset\AssetRegistryInterface;
+use UserSpace\Core\Hooks\HookManagerInterface;
+use UserSpace\Core\Option\OptionManagerInterface;
 
 class FrontendManager
 {
@@ -13,17 +14,18 @@ class FrontendManager
         private readonly TemplateManagerInterface $templateManager,
         private readonly TabProvider              $tabProvider,
         private readonly OptionManagerInterface   $optionManager,
-        private readonly AssetRegistryInterface   $assetRegistry
+        private readonly AssetRegistryInterface   $assetRegistry,
+        private readonly HookManagerInterface     $hookManager
     )
     {
     }
 
     public function registerHooks(): void
     {
-        add_action('init', [$this, 'registerShortcodes']);
-        add_action('init', [$this, 'registerTabs']);
-        add_action('wp_footer', [$this, 'addModalContainer']);
-        add_action('wp_footer', [$this, 'renderUserBar']);
+        $this->hookManager->addAction('init', [$this, 'registerShortcodes']);
+        $this->hookManager->addAction('init', [$this, 'registerTabs']);
+        $this->hookManager->addAction('wp_footer', [$this, 'addModalContainer']);
+        $this->hookManager->addAction('wp_footer', [$this, 'renderUserBar']);
     }
 
     public function registerShortcodes(): void
@@ -49,7 +51,7 @@ class FrontendManager
         }
 
         $this->assetRegistry->enqueueStyle('usp-user-bar');
-        add_filter('body_class', function ($classes) {
+        $this->hookManager->addFilter('body_class', function ($classes) {
             $classes[] = 'usp-user-bar-active';
             return $classes;
         });

@@ -3,7 +3,7 @@
 namespace UserSpace\Common\Module\Queue\Src\Infrastructure;
 
 // Защита от прямого доступа к файлу
-use UserSpace\Core\OptionManagerInterface;
+use UserSpace\Core\Option\OptionManagerInterface;
 
 if (!defined('ABSPATH')) {
     exit;

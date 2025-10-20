@@ -4,9 +4,10 @@ namespace UserSpace\Admin\Page;
 
 use UserSpace\Admin\Abstract\AbstractAdminPage;
 use UserSpace\Admin\TabConfigBuilder;
-use UserSpace\Core\AdminApiInterface;
-use UserSpace\Core\AssetRegistryInterface;
-use UserSpace\Core\StringFilterInterface;
+use UserSpace\Core\Admin\AdminApiInterface;
+use UserSpace\Core\Asset\AssetRegistryInterface;
+use UserSpace\Core\Hooks\HookManagerInterface;
+use UserSpace\Core\String\StringFilterInterface;
 
 class TabsConfigPage extends AbstractAdminPage
 {
@@ -14,10 +15,11 @@ class TabsConfigPage extends AbstractAdminPage
         private readonly TabConfigBuilder       $tabConfigBuilder,
         private readonly StringFilterInterface  $str,
         private readonly AssetRegistryInterface $assetRegistry,
-        AdminApiInterface                       $adminApi
+        AdminApiInterface                       $adminApi,
+        HookManagerInterface                    $hookManager
     )
     {
-        parent::__construct($adminApi);
+        parent::__construct($adminApi, $hookManager);
     }
 
     /**

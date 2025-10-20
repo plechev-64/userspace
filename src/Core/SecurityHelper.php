@@ -2,6 +2,8 @@
 
 namespace UserSpace\Core;
 
+use UserSpace\Core\Option\OptionManagerInterface;
+
 class SecurityHelper
 {
     private const SECURITY_KEY_OPTION = 'usp_security_key';

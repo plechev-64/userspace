@@ -3,7 +3,7 @@
 namespace UserSpace\Common\Module\Form\Src\Infrastructure;
 
 use InvalidArgumentException;
-use UserSpace\Core\StringFilterInterface;
+use UserSpace\Core\String\StringFilterInterface;
 
 // Защита от прямого доступа к файлу
 if (!defined('ABSPATH')) {

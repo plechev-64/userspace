@@ -3,7 +3,8 @@
 namespace UserSpace\Core\Theme;
 
 use UserSpace\Common\Service\ViewedUserContext;
-use UserSpace\Core\OptionManagerInterface;
+use UserSpace\Core\Option\OptionManagerInterface;
+use UserSpace\Core\User\UserApiInterface;
 
 /**
  * Управляет темами личного кабинета.
@@ -15,7 +16,8 @@ class ThemeManager
 
     public function __construct(
         private readonly ViewedUserContext      $viewedUserContext,
-        private readonly OptionManagerInterface $optionManager
+        private readonly OptionManagerInterface $optionManager,
+        private readonly UserApiInterface       $userApi
     )
     {
         $this->themesDir = USERSPACE_PLUGIN_DIR . 'themes/';
@@ -73,7 +75,7 @@ class ThemeManager
     public function renderActiveTheme(): string
     {
         // Если пользователь не авторизован и не пытается посмотреть чужой профиль, показываем форму входа.
-        if (!is_user_logged_in() && !$this->viewedUserContext->isProfileRequestedViaQueryVar()) {
+        if (!$this->userApi->isUserLoggedIn() && !$this->viewedUserContext->isProfileRequestedViaQueryVar()) {
             return do_shortcode('[usp_login_form]');
         }
 

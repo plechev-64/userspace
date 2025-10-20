@@ -2,7 +2,7 @@
 
 namespace UserSpace\WpAdapter;
 
-use UserSpace\Core\OptionManagerInterface;
+use UserSpace\Core\Option\OptionManagerInterface;
 
 if (!defined('ABSPATH')) {
     exit;

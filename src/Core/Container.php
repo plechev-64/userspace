@@ -85,10 +85,11 @@ class Container implements ContainerInterface
      *
      * @template T
      * @param class-string<T> $id Идентификатор сервиса (имя класса).
+     * @param array<string, mixed> $parameters Ассоциативный массив параметров для конструктора.
      * @return T Новый экземпляр сервиса.
      * @throws \Exception Если сервис не может быть создан.
      */
-    public function build(string $id)
+    public function build(string $id, array $parameters = [])
     {
         if (!$this->has($id)) {
             throw new Exception("Service or class '{$id}' not found.");
@@ -107,22 +108,34 @@ class Container implements ContainerInterface
             return new $id();
         }
 
-        $parameters = $constructor->getParameters();
+        $constructorParameters = $constructor->getParameters();
         $dependencies = [];
 
-        foreach ($parameters as $parameter) {
+        foreach ($constructorParameters as $parameter) {
+            $paramName = $parameter->getName();
             $paramType = $parameter->getType();
 
-            // Пропускаем параметры без типа или со встроенным (скалярным) типом
-            if (!$paramType || $paramType->isBuiltin()) {
-                // Если для скалярного параметра есть значение по умолчанию, используем его
-                if ($parameter->isDefaultValueAvailable()) {
-                    $dependencies[] = $parameter->getDefaultValue();
-                }
+            // 1. Проверяем, был ли параметр передан вручную
+            if (array_key_exists($paramName, $parameters)) {
+                $dependencies[] = $parameters[$paramName];
                 continue;
             }
 
-            $dependencies[] = $this->get($paramType->getName());
+            // 2. Если это объект (не встроенный тип), пытаемся разрешить его из контейнера
+            if ($paramType && !$paramType->isBuiltin()) {
+                $dependencyClass = $paramType->getName();
+                $dependencies[] = $this->get($dependencyClass);
+                continue;
+            }
+
+            // 3. Если это скалярный тип и у него есть значение по умолчанию
+            if ($parameter->isDefaultValueAvailable()) {
+                $dependencies[] = $parameter->getDefaultValue();
+                continue;
+            }
+
+            // Если не удалось разрешить зависимость, можно бросить исключение
+            throw new Exception("Cannot resolve parameter '{$paramName}' for class '{$id}'");
         }
 
         return new $id(...$dependencies);

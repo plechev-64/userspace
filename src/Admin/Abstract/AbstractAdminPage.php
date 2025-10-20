@@ -2,7 +2,8 @@
 
 namespace UserSpace\Admin\Abstract;
 
-use UserSpace\Core\AdminApiInterface;
+use UserSpace\Core\Admin\AdminApiInterface;
+use UserSpace\Core\Hooks\HookManagerInterface;
 
 /**
  * Абстрактный базовый класс для страниц в админ-панели WordPress.
@@ -11,7 +12,10 @@ abstract class AbstractAdminPage
 {
     protected string $hookSuffix = '';
 
-    public function __construct(protected readonly AdminApiInterface $adminApi)
+    public function __construct(
+        protected readonly AdminApiInterface    $adminApi,
+        protected readonly HookManagerInterface $hookManager
+    )
     {
     }
 

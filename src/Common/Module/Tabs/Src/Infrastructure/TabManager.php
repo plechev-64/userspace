@@ -5,6 +5,7 @@ namespace UserSpace\Common\Module\Tabs\Src\Infrastructure;
 use UserSpace\Common\Module\Tabs\Src\Domain\AbstractTab;
 use UserSpace\Common\Service\ViewedUserContext;
 use UserSpace\Core\ContainerInterface;
+use UserSpace\Core\User\UserApiInterface;
 
 class TabManager
 {
@@ -13,7 +14,8 @@ class TabManager
 
     public function __construct(
         private readonly ContainerInterface $container,
-        private readonly ViewedUserContext  $viewedUserContext
+        private readonly ViewedUserContext  $viewedUserContext,
+        private readonly UserApiInterface   $userApi
     )
     {
     }
@@ -84,7 +86,7 @@ class TabManager
             return [];
         }
         $displayedUserId = $displayedUser->ID;
-        $currentUserId = get_current_user_id();
+        $currentUserId = $this->userApi->getCurrentUserId();
 
         // Строим иерархию из всех зарегистрированных вкладок
         $hierarchicalTabs = $this->buildTabsHierarchy(array_values($this->tabs));
@@ -102,14 +104,14 @@ class TabManager
             }
 
             // 3. Проверка прав доступа для родительской вкладки
-            if (current_user_can($tab->getCapability(), $displayedUserId)) {
+            if ($this->userApi->currentUserCan($tab->getCapability(), $displayedUserId)) {
                 $allowedSubTabs = [];
                 foreach ($tab->getSubTabs() as $subTab) {
                     // Проверка приватности и прав для дочерних вкладок
                     if ($subTab->isPrivate() && (int)$currentUserId !== (int)$displayedUserId) {
                         continue;
                     }
-                    if (current_user_can($subTab->getCapability(), $displayedUserId)) {
+                    if ($this->userApi->currentUserCan($subTab->getCapability(), $displayedUserId)) {
                         $allowedSubTabs[] = $subTab;
                     }
                 }

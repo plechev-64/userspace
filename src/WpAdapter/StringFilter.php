@@ -3,7 +3,7 @@
 namespace UserSpace\WpAdapter;
 
 // Защита от прямого доступа к файлу
-use UserSpace\Core\StringFilterInterface;
+use UserSpace\Core\String\StringFilterInterface;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -14,6 +14,11 @@ if (!defined('ABSPATH')) {
  */
 class StringFilter implements StringFilterInterface
 {
+    public static function sTranslate(string $text, string $domain = 'usp'): string
+    {
+        return __($text, $domain);
+    }
+
     /**
      * Переводит и возвращает строку.
      * Обертка для __()
@@ -91,5 +96,15 @@ class StringFilter implements StringFilterInterface
         }
 
         return sanitize_text_field($value);
+    }
+
+    public function isEmail(string $email): false|string
+    {
+        return is_email($email);
+    }
+
+    public function jsonEncode(mixed $data): false|string
+    {
+        return wp_json_encode($data);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace UserSpace\WpAdapter;
 
-use UserSpace\Core\AdminApiInterface;
+use UserSpace\Core\Admin\AdminApiInterface;
 
 if (!defined('ABSPATH')) {
     exit;

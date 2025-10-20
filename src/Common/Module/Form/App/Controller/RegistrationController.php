@@ -6,11 +6,12 @@ use UserSpace\Common\Module\Form\Src\Infrastructure\FormFactory;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormManager;
 use UserSpace\Core\Http\JsonResponse;
 use UserSpace\Core\Http\Request;
-use UserSpace\Core\OptionManagerInterface;
+use UserSpace\Core\Option\OptionManagerInterface;
 use UserSpace\Core\Rest\Abstract\AbstractController;
 use UserSpace\Core\Rest\Attributes\Route;
 use UserSpace\Core\SecurityHelper;
-use UserSpace\Core\StringFilterInterface;
+use UserSpace\Core\String\StringFilterInterface;
+use UserSpace\Core\User\UserApiInterface;
 
 class RegistrationController extends AbstractController
 {
@@ -25,7 +26,8 @@ class RegistrationController extends AbstractController
         private readonly FormFactory            $formFactory,
         private readonly SecurityHelper         $securityHelper,
         private readonly StringFilterInterface  $str,
-        private readonly OptionManagerInterface $optionManager
+        private readonly OptionManagerInterface $optionManager,
+        private readonly UserApiInterface       $userApi
     )
     {
     }
@@ -33,7 +35,7 @@ class RegistrationController extends AbstractController
     #[Route(path: '/register', method: 'POST')]
     public function handleRegistration(Request $request): JsonResponse
     {
-        if (is_user_logged_in()) {
+        if ($this->userApi->isUserLoggedIn()) {
             return $this->error(['message' => $this->str->translate('You are already registered and logged in.')], 403);
         }
 
@@ -79,33 +81,32 @@ class RegistrationController extends AbstractController
 
         if ($requireConfirmation) {
             // Регистрация с подтверждением
-            $userId = wp_insert_user($userData);
+            $userId = $this->userApi->insertUser($userData);
             if (is_wp_error($userId)) {
                 return $this->error(['message' => $userId->get_error_message()], 409);
             }
 
             // Устанавливаем временную роль
-            wp_update_user(['ID' => $userId, 'role' => 'need-confirm']);
+            $this->userApi->updateUser(['ID' => $userId, 'role' => 'need-confirm']);
 
             // Сохраняем мета-данные
             foreach ($metaData as $key => $value) {
-                update_user_meta($userId, $key, $value);
+                $this->userApi->updateUserMeta($userId, $key, $value);
             }
 
             $this->sendConfirmationEmail($userId, $userData);
 
             return $this->success(['message' => $this->str->translate('Registration successful! Please check your email to activate your account.')]);
-
         } else {
             // Регистрация без подтверждения
-            $userId = wp_create_user($userData['user_login'], $userData['user_pass'], $userData['user_email']);
+            $userId = $this->userApi->createUser($userData['user_login'], $userData['user_pass'], $userData['user_email']);
             if (is_wp_error($userId)) {
                 return $this->error(['message' => $userId->get_error_message()], 409);
             }
 
             // Сохраняем мета-данные
             foreach ($metaData as $key => $value) {
-                update_user_meta($userId, $key, $value);
+                $this->userApi->updateUserMeta($userId, $key, $value);
             }
 
             return $this->success(['message' => $this->str->translate('Registration successful!')]);
@@ -125,7 +126,7 @@ class RegistrationController extends AbstractController
 
         [$userLogin, $userIdHash, $securityHash] = $data;
 
-        $user = get_user_by('login', $userLogin);
+        $user = $this->userApi->getUserBy('login', $userLogin);
 
         if (!$user || md5($user->ID) !== $userIdHash || md5($this->securityHelper->getSecurityKey() . $user->ID) !== $securityHash) {
             wp_safe_redirect(home_url() . '?reg-error=invalid_token');
@@ -133,7 +134,7 @@ class RegistrationController extends AbstractController
         }
 
         // Активируем пользователя, устанавливая ему роль по умолчанию
-        wp_update_user(['ID' => $user->ID, 'role' => $this->optionManager->get('default_role')]);
+        $this->userApi->updateUser(['ID' => $user->ID, 'role' => $this->optionManager->get('default_role')]);
 
         // Перенаправляем на страницу входа с сообщением об успехе
         $settings = $this->optionManager->get('usp_settings', []);

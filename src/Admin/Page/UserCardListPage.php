@@ -4,18 +4,20 @@ namespace UserSpace\Admin\Page;
 
 use UserSpace\Admin\Abstract\AbstractAdminPage;
 use UserSpace\Common\Module\Grid\Src\Infrastructure\UserListGrid;
-use UserSpace\Core\AdminApiInterface;
-use UserSpace\Core\StringFilterInterface;
+use UserSpace\Core\Admin\AdminApiInterface;
+use UserSpace\Core\Hooks\HookManagerInterface;
+use UserSpace\Core\String\StringFilterInterface;
 
 class UserCardListPage extends AbstractAdminPage
 {
     public function __construct(
         private readonly UserListGrid          $userListGrid,
         private readonly StringFilterInterface $str,
-        AdminApiInterface                      $adminApi
+        AdminApiInterface                      $adminApi,
+        HookManagerInterface                   $hookManager
     )
     {
-        parent::__construct($adminApi);
+        parent::__construct($adminApi, $hookManager);
     }
 
     public function getPageTitle(): string

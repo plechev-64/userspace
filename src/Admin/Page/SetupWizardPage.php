@@ -7,10 +7,11 @@ use UserSpace\Admin\SetupWizard\SetupWizardConfig;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\SelectFieldDto;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormConfig;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormFactory;
-use UserSpace\Core\AdminApiInterface;
-use UserSpace\Core\AssetRegistryInterface;
-use UserSpace\Core\OptionManagerInterface;
-use UserSpace\Core\StringFilterInterface;
+use UserSpace\Core\Admin\AdminApiInterface;
+use UserSpace\Core\Asset\AssetRegistryInterface;
+use UserSpace\Core\Hooks\HookManagerInterface;
+use UserSpace\Core\Option\OptionManagerInterface;
+use UserSpace\Core\String\StringFilterInterface;
 
 /**
  * Управляет страницей пошаговой настройки плагина.
@@ -25,10 +26,11 @@ class SetupWizardPage extends AbstractAdminPage
         private readonly StringFilterInterface  $str,
         private readonly AssetRegistryInterface $assetRegistry,
         private readonly OptionManagerInterface $optionManager,
-        AdminApiInterface                       $adminApi
+        AdminApiInterface                       $adminApi,
+        HookManagerInterface                    $hookManager
     )
     {
-        parent::__construct($adminApi);
+        parent::__construct($adminApi, $hookManager);
     }
 
     public function addPage(): void
@@ -201,7 +203,7 @@ class SetupWizardPage extends AbstractAdminPage
                 'options' => $this->getPagesAsOptions(),
             ]));
 
-        return apply_filters('usp_setup_wizard_config', $config);
+        return $this->hookManager->applyFilters('usp_setup_wizard_config', $config);
     }
 
     private function getPagesAsOptions(): array

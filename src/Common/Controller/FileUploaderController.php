@@ -8,16 +8,18 @@ use UserSpace\Common\Module\Form\Src\Infrastructure\Validator\MaxFileSizeValidat
 use UserSpace\Common\Service\UploadedFileValidator;
 use UserSpace\Core\Http\JsonResponse;
 use UserSpace\Core\Http\Request;
+use UserSpace\Core\Media\MediaApiInterface;
 use UserSpace\Core\Rest\Abstract\AbstractController;
 use UserSpace\Core\Rest\Attributes\Route;
 use UserSpace\Core\SecurityHelper;
-use UserSpace\Core\StringFilterInterface;
+use UserSpace\Core\String\StringFilterInterface;
 
 class FileUploaderController extends AbstractController
 {
     public function __construct(
         private readonly SecurityHelper        $securityHelper,
-        private readonly StringFilterInterface $str
+        private readonly StringFilterInterface $str,
+        private readonly MediaApiInterface     $mediaApi
     )
     {
     }
@@ -63,16 +65,8 @@ class FileUploaderController extends AbstractController
         }
         // --- Конец серверной валидации ---
 
-        // Подключаем необходимые файлы WordPress для работы с загрузками
-        if (!function_exists('wp_handle_upload')) {
-            require_once(ABSPATH . 'wp-admin/includes/file.php');
-        }
-
-        $uploadedfile = $_FILES['file'];
         $upload_overrides = ['test_form' => false];
-
-        // Безопасно обрабатываем загрузку
-        $movefile = wp_handle_upload($uploadedfile, $upload_overrides);
+        $movefile = $this->mediaApi->handleUpload($file, $upload_overrides);
 
         if ($movefile && !isset($movefile['error'])) {
             $filename = basename($movefile['file']);
@@ -84,20 +78,18 @@ class FileUploaderController extends AbstractController
                 'post_status' => 'inherit',
             ];
 
-            // Создаем запись в медиабиблиотеке
-            $attachmentId = wp_insert_attachment($attachment, $movefile['file']);
+            $attachmentId = $this->mediaApi->insertAttachment($attachment, $movefile['file']);
+            if (is_wp_error($attachmentId)) {
+                return $this->error(['message' => $attachmentId->get_error_message()], 500);
+            }
 
-            // Генерируем метаданные (включая миниатюры для изображений)
-            require_once(ABSPATH . 'wp-admin/includes/image.php');
-            $attach_data = wp_generate_attachment_metadata($attachmentId, $movefile['file']);
-            wp_update_attachment_metadata($attachmentId, $attach_data);
+            $attach_data = $this->mediaApi->generateAttachmentMetadata($attachmentId, $movefile['file']);
+            $this->mediaApi->updateAttachmentMetadata($attachmentId, $attach_data);
 
             // Определяем URL для предпросмотра
-            if (wp_attachment_is_image($attachmentId)) {
-                $previewUrl = wp_get_attachment_image_url($attachmentId, 'thumbnail');
-            } else {
-                $previewUrl = wp_mime_type_icon($attachmentId);
-            }
+            $previewUrl = $this->mediaApi->isAttachmentImage($attachmentId)
+                ? $this->mediaApi->getAttachmentImageUrl($attachmentId, 'thumbnail') // URL для изображения
+                : $this->mediaApi->getMimeTypeIconUrl($attachmentId); // URL для иконки файла
 
             return $this->success([
                 'attachmentId' => $attachmentId,
