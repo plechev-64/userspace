@@ -2,8 +2,6 @@
 
 namespace UserSpace\Core\Database;
 
-use wpdb;
-
 if (!defined('ABSPATH')) {
     exit;
 }
@@ -13,7 +11,7 @@ if (!defined('ABSPATH')) {
  */
 interface QueryBuilderInterface
 {
-    public function getWpdb(): wpdb;
+    public function getConnection(): DatabaseConnectionInterface;
 
     public function select(array|string $columns = ['*']): self;
 

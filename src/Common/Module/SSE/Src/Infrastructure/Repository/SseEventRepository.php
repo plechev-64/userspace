@@ -3,7 +3,7 @@
 namespace UserSpace\Common\Module\SSE\Src\Infrastructure\Repository;
 
 use UserSpace\Common\Module\SSE\Src\Domain\Repository\SseEventRepositoryInterface;
-use UserSpace\Core\Database\QueryBuilderInterface;
+use UserSpace\Core\Database\DatabaseConnectionInterface;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -16,8 +16,11 @@ class SseEventRepository implements SseEventRepositoryInterface
 {
     private const TABLE_NAME = 'userspace_sse_events';
 
-    public function __construct(private readonly QueryBuilderInterface $queryBuilder)
+    private readonly DatabaseConnectionInterface $db;
+
+    public function __construct(DatabaseConnectionInterface $db)
     {
+        $this->db = $db;
     }
 
     /**
@@ -35,9 +38,9 @@ class SseEventRepository implements SseEventRepositoryInterface
             'created_at' => gmdate('Y-m-d H:i:s'),
         ];
 
-        $result = $this->queryBuilder->table(self::TABLE_NAME)->insert($data);
+        $result = $this->db->queryBuilder()->from(self::TABLE_NAME)->insert($data);
 
-        return $result ? $this->queryBuilder->getWpdb()->insert_id : null;
+        return $result ? $this->db->getInsertId() : null;
     }
 
     /**
@@ -48,7 +51,8 @@ class SseEventRepository implements SseEventRepositoryInterface
      */
     public function findNewerThan(int $lastEventId): array
     {
-        return $this->queryBuilder->table(self::TABLE_NAME)
+        return $this->db->queryBuilder()
+            ->from(self::TABLE_NAME)
             ->where('id', '>', $lastEventId)
             ->orderBy('id', 'ASC')
             ->get();
@@ -61,7 +65,8 @@ class SseEventRepository implements SseEventRepositoryInterface
      */
     public function deleteOlderThanOrEqual(int $lastEventId): void
     {
-        $this->queryBuilder->table(self::TABLE_NAME)
+        $this->db->queryBuilder()
+            ->from(self::TABLE_NAME)
             ->where('id', '<=', $lastEventId)
             ->delete();
     }
@@ -74,7 +79,8 @@ class SseEventRepository implements SseEventRepositoryInterface
      */
     public function pruneOldEvents(string $beforeDate): int
     {
-        $result = $this->queryBuilder->table(self::TABLE_NAME)
+        $result = $this->db->queryBuilder()
+            ->from(self::TABLE_NAME)
             ->where('created_at', '<', $beforeDate)
             ->delete();
 
@@ -86,8 +92,9 @@ class SseEventRepository implements SseEventRepositoryInterface
      */
     public function createTable(): void
     {
-        $table_name = $this->queryBuilder->getTableName(self::TABLE_NAME);
-        $charset_collate = $this->queryBuilder->getCharsetCollate();
+        $queryBuilder = $this->db->queryBuilder();
+        $table_name = $queryBuilder->getTableName(self::TABLE_NAME);
+        $charset_collate = $queryBuilder->getCharsetCollate();
 
         $sql = "CREATE TABLE {$table_name} (
             id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -97,7 +104,7 @@ class SseEventRepository implements SseEventRepositoryInterface
             PRIMARY KEY  (id)
         ) {$charset_collate};";
 
-        $this->queryBuilder->runDbDelta($sql);
+        $queryBuilder->runDbDelta($sql);
     }
 
     /**
@@ -105,6 +112,6 @@ class SseEventRepository implements SseEventRepositoryInterface
      */
     public function dropTable(): void
     {
-        $this->queryBuilder->dropTableIfExists(self::TABLE_NAME);
+        $this->db->queryBuilder()->dropTableIfExists(self::TABLE_NAME);
     }
 }

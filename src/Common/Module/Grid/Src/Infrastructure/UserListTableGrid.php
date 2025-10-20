@@ -3,44 +3,23 @@
 namespace UserSpace\Common\Module\Grid\Src\Infrastructure;
 
 use UserSpace\Common\Module\Grid\Src\Domain\TableContentGrid;
+use UserSpace\Core\Database\DatabaseConnectionInterface;
+use UserSpace\Core\StringFilterInterface;
 
 class UserListTableGrid extends TableContentGrid
 {
+    public function __construct(
+        DatabaseConnectionInterface $db,
+        StringFilterInterface       $str
+    ) {
+        parent::__construct($db, $str);
+    }
+
     public function render(): string
     {
         $this->registerAssets();
 
         return parent::render();
-    }
-
-    private function registerAssets(): void
-    {
-        wp_enqueue_style(
-            'usp-base-grid-style',
-            USERSPACE_PLUGIN_URL . 'assets/css/base-grid.css',
-            [],
-            USERSPACE_VERSION
-        );
-        wp_enqueue_style(
-            'usp-table-grid-style',
-            USERSPACE_PLUGIN_URL . 'assets/css/table-grid.css',
-            ['usp-base-grid-style'],
-            USERSPACE_VERSION
-        );
-
-        wp_enqueue_script(
-            'usp-table-grid-script',
-            USERSPACE_PLUGIN_URL . 'assets/js/table-grid.js',
-            ['usp-core'],
-            USERSPACE_VERSION,
-            true
-        );
-
-        wp_localize_script('usp-table-grid-script', 'uspGridL10n', ['text' => [
-            'loading' => __('Loading...', 'usp'),
-            'error' => __('An error occurred. Please try again.', 'usp'),
-        ]
-        ]);
     }
 
     public function getEndpointPath(): string
@@ -50,7 +29,7 @@ class UserListTableGrid extends TableContentGrid
 
     protected function getTableName(): string
     {
-        return $this->queryBuilder->getWpdb()->users;
+        return $this->db->getUsersTableName();
     }
 
     protected function getTableAlias(): string
@@ -88,25 +67,55 @@ class UserListTableGrid extends TableContentGrid
     {
         return [
             'id' => [
-                'title' => __('ID', 'usp'),
+                'title' => $this->str->translate('ID'),
                 'sortable' => true,
             ],
             'login' => [
-                'title' => __('Login', 'usp'),
+                'title' => $this->str->translate('Login'),
                 'sortable' => true,
             ],
             'name' => [
-                'title' => __('Name', 'usp'),
+                'title' => $this->str->translate('Name'),
                 'sortable' => true,
             ],
             'email' => [
-                'title' => __('Email', 'usp'),
+                'title' => $this->str->translate('Email'),
                 'sortable' => true,
             ],
             'registered' => [
-                'title' => __('Registered', 'usp'),
+                'title' => $this->str->translate('Registered'),
                 'sortable' => true,
             ],
         ];
+    }
+
+    private function registerAssets(): void
+    {
+        wp_enqueue_style(
+            'usp-base-grid-style',
+            USERSPACE_PLUGIN_URL . 'assets/css/base-grid.css',
+            [],
+            USERSPACE_VERSION
+        );
+        wp_enqueue_style(
+            'usp-table-grid-style',
+            USERSPACE_PLUGIN_URL . 'assets/css/table-grid.css',
+            ['usp-base-grid-style'],
+            USERSPACE_VERSION
+        );
+
+        wp_enqueue_script(
+            'usp-table-grid-script',
+            USERSPACE_PLUGIN_URL . 'assets/js/table-grid.js',
+            ['usp-core'],
+            USERSPACE_VERSION,
+            true
+        );
+
+        wp_localize_script('usp-table-grid-script', 'uspGridL10n', ['text' => [
+            'loading' => $this->str->translate('Loading...'),
+            'error' => $this->str->translate('An error occurred. Please try again.'),
+        ]
+        ]);
     }
 }

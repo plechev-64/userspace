@@ -3,7 +3,7 @@
 namespace UserSpace\Common\Module\Form\Src\Infrastructure\Repository;
 
 use UserSpace\Common\Module\Form\Src\Domain\Repository\FormRepositoryInterface;
-use UserSpace\Core\Database\QueryBuilderInterface;
+use UserSpace\Core\Database\DatabaseConnectionInterface;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -16,8 +16,11 @@ class FormRepository implements FormRepositoryInterface
 {
     private const TABLE_NAME = 'userspace_forms';
 
-    public function __construct(private readonly QueryBuilderInterface $queryBuilder)
+    private readonly DatabaseConnectionInterface $db;
+
+    public function __construct(DatabaseConnectionInterface $db)
     {
+        $this->db = $db;
     }
 
     /**
@@ -28,7 +31,8 @@ class FormRepository implements FormRepositoryInterface
      */
     public function findByType(string $type): ?object
     {
-        return $this->queryBuilder->table(self::TABLE_NAME)
+        return $this->db->queryBuilder()
+            ->from(self::TABLE_NAME)
             ->where('type', '=', $type)
             ->first();
     }
@@ -50,13 +54,14 @@ class FormRepository implements FormRepositoryInterface
         ];
 
         if ($existing) {
-            return $this->queryBuilder->table(self::TABLE_NAME)
+            return $this->db->queryBuilder()
+                ->from(self::TABLE_NAME)
                 ->where('id', '=', $existing->id)
                 ->update($data);
         }
 
         $data['created_at'] = current_time('mysql', 1);
-        return $this->queryBuilder->table(self::TABLE_NAME)->insert($data);
+        return $this->db->queryBuilder()->from(self::TABLE_NAME)->insert($data);
     }
 
     /**
@@ -64,8 +69,9 @@ class FormRepository implements FormRepositoryInterface
      */
     public function createTable(): void
     {
-        $table_name = $this->queryBuilder->getTableName(self::TABLE_NAME);
-        $charset_collate = $this->queryBuilder->getCharsetCollate();
+        $queryBuilder = $this->db->queryBuilder();
+        $table_name = $queryBuilder->getTableName(self::TABLE_NAME);
+        $charset_collate = $queryBuilder->getCharsetCollate();
 
         $sql = "CREATE TABLE {$table_name} (
 			id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -76,7 +82,7 @@ class FormRepository implements FormRepositoryInterface
 			KEY type (type)
 		) {$charset_collate};";
 
-        $this->queryBuilder->runDbDelta($sql);
+        $queryBuilder->runDbDelta($sql);
     }
 
     /**
@@ -84,6 +90,6 @@ class FormRepository implements FormRepositoryInterface
      */
     public function dropTable(): void
     {
-        $this->queryBuilder->dropTableIfExists(self::TABLE_NAME);
+        $this->db->queryBuilder()->dropTableIfExists(self::TABLE_NAME);
     }
 }

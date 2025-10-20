@@ -46,10 +46,7 @@ use UserSpace\Common\Service\CronManager;
 use UserSpace\Common\Service\TemplateManager;
 use UserSpace\Common\Service\TemplateManagerInterface;
 use UserSpace\Core\ContainerInterface;
-use UserSpace\Core\Database\QueryBuilder;
-use UserSpace\Core\Database\QueryBuilderInterface;
-use UserSpace\Core\Database\TransactionService;
-use UserSpace\Core\Database\TransactionServiceInterface;
+use UserSpace\Core\Database\DatabaseConnectionInterface;
 use UserSpace\Core\Http\Request;
 use UserSpace\Core\OptionManagerInterface;
 use UserSpace\Core\Process\BackgroundProcessManager;
@@ -58,6 +55,7 @@ use UserSpace\Core\Rest\RestApi;
 use UserSpace\Core\Rest\Route\RouteCollector;
 use UserSpace\Core\Rest\Route\RouteParser;
 use UserSpace\Core\StringFilterInterface;
+use UserSpace\WpAdapter\DatabaseConnection;
 use UserSpace\WpAdapter\OptionManager;
 use UserSpace\WpAdapter\StringFilter;
 
@@ -98,6 +96,7 @@ class ServiceProvider
 
         // --- Шаблоны ---
         $container->set('app.templates', fn() => [
+            'tab_menu' => USERSPACE_PLUGIN_DIR . 'views/frontend/tab-menu.php',
             'modal_container' => USERSPACE_PLUGIN_DIR . 'views/modal-container.php',
             'user_bar' => USERSPACE_PLUGIN_DIR . 'views/user-bar-template.php',
             'login_form' => USERSPACE_PLUGIN_DIR . 'views/login-form-template.php',
@@ -163,19 +162,13 @@ class ServiceProvider
         });
 
         // База данных
-        $container->set(
-            QueryBuilderInterface::class,
-            function () {
-                global $wpdb;
-                return new QueryBuilder($wpdb);
-            }
-        );
-        $container->set(QueryBuilder::class, fn(ContainerInterface $c) => $c->get(QueryBuilderInterface::class));
+        $container->set(DatabaseConnectionInterface::class, function () {
+            global $wpdb;
+            return new DatabaseConnection($wpdb);
+        });
 
-        $container->set(
-            TransactionServiceInterface::class,
-            fn(ContainerInterface $c) => new TransactionService($c->get(QueryBuilderInterface::class))
-        );
+        // Алиас для конкретной реализации, если потребуется
+        $container->set(DatabaseConnection::class, fn(ContainerInterface $c) => $c->get(DatabaseConnectionInterface::class));
 
         // --- Фоновые процессы ---
         $container->set(BackgroundProcessManager::class, fn() => new BackgroundProcessManager());

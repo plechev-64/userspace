@@ -3,17 +3,17 @@
 namespace UserSpace\Common\Module\Grid\Src\Domain;
 
 use UserSpace\Common\Module\Grid\Src\Domain\DTO\GridRequestParamsDto;
-use UserSpace\Core\Database\QueryBuilderInterface;
+use UserSpace\Core\Database\DatabaseConnectionInterface;
 use UserSpace\Core\StringFilterInterface;
 
 abstract class TableContentGrid extends AbstractListContentGrid
 {
     public function __construct(
-        QueryBuilderInterface $queryBuilder,
+        DatabaseConnectionInterface $db,
         StringFilterInterface $str
     )
     {
-        parent::__construct($queryBuilder, $str);
+        parent::__construct($db, $str);
     }
 
     /**

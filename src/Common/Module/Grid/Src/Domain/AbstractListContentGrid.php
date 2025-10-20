@@ -3,18 +3,21 @@
 namespace UserSpace\Common\Module\Grid\Src\Domain;
 
 use UserSpace\Common\Module\Grid\Src\Domain\DTO\GridRequestParamsDto;
-use UserSpace\Core\Database\QueryBuilder;
+use UserSpace\Core\Database\DatabaseConnectionInterface;
+use UserSpace\Core\Database\QueryBuilderInterface;
 use UserSpace\Core\StringFilterInterface;
 
 abstract class AbstractListContentGrid
 {
-    protected string $gridId;
+    protected readonly string $gridId;
+    protected readonly DatabaseConnectionInterface $db;
 
     public function __construct(
-        protected readonly QueryBuilder          $queryBuilder,
+        DatabaseConnectionInterface $db,
         protected readonly StringFilterInterface $str
     )
     {
+        $this->db = $db;
         $this->gridId = uniqid('usp-grid-');
     }
 
@@ -71,32 +74,35 @@ abstract class AbstractListContentGrid
      */
     public function fetchData(GridRequestParamsDto $paramsDto): array
     {
-        $this->queryBuilder
+        $queryBuilder = $this->db->queryBuilder();
+
+        $queryBuilder
             ->select($this->getSelectColumns())
             ->from($this->getTableName(), $this->getTableAlias());
 
         foreach ($this->getJoins() as $join) {
-            $this->queryBuilder->addJoin($join['type'], $join['table'], $join['alias'], $join['on']);
+            $queryBuilder->addJoin($join['type'], $join['table'], $join['alias'], $join['on']);
         }
 
         if (!empty($paramsDto->search) && !empty($this->getSearchableColumns())) {
-            $this->queryBuilder->where(function (QueryBuilder $query) use ($paramsDto) {
+            $queryBuilder->where(function (QueryBuilderInterface $query) use ($paramsDto) {
+                $searchTerm = '%' . $this->db->escLike($paramsDto->search) . '%';
                 foreach ($this->getSearchableColumns() as $column) {
-                    $query->orWhere($column, 'LIKE', '%' . $this->queryBuilder->getWpdb()->esc_like($paramsDto->search) . '%');
+                    $query->orWhere($column, 'LIKE', $searchTerm);
                 }
             });
         }
 
         // Клонируем билдер для подсчета общего количества записей без лимитов
-        $countQueryBuilder = clone $this->queryBuilder;
+        $countQueryBuilder = clone $queryBuilder;
         $totalItems = $countQueryBuilder->count($this->getTableAlias() . '.ID');
 
-        $this->queryBuilder
+        $queryBuilder
             ->orderBy($paramsDto->orderBy, $paramsDto->order)
             ->limit($paramsDto->perPage)
             ->offset(($paramsDto->page - 1) * $paramsDto->perPage);
 
-        $items = $this->queryBuilder->get();
+        $items = $queryBuilder->get();
 
         return [
             'items' => $items,

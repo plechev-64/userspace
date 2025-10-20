@@ -2,8 +2,6 @@
 
 namespace UserSpace\Core\Database;
 
-use wpdb;
-
 if (!defined('ABSPATH')) {
     exit;
 }
@@ -13,11 +11,11 @@ if (!defined('ABSPATH')) {
  */
 class TransactionService implements TransactionServiceInterface
 {
-    private readonly wpdb $wpdb;
+    private readonly DatabaseConnectionInterface $db;
 
-    public function __construct(QueryBuilderInterface $queryBuilder)
+    public function __construct(DatabaseConnectionInterface $db)
     {
-        $this->wpdb = $queryBuilder->getWpdb();
+        $this->db = $db;
     }
 
     /**
@@ -25,7 +23,7 @@ class TransactionService implements TransactionServiceInterface
      */
     public function beginTransaction(): void
     {
-        $this->wpdb->query('START TRANSACTION');
+        $this->db->query('START TRANSACTION');
     }
 
     /**
@@ -33,7 +31,7 @@ class TransactionService implements TransactionServiceInterface
      */
     public function commit(): void
     {
-        $this->wpdb->query('COMMIT');
+        $this->db->query('COMMIT');
     }
 
     /**
@@ -41,6 +39,6 @@ class TransactionService implements TransactionServiceInterface
      */
     public function rollback(): void
     {
-        $this->wpdb->query('ROLLBACK');
+        $this->db->query('ROLLBACK');
     }
 }

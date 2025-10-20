@@ -4,18 +4,18 @@ namespace UserSpace\Common\Module\Grid\Src\Infrastructure;
 
 use UserSpace\Common\Module\Grid\Src\Domain\AbstractListContentGrid;
 use UserSpace\Common\Service\TemplateManager;
-use UserSpace\Core\Database\QueryBuilder;
+use UserSpace\Core\Database\DatabaseConnectionInterface;
 use UserSpace\Core\StringFilterInterface;
 
 class UserListGrid extends AbstractListContentGrid
 {
     public function __construct(
-        QueryBuilder                     $queryBuilder,
+        DatabaseConnectionInterface      $db,
         private readonly TemplateManager $templateManager,
         StringFilterInterface            $str
     )
     {
-        parent::__construct($queryBuilder, $str);
+        parent::__construct($db, $str);
     }
 
     public function render(): string
@@ -64,7 +64,7 @@ class UserListGrid extends AbstractListContentGrid
 
     protected function getTableName(): string
     {
-        return $this->queryBuilder->getWpdb()->users;
+        return $this->db->getUsersTableName();
     }
 
     protected function getTableAlias(): string
@@ -86,7 +86,7 @@ class UserListGrid extends AbstractListContentGrid
 
     protected function getJoins(): array
     {
-        $usermetaTable = $this->queryBuilder->getWpdb()->usermeta;
+        $usermetaTable = $this->db->getUsermetaTableName();
         return [
             [
                 'type' => 'LEFT JOIN',

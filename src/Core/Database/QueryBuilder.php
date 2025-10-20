@@ -2,8 +2,6 @@
 
 namespace UserSpace\Core\Database;
 
-use wpdb;
-
 // Защита от прямого доступа к файлу
 if (!defined('ABSPATH')) {
     exit;
@@ -15,7 +13,7 @@ if (!defined('ABSPATH')) {
 class QueryBuilder implements QueryBuilderInterface
 {
 
-    private readonly wpdb $wpdb;
+    private readonly DatabaseConnectionInterface $db;
 
     private array $select = ['*'];
     private ?string $fromAlias = null;
@@ -27,16 +25,16 @@ class QueryBuilder implements QueryBuilderInterface
     private ?int $offset = null;
 
     /**
-     * @param wpdb $wpdb Экземпляр класса wpdb.
+     * @param DatabaseConnectionInterface $db Адаптер для работы с базой данных.
      */
-    public function __construct(wpdb $wpdb)
+    public function __construct(DatabaseConnectionInterface $db)
     {
-        $this->wpdb = $wpdb;
+        $this->db = $db;
     }
 
-    public function getWpdb(): wpdb
+    public function getConnection(): DatabaseConnectionInterface
     {
-        return $this->wpdb;
+        return $this->db;
     }
 
     /**
@@ -63,11 +61,7 @@ class QueryBuilder implements QueryBuilderInterface
      */
     public function from(string $table, ?string $alias = null): self
     {
-        if (strpos($table, $this->wpdb->prefix) !== 0) {
-            $this->from = $this->wpdb->prefix . $table;
-        } else {
-            $this->from = $table;
-        }
+        $this->from = $this->db->getTableName($table);
         $this->fromAlias = $alias;
 
         return $this;
@@ -98,7 +92,7 @@ class QueryBuilder implements QueryBuilderInterface
     public function where(string|callable $column, ?string $operator = null, mixed $value = null): self
     {
         if (is_callable($column)) {
-            $query = new self($this->wpdb);
+            $query = new self($this->db);
             $column($query);
             $this->where[] = ['type' => 'AND', 'condition' => $query];
             return $this;
@@ -159,10 +153,7 @@ class QueryBuilder implements QueryBuilderInterface
      */
     public function addJoin(string $type, string $table, ?string $alias, string $on): self
     {
-        if (strpos($table, $this->wpdb->prefix) !== 0) {
-            $table = $this->wpdb->prefix . $table;
-        }
-
+        $table = $this->db->getTableName($table);
         $type = strtoupper($type);
         if (str_ends_with($type, 'JOIN')) {
             $joinString = $type . ' ' . $table;
@@ -227,7 +218,7 @@ class QueryBuilder implements QueryBuilderInterface
     public function get(): array
     {
         list($query, $bindings) = $this->buildQuery();
-        return $this->wpdb->get_results($this->wpdb->prepare($query, $bindings));
+        return $this->db->getResults($query, ...$bindings);
     }
 
     /**
@@ -239,7 +230,7 @@ class QueryBuilder implements QueryBuilderInterface
     {
         list($query, $bindings) = $this->buildQuery();
 
-        return $this->wpdb->get_row($this->wpdb->prepare($query, $bindings));
+        return $this->db->getRow($query, ...$bindings);
     }
 
     /**
@@ -252,7 +243,7 @@ class QueryBuilder implements QueryBuilderInterface
         $this->select($column);
         list($query, $bindings) = $this->buildQuery();
 
-        return $this->wpdb->get_var($this->wpdb->prepare($query, $bindings));
+        return $this->db->getVar($query, ...$bindings);
     }
 
     /**
@@ -393,7 +384,7 @@ class QueryBuilder implements QueryBuilderInterface
             return false;
         }
 
-        $result = $this->wpdb->insert($this->from, $data);
+        $result = $this->db->insert($this->from, $data);
         $this->reset();
 
         return $result;
@@ -418,7 +409,7 @@ class QueryBuilder implements QueryBuilderInterface
 
         $bindings = array_merge(array_values($data), $bindings);
 
-        $result = $this->wpdb->query($this->wpdb->prepare($fullQuery, $bindings));
+        $result = $this->db->query($fullQuery, ...$bindings);
         $this->reset();
 
         return $result;
@@ -438,7 +429,7 @@ class QueryBuilder implements QueryBuilderInterface
         list($whereClause, $bindings) = $this->buildWhere();
         $fullQuery = "DELETE FROM {$this->from} WHERE " . $whereClause;
 
-        $result = $this->wpdb->query($this->wpdb->prepare($fullQuery, $bindings));
+        $result = $this->db->query($fullQuery, ...$bindings);
         $this->reset();
 
         return $result;
@@ -479,8 +470,8 @@ class QueryBuilder implements QueryBuilderInterface
      */
     public function dropTableIfExists(string $tableName): void
     {
-        $fullTableName = $this->wpdb->prefix . $tableName;
-        $this->wpdb->query("DROP TABLE IF EXISTS {$fullTableName}");
+        $fullTableName = $this->db->getTableName($tableName);
+        $this->db->query("DROP TABLE IF EXISTS {$fullTableName}");
     }
 
     /**
@@ -491,7 +482,7 @@ class QueryBuilder implements QueryBuilderInterface
      */
     public function getCharsetCollate(): string
     {
-        return $this->wpdb->get_charset_collate();
+        return $this->db->getCharsetCollate();
     }
 
     /**
@@ -502,11 +493,7 @@ class QueryBuilder implements QueryBuilderInterface
      */
     public function getTableName(string $tableName): string
     {
-        if (str_starts_with($tableName, $this->wpdb->prefix)) {
-            return $tableName;
-        }
-
-        return $this->wpdb->prefix . $tableName;
+        return $this->db->getTableName($tableName);
     }
 
     /**
@@ -520,6 +507,6 @@ class QueryBuilder implements QueryBuilderInterface
     {
         $this->reset(); // Сбрасываем состояние билдера, так как выполняется сырой запрос
 
-        return $this->wpdb->get_row($this->wpdb->prepare($query, $args));
+        return $this->db->getRow($query, ...$args);
     }
 }
