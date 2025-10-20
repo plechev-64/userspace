@@ -7,6 +7,7 @@ use UserSpace\Admin\Page\RegistrationFormPage;
 use UserSpace\Admin\Page\SettingsPage;
 use UserSpace\Admin\Page\SetupWizardPage;
 use UserSpace\Admin\Page\TabsConfigPage;
+use UserSpace\Core\AssetRegistryInterface;
 use UserSpace\Core\StringFilterInterface;
 
 class AssetsManager
@@ -17,7 +18,8 @@ class AssetsManager
         protected readonly RegistrationFormPage  $registrationFormPage,
         protected readonly TabsConfigPage        $tabsConfigPage,
         protected readonly SetupWizardPage       $setupWizardPage,
-        protected readonly StringFilterInterface $str
+        protected readonly StringFilterInterface $str,
+        protected readonly AssetRegistryInterface $assetRegistry
     )
     {
     }
@@ -34,15 +36,15 @@ class AssetsManager
      */
     public function registerAllAssets(): void
     {
-        wp_register_style('usp-form', USERSPACE_PLUGIN_URL . 'assets/css/form.css', [], USERSPACE_VERSION);
-        wp_register_script('usp-core', USERSPACE_PLUGIN_URL . 'assets/js/core.js', [], USERSPACE_VERSION, true);
-        wp_register_style('usp-modal', USERSPACE_PLUGIN_URL . 'assets/css/modal.css', [], USERSPACE_VERSION);
-        wp_register_script('usp-form-handler', USERSPACE_PLUGIN_URL . 'assets/js/form-handler.js', ['usp-core'], USERSPACE_VERSION, true);
-        wp_register_script('usp-login-handler', USERSPACE_PLUGIN_URL . 'assets/js/login-handler.js', ['usp-core'], USERSPACE_VERSION, true);
-        wp_register_script('usp-registration-handler', USERSPACE_PLUGIN_URL . 'assets/js/registration-handler.js', ['usp-core'], USERSPACE_VERSION, true);
-        wp_register_script('usp-forgot-password-handler', USERSPACE_PLUGIN_URL . 'assets/js/forgot-password-handler.js', ['usp-core'], USERSPACE_VERSION, true);
-        wp_register_style('usp-user-bar', USERSPACE_PLUGIN_URL . 'assets/css/user-bar.css', [], USERSPACE_VERSION);
-        wp_register_script('usp-uploader-handler', USERSPACE_PLUGIN_URL . 'assets/js/uploader-handler.js', ['usp-core'], USERSPACE_VERSION, true);
+        $this->assetRegistry->registerStyle('usp-form', USERSPACE_PLUGIN_URL . 'assets/css/form.css', [], USERSPACE_VERSION);
+        $this->assetRegistry->registerScript('usp-core', USERSPACE_PLUGIN_URL . 'assets/js/core.js', [], USERSPACE_VERSION, true);
+        $this->assetRegistry->registerStyle('usp-modal', USERSPACE_PLUGIN_URL . 'assets/css/modal.css', [], USERSPACE_VERSION);
+        $this->assetRegistry->registerScript('usp-form-handler', USERSPACE_PLUGIN_URL . 'assets/js/form-handler.js', ['usp-core'], USERSPACE_VERSION, true);
+        $this->assetRegistry->registerScript('usp-login-handler', USERSPACE_PLUGIN_URL . 'assets/js/login-handler.js', ['usp-core'], USERSPACE_VERSION, true);
+        $this->assetRegistry->registerScript('usp-registration-handler', USERSPACE_PLUGIN_URL . 'assets/js/registration-handler.js', ['usp-core'], USERSPACE_VERSION, true);
+        $this->assetRegistry->registerScript('usp-forgot-password-handler', USERSPACE_PLUGIN_URL . 'assets/js/forgot-password-handler.js', ['usp-core'], USERSPACE_VERSION, true);
+        $this->assetRegistry->registerStyle('usp-user-bar', USERSPACE_PLUGIN_URL . 'assets/css/user-bar.css', [], USERSPACE_VERSION);
+        $this->assetRegistry->registerScript('usp-uploader-handler', USERSPACE_PLUGIN_URL . 'assets/js/uploader-handler.js', ['usp-core'], USERSPACE_VERSION, true);
     }
 
     /**
@@ -50,11 +52,11 @@ class AssetsManager
      */
     public function enqueuePublicAssets(): void
     {
-        wp_enqueue_script('usp-uploader-handler');
-        wp_enqueue_style('usp-modal');
+        $this->assetRegistry->enqueueScript('usp-uploader-handler');
+        $this->assetRegistry->enqueueStyle('usp-modal');
 
         // Подключаем core.js и локализуем его
-        wp_enqueue_script('usp-core');
+        $this->assetRegistry->enqueueScript('usp-core');
         $this->localizeCoreScript();
     }
 
@@ -65,7 +67,7 @@ class AssetsManager
     public function enqueueAdminAssets(string $hook): void
     {
         // Подключаем core.js и локализуем его
-        wp_enqueue_script('usp-core');
+        $this->assetRegistry->enqueueScript('usp-core');
         $this->localizeCoreScript();
 
         // Подключаем ассеты для конкретных страниц
@@ -81,7 +83,7 @@ class AssetsManager
      */
     private function localizeCoreScript(): void
     {
-        wp_localize_script(
+        $this->assetRegistry->localizeScript(
             'usp-core',
             'uspApiSettings',
             [
@@ -92,7 +94,7 @@ class AssetsManager
         );
 
         // Глобальный объект для локализации JS
-        wp_localize_script(
+        $this->assetRegistry->localizeScript(
             'usp-core',
             'uspL10n',
             [

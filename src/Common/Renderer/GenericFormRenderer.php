@@ -4,6 +4,7 @@ namespace UserSpace\Common\Renderer;
 
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormFactory;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormManager;
+use UserSpace\Core\AssetRegistryInterface;
 use UserSpace\Core\StringFilterInterface;
 
 // Защита от прямого доступа к файлу
@@ -17,7 +18,8 @@ class GenericFormRenderer
     public function __construct(
         private readonly FormManager           $formManager,
         private readonly FormFactory           $formFactory,
-        private readonly StringFilterInterface $str
+        private readonly StringFilterInterface $str,
+        private readonly AssetRegistryInterface $assetRegistry
     )
     {
     }
@@ -36,9 +38,9 @@ class GenericFormRenderer
             return sprintf('<p style="color: red;">' . $this->str->translate('Error: form with type "%s" not found.') . '</p>', $this->str->escHtml($form_type));
         }
 
-        wp_enqueue_style('usp-form');
-        wp_enqueue_script('usp-form-handler');
-        wp_localize_script(
+        $this->assetRegistry->enqueueStyle('usp-form');
+        $this->assetRegistry->enqueueScript('usp-form-handler');
+        $this->assetRegistry->localizeScript(
             'usp-form-handler',
             'uspL10n',
             [

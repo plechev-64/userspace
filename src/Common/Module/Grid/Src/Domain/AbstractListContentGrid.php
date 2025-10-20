@@ -3,6 +3,7 @@
 namespace UserSpace\Common\Module\Grid\Src\Domain;
 
 use UserSpace\Common\Module\Grid\Src\Domain\DTO\GridRequestParamsDto;
+use UserSpace\Core\AssetRegistryInterface;
 use UserSpace\Core\Database\DatabaseConnectionInterface;
 use UserSpace\Core\Database\QueryBuilderInterface;
 use UserSpace\Core\StringFilterInterface;
@@ -11,13 +12,16 @@ abstract class AbstractListContentGrid
 {
     protected readonly string $gridId;
     protected readonly DatabaseConnectionInterface $db;
+    protected readonly AssetRegistryInterface $assetRegistry;
 
     public function __construct(
         DatabaseConnectionInterface $db,
-        protected readonly StringFilterInterface $str
+        protected readonly StringFilterInterface $str,
+        AssetRegistryInterface $assetRegistry
     )
     {
         $this->db = $db;
+        $this->assetRegistry = $assetRegistry;
         $this->gridId = uniqid('usp-grid-');
     }
 

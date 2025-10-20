@@ -3,6 +3,7 @@
 namespace UserSpace\Common\Module\Grid\Src\Domain;
 
 use UserSpace\Common\Module\Grid\Src\Domain\DTO\GridRequestParamsDto;
+use UserSpace\Core\AssetRegistryInterface;
 use UserSpace\Core\Database\DatabaseConnectionInterface;
 use UserSpace\Core\StringFilterInterface;
 
@@ -10,10 +11,11 @@ abstract class TableContentGrid extends AbstractListContentGrid
 {
     public function __construct(
         DatabaseConnectionInterface $db,
-        StringFilterInterface $str
+        StringFilterInterface $str,
+        AssetRegistryInterface $assetRegistry
     )
     {
-        parent::__construct($db, $str);
+        parent::__construct($db, $str, $assetRegistry);
     }
 
     /**

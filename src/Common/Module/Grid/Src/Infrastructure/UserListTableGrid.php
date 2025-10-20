@@ -3,6 +3,7 @@
 namespace UserSpace\Common\Module\Grid\Src\Infrastructure;
 
 use UserSpace\Common\Module\Grid\Src\Domain\TableContentGrid;
+use UserSpace\Core\AssetRegistryInterface;
 use UserSpace\Core\Database\DatabaseConnectionInterface;
 use UserSpace\Core\StringFilterInterface;
 
@@ -10,9 +11,10 @@ class UserListTableGrid extends TableContentGrid
 {
     public function __construct(
         DatabaseConnectionInterface $db,
-        StringFilterInterface       $str
+        StringFilterInterface       $str,
+        AssetRegistryInterface      $assetRegistry
     ) {
-        parent::__construct($db, $str);
+        parent::__construct($db, $str, $assetRegistry);
     }
 
     public function render(): string
@@ -91,20 +93,20 @@ class UserListTableGrid extends TableContentGrid
 
     private function registerAssets(): void
     {
-        wp_enqueue_style(
+        $this->assetRegistry->enqueueStyle(
             'usp-base-grid-style',
             USERSPACE_PLUGIN_URL . 'assets/css/base-grid.css',
             [],
             USERSPACE_VERSION
         );
-        wp_enqueue_style(
+        $this->assetRegistry->enqueueStyle(
             'usp-table-grid-style',
             USERSPACE_PLUGIN_URL . 'assets/css/table-grid.css',
             ['usp-base-grid-style'],
             USERSPACE_VERSION
         );
 
-        wp_enqueue_script(
+        $this->assetRegistry->enqueueScript(
             'usp-table-grid-script',
             USERSPACE_PLUGIN_URL . 'assets/js/table-grid.js',
             ['usp-core'],
@@ -112,7 +114,7 @@ class UserListTableGrid extends TableContentGrid
             true
         );
 
-        wp_localize_script('usp-table-grid-script', 'uspGridL10n', ['text' => [
+        $this->assetRegistry->localizeScript('usp-table-grid-script', 'uspGridL10n', ['text' => [
             'loading' => $this->str->translate('Loading...'),
             'error' => $this->str->translate('An error occurred. Please try again.'),
         ]

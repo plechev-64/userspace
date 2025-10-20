@@ -14,6 +14,7 @@ use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\UploaderFieldDto;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\UrlFieldDto;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormConfig;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormFactory;
+use UserSpace\Core\AssetRegistryInterface;
 use UserSpace\Core\OptionManagerInterface;
 use UserSpace\Core\StringFilterInterface;
 use UserSpace\Core\Theme\ThemeManager;
@@ -31,7 +32,8 @@ class SettingsPage extends AbstractAdminPage
         private readonly ThemeManager          $themeManager,
         private readonly SettingsConfig        $settingsConfig,
         private readonly StringFilterInterface $str,
-        private readonly OptionManagerInterface $optionManager
+        private readonly OptionManagerInterface $optionManager,
+        private readonly AssetRegistryInterface $assetRegistry
     )
     {
     }
@@ -54,18 +56,18 @@ class SettingsPage extends AbstractAdminPage
             return;
         }
 
-        wp_enqueue_script('usp-uploader-handler');
+        $this->assetRegistry->enqueueScript('usp-uploader-handler');
 
-        wp_enqueue_style('usp-form-style', USERSPACE_PLUGIN_URL . 'assets/css/form.css', [], USERSPACE_VERSION);
+        $this->assetRegistry->enqueueStyle('usp-form-style', USERSPACE_PLUGIN_URL . 'assets/css/form.css', [], USERSPACE_VERSION);
 
-        wp_enqueue_style(
+        $this->assetRegistry->enqueueStyle(
             'usp-admin-settings',
             USERSPACE_PLUGIN_URL . 'assets/css/admin-settings.css',
             [],
             USERSPACE_VERSION
         );
 
-        wp_enqueue_script(
+        $this->assetRegistry->enqueueScript(
             'usp-admin-settings-js',
             USERSPACE_PLUGIN_URL . 'assets/js/admin-settings.js',
             [],
@@ -73,7 +75,7 @@ class SettingsPage extends AbstractAdminPage
             true
         );
 
-        wp_localize_script(
+        $this->assetRegistry->localizeScript(
             'usp-admin-settings-js',
             'uspApiSettings',
             [
@@ -83,7 +85,7 @@ class SettingsPage extends AbstractAdminPage
             ]
         );
 
-        wp_localize_script(
+        $this->assetRegistry->localizeScript(
             'usp-admin-settings-js',
             'uspL10n',
             [

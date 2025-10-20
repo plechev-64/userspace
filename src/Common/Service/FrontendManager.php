@@ -3,6 +3,7 @@
 namespace UserSpace\Common\Service;
 
 use UserSpace\Common\Module\Tabs\Src\Infrastructure\TabProvider;
+use UserSpace\Core\AssetRegistryInterface;
 use UserSpace\Core\OptionManagerInterface;
 
 class FrontendManager
@@ -11,7 +12,8 @@ class FrontendManager
         private readonly ShortcodeManager $shortcodeManager,
         private readonly TemplateManagerInterface $templateManager,
         private readonly TabProvider $tabProvider,
-        private readonly OptionManagerInterface $optionManager
+        private readonly OptionManagerInterface $optionManager,
+        private readonly AssetRegistryInterface $assetRegistry
     ) {
     }
 
@@ -45,7 +47,7 @@ class FrontendManager
             return;
         }
 
-        wp_enqueue_style('usp-user-bar');
+        $this->assetRegistry->enqueueStyle('usp-user-bar');
         add_filter('body_class', function ($classes) {
             $classes[] = 'usp-user-bar-active';
             return $classes;

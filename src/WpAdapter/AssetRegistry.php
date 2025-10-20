@@ -1,14 +1,43 @@
 <?php
 
-namespace UserSpace\Core;
+namespace UserSpace\WpAdapter;
+
+use UserSpace\Core\AssetRegistryInterface;
+
+if (!defined('ABSPATH')) {
+    exit;
+}
 
 /**
- * Регистрирует ассеты (скрипты и стили) во время AJAX/REST запросов.
- * Стандартный механизм wp_enqueue_script/style не работает в REST-контексте,
- * поэтому мы собираем хэндлы ассетов здесь, чтобы затем передать их на фронтенд.
+ * Адаптер для функций WordPress по работе с ассетами.
  */
-class AssetRegistry
+class AssetRegistry implements AssetRegistryInterface
 {
+    public function registerStyle(string $handle, string $src = '', array $deps = [], string|bool|null $ver = false, string $media = 'all'): void
+    {
+        wp_register_style($handle, $src, $deps, $ver, $media);
+    }
+
+    public function registerScript(string $handle, string $src = '', array $deps = [], string|bool|null $ver = false, bool $inFooter = false): void
+    {
+        wp_register_script($handle, $src, $deps, $ver, $inFooter);
+    }
+
+    public function enqueueStyle(string $handle, string $src = '', array $deps = [], string|bool|null $ver = false, string $media = 'all'): void
+    {
+        wp_enqueue_style($handle, $src, $deps, $ver, $media);
+    }
+
+    public function enqueueScript(string $handle, string $src = '', array $deps = [], string|bool|null $ver = false, bool $inFooter = false): void
+    {
+        wp_enqueue_script($handle, $src, $deps, $ver, $inFooter);
+    }
+
+    public function localizeScript(string $handle, string $objectName, array $data): void
+    {
+        wp_localize_script($handle, $objectName, $data);
+    }
+
     /**
      * Собирает URL'ы для скриптов и стилей, зарегистрированных в реестре.
      *

@@ -5,6 +5,7 @@ namespace UserSpace\Admin\Page;
 use UserSpace\Admin\Abstract\AbstractAdminPage;
 use UserSpace\Common\Module\Grid\Src\Infrastructure\QueueJobsGrid;
 use UserSpace\Common\Module\Queue\Src\Infrastructure\QueueStatus;
+use UserSpace\Core\AssetRegistryInterface;
 use UserSpace\Core\StringFilterInterface;
 
 class QueueJobsPage extends AbstractAdminPage
@@ -12,7 +13,8 @@ class QueueJobsPage extends AbstractAdminPage
     public function __construct(
         private readonly QueueJobsGrid         $grid,
         private readonly QueueStatus           $status,
-        private readonly StringFilterInterface $str
+        private readonly StringFilterInterface $str,
+        private readonly AssetRegistryInterface $assetRegistry
     )
     {
     }
@@ -68,20 +70,20 @@ class QueueJobsPage extends AbstractAdminPage
 
     public function enqueuePageScripts(): void
     {
-        wp_enqueue_style(
+        $this->assetRegistry->enqueueStyle(
             'usp-queue-page-style',
             USERSPACE_PLUGIN_URL . 'assets/css/queue-page.css',
             [],
             USERSPACE_VERSION
         );
-        wp_enqueue_script(
+        $this->assetRegistry->enqueueScript(
             'usp-queue-page-script',
             USERSPACE_PLUGIN_URL . 'assets/js/queue-page.js',
             ['usp-core', 'wp-i18n'],
             USERSPACE_VERSION,
             true
         );
-        wp_localize_script('usp-queue-page-script', 'uspQueuePageData', [
+        $this->assetRegistry->localizeScript('usp-queue-page-script', 'uspQueuePageData', [
             'statusEndpoint' => '/queue/status',
             'pingEndpoint' => '/queue/ping',
             'processEndpoint' => '/queue/process-now',

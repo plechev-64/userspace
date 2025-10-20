@@ -7,6 +7,7 @@ use UserSpace\Admin\SetupWizard\SetupWizardConfig;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\SelectFieldDto;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormConfig;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormFactory;
+use UserSpace\Core\AssetRegistryInterface;
 use UserSpace\Core\StringFilterInterface;
 
 /**
@@ -19,7 +20,8 @@ class SetupWizardPage extends AbstractAdminPage
     public function __construct(
         private readonly FormFactory           $formFactory,
         private readonly SetupWizardConfig     $wizardConfig,
-        private readonly StringFilterInterface $str
+        private readonly StringFilterInterface $str,
+        private readonly AssetRegistryInterface $assetRegistry
     )
     {
     }
@@ -43,7 +45,7 @@ class SetupWizardPage extends AbstractAdminPage
             return;
         }
 
-        wp_enqueue_style(
+        $this->assetRegistry->enqueueStyle(
             'usp-form-style',
             USERSPACE_PLUGIN_URL .
             'assets/css/form.css',
@@ -51,14 +53,14 @@ class SetupWizardPage extends AbstractAdminPage
             USERSPACE_VERSION
         );
 
-        wp_enqueue_style(
+        $this->assetRegistry->enqueueStyle(
             'usp-setup-wizard',
             USERSPACE_PLUGIN_URL . 'assets/css/setup-wizard.css',
             [],
             USERSPACE_VERSION
         );
 
-        wp_enqueue_script(
+        $this->assetRegistry->enqueueScript(
             'usp-setup-wizard-js',
             USERSPACE_PLUGIN_URL . 'assets/js/setup-wizard.js',
             ['usp-core'],
@@ -66,7 +68,7 @@ class SetupWizardPage extends AbstractAdminPage
             true
         );
 
-        wp_localize_script(
+        $this->assetRegistry->localizeScript(
             'usp-setup-wizard-js',
             'uspL10n',
             [

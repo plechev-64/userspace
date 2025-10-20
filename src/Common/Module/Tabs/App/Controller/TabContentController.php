@@ -4,7 +4,7 @@ namespace UserSpace\Common\Module\Tabs\App\Controller;
 
 use UserSpace\Common\Module\Tabs\Src\Infrastructure\TabManager;
 use UserSpace\Common\Module\Tabs\Src\Infrastructure\TabRenderer;
-use UserSpace\Core\AssetRegistry;
+use UserSpace\Core\AssetRegistryInterface;
 use UserSpace\Core\Http\JsonResponse;
 use UserSpace\Core\Rest\Abstract\AbstractController;
 use UserSpace\Core\Rest\Attributes\Route;
@@ -13,9 +13,9 @@ use UserSpace\Core\Rest\Attributes\Route;
 class TabContentController extends AbstractController
 {
     public function __construct(
-        private readonly TabManager    $tabManager,
-        private readonly TabRenderer   $tabRenderer,
-        private readonly AssetRegistry $assetRegistry
+        private readonly TabManager             $tabManager,
+        private readonly TabRenderer            $tabRenderer,
+        private readonly AssetRegistryInterface $assetRegistry
     )
     {
     }

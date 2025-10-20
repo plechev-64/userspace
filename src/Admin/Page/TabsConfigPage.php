@@ -4,13 +4,15 @@ namespace UserSpace\Admin\Page;
 
 use UserSpace\Admin\Abstract\AbstractAdminPage;
 use UserSpace\Admin\TabConfigBuilder;
+use UserSpace\Core\AssetRegistryInterface;
 use UserSpace\Core\StringFilterInterface;
 
 class TabsConfigPage extends AbstractAdminPage
 {
     public function __construct(
-        private readonly TabConfigBuilder      $tabConfigBuilder,
-        private readonly StringFilterInterface $str
+        private readonly TabConfigBuilder       $tabConfigBuilder,
+        private readonly StringFilterInterface  $str,
+        private readonly AssetRegistryInterface $assetRegistry
     )
     {
     }
@@ -26,12 +28,12 @@ class TabsConfigPage extends AbstractAdminPage
         }
 
         // Стили для конструктора и модальных окон
-        wp_enqueue_style('usp-form-builder', USERSPACE_PLUGIN_URL . 'assets/css/tab-builder.css', [], USERSPACE_VERSION);
-        wp_enqueue_style('usp-modal', USERSPACE_PLUGIN_URL . 'assets/css/modal.css', [], USERSPACE_VERSION);
-        wp_enqueue_style('usp-form', USERSPACE_PLUGIN_URL . 'assets/css/form.css', [], USERSPACE_VERSION);
+        $this->assetRegistry->enqueueStyle('usp-form-builder', USERSPACE_PLUGIN_URL . 'assets/css/tab-builder.css', [], USERSPACE_VERSION);
+        $this->assetRegistry->enqueueStyle('usp-modal', USERSPACE_PLUGIN_URL . 'assets/css/modal.css', [], USERSPACE_VERSION);
+        $this->assetRegistry->enqueueStyle('usp-form', USERSPACE_PLUGIN_URL . 'assets/css/form.css', [], USERSPACE_VERSION);
 
         // SortableJS
-        wp_enqueue_script(
+        $this->assetRegistry->enqueueScript(
             'sortable-js',
             'https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js',
             [],
@@ -40,7 +42,7 @@ class TabsConfigPage extends AbstractAdminPage
         );
 
         // JS конструктора вкладок
-        wp_enqueue_script(
+        $this->assetRegistry->enqueueScript(
             'usp-tab-builder-js',
             USERSPACE_PLUGIN_URL . 'assets/js/tab-builder.js',
             ['usp-core', 'sortable-js'],

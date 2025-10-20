@@ -5,6 +5,7 @@ namespace UserSpace\Common\Renderer;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormFactory;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormManager;
 use UserSpace\Common\Service\TemplateManagerInterface;
+use UserSpace\Core\AssetRegistryInterface;
 use UserSpace\Core\OptionManagerInterface;
 use UserSpace\Core\StringFilterInterface;
 
@@ -21,7 +22,8 @@ class RegistrationFormRenderer
         private readonly FormFactory              $formFactory,
         private readonly TemplateManagerInterface $templateManager,
         private readonly StringFilterInterface    $str,
-        private readonly OptionManagerInterface $optionManager
+        private readonly OptionManagerInterface   $optionManager,
+        private readonly AssetRegistryInterface   $assetRegistry
     )
     {
     }
@@ -39,8 +41,8 @@ class RegistrationFormRenderer
             return '<p style="color: red;">' . $this->str->translate('Registration form is not configured yet.') . '</p>';
         }
 
-        wp_enqueue_style('usp-form');
-        wp_enqueue_script('usp-registration-handler');
+        $this->assetRegistry->enqueueStyle('usp-form');
+        $this->assetRegistry->enqueueScript('usp-registration-handler');
 
         // $config уже является DTO, передаем его напрямую в фабрику
         $form = $this->formFactory->create($config);

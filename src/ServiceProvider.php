@@ -45,6 +45,7 @@ use UserSpace\Common\Module\Tabs\Src\Infrastructure\TabProvider;
 use UserSpace\Common\Service\CronManager;
 use UserSpace\Common\Service\TemplateManager;
 use UserSpace\Common\Service\TemplateManagerInterface;
+use UserSpace\Core\AssetRegistryInterface;
 use UserSpace\Core\ContainerInterface;
 use UserSpace\Core\Database\DatabaseConnectionInterface;
 use UserSpace\Core\Http\Request;
@@ -55,6 +56,7 @@ use UserSpace\Core\Rest\RestApi;
 use UserSpace\Core\Rest\Route\RouteCollector;
 use UserSpace\Core\Rest\Route\RouteParser;
 use UserSpace\Core\StringFilterInterface;
+use UserSpace\WpAdapter\AssetRegistry;
 use UserSpace\WpAdapter\DatabaseConnection;
 use UserSpace\WpAdapter\OptionManager;
 use UserSpace\WpAdapter\StringFilter;
@@ -175,6 +177,9 @@ class ServiceProvider
 
         // --- Строки ---
         $container->set(StringFilterInterface::class, fn() => new StringFilter());
+
+        // --- Ассеты ---
+        $container->set(AssetRegistryInterface::class, fn() => new AssetRegistry());
 
         // --- Cron ---
         $container->set(CronManager::class, function (ContainerInterface $c) {

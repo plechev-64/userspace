@@ -7,6 +7,7 @@ use UserSpace\Common\Module\Form\Src\Infrastructure\FormConfig;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormConfigBuilder;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormManager;
 use UserSpace\Common\Service\TemplateManagerInterface;
+use UserSpace\Core\AssetRegistryInterface;
 use UserSpace\Core\StringFilterInterface;
 
 /**
@@ -15,16 +16,19 @@ use UserSpace\Core\StringFilterInterface;
 abstract class AbstractAdminFormPage extends AbstractAdminPage
 {
     protected readonly FieldMapper $fieldMapper;
+    protected readonly AssetRegistryInterface $assetRegistry;
 
     public function __construct(
         protected readonly FormManager              $formManager,
         protected readonly FormConfigBuilder        $formBuilder,
         protected readonly TemplateManagerInterface $templateManager,
         protected readonly StringFilterInterface    $str,
-        FieldMapper                                 $fieldMapper
+        FieldMapper                                 $fieldMapper,
+        AssetRegistryInterface                      $assetRegistry
     )
     {
         $this->fieldMapper = $fieldMapper;
+        $this->assetRegistry = $assetRegistry;
     }
 
     /**
@@ -46,14 +50,14 @@ abstract class AbstractAdminFormPage extends AbstractAdminPage
             return;
         }
 
-        wp_enqueue_style(
+        $this->assetRegistry->enqueueStyle(
             'usp-form-builder',
             USERSPACE_PLUGIN_URL . 'assets/css/form-builder.css',
             [],
             USERSPACE_VERSION
         );
 
-        wp_enqueue_script(
+        $this->assetRegistry->enqueueScript(
             'sortable-js',
             'https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js',
             [],
@@ -61,7 +65,7 @@ abstract class AbstractAdminFormPage extends AbstractAdminPage
             true
         );
 
-        wp_enqueue_script(
+        $this->assetRegistry->enqueueScript(
             'usp-form-builder-js',
             USERSPACE_PLUGIN_URL . 'assets/js/form-builder.js',
             ['usp-core', 'sortable-js'],
@@ -69,14 +73,14 @@ abstract class AbstractAdminFormPage extends AbstractAdminPage
             true
         );
 
-        wp_enqueue_style(
+        $this->assetRegistry->enqueueStyle(
             'usp-form',
             USERSPACE_PLUGIN_URL . 'assets/css/form.css',
             [],
             USERSPACE_VERSION
         );
 
-        wp_localize_script(
+        $this->assetRegistry->localizeScript(
             'usp-form-builder-js',
             'uspApiSettings',
             [
@@ -89,7 +93,7 @@ abstract class AbstractAdminFormPage extends AbstractAdminPage
         );
 
         // Локализация для конструктора форм
-        wp_localize_script(
+        $this->assetRegistry->localizeScript(
             'usp-form-builder-js',
             'uspL10n',
             [

@@ -4,6 +4,7 @@ namespace UserSpace\Common\Module\Grid\Src\Infrastructure;
 
 use UserSpace\Common\Module\Grid\Src\Domain\AbstractListContentGrid;
 use UserSpace\Common\Service\TemplateManager;
+use UserSpace\Core\AssetRegistryInterface;
 use UserSpace\Core\Database\DatabaseConnectionInterface;
 use UserSpace\Core\StringFilterInterface;
 
@@ -12,10 +13,11 @@ class UserListGrid extends AbstractListContentGrid
     public function __construct(
         DatabaseConnectionInterface      $db,
         private readonly TemplateManager $templateManager,
-        StringFilterInterface            $str
+        StringFilterInterface            $str,
+        AssetRegistryInterface           $assetRegistry
     )
     {
-        parent::__construct($db, $str);
+        parent::__construct($db, $str, $assetRegistry);
     }
 
     public function render(): string
@@ -27,21 +29,21 @@ class UserListGrid extends AbstractListContentGrid
 
     private function registerAssets(): void
     {
-        wp_enqueue_style(
+        $this->assetRegistry->enqueueStyle(
             'usp-base-grid-style',
             USERSPACE_PLUGIN_URL . 'assets/css/base-grid.css',
             [],
             USERSPACE_VERSION
         );
 
-        wp_enqueue_style(
+        $this->assetRegistry->enqueueStyle(
             'usp-card-grid-style',
             USERSPACE_PLUGIN_URL . 'assets/css/card-grid.css',
             ['usp-base-grid-style'],
             USERSPACE_VERSION
         );
 
-        wp_enqueue_script(
+        $this->assetRegistry->enqueueScript(
             'usp-card-grid-script',
             USERSPACE_PLUGIN_URL . 'assets/js/card-grid.js',
             ['usp-core'],
@@ -49,10 +51,10 @@ class UserListGrid extends AbstractListContentGrid
             true
         );
 
-        wp_localize_script('usp-card-grid-script', 'uspGridL10n', [
+        $this->assetRegistry->localizeScript('usp-card-grid-script', 'uspGridL10n', [
             'text' => [
-                'loading' => __('Loading...', 'usp'),
-                'error' => __('An error occurred. Please try again.', 'usp'),
+                'loading' => $this->str->translate('Loading...', 'usp'),
+                'error' => $this->str->translate('An error occurred. Please try again.', 'usp'),
             ],
         ]);
     }
