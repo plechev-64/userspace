@@ -6,6 +6,7 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
+    'UserSpace\\Theme\\First\\' => array($baseDir . '/themes/first/src'),
+    'UserSpace\\Adapters\\' => array($baseDir . '/adapters'),
     'UserSpace\\' => array($baseDir . '/src'),
-    'Adapters\\' => array($baseDir . '/adapters'),
 );

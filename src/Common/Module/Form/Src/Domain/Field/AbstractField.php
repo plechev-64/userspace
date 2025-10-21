@@ -2,7 +2,7 @@
 
 namespace UserSpace\Common\Module\Form\Src\Domain\Field;
 
-use Adapters\StringFilter;
+use UserSpace\Adapters\StringFilter;
 use InvalidArgumentException;
 use UserSpace\Common\Module\Form\Src\Domain\Field\DTO\FieldDto;
 use UserSpace\Common\Module\Form\Src\Domain\ValidatorInterface;

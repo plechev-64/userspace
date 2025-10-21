@@ -1,6 +1,6 @@
 <?php
 
-namespace Adapters;
+namespace UserSpace\Adapters;
 
 use UserSpace\Core\SiteApiInterface;
 

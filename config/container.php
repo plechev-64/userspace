@@ -1,18 +1,18 @@
 <?php
 
-use Adapters\AdminApi;
-use Adapters\AssetRegistry;
-use Adapters\AuthApi;
-use Adapters\DatabaseConnection;
-use Adapters\HookManager;
-use Adapters\LocalizationApi;
-use Adapters\MediaApi;
-use Adapters\OptionManager;
-use Adapters\QueryApi;
-use Adapters\StringFilter;
-use Adapters\TransientApi;
-use Adapters\UserApi;
-use Adapters\WpApi;
+use UserSpace\Adapters\AdminApi;
+use UserSpace\Adapters\AssetRegistry;
+use UserSpace\Adapters\AuthApi;
+use UserSpace\Adapters\DatabaseConnection;
+use UserSpace\Adapters\HookManager;
+use UserSpace\Adapters\LocalizationApi;
+use UserSpace\Adapters\MediaApi;
+use UserSpace\Adapters\OptionManager;
+use UserSpace\Adapters\QueryApi;
+use UserSpace\Adapters\StringFilter;
+use UserSpace\Adapters\TransientApi;
+use UserSpace\Adapters\UserApi;
+use UserSpace\Adapters\WpApi;
 use UserSpace\Admin\Controller\FieldSettingsController;
 use UserSpace\Admin\Controller\ProfileAdminController;
 use UserSpace\Admin\Controller\RegistrationAdminController;
@@ -123,7 +123,7 @@ return [
         ],
     ],
     'definitions' => [
-        // Core & Adapters
+        // Core & UserSpace\Adapters
         Plugin::class => fn() => Plugin::getInstance(),
         ContainerInterface::class => fn(ContainerInterface $c) => $c,
         Request::class => fn() => Request::createFromGlobals(),

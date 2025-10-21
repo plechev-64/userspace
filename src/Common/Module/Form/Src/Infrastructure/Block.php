@@ -2,7 +2,7 @@
 
 namespace UserSpace\Common\Module\Form\Src\Infrastructure;
 
-use Adapters\StringFilter;
+use UserSpace\Adapters\StringFilter;
 use UserSpace\Common\Module\Form\Src\Domain\Field\FieldInterface;
 
 // Защита от прямого доступа к файлу

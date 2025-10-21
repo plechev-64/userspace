@@ -1,13 +1,12 @@
 <?php
 
-use UserSpace\Theme\First\Service\TabLocationService;
-use UserSpace\Theme\First\Service\ViewDataProvider;
+use UserSpace\Theme\First\TabLocationService;
+use UserSpace\Theme\First\ViewDataProvider;
 
 return [
     'parameters' => [
-        // Переопределяем путь к шаблону меню. Теперь он берется из темы.
         'app.templates' => [
-            'tab_menu' => __DIR__ . '/../views/tab-menu.php',
+            'tab_menu' => __DIR__ . '/../views/parts/tab-menu.php',
         ],
     ],
     'definitions' => [
