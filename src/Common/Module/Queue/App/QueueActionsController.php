@@ -13,6 +13,7 @@ use UserSpace\Core\Http\Request;
 use UserSpace\Core\Process\BackgroundProcessManager;
 use UserSpace\Core\Rest\Abstract\AbstractController;
 use UserSpace\Core\Rest\Attributes\Route;
+use UserSpace\Core\String\StringFilterInterface;
 
 #[Route(path: '/queue')]
 class QueueActionsController extends AbstractController
@@ -22,7 +23,8 @@ class QueueActionsController extends AbstractController
         private readonly QueueStatus              $status,
         private readonly QueueJobsGrid            $grid,
         private readonly QueueManager             $queueManager,
-        private readonly BackgroundProcessManager $backgroundProcess
+        private readonly BackgroundProcessManager $backgroundProcess,
+        private readonly StringFilterInterface    $str
     )
     {
     }
@@ -36,7 +38,7 @@ class QueueActionsController extends AbstractController
         $message = new PingMessage(time());
         $this->dispatcher->dispatch($message);
 
-        return $this->success(['message' => __('Ping task has been dispatched.', 'usp')]);
+        return $this->success(['message' => $this->str->translate('Ping task has been dispatched.', 'usp')]);
     }
 
     /**
@@ -80,7 +82,7 @@ class QueueActionsController extends AbstractController
         // Делегируем запуск фонового процесса специализированному сервису.
         $this->backgroundProcess->dispatch('/queue/run-worker');
 
-        return $this->success(['message' => __('Queue processing has been triggered in the background.', 'usp')]);
+        return $this->success(['message' => $this->str->translate('Queue processing has been triggered in the background.', 'usp')]);
     }
 
     /**

@@ -20,17 +20,19 @@ if (!defined('ABSPATH')) {
  * Использует гибридный подход: WP-Cron запускает пакетный обработчик,
  * который работает в цикле с ограничением по времени.
  */
-class QueueManager
+final class QueueManager
 {
+    private const MAX_ATTEMPTS = 3;
+
     private ?CronManager $cronManager = null;
 
     public function __construct(
-        private readonly ContainerInterface          $container,
-        private readonly QueueStatus                 $status,
+        private readonly ContainerInterface $container,
+        private readonly QueueStatus $status,
         private readonly SseEventDispatcherInterface $sseManager,
-        private readonly JobRepositoryInterface      $jobRepository,
+        private readonly JobRepositoryInterface $jobRepository,
         private readonly SseEventRepositoryInterface $sseEventRepository,
-        private readonly array                       $messageHandlerMap
+        private readonly array $messageHandlerMap
     )
     {
     }
@@ -60,14 +62,12 @@ class QueueManager
             // Если задача была обработана, увеличиваем счетчик.
             if ($jobId) {
                 $jobsProcessed++;
-                $this->sseManager->dispatchEvent('batch_processed', ['jobIdProcessed' => $jobId]);
+                $this->sseManager->dispatchEvent('batch_processed', ['IdProcessed' => $jobId, 'JobsProcessed' => $jobsProcessed]);
             } else {
                 // Если задач нет, делаем паузу в 1 секунду, чтобы не нагружать БД.
                 sleep(1);
             }
         }
-
-        $this->sseManager->dispatchEvent('batch_processed', ['JobsProcessed' => $jobsProcessed]);
 
         $this->status->endRun($jobsProcessed);
 
@@ -80,7 +80,7 @@ class QueueManager
     /**
      * Находит и обрабатывает одну задачу из очереди.
      *
-     * @return int|null true, если задача была найдена и обработана, иначе false.
+     * @return int|null ID обработанной задачи или null, если задач не было.
      */
     public function processSingleJob(): ?int
     {
@@ -112,7 +112,9 @@ class QueueManager
                 throw new \Exception("Message class '{$messageClass}' does not exist or does not implement QueueableMessage.");
             }
 
-            $data = unserialize($job->args);
+            // Безопасная десериализация. Мы ожидаем только массив.
+            $data = unserialize($job->args, ['allowed_classes' => false]);
+            
             $message = $messageClass::fromArray($data);
 
             $handlerInstance->handle($message);
@@ -121,9 +123,19 @@ class QueueManager
             $this->status->log(sprintf('Job #%d completed successfully.', $job->id));
 
         } catch (\Throwable $e) {
-            // В случае ошибки, пометить как 'failed'
-            $this->jobRepository->markAsFailed($job->id, $job->attempts + 1);
-            $this->status->log(sprintf('Job #%d failed. Error: %s', $job->id, $e->getMessage()));
+            $newAttempts = $job->attempts + 1;
+            $this->status->log(sprintf('Job #%d failed (attempt %d/%d). Error: %s', $job->id, $newAttempts, self::MAX_ATTEMPTS, $e->getMessage()));
+
+            if ($newAttempts >= self::MAX_ATTEMPTS) {
+                // Превышен лимит попыток, помечаем как окончательно проваленную
+                $this->jobRepository->markAsFailed($job->id, $newAttempts);
+                $this->status->log(sprintf('Job #%d has been marked as permanently failed.', $job->id));
+            } else {
+                // Планируем повторную попытку с экспоненциальной задержкой
+                $delay = (int) (60 * pow(5, $newAttempts - 1)); // 1, 5, 25 минут
+                $this->jobRepository->rescheduleAsFailed($job->id, $newAttempts, $delay);
+                $this->status->log(sprintf('Job #%d rescheduled to run in %d seconds.', $job->id, $delay));
+            }
         }
 
         return $job->id;

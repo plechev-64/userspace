@@ -26,6 +26,7 @@ class QueueJobsPage extends AbstractAdminPage
 
     public function render(): void
     {
+
         $this->enqueuePageScripts();
 
         echo '<div class="wrap">';

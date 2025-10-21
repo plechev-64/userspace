@@ -5,6 +5,8 @@ namespace UserSpace\Common\Module\Form\App\Controller;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormFactory;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormManager;
 use UserSpace\Core\Http\JsonResponse;
+use UserSpace\Common\Module\Queue\App\Task\Message\SendConfirmationEmailMessage;
+use UserSpace\Common\Module\Queue\Src\Infrastructure\QueueDispatcher;
 use UserSpace\Core\Http\Request;
 use UserSpace\Core\Option\OptionManagerInterface;
 use UserSpace\Core\Rest\Abstract\AbstractController;
@@ -27,7 +29,8 @@ class RegistrationController extends AbstractController
         private readonly SecurityHelper         $securityHelper,
         private readonly StringFilterInterface  $str,
         private readonly OptionManagerInterface $optionManager,
-        private readonly UserApiInterface       $userApi
+        private readonly UserApiInterface       $userApi,
+        private readonly QueueDispatcher        $queueDispatcher // Внедряем диспетчер очереди
     )
     {
     }
@@ -157,6 +160,6 @@ class RegistrationController extends AbstractController
         $subject = sprintf($this->str->translate('[%s] Activate Your Account'), get_bloginfo('name'));
         $message = sprintf($this->str->translate("Thanks for signing up! To activate your account, please click this link:\n\n%s"), $confirmationUrl);
 
-        wp_mail($userData['user_email'], $subject, $message);
+        $this->queueDispatcher->dispatch(new SendConfirmationEmailMessage($userData['user_email'], $subject, $message));
     }
 }

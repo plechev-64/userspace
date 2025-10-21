@@ -81,6 +81,26 @@ class JobRepository implements JobRepositoryInterface
     }
 
     /**
+     * Переносит выполнение задачи на более позднее время в случае сбоя.
+     *
+     * @param int $jobId ID задачи.
+     * @param int $newAttemptCount Новый счетчик попыток.
+     * @param int $delaySeconds Задержка в секундах до следующей попытки.
+     */
+    public function rescheduleAsFailed(int $jobId, int $newAttemptCount, int $delaySeconds): void
+    {
+        $data = [
+            'status'       => 'pending', // Возвращаем в очередь
+            'attempts'     => $newAttemptCount,
+            'available_at' => gmdate('Y-m-d H:i:s', time() + $delaySeconds),
+        ];
+        $this->db->queryBuilder()
+            ->from(self::TABLE_NAME)
+            ->where('id', '=', $jobId)
+            ->update($data);
+    }
+
+    /**
      * Проверяет, есть ли в очереди ожидающие задачи.
      *
      * @return bool

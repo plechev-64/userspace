@@ -30,8 +30,10 @@ use UserSpace\Common\Module\Form\Src\Infrastructure\Repository\FormRepository;
 use UserSpace\Common\Module\Grid\App\GridController;
 use UserSpace\Common\Module\Queue\App\QueueActionsController;
 use UserSpace\Common\Module\Queue\App\Task\Message\PingMessage;
+use UserSpace\Common\Module\Queue\App\Task\Message\SendConfirmationEmailMessage;
 use UserSpace\Common\Module\Queue\App\Task\Message\SendWelcomeEmailMessage;
 use UserSpace\Common\Module\Queue\App\Task\PingHandler;
+use UserSpace\Common\Module\Queue\App\Task\SendConfirmationEmailHandler;
 use UserSpace\Common\Module\Queue\App\Task\SendWelcomeEmailHandler;
 use UserSpace\Common\Module\Queue\Src\Domain\JobRepositoryInterface;
 use UserSpace\Common\Module\Queue\Src\Infrastructure\JobRepository;
@@ -120,6 +122,7 @@ return [
         'queue.message_handler_map' => [
             SendWelcomeEmailMessage::class => SendWelcomeEmailHandler::class,
             PingMessage::class => PingHandler::class,
+            SendConfirmationEmailMessage::class => SendConfirmationEmailHandler::class, // Новое сообщение и его обработчик
         ],
     ],
     'definitions' => [

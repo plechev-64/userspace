@@ -29,6 +29,15 @@ interface JobRepositoryInterface
     public function markAsFailed(int $jobId, int $newAttemptCount): void;
 
     /**
+     * Переносит выполнение задачи на более позднее время в случае сбоя.
+     *
+     * @param int $jobId ID задачи.
+     * @param int $newAttemptCount Новый счетчик попыток.
+     * @param int $delaySeconds Задержка в секундах до следующей попытки.
+     */
+    public function rescheduleAsFailed(int $jobId, int $newAttemptCount, int $delaySeconds): void;
+
+    /**
      * Проверяет, есть ли в очереди ожидающие задачи.
      */
     public function hasPendingJobs(): bool;

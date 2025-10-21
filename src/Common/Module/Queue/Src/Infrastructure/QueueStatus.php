@@ -28,24 +28,20 @@ class QueueStatus
      */
     public function getStatus(): array
     {
-        $default = [
-            'state' => 'idle',
-            'last_start' => 0,
-            'last_finish' => 0,
-            'last_duration' => 0,
-            'jobs_processed' => 0,
-            'log' => [],
-        ];
-
-        $status = $this->optionManager->get(self::OPTION_NAME, $default);
+        $status = $this->readStatus();
 
         // Если воркер "завис" (работает дольше 5 минут), считаем его остановившимся
         if ($status['state'] === 'running' && (time() - $status['last_start']) > 300) {
             $status['state'] = 'stalled';
-            $this->log('Worker seems to be stalled. Marking as stopped.');
+            // Записываем в лог только если это состояние обнаружено впервые,
+            // чтобы избежать дублирования сообщений при повторных вызовах getStatus().
+            $lastLog = $status['log'][0] ?? '';
+            if (strpos($lastLog, 'Worker seems to be stalled') === false) {
+                $this->log('Worker seems to be stalled. Marking as stopped.');
+            }
         }
 
-        return array_merge($default, $status);
+        return $status;
     }
 
     /**
@@ -57,7 +53,7 @@ class QueueStatus
      */
     public function log(string $message): void
     {
-        $status = $this->getStatus();
+        $status = $this->readStatus();
 
         // Добавляем сообщение в начало массива
         array_unshift($status['log'], sprintf('[%s] %s', wp_date('Y-m-d H:i:s'), $message));
@@ -75,7 +71,7 @@ class QueueStatus
      */
     public function startRun(): void
     {
-        $status = $this->getStatus();
+        $status = $this->readStatus();
         $status['state'] = 'running';
         $status['last_start'] = time();
         $status['jobs_processed'] = 0;
@@ -93,7 +89,7 @@ class QueueStatus
      */
     public function endRun(int $jobsProcessed): void
     {
-        $status = $this->getStatus();
+        $status = $this->readStatus();
         $status['state'] = 'idle';
         $status['last_finish'] = time();
         $status['last_duration'] = $status['last_finish'] - $status['last_start'];
@@ -101,5 +97,25 @@ class QueueStatus
 
         $this->optionManager->update(self::OPTION_NAME, $status, false);
         $this->log(sprintf('Worker batch finished. Processed %d job(s) in %d sec.', $jobsProcessed, $status['last_duration']));
+    }
+
+    /**
+     * Читает "сырой" статус из базы данных без дополнительной логики.
+     *
+     * @return array{state: string, last_start: int, last_finish: int, last_duration: int, jobs_processed: int, log: array}
+     */
+    private function readStatus(): array
+    {
+        $default = [
+            'state'          => 'idle',
+            'last_start'     => 0,
+            'last_finish'    => 0,
+            'last_duration'  => 0,
+            'jobs_processed' => 0,
+            'log'            => [],
+        ];
+
+        $status = $this->optionManager->get(self::OPTION_NAME, $default);
+        return array_merge($default, $status);
     }
 }

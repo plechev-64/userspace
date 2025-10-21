@@ -38,46 +38,36 @@ class SseController extends AbstractController
         // Немедленно закрываем сессию, чтобы не блокировать другие запросы от этого же пользователя.
         session_write_close();
 
+        // Устанавливаем заголовки для SSE
         header('Content-Type: text/event-stream');
         header('Cache-Control: no-cache');
         header('Connection: keep-alive');
         header('X-Accel-Buffering: no'); // Отключаем буферизацию для Nginx
 
-        if (function_exists('apache_setenv')) {
-            @apache_setenv('no-gzip', 1);
-        }
-        @ini_set('zlib.output_compression', 0);
+        // Устанавливаем короткое время жизни скрипта, так как мы больше не используем длинный опрос
+        set_time_limit(10);
 
         $last_event_id = $request->getHeader('Last-Event-ID', 0);
 
-        $time_limit = 50;
-        set_time_limit($time_limit + 5);
-        $start_time = time();
+        $events = $this->repository->findNewerThan((int)$last_event_id);
 
-        while (time() - $start_time < $time_limit) {
-            $events = $this->repository->findNewerThan((int)$last_event_id);
-
-            if ($events) {
-                foreach ($events as $event) {
-                    echo "id: " . $this->str->escHtml($event->id) . "\n";
-                    echo "event: " . $this->str->escHtml($event->event_type) . "\n";
-                    echo "data: " . $event->payload . "\n\n";
-                    $last_event_id = $event->id;
-                }
-            } else {
-                echo ":keep-alive\n\n";
+        if (!empty($events)) {
+            foreach ($events as $event) {
+                echo "id: " . $this->str->escHtml($event->id) . "\n";
+                echo "event: " . $this->str->escHtml($event->event_type) . "\n";
+                echo "data: " . $event->payload . "\n\n";
+                $last_event_id = $event->id;
             }
-
-            // Удаляем отправленные события, чтобы не накапливать их в БД
-            // В высоконагруженной системе здесь может быть гонка состояний, но для большинства случаев это приемлемо.
-            $this->repository->deleteOlderThanOrEqual((int)$last_event_id);
-
-            @ob_flush();
-            flush();
-
-            if (connection_aborted()) break;
-            sleep(2);
+        } else {
+            // Если новых событий нет, отправляем комментарий, чтобы соединение не закрылось по таймауту на стороне клиента
+            echo ":keep-alive\n\n";
         }
+
+        // Сбрасываем буфер вывода, чтобы отправить данные клиенту
+        @ob_flush();
+        flush();
+
+        // Завершаем выполнение скрипта. Клиент автоматически переподключится.
         exit;
     }
 }
