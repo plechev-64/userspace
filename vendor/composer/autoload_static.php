@@ -9,6 +9,7 @@ class ComposerStaticInitf1e12a7d004121d4d6a604f2a5665623
     public static $prefixLengthsPsr4 = array (
         'U' => 
         array (
+            'UserSpace\\Theme\\Minimal\\' => 24,
             'UserSpace\\Theme\\First\\' => 22,
             'UserSpace\\Adapters\\' => 19,
             'UserSpace\\' => 10,
@@ -16,6 +17,10 @@ class ComposerStaticInitf1e12a7d004121d4d6a604f2a5665623
     );
 
     public static $prefixDirsPsr4 = array (
+        'UserSpace\\Theme\\Minimal\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/themes/minimal/src',
+        ),
         'UserSpace\\Theme\\First\\' => 
         array (
             0 => __DIR__ . '/../..' . '/themes/first/src',

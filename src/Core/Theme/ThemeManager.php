@@ -14,8 +14,8 @@ class ThemeManager
     private const THEMES_DIR_NAME = 'themes';
 
     private string $themesDir;
-    private ?ThemeInterface $activeTheme = null;
-    private ?string $discoveredThemeName = null;
+    /** @var array<string, ThemeInterface> */
+    private array $themes = [];
 
     public function __construct(
         private readonly \UserSpace\Core\ContainerInterface $container,
@@ -26,6 +26,8 @@ class ThemeManager
     {
         $this->themesDir = USERSPACE_PLUGIN_DIR . self::THEMES_DIR_NAME . '/';
     }
+
+    private ?ThemeInterface $activeTheme = null;
     
     /**
      * Регистрирует класс темы.
@@ -40,21 +42,23 @@ class ThemeManager
             // В реальном приложении здесь можно логировать ошибку
             return null;
         }
-        
+
         $themeObject = new $themeClassName();
-        
-        $this->discoveredThemeName = $themeObject->getName();
+
+        // Сохраняем тему в кэш по её системному имени (имени папки)
+        $dirName = basename($themeObject->getPath());
+        $this->themes[$dirName] = $themeObject;
+
         return $themeObject;
     }
 
     /**
      * Сканирует директорию и возвращает список доступных тем.
      *
-     * @return array<string, string>
+     * @return array<string, string> Ассоциативный массив [dir_name => theme_name].
      */
     public function discoverThemes(): array
     {
-        $themes = [];
         if (!is_dir($this->themesDir)) {
             return [];
         }
@@ -64,17 +68,27 @@ class ThemeManager
         foreach ($dirs as $dir) {
             $indexPath = $this->themesDir . $dir . '/index.php';
             if (file_exists($indexPath)) {
+                // Если тема уже загружена, просто берем ее из кэша
+                if (isset($this->themes[$dir])) {
+                    continue;
+                }
+
                 // Передаем себя в качестве регистратора
                 $themeRegistry = $this;
-                $themeObject = require $indexPath;
-                
-                if ($themeObject instanceof ThemeInterface) {
-                    $themes[$dir] = $themeObject->getName();
-                }
+                // Используем require_once, чтобы избежать повторного объявления классов.
+                // Результат выполнения файла (объект темы) будет сохранен в $this->themes
+                // через вызов метода register() из файла index.php темы.
+                require_once $indexPath;
             }
         }
 
-        return $themes;
+        // Теперь, когда все темы загружены в $this->themes, формируем массив для ответа.
+        $discoveredThemes = [];
+        foreach ($this->themes as $dirName => $themeObject) {
+            $discoveredThemes[$dirName] = $themeObject->getName();
+        }
+
+        return $discoveredThemes;
     }
 
     /**
@@ -83,20 +97,14 @@ class ThemeManager
      */
     public function loadActiveTheme(): void
     {
+        $this->discoverThemes(); // Убедимся, что все темы обнаружены и закэшированы
+
         $settings = $this->optionManager->get('usp_settings', []);
         $activeThemeDir = $settings['account_theme'] ?? 'first'; // 'first' как тема по умолчанию
 
-        $themeEntryPoint = $this->themesDir . $activeThemeDir . '/index.php';
-
-        if (file_exists($themeEntryPoint)) {
-            // Передаем себя в качестве регистратора в область видимости файла
-            $themeRegistry = $this;
-            $themeObject = require_once $themeEntryPoint;
-
-            if ($themeObject instanceof ThemeInterface) {
-                $this->activeTheme = $themeObject;
-                $this->activeTheme->setup($this->container);
-            }
+        if (isset($this->themes[$activeThemeDir])) {
+            $this->activeTheme = $this->themes[$activeThemeDir];
+            $this->activeTheme->setup($this->container);
         }
     }
 

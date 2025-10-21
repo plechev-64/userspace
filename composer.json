@@ -15,8 +15,9 @@
     "autoload": {
         "psr-4": {
             "UserSpace\\": "src/",
-            "UserSpace\\UserSpace\Adapters\\": "adapters/",
-            "UserSpace\\Theme\\First\\": "themes/first/src/"
+            "UserSpace\\Adapters\\": "adapters/",
+            "UserSpace\\Theme\\First\\": "themes/first/src/",
+            "UserSpace\\Theme\\Minimal\\": "themes/minimal/src/"
         }
     }
 }

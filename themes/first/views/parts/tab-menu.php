@@ -2,9 +2,11 @@
 /**
  * Шаблон для рендеринга меню вкладок.
  *
- * @var array $tabs_to_render Массив объектов AbstractTab для рендеринга.
+ * @var AbstractTab[] $tabs_to_render Массив объектов AbstractTab для рендеринга.
  * @var bool  $activate_first Должен ли первый элемент быть активным.
  */
+
+use UserSpace\Common\Module\Tabs\Src\Domain\AbstractTab;
 
 if ( ! defined('ABSPATH') || empty($tabs_to_render)) {
 	return;

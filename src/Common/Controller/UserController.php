@@ -32,7 +32,7 @@ class UserController extends AbstractController
     #[Route(path: '/user/avatar', method: 'POST', permission: 'read')]
     public function updateAvatar(Request $request): JsonResponse
     {
-        $attachmentId = $request->getPost('attachmentId', 'int');
+        $attachmentId = (int)$request->getPost('attachmentId');
         $userId = $this->userApi->getCurrentUserId();
 
         if (!$userId) {
