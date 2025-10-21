@@ -23,6 +23,22 @@ interface QueryBuilderInterface
 
     public function orWhere(string|callable $column, ?string $operator = null, mixed $value = null): self;
 
+    /**
+     * Добавляет условие WHERE ... IS NULL.
+     *
+     * @param string $column Столбец.
+     * @return $this
+     */
+    public function whereNull(string $column): self;
+
+    /**
+     * Добавляет условие OR WHERE ... IS NULL.
+     *
+     * @param string $column Столбец.
+     * @return $this
+     */
+    public function orWhereNull(string $column): self;
+
     public function leftJoin(string $table, string $on): self;
 
     public function addJoin(string $type, string $table, ?string $alias, string $on): self;

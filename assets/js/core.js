@@ -646,44 +646,89 @@
          * @param {string} endpointUrl Полный URL для подключения к SSE.
          */
         constructor(endpointUrl) {
+            if (!endpointUrl) {
+                throw new Error('SSEClient: endpointUrl is required.');
+            }
             this.endpointUrl = endpointUrl;
             this.eventSource = null;
+            this.listeners = {};
         }
 
         /**
          * Устанавливает соединение с сервером.
          */
         connect() {
-            if (this.eventSource && this.eventSource.readyState !== EventSource.CLOSED) {
+            if (this.eventSource) {
+                console.warn('SSEClient: Already connected or connecting.');
                 return;
             }
 
-            this.eventSource = new EventSource(this.endpointUrl);
+            try {
+                this.eventSource = new EventSource(this.endpointUrl);
 
-            this.eventSource.onopen = () => {
-                console.log('SSE connection successfully established.');
-            };
+                this.eventSource.onopen = () => {
+                    console.log('SSE connection established.');
+                };
 
-            this.eventSource.onerror = () => {
-                // Браузер автоматически пытается переподключиться.
-                console.log('SSE connection error or closed. Reconnecting...');
-            };
+                this.eventSource.onerror = (error) => {
+                    console.error('SSE connection error. The browser will attempt to reconnect.', error);
+                    // Если сервер ответил, например, 401, браузер может прекратить попытки.
+                    // Закрываем соединение, чтобы можно было создать новое.
+                    if (this.eventSource.readyState === EventSource.CLOSED) {
+                        this.eventSource = null;
+                    }
+                };
+
+                // Применяем все ранее зарегистрированные обработчики
+                Object.keys(this.listeners).forEach(eventName => {
+                    this.listeners[eventName].forEach(callback => {
+                        this.eventSource.addEventListener(eventName, callback);
+                    });
+                });
+
+            } catch (e) {
+                console.error('Failed to create EventSource:', e);
+            }
         }
 
         /**
          * Добавляет обработчик для кастомного события.
          * @param {string} eventName Имя события.
          * @param {function(object): void} callback Функция, которая будет вызвана с распарсенными данными.
+         * @returns {this}
          */
         on(eventName, callback) {
-            if (!this.eventSource) {
-                this.connect();
+            const handler = (event) => {
+                try {
+                    const data = JSON.parse(event.data);
+                    callback(data);
+                } catch (e) {
+                    console.error(`Failed to parse JSON for SSE event "${eventName}":`, event.data, e);
+                }
+            };
+
+            if (!this.listeners[eventName]) {
+                this.listeners[eventName] = [];
+            }
+            this.listeners[eventName].push(handler);
+
+            // Если соединение уже установлено, добавляем обработчик "на лету"
+            if (this.eventSource) {
+                this.eventSource.addEventListener(eventName, handler);
             }
 
-            this.eventSource.addEventListener(eventName, (event) => {
-                const data = JSON.parse(event.data);
-                callback(data);
-            });
+            return this;
+        }
+
+        /**
+         * Закрывает соединение.
+         */
+        close() {
+            if (this.eventSource) {
+                this.eventSource.close();
+                this.eventSource = null;
+                console.log('SSE connection closed by client.');
+            }
         }
     }
 
@@ -725,6 +770,14 @@
          */
         createSseClient(endpointUrl) {
             return new SSEClient(endpointUrl);
+        }
+
+        /**
+         * Проверяет, авторизован ли текущий пользователь.
+         * @returns {boolean}
+         */
+        isUserLoggedIn() {
+            return document.body.classList.contains('logged-in') || document.body.classList.contains('wp-admin');
         }
 
         init() {

@@ -14,19 +14,21 @@ interface SseEventRepositoryInterface
     /**
      * Создает новое SSE-событие.
      *
-     * @param string $eventType
-     * @param array $payload
-     * @return int|null
+     * @param string   $eventType Тип события.
+     * @param array    $payload   Данные события.
+     * @param int|null $userId    ID пользователя-получателя. NULL для глобального события.
+     * @return int|null ID созданного события.
      */
-    public function create(string $eventType, array $payload): ?int;
+    public function create(string $eventType, array $payload, ?int $userId = null): ?int;
 
     /**
      * Находит новые события, начиная с указанного ID.
      *
-     * @param int $lastEventId
-     * @return array
+     * @param int      $lastEventId ID последнего полученного события.
+     * @param int|null $userId      ID текущего пользователя для получения персональных и глобальных событий.
+     * @return array Список новых событий.
      */
-    public function findNewerThan(int $lastEventId): array;
+    public function findNewerThan(int $lastEventId, ?int $userId): array;
 
     /**
      * Удаляет события до указанного ID включительно.

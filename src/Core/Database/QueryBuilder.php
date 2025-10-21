@@ -129,6 +129,27 @@ class QueryBuilder implements QueryBuilderInterface
     }
 
     /**
+     * Добавляет условие WHERE ... IS NULL.
+     *
+     * @param string $column Столбец.
+     * @return $this
+     */
+    public function whereNull(string $column): self
+    {
+        // Это сокращение для where($column, 'IS', null)
+        return $this->where($column, 'IS', null);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function orWhereNull(string $column): self
+    {
+        // Это сокращение для orWhere($column, 'IS', null)
+        return $this->orWhere($column, 'IS', null);
+    }
+
+    /**
      * Добавляет LEFT JOIN.
      *
      * @param string $table Таблица для присоединения (без префикса).
@@ -294,6 +315,9 @@ class QueryBuilder implements QueryBuilderInterface
                     $placeholders = implode(', ', array_fill(0, count($condition['value']), '%s'));
                     $whereClauses[] = $condition['column'] . ' ' . $condition['operator'] . ' (' . $placeholders . ')';
                     $bindings = array_merge($bindings, $condition['value']);
+                } elseif ($condition['value'] === null && in_array(strtoupper($condition['operator']), ['IS', 'IS NOT'])) {
+                    // Обработка IS NULL / IS NOT NULL
+                    $whereClauses[] = $condition['column'] . ' ' . $condition['operator'] . ' NULL';
                 } else { // Простое условие
                     $placeholder = '%s';
                     if (strtoupper($condition['operator']) === 'LIKE') {
@@ -355,6 +379,9 @@ class QueryBuilder implements QueryBuilderInterface
                 $placeholders = implode(', ', array_fill(0, count($condition['value']), '%s'));
                 $whereClauses[] = $condition['column'] . ' ' . $condition['operator'] . ' (' . $placeholders . ')';
                 $bindings = array_merge($bindings, $condition['value']);
+            } elseif ($condition['value'] === null && in_array(strtoupper($condition['operator']), ['IS', 'IS NOT'])) {
+                // Обработка IS NULL / IS NOT NULL
+                $whereClauses[] = $condition['column'] . ' ' . $condition['operator'] . ' NULL';
             } else { // Простое условие
                 $placeholder = '%s';
                 if (strtoupper($condition['operator']) === 'LIKE') {

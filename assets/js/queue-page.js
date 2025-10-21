@@ -115,8 +115,10 @@ document.addEventListener('DOMContentLoaded', () => {
     /**
      * Инициализирует Server-Sent Events для получения обновлений в реальном времени.
      */
-    const initQueueSse = () => {
+    const initQueueSse = async () => {
         let debounceTimer;
+        const UspCore = window.UspCore;
+        const pageData = window.uspQueuePageData || {};
 
         /**
          * Функция-обертка с "дебаунсом" для предотвращения лавины запросов.
@@ -129,8 +131,22 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 500); // Пауза в 500 мс
         };
 
-        const eventsUrl = UspCore.api.getEndpointUrl(pageData.eventsEndpoint);
-        const sseClient = UspCore.createSseClient(eventsUrl);
+        let finalSseUrl;
+        // Если пользователь авторизован, получаем токен и добавляем к URL
+        if (UspCore.isUserLoggedIn()) {
+            try {
+                const auth = await UspCore.api.post('/user/sse-token');
+                if(pageData.uspLightWeightWorker){
+                    const params = new URLSearchParams({ token: auth.token, signature: auth.signature });
+                    finalSseUrl = `${pageData.uspLightWeightWorker}?${params.toString()}`;
+                }else{
+                    finalSseUrl = `${baseSseUrl}/token/${auth.token}/signature/${auth.signature}`;
+                }
+            } catch (e) {
+                console.error("Could not get SSE token, connecting as anonymous.", e);
+            }
+        }
+        const sseClient = UspCore.createSseClient(finalSseUrl);
 
         sseClient.on('batch_processed', (data) => {
             if (data && typeof data.JobsProcessed !== 'undefined') {

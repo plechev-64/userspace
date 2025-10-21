@@ -19,4 +19,14 @@ interface SseEventDispatcherInterface
      * @return int|null
      */
     public function dispatchEvent(string $eventType, array $payload): ?int;
+
+    /**
+     * Отправляет событие конкретному пользователю.
+     *
+     * @param int    $userId    ID пользователя-получателя.
+     * @param string $eventType Тип события.
+     * @param array  $payload   Данные для передачи.
+     * @return int|null ID созданного события или null в случае ошибки.
+     */
+    public function dispatchToUser(int $userId, string $eventType, array $payload): ?int;
 }

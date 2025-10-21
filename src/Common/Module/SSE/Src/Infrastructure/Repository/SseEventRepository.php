@@ -2,6 +2,8 @@
 
 namespace UserSpace\Common\Module\SSE\Src\Infrastructure\Repository;
 
+use UserSpace\Core\Database\QueryBuilderInterface;
+use UserSpace\Core\TransientApiInterface;
 use UserSpace\Common\Module\SSE\Src\Domain\Repository\SseEventRepositoryInterface;
 use UserSpace\Core\Database\DatabaseConnectionInterface;
 
@@ -16,46 +18,65 @@ class SseEventRepository implements SseEventRepositoryInterface
 {
     private const TABLE_NAME = 'userspace_sse_events';
 
-    private readonly DatabaseConnectionInterface $db;
-
-    public function __construct(DatabaseConnectionInterface $db)
+    public function __construct(
+        private readonly DatabaseConnectionInterface $db,
+        private readonly TransientApiInterface $transientApi
+    )
     {
-        $this->db = $db;
     }
 
     /**
-     * Создает новое SSE-событие.
-     *
-     * @param string $eventType
-     * @param array $payload
-     * @return int|null
+     * @inheritDoc
      */
-    public function create(string $eventType, array $payload): ?int
+    public function create(string $eventType, array $payload, ?int $userId = null): ?int
     {
         $data = [
             'event_type' => $eventType,
-            'payload' => wp_json_encode($payload),
+            'payload'    => wp_json_encode($payload),
             'created_at' => gmdate('Y-m-d H:i:s'),
+            'user_id'    => $userId,
         ];
 
         $result = $this->db->queryBuilder()->from(self::TABLE_NAME)->insert($data);
 
         return $result ? $this->db->getInsertId() : null;
     }
-
+    
     /**
-     * Находит новые события, начиная с указанного ID.
-     *
-     * @param int $lastEventId
-     * @return array
+     * @inheritDoc
      */
-    public function findNewerThan(int $lastEventId): array
+    public function findNewerThan(int $lastEventId, ?int $userId): array
     {
-        return $this->db->queryBuilder()
+        // Ключ кэша теперь зависит от пользователя. Для анонимов userId будет 0.
+        $userIdCacheKey = $userId > 0 ? $userId : '0';
+        $cacheKey = 'usp_sse_events_after_' . $lastEventId . '_user_' . $userIdCacheKey;
+
+        $cachedEvents = $this->transientApi->get($cacheKey);
+        if ($cachedEvents !== false && is_array($cachedEvents)) {
+            return $cachedEvents;
+        }
+
+        $builder = $this->db->queryBuilder()
             ->from(self::TABLE_NAME)
             ->where('id', '>', $lastEventId)
-            ->orderBy('id', 'ASC')
-            ->get();
+            ->orderBy('id', 'ASC');
+
+        // Пользователь получает свои личные события И глобальные (user_id IS NULL)
+        if ($userId > 0) {
+            $builder->where(function (QueryBuilderInterface $query) use ($userId) {
+                $query->where('user_id', '=', $userId)
+                      ->orWhereNull('user_id');
+            });
+        } else {
+            // Анонимный пользователь получает только глобальные события
+            $builder->whereNull('user_id');
+        }
+
+        $events = $builder->get();
+
+        $this->transientApi->set($cacheKey, $events, 2);
+
+        return $events;
     }
 
     /**
@@ -98,9 +119,11 @@ class SseEventRepository implements SseEventRepositoryInterface
         $sql = "CREATE TABLE {$table_name} (
             id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
             event_type VARCHAR(255) NOT NULL,
+            user_id BIGINT(20) UNSIGNED DEFAULT NULL,
             payload LONGTEXT NOT NULL,
             created_at DATETIME NOT NULL,
-            PRIMARY KEY  (id)
+            PRIMARY KEY  (id),
+            KEY user_id (user_id)
         ) {$charset_collate};";
 
         $this->db->runDbDelta($sql);

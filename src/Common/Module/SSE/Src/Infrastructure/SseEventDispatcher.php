@@ -31,4 +31,14 @@ class SseEventDispatcher implements SseEventDispatcherInterface
     {
         return $this->repository->create($eventType, $payload);
     }
+
+    /**
+     * Отправляет событие конкретному пользователю.
+     *
+     * @inheritDoc
+     */
+    public function dispatchToUser(int $userId, string $eventType, array $payload): ?int
+    {
+        return $this->repository->create($eventType, $payload, $userId);
+    }
 }

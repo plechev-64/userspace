@@ -6,6 +6,8 @@ use UserSpace\Common\Module\SSE\Src\Domain\Repository\SseEventRepositoryInterfac
 use UserSpace\Core\Http\Request;
 use UserSpace\Core\Rest\Abstract\AbstractController;
 use UserSpace\Core\Rest\Attributes\Route;
+use UserSpace\Core\SecurityHelper;
+use UserSpace\Core\User\UserApiInterface;
 use UserSpace\Core\String\StringFilterInterface;
 
 if (!defined('ABSPATH')) {
@@ -15,16 +17,13 @@ if (!defined('ABSPATH')) {
 #[Route(path: '/sse')]
 class SseController extends AbstractController
 {
-    private SseEventRepositoryInterface $repository;
-    private StringFilterInterface $str;
-
     public function __construct(
-        SseEventRepositoryInterface $repository,
-        StringFilterInterface       $str
+        private readonly SseEventRepositoryInterface $repository,
+        private readonly StringFilterInterface $str,
+        private readonly UserApiInterface $userApi,
+        private readonly SecurityHelper $securityHelper
     )
     {
-        $this->repository = $repository;
-        $this->str = $str;
     }
 
     /**
@@ -32,11 +31,19 @@ class SseController extends AbstractController
      *
      * @param Request $request
      */
-    #[Route(path: '/events', method: 'GET')]
+    #[Route(path: '/events/token/(?P<token>[a-zA-Z0-9]+)/signature/(?P<signature>[a-zA-Z0-9]+)', method: 'GET')]
     public function streamEvents(Request $request): void
     {
+        $userId = $this->getUserIdFromRequest($request);
+
+        // Если getUserIdFromRequest вернул false, это значит, что токен был, но он невалидный.
+        if ($userId === false) {
+            header("HTTP/1.1 401 Unauthorized");
+            exit('Invalid or expired token.');
+        }
+
         // Немедленно закрываем сессию, чтобы не блокировать другие запросы от этого же пользователя.
-        session_write_close();
+        @session_write_close();
 
         // Устанавливаем заголовки для SSE
         header('Content-Type: text/event-stream');
@@ -49,7 +56,7 @@ class SseController extends AbstractController
 
         $last_event_id = $request->getHeader('Last-Event-ID', 0);
 
-        $events = $this->repository->findNewerThan((int)$last_event_id);
+        $events = $this->repository->findNewerThan((int)$last_event_id, $userId);
 
         if (!empty($events)) {
             foreach ($events as $event) {
@@ -69,5 +76,37 @@ class SseController extends AbstractController
 
         // Завершаем выполнение скрипта. Клиент автоматически переподключится.
         exit;
+    }
+
+    /**
+     * Определяет ID пользователя на основе токена в запросе.
+     *
+     * @param Request $request
+     * @return int|false|null ID пользователя, false при невалидном токене, null при отсутствии токена.
+     */
+    private function getUserIdFromRequest(Request $request): int|false|null
+    {
+
+        $token = $request->getPost('token');
+        $signature = $request->getPost('signature');
+
+        // Если токена нет, это анонимный пользователь
+        if (empty($token) || empty($signature)) {
+            return null; // или 0, в зависимости от того, как репозиторий обрабатывает анонимов
+        }
+
+        $payload = json_decode(base64_decode($token), true);
+
+        if (!is_array($payload) || !isset($payload['user_id']) || !isset($payload['exp'])) {
+            return false; // Невалидный формат токена
+        }
+
+        // Проверяем подпись и срок действия
+        if ($this->securityHelper->validate($payload, $signature) && time() < $payload['exp']) {
+            return (int)$payload['user_id'];
+        }
+
+        // Токен есть, но он невалидный
+        return false;
     }
 }

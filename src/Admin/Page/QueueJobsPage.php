@@ -94,6 +94,7 @@ class QueueJobsPage extends AbstractAdminPage
             'pingEndpoint' => '/queue/ping',
             'processEndpoint' => '/queue/process-now',
             'eventsEndpoint' => '/sse/events',
+            'uspLightWeightWorker' => USERSPACE_PLUGIN_URL . 'userspace-worker.php',
             'ping_error' => $this->str->translate('Failed to dispatch ping task.'),
             'ping_sending' => $this->str->translate('Sending...'),
             'processing' => $this->str->translate('Processing...'),

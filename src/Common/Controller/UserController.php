@@ -7,6 +7,7 @@ use UserSpace\Core\Http\Request;
 use UserSpace\Core\Media\MediaApiInterface;
 use UserSpace\Core\Rest\Abstract\AbstractController;
 use UserSpace\Core\Rest\Attributes\Route;
+use UserSpace\Core\SecurityHelper;
 use UserSpace\Core\String\StringFilterInterface;
 use UserSpace\Core\User\UserApiInterface;
 
@@ -17,7 +18,8 @@ class UserController extends AbstractController
     public function __construct(
         private readonly UserApiInterface      $userApi,
         private readonly MediaApiInterface     $mediaApi,
-        private readonly StringFilterInterface $str
+        private readonly StringFilterInterface $str,
+        private readonly SecurityHelper        $securityHelper
     )
     {
     }
@@ -53,6 +55,30 @@ class UserController extends AbstractController
 
         return $this->success([
             'message' => $this->str->translate('Avatar updated successfully.'),
+        ]);
+    }
+
+    #[Route(path: '/user/sse-token', method: 'POST')]
+    public function generateSseToken(): JsonResponse
+    {
+        $userId = $this->userApi->getCurrentUserId();
+
+        if ($userId === 0) {
+            return new JsonResponse(['message' => 'Authentication required.'], 401);
+        }
+
+        $payload = [
+            'user_id' => $userId,
+            'exp' => time() + HOUR_IN_SECONDS, // Токен действителен 1 час
+        ];
+
+        $signature = $this->securityHelper->sign($payload);
+        $token = base64_encode(wp_json_encode($payload));
+
+        return new JsonResponse([
+            'token' => $token,
+            'signature' => $signature,
+            'expires_in' => HOUR_IN_SECONDS,
         ]);
     }
 }
