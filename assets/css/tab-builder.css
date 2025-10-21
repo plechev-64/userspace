@@ -103,3 +103,35 @@
 #usp-tab-builder-notifications .notice {
     margin: 0 0 20px;
 }
+
+/* --- Special styles for the Unassigned tabs location --- */
+.usp-tab-builder-location[data-location-id="_unused"] {
+    flex-basis: 100%;
+    max-width: none;
+    margin-top: 20px;
+    border-style: dashed;
+    border-color: #c3c4c7;
+    background-color: #fcfcfc;
+}
+
+.usp-tab-builder-location[data-location-id="_unused"] .usp-tab-builder-location-title {
+    background-color: #f6f7f7;
+    color: #50575e;
+    border-bottom-color: #dcdcde;
+}
+
+.usp-tab-builder-location[data-location-id="_unused"] .usp-tab-builder-tabs {
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.usp-tab-builder-location[data-location-id="_unused"] .usp-tab-builder-tab {
+    width: 400px;
+    flex-grow: 0;
+    flex-shrink: 0;
+}
+
+/* Сбрасываем ширину для вложенных вкладок, чтобы они не вылезали за пределы родителя */
+.usp-tab-builder-location[data-location-id="_unused"] .usp-tab-builder-subtabs .usp-tab-builder-tab {
+    width: auto;
+}

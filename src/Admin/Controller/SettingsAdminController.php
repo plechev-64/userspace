@@ -4,6 +4,7 @@ namespace UserSpace\Admin\Controller;
 
 use UserSpace\Core\Http\JsonResponse;
 use UserSpace\Core\Http\Request;
+use UserSpace\Core\Option\OptionManagerInterface;
 use UserSpace\Core\Rest\Abstract\AbstractController;
 use UserSpace\Core\Rest\Attributes\Route;
 use UserSpace\Core\String\StringFilterInterface;
@@ -13,7 +14,10 @@ class SettingsAdminController extends AbstractController
 {
     private const OPTION_NAME = 'usp_settings';
 
-    public function __construct(private readonly StringFilterInterface $str)
+    public function __construct(
+        private readonly StringFilterInterface  $str,
+        private readonly OptionManagerInterface $optionManager
+    )
     {
     }
 
@@ -30,7 +34,7 @@ class SettingsAdminController extends AbstractController
             }
         }
 
-        update_option(self::OPTION_NAME, $settings);
+        $this->optionManager->update(self::OPTION_NAME, $settings);
 
         return $this->success(['message' => $this->str->translate('Settings saved successfully.')]);
     }

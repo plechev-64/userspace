@@ -12,8 +12,6 @@ use UserSpace\Core\String\StringFilterInterface;
  */
 class TabConfigBuilder
 {
-    /**
-     */
     public function __construct(
         private readonly TabManager            $tabManager,
         private readonly TabLocationManager    $tabLocationManager,
@@ -27,14 +25,23 @@ class TabConfigBuilder
      */
     final public function render(): string
     {
-        // Получаем все зарегистрированные вкладки и локации
-        $tabs = $this->tabManager->getAllRegisteredTabs();
-        $locations = $this->tabLocationManager->getRegisteredLocations();
+        $locations = $this->tabLocationManager->getRegisteredLocations(); // Получаем все локации, включая _unused
+        $groupedTabs = $this->groupTabs();
 
         $output = '<div class="usp-tabs-config-builder" data-usp-tab-builder>';
 
+        // Рендерим все зарегистрированные локации, включая _unused
         foreach ($locations as $locationId => $locationLabel) {
-            $output .= $this->renderLocation($locationId, $locationLabel, $tabs);
+            $tabsToRender = ($locationId === TabLocationManager::UNUSED_LOCATION)
+                ? $groupedTabs['unassigned']
+                : ($groupedTabs['assigned'][$locationId] ?? []);
+
+            // Если для локации нет вкладок и это не _unused, то не рендерим ее
+            if (empty($tabsToRender) && $locationId !== TabLocationManager::UNUSED_LOCATION) {
+                continue;
+            }
+
+            $output .= $this->renderLocation($locationId, $locationLabel, $tabsToRender);
         }
 
         $output .= '</div>';
@@ -49,6 +56,11 @@ class TabConfigBuilder
      */
     private function renderLocation(string $id, string $label, array $tabs): string
     {
+        // Если это _unused и в ней нет вкладок, то не рендерим ее
+        if ($id === TabLocationManager::UNUSED_LOCATION && empty($tabs)) {
+            return '';
+        }
+
         $output = sprintf(
             '<div class="usp-tab-builder-location" data-location-id="%s">',
             $this->str->escAttr($id)
@@ -60,10 +72,15 @@ class TabConfigBuilder
         $output .= '<div class="usp-tab-builder-tabs" data-sortable="tabs">';
 
         // Фильтруем и сортируем вкладки для этой локации
-        $locationTabs = array_filter($tabs, fn(AbstractTab $tab) => $tab->getLocation() === $id && $tab->getParentId() === null);
-        usort($locationTabs, fn(AbstractTab $a, AbstractTab $b) => $a->getOrder() <=> $b->getOrder());
+        // Здесь мы уже работаем с отфильтрованным массивом $tabs,
+        // поэтому дополнительная фильтрация по parentId не нужна, если логика распределения
+        // по $assignedTabs и $unassignedTabs уже учла иерархию.
+        // Однако, если $allTabs возвращает плоский список, то эта фильтрация нужна.
+        // Предполагаем, что $allTabs возвращает плоский список, и мы хотим отобразить только корневые вкладки здесь.
+        $rootTabs = array_filter($tabs, fn(AbstractTab $tab) => $tab->getParentId() === null);
+        usort($rootTabs, fn(AbstractTab $a, AbstractTab $b) => $a->getOrder() <=> $b->getOrder());
 
-        foreach ($locationTabs as $tab) {
+        foreach ($rootTabs as $tab) {
             $output .= $this->renderTab($tab);
         }
 
@@ -122,5 +139,29 @@ class TabConfigBuilder
         $output .= '</div>';
 
         return $output;
+    }
+
+    /**
+     * Группирует все зарегистрированные вкладки на "присвоенные" и "бездомные".
+     *
+     * @return array{assigned: array<string, AbstractTab[]>, unassigned: AbstractTab[]}
+     */
+    private function groupTabs(): array
+    {
+        $allTabs = $this->tabManager->getAllRegisteredTabs();
+        $assignedTabs = [];
+        $unassignedTabs = [];
+
+        foreach ($allTabs as $tab) {
+            $location = $tab->getLocation();
+            // Если локация вкладки зарегистрирована и это не служебная локация
+            if ($this->tabLocationManager->isLocationRegistered($location) && $location !== TabLocationManager::UNUSED_LOCATION) {
+                $assignedTabs[$location][] = $tab;
+            } else {
+                $unassignedTabs[] = $tab;
+            }
+        }
+
+        return ['assigned' => $assignedTabs, 'unassigned' => $unassignedTabs];
     }
 }

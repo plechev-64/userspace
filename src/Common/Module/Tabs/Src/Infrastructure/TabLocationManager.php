@@ -9,17 +9,27 @@ namespace UserSpace\Common\Module\Tabs\Src\Infrastructure;
 class TabLocationManager
 {
     /**
+     * Идентификатор для неиспользуемых вкладок.
+     */
+    public const UNUSED_LOCATION = '_unused';
+
+    /**
      * @var array<string, string> Массив зарегистрированных локаций в формате ['name' => 'Label'].
      */
     private array $locations = [];
+
+    /**
+     * Конструктор. Регистрирует сервисную локацию по умолчанию.
+     */
+    public function __construct()
+    {
+    }
 
     /**
      * Регистрирует новое место для вывода вкладок.
      *
      * @param string $name Уникальный идентификатор места (например, 'sidebar', 'header').
      * @param string $label Человекочитаемое название (например, 'Боковая панель', 'Шапка профиля').
-     *
-     * @return void
      */
     public function registerLocation(string $name, string $label): void
     {
@@ -35,6 +45,7 @@ class TabLocationManager
      */
     public function getRegisteredLocations(): array
     {
+        $this->locations[self::UNUSED_LOCATION] = 'Unassigned Tabs';
         return $this->locations;
     }
 
