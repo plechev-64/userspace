@@ -18,7 +18,6 @@ use UserSpace\Admin\Controller\ProfileAdminController;
 use UserSpace\Admin\Controller\RegistrationAdminController;
 use UserSpace\Admin\Controller\SettingsAdminController;
 use UserSpace\Admin\SetupWizard\SetupWizardController;
-use UserSpace\Common\Controller\FileUploaderController;
 use UserSpace\Common\Controller\LoginController;
 use UserSpace\Common\Controller\MediaController;
 use UserSpace\Common\Controller\ModalFormController;
@@ -115,7 +114,6 @@ return [
             RegistrationController::class,
             PasswordResetController::class,
             ModalFormController::class,
-            FileUploaderController::class,
             UserController::class,
             GridController::class,
             SetupWizardController::class,

@@ -669,7 +669,7 @@
             formData.append('config', this.options.config);
             formData.append('signature', this.options.signature);
 
-            return this.apiClient.post('/files/upload', formData);
+            return this.apiClient.post('/media/upload', formData);
         }
     }
 
