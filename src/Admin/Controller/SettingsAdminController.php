@@ -25,13 +25,11 @@ class SettingsAdminController extends AbstractController
     public function saveSettings(Request $request): JsonResponse
     {
         $settings = [];
-        // Мы не можем использовать getPost() напрямую, так как данные приходят как JSON payload
-        $payload = json_decode(file_get_contents('php://input'), true);
 
-        if (is_array($payload)) {
-            foreach ($payload as $key => $value) {
-                $settings[$this->str->sanitizeKey($key)] = $this->str->sanitizeTextField($value);
-            }
+        $payload = $request->getPostParams();
+
+        foreach ($payload as $key => $value) {
+            $settings[$this->str->sanitizeKey($key)] = $this->str->sanitizeTextField($value);
         }
 
         $this->optionManager->update(self::OPTION_NAME, $settings);

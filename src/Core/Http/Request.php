@@ -16,6 +16,16 @@ class Request
         $this->post = $post;
         $this->server = $server;
         $this->headers = $this->extractHeaders($server);
+
+        // Если это JSON-запрос, парсим тело и добавляем его в POST-параметры.
+        $contentType = $this->getHeader('content-type');
+        if ($contentType && stripos($contentType, 'application/json') !== false) {
+            $jsonPayload = json_decode(file_get_contents('php://input'), true);
+            if (is_array($jsonPayload)) {
+                // Объединяем данные из JSON с обычными POST-данными (если они есть)
+                $this->post = array_merge($this->post, $jsonPayload);
+            }
+        }
     }
 
     /**
@@ -91,6 +101,10 @@ class Request
         foreach ($server as $key => $value) {
             if (str_starts_with($key, 'HTTP_')) {
                 $headerKey = str_replace('_', '-', strtolower(substr($key, 5)));
+                $headers[$headerKey] = $value;
+            } elseif (in_array($key, ['CONTENT_TYPE', 'CONTENT_LENGTH', 'CONTENT_MD5'], true)) {
+                // Добавляем важные заголовки, которые не начинаются с HTTP_
+                $headerKey = str_replace('_', '-', strtolower($key));
                 $headers[$headerKey] = $value;
             }
         }
