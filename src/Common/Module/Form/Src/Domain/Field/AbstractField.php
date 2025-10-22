@@ -18,14 +18,17 @@ if (!defined('ABSPATH')) {
 abstract class AbstractField implements FieldInterface
 {
 
+    protected string $type;
     protected string $name;
     protected string $label;
+    protected ?string $description;
     protected mixed $value;
     /**
      * @var ValidatorInterface[]
      */
     protected array $attributes;
     protected array $rules;
+    protected ?array $dependency;
     protected array $errors = [];
     protected StringFilter $str;
 
@@ -41,14 +44,22 @@ abstract class AbstractField implements FieldInterface
         if (empty(trim($dto->name))) {
             throw new InvalidArgumentException('Field name cannot be empty.');
         }
+        $this->type = $dto->type;
         $this->name = $dto->name;
         $this->label = $dto->label;
+        $this->description = $dto->description;
         $this->value = $dto->value;
         $this->attributes = $dto->attributes;
         $this->rules = $dto->rules;
+        $this->dependency = $dto->dependency;
 
         // Временное решение, пока нет DI в полях
         $this->str = new StringFilter();
+    }
+
+    public function getType(): string
+    {
+        return $this->type;
     }
 
     /**
@@ -56,8 +67,35 @@ abstract class AbstractField implements FieldInterface
      */
     public function render(): string
     {
-        // По умолчанию, полное отображение поля - это его метка и поле ввода.
-        return $this->renderLabel() . $this->renderInput();
+        $dependencyAttrs = '';
+        $wrapperClasses = ['usp-form-field-wrapper', 'field-type-' . $this->getType()];
+
+        if ($this->dependency) {
+            $wrapperClasses[] = 'usp-dependent-field-wrapper';
+            $dependencyAttrs .= ' data-dependency-parent="' . $this->str->escAttr($this->dependency['parent_field']) . '"';
+            $dependencyAttrs .= ' data-dependency-value="' . $this->str->escAttr(json_encode($this->dependency['parent_value'])) . '"';
+            $dependencyAttrs .= ' data-dependency-type="' . $this->str->escAttr($this->dependency['type'] ?? 'select') . '"';
+        }
+
+        $output = '<div class="' . $this->str->escAttr(implode(' ', $wrapperClasses)) . '"' . $dependencyAttrs . '>';
+
+        // Рендерим label в первой колонке grid, или пустой div для boolean полей
+        if ($this->getType() === 'boolean') {
+            $output .= '<div></div>'; // Пустой div для сохранения структуры grid
+        } else {
+            $output .= $this->renderLabel();
+        }
+
+        // Обертка для самого поля ввода и его описания, во второй колонке grid
+        $output .= '<div class="usp-field-controls">'; // Это вторая колонка grid
+        $output .= $this->renderInput();
+        if ($this->description) {
+            $output .= '<p class="description">' . $this->str->escHtml($this->description) . '</p>';
+        }
+        $output .= '</div>';
+
+        $output .= '</div>';
+        return $output;
     }
 
     /**
@@ -136,6 +174,11 @@ abstract class AbstractField implements FieldInterface
     public function getName(): string
     {
         return $this->name;
+    }
+
+    public function getDependency(): ?array
+    {
+        return $this->dependency;
     }
 
     /**

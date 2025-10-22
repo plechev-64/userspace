@@ -69,6 +69,15 @@ interface StringFilterInterface
     public function escUrlRaw(string $url): string;
 
     /**
+     * Очищает строку для безопасного вывода в HTML-элементах textarea.
+     * Обертка для esc_textarea()
+     *
+     * @param string|null $text Текст для очистки.
+     * @return string Очищенный текст.
+     */
+    public function escTextarea(?string $text): string;
+
+    /**
      * Удаляет экранирующие слеши из строки или массива строк.
      * Обертка для wp_unslash()
      *

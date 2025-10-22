@@ -24,7 +24,7 @@ class Hidden extends AbstractField
     /**
      * @inheritDoc
      */
-    public function render(): string
+    public function renderInput(): string
     {
         $attributes = $this->renderAttributes([
             'type' => 'hidden',

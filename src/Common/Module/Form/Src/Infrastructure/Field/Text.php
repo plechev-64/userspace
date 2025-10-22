@@ -24,13 +24,13 @@ class Text extends AbstractField
     /**
      * @inheritDoc
      */
-    public function render(): string
+    public function renderInput(): string
     {
         $attributes = $this->renderAttributes([
             'type' => 'text',
             'value' => $this->value,
         ]);
 
-        return $this->renderLabel() . "<input {$attributes}>";
+        return "<input {$attributes}>";
     }
 }

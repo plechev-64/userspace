@@ -41,4 +41,18 @@ interface FormInterface
      * @return FieldInterface[]
      */
     public function getFields(): array;
+
+    /**
+     * Находит и возвращает поле по его имени.
+     *
+     * @param string $name Имя поля.
+     * @return FieldInterface|null Объект поля или null, если поле не найдено.
+     */
+    public function getField(string $name): ?FieldInterface;
+
+    /**
+     * Возвращает все секции формы.
+     * @return SectionInterface[]
+     */
+    public function getSections(): array;
 }

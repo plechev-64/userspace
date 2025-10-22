@@ -3,8 +3,83 @@ document.addEventListener('DOMContentLoaded', function () {
         return;
     }
 
+    /**
+     * Инициализирует логику зависимых полей на странице настроек.
+     */
+    function initDependentFields() {
+        const formWrapper = document.getElementById('usp-settings-form-wrapper');
+        if (!formWrapper) return;
+
+        const dependentFields = formWrapper.querySelectorAll('.usp-dependent-field-wrapper');
+        if (dependentFields.length === 0) return;
+
+        const parentFieldNames = new Set();
+        dependentFields.forEach(field => {
+            parentFieldNames.add(field.dataset.dependencyParent);
+        });
+
+        /**
+         * Переключает видимость зависимых полей на основе значения родительского поля.
+         * @param {HTMLElement} parentField - Родительское поле (input, select).
+         */
+        function toggleDependentFields(parentField) {
+            const parentFieldName = parentField.getAttribute('name');
+            let parentValue;
+
+            if (parentField.tagName === 'SELECT') {
+                parentValue = parentField.value;
+            } else if (parentField.type === 'radio') {
+                const checkedRadio = formWrapper.querySelector(`input[name="${parentFieldName}"]:checked`);
+                parentValue = checkedRadio ? checkedRadio.value : null;
+            } else if (parentField.type === 'checkbox') {
+                // Для BooleanField (одиночный чекбокс)
+                parentValue = parentField.checked ? '1' : '0';
+            } else {
+                parentValue = parentField.value;
+            }
+
+            dependentFields.forEach(dependentWrapper => {
+                if (dependentWrapper.dataset.dependencyParent === parentFieldName) {
+                    const requiredValue = JSON.parse(dependentWrapper.dataset.dependencyValue);
+                    let shouldShow = false;
+
+                    // Для BooleanField значение в data-атрибуте будет true/false, а значение поля '1'/'0'
+                    if (typeof requiredValue === 'boolean') {
+                        shouldShow = (parentValue === '1') === requiredValue;
+                    } else {
+                        const requiredValues = Array.isArray(requiredValue) ? requiredValue : [requiredValue];
+                        shouldShow = requiredValues.includes(parentValue);
+                    }
+
+                    if (shouldShow) {
+                        dependentWrapper.classList.remove('is-hidden-by-dependency');
+                    } else {
+                        dependentWrapper.classList.add('is-hidden-by-dependency');
+                    }
+                }
+            });
+        }
+
+        // Первоначальная проверка и установка обработчиков
+        parentFieldNames.forEach(fieldName => {
+            const parentElements = formWrapper.querySelectorAll(`[name="${fieldName}"], [name="${fieldName}[]"]`);
+            if (parentElements.length > 0) {
+                // Инициализация при загрузке страницы
+                toggleDependentFields(parentElements[0]);
+
+                // Установка обработчиков событий
+                parentElements.forEach(el => {
+                    el.addEventListener('change', () => toggleDependentFields(el));
+                });
+            }
+        });
+    }
+
     // Инициализируем табы, используя наш новый хелпер
     window.UspCore.ui.initTabs('.usp-settings-wrap');
+
+    // Инициализируем логику зависимых полей
+    initDependentFields();
 
     // --- Логика сохранения настроек через REST API ---
     const saveButton = document.getElementById('usp-save-settings');

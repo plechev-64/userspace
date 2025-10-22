@@ -25,11 +25,6 @@ class Radio extends AbstractField
         $this->options = $dto->options;
     }
 
-    public function render(): string
-    {
-        return $this->renderLabel() . $this->renderInput();
-    }
-
     public function renderInput(): string
     {
         $options_html = '';

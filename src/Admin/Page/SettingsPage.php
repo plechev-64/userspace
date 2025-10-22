@@ -26,10 +26,10 @@ use UserSpace\Core\Theme\ThemeManager;
  */
 class SettingsPage extends AbstractAdminPage
 {
-	private const OPTION_GROUP = 'usp_settings_group';
-	private const OPTION_NAME = 'usp_settings';
+    private const OPTION_GROUP = 'usp_settings_group';
+    private const OPTION_NAME = 'usp_settings';
 
-	public function __construct(
+    public function __construct(
         private readonly FormFactory            $formFactory,
         private readonly ThemeManager           $themeManager,
         private readonly SettingsConfig         $settingsConfig,
@@ -38,13 +38,13 @@ class SettingsPage extends AbstractAdminPage
         private readonly AssetRegistryInterface $assetRegistry,
         AdminApiInterface                       $adminApi,
         HookManagerInterface                    $hookManager
-	)
-	{
-		parent::__construct($adminApi, $hookManager);
-	}
+    )
+    {
+        parent::__construct($adminApi, $hookManager);
+    }
 
     /**
-	 * Регистрирует настройки для сохранения через Settings API.
+     * Регистрирует настройки для сохранения через Settings API.
      */
     public function registerSettings(): void
     {
@@ -52,10 +52,10 @@ class SettingsPage extends AbstractAdminPage
     }
 
     /**
-	 * Подключает ассеты для страницы настроек.
+     * Подключает ассеты для страницы настроек.
      * @param string $hook
      */
-	public function enqueueAssets(string $hook): void
+    public function enqueueAssets(string $hook): void
     {
         if ($this->hookSuffix !== $hook) {
             return;
@@ -103,7 +103,7 @@ class SettingsPage extends AbstractAdminPage
     }
 
     /**
-	 * Рендерит страницу настроек.
+     * Рендерит страницу настроек.
      */
     public function render(): void
     {
@@ -163,7 +163,18 @@ class SettingsPage extends AbstractAdminPage
                 }
             }
             $sectionForm = $this->formFactory->create($sectionFormConfig);
-            echo $sectionForm->render();
+            // Вместо рендеринга всей формы, рендерим каждый блок и его поля
+            // Это позволяет избежать проблемы с двойной оберткой usp-form-field-wrapper
+            foreach ($sectionForm->getSections() as $formSection) {
+                foreach ($formSection->getBlocks() as $block) {
+                    echo '<div class="usp-form-block">'; // Обертка для блока
+                    echo '<h4 class="usp-form-block-title">' . $this->str->escHtml($block->getTitle()) . '</h4>'; // Заголовок блока
+                    foreach ($block->getFields() as $field) {
+                        echo $field->render(); // Рендерим каждое поле индивидуально
+                    }
+                    echo '</div>'; // Закрываем usp-form-block
+                }
+            }
             echo '</div>';
         }
 
@@ -177,35 +188,35 @@ class SettingsPage extends AbstractAdminPage
         echo '</div>'; // .wrap
     }
 
-	protected function getPageTitle(): string
+    protected function getPageTitle(): string
     {
         return $this->str->translate('UserSpace Settings');
     }
 
-	protected function getMenuTitle(): string
+    protected function getMenuTitle(): string
     {
         return 'UserSpace';
     }
 
-	protected function getMenuSlug(): string
+    protected function getMenuSlug(): string
     {
         return 'userspace-settings';
     }
 
-	protected function getIcon(): string
+    protected function getIcon(): string
     {
         return 'dashicons-admin-users';
     }
 
-	protected function getPosition(): ?int
+    protected function getPosition(): ?int
     {
         return 30;
     }
 
-	/**
-	 * Собирает конфигурацию для формы настроек через фильтр.
-	 */
-	private function getSettingsConfig(): SettingsConfig
+    /**
+     * Собирает конфигурацию для формы настроек через фильтр.
+     */
+    private function getSettingsConfig(): SettingsConfig
     {
         $config = $this->settingsConfig
             //-- Section
@@ -274,6 +285,93 @@ class SettingsPage extends AbstractAdminPage
                 'label' => $this->str->translate('Profile Tab Query Variable'),
                 'description' => $this->str->translate('The GET parameter in the URL to identify the profile tab. Default: <code>tab</code>.'),
             ]))
+            // NEW: Example Parent-Child Settings
+            ->addSection('dependency_examples', $this->str->translate('Dependency Examples'))
+            ->addBlock('parent_fields', $this->str->translate('Parent Fields'))
+            ->addOption(new SelectFieldDto('parent_select_field', [
+                'label' => $this->str->translate('Select an Option'),
+                'options' => [
+                    'option1' => $this->str->translate('Option 1 (shows text field)'),
+                    'option2' => $this->str->translate('Option 2 (shows checkbox)'),
+                    'option3' => $this->str->translate('Option 3 (shows radio)'),
+                ],
+                'description' => $this->str->translate('Select a value to reveal dependent fields.'),
+            ]))
+            ->addOption(new BooleanFieldDto('parent_checkbox_field', [
+                'label' => $this->str->translate('Enable Feature Y'),
+                'description' => $this->str->translate('Check this to reveal a dependent text area.'),
+            ]))
+            ->addOption(new RadioFieldDto('parent_radio_field', [
+                'label' => $this->str->translate('Choose a Type'),
+                'options' => [
+                    'typeA' => $this->str->translate('Type A (shows URL field)'),
+                    'typeB' => $this->str->translate('Type B (shows uploader)'),
+                ],
+                'description' => $this->str->translate('Select a type to reveal dependent fields.'),
+            ]))
+            ->addBlock('dependent_fields', $this->str->translate('Dependent Fields'))
+            ->addOption(new TextFieldDto('dependent_text_field', [
+                'label' => $this->str->translate('Text Field for Option 1'),
+                'description' => $this->str->translate('This field appears when "Option 1" is selected.'),
+                'dependency' => [
+                    'parent_field' => 'parent_select_field',
+                    'parent_value' => 'option1',
+                    'type' => 'select',
+                ],
+            ]))
+            ->addOption(new CheckboxFieldDto('dependent_checkbox_field', [
+                'label' => $this->str->translate('Checkbox for Option 2'),
+                'description' => $this->str->translate('This checkbox appears when "Option 2" is selected.'),
+                'options' => [
+                    'checkA' => $this->str->translate('check A'),
+                    'checkB' => $this->str->translate('check B'),
+                ],
+                'dependency' => [
+                    'parent_field' => 'parent_select_field',
+                    'parent_value' => 'option2',
+                    'type' => 'select',
+                ],
+            ]))
+            ->addOption(new RadioFieldDto('dependent_radio_field', [
+                'label' => $this->str->translate('Radio for Option 3'),
+                'options' => [
+                    'sub_option_a' => $this->str->translate('Sub Option A'),
+                    'sub_option_b' => $this->str->translate('Sub Option B'),
+                ],
+                'description' => $this->str->translate('These radio buttons appear when "Option 3" is selected.'),
+                'dependency' => [
+                    'parent_field' => 'parent_select_field',
+                    'parent_value' => 'option3',
+                    'type' => 'select',
+                ],
+            ]))
+            ->addOption(new TextareaFieldDto('dependent_textarea_field', [
+                'label' => $this->str->translate('Text Area for Feature Y'),
+                'description' => $this->str->translate('This text area appears when "Enable Feature Y" is checked.'),
+                'dependency' => [
+                    'parent_field' => 'parent_checkbox_field',
+                    'parent_value' => true, // Boolean for checkbox
+                    'type' => 'checkbox',
+                ],
+            ]))
+            ->addOption(new UrlFieldDto('dependent_url_field', [
+                'label' => $this->str->translate('URL Field for Type A'),
+                'description' => $this->str->translate('This URL field appears when "Type A" is chosen.'),
+                'dependency' => [
+                    'parent_field' => 'parent_radio_field',
+                    'parent_value' => 'typeA',
+                    'type' => 'radio',
+                ],
+            ]))
+            ->addOption(new UploaderFieldDto('dependent_uploader_field', [
+                'label' => $this->str->translate('Uploader for Type B'),
+                'description' => $this->str->translate('This uploader appears when "Type B" is chosen.'),
+                'dependency' => [
+                    'parent_field' => 'parent_radio_field',
+                    'parent_value' => 'typeB',
+                    'type' => 'radio',
+                ],
+            ]))
             //-- Section
             ->addSection('appearance', $this->str->translate('Appearance'))
             ->addBlock('account_theme', $this->str->translate('Account Theme'))
@@ -285,7 +383,7 @@ class SettingsPage extends AbstractAdminPage
         return $this->hookManager->applyFilters('usp_settings_config', $config);
     }
 
-	private function getPagesAsOptions(): array
+    private function getPagesAsOptions(): array
     {
         $pages = get_pages();
         $options = ['' => $this->str->translate('— Select a page —')];

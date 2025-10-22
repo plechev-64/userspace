@@ -93,6 +93,27 @@ class Form implements FormInterface
     }
 
     /**
+     * Находит и возвращает поле по его имени.
+     *
+     * @param string $name Имя поля.
+     * @return FieldInterface|null Объект поля или null, если поле не найдено.
+     */
+    public function getField(string $name): ?FieldInterface
+    {
+        foreach ($this->sections as $section) {
+            foreach ($section->getBlocks() as $block) {
+                foreach ($block->getFields() as $field) {
+                    if ($field->getName() === $name) {
+                        return $field;
+                    }
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Возвращает плоский массив всех полей формы.
      * @return FieldInterface[]
      */
@@ -107,5 +128,13 @@ class Form implements FormInterface
             }
         }
         return $allFields;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getSections(): array
+    {
+        return $this->sections;
     }
 }

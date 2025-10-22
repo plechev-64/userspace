@@ -21,11 +21,6 @@ class KeyValueEditor extends AbstractField
         parent::__construct($dto);
     }
 
-    public function render(): string
-    {
-        return $this->renderLabel() . $this->renderInput();
-    }
-
     public function renderInput(): string
     {
         $pairsHtml = '';

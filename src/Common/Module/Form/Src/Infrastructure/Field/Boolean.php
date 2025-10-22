@@ -15,20 +15,15 @@ class Boolean extends AbstractField
         parent::__construct($dto);
     }
 
-    public function render(): string
-    {
-        // Для одиночного чекбокса label оборачивает input
-        $attributes = $this->renderAttributes(['type' => 'checkbox', 'value' => '1']);
-        $checked = checked('1', $this->value, false);
-
-        return sprintf('<label><input %s %s> %s</label>', $attributes, $checked, $this->str->escHtml($this->label));
-    }
-
     public function renderInput(): string
     {
         $attributes = $this->renderAttributes(['type' => 'checkbox', 'value' => '1']);
         $checked = checked('1', $this->value, false);
 
-        return sprintf('<input %s %s>', $attributes, $checked);
+        // Для Boolean поля label должен быть рядом с чекбоксом
+        return sprintf(
+            '<label><input %s %s> %s</label>',
+            $attributes, $checked, $this->str->escHtml($this->label) // Используем $this->label для текста рядом с чекбоксом
+        );
     }
 }

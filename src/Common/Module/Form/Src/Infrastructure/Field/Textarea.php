@@ -28,6 +28,6 @@ class Textarea extends AbstractField
     {
         $attributes = $this->renderAttributes();
 
-        return "<textarea {$attributes}>" . esc_textarea($this->value) . '</textarea>';
+        return "<textarea {$attributes}>" . $this->str->escTextarea($this->value) . '</textarea>';
     }
 }

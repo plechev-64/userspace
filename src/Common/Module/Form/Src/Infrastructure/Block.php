@@ -37,6 +37,11 @@ class Block
         return $this->fields;
     }
 
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
+
     public function render(bool $isAdminContext = false): string
     {
         if ($isAdminContext) {
