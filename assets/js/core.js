@@ -67,6 +67,26 @@
             // В GET-запросах данные часто приходят напрямую, а не в поле 'data'
             return json.data || json;
         }
+
+        async delete(endpoint) {
+            const apiUrl = `${this.settings.root}${this.settings.namespace}${endpoint}`;
+            const headers = {
+                'X-WP-Nonce': this.settings.nonce,
+            };
+
+            const response = await fetch(apiUrl, {
+                method: 'DELETE',
+                headers: headers
+            });
+
+            const json = await response.json();
+
+            if (!response.ok) {
+                throw new Error(json.message || 'An unknown API error occurred.');
+            }
+
+            return json;
+        }
     }
 
     /**
@@ -765,6 +785,7 @@
                 this.api = {
                     post: () => Promise.reject('API client not initialized'),
                     get: () => Promise.reject('API client not initialized'),
+                    delete: () => Promise.reject('API client not initialized'),
                     getEndpointUrl: () => ''
                 };
                 this.assetLoader = { load: () => Promise.resolve() };

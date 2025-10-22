@@ -81,7 +81,7 @@ function initUploader(uploader) {
         }
     }
 
-    uploader.addEventListener('click', function (e) {
+    uploader.addEventListener('click', async function (e) {
         const target = e.target;
 
         // Клик по кнопке "Select File"
@@ -102,19 +102,35 @@ function initUploader(uploader) {
         }
 
         // Клик по кнопке "Remove" для отдельного элемента в галерее
-        if (target.matches('.usp-remove-item-button')) {
+        if (target.matches('.usp-remove-item-button') && !target.disabled) {
             e.preventDefault();
+
+            // Запрашиваем подтверждение у пользователя
+            const confirmMessage = window.uspL10n?.uploader?.confirmDelete || 'Are you sure you want to delete this file permanently?';
+            if (!confirm(confirmMessage)) {
+                return;
+            }
+
             const item = target.closest('.usp-uploader-preview-item');
             if (item) {
                 const idToRemove = item.dataset.id.toString();
-                item.remove(); // Удаляем элемент предпросмотра
+                target.disabled = true; // Блокируем кнопку на время запроса
+                item.style.opacity = '0.5'; // Визуально показываем, что идет процесс
 
-                if (isMultiple) {
-                    manageMultipleHiddenInputs(uploader, fieldName, idToRemove, 'remove');
-                } else {
-                    // Для одиночного загрузчика, очищаем значение и удаляем класс 'has-file'
-                    uploader.classList.remove('has-file');
-                    uploader.querySelector('.usp-uploader-value').value = '';
+                try {
+                    await window.UspCore.api.delete(`/media/${idToRemove}`);
+                    item.remove(); // Удаляем элемент предпросмотра только после успешного ответа от сервера
+
+                    if (isMultiple) {
+                        manageMultipleHiddenInputs(uploader, fieldName, idToRemove, 'remove');
+                    } else {
+                        uploader.classList.remove('has-file');
+                        uploader.querySelector('.usp-uploader-value').value = '';
+                    }
+                } catch (error) {
+                    alert(error.message || 'Failed to delete file.');
+                    target.disabled = false; // Разблокируем кнопку в случае ошибки
+                    item.style.opacity = '1';
                 }
             }
         }

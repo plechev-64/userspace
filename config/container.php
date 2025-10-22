@@ -20,6 +20,7 @@ use UserSpace\Admin\Controller\SettingsAdminController;
 use UserSpace\Admin\SetupWizard\SetupWizardController;
 use UserSpace\Common\Controller\FileUploaderController;
 use UserSpace\Common\Controller\LoginController;
+use UserSpace\Common\Controller\MediaController;
 use UserSpace\Common\Controller\ModalFormController;
 use UserSpace\Common\Controller\PasswordResetController;
 use UserSpace\Common\Controller\UserController;
@@ -119,7 +120,8 @@ return [
             GridController::class,
             SetupWizardController::class,
             QueueActionsController::class,
-            SseController::class
+            SseController::class,
+            MediaController::class
         ],
         'queue.message_handler_map' => [
             SendWelcomeEmailMessage::class => SendWelcomeEmailHandler::class,
