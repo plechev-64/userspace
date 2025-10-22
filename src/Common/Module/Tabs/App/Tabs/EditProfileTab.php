@@ -21,6 +21,6 @@ class EditProfileTab extends AbstractTab
 
     public function getContent(): string
     {
-        return $this->genericFormRenderer->render(['type' => 'profile', 'action' => '/profile/save']);
+        return $this->genericFormRenderer->render(['type' => 'profile', 'action' => '/form/profile/save']);
     }
 }

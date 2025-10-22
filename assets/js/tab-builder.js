@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', function () {
         formData.append('tabConfig', currentConfig);
 
         try {
-            const json = await window.UspCore.api.post('/tab-settings/get', formData);
+            const json = await window.UspCore.api.post('/tabs/settings', formData);
             buildAndShowEditModal(tabEl, json.html);
         } catch (error) {
             alert((l10n.errorPrefix || 'Error: ') + error.message);
@@ -296,7 +296,7 @@ document.addEventListener('DOMContentLoaded', function () {
             formData.append('config', JSON.stringify(config));
 
             try {
-                const json = await window.UspCore.api.post('/tabs-config/update', formData);
+                const json = await window.UspCore.api.post('/tabs/config/update', formData);
                 window.UspCore.ui.showAdminNotice(json.message, 'success', '#usp-tab-builder-notifications');
             } catch (error) {
                 window.UspCore.ui.showAdminNotice(error.message || l10n.unknownError, 'error', '#usp-tab-builder-notifications');

@@ -33,4 +33,9 @@ class AuthApi implements AuthApiInterface
     {
         wp_logout();
     }
+
+    public function retrievePassword(string $userLogin): bool|\WP_Error
+    {
+        return retrieve_password($userLogin);
+    }
 }

@@ -88,4 +88,13 @@ interface MediaApiInterface
      * @return string|false URL иконки или false.
      */
     public function getMimeTypeIconUrl(int|string $mime): string|false;
+
+    /**
+     * Удаляет вложение (медиафайл). Обертка для wp_delete_attachment().
+     *
+     * @param int $attachmentId ID вложения для удаления.
+     * @param bool $forceDelete Удалить навсегда, без перемещения в корзину.
+     * @return mixed Результат выполнения wp_delete_attachment().
+     */
+    public function deleteAttachment(int $attachmentId, bool $forceDelete = false): mixed;
 }

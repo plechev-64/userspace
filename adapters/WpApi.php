@@ -29,4 +29,9 @@ class WpApi implements WpApiInterface
     {
         wp_safe_redirect($location, $status);
     }
+
+    public function getPost(int $postId): ?\WP_Post
+    {
+        return get_post($postId);
+    }
 }

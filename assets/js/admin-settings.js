@@ -145,7 +145,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             try {
                 // Отправляем данные на сервер
-                const json = await window.UspCore.api.post('/admin/settings', settingsData); 
+                const json = await window.UspCore.api.post('/settings/save', settingsData);
                 window.UspCore.ui.showAdminNotice(json.message, 'success', '#usp-settings-notifications');
             } catch (error) {
                 window.UspCore.ui.showAdminNotice(error.message || l10n.networkError || 'Network error occurred.', 'error', '#usp-settings-notifications');

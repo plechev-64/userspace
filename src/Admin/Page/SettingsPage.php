@@ -2,7 +2,7 @@
 
 namespace UserSpace\Admin\Page;
 
-use UserSpace\Admin\Abstract\AbstractAdminPage;
+use UserSpace\Admin\Page\Abstract\AbstractAdminPage;
 use UserSpace\Admin\SettingsConfig;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\BooleanFieldDto;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\CheckboxFieldDto;

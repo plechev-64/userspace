@@ -3,32 +3,32 @@
 use UserSpace\Adapters\AdminApi;
 use UserSpace\Adapters\AssetRegistry;
 use UserSpace\Adapters\AuthApi;
+use UserSpace\Adapters\CronApi;
 use UserSpace\Adapters\DatabaseConnection;
 use UserSpace\Adapters\HookManager;
 use UserSpace\Adapters\LocalizationApi;
 use UserSpace\Adapters\MediaApi;
 use UserSpace\Adapters\OptionManager;
 use UserSpace\Adapters\QueryApi;
+use UserSpace\Adapters\SiteApi;
 use UserSpace\Adapters\StringFilter;
 use UserSpace\Adapters\TransientApi;
 use UserSpace\Adapters\UserApi;
 use UserSpace\Adapters\WpApi;
-use UserSpace\Admin\Controller\FieldSettingsController;
-use UserSpace\Admin\Controller\ProfileAdminController;
-use UserSpace\Admin\Controller\RegistrationAdminController;
-use UserSpace\Admin\Controller\SettingsAdminController;
-use UserSpace\Admin\SetupWizard\SetupWizardController;
-use UserSpace\Common\Controller\LoginController;
-use UserSpace\Common\Controller\MediaController;
-use UserSpace\Common\Controller\ModalFormController;
-use UserSpace\Common\Controller\PasswordResetController;
-use UserSpace\Common\Controller\UserController;
-use UserSpace\Common\Module\Form\App\Controller\ProfileFormController;
-use UserSpace\Common\Module\Form\App\Controller\RegistrationController;
+use UserSpace\Common\Module\Form\App\Controller\FormController;
 use UserSpace\Common\Module\Form\Src\Domain\Repository\FormRepositoryInterface;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Repository\FormRepository;
-use UserSpace\Common\Module\Grid\App\GridController;
-use UserSpace\Common\Module\Queue\App\QueueActionsController;
+use UserSpace\Common\Module\Grid\App\Controller\GridController;
+use UserSpace\Common\Module\Grid\App\UseCase\FetchGridDataUseCase;
+use UserSpace\Common\Module\Grid\Src\Infrastructure\GridProvider;
+use UserSpace\Common\Module\Grid\Src\Infrastructure\QueueJobsGrid;
+use UserSpace\Common\Module\Grid\Src\Infrastructure\UserListGrid;
+use UserSpace\Common\Module\Grid\Src\Infrastructure\UserListTableGrid;
+use UserSpace\Common\Module\Media\App\Controller\MediaController;
+use UserSpace\Common\Module\Media\Src\Domain\TemporaryFileRepositoryInterface;
+use UserSpace\Common\Module\Media\Src\Infrastructure\TemporaryFileCleanupService;
+use UserSpace\Common\Module\Media\Src\Infrastructure\TemporaryFileRepository;
+use UserSpace\Common\Module\Queue\App\Controller\QueueActionsController;
 use UserSpace\Common\Module\Queue\App\Task\Message\PingMessage;
 use UserSpace\Common\Module\Queue\App\Task\Message\SendConfirmationEmailMessage;
 use UserSpace\Common\Module\Queue\App\Task\Message\SendWelcomeEmailMessage;
@@ -39,14 +39,14 @@ use UserSpace\Common\Module\Queue\Src\Domain\JobRepositoryInterface;
 use UserSpace\Common\Module\Queue\Src\Infrastructure\JobRepository;
 use UserSpace\Common\Module\Queue\Src\Infrastructure\QueueManager;
 use UserSpace\Common\Module\Queue\Src\Infrastructure\QueueStatus;
+use UserSpace\Common\Module\Settings\App\Controller\SettingsAdminController;
+use UserSpace\Common\Module\SetupWizard\App\Controller\SetupWizardController;
 use UserSpace\Common\Module\SSE\App\SseController;
 use UserSpace\Common\Module\SSE\Src\Domain\Repository\SseEventRepositoryInterface;
 use UserSpace\Common\Module\SSE\Src\Domain\SseEventDispatcherInterface;
 use UserSpace\Common\Module\SSE\Src\Infrastructure\Repository\SseEventRepository;
 use UserSpace\Common\Module\SSE\Src\Infrastructure\SseEventDispatcher;
-use UserSpace\Common\Module\Tabs\App\Controller\TabContentController;
-use UserSpace\Common\Module\Tabs\App\Controller\TabsConfigAdminController;
-use UserSpace\Common\Module\Tabs\App\Controller\TabSettingsController;
+use UserSpace\Common\Module\Tabs\App\Controller\TabController;
 use UserSpace\Common\Module\Tabs\App\Tabs\ActivityTab;
 use UserSpace\Common\Module\Tabs\App\Tabs\EditProfileTab;
 use UserSpace\Common\Module\Tabs\App\Tabs\ProfileTab;
@@ -55,23 +55,23 @@ use UserSpace\Common\Module\Tabs\App\Tabs\UserListTab;
 use UserSpace\Common\Module\Tabs\Src\Infrastructure\TabConfigManager;
 use UserSpace\Common\Module\Tabs\Src\Infrastructure\TabManager;
 use UserSpace\Common\Module\Tabs\Src\Infrastructure\TabProvider;
-use UserSpace\Common\Repository\TemporaryFileRepository;
-use UserSpace\Common\Repository\TemporaryFileRepositoryInterface;
-use UserSpace\Common\Service\CronManager;
-use UserSpace\Common\Service\TemporaryFileCleanupService;
-use UserSpace\Common\Service\TemporaryFileCleanupServiceInterface;
+use UserSpace\Common\Module\User\App\Controller\UserController;
 use UserSpace\Common\Service\TemplateManager;
 use UserSpace\Common\Service\TemplateManagerInterface;
 use UserSpace\Core\Admin\AdminApiInterface;
 use UserSpace\Core\Asset\AssetRegistryInterface;
 use UserSpace\Core\Auth\AuthApiInterface;
 use UserSpace\Core\ContainerInterface;
+use UserSpace\Core\Cron\CronApiInterface;
+use UserSpace\Core\Cron\CronManagerInterface;
 use UserSpace\Core\Database\DatabaseConnectionInterface;
 use UserSpace\Core\Hooks\HookManagerInterface;
 use UserSpace\Core\Http\Request;
 use UserSpace\Core\Localization\LocalizationApiInterface;
 use UserSpace\Core\Media\MediaApiInterface;
+use UserSpace\Core\Media\TemporaryFileCleanupServiceInterface;
 use UserSpace\Core\Option\OptionManagerInterface;
+use UserSpace\Core\Option\TransientApiInterface;
 use UserSpace\Core\Params;
 use UserSpace\Core\Profile\ProfileService;
 use UserSpace\Core\Profile\ProfileServiceApiInterface;
@@ -79,8 +79,8 @@ use UserSpace\Core\Query\QueryApiInterface;
 use UserSpace\Core\Rest\Helper\RestHelper;
 use UserSpace\Core\Rest\RestApi;
 use UserSpace\Core\Rest\Route\RouteParser;
+use UserSpace\Core\SiteApiInterface;
 use UserSpace\Core\String\StringFilterInterface;
-use UserSpace\Core\TransientApiInterface;
 use UserSpace\Core\User\UserApiInterface;
 use UserSpace\Core\WpApiInterface;
 use UserSpace\Plugin;
@@ -106,18 +106,9 @@ return [
             UserListTab::class,
         ],
         'app.controllers' => [
-            FieldSettingsController::class,
-            ProfileAdminController::class,
-            ProfileFormController::class,
-            RegistrationAdminController::class,
+            FormController::class,
             SettingsAdminController::class,
-            TabSettingsController::class,
-            TabsConfigAdminController::class,
-            TabContentController::class,
-            LoginController::class,
-            RegistrationController::class,
-            PasswordResetController::class,
-            ModalFormController::class,
+            TabController::class,
             UserController::class,
             GridController::class,
             SetupWizardController::class,
@@ -129,6 +120,11 @@ return [
             SendWelcomeEmailMessage::class => SendWelcomeEmailHandler::class,
             PingMessage::class => PingHandler::class,
             SendConfirmationEmailMessage::class => SendConfirmationEmailHandler::class, // Новое сообщение и его обработчик
+        ],
+        'app.grids' => [
+            'users' => UserListGrid::class,
+            'users-table' => UserListTableGrid::class,
+            'queue-jobs' => QueueJobsGrid::class,
         ],
     ],
     'definitions' => [
@@ -153,6 +149,15 @@ return [
         LocalizationApiInterface::class => fn() => new LocalizationApi(),
         TransientApiInterface::class => fn() => new TransientApi(),
         OptionManagerInterface::class => fn(ContainerInterface $c) => new OptionManager($c->get(TransientApiInterface::class)),
+        SiteApiInterface::class => fn(ContainerInterface $c) => $c->get(SiteApi::class),
+
+        // Grid
+        GridProvider::class => function(ContainerInterface $c) {
+            return new GridProvider($c, $c->get('app.grids'));
+        },
+        FetchGridDataUseCase::class => function(ContainerInterface $c) {
+            return new FetchGridDataUseCase($c->get(GridProvider::class));
+        },
 
         // REST
         RestHelper::class => fn(ContainerInterface $c) => new RestHelper($c->get(Request::class), $c->get('rest.prefix'), $c->get('rest.namespace')),
@@ -161,10 +166,9 @@ return [
         // App Services
         TemplateManagerInterface::class => fn(ContainerInterface $c) => new TemplateManager($c->get('app.templates'), $c->get(StringFilterInterface::class)),
         TabProvider::class => fn(ContainerInterface $c) => new TabProvider($c->get(TabManager::class), $c->get(TabConfigManager::class), $c->get('app.tabs')),
-        CronManager::class => function (ContainerInterface $c) {
+        CronManagerInterface::class => function (ContainerInterface $c) {
             $queueManager = $c->get(QueueManager::class);
-            $cleanService = $c->get(TemporaryFileCleanupServiceInterface::class);
-            $cronManager = new CronManager($queueManager,$cleanService);
+            $cronManager = $c->get(CronManagerInterface::class);
             $queueManager->setCronManager($cronManager);
             return $cronManager;
         },
@@ -173,7 +177,6 @@ return [
         // Repositories
         FormRepositoryInterface::class => fn(ContainerInterface $c) => $c->get(FormRepository::class),
         SseEventRepositoryInterface::class => fn(ContainerInterface $c) => $c->get(SseEventRepository::class),
-        TemporaryFileRepository::class => fn(ContainerInterface $c) => new TemporaryFileRepository($c->get(DatabaseConnectionInterface::class)),
         TemporaryFileRepositoryInterface::class => fn(ContainerInterface $c) => $c->get(TemporaryFileRepository::class),
         JobRepositoryInterface::class => fn(ContainerInterface $c) => $c->get(JobRepository::class),
         SseEventDispatcherInterface::class => fn(ContainerInterface $c) => $c->get(SseEventDispatcher::class),
@@ -181,8 +184,8 @@ return [
         // Aliases for concrete classes
         TemplateManager::class => fn(ContainerInterface $c) => $c->get(TemplateManagerInterface::class),
         DatabaseConnection::class => fn(ContainerInterface $c) => $c->get(DatabaseConnectionInterface::class),
+        CronApiInterface::class => fn(ContainerInterface $c) => $c->get(CronApi::class),
         OptionManager::class => fn(ContainerInterface $c) => $c->get(OptionManagerInterface::class),
-        TemporaryFileCleanupService::class => fn(ContainerInterface $c) => new TemporaryFileCleanupService($c->get(TemporaryFileRepositoryInterface::class), $c->get(MediaApiInterface::class)),
         TemporaryFileCleanupServiceInterface::class => fn(ContainerInterface $c) => $c->get(TemporaryFileCleanupService::class)
     ],
 ];

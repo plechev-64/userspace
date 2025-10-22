@@ -2,7 +2,7 @@
 
 namespace UserSpace\Admin\Page;
 
-use UserSpace\Admin\Abstract\AbstractAdminFormPage;
+use UserSpace\Admin\Page\Abstract\AbstractAdminFormPage;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormConfig;
 use UserSpace\Plugin;
 

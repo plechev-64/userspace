@@ -2,8 +2,6 @@
 
 namespace UserSpace\Core\Option;
 
-use UserSpace\Core\TransientApiInterface;
-
 if (!defined('ABSPATH')) {
     exit;
 }

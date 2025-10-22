@@ -55,7 +55,7 @@ class TabRenderer
 
             $isInitialActive = ($tab->getId() === $activeTabId);
             $innerContent = $isInitialActive ? $this->render($tab) : '';
-            $restUrl = "/tab-content/{$tab->getId()}";
+            $restUrl = "/tabs/content/{$tab->getId()}";
 
             $output .= sprintf(
                 $paneWrapperHtml,

@@ -2,7 +2,7 @@
 
 namespace UserSpace\Admin\Page;
 
-use UserSpace\Admin\Abstract\AbstractAdminPage;
+use UserSpace\Admin\Page\Abstract\AbstractAdminPage;
 use UserSpace\Common\Module\Grid\Src\Infrastructure\QueueJobsGrid;
 use UserSpace\Common\Module\Queue\Src\Infrastructure\QueueStatus;
 use UserSpace\Core\Admin\AdminApiInterface;

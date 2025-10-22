@@ -37,4 +37,12 @@ interface WpApiInterface
      * @param int $status
      */
     public function safeRedirect(string $location, int $status = 302): void;
+
+    /**
+     * Получает данные поста по его ID. Обертка для get_post().
+     *
+     * @param int $postId ID поста.
+     * @return \WP_Post|null Объект поста или null, если пост не найден.
+     */
+    public function getPost(int $postId): ?\WP_Post;
 }

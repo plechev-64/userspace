@@ -29,7 +29,7 @@ function initRegistrationHandler(formElement) {
         const formData = new FormData(formElement);
 
         try {
-            const json = await window.UspCore.api.post('/register', formData);
+            const json = await window.UspCore.api.post('/user/register', formData);
 
             window.UspCore.ui.showFrontendNotice(json.message, 'success', formElement);
             formElement.reset(); // Очищаем форму после успеха

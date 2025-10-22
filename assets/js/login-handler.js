@@ -29,7 +29,7 @@ function initLoginHandler(formElement) {
         const formData = new FormData(formElement);
 
         try {
-            const json = await window.UspCore.api.post('/login', formData);
+            const json = await window.UspCore.api.post('/user/login', formData);
 
             window.UspCore.ui.showFrontendNotice(json.message, 'success', formElement);
 

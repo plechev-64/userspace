@@ -33,4 +33,13 @@ interface AuthApiInterface
      * Обертка для wp_logout().
      */
     public function logOut(): void;
+
+    /**
+     * Обрабатывает запрос на восстановление пароля.
+     * Обертка для retrieve_password().
+     *
+     * @param string $userLogin Имя пользователя или email.
+     * @return bool|\WP_Error True в случае успеха, WP_Error в случае ошибки.
+     */
+    public function retrievePassword(string $userLogin): bool|\WP_Error;
 }

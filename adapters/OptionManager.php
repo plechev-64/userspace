@@ -3,7 +3,7 @@
 namespace UserSpace\Adapters;
 
 use UserSpace\Core\Option\OptionManagerInterface;
-use UserSpace\Core\TransientApiInterface;
+use UserSpace\Core\Option\TransientApiInterface;
 
 if (!defined('ABSPATH')) {
     exit;

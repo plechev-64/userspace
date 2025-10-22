@@ -69,4 +69,9 @@ class MediaApi implements MediaApiInterface
 
         return false;
     }
+
+    public function deleteAttachment(int $attachmentId, bool $forceDelete = false): mixed
+    {
+        return wp_delete_attachment($attachmentId, $forceDelete);
+    }
 }

@@ -131,7 +131,7 @@
             this.modal.classList.add('is-visible');
 
             try {
-                const json = await this.apiClient.post(`/modal-form/${formType}`);
+                const json = await this.apiClient.post(`/form/modal/${formType}`);
                 this.modalBody.innerHTML = json.html;
             } catch (error) {
                 this.modalBody.innerHTML = `<p style="color: red;">${error.message}</p>`;

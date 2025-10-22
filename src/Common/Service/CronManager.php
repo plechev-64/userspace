@@ -3,6 +3,11 @@
 namespace UserSpace\Common\Service;
 
 use UserSpace\Common\Module\Queue\Src\Infrastructure\QueueManager;
+use UserSpace\Core\Cron\CronApiInterface;
+use UserSpace\Core\Cron\CronManagerInterface;
+use UserSpace\Core\Hooks\HookManagerInterface;
+use UserSpace\Core\Media\TemporaryFileCleanupServiceInterface;
+use UserSpace\Core\String\StringFilterInterface;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -11,7 +16,7 @@ if (!defined('ABSPATH')) {
 /**
  * Управляет регистрацией и планированием всех Cron-задач в плагине.
  */
-class CronManager
+class CronManager implements CronManagerInterface
 {
     /**
      * Имя хука для WP-Cron, запускающего пакетную обработку.
@@ -40,7 +45,10 @@ class CronManager
 
     public function __construct(
         private readonly QueueManager                         $queueManager,
-        private readonly TemporaryFileCleanupServiceInterface $tempFileCleanupService
+        private readonly TemporaryFileCleanupServiceInterface $tempFileCleanupService,
+        private readonly CronApiInterface                     $cronApi,
+        private readonly HookManagerInterface                 $hookManager,
+        private readonly StringFilterInterface                $str
     )
     {
     }
@@ -51,18 +59,18 @@ class CronManager
     public function registerHooks(): void
     {
         // Регистрация обработчиков
-        add_action(self::CRON_HOOK_BATCH, [$this->queueManager, 'processQueueBatch']);
-        add_action(self::SPAWN_CRON_HOOK, [$this->queueManager, 'processQueueBatch']);
-        add_action(self::PRUNE_CRON_HOOK, [$this->queueManager, 'pruneOldJobs']);
-        add_action(self::PRUNE_SSE_CRON_HOOK, [$this->queueManager, 'pruneOldSseEvents']);
-        add_action(self::PRUNE_TEMP_FILES_HOOK, [$this->tempFileCleanupService, 'cleanup']);
+        $this->hookManager->addAction(self::CRON_HOOK_BATCH, [$this->queueManager, 'processQueueBatch']);
+        $this->hookManager->addAction(self::SPAWN_CRON_HOOK, [$this->queueManager, 'processQueueBatch']);
+        $this->hookManager->addAction(self::PRUNE_CRON_HOOK, [$this->queueManager, 'pruneOldJobs']);
+        $this->hookManager->addAction(self::PRUNE_SSE_CRON_HOOK, [$this->queueManager, 'pruneOldSseEvents']);
+        $this->hookManager->addAction(self::PRUNE_TEMP_FILES_HOOK, [$this->tempFileCleanupService, 'cleanup']);
 
         // Регистрация кастомных интервалов
-        add_filter('cron_schedules', function ($schedules) {
+        $this->hookManager->addFilter('cron_schedules', function (array $schedules): array {
             if (!isset($schedules['five_minutes'])) {
                 $schedules['five_minutes'] = [
                     'interval' => 300,
-                    'display' => __('Every 5 Minutes', 'userspace'),
+                    'display' => $this->str->translate('Every 5 Minutes'),
                 ];
             }
 
@@ -70,20 +78,20 @@ class CronManager
         });
 
         // Планирование задач
-        if (!wp_next_scheduled(self::CRON_HOOK_BATCH)) {
-            wp_schedule_event(time(), 'five_minutes', self::CRON_HOOK_BATCH);
+        if (!$this->cronApi->nextScheduled(self::CRON_HOOK_BATCH)) {
+            $this->cronApi->scheduleEvent(time(), 'five_minutes', self::CRON_HOOK_BATCH);
         }
 
-        if (!wp_next_scheduled(self::PRUNE_CRON_HOOK)) {
-            wp_schedule_event(time(), 'daily', self::PRUNE_CRON_HOOK);
+        if (!$this->cronApi->nextScheduled(self::PRUNE_CRON_HOOK)) {
+            $this->cronApi->scheduleEvent(time(), 'daily', self::PRUNE_CRON_HOOK);
         }
 
-        if (!wp_next_scheduled(self::PRUNE_SSE_CRON_HOOK)) {
-            wp_schedule_event(time(), 'daily', self::PRUNE_SSE_CRON_HOOK);
+        if (!$this->cronApi->nextScheduled(self::PRUNE_SSE_CRON_HOOK)) {
+            $this->cronApi->scheduleEvent(time(), 'daily', self::PRUNE_SSE_CRON_HOOK);
         }
 
-        if (!wp_next_scheduled(self::PRUNE_TEMP_FILES_HOOK)) {
-            wp_schedule_event(time(), 'daily', self::PRUNE_TEMP_FILES_HOOK);
+        if (!$this->cronApi->nextScheduled(self::PRUNE_TEMP_FILES_HOOK)) {
+            $this->cronApi->scheduleEvent(time(), 'daily', self::PRUNE_TEMP_FILES_HOOK);
         }
     }
 
@@ -92,10 +100,10 @@ class CronManager
      */
     public function unregisterAllSchedules(): void
     {
-        wp_clear_scheduled_hook(self::CRON_HOOK_BATCH);
-        wp_clear_scheduled_hook(self::PRUNE_CRON_HOOK);
-        wp_clear_scheduled_hook(self::PRUNE_SSE_CRON_HOOK);
-        wp_clear_scheduled_hook(self::PRUNE_TEMP_FILES_HOOK);
+        $this->cronApi->clearScheduledHook(self::CRON_HOOK_BATCH);
+        $this->cronApi->clearScheduledHook(self::PRUNE_CRON_HOOK);
+        $this->cronApi->clearScheduledHook(self::PRUNE_SSE_CRON_HOOK);
+        $this->cronApi->clearScheduledHook(self::PRUNE_TEMP_FILES_HOOK);
         // SPAWN_CRON_HOOK не нужно очищать, так как он создается через wp_schedule_single_event
     }
 
@@ -104,16 +112,16 @@ class CronManager
      */
     public function scheduleImmediateBatch(): void
     {
-        if (!wp_next_scheduled(self::SPAWN_CRON_HOOK)) {
-            wp_schedule_single_event(time(), self::SPAWN_CRON_HOOK);
+        if (!$this->cronApi->nextScheduled(self::SPAWN_CRON_HOOK)) {
+            $this->cronApi->scheduleSingleEvent(time(), self::SPAWN_CRON_HOOK);
         }
     }
 
     public function addDailyTask(string $hookName, callable $callback): void
     {
-        add_action($hookName, $callback);
-        if (!wp_next_scheduled($hookName)) {
-            wp_schedule_event(time(), 'daily', $hookName);
+        $this->hookManager->addAction($hookName, $callback);
+        if (!$this->cronApi->nextScheduled($hookName)) {
+            $this->cronApi->scheduleEvent(time(), 'daily', $hookName);
         }
     }
 }

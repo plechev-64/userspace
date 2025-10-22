@@ -221,7 +221,7 @@ document.addEventListener('DOMContentLoaded', function () {
         formData.append('fieldConfig', currentConfig);
 
         try {
-            const json = await window.UspCore.api.post('/field-settings/settings', formData);
+            const json = await window.UspCore.api.post('/form/field/settings', formData);
             // Успешная загрузка, строим модальное окно
             buildAndShowEditModal(fieldEl, currentConfig, json.html);
         } catch (error) {
@@ -350,7 +350,7 @@ document.addEventListener('DOMContentLoaded', function () {
             formData.append('fieldConfig', '{}'); // Пустой конфиг для нового поля
 
             try {
-                const json = await window.UspCore.api.post('/field-settings/settings', formData);
+                const json = await window.UspCore.api.post('/form/field/settings', formData);
                 settingsContainer.innerHTML = json.html;
                 createButton.disabled = false;
             } catch (error) {
@@ -462,7 +462,7 @@ document.addEventListener('DOMContentLoaded', function () {
             formData.append('config', JSON.stringify(config));
 
             try {
-                const json = await window.UspCore.api.post(`/admin/${uspApiSettings.formType}-form/config`, formData);
+                const json = await window.UspCore.api.post(`/form/config/${uspApiSettings.formType}-form/save`, formData);
                 window.UspCore.ui.showAdminNotice(json.message, 'success', '#usp-form-builder-notifications');
                 fieldsToDelete.clear(); // Очищаем список после успешного сохранения
             } catch (error) {

@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const formData = new FormData(form);
 
         try {
-            const json = await window.UspCore.api.post('/password/reset', formData);
+            const json = await window.UspCore.api.post('/user/password/reset', formData);
 
             window.UspCore.ui.showFrontendNotice(json.message, 'success', form);
             form.reset();

@@ -2,7 +2,7 @@
 
 namespace UserSpace\Common\Service;
 
-use UserSpace\Common\Controller\UserController;
+use UserSpace\Common\Module\User\App\Controller\UserController;
 use UserSpace\Core\Hooks\HookManagerInterface;
 use UserSpace\Core\Media\MediaApiInterface;
 use UserSpace\Core\Option\OptionManagerInterface;
