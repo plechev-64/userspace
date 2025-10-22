@@ -5,6 +5,7 @@ namespace UserSpace\Common\Controller;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Validator\AllowedTypesValidator;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Validator\ImageDimensionsValidator;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Validator\MaxFileSizeValidator;
+use UserSpace\Common\Repository\TemporaryFileRepositoryInterface;
 use UserSpace\Common\Service\UploadedFileValidator;
 use UserSpace\Core\Http\JsonResponse;
 use UserSpace\Core\Http\Request;
@@ -22,7 +23,8 @@ class MediaController extends AbstractController
     public function __construct(
         private readonly SecurityHelper        $securityHelper,
         private readonly StringFilterInterface $str,
-        private readonly MediaApiInterface     $mediaApi
+        private readonly MediaApiInterface     $mediaApi,
+        private readonly TemporaryFileRepositoryInterface $tempFileRepository
     )
     {
     }
@@ -89,6 +91,9 @@ class MediaController extends AbstractController
             $attach_data = $this->mediaApi->generateAttachmentMetadata($attachmentId, $movefile['file']);
             $this->mediaApi->updateAttachmentMetadata($attachmentId, $attach_data);
 
+            // Добавляем ID файла в таблицу временных файлов
+            $this->tempFileRepository->add($attachmentId);
+
             // Определяем URL для предпросмотра
             $previewUrl = $this->mediaApi->isAttachmentImage($attachmentId)
                 ? $this->mediaApi->getAttachmentImageUrl($attachmentId, 'thumbnail') // URL для изображения
@@ -123,6 +128,9 @@ class MediaController extends AbstractController
         if ($result === false) {
             return $this->error($this->str->translate('Failed to delete the file. Please try again.'), 500);
         }
+
+        // Удаляем запись из таблицы временных файлов
+        $this->tempFileRepository->remove([$id]);
 
         return $this->success([
             'message' => $this->str->translate('File deleted successfully.'),

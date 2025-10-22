@@ -55,7 +55,11 @@ use UserSpace\Common\Module\Tabs\App\Tabs\UserListTab;
 use UserSpace\Common\Module\Tabs\Src\Infrastructure\TabConfigManager;
 use UserSpace\Common\Module\Tabs\Src\Infrastructure\TabManager;
 use UserSpace\Common\Module\Tabs\Src\Infrastructure\TabProvider;
+use UserSpace\Common\Repository\TemporaryFileRepository;
+use UserSpace\Common\Repository\TemporaryFileRepositoryInterface;
 use UserSpace\Common\Service\CronManager;
+use UserSpace\Common\Service\TemporaryFileCleanupService;
+use UserSpace\Common\Service\TemporaryFileCleanupServiceInterface;
 use UserSpace\Common\Service\TemplateManager;
 use UserSpace\Common\Service\TemplateManagerInterface;
 use UserSpace\Core\Admin\AdminApiInterface;
@@ -159,7 +163,8 @@ return [
         TabProvider::class => fn(ContainerInterface $c) => new TabProvider($c->get(TabManager::class), $c->get(TabConfigManager::class), $c->get('app.tabs')),
         CronManager::class => function (ContainerInterface $c) {
             $queueManager = $c->get(QueueManager::class);
-            $cronManager = new CronManager($queueManager);
+            $cleanService = $c->get(TemporaryFileCleanupServiceInterface::class);
+            $cronManager = new CronManager($queueManager,$cleanService);
             $queueManager->setCronManager($cronManager);
             return $cronManager;
         },
@@ -168,6 +173,8 @@ return [
         // Repositories
         FormRepositoryInterface::class => fn(ContainerInterface $c) => $c->get(FormRepository::class),
         SseEventRepositoryInterface::class => fn(ContainerInterface $c) => $c->get(SseEventRepository::class),
+        TemporaryFileRepository::class => fn(ContainerInterface $c) => new TemporaryFileRepository($c->get(DatabaseConnectionInterface::class)),
+        TemporaryFileRepositoryInterface::class => fn(ContainerInterface $c) => $c->get(TemporaryFileRepository::class),
         JobRepositoryInterface::class => fn(ContainerInterface $c) => $c->get(JobRepository::class),
         SseEventDispatcherInterface::class => fn(ContainerInterface $c) => $c->get(SseEventDispatcher::class),
 
@@ -175,5 +182,7 @@ return [
         TemplateManager::class => fn(ContainerInterface $c) => $c->get(TemplateManagerInterface::class),
         DatabaseConnection::class => fn(ContainerInterface $c) => $c->get(DatabaseConnectionInterface::class),
         OptionManager::class => fn(ContainerInterface $c) => $c->get(OptionManagerInterface::class),
+        TemporaryFileCleanupService::class => fn(ContainerInterface $c) => new TemporaryFileCleanupService($c->get(TemporaryFileRepositoryInterface::class), $c->get(MediaApiInterface::class)),
+        TemporaryFileCleanupServiceInterface::class => fn(ContainerInterface $c) => $c->get(TemporaryFileCleanupService::class)
     ],
 ];

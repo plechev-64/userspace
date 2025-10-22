@@ -64,6 +64,14 @@ class DatabaseConnection implements DatabaseConnectionInterface
         return $this->wpdb->query($this->wpdb->prepare($query, ...$args));
     }
 
+    public function getCol(string $query, ...$args): array
+    {
+        if (empty($args)) {
+            return $this->wpdb->get_col($query);
+        }
+        return $this->wpdb->get_col($this->wpdb->prepare($query, ...$args));
+    }
+
     public function insert(string $table, array $data): int|false
     {
         return $this->wpdb->insert($table, $data);

@@ -5,6 +5,7 @@ namespace UserSpace\Common\Service;
 use UserSpace\Common\Module\Form\Src\Domain\Repository\FormRepositoryInterface;
 use UserSpace\Common\Module\Queue\Src\Domain\JobRepositoryInterface;
 use UserSpace\Common\Module\SSE\Src\Domain\Repository\SseEventRepositoryInterface;
+use UserSpace\Common\Repository\TemporaryFileRepositoryInterface;
 use UserSpace\Core\Admin\AdminApiInterface;
 use UserSpace\Core\Hooks\HookManagerInterface;
 use UserSpace\Core\Option\OptionManagerInterface;
@@ -26,7 +27,8 @@ class PluginLifecycle
         private readonly OptionManagerInterface $optionManager,
         private readonly WpApiInterface $wpApi,
         private readonly AdminApiInterface $adminApi,
-        private readonly HookManagerInterface $hookManager
+        private readonly HookManagerInterface $hookManager,
+        private readonly TemporaryFileRepositoryInterface $tempFileRepository
     ) {
     }
 
@@ -44,6 +46,7 @@ class PluginLifecycle
         $this->formRepository->createTable();
         $this->jobRepository->createTable();
         $this->sseEventRepository->createTable();
+        $this->tempFileRepository->createTable();
 
         // Устанавливаем опцию, которая может понадобиться в будущем.
         $this->optionManager->add('userspace_version', USERSPACE_VERSION);
@@ -61,6 +64,7 @@ class PluginLifecycle
         $this->formRepository->dropTable();
         $this->jobRepository->dropTable();
         $this->sseEventRepository->dropTable();
+        $this->tempFileRepository->dropTable();
         $this->hookManager->doAction('usp_flush_rewrite_rules');
     }
 

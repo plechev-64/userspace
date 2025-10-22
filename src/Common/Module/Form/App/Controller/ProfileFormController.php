@@ -2,6 +2,7 @@
 
 namespace UserSpace\Common\Module\Form\App\Controller;
 
+use UserSpace\Common\Repository\TemporaryFileRepositoryInterface;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormFactory;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormManager;
 use UserSpace\Core\Http\JsonResponse;
@@ -25,7 +26,8 @@ class ProfileFormController extends AbstractController
         private readonly FormManager           $formManager,
         private readonly FormFactory           $formFactory,
         private readonly StringFilterInterface $str,
-        private readonly UserApiInterface      $userApi
+        private readonly UserApiInterface      $userApi,
+        private readonly TemporaryFileRepositoryInterface $tempFileRepository
     )
     {
     }
@@ -60,6 +62,7 @@ class ProfileFormController extends AbstractController
 
             $coreData = ['ID' => $userId];
             $metaData = [];
+            $attachmentIds = [];
 
             foreach ($form->getFields() as $field) {
                 $fieldName = $field->getName();
@@ -69,6 +72,15 @@ class ProfileFormController extends AbstractController
                     $coreData[$fieldName] = $fieldValue;
                 } else {
                     $metaData[$fieldName] = $fieldValue;
+                }
+
+                // Собираем ID файлов для "коммита"
+                if (is_numeric($fieldValue) && (int)$fieldValue > 0) {
+                    $attachmentIds[] = (int)$fieldValue;
+                } elseif (is_array($fieldValue)) {
+                    foreach ($fieldValue as $id) {
+                        if (is_numeric($id) && (int)$id > 0) $attachmentIds[] = (int)$id;
+                    }
                 }
             }
 
@@ -80,6 +92,11 @@ class ProfileFormController extends AbstractController
             // Сохраняем мета-данные
             foreach ($metaData as $key => $value) {
                 $this->userApi->updateUserMeta($userId, $key, $value);
+            }
+
+            // Удаляем использованные файлы из временной таблицы
+            if (!empty($attachmentIds)) {
+                $this->tempFileRepository->remove($attachmentIds);
             }
 
             return $this->success(['message' => $this->str->translate('Data saved successfully!')]);

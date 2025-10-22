@@ -33,7 +33,15 @@ class CronManager
      */
     private const PRUNE_SSE_CRON_HOOK = 'userspace_prune_old_sse_events';
 
-    public function __construct(private readonly QueueManager $queueManager)
+    /**
+     * Имя хука для ежедневной очистки временных файлов.
+     */
+    private const PRUNE_TEMP_FILES_HOOK = 'userspace_prune_temp_files';
+
+    public function __construct(
+        private readonly QueueManager                         $queueManager,
+        private readonly TemporaryFileCleanupServiceInterface $tempFileCleanupService
+    )
     {
     }
 
@@ -47,6 +55,7 @@ class CronManager
         add_action(self::SPAWN_CRON_HOOK, [$this->queueManager, 'processQueueBatch']);
         add_action(self::PRUNE_CRON_HOOK, [$this->queueManager, 'pruneOldJobs']);
         add_action(self::PRUNE_SSE_CRON_HOOK, [$this->queueManager, 'pruneOldSseEvents']);
+        add_action(self::PRUNE_TEMP_FILES_HOOK, [$this->tempFileCleanupService, 'cleanup']);
 
         // Регистрация кастомных интервалов
         add_filter('cron_schedules', function ($schedules) {
@@ -72,6 +81,10 @@ class CronManager
         if (!wp_next_scheduled(self::PRUNE_SSE_CRON_HOOK)) {
             wp_schedule_event(time(), 'daily', self::PRUNE_SSE_CRON_HOOK);
         }
+
+        if (!wp_next_scheduled(self::PRUNE_TEMP_FILES_HOOK)) {
+            wp_schedule_event(time(), 'daily', self::PRUNE_TEMP_FILES_HOOK);
+        }
     }
 
     /**
@@ -82,6 +95,7 @@ class CronManager
         wp_clear_scheduled_hook(self::CRON_HOOK_BATCH);
         wp_clear_scheduled_hook(self::PRUNE_CRON_HOOK);
         wp_clear_scheduled_hook(self::PRUNE_SSE_CRON_HOOK);
+        wp_clear_scheduled_hook(self::PRUNE_TEMP_FILES_HOOK);
         // SPAWN_CRON_HOOK не нужно очищать, так как он создается через wp_schedule_single_event
     }
 
@@ -92,6 +106,14 @@ class CronManager
     {
         if (!wp_next_scheduled(self::SPAWN_CRON_HOOK)) {
             wp_schedule_single_event(time(), self::SPAWN_CRON_HOOK);
+        }
+    }
+
+    public function addDailyTask(string $hookName, callable $callback): void
+    {
+        add_action($hookName, $callback);
+        if (!wp_next_scheduled($hookName)) {
+            wp_schedule_event(time(), 'daily', $hookName);
         }
     }
 }
