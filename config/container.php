@@ -68,6 +68,9 @@ use UserSpace\Core\Http\Request;
 use UserSpace\Core\Localization\LocalizationApiInterface;
 use UserSpace\Core\Media\MediaApiInterface;
 use UserSpace\Core\Option\OptionManagerInterface;
+use UserSpace\Core\Params;
+use UserSpace\Core\Profile\ProfileService;
+use UserSpace\Core\Profile\ProfileServiceApiInterface;
 use UserSpace\Core\Query\QueryApiInterface;
 use UserSpace\Core\Rest\Helper\RestHelper;
 use UserSpace\Core\Rest\RestApi;
@@ -82,8 +85,7 @@ return [
     'parameters' => [
         'rest.prefix' => 'wp-json',
         'rest.namespace' => USERSPACE_REST_NAMESPACE,
-        'app.templates' => [
-            'tab_menu' => USERSPACE_PLUGIN_DIR . 'views/frontend/tab-menu.php',
+        'app.templates' => new Params([
             'modal_container' => USERSPACE_PLUGIN_DIR . 'views/modal-container.php',
             'user_bar' => USERSPACE_PLUGIN_DIR . 'views/user-bar-template.php',
             'login_form' => USERSPACE_PLUGIN_DIR . 'views/login-form-template.php',
@@ -91,7 +93,7 @@ return [
             'forgot_password_form' => USERSPACE_PLUGIN_DIR . 'views/forgot-password-form-template.php',
             'grid_user_item' => USERSPACE_PLUGIN_DIR . 'views/grid/user-item.php',
             'admin_form_builder_templates' => USERSPACE_PLUGIN_DIR . 'views/admin/form-builder-templates.php',
-        ],
+        ]),
         'app.tabs' => [
             ProfileTab::class,
             EditProfileTab::class,
@@ -134,6 +136,7 @@ return [
             global $wpdb;
             return new DatabaseConnection($wpdb);
         },
+        ProfileServiceApiInterface::class => fn(ContainerInterface $c) => $c->get(ProfileService::class),
         WpApiInterface::class => fn() => new WpApi(),
         StringFilterInterface::class => fn() => new StringFilter(),
         AssetRegistryInterface::class => fn() => new AssetRegistry(),

@@ -93,6 +93,17 @@ class AssetsManager
             ]
         );
 
+        /** @todo надо затащить все настройки плагина в какой то объект */
+        $settings = get_option('usp_settings', []);
+
+        $this->assetRegistry->localizeScript(
+            'usp-core',
+            'uspCoreParams',
+            [
+                'tabParam' => $settings['profile_tab_query_var'] ?? 'tab',
+            ]
+        );
+
         // Глобальный объект для локализации JS
         $this->assetRegistry->localizeScript(
             'usp-core',

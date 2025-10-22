@@ -3,6 +3,7 @@
 namespace UserSpace\Common\Module\Grid\Src\Domain;
 
 use UserSpace\Common\Module\Grid\Src\Domain\DTO\GridRequestParamsDto;
+use UserSpace\Core\Profile\ProfileServiceApiInterface;
 use UserSpace\Core\Asset\AssetRegistryInterface;
 use UserSpace\Core\Database\DatabaseConnectionInterface;
 use UserSpace\Core\Database\QueryBuilderInterface;
@@ -17,7 +18,7 @@ abstract class AbstractListContentGrid
     public function __construct(
         DatabaseConnectionInterface              $db,
         protected readonly StringFilterInterface $str,
-        AssetRegistryInterface                   $assetRegistry
+        AssetRegistryInterface                   $assetRegistry,
     )
     {
         $this->db = $db;
@@ -166,10 +167,23 @@ abstract class AbstractListContentGrid
             echo '<p>' . $this->str->translate('No items found.') . '</p>';
         } else {
             foreach ($items as $item) {
+                // Дополняем данные элемента перед рендерингом
+                $item = $this->prepareItemData($item);
                 include $this->getItemTemplatePath();
             }
         }
         return ob_get_clean();
+    }
+
+    /**
+     * Метод для дополнения данных элемента перед его рендерингом.
+     * Дочерние классы могут переопределить его для добавления специфичных данных.
+     * @param object $item
+     * @return object
+     */
+    protected function prepareItemData(object $item): object
+    {
+        return $item;
     }
 
     /**

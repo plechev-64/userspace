@@ -25,6 +25,10 @@ interface ContainerInterface
      */
     public function get(string $id);
 
+    public function set(string $id, callable $factory): void;
+
+    public function unset(string $id): void;
+
     /**
      * Возвращает true, если контейнер может вернуть запись для данного идентификатора.
      * В противном случае возвращает false.

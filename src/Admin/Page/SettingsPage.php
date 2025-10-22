@@ -26,10 +26,10 @@ use UserSpace\Core\Theme\ThemeManager;
  */
 class SettingsPage extends AbstractAdminPage
 {
-    private const OPTION_GROUP = 'usp_settings_group';
-    private const OPTION_NAME = 'usp_settings';
+	private const OPTION_GROUP = 'usp_settings_group';
+	private const OPTION_NAME = 'usp_settings';
 
-    public function __construct(
+	public function __construct(
         private readonly FormFactory            $formFactory,
         private readonly ThemeManager           $themeManager,
         private readonly SettingsConfig         $settingsConfig,
@@ -38,13 +38,13 @@ class SettingsPage extends AbstractAdminPage
         private readonly AssetRegistryInterface $assetRegistry,
         AdminApiInterface                       $adminApi,
         HookManagerInterface                    $hookManager
-    )
-    {
-        parent::__construct($adminApi, $hookManager);
-    }
+	)
+	{
+		parent::__construct($adminApi, $hookManager);
+	}
 
     /**
-     * Регистрирует настройки для сохранения через Settings API.
+	 * Регистрирует настройки для сохранения через Settings API.
      */
     public function registerSettings(): void
     {
@@ -52,10 +52,10 @@ class SettingsPage extends AbstractAdminPage
     }
 
     /**
-     * Подключает ассеты для страницы настроек.
+	 * Подключает ассеты для страницы настроек.
      * @param string $hook
      */
-    public function enqueueAssets(string $hook): void
+	public function enqueueAssets(string $hook): void
     {
         if ($this->hookSuffix !== $hook) {
             return;
@@ -103,7 +103,7 @@ class SettingsPage extends AbstractAdminPage
     }
 
     /**
-     * Рендерит страницу настроек.
+	 * Рендерит страницу настроек.
      */
     public function render(): void
     {
@@ -177,36 +177,35 @@ class SettingsPage extends AbstractAdminPage
         echo '</div>'; // .wrap
     }
 
-    protected function getPageTitle(): string
+	protected function getPageTitle(): string
     {
         return $this->str->translate('UserSpace Settings');
     }
 
-    protected function getMenuTitle(): string
+	protected function getMenuTitle(): string
     {
         return 'UserSpace';
     }
 
-    protected function getMenuSlug(): string
+	protected function getMenuSlug(): string
     {
         return 'userspace-settings';
     }
 
-    protected function getIcon(): string
+	protected function getIcon(): string
     {
         return 'dashicons-admin-users';
     }
 
-    protected function getPosition(): ?int
+	protected function getPosition(): ?int
     {
         return 30;
     }
 
-    /**
-     * Собирает конфигурацию для формы настроек через фильтр.
-     * @return SettingsConfig
-     */
-    private function getSettingsConfig(): SettingsConfig
+	/**
+	 * Собирает конфигурацию для формы настроек через фильтр.
+	 */
+	private function getSettingsConfig(): SettingsConfig
     {
         $config = $this->settingsConfig
             //-- Section
@@ -271,6 +270,10 @@ class SettingsPage extends AbstractAdminPage
                 'label' => $this->str->translate('User ID Query Variable'),
                 'description' => $this->str->translate('The GET parameter in the URL to identify the user. Default: <code>user_id</code>.'),
             ]))
+            ->addOption(new TextFieldDto('profile_tab_query_var', [
+                'label' => $this->str->translate('Profile Tab Query Variable'),
+                'description' => $this->str->translate('The GET parameter in the URL to identify the profile tab. Default: <code>tab</code>.'),
+            ]))
             //-- Section
             ->addSection('appearance', $this->str->translate('Appearance'))
             ->addBlock('account_theme', $this->str->translate('Account Theme'))
@@ -282,7 +285,7 @@ class SettingsPage extends AbstractAdminPage
         return $this->hookManager->applyFilters('usp_settings_config', $config);
     }
 
-    private function getPagesAsOptions(): array
+	private function getPagesAsOptions(): array
     {
         $pages = get_pages();
         $options = ['' => $this->str->translate('— Select a page —')];

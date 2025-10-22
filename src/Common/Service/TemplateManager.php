@@ -3,15 +3,17 @@
 namespace UserSpace\Common\Service;
 
 use InvalidArgumentException;
+use UserSpace\Core\Params;
 use UserSpace\Core\String\StringFilterInterface;
 
 class TemplateManager implements TemplateManagerInterface
 {
     /**
-     * @param array<string, string> $templates
+     * @param Params $templates
+     * @param StringFilterInterface $str
      */
     public function __construct(
-        private readonly array                 $templates,
+        private readonly Params                 $templates,
         private readonly StringFilterInterface $str
     )
     {
@@ -52,10 +54,10 @@ class TemplateManager implements TemplateManagerInterface
      */
     public function getTemplatePath(string $key): string
     {
-        if (!isset($this->templates[$key])) {
+        if ($this->templates->get($key) === null) {
             throw new InvalidArgumentException(sprintf($this->str->translate('Template with key "%s" is not registered.'), $key));
         }
 
-        return $this->templates[$key];
+        return $this->templates->get($key);
     }
 }

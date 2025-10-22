@@ -12,7 +12,9 @@ $displayName = !empty(trim($item->first_name . ' ' . $item->last_name))
         <?= get_avatar($item->id, 64) ?>
     </div>
     <div class="user-item__info">
-        <h3 class="user-item__name"><?= esc_html($displayName) ?></h3>
+        <h3 class="user-item__name">
+            <a href="<?= esc_url($item->profile_url ?? '#') ?>"><?= esc_html($displayName) ?></a>
+        </h3>
         <p class="user-item__login">@<?= esc_html($item->login) ?></p>
         <?php if (!empty($item->email)): ?>
             <p class="user-item__email">

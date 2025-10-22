@@ -4,12 +4,13 @@ namespace UserSpace\Common\Module\Tabs\Src\Domain;
 
 abstract class AbstractTab
 {
+    protected bool $isDefault = false;
     protected string $id = '';
     protected string $title;
     protected string $location = 'main';
     protected int $order = 100;
     protected ?string $parentId = null;
-    protected bool $isPrivate = false;
+    protected bool $isPrivate = false;    
     protected string $capability = 'read';
     protected ?string $icon = null;
     protected string $contentType = 'rest';
@@ -17,6 +18,11 @@ abstract class AbstractTab
     protected array $subTabs = [];
 
     abstract public function getContent(): string;
+
+    public function isDefault(): bool
+    {
+        return $this->isDefault;
+    }
 
     public function getId(): string
     {
@@ -124,6 +130,9 @@ abstract class AbstractTab
         if (isset($data['isPrivate'])) {
             $this->isPrivate = (bool)$data['isPrivate'];
         }
+        if (isset($data['isDefault'])) {
+            $this->isDefault = (bool)$data['isDefault'];
+        }
         if (isset($data['capability'])) {
             $this->capability = (string)$data['capability'];
         }
@@ -142,6 +151,7 @@ abstract class AbstractTab
             'parentId' => $this->parentId,
             'isPrivate' => $this->isPrivate,
             'capability' => $this->capability,
+            'isDefault' => $this->isDefault,
             'icon' => $this->icon,
             'contentType' => $this->contentType,
         ];

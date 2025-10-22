@@ -104,14 +104,15 @@ class TabManager
             }
 
             // 3. Проверка прав доступа для родительской вкладки
-            if ($this->userApi->currentUserCan($tab->getCapability(), $displayedUserId)) {
+            if (!$tab->getCapability() || $this->userApi->currentUserCan($tab->getCapability(), $displayedUserId)) {
                 $allowedSubTabs = [];
+
                 foreach ($tab->getSubTabs() as $subTab) {
                     // Проверка приватности и прав для дочерних вкладок
                     if ($subTab->isPrivate() && (int)$currentUserId !== (int)$displayedUserId) {
                         continue;
                     }
-                    if ($this->userApi->currentUserCan($subTab->getCapability(), $displayedUserId)) {
+                    if (!$subTab->getCapability() || $this->userApi->currentUserCan($subTab->getCapability(), $displayedUserId)) {
                         $allowedSubTabs[] = $subTab;
                     }
                 }

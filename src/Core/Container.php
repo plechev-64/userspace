@@ -39,6 +39,12 @@ class Container implements ContainerInterface
     public function set(string $id, callable $factory): void
     {
         $this->factories[$id] = $factory;
+        unset($this->instances[$id]); // Очищаем кэшированный экземпляр, если фабрика обновляется
+    }
+
+    public function unset(string $id): void
+    {
+        unset($this->factories[$id]);
     }
 
     /**

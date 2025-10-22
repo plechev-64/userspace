@@ -6,6 +6,7 @@ use UserSpace\Common\Module\Tabs\Src\Infrastructure\TabProvider;
 use UserSpace\Core\Asset\AssetRegistryInterface;
 use UserSpace\Core\Hooks\HookManagerInterface;
 use UserSpace\Core\Option\OptionManagerInterface;
+use UserSpace\Core\Profile\ProfileServiceApiInterface;
 
 class FrontendManager
 {
@@ -15,7 +16,8 @@ class FrontendManager
         private readonly TabProvider              $tabProvider,
         private readonly OptionManagerInterface   $optionManager,
         private readonly AssetRegistryInterface   $assetRegistry,
-        private readonly HookManagerInterface     $hookManager
+        private readonly HookManagerInterface     $hookManager,
+        private readonly ProfileServiceApiInterface $profileService
     )
     {
     }
@@ -58,7 +60,7 @@ class FrontendManager
 
         $login_page_url = !empty($settings['login_page_id']) ? get_permalink($settings['login_page_id']) : wp_login_url();
         $registration_page_url = !empty($settings['registration_page_id']) ? get_permalink($settings['registration_page_id']) : wp_registration_url();
-        $account_page_url = !empty($settings['profile_page_id']) ? get_permalink($settings['profile_page_id']) : home_url();
+        $account_page_url = $this->profileService->getProfileUrl() ?? home_url();
 
         echo $this->templateManager->render('user_bar', [
             'login_page_url' => $login_page_url,

@@ -117,7 +117,8 @@ final class Plugin
         $this->initRestApi();
 
         $this->hookManager->addAction('plugins_loaded', [$this, 'run']);
-        $this->hookManager->addAction('plugins_loaded', [$this, 'loadTheme']);
+        /** @todo возможно удалить тк решил загружать активную тему через ServiceProvider */
+        //$this->hookManager->addAction('plugins_loaded', [$this, 'loadTheme']);
         $this->hookManager->addAction('init', [$this, 'loadTextdomain']);
 
         // Инициализация менеджеров

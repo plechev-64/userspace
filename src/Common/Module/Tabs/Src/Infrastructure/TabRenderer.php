@@ -3,8 +3,8 @@
 namespace UserSpace\Common\Module\Tabs\Src\Infrastructure;
 
 use UserSpace\Common\Module\Tabs\Src\Domain\AbstractTab;
-use UserSpace\Common\Service\TemplateManagerInterface;
 use UserSpace\Common\Service\ViewedUserContext;
+use UserSpace\Core\Profile\ProfileServiceApiInterface;
 use UserSpace\Core\String\StringFilterInterface;
 
 /**
@@ -15,7 +15,8 @@ class TabRenderer
     public function __construct(
         private readonly TabManager               $tabManager,
         private readonly ViewedUserContext        $viewedUserContext,
-        private readonly StringFilterInterface    $stringFilter
+        private readonly StringFilterInterface    $stringFilter,
+        private readonly ProfileServiceApiInterface $profileService
     )
     {
     }
@@ -37,17 +38,9 @@ class TabRenderer
             return '';
         }
 
-        // Определяем ID изначально активной вкладки
-        $firstActiveTabId = null;
-        if ($mainLocation) {
-            $mainLocationTabs = $this->tabManager->getTabs($mainLocation);
-
-            if (!empty($mainLocationTabs)) {
-                $firstParent = $mainLocationTabs[0];
-                $subTabs = $firstParent->getSubTabs();
-                $firstActiveTabId = !empty($subTabs) ? $subTabs[0]->getId() : $firstParent->getId();
-            }
-        }
+        // Определяем ID активной вкладки с помощью ProfileService
+        $activeTab = $this->profileService->getActiveTab();
+        $activeTabId = $activeTab?->getId();
 
         // Получаем плоский список всех зарегистрированных вкладок
         $flatTabs = $this->tabManager->getAllRegisteredTabs(true);
@@ -60,7 +53,7 @@ class TabRenderer
                 continue;
             }
 
-            $isInitialActive = ($tab->getId() === $firstActiveTabId);
+            $isInitialActive = ($tab->getId() === $activeTabId);
             $innerContent = $isInitialActive ? $this->render($tab) : '';
             $restUrl = "/tab-content/{$tab->getId()}";
 

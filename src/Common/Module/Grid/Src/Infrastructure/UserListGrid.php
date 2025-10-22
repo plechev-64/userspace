@@ -6,15 +6,17 @@ use UserSpace\Common\Module\Grid\Src\Domain\AbstractListContentGrid;
 use UserSpace\Common\Service\TemplateManager;
 use UserSpace\Core\Asset\AssetRegistryInterface;
 use UserSpace\Core\Database\DatabaseConnectionInterface;
+use UserSpace\Core\Profile\ProfileServiceApiInterface;
 use UserSpace\Core\String\StringFilterInterface;
 
 class UserListGrid extends AbstractListContentGrid
 {
     public function __construct(
-        DatabaseConnectionInterface      $db,
-        private readonly TemplateManager $templateManager,
-        StringFilterInterface            $str,
-        AssetRegistryInterface           $assetRegistry
+        DatabaseConnectionInterface                 $db,
+        private readonly TemplateManager            $templateManager,
+        StringFilterInterface                       $str,
+        AssetRegistryInterface                      $assetRegistry,
+        private readonly ProfileServiceApiInterface $profileService
     )
     {
         parent::__construct($db, $str, $assetRegistry);
@@ -25,6 +27,14 @@ class UserListGrid extends AbstractListContentGrid
         $this->registerAssets();
 
         return parent::render();
+    }
+
+    protected function prepareItemData(object $item): object
+    {
+        // Добавляем URL профиля к объекту $item
+        $item->profile_url = $this->profileService->getProfileUrl($item->id);
+
+        return $item;
     }
 
     private function registerAssets(): void

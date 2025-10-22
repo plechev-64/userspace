@@ -192,23 +192,27 @@
                     return;
                 }
 
+                const targetPaneId = link.getAttribute('href');
+
                 // Если кликнули по родительскому пункту с подменю,
                 // автоматически переходим на первую дочернюю вкладку.
                 const parentMenuItem = link.closest('.has-submenu');
-                if (parentMenuItem && !link.closest('.usp-account-submenu')) {
+                if (parentMenuItem && !link.closest('.usp-account-submenu') && targetPaneId === '#') {
                     const firstSubmenuLink = parentMenuItem.querySelector('.usp-account-submenu a');
                     if (firstSubmenuLink) {
+                        e.preventDefault(); // Предотвращаем стандартное поведение для родительской ссылки с '#'
                         firstSubmenuLink.click();
                         return;
                     }
                 }
 
-                const targetPaneId = link.getAttribute('href');
-                if (!targetPaneId || targetPaneId === '#') {
-                    return;
+                // Только если ссылка является частью меню вкладок и ее href - это локальный якорь (#tab-id)
+                const isTabNavigationLink = link.closest('.usp-account-menu');
+                if (!isTabNavigationLink || !targetPaneId || !targetPaneId.startsWith('#') || targetPaneId === '#') {
+                    return; // Игнорируем ссылки, не относящиеся к навигации вкладок
                 }
 
-                e.preventDefault();
+                e.preventDefault(); // Предотвращаем стандартное поведение только для ссылок вкладок
 
                 const targetPane = accountWrapper.querySelector(targetPaneId);
                 if (!targetPane) {
@@ -243,6 +247,17 @@
                 // Если контент нужно загрузить по REST
                 if (targetPane.dataset.contentType === 'rest' && !targetPane.classList.contains('is-loaded')) {
                     this._loadRestContent(targetPane);
+                }
+
+                // Обновляем URL в адресной строке
+                const tabParamName = window.uspCoreParams?.tabParam || 'tab';
+                const url = new URL(window.location);
+                const tabId = targetPaneId.substring(1); // Убираем #
+
+                if (url.searchParams.get(tabParamName) !== tabId) {
+                    url.searchParams.set(tabParamName, tabId);
+                    // Обновляем историю браузера
+                    window.history.pushState({ path: url.toString() }, '', url.toString());
                 }
             });
         }
