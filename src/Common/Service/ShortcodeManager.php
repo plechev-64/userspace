@@ -2,6 +2,7 @@
 
 namespace UserSpace\Common\Service;
 
+use UserSpace\Common\Module\Grid\Src\Infrastructure\UserListGrid;
 use UserSpace\Common\Renderer\ForgotPasswordFormRenderer;
 use UserSpace\Common\Renderer\GenericFormRenderer;
 use UserSpace\Common\Renderer\LoginFormRenderer;
@@ -24,7 +25,8 @@ class ShortcodeManager
         private readonly RegistrationFormRenderer   $registrationFormRenderer,
         private readonly ForgotPasswordFormRenderer $forgotPasswordFormRenderer,
         private readonly ThemeManager               $themeManager,
-        private readonly GenericFormRenderer        $genericFormRenderer
+        private readonly GenericFormRenderer        $genericFormRenderer,
+        private readonly UserListGrid               $userListGrid
     )
     {
     }
@@ -39,6 +41,7 @@ class ShortcodeManager
         add_shortcode('usp_forgot_password_form', [$this, 'renderForgotPasswordForm']);
         add_shortcode('usp_registration_form', [$this, 'renderRegistrationForm']);
         add_shortcode('usp_account', [$this, 'renderAccount']);
+        add_shortcode('usp_users', [$this, 'renderUsers']);
     }
 
     public function renderAccount(): string
@@ -74,5 +77,10 @@ class ShortcodeManager
     public function renderForgotPasswordForm(array $atts): string
     {
         return $this->forgotPasswordFormRenderer->render();
+    }
+
+    public function renderUsers(array $atts): string
+    {
+        return $this->userListGrid->render();
     }
 }
