@@ -87,14 +87,15 @@ class Uploader extends AbstractField
         ];
 
         $validation_attrs = [
-            'data-config' => $this->str->escAttr($this->str->jsonEncode($config)),
-            'data-signature' => $this->str->escAttr($this->securityHelper->sign($config)),
-            'data-max-size' => $this->str->escAttr($maxSize),
-            'data-min-width' => $this->str->escAttr($minWidth),
-            'data-min-height' => $this->str->escAttr($minHeight),
-            'data-max-width' => $this->str->escAttr($maxWidth),
-            'data-max-height' => $this->str->escAttr($maxHeight),
+            'data-config' => $this->str->escAttr($this->str->jsonEncode($config)) ?: '',
+            'data-signature' => $this->str->escAttr($this->securityHelper->sign($config)) ?: '',
+            'data-max-size' => $this->str->escAttr($maxSize) ?: '',
+            'data-min-width' => $this->str->escAttr($minWidth) ?: '',
+            'data-min-height' => $this->str->escAttr($minHeight) ?: '',
+            'data-max-width' => $this->str->escAttr($maxWidth) ?: '',
+            'data-max-height' => $this->str->escAttr($maxHeight) ?: '',
             'data-multiple' => $isMultiple ? 'true' : 'false',
+            'data-field-name' => $this->str->escAttr($this->name) ?: '',
         ];
 
         $removeButtonHtml = '';
@@ -102,6 +103,27 @@ class Uploader extends AbstractField
             $removeButtonHtml = sprintf(
                 '<button type="button" class="button button-link-delete usp-remove-button">%s</button>',
                 $this->str->translate('Remove')
+            );
+        }
+
+        // Генерируем скрытые поля для отправки данных
+        $hiddenInputsHtml = '';
+        if ($isMultiple) {
+            // Для множественной загрузки создаем по одному скрытому полю на каждый ID
+            foreach ($attachmentIds as $id) {
+                $hiddenInputsHtml .= sprintf(
+                    '<input type="hidden" name="%s[]" value="%s" class="usp-uploader-managed-value">',
+                    $this->str->escAttr($this->name),
+                    $this->str->escAttr($id)
+                );
+            }
+        } else {
+            // Для одиночной загрузки создаем одно поле
+            $singleValue = !empty($attachmentIds) ? $attachmentIds[0] : '';
+            $hiddenInputsHtml = sprintf(
+                '<input type="hidden" name="%s" value="%s" class="usp-uploader-value">',
+                $this->str->escAttr($this->name),
+                $this->str->escAttr($singleValue)
             );
         }
 
@@ -113,18 +135,16 @@ class Uploader extends AbstractField
                     %s
                     <span class="usp-uploader-status"></span>
                 </div>
-                <input type="file" class="usp-uploader-input" style="display: none;" %s>
-                <input type="hidden" name="%s" value="%s" class="usp-uploader-value">
+                <input type="file" class="usp-uploader-input" style="display: none;" %s>%s
             </div>',
             $this->str->escAttr($hasFileClass),
             $this->str->escAttr($this->name),
-            implode(' ', array_map(fn($k, $v) => "$k=$v", array_keys($validation_attrs), $validation_attrs)),
+            implode(' ', array_map(fn($k, $v) => "$k='$v'", array_keys($validation_attrs), $validation_attrs)),
             $previewHtml,
             $this->str->translate('Select File'),
             $removeButtonHtml,
             $isMultiple ? 'multiple' : '',
-            $this->str->escAttr($this->name . ($isMultiple ? '[]' : '')),
-            $this->str->escAttr(implode(',', $attachmentIds))
+            $hiddenInputsHtml // Вставляем сгенерированные скрытые поля
         );
 
         return $output;

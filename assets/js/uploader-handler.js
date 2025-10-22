@@ -2,6 +2,45 @@
  * Инициализирует один компонент загрузчика файлов.
  * @param {HTMLElement} uploader - DOM-элемент контейнера загрузчика (.usp-uploader).
  */
+
+/**
+ * Управляет скрытыми полями для множественной загрузки.
+ * @param {HTMLElement} uploader - DOM-элемент контейнера загрузчика.
+ * @param {string} fieldName - Базовое имя поля (например, 'files').
+ * @param {string} id - ID файла.
+ * @param {'add'|'remove'} action - Действие ('add' или 'remove').
+ */
+function manageMultipleHiddenInputs(uploader, fieldName, id, action) {
+    if (action === 'add') {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = `${fieldName}[]`;
+        input.value = id;
+        input.classList.add('usp-uploader-managed-value'); // Добавляем класс для идентификации управляемых полей
+        uploader.appendChild(input);
+    } else if (action === 'remove') {
+        const inputs = uploader.querySelectorAll(`input.usp-uploader-managed-value[name="${fieldName}[]"]`);
+        for (const input of inputs) {
+            if (input.value === id.toString()) {
+                input.remove();
+                break;
+            }
+        }
+    }
+
+    // Обновляем класс 'has-file' на основе наличия управляемых скрытых полей
+    const remainingInputs = uploader.querySelectorAll(`input.usp-uploader-managed-value[name="${fieldName}[]"]`);
+    if (remainingInputs.length > 0) {
+        uploader.classList.add('has-file');
+    } else {
+        uploader.classList.remove('has-file');
+    }
+}
+
+/**
+ * Инициализирует один компонент загрузчика файлов.
+ * @param {HTMLElement} uploader - DOM-элемент контейнера загрузчика (.usp-uploader).
+ */
 function initUploader(uploader) {
     if (!window.UspCore || uploader.dataset.uspUploaderInitialized) {
         return;
@@ -12,10 +51,34 @@ function initUploader(uploader) {
     const statusEl = uploader.querySelector('.usp-uploader-status');
     const previewWrapper = uploader.querySelector('.usp-uploader-preview-wrapper');
     const isMultiple = uploader.dataset.multiple === 'true';
+    const fieldName = uploader.dataset.fieldName; // Получаем базовое имя поля из data-атрибута
 
-    if (!fileInput || !statusEl || !previewWrapper) {
-        console.error('Uploader component is missing required elements.', uploader);
+    if (!fileInput || !statusEl || !previewWrapper || !fieldName) {
+        console.error('Uploader component is missing required elements or data-fieldName.', uploader);
         return;
+    }
+
+    // Обработка начальных значений для множественного загрузчика
+    if (isMultiple) {
+        const initialValueInput = uploader.querySelector('.usp-uploader-value');
+        if (initialValueInput) {
+            if (initialValueInput.value) {
+                const initialIds = initialValueInput.value.split(',');
+                initialIds.forEach(id => {
+                    if (id) { // Убеждаемся, что ID не пустой
+                        manageMultipleHiddenInputs(uploader, fieldName, id, 'add');
+                    }
+                });
+            }
+            initialValueInput.remove(); // Удаляем оригинальное скрытое поле
+        }
+        // Убеждаемся, что класс 'has-file' установлен корректно после инициализации
+        const remainingInputs = uploader.querySelectorAll(`input.usp-uploader-managed-value[name="${fieldName}[]"]`);
+        if (remainingInputs.length > 0) {
+            uploader.classList.add('has-file');
+        } else {
+            uploader.classList.remove('has-file');
+        }
     }
 
     uploader.addEventListener('click', function (e) {
@@ -30,7 +93,10 @@ function initUploader(uploader) {
         // Клик по кнопке "Remove" (для одиночного загрузчика)
         if (target.matches('.usp-remove-button') && !isMultiple) {
             e.preventDefault();
-            uploader.classList.remove('has-file');
+            // Для одиночного загрузчика, если кнопка "Remove" была нажата,
+            // то класс 'has-file' будет удален, а значение очищено.
+            // Если удаление происходит через usp-remove-item-button, то это будет обработано там.
+            // uploader.classList.remove('has-file'); // Этот класс будет обновлен при очистке значения
             previewWrapper.innerHTML = '';
             uploader.querySelector('.usp-uploader-value').value = '';
         }
@@ -41,8 +107,15 @@ function initUploader(uploader) {
             const item = target.closest('.usp-uploader-preview-item');
             if (item) {
                 const idToRemove = item.dataset.id.toString();
-                item.remove();
-                updateHiddenInputValue(uploader, idToRemove, 'remove');
+                item.remove(); // Удаляем элемент предпросмотра
+
+                if (isMultiple) {
+                    manageMultipleHiddenInputs(uploader, fieldName, idToRemove, 'remove');
+                } else {
+                    // Для одиночного загрузчика, очищаем значение и удаляем класс 'has-file'
+                    uploader.classList.remove('has-file');
+                    uploader.querySelector('.usp-uploader-value').value = '';
+                }
             }
         }
     });
@@ -67,7 +140,8 @@ function initUploader(uploader) {
 function handleFileUpload(file, uploader) {
     const statusEl = uploader.querySelector('.usp-uploader-status');
     const previewWrapper = uploader.querySelector('.usp-uploader-preview-wrapper');
-    const isMultiple = uploader.dataset.multiple === 'true';
+    const isMultiple = uploader.dataset.multiple === 'true'; // Получаем isMultiple
+    const fieldName = uploader.dataset.fieldName; // Получаем базовое имя поля
 
     const uploaderService = window.UspCore.FileUploader(file, {
         validationRules: uploader.dataset,
@@ -84,23 +158,18 @@ function handleFileUpload(file, uploader) {
                 </div>`;
 
             if (isMultiple) {
+                // Для множественной загрузки, добавляем новый элемент предпросмотра и создаем отдельное скрытое поле
                 previewWrapper.insertAdjacentHTML('beforeend', previewHtml);
-                updateHiddenInputValue(uploader, json.attachmentId, 'add');
+                manageMultipleHiddenInputs(uploader, fieldName, json.attachmentId, 'add');
             } else {
+                // Для одиночной загрузки, заменяем предпросмотр и обновляем значение единственного скрытого поля
                 previewWrapper.innerHTML = previewHtml;
                 uploader.querySelector('.usp-uploader-value').value = json.attachmentId;
             }
 
-            // Показываем кнопку "Remove", если ее еще нет
-            const removeButton = uploader.querySelector('.usp-remove-button');
-            if (!removeButton) {
-                const actionsWrapper = uploader.querySelector('.usp-uploader-actions');
-                actionsWrapper.insertAdjacentHTML('beforeend', `<button type="button" class="button button-link-delete usp-remove-button">${window.uspL10n?.uploader?.remove || 'Remove'}</button>`);
-            }
             uploader.classList.add('has-file');
         },
         onError: (error) => {
-            // The error message is already set in onProgress, but we can also alert it.
             alert(error.message);
         },
         onFinally: () => {
@@ -111,29 +180,6 @@ function handleFileUpload(file, uploader) {
 
     uploader.classList.add('is-uploading');
     uploaderService.process();
-}
-
-/**
- * Обновляет значение скрытого поля для галереи.
- * @param {HTMLElement} uploader
- * @param {string} id
- * @param {'add'|'remove'} action
- */
-function updateHiddenInputValue(uploader, id, action) {
-    const valueInput = uploader.querySelector('.usp-uploader-value');
-    let currentIds = valueInput.value ? valueInput.value.split(',') : [];
-
-    if (action === 'add') {
-        currentIds.push(id);
-    } else if (action === 'remove') {
-        currentIds = currentIds.filter(currentId => currentId !== id.toString());
-    }
-
-    valueInput.value = currentIds.join(',');
-
-    if (currentIds.length === 0) {
-        uploader.classList.remove('has-file');
-    }
 }
 
 // 1. Инициализация для загрузчиков, которые уже есть на странице.

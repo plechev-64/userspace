@@ -4,6 +4,55 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     /**
+     * Сериализует форму в JavaScript-объект, корректно обрабатывая
+     * поля с множественными значениями (name="field[]") и одиночные чекбоксы.
+     * @param {HTMLFormElement} formElement - Элемент формы или обертка, содержащая поля.
+     * @returns {Object}
+     */
+    function serializeForm(formElement) {
+        const data = {};
+        const formData = new FormData();
+
+        // 1. Вручную находим все поля и добавляем их в FormData,
+        // чтобы корректно обработать div как форму.
+        formElement.querySelectorAll('input, select, textarea').forEach(field => {
+            if (field.type === 'checkbox' || field.type === 'radio') {
+                if (field.checked) {
+                    formData.append(field.name, field.value);
+                }
+            } else {
+                // Пропускаем файловые инпуты, чтобы не отправлять сами файлы
+                if (field.type !== 'file') {
+                    formData.append(field.name, field.value);
+                }
+            }
+        });
+
+        // 2. Инициализируем все одиночные чекбоксы значением '0',
+        // чтобы неотмеченные тоже отправлялись на сервер.
+        formElement.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+            if (!checkbox.name.endsWith('[]')) {
+                data[checkbox.name] = '0';
+            }
+        });
+
+        // 3. Заполняем объект данными из FormData, корректно создавая массивы.
+        for (const [key, value] of formData.entries()) {
+            if (key.endsWith('[]')) {
+                const cleanKey = key.slice(0, -2);
+                // Если массив для этого ключа еще не создан, создаем его.
+                if (!data[cleanKey]) {
+                    data[cleanKey] = [];
+                }
+                data[cleanKey].push(value);
+            } else {
+                data[key] = value;
+            }
+        }
+        return data;
+    }
+
+    /**
      * Инициализирует логику зависимых полей на странице настроек.
      */
     function initDependentFields() {
@@ -91,44 +140,12 @@ document.addEventListener('DOMContentLoaded', function () {
             saveButton.textContent = l10n.saving || 'Saving...';
             saveButton.disabled = true;
 
-            const formWrapper = document.getElementById('usp-settings-form-wrapper');
-            const inputs = formWrapper.querySelectorAll('input, select, textarea');
-            const settingsData = {};
-
-            inputs.forEach(input => {
-                if (input.name.endsWith('[]')) {
-                    // Пропускаем, так как обработаем ниже
-                } else if (input.type === 'checkbox') {
-                    // Обработка одиночных чекбоксов (BooleanField)
-                    settingsData[input.name] = input.checked ? '1' : '0';
-                } else if (input.type === 'radio') {
-                    if (input.checked) {
-                        settingsData[input.name] = input.value;
-                    }
-                } else {
-                    settingsData[input.name] = input.value;
-                }
-            });
-
-            // Отдельно обрабатываем группы чекбоксов, чтобы корректно собрать массив
-            const checkboxGroups = formWrapper.querySelectorAll('input[name$="[]"]');
-            const groupedData = {};
-
-            checkboxGroups.forEach(checkbox => {
-                const name = checkbox.name.slice(0, -2);
-                if (!groupedData[name]) {
-                    groupedData[name] = [];
-                }
-                if (checkbox.checked) {
-                    groupedData[name].push(checkbox.value);
-                }
-            });
-
-            // Объединяем с основными данными
-            Object.assign(settingsData, groupedData);
+            const formWrapper = document.getElementById('usp-settings-form-wrapper'); // Наша "форма"
+            const settingsData = serializeForm(formWrapper); // Используем новую универсальную функцию
 
             try {
-                const json = await window.UspCore.api.post('/admin/settings', settingsData);
+                // Отправляем данные на сервер
+                const json = await window.UspCore.api.post('/admin/settings', settingsData); 
                 window.UspCore.ui.showAdminNotice(json.message, 'success', '#usp-settings-notifications');
             } catch (error) {
                 window.UspCore.ui.showAdminNotice(error.message || l10n.networkError || 'Network error occurred.', 'error', '#usp-settings-notifications');

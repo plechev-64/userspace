@@ -232,7 +232,7 @@ class SettingsPage extends AbstractAdminPage
             ->addOption(new UploaderFieldDto('files', [
                 'label' => $this->str->translate('Files'),
                 'allowed_types' => 'image/jpeg',
-                'multiply' => true,
+                'multiple' => true,
             ]))
             ->addOption(new BooleanFieldDto('enable_user_bar', ['label' => $this->str->translate('Enable User Bar at the top of the site')]))
             ->addOption(new BooleanFieldDto('require_email_confirmation', ['label' => $this->str->translate('Require email confirmation for registration')]))
