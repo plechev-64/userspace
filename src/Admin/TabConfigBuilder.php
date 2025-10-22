@@ -36,11 +36,6 @@ class TabConfigBuilder
                 ? $groupedTabs['unassigned']
                 : ($groupedTabs['assigned'][$locationId] ?? []);
 
-            // Если для локации нет вкладок и это не _unused, то не рендерим ее
-            if (empty($tabsToRender) && $locationId !== TabLocationManager::UNUSED_LOCATION) {
-                continue;
-            }
-
             $output .= $this->renderLocation($locationId, $locationLabel, $tabsToRender);
         }
 
@@ -56,10 +51,6 @@ class TabConfigBuilder
      */
     private function renderLocation(string $id, string $label, array $tabs): string
     {
-        // Если это _unused и в ней нет вкладок, то не рендерим ее
-        if ($id === TabLocationManager::UNUSED_LOCATION && empty($tabs)) {
-            return '';
-        }
 
         $output = sprintf(
             '<div class="usp-tab-builder-location" data-location-id="%s">',
