@@ -3,7 +3,7 @@
 namespace UserSpace\Common\Module\Form\Src\Infrastructure\Field;
 
 use UserSpace\Common\Module\Form\Src\Domain\Field\AbstractField;
-use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\TextFieldDto;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\TextAbstractFieldDto;
 
 // Защита от прямого доступа к файлу
 if (!defined('ABSPATH')) {
@@ -16,7 +16,7 @@ if (!defined('ABSPATH')) {
 class Text extends AbstractField
 {
 
-    public function __construct(TextFieldDto $dto)
+    public function __construct(TextAbstractFieldDto $dto)
     {
         parent::__construct($dto);
     }

@@ -4,7 +4,7 @@ namespace UserSpace\Common\Module\Form\Src\Infrastructure\Field;
 
 use UserSpace\Adapters\StringFilter;
 use UserSpace\Common\Module\Form\Src\Domain\Field\AbstractField;
-use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\UploaderFieldDto;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\UploaderAbstractFieldDto;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Validator\AllowedTypesValidator;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Validator\ImageDimensionsValidator;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Validator\MaxFileSizeValidator;
@@ -16,12 +16,12 @@ class Uploader extends AbstractField
     private readonly bool $multiple;
 
     /**
-     * @param UploaderFieldDto $dto
+     * @param UploaderAbstractFieldDto $dto
      * @param SecurityHelper $securityHelper
      * @param MediaApiInterface $mediaApi
      */
     public function __construct(
-        UploaderFieldDto                   $dto,
+        UploaderAbstractFieldDto           $dto,
         private readonly SecurityHelper    $securityHelper,
         private readonly MediaApiInterface $mediaApi
     )

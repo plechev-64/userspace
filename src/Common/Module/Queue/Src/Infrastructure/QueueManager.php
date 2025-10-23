@@ -3,8 +3,8 @@
 namespace UserSpace\Common\Module\Queue\Src\Infrastructure;
 
 use UserSpace\Common\Module\Queue\Src\Domain\JobRepositoryInterface;
-use UserSpace\Common\Module\Queue\Src\Domain\MessageHandler;
-use UserSpace\Common\Module\Queue\Src\Domain\QueueableMessage;
+use UserSpace\Common\Module\Queue\Src\Domain\MessageHandlerInterface;
+use UserSpace\Common\Module\Queue\Src\Domain\MessageInterface;
 use UserSpace\Common\Module\SSE\Src\Domain\Repository\SseEventRepositoryInterface;
 use UserSpace\Common\Module\SSE\Src\Domain\SseEventDispatcherInterface;
 use UserSpace\Common\Service\CronManager;
@@ -105,10 +105,10 @@ final class QueueManager
                 throw new \Exception("Handler class '{$handlerClass}' not found in container.");
             }
 
-            /** @var MessageHandler $handlerInstance */
+            /** @var MessageHandlerInterface $handlerInstance */
             $handlerInstance = $this->container->get($handlerClass);
 
-            if (!class_exists($messageClass) || !is_subclass_of($messageClass, QueueableMessage::class)) {
+            if (!class_exists($messageClass) || !is_subclass_of($messageClass, MessageInterface::class)) {
                 throw new \Exception("Message class '{$messageClass}' does not exist or does not implement QueueableMessage.");
             }
 

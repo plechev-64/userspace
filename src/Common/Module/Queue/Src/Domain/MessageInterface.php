@@ -10,7 +10,7 @@ if (!defined('ABSPATH')) {
 /**
  * Интерфейс для всех сообщений, которые можно поставить в очередь.
  */
-interface QueueableMessage
+interface MessageInterface
 {
     public function toArray(): array;
 

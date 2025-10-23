@@ -2,7 +2,7 @@
 
 namespace UserSpace\Common\Module\Form\Src\Domain\Field\DTO;
 
-abstract class FieldDto
+abstract class AbstractFieldDto
 {
     public string $name;
     public string $type;

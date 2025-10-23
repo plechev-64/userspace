@@ -45,4 +45,16 @@ interface WpApiInterface
      * @return \WP_Post|null Объект поста или null, если пост не найден.
      */
     public function getPost(int $postId): ?\WP_Post;
+
+    /**
+     * Отправляет email. Обертка для wp_mail().
+     *
+     * @param string|string[] $to Массив или строка email-адресов через запятую.
+     * @param string $subject Тема письма.
+     * @param string $message Содержимое письма.
+     * @param string|string[] $headers Опционально. Дополнительные заголовки.
+     * @param string|string[] $attachments Опционально. Файлы для прикрепления.
+     * @return bool True, если письмо было успешно отправлено.
+     */
+    public function mail(string|array $to, string $subject, string $message, string|array $headers = '', array $attachments = []): bool;
 }

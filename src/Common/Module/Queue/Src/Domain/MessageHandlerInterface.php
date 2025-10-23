@@ -11,7 +11,7 @@ if (!defined('ABSPATH')) {
 /**
  * Интерфейс для всех обработчиков задач из очереди.
  */
-interface MessageHandler
+interface MessageHandlerInterface
 {
-    public function handle(QueueableMessage $message): void;
+    public function handle(MessageInterface $message): void;
 }

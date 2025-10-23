@@ -9,6 +9,7 @@ use UserSpace\Common\Module\Form\App\UseCase\SaveConfig\SaveProfileFormConfigUse
 use UserSpace\Common\Module\Form\App\UseCase\SaveConfig\SaveRegistrationFormConfigUseCase;
 use UserSpace\Common\Module\Form\App\UseCase\SaveProfileForm\SaveProfileFormCommand;
 use UserSpace\Common\Module\Form\App\UseCase\SaveProfileForm\SaveProfileFormUseCase;
+use UserSpace\Common\Module\Form\Src\Infrastructure\FieldMapper;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormConfig;
 use UserSpace\Common\Renderer\ForgotPasswordFormRenderer;
 use UserSpace\Common\Renderer\LoginFormRenderer;
@@ -71,12 +72,28 @@ class FormController extends AbstractController
     }
 
     #[Route(path: '/field/settings', method: 'POST', permission: 'manage_options')]
-    public function getFieldSettingsForm(Request $request, GetFieldSettingsFormUseCase $getFieldSettingsFormUseCase): JsonResponse
+    public function getFieldSettingsForm(
+        Request                     $request,
+        GetFieldSettingsFormUseCase $getFieldSettingsFormUseCase,
+        FieldMapper                 $fieldMapper
+    ): JsonResponse
     {
-        $command = new GetFieldSettingsFormCommand(
-            $request->getPost('fieldType', ''),
-            $request->getPost('fieldConfig', '{}')
-        );
+        $fieldType = $request->getPost('fieldType', '');
+        $fieldConfig = json_decode($request->getPost('fieldConfig', '{}'), true);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            return $this->error(['message' => $this->str->translate('Invalid field configuration format.')], 400);
+        }
+
+        $dtoClass = $fieldMapper->getDtoClass($fieldType);
+        if (!$dtoClass) {
+            return $this->error(['message' => $this->str->translate('Invalid field type specified.')], 400);
+        }
+
+        // Создаем DTO, используя имя из конфига или генерируя новое
+        $fieldName = $fieldConfig['name'] ?? 'field_' . uniqid();
+        $fieldDto = new $dtoClass($fieldName, $fieldConfig);
+
+        $command = new GetFieldSettingsFormCommand($fieldDto);
 
         try {
             $result = $getFieldSettingsFormUseCase->execute($command);

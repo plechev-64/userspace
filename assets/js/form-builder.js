@@ -265,19 +265,20 @@ document.addEventListener('DOMContentLoaded', function () {
 
             if (e.target.matches('[data-action="save-edit"]')) {
                 // 3.1. Собрать данные из формы настроек
-                const newSettings = collectSettingsFromModal(modal);
+                const newConfig = collectSettingsFromModal(modal);
 
                 // 3.2. Обновить data-config на элементе в конструкторе
-                const oldConfig = JSON.parse(fieldEl.dataset.config || '{}');
-                const newConfig = {...oldConfig};
+                const oldConfig = JSON.parse(decodeHtmlEntities(fieldEl.dataset.config || '{}'));
 
-                newConfig.label = newSettings.label || oldConfig.label;
-                newConfig.options = newSettings.options || oldConfig.options;
+                // Сохраняем тип поля из старого конфига, так как он не меняется при редактировании
+                newConfig.type = oldConfig.type;
 
+                // Обновляем правила валидации
                 if (!newConfig.rules) newConfig.rules = {};
-                newConfig.rules.required = !!newSettings.required;
+                newConfig.rules.required = !!newConfig.required;
+                delete newConfig.required; // Удаляем временное свойство
 
-                fieldEl.dataset.config = encodeHtmlEntities(JSON.stringify(newConfig));
+                fieldEl.dataset.config = JSON.stringify(newConfig);
                 fieldEl.querySelector('.field-label').textContent = newConfig.label || fieldEl.dataset.name;
 
                 modal.remove();

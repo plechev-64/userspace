@@ -115,4 +115,20 @@ interface UserApiInterface
      * @return bool
      */
     public function isUserLoggedIn(): bool;
+
+    /**
+     * Удаляет мета-поле с указанным ключом у всех пользователей.
+     *
+     * @param string $metaKey Ключ мета-поля для удаления.
+     * @return bool True в случае успеха, false в случае ошибки.
+     */
+    public function deleteMetaFromAllUsers(string $metaKey): bool;
+
+    /**
+     * Получает все данные пользователя по его ID. Обертка для get_userdata().
+     *
+     * @param int $userId ID пользователя.
+     * @return \WP_User|false Объект WP_User в случае успеха, false в случае ошибки.
+     */
+    public function getUserdata(int $userId): \WP_User|false;
 }

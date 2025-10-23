@@ -2,9 +2,9 @@
 
 namespace UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO;
 
-use UserSpace\Common\Module\Form\Src\Domain\Field\DTO\FieldDto;
+use UserSpace\Common\Module\Form\Src\Domain\Field\DTO\AbstractFieldDto;
 
-class UploaderFieldDto extends FieldDto
+class UploaderAbstractFieldDto extends AbstractFieldDto
 {
     public bool $multiple = false;
 

@@ -3,7 +3,7 @@
 namespace UserSpace\Common\Module\Form\Src\Infrastructure\Field;
 
 use UserSpace\Common\Module\Form\Src\Domain\Field\AbstractField;
-use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\DateFieldDto;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\DateAbstractFieldDto;
 
 // Защита от прямого доступа к файлу
 if (!defined('ABSPATH')) {
@@ -16,7 +16,7 @@ if (!defined('ABSPATH')) {
 class Date extends AbstractField
 {
 
-    public function __construct(DateFieldDto $dto)
+    public function __construct(DateAbstractFieldDto $dto)
     {
         parent::__construct($dto);
     }

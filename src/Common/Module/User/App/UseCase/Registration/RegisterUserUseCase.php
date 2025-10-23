@@ -4,8 +4,8 @@ namespace UserSpace\Common\Module\User\App\UseCase\Registration;
 
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormFactory;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormManager;
-use UserSpace\Common\Module\Queue\App\Task\Message\SendConfirmationEmailMessage;
 use UserSpace\Common\Module\Queue\Src\Infrastructure\QueueDispatcher;
+use UserSpace\Common\Module\User\App\Task\Message\SendConfirmationEmailMessage;
 use UserSpace\Core\Exception\UspException;
 use UserSpace\Core\Option\OptionManagerInterface;
 use UserSpace\Core\SecurityHelper;

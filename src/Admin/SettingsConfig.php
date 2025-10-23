@@ -2,7 +2,7 @@
 
 namespace UserSpace\Admin;
 
-use UserSpace\Common\Module\Form\Src\Domain\Field\DTO\FieldDto;
+use UserSpace\Common\Module\Form\Src\Domain\Field\DTO\AbstractFieldDto;
 
 /**
  * Конструктор для создания конфигурации страницы настроек.
@@ -54,10 +54,10 @@ class SettingsConfig
 
     /**
      * Добавляет новую опцию (поле) в текущий блок.
-     * @param FieldDto $dto
+     * @param AbstractFieldDto $dto
      * @return $this
      */
-    public function addOption(FieldDto $dto): self
+    public function addOption(AbstractFieldDto $dto): self
     {
         if ($this->currentSectionId === null || $this->currentBlockId === null) {
             return $this;

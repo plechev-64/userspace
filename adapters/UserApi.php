@@ -3,6 +3,7 @@
 namespace UserSpace\Adapters;
 
 use UserSpace\Core\Auth\AuthApiInterface;
+use UserSpace\Core\Database\DatabaseConnectionInterface;
 use UserSpace\Core\User\UserApiInterface;
 
 if (!defined('ABSPATH')) {
@@ -14,7 +15,10 @@ if (!defined('ABSPATH')) {
  */
 class UserApi implements UserApiInterface
 {
-    public function __construct(private readonly AuthApiInterface $authApi)
+    public function __construct(
+        private readonly AuthApiInterface            $authApi,
+        private readonly DatabaseConnectionInterface $db
+    )
     {
     }
 
@@ -71,5 +75,22 @@ class UserApi implements UserApiInterface
     public function updateUserMeta(int $userId, string $metaKey, mixed $metaValue): int|bool
     {
         return update_user_meta($userId, $metaKey, $metaValue);
+    }
+
+    public function deleteMetaFromAllUsers(string $metaKey): bool
+    {
+        $tableName = $this->db->getUsermetaTableName();
+
+        $result = $this->db->query(
+            "DELETE FROM {$tableName} WHERE meta_key = %s",
+            $metaKey
+        );
+
+        return $result !== false;
+    }
+
+    public function getUserdata(int $userId): \WP_User|false
+    {
+        return get_userdata($userId);
     }
 }

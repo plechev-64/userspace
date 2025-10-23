@@ -34,4 +34,9 @@ class WpApi implements WpApiInterface
     {
         return get_post($postId);
     }
+
+    public function mail(string|array $to, string $subject, string $message, string|array $headers = '', array $attachments = []): bool
+    {
+        return wp_mail($to, $subject, $message, $headers, $attachments);
+    }
 }

@@ -2,15 +2,15 @@
 
 namespace UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO;
 
-use UserSpace\Common\Module\Form\Src\Domain\Field\DTO\FieldDto;
+use UserSpace\Common\Module\Form\Src\Domain\Field\DTO\AbstractFieldDto;
 
-class RadioFieldDto extends FieldDto
+class CheckboxAbstractFieldDto extends AbstractFieldDto
 {
     public array $options = [];
 
     public function __construct(string $name, array $config)
     {
-        parent::__construct($name, 'radio', $config);
+        parent::__construct($name, 'checkbox', $config);
         $this->options = $config['options'] ?? [];
     }
 

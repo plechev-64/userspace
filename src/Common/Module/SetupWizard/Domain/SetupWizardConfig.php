@@ -2,7 +2,7 @@
 
 namespace UserSpace\Common\Module\SetupWizard\Domain;
 
-use UserSpace\Common\Module\Form\Src\Domain\Field\DTO\FieldDto;
+use UserSpace\Common\Module\Form\Src\Domain\Field\DTO\AbstractFieldDto;
 
 /**
  * Конфигуратор для пошагового мастера настройки.
@@ -34,10 +34,10 @@ class SetupWizardConfig
     /**
      * Добавляет поле (опцию) в текущий шаг.
      *
-     * @param FieldDto $fieldDto
+     * @param AbstractFieldDto $fieldDto
      * @return self
      */
-    public function addOption(FieldDto $fieldDto): self
+    public function addOption(AbstractFieldDto $fieldDto): self
     {
         if ($this->currentStepIndex >= 0) {
             $this->steps[$this->currentStepIndex]['fields'][$fieldDto->name] = $fieldDto->toArray();

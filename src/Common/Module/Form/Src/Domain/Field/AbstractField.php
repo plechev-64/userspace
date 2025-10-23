@@ -4,7 +4,7 @@ namespace UserSpace\Common\Module\Form\Src\Domain\Field;
 
 use UserSpace\Adapters\StringFilter;
 use InvalidArgumentException;
-use UserSpace\Common\Module\Form\Src\Domain\Field\DTO\FieldDto;
+use UserSpace\Common\Module\Form\Src\Domain\Field\DTO\AbstractFieldDto;
 use UserSpace\Common\Module\Form\Src\Domain\ValidatorInterface;
 
 // Защита от прямого доступа к файлу
@@ -35,11 +35,11 @@ abstract class AbstractField implements FieldInterface
     /**
      * Конструктор поля.
      *
-     * @param FieldDto $dto Объект с данными для создания поля.
+     * @param AbstractFieldDto $dto Объект с данными для создания поля.
      *
      * @throws InvalidArgumentException Если имя поля пустое.
      */
-    public function __construct(FieldDto $dto)
+    public function __construct(AbstractFieldDto $dto)
     {
         if (empty(trim($dto->name))) {
             throw new InvalidArgumentException('Field name cannot be empty.');

@@ -12,7 +12,7 @@ if (!defined('ABSPATH')) {
 /**
  * Базовый класс для сообщений, реализующий сериализацию/десериализацию.
  */
-abstract class AbstractMessage implements QueueableMessage
+abstract class AbstractMessage implements MessageInterface
 {
 
     public function toArray(): array

@@ -1,6 +1,6 @@
 <?php
 
-namespace UserSpace\Common\Module\Queue\App\Task\Message;
+namespace UserSpace\Common\Module\User\App\Task\Message;
 
 use UserSpace\Common\Module\Queue\Src\Domain\AbstractMessage;
 

@@ -30,11 +30,7 @@ use UserSpace\Common\Module\Media\Src\Infrastructure\TemporaryFileCleanupService
 use UserSpace\Common\Module\Media\Src\Infrastructure\TemporaryFileRepository;
 use UserSpace\Common\Module\Queue\App\Controller\QueueActionsController;
 use UserSpace\Common\Module\Queue\App\Task\Message\PingMessage;
-use UserSpace\Common\Module\Queue\App\Task\Message\SendConfirmationEmailMessage;
-use UserSpace\Common\Module\Queue\App\Task\Message\SendWelcomeEmailMessage;
-use UserSpace\Common\Module\Queue\App\Task\PingHandler;
-use UserSpace\Common\Module\Queue\App\Task\SendConfirmationEmailHandler;
-use UserSpace\Common\Module\Queue\App\Task\SendWelcomeEmailHandler;
+use UserSpace\Common\Module\Queue\App\Task\PingHandlerInterface;
 use UserSpace\Common\Module\Queue\Src\Domain\JobRepositoryInterface;
 use UserSpace\Common\Module\Queue\Src\Infrastructure\JobRepository;
 use UserSpace\Common\Module\Queue\Src\Infrastructure\QueueManager;
@@ -56,6 +52,12 @@ use UserSpace\Common\Module\Tabs\Src\Infrastructure\TabConfigManager;
 use UserSpace\Common\Module\Tabs\Src\Infrastructure\TabManager;
 use UserSpace\Common\Module\Tabs\Src\Infrastructure\TabProvider;
 use UserSpace\Common\Module\User\App\Controller\UserController;
+use UserSpace\Common\Module\User\App\Task\DeleteUserMetaHandler;
+use UserSpace\Common\Module\User\App\Task\Message\DeleteUserMetaMessage;
+use UserSpace\Common\Module\User\App\Task\Message\SendConfirmationEmailMessage;
+use UserSpace\Common\Module\User\App\Task\Message\SendWelcomeEmailMessage;
+use UserSpace\Common\Module\User\App\Task\SendConfirmationEmailHandler;
+use UserSpace\Common\Module\User\App\Task\SendWelcomeEmailHandler;
 use UserSpace\Common\Service\TemplateManager;
 use UserSpace\Core\Admin\AdminApiInterface;
 use UserSpace\Core\Asset\AssetRegistryInterface;
@@ -97,6 +99,7 @@ return [
             'forgot_password_form' => USERSPACE_PLUGIN_DIR . 'views/forgot-password-form-template.php',
             'grid_user_item' => USERSPACE_PLUGIN_DIR . 'views/grid/user-item.php',
             'admin_form_builder_templates' => USERSPACE_PLUGIN_DIR . 'views/admin/form-builder-templates.php',
+            'emails/email-wrapper' => USERSPACE_PLUGIN_DIR . 'views/emails/email-wrapper.php',
         ]),
         'app.tabs' => [
             ProfileTab::class,
@@ -118,8 +121,9 @@ return [
         ],
         'queue.message_handler_map' => [
             SendWelcomeEmailMessage::class => SendWelcomeEmailHandler::class,
-            PingMessage::class => PingHandler::class,
-            SendConfirmationEmailMessage::class => SendConfirmationEmailHandler::class, // Новое сообщение и его обработчик
+            PingMessage::class => PingHandlerInterface::class,
+            SendConfirmationEmailMessage::class => SendConfirmationEmailHandler::class,
+            DeleteUserMetaMessage::class => DeleteUserMetaHandler::class,
         ],
         'app.grids' => [
             'users' => UserListGrid::class,
@@ -142,7 +146,7 @@ return [
         AssetRegistryInterface::class => fn() => new AssetRegistry(),
         AdminApiInterface::class => fn() => new AdminApi(),
         HookManagerInterface::class => fn() => new HookManager(),
-        UserApiInterface::class => fn(ContainerInterface $c) => new UserApi($c->get(AuthApiInterface::class)),
+        UserApiInterface::class => fn(ContainerInterface $c) => fn(ContainerInterface $c) => $c->get(UserApi::class),
         AuthApiInterface::class => fn() => new AuthApi(),
         MediaApiInterface::class => fn() => new MediaApi(),
         QueryApiInterface::class => fn() => new QueryApi(),
