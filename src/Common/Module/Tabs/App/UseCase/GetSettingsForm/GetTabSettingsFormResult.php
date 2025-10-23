@@ -9,6 +9,7 @@ class GetTabSettingsFormResult
 {
     public function __construct(
         public readonly string $html
-    ) {
+    )
+    {
     }
 }

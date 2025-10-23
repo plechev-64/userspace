@@ -16,7 +16,7 @@ function initCardGrid(gridContainer) {
     }
 
     // Убедимся, что объект локализации существует
-    const uspGridL10n = window.uspGridL10n || { text: { error: 'An error occurred.' } };
+    const uspGridL10n = window.uspGridL10n || {text: {error: 'An error occurred.'}};
 
     const gridId = gridContainer.id;
     if (!gridId) {

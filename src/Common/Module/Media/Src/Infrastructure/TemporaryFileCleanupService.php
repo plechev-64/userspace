@@ -12,8 +12,9 @@ class TemporaryFileCleanupService implements TemporaryFileCleanupServiceInterfac
 
     public function __construct(
         private readonly TemporaryFileRepositoryInterface $tempFileRepository,
-        private readonly MediaApiInterface $mediaApi
-    ) {
+        private readonly MediaApiInterface                $mediaApi
+    )
+    {
     }
 
     public function cleanup(): void

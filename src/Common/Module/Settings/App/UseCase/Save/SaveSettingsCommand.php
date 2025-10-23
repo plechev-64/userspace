@@ -7,8 +7,12 @@ namespace UserSpace\Common\Module\Settings\App\UseCase\Save;
  */
 class SaveSettingsCommand
 {
+    /**
+     * @param array<string, string|array> $settingsPayload
+     */
     public function __construct(
         public readonly array $settingsPayload
-    ) {
+    )
+    {
     }
 }

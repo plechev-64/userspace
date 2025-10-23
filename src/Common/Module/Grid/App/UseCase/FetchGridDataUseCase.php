@@ -10,7 +10,8 @@ class FetchGridDataUseCase
 {
     public function __construct(
         private readonly GridProvider $gridProvider
-    ) {
+    )
+    {
     }
 
     /**
@@ -20,6 +21,7 @@ class FetchGridDataUseCase
     {
         $grid = $this->gridProvider->getGrid($command->gridType);
 
+        /** @todo передавать через команду понятные параметры */
         $paramsDto = new GridRequestParamsDto($command->requestParams);
         $data = $grid->fetchData($paramsDto);
 

@@ -9,6 +9,7 @@ class UpdateTabsConfigCommand
 {
     public function __construct(
         public readonly string $configJson
-    ) {
+    )
+    {
     }
 }

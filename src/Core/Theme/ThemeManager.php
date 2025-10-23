@@ -18,17 +18,17 @@ class ThemeManager
     private array $themes = [];
 
     public function __construct(
-        private readonly \UserSpace\Core\ContainerInterface $container,
-        private readonly ViewedUserContext      $viewedUserContext,
-        private readonly OptionManagerInterface $optionManager,
-        private readonly UserApiInterface       $userApi
+        private readonly \UserSpace\Core\Container\ContainerInterface $container,
+        private readonly ViewedUserContext                            $viewedUserContext,
+        private readonly OptionManagerInterface                       $optionManager,
+        private readonly UserApiInterface                             $userApi
     )
     {
         $this->themesDir = USERSPACE_PLUGIN_DIR . self::THEMES_DIR_NAME . '/';
     }
 
     private ?ThemeInterface $activeTheme = null;
-    
+
     /**
      * Регистрирует класс темы.
      * Этот метод вызывается из файла index.php темы.

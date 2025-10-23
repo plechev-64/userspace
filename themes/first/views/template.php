@@ -3,7 +3,7 @@
  * Шаблон личного кабинета для темы "First".
  *
  * @var string $avatarBlock HTML-блок с аватаром пользователя.
- * @var string $headerMenu  HTML-меню для хедера.
+ * @var string $headerMenu HTML-меню для хедера.
  * @var string $sidebarMenu HTML-меню для сайдбара.
  * @var string $tabsContent HTML-контент вкладок.
  */
@@ -17,14 +17,14 @@ if (!defined('ABSPATH')) {
         <?php echo $avatarBlock; ?>
         <div class="usp-header-tabs">
             <div class="usp-account-menu">
-				<?php echo $headerMenu; ?>
+                <?php echo $headerMenu; ?>
             </div>
         </div>
     </div>
 
     <div class="usp-account-sidebar">
         <div class="usp-account-menu">
-			<?php echo $sidebarMenu; ?>
+            <?php echo $sidebarMenu; ?>
         </div>
     </div>
     <div class="usp-account-content">

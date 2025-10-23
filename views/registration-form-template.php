@@ -7,7 +7,7 @@
  * @package UserSpace
  */
 
-if ( ! defined('ABSPATH')) {
+if (!defined('ABSPATH')) {
     exit;
 }
 
@@ -18,7 +18,8 @@ $login_page_url = !empty($settings['login_page_id']) ? get_permalink($settings['
     <?php echo $form->render(); ?>
 
     <div class="usp-form-submit-wrapper">
-        <button type="submit" name="wp-submit" id="wp-submit" class="button button-primary"><?php _e('Register', 'usp'); ?></button>
+        <button type="submit" name="wp-submit" id="wp-submit"
+                class="button button-primary"><?php _e('Register', 'usp'); ?></button>
     </div>
 </form>
 

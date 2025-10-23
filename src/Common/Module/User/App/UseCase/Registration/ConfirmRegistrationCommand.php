@@ -9,6 +9,7 @@ class ConfirmRegistrationCommand
 {
     public function __construct(
         public readonly string $token
-    ) {
+    )
+    {
     }
 }

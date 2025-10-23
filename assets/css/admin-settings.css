@@ -107,6 +107,7 @@
 .usp-settings-tabs-content .usp-form-field-wrapper.field-type-boolean {
     grid-template-columns: 250px 1fr;
 }
+
 .usp-settings-tabs-content .usp-form-field-wrapper.field-type-boolean .usp-field-controls {
     grid-column-start: 2; /* Явно указываем, что контрол начинается со второй колонки */
 }

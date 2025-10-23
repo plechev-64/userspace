@@ -30,7 +30,6 @@
 }
 
 
-
 .usp-form-builder-section-actions,
 .usp-form-builder-block-actions,
 .usp-form-builder-field-actions {
@@ -146,7 +145,7 @@
     border-radius: 4px;
     width: 90%;
     max-width: 500px;
-    box-shadow: 0 5px 15px rgba(0,0,0,.3);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, .3);
 }
 
 .usp-modal-header {

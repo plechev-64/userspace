@@ -6,11 +6,11 @@ use UserSpace\Common\Module\Form\Src\Infrastructure\FieldMapper;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormConfig;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormConfigBuilder;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormManager;
-use UserSpace\Common\Service\TemplateManagerInterface;
 use UserSpace\Core\Admin\AdminApiInterface;
 use UserSpace\Core\Asset\AssetRegistryInterface;
 use UserSpace\Core\Hooks\HookManagerInterface;
 use UserSpace\Core\String\StringFilterInterface;
+use UserSpace\Core\TemplateManagerInterface;
 
 /**
  * Абстрактный базовый класс для страниц конструкторов форм.

@@ -190,7 +190,9 @@ function handleFileUpload(file, uploader) {
         },
         onFinally: () => {
             uploader.classList.remove('is-uploading');
-            setTimeout(() => { statusEl.textContent = ''; }, 3000);
+            setTimeout(() => {
+                statusEl.textContent = '';
+            }, 3000);
         }
     });
 

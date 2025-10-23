@@ -27,6 +27,7 @@ use UserSpace\Core\User\UserApiInterface;
 class UserController extends AbstractController
 {
     public const AVATAR_META_KEY = 'usp_avatar_id';
+
     public function __construct(
         private readonly UserApiInterface      $userApi,
         private readonly StringFilterInterface $str,
@@ -93,8 +94,8 @@ class UserController extends AbstractController
             $result = $generateSseTokenUseCase->execute($this->userApi->getCurrentUserId());
 
             return new JsonResponse([
-                'token'      => $result->token,
-                'signature'  => $result->signature,
+                'token' => $result->token,
+                'signature' => $result->signature,
                 'expires_in' => $result->expiresIn,
             ]);
         } catch (UspException $e) {

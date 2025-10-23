@@ -10,7 +10,7 @@ return [
         ],
     ],
     'definitions' => [
-        TabLocationService::class => fn(\UserSpace\Core\ContainerInterface $container) => $container->get(TabLocationService::class),
-        ViewDataProvider::class => fn(\UserSpace\Core\ContainerInterface $container) => $container->get(ViewDataProvider::class),
+        TabLocationService::class => fn(\UserSpace\Core\Container\ContainerInterface $container) => $container->get(TabLocationService::class),
+        ViewDataProvider::class => fn(\UserSpace\Core\Container\ContainerInterface $container) => $container->get(ViewDataProvider::class),
     ],
 ];

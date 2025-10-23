@@ -25,7 +25,7 @@ class ViewedUserContext
     public function __construct(
         private readonly OptionManagerInterface $optionManager,
         private readonly UserApiInterface       $userApi,
-        private readonly QueryApiInterface $wpQueryApi
+        private readonly QueryApiInterface      $wpQueryApi
     )
     {
         // Инициализация будет отложена до первого вызова метода.

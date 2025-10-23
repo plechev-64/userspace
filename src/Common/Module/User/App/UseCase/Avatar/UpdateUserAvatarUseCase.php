@@ -15,7 +15,8 @@ class UpdateUserAvatarUseCase
         private readonly UserApiInterface      $userApi,
         private readonly MediaApiInterface     $mediaApi,
         private readonly StringFilterInterface $str
-    ) {
+    )
+    {
     }
 
     /**

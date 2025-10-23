@@ -9,6 +9,7 @@ class ConfirmRegistrationResult
 {
     public function __construct(
         public readonly string $redirectUrl
-    ) {
+    )
+    {
     }
 }

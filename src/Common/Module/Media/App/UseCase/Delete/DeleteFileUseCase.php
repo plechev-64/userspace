@@ -11,11 +11,12 @@ use UserSpace\Core\WpApiInterface;
 class DeleteFileUseCase
 {
     public function __construct(
-        private readonly MediaApiInterface $mediaApi,
+        private readonly MediaApiInterface                $mediaApi,
         private readonly TemporaryFileRepositoryInterface $tempFileRepository,
-        private readonly WpApiInterface $wpApi,
-        private readonly StringFilterInterface $str
-    ) {
+        private readonly WpApiInterface                   $wpApi,
+        private readonly StringFilterInterface            $str
+    )
+    {
     }
 
     /**

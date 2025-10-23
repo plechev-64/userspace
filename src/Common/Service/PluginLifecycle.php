@@ -19,16 +19,17 @@ class PluginLifecycle
     private const REDIRECT_TRANSIENT = 'usp_setup_wizard_redirect';
 
     public function __construct(
-        private readonly FormRepositoryInterface $formRepository,
-        private readonly JobRepositoryInterface $jobRepository,
-        private readonly SseEventRepositoryInterface $sseEventRepository,
-        private readonly CronManager $cronManager,
-        private readonly OptionManagerInterface $optionManager,
-        private readonly WpApiInterface $wpApi,
-        private readonly AdminApiInterface $adminApi,
-        private readonly HookManagerInterface $hookManager,
+        private readonly FormRepositoryInterface          $formRepository,
+        private readonly JobRepositoryInterface           $jobRepository,
+        private readonly SseEventRepositoryInterface      $sseEventRepository,
+        private readonly CronManager                      $cronManager,
+        private readonly OptionManagerInterface           $optionManager,
+        private readonly WpApiInterface                   $wpApi,
+        private readonly AdminApiInterface                $adminApi,
+        private readonly HookManagerInterface             $hookManager,
         private readonly TemporaryFileRepositoryInterface $tempFileRepository
-    ) {
+    )
+    {
     }
 
     /**

@@ -8,8 +8,9 @@ namespace UserSpace\Common\Module\Media\App\UseCase\Upload;
 class UploadFileResult
 {
     public function __construct(
-        public readonly int $attachmentId,
+        public readonly int    $attachmentId,
         public readonly string $previewUrl
-    ) {
+    )
+    {
     }
 }

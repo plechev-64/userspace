@@ -23,7 +23,7 @@
 
         async post(endpoint, body) {
             const apiUrl = `${this.settings.root}${this.settings.namespace}${endpoint}`;
-            const headers = { 'X-WP-Nonce': this.settings.nonce };
+            const headers = {'X-WP-Nonce': this.settings.nonce};
             let requestBody = body;
 
             if (typeof body === 'object' && body !== null && !(body instanceof FormData)) {
@@ -140,7 +140,7 @@
 
         close() {
             this.modal.classList.remove('is-visible');
-            this.modal.addEventListener('transitionend', this.closeOnTransitionEnd.bind(this), { once: true });
+            this.modal.addEventListener('transitionend', this.closeOnTransitionEnd.bind(this), {once: true});
         }
 
         closeOnTransitionEnd() {
@@ -277,7 +277,7 @@
                 if (url.searchParams.get(tabParamName) !== tabId) {
                     url.searchParams.set(tabParamName, tabId);
                     // Обновляем историю браузера
-                    window.history.pushState({ path: url.toString() }, '', url.toString());
+                    window.history.pushState({path: url.toString()}, '', url.toString());
                 }
             });
         }
@@ -343,7 +343,7 @@
 
         async _loadRestContent(pane) {
             const url = pane.dataset.contentSource;
-            const l10n = window.uspL10n || { loading: 'Loading...', loadError: 'Failed to load content.' };
+            const l10n = window.uspL10n || {loading: 'Loading...', loadError: 'Failed to load content.'};
 
             pane.innerHTML = `<p>${l10n.loading}</p>`;
             pane.classList.add('is-loading');
@@ -366,7 +366,7 @@
                 pane.classList.add('is-loaded');
 
                 // 3. (Опционально) Отправляем событие, чтобы другие скрипты могли инициализироваться
-                document.dispatchEvent(new CustomEvent('usp:tabContentLoaded', { detail: { pane } }));
+                document.dispatchEvent(new CustomEvent('usp:tabContentLoaded', {detail: {pane}}));
 
             } catch (error) {
                 const errorMessage = error.message || l10n.loadError;
@@ -504,7 +504,7 @@
                 const file = e.target.files[0];
                 if (!file) return;
 
-                const { config, signature } = uploaderEl.dataset;
+                const {config, signature} = uploaderEl.dataset;
 
                 const uploader = new FileUploader(file, {
                     apiClient: this.apiClient,
@@ -554,7 +554,7 @@
      */
 
         // Убедимся, что l10n объект существует
-    const l10n = window.uspL10n || { uploader: {} };
+    const l10n = window.uspL10n || {uploader: {}};
 
     // --- FileUploader остается в основном без изменений, так как он уже является классом ---
 
@@ -580,10 +580,14 @@
                 validationRules: {},
                 config: '',
                 signature: '',
-                onProgress: () => {},
-                onSuccess: () => {},
-                onError: () => {},
-                onFinally: () => {},
+                onProgress: () => {
+                },
+                onSuccess: () => {
+                },
+                onError: () => {
+                },
+                onFinally: () => {
+                },
                 ...options
             };
 
@@ -623,7 +627,7 @@
          */
         async validate() {
             const errors = [];
-            const { allowedTypes, maxSize, minWidth, minHeight, maxWidth, maxHeight } = this.options.validationRules;
+            const {allowedTypes, maxSize, minWidth, minHeight, maxWidth, maxHeight} = this.options.validationRules;
 
             if (maxSize && (this.file.size / 1024 / 1024) > parseFloat(maxSize)) {
                 errors.push((l10n.uploader?.fileTooLarge || 'File is too large. Maximum size is {maxSize} MB.').replace('{maxSize}', maxSize));
@@ -778,7 +782,7 @@
                 this.ui = new UIManager(this.api, this.assetLoader);
                 this.modalManager = new ModalManager(this.api);
                 this.avatarUploader = new AvatarUploader(this.api);
-                this.FileUploader = (file, options) => new FileUploader(file, { ...options, apiClient: this.api });
+                this.FileUploader = (file, options) => new FileUploader(file, {...options, apiClient: this.api});
             } catch (error) {
                 console.error('Failed to initialize UserSpaceCore:', error.message);
                 // Создаем "пустышки", чтобы избежать ошибок при вызове методов
@@ -788,11 +792,25 @@
                     delete: () => Promise.reject('API client not initialized'),
                     getEndpointUrl: () => ''
                 };
-                this.assetLoader = { load: () => Promise.resolve() };
-                this.ui = { showAdminNotice: () => {}, showFrontendNotice: () => {}, initTabs: () => {}, initAccountTabs: () => {} };
-                this.modalManager = { init: () => {} };
-                this.avatarUploader = { init: () => {} };
-                this.FileUploader = () => { throw new Error('FileUploader not initialized'); };
+                this.assetLoader = {load: () => Promise.resolve()};
+                this.ui = {
+                    showAdminNotice: () => {
+                    }, showFrontendNotice: () => {
+                    }, initTabs: () => {
+                    }, initAccountTabs: () => {
+                    }
+                };
+                this.modalManager = {
+                    init: () => {
+                    }
+                };
+                this.avatarUploader = {
+                    init: () => {
+                    }
+                };
+                this.FileUploader = () => {
+                    throw new Error('FileUploader not initialized');
+                };
                 return;
             }
 

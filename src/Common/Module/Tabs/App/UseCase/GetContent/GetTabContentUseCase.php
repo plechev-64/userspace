@@ -15,7 +15,8 @@ class GetTabContentUseCase
         private readonly TabRenderer            $tabRenderer,
         private readonly AssetRegistryInterface $assetRegistry,
         private readonly StringFilterInterface  $str
-    ) {
+    )
+    {
     }
 
     /**

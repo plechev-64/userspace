@@ -7,16 +7,17 @@ use UserSpace\Core\Asset\AssetRegistryInterface;
 use UserSpace\Core\Hooks\HookManagerInterface;
 use UserSpace\Core\Option\OptionManagerInterface;
 use UserSpace\Core\Profile\ProfileServiceApiInterface;
+use UserSpace\Core\TemplateManagerInterface;
 
 class FrontendManager
 {
     public function __construct(
-        private readonly ShortcodeManager         $shortcodeManager,
-        private readonly TemplateManagerInterface $templateManager,
-        private readonly TabProvider              $tabProvider,
-        private readonly OptionManagerInterface   $optionManager,
-        private readonly AssetRegistryInterface   $assetRegistry,
-        private readonly HookManagerInterface     $hookManager,
+        private readonly ShortcodeManager           $shortcodeManager,
+        private readonly TemplateManagerInterface   $templateManager,
+        private readonly TabProvider                $tabProvider,
+        private readonly OptionManagerInterface     $optionManager,
+        private readonly AssetRegistryInterface     $assetRegistry,
+        private readonly HookManagerInterface       $hookManager,
         private readonly ProfileServiceApiInterface $profileService
     )
     {

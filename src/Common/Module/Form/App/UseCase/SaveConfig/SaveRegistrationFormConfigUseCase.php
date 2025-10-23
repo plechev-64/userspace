@@ -14,7 +14,8 @@ class SaveRegistrationFormConfigUseCase
     public function __construct(
         private readonly FormManager           $formManager,
         private readonly StringFilterInterface $str
-    ) {
+    )
+    {
     }
 
     /**

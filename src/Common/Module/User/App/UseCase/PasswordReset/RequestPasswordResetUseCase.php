@@ -13,7 +13,8 @@ class RequestPasswordResetUseCase
         private readonly StringFilterInterface $str,
         private readonly AuthApiInterface      $authApi,
         private readonly WpApiInterface        $wpApi
-    ) {
+    )
+    {
     }
 
     /**

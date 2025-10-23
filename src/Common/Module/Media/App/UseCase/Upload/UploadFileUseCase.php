@@ -15,11 +15,12 @@ use UserSpace\Core\String\StringFilterInterface;
 class UploadFileUseCase
 {
     public function __construct(
-        private readonly SecurityHelper $securityHelper,
-        private readonly StringFilterInterface $str,
-        private readonly MediaApiInterface $mediaApi,
+        private readonly SecurityHelper                   $securityHelper,
+        private readonly StringFilterInterface            $str,
+        private readonly MediaApiInterface                $mediaApi,
         private readonly TemporaryFileRepositoryInterface $tempFileRepository
-    ) {
+    )
+    {
     }
 
     /**
@@ -32,10 +33,18 @@ class UploadFileUseCase
         }
 
         // --- Серверная валидация ---
-        if ($command->configJson && $command->signature) {
-            $config = json_decode($this->str->unslash($command->configJson), true);
+        if ($command->signature) {
+            // Собираем конфигурацию из команды для валидации подписи
+            $config = array_filter([
+                'allowedTypes' => $command->allowedTypes,
+                'maxSize' => $command->maxSize,
+                'minWidth' => $command->minWidth,
+                'minHeight' => $command->minHeight,
+                'maxWidth' => $command->maxWidth,
+                'maxHeight' => $command->maxHeight,
+            ], fn($value) => $value !== null);
 
-            if (!$config || !$this->securityHelper->validate($config, $command->signature)) {
+            if (empty($config) || !$this->securityHelper->validate($config, $command->signature)) {
                 throw new UspException($this->str->translate('Invalid request signature.'), 403);
             }
 
@@ -44,26 +53,26 @@ class UploadFileUseCase
         // --- Конец серверной валидации ---
 
         $upload_overrides = ['test_form' => false];
-        $movefile = $this->mediaApi->handleUpload($command->file, $upload_overrides);
+        $moveFile = $this->mediaApi->handleUpload($command->file, $upload_overrides);
 
-        if (!$movefile || isset($movefile['error'])) {
-            throw new UspException($movefile['error'] ?? 'File upload failed.', 500);
+        if (!$moveFile || isset($moveFile['error'])) {
+            throw new UspException($moveFile['error'] ?? 'File upload failed.', 500);
         }
 
-        $filename = basename($movefile['file']);
+        $filename = basename($moveFile['file']);
         $attachment = [
-            'post_mime_type' => $movefile['type'],
+            'post_mime_type' => $moveFile['type'],
             'post_title' => preg_replace('/\.[^.]+$/', '', $filename),
             'post_content' => '',
             'post_status' => 'inherit',
         ];
 
-        $attachmentId = $this->mediaApi->insertAttachment($attachment, $movefile['file']);
-        if (is_wp_error($attachmentId)) {
+        $attachmentId = $this->mediaApi->insertAttachment($attachment, $moveFile['file']);
+        if (UspException::isWpError($attachmentId)) {
             throw new UspException($attachmentId->get_error_message(), 500);
         }
 
-        $attach_data = $this->mediaApi->generateAttachmentMetadata($attachmentId, $movefile['file']);
+        $attach_data = $this->mediaApi->generateAttachmentMetadata($attachmentId, $moveFile['file']);
         $this->mediaApi->updateAttachmentMetadata($attachmentId, $attach_data);
 
         // Добавляем ID файла в таблицу временных файлов
@@ -83,13 +92,13 @@ class UploadFileUseCase
     private function validateFile(array $file, array $config): void
     {
         $rules = [];
-        if (!empty($config['allowedTypes'])) {
+        if (isset($config['allowedTypes'])) {
             $rules[] = new AllowedTypesValidator($config['allowedTypes']);
         }
-        if (!empty($config['maxSize'])) {
+        if (isset($config['maxSize'])) {
             $rules[] = new MaxFileSizeValidator((float)$config['maxSize']);
         }
-        if (!empty($config['minWidth']) || !empty($config['minHeight']) || !empty($config['maxWidth']) || !empty($config['maxHeight'])) {
+        if (isset($config['minWidth']) || isset($config['minHeight']) || isset($config['maxWidth']) || isset($config['maxHeight'])) {
             $rules[] = new ImageDimensionsValidator($config['minWidth'] ?: null, $config['minHeight'] ?: null, $config['maxWidth'] ?: null, $config['maxHeight'] ?: null);
         }
 

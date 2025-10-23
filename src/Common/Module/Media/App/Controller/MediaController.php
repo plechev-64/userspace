@@ -20,16 +20,27 @@ class MediaController extends AbstractController
 {
     public function __construct(
         private readonly StringFilterInterface $str
-    ) {
+    )
+    {
     }
 
     #[Route(path: '/upload', method: 'POST', permission: 'upload_files')]
     public function handleUpload(Request $request, UploadFileUseCase $uploadFileUseCase): JsonResponse
     {
+        $config = json_decode($request->getPost('config', '{}'), true);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            return $this->error(['message' => $this->str->translate('Invalid configuration format.')], 400);
+        }
+
         $command = new UploadFileCommand(
             $_FILES['file'] ?? [],
-            $request->getPost('config'),
-            $request->getPost('signature')
+            $request->getPost('signature'),
+            $config['allowedTypes'] ?? null,
+            isset($config['maxSize']) ? (float)$config['maxSize'] : null,
+            isset($config['minWidth']) ? (int)$config['minWidth'] : null,
+            isset($config['minHeight']) ? (int)$config['minHeight'] : null,
+            isset($config['maxWidth']) ? (int)$config['maxWidth'] : null,
+            isset($config['maxHeight']) ? (int)$config['maxHeight'] : null
         );
 
         try {

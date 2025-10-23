@@ -15,7 +15,8 @@ class GetModalFormUseCase
         private readonly LoginFormRenderer          $loginFormRenderer,
         private readonly RegistrationFormRenderer   $registrationFormRenderer,
         private readonly ForgotPasswordFormRenderer $forgotPasswordFormRenderer
-    ) {
+    )
+    {
     }
 
     /**

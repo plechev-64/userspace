@@ -140,7 +140,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 const oldConfig = JSON.parse(tabEl.dataset.config || '{}');
 
                 // Обновляем только те свойства, которые есть в форме
-                const newConfig = { ...oldConfig, ...newSettings };
+                const newConfig = {...oldConfig, ...newSettings};
 
                 tabEl.dataset.config = JSON.stringify(newConfig);
 
@@ -237,7 +237,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     return;
                 }
 
-                createNewTabElement({ id, title });
+                createNewTabElement({id, title});
                 modal.remove();
             }
         });

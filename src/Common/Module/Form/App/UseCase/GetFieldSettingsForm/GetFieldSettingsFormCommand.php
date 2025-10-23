@@ -10,6 +10,7 @@ class GetFieldSettingsFormCommand
     public function __construct(
         public readonly string $fieldType,
         public readonly string $fieldConfigJson
-    ) {
+    )
+    {
     }
 }

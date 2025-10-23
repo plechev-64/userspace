@@ -103,14 +103,17 @@
     border-left-width: 4px;
     border-left-style: solid;
 }
+
 .usp-notice-success {
     background-color: #f0f8ff;
     border-left-color: #7ad03a;
 }
+
 .usp-notice-error {
     background-color: #fff5f5;
     border-left-color: #d63638;
 }
+
 .usp-notice-error ul {
     margin: 0;
     padding-left: 20px;
@@ -154,7 +157,7 @@
     position: absolute;
     top: 2px;
     right: 2px;
-    background: rgba(0,0,0,0.6);
+    background: rgba(0, 0, 0, 0.6);
     color: #fff;
     border: none;
     border-radius: 50%;
@@ -183,9 +186,11 @@
 .usp-uploader .usp-remove-button {
     display: none;
 }
+
 .usp-uploader.has-file:not([data-multiple="true"]) .usp-remove-button {
     display: inline-block;
 }
+
 .usp-uploader.has-file:not([data-multiple="true"]) .usp-upload-button {
     display: none;
 }

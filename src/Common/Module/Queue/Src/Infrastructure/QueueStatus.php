@@ -107,12 +107,12 @@ class QueueStatus
     private function readStatus(): array
     {
         $default = [
-            'state'          => 'idle',
-            'last_start'     => 0,
-            'last_finish'    => 0,
-            'last_duration'  => 0,
+            'state' => 'idle',
+            'last_start' => 0,
+            'last_finish' => 0,
+            'last_duration' => 0,
             'jobs_processed' => 0,
-            'log'            => [],
+            'log' => [],
         ];
 
         $status = $this->optionManager->get(self::OPTION_NAME, $default);

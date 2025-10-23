@@ -13,7 +13,8 @@ class ConfirmRegistrationUseCase
         private readonly UserApiInterface       $userApi,
         private readonly SecurityHelper         $securityHelper,
         private readonly OptionManagerInterface $optionManager
-    ) {
+    )
+    {
     }
 
     /**

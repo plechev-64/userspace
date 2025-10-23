@@ -3,7 +3,7 @@
 namespace UserSpace\Common\Module\Grid\Src\Infrastructure;
 
 use UserSpace\Common\Module\Grid\Src\Domain\AbstractListContentGrid;
-use UserSpace\Core\ContainerInterface;
+use UserSpace\Core\Container\ContainerInterface;
 use UserSpace\Core\Exception\UspException;
 
 /**
@@ -13,8 +13,9 @@ class GridProvider
 {
     public function __construct(
         private readonly ContainerInterface $container,
-        private readonly array $gridMap
-    ) {
+        private readonly array              $gridMap
+    )
+    {
     }
 
     /**

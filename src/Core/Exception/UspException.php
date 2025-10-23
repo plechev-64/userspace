@@ -11,7 +11,7 @@ class UspException extends Exception implements ExceptionInterface
     protected $message;
     private readonly mixed $data;
 
-    public function __construct(string $message,string $code, mixed $data = null)
+    public function __construct(string $message, string $code, mixed $data = null)
     {
         $this->code = $code;
         $this->message = $message;
@@ -29,7 +29,7 @@ class UspException extends Exception implements ExceptionInterface
             $wpError->get_error_data()
         );
     }
-    
+
     public static function isWpError(mixed $thing): bool
     {
         return $thing instanceof WP_Error;

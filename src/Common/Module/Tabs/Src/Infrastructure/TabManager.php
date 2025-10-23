@@ -4,7 +4,7 @@ namespace UserSpace\Common\Module\Tabs\Src\Infrastructure;
 
 use UserSpace\Common\Module\Tabs\Src\Domain\AbstractTab;
 use UserSpace\Common\Service\ViewedUserContext;
-use UserSpace\Core\ContainerInterface;
+use UserSpace\Core\Container\ContainerInterface;
 use UserSpace\Core\User\UserApiInterface;
 
 class TabManager

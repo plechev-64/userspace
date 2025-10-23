@@ -57,11 +57,11 @@ use UserSpace\Common\Module\Tabs\Src\Infrastructure\TabManager;
 use UserSpace\Common\Module\Tabs\Src\Infrastructure\TabProvider;
 use UserSpace\Common\Module\User\App\Controller\UserController;
 use UserSpace\Common\Service\TemplateManager;
-use UserSpace\Common\Service\TemplateManagerInterface;
 use UserSpace\Core\Admin\AdminApiInterface;
 use UserSpace\Core\Asset\AssetRegistryInterface;
 use UserSpace\Core\Auth\AuthApiInterface;
-use UserSpace\Core\ContainerInterface;
+use UserSpace\Core\Container\ContainerInterface;
+use UserSpace\Core\Container\Params;
 use UserSpace\Core\Cron\CronApiInterface;
 use UserSpace\Core\Cron\CronManagerInterface;
 use UserSpace\Core\Database\DatabaseConnectionInterface;
@@ -72,7 +72,6 @@ use UserSpace\Core\Media\MediaApiInterface;
 use UserSpace\Core\Media\TemporaryFileCleanupServiceInterface;
 use UserSpace\Core\Option\OptionManagerInterface;
 use UserSpace\Core\Option\TransientApiInterface;
-use UserSpace\Core\Params;
 use UserSpace\Core\Profile\ProfileService;
 use UserSpace\Core\Profile\ProfileServiceApiInterface;
 use UserSpace\Core\Query\QueryApiInterface;
@@ -81,6 +80,7 @@ use UserSpace\Core\Rest\RestApi;
 use UserSpace\Core\Rest\Route\RouteParser;
 use UserSpace\Core\SiteApiInterface;
 use UserSpace\Core\String\StringFilterInterface;
+use UserSpace\Core\TemplateManagerInterface;
 use UserSpace\Core\User\UserApiInterface;
 use UserSpace\Core\WpApiInterface;
 use UserSpace\Plugin;
@@ -152,10 +152,10 @@ return [
         SiteApiInterface::class => fn(ContainerInterface $c) => $c->get(SiteApi::class),
 
         // Grid
-        GridProvider::class => function(ContainerInterface $c) {
+        GridProvider::class => function (ContainerInterface $c) {
             return new GridProvider($c, $c->get('app.grids'));
         },
-        FetchGridDataUseCase::class => function(ContainerInterface $c) {
+        FetchGridDataUseCase::class => function (ContainerInterface $c) {
             return new FetchGridDataUseCase($c->get(GridProvider::class));
         },
 

@@ -8,7 +8,7 @@ use UserSpace\Common\Module\Queue\Src\Domain\QueueableMessage;
 use UserSpace\Common\Module\SSE\Src\Domain\Repository\SseEventRepositoryInterface;
 use UserSpace\Common\Module\SSE\Src\Domain\SseEventDispatcherInterface;
 use UserSpace\Common\Service\CronManager;
-use UserSpace\Core\ContainerInterface;
+use UserSpace\Core\Container\ContainerInterface;
 
 // Защита от прямого доступа к файлу
 if (!defined('ABSPATH')) {
@@ -27,12 +27,12 @@ final class QueueManager
     private ?CronManager $cronManager = null;
 
     public function __construct(
-        private readonly ContainerInterface $container,
-        private readonly QueueStatus $status,
+        private readonly ContainerInterface          $container,
+        private readonly QueueStatus                 $status,
         private readonly SseEventDispatcherInterface $sseManager,
-        private readonly JobRepositoryInterface $jobRepository,
+        private readonly JobRepositoryInterface      $jobRepository,
         private readonly SseEventRepositoryInterface $sseEventRepository,
-        private readonly array $messageHandlerMap
+        private readonly array                       $messageHandlerMap
     )
     {
     }
@@ -114,7 +114,7 @@ final class QueueManager
 
             // Безопасная десериализация. Мы ожидаем только массив.
             $data = unserialize($job->args, ['allowed_classes' => false]);
-            
+
             $message = $messageClass::fromArray($data);
 
             $handlerInstance->handle($message);
@@ -132,7 +132,7 @@ final class QueueManager
                 $this->status->log(sprintf('Job #%d has been marked as permanently failed.', $job->id));
             } else {
                 // Планируем повторную попытку с экспоненциальной задержкой
-                $delay = (int) (60 * pow(5, $newAttempts - 1)); // 1, 5, 25 минут
+                $delay = (int)(60 * pow(5, $newAttempts - 1)); // 1, 5, 25 минут
                 $this->jobRepository->rescheduleAsFailed($job->id, $newAttempts, $delay);
                 $this->status->log(sprintf('Job #%d rescheduled to run in %d seconds.', $job->id, $delay));
             }

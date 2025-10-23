@@ -13,9 +13,9 @@ use UserSpace\Core\String\StringFilterInterface;
 class TabRenderer
 {
     public function __construct(
-        private readonly TabManager               $tabManager,
-        private readonly ViewedUserContext        $viewedUserContext,
-        private readonly StringFilterInterface    $stringFilter,
+        private readonly TabManager                 $tabManager,
+        private readonly ViewedUserContext          $viewedUserContext,
+        private readonly StringFilterInterface      $stringFilter,
         private readonly ProfileServiceApiInterface $profileService
     )
     {

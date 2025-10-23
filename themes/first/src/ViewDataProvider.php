@@ -6,7 +6,7 @@ use UserSpace\Common\Module\Tabs\Src\Infrastructure\TabManager;
 use UserSpace\Common\Module\Tabs\Src\Infrastructure\TabRenderer;
 use UserSpace\Common\Service\AvatarManager;
 use UserSpace\Core\Profile\ProfileServiceApiInterface;
-use UserSpace\Common\Service\TemplateManagerInterface;
+use UserSpace\Core\TemplateManagerInterface;
 
 /**
  * Отвечает за подготовку данных для шаблона темы "First".
@@ -14,12 +14,13 @@ use UserSpace\Common\Service\TemplateManagerInterface;
 class ViewDataProvider
 {
     public function __construct(
-        private readonly AvatarManager $avatarManager,
-        private readonly TabRenderer $tabRenderer,
-        private readonly TabManager $tabManager,
-        private readonly TemplateManagerInterface $templateManager,
+        private readonly AvatarManager              $avatarManager,
+        private readonly TabRenderer                $tabRenderer,
+        private readonly TabManager                 $tabManager,
+        private readonly TemplateManagerInterface   $templateManager,
         private readonly ProfileServiceApiInterface $profileService
-    ) {
+    )
+    {
     }
 
     /**
@@ -34,7 +35,7 @@ class ViewDataProvider
 
         return [
             'avatarBlock' => $this->avatarManager->renderAvatarBlock(),
-            'headerMenu'  => $this->renderMenu('header', $activeTabId),
+            'headerMenu' => $this->renderMenu('header', $activeTabId),
             'sidebarMenu' => $this->renderMenu('sidebar', $activeTabId),
             'tabsContent' => $this->tabRenderer->renderTabsContent(
                 '<div class="usp-account-tab-pane %4$s" id="%1$s" data-content-type="%2$s" data-content-source="%3$s">%5$s</div>',
@@ -61,8 +62,8 @@ class ViewDataProvider
 
         return $this->templateManager->render('tab_menu', [
             'tabs_to_render' => $tabsToRender,
-            'location'       => $location,
-            'active_tab_id'  => $activeTabId,
+            'location' => $location,
+            'active_tab_id' => $activeTabId,
         ]);
     }
 }

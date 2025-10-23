@@ -18,7 +18,7 @@
 use UserSpace\Common\Service\PluginLifecycle;
 use UserSpace\Plugin;
 
-if ( ! defined( 'ABSPATH' ) ) {
+if (!defined('ABSPATH')) {
     exit;
 }
 
@@ -31,7 +31,7 @@ if (!defined('USERSPACE_PLUGIN_URL')) define('USERSPACE_PLUGIN_URL', plugin_dir_
 if (!defined('USERSPACE_WORKER_TOKEN')) define('USERSPACE_WORKER_TOKEN', hash('sha256', NONCE_KEY . NONCE_SALT . 'userspace-worker'));
 
 // 2. Подключение автозагрузчика Composer
-if ( file_exists( USERSPACE_PLUGIN_DIR . 'vendor/autoload.php' ) ) {
+if (file_exists(USERSPACE_PLUGIN_DIR . 'vendor/autoload.php')) {
     require_once USERSPACE_PLUGIN_DIR . 'vendor/autoload.php';
 } else {
     // Можно добавить уведомление в админ-панель о необходимости выполнить `composer install`
@@ -50,7 +50,8 @@ add_action('admin_init', [$lifecycle, 'redirectOnActivation']);
  *
  * @return Plugin
  */
-function userspace(): Plugin {
+function userspace(): Plugin
+{
     return Plugin::getInstance();
 }
 

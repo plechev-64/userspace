@@ -19,8 +19,9 @@ use UserSpace\Core\String\StringFilterInterface;
 class TabController extends AbstractController
 {
     public function __construct(
-        private readonly StringFilterInterface     $str
-    ) {
+        private readonly StringFilterInterface $str
+    )
+    {
     }
 
     /**

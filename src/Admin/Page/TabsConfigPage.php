@@ -73,8 +73,6 @@ class TabsConfigPage extends AbstractAdminPage
         echo '<p class="submit">';
         echo '<button type="button" id="usp-save-tab-builder" class="button button-primary">' . $this->str->translate('Save Changes') . '</button>';
         echo '</p>';
-
-        // TODO: Подключить JS и шаблоны
         echo '</div>';
     }
 

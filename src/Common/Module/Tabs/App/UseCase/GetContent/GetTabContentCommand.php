@@ -9,6 +9,7 @@ class GetTabContentCommand
 {
     public function __construct(
         public readonly string $tabId
-    ) {
+    )
+    {
     }
 }

@@ -20,7 +20,7 @@ class SseEventRepository implements SseEventRepositoryInterface
 
     public function __construct(
         private readonly DatabaseConnectionInterface $db,
-        private readonly TransientApiInterface $transientApi
+        private readonly TransientApiInterface       $transientApi
     )
     {
     }
@@ -32,16 +32,16 @@ class SseEventRepository implements SseEventRepositoryInterface
     {
         $data = [
             'event_type' => $eventType,
-            'payload'    => wp_json_encode($payload),
+            'payload' => wp_json_encode($payload),
             'created_at' => gmdate('Y-m-d H:i:s'),
-            'user_id'    => $userId,
+            'user_id' => $userId,
         ];
 
         $result = $this->db->queryBuilder()->from(self::TABLE_NAME)->insert($data);
 
         return $result ? $this->db->getInsertId() : null;
     }
-    
+
     /**
      * @inheritDoc
      */
@@ -65,7 +65,7 @@ class SseEventRepository implements SseEventRepositoryInterface
         if ($userId > 0) {
             $builder->where(function (QueryBuilderInterface $query) use ($userId) {
                 $query->where('user_id', '=', $userId)
-                      ->orWhereNull('user_id');
+                    ->orWhereNull('user_id');
             });
         } else {
             // Анонимный пользователь получает только глобальные события

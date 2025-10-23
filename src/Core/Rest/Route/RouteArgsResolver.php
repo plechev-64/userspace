@@ -2,10 +2,9 @@
 
 namespace UserSpace\Core\Rest\Route;
 
-use UserSpace\Core\Rest\Abstract\AbstractController;
-use UserSpace\Core\Rest\Exception\ResolverException;
-use UserSpace\Core\ContainerInterface;
+use UserSpace\Core\Container\ContainerInterface;
 use UserSpace\Core\Http\Request;
+use UserSpace\Core\Rest\Exception\ResolverException;
 
 class RouteArgsResolver
 {

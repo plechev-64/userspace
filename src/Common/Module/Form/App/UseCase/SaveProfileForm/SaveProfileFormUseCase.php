@@ -19,12 +19,13 @@ class SaveProfileFormUseCase
     private const CORE_USER_FIELDS = ['user_email', 'display_name', 'user_url', 'user_pass', 'nickname'];
 
     public function __construct(
-        private readonly FormManager $formManager,
-        private readonly FormFactory $formFactory,
-        private readonly StringFilterInterface $str,
-        private readonly UserApiInterface $userApi,
+        private readonly FormManager                      $formManager,
+        private readonly FormFactory                      $formFactory,
+        private readonly StringFilterInterface            $str,
+        private readonly UserApiInterface                 $userApi,
         private readonly TemporaryFileRepositoryInterface $tempFileRepository
-    ) {
+    )
+    {
     }
 
     /**
@@ -41,6 +42,7 @@ class SaveProfileFormUseCase
         // Обновляем DTO данными из запроса
         $fields = $config->getFields();
         foreach (array_keys($fields) as $fieldName) {
+            /** @todo передавать через команду понятные параметры */
             if (array_key_exists($fieldName, $command->requestData)) {
                 $config->updateFieldValue($fieldName, $this->str->unslash($command->requestData[$fieldName]));
             }

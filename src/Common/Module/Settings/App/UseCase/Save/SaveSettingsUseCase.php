@@ -11,10 +11,11 @@ class SaveSettingsUseCase
     private const OPTION_NAME = 'usp_settings';
 
     public function __construct(
-        private readonly StringFilterInterface  $str,
-        private readonly OptionManagerInterface $optionManager,
+        private readonly StringFilterInterface            $str,
+        private readonly OptionManagerInterface           $optionManager,
         private readonly TemporaryFileRepositoryInterface $tempFileRepository
-    ) {
+    )
+    {
     }
 
     public function execute(SaveSettingsCommand $command): void

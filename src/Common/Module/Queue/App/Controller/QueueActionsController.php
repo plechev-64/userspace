@@ -48,7 +48,7 @@ class QueueActionsController extends AbstractController
             $request->getQuery('search', '')
         );
         $result = $getQueueStatusUseCase->execute($command);
-        
+
         return $this->success([
             'status_widget' => $result->statusWidget,
             'grid' => [

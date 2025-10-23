@@ -1,7 +1,8 @@
 <?php
 
 namespace UserSpace\Core\Theme;
-use UserSpace\Core\ContainerInterface;
+
+use UserSpace\Core\Container\ContainerInterface;
 
 /**
  * Определяет контракт для тем личного кабинета.

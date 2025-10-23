@@ -6,6 +6,7 @@
     margin-bottom: 20px;
     max-width: 600px;
 }
+
 .usp-queue-widget-header {
     display: flex;
     justify-content: space-between;
@@ -26,9 +27,21 @@
     vertical-align: middle;
 }
 
-.usp-queue-status-indicator.running { background: #22c55e; } /* green */
-.usp-queue-status-indicator.idle { background: #64748b; } /* gray */
-.usp-queue-status-indicator.stalled { background: #ef4444; } /* red */
+.usp-queue-status-indicator.running {
+    background: #22c55e;
+}
+
+/* green */
+.usp-queue-status-indicator.idle {
+    background: #64748b;
+}
+
+/* gray */
+.usp-queue-status-indicator.stalled {
+    background: #ef4444;
+}
+
+/* red */
 
 .usp-queue-log {
     background: #f0f0f1;

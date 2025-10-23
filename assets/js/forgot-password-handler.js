@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     form.addEventListener('submit', async function (e) {
         e.preventDefault();
-        
+
         const l10n = window.uspL10n?.forgotPassword || {};
         const submitButton = form.querySelector('button[type="submit"], input[type="submit"]');
         const originalButtonText = submitButton.innerHTML;

@@ -2,8 +2,8 @@
 
 namespace UserSpace;
 
-use UserSpace\Core\ContainerInterface;
-use UserSpace\Core\Params;
+use UserSpace\Core\Container\ContainerInterface;
+use UserSpace\Core\Container\Params;
 use UserSpace\Core\Theme\ThemeManager;
 
 /**

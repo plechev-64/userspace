@@ -1,6 +1,6 @@
 <?php
 
-namespace UserSpace\Core;
+namespace UserSpace\Core\Container;
 
 use Exception;
 use ReflectionClass;

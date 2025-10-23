@@ -13,7 +13,8 @@ class SaveWizardStepUseCase
     public function __construct(
         private readonly StringFilterInterface  $str,
         private readonly OptionManagerInterface $optionManager
-    ) {
+    )
+    {
     }
 
     /**
@@ -21,6 +22,7 @@ class SaveWizardStepUseCase
      */
     public function execute(SaveWizardStepCommand $command): void
     {
+        /** @todo передавать через команду понятные параметры, возможно массив объектов */
         $data = $command->stepData;
 
         if (empty($data) || !is_array($data)) {

@@ -15,7 +15,7 @@ function initFormHandler(formElement) {
 
     formElement.addEventListener('submit', async function (e) {
         e.preventDefault();
-        
+
         const l10n = window.uspL10n?.formHandler || {};
         const submitButton = formElement.querySelector('button[type="submit"]');
         const originalButtonText = submitButton.innerHTML;

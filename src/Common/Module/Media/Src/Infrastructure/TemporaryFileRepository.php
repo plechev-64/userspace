@@ -13,7 +13,8 @@ class TemporaryFileRepository implements TemporaryFileRepositoryInterface
 
     public function __construct(
         private readonly DatabaseConnectionInterface $db
-    ) {
+    )
+    {
         $this->tableName = $this->db->getPrefix() . self::TABLE_NAME;
     }
 

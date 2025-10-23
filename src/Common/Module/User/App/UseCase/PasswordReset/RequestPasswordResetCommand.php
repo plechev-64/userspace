@@ -9,6 +9,7 @@ class RequestPasswordResetCommand
 {
     public function __construct(
         public readonly string $userLogin
-    ) {
+    )
+    {
     }
 }

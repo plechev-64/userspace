@@ -11,7 +11,8 @@ class GenerateSseTokenUseCase
     public function __construct(
         private readonly SecurityHelper        $securityHelper,
         private readonly StringFilterInterface $str
-    ) {
+    )
+    {
     }
 
     /**
@@ -26,7 +27,7 @@ class GenerateSseTokenUseCase
         $expiresIn = HOUR_IN_SECONDS;
         $payload = [
             'user_id' => $userId,
-            'exp'     => time() + $expiresIn, // Токен действителен 1 час
+            'exp' => time() + $expiresIn, // Токен действителен 1 час
         ];
 
         $signature = $this->securityHelper->sign($payload);

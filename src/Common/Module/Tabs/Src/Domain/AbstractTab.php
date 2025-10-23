@@ -10,7 +10,7 @@ abstract class AbstractTab
     protected string $location = 'main';
     protected int $order = 100;
     protected ?string $parentId = null;
-    protected bool $isPrivate = false;    
+    protected bool $isPrivate = false;
     protected string $capability = 'read';
     protected ?string $icon = null;
     protected string $contentType = 'rest';

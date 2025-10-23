@@ -6,7 +6,7 @@
  * @package UserSpace
  */
 
-if ( ! defined('ABSPATH')) {
+if (!defined('ABSPATH')) {
     exit;
 }
 
@@ -14,14 +14,17 @@ $login_page_url = !empty($settings['login_page_id']) ? get_permalink($settings['
 $registration_page_url = !empty($settings['registration_page_id']) ? get_permalink($settings['registration_page_id']) : wp_registration_url();
 ?>
 
-<form name="lostpasswordform" class="usp-form" id="lostpasswordform" action="<?php echo esc_url(network_site_url('wp-login.php?action=lostpassword', 'login_post')); ?>" method="post" data-usp-form="forgot-password">
+<form name="lostpasswordform" class="usp-form" id="lostpasswordform"
+      action="<?php echo esc_url(network_site_url('wp-login.php?action=lostpassword', 'login_post')); ?>" method="post"
+      data-usp-form="forgot-password">
     <p><?php _e('Please enter your username or email address. You will receive an email message with instructions on how to reset your password.', 'usp'); ?></p>
     <div class="usp-form-field-wrapper">
         <label for="user_login"><?php _e('Username or Email Address', 'usp'); ?></label>
-        <input type="text" name="user_login" id="user_login" class="input" value="" size="20" />
+        <input type="text" name="user_login" id="user_login" class="input" value="" size="20"/>
     </div>
     <div class="usp-form-submit-wrapper">
-        <button type="submit" name="wp-submit" id="wp-submit" class="button button-primary"><?php _e('Get New Password', 'usp'); ?></button>
+        <button type="submit" name="wp-submit" id="wp-submit"
+                class="button button-primary"><?php _e('Get New Password', 'usp'); ?></button>
     </div>
 </form>
 

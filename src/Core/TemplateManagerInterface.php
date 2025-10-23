@@ -1,6 +1,6 @@
 <?php
 
-namespace UserSpace\Common\Service;
+namespace UserSpace\Core;
 
 use InvalidArgumentException;
 

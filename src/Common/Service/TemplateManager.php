@@ -3,8 +3,9 @@
 namespace UserSpace\Common\Service;
 
 use InvalidArgumentException;
-use UserSpace\Core\Params;
+use UserSpace\Core\Container\Params;
 use UserSpace\Core\String\StringFilterInterface;
+use UserSpace\Core\TemplateManagerInterface;
 
 class TemplateManager implements TemplateManagerInterface
 {
@@ -13,7 +14,7 @@ class TemplateManager implements TemplateManagerInterface
      * @param StringFilterInterface $str
      */
     public function __construct(
-        private readonly Params                 $templates,
+        private readonly Params                $templates,
         private readonly StringFilterInterface $str
     )
     {

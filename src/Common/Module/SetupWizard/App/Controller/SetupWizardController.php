@@ -15,8 +15,8 @@ use UserSpace\Core\String\StringFilterInterface;
 class SetupWizardController extends AbstractController
 {
     public function __construct(
-        private readonly StringFilterInterface  $str,
-        private readonly SaveWizardStepUseCase  $saveWizardStepUseCase
+        private readonly StringFilterInterface $str,
+        private readonly SaveWizardStepUseCase $saveWizardStepUseCase
     )
     {
     }

@@ -269,7 +269,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 // 3.2. Обновить data-config на элементе в конструкторе
                 const oldConfig = JSON.parse(fieldEl.dataset.config || '{}');
-                const newConfig = { ...oldConfig };
+                const newConfig = {...oldConfig};
 
                 newConfig.label = newSettings.label || oldConfig.label;
                 newConfig.options = newSettings.options || oldConfig.options;
@@ -422,7 +422,7 @@ document.addEventListener('DOMContentLoaded', function () {
     };
 
     // Глобальный обработчик для динамически добавляемых элементов (внутри модальных окон)
-    document.body.addEventListener('click', function(e) {
+    document.body.addEventListener('click', function (e) {
         // Добавление опции в Key-Value Editor
         if (e.target.matches('.usp-kv-add')) {
             e.preventDefault();
@@ -475,19 +475,19 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     const serializeBuilder = () => {
-        const config = { sections: [] };
+        const config = {sections: []};
         const sections = builder.querySelectorAll('.usp-form-builder-sections > .usp-form-builder-section');
 
         sections.forEach(sectionEl => {
             const sectionData = {
-                id:    sectionEl.dataset.id,
+                id: sectionEl.dataset.id,
                 title: sectionEl.querySelector('.usp-form-builder-section-title .title-input').value,
                 blocks: []
             };
 
             sectionEl.querySelectorAll('.usp-form-builder-blocks > .usp-form-builder-block').forEach(blockEl => {
                 const blockData = {
-                    id:    blockEl.dataset.id,
+                    id: blockEl.dataset.id,
                     title: blockEl.querySelector('.usp-form-builder-block-title .title-input').value,
                     fields: {}
                 };

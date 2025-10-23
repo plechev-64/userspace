@@ -4,10 +4,10 @@ namespace UserSpace\Common\Renderer;
 
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormFactory;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormManager;
-use UserSpace\Common\Service\TemplateManagerInterface;
 use UserSpace\Core\Asset\AssetRegistryInterface;
 use UserSpace\Core\Option\OptionManagerInterface;
 use UserSpace\Core\String\StringFilterInterface;
+use UserSpace\Core\TemplateManagerInterface;
 use UserSpace\Core\User\UserApiInterface;
 
 // Защита от прямого доступа к файлу

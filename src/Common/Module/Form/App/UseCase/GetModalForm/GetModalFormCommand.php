@@ -9,6 +9,7 @@ class GetModalFormCommand
 {
     public function __construct(
         public readonly string $formType
-    ) {
+    )
+    {
     }
 }

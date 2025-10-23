@@ -10,7 +10,8 @@ class StreamSseEventsCommand
     public function __construct(
         public readonly ?string $token,
         public readonly ?string $signature,
-        public readonly int $lastEventId
-    ) {
+        public readonly int     $lastEventId
+    )
+    {
     }
 }

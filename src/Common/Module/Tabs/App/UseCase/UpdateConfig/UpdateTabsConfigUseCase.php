@@ -9,9 +9,10 @@ use UserSpace\Core\String\StringFilterInterface;
 class UpdateTabsConfigUseCase
 {
     public function __construct(
-        private readonly TabConfigManager $tabConfigManager,
+        private readonly TabConfigManager      $tabConfigManager,
         private readonly StringFilterInterface $str
-    ) {
+    )
+    {
     }
 
     /**
@@ -19,6 +20,7 @@ class UpdateTabsConfigUseCase
      */
     public function execute(UpdateTabsConfigCommand $command): void
     {
+        /** @todo передавать через команду понятные параметры */
         $config = json_decode($command->configJson, true);
 
         if (json_last_error() !== JSON_ERROR_NONE) {

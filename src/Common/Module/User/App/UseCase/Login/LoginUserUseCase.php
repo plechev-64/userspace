@@ -13,11 +13,12 @@ class LoginUserUseCase
 {
     public function __construct(
         private readonly StringFilterInterface $str,
-        private readonly UserApiInterface $userApi,
-        private readonly AdminApiInterface $adminApi,
-        private readonly SiteApiInterface $siteApi,
-        private readonly HookManagerInterface $hookManager
-    ) {
+        private readonly UserApiInterface      $userApi,
+        private readonly AdminApiInterface     $adminApi,
+        private readonly SiteApiInterface      $siteApi,
+        private readonly HookManagerInterface  $hookManager
+    )
+    {
     }
 
     /**
@@ -29,7 +30,7 @@ class LoginUserUseCase
     {
         // 1. Валидация входных данных
         if (empty($command->username) || empty($command->password)) {
-            throw new UspException( $this->str->translate('Username and password are required.'), 400);
+            throw new UspException($this->str->translate('Username and password are required.'), 400);
         }
 
         // 2. Попытка аутентификации

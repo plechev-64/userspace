@@ -10,6 +10,7 @@ class UpdateUserAvatarCommand
     public function __construct(
         public readonly int $attachmentId,
         public readonly int $userId
-    ) {
+    )
+    {
     }
 }

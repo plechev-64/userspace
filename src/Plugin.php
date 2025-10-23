@@ -3,12 +3,12 @@
 namespace UserSpace;
 
 use UserSpace\Admin\AdminManager;
-use UserSpace\Common\Service\AvatarManager;
 use UserSpace\Common\Service\AssetsManager;
+use UserSpace\Common\Service\AvatarManager;
 use UserSpace\Common\Service\CronManager;
 use UserSpace\Common\Service\FrontendManager;
-use UserSpace\Core\Container;
-use UserSpace\Core\ContainerInterface;
+use UserSpace\Core\Container\Container;
+use UserSpace\Core\Container\ContainerInterface;
 use UserSpace\Core\Hooks\HookManagerInterface;
 use UserSpace\Core\Localization\LocalizationApiInterface;
 use UserSpace\Core\Rest\InitWpRest;
@@ -41,10 +41,11 @@ final class Plugin
      * @param LocalizationApiInterface $localizationApi
      */
     private function __construct(
-        private readonly ContainerInterface $container,
-        private readonly HookManagerInterface $hookManager,
+        private readonly ContainerInterface       $container,
+        private readonly HookManagerInterface     $hookManager,
         private readonly LocalizationApiInterface $localizationApi
-    ) {
+    )
+    {
         $this->initHooks();
     }
 

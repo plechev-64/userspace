@@ -70,7 +70,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const fetchStatus = async () => {
         try {
             // Собираем текущие параметры грида для запроса
-            const gridState = gridContainer.dataset.gridState ? JSON.parse(gridContainer.dataset.gridState) : { page: 1, orderby: 'id', order: 'desc' };
+            const gridState = gridContainer.dataset.gridState ? JSON.parse(gridContainer.dataset.gridState) : {
+                page: 1,
+                orderby: 'id',
+                order: 'desc'
+            };
 
             // Формируем URL в формате "ключ/значение"
             const path = `${pageData.statusEndpoint}/page/${gridState.page}/orderby/${gridState.orderby}/order/${gridState.order}`;
@@ -106,8 +110,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (logEl) {
             logEl.innerHTML = statusData.log.length > 0
                 ? statusData.log.map(line => document.createTextNode(line + '\n'))
-                                    .reduce((acc, node) => (acc.appendChild(node), acc), document.createDocumentFragment())
-                                    .textContent
+                    .reduce((acc, node) => (acc.appendChild(node), acc), document.createDocumentFragment())
+                    .textContent
                 : 'No recent activity.';
         }
     };
@@ -136,10 +140,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (UspCore.isUserLoggedIn()) {
             try {
                 const auth = await UspCore.api.post('/user/sse-token');
-                if(pageData.uspLightWeightWorker){
-                    const params = new URLSearchParams({ token: auth.token, signature: auth.signature });
+                if (pageData.uspLightWeightWorker) {
+                    const params = new URLSearchParams({token: auth.token, signature: auth.signature});
                     finalSseUrl = `${pageData.uspLightWeightWorker}?${params.toString()}`;
-                }else{
+                } else {
                     finalSseUrl = `${baseSseUrl}/token/${auth.token}/signature/${auth.signature}`;
                 }
             } catch (e) {

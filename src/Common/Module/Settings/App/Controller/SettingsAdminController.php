@@ -15,8 +15,8 @@ use UserSpace\Core\String\StringFilterInterface;
 class SettingsAdminController extends AbstractController
 {
     public function __construct(
-        private readonly StringFilterInterface  $str,
-        private readonly SaveSettingsUseCase    $saveSettingsUseCase
+        private readonly StringFilterInterface $str,
+        private readonly SaveSettingsUseCase   $saveSettingsUseCase
     )
     {
     }

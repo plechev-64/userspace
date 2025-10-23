@@ -13,9 +13,10 @@ class StreamSseEventsUseCase
 {
     public function __construct(
         private readonly SseEventRepositoryInterface $repository,
-        private readonly StringFilterInterface $str,
-        private readonly SecurityHelper $securityHelper
-    ) {
+        private readonly StringFilterInterface       $str,
+        private readonly SecurityHelper              $securityHelper
+    )
+    {
     }
 
     /**

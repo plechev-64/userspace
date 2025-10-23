@@ -11,6 +11,7 @@ class GenerateSseTokenResult
         public readonly string $token,
         public readonly string $signature,
         public readonly int    $expiresIn
-    ) {
+    )
+    {
     }
 }

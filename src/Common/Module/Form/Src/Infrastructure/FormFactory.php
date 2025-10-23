@@ -4,7 +4,7 @@ namespace UserSpace\Common\Module\Form\Src\Infrastructure;
 
 use InvalidArgumentException;
 use UserSpace\Common\Module\Form\Src\Domain\FormInterface;
-use UserSpace\Core\ContainerInterface;
+use UserSpace\Core\Container\ContainerInterface;
 
 // Защита от прямого доступа к файлу
 if (!defined('ABSPATH')) {

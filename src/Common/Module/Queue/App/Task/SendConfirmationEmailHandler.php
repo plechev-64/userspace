@@ -14,7 +14,8 @@ class SendConfirmationEmailHandler implements MessageHandler
 {
     public function __construct(
         private readonly WpApiInterface $wpApi
-    ) {
+    )
+    {
     }
 
     public function handle(object $message): void

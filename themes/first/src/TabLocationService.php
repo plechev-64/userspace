@@ -11,9 +11,10 @@ use UserSpace\Core\String\StringFilterInterface;
 class TabLocationService
 {
     public function __construct(
-        private readonly TabLocationManager $tabLocationManager,
+        private readonly TabLocationManager    $tabLocationManager,
         private readonly StringFilterInterface $stringFilter
-    ) {
+    )
+    {
     }
 
     public function registerThemeLocations(): void

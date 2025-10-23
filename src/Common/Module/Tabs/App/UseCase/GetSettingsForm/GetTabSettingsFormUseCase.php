@@ -10,9 +10,10 @@ use UserSpace\Core\String\StringFilterInterface;
 class GetTabSettingsFormUseCase
 {
     public function __construct(
-        private readonly FormFactory $formFactory,
+        private readonly FormFactory           $formFactory,
         private readonly StringFilterInterface $str
-    ) {
+    )
+    {
     }
 
     /**
@@ -20,6 +21,7 @@ class GetTabSettingsFormUseCase
      */
     public function execute(GetTabSettingsFormCommand $command): GetTabSettingsFormResult
     {
+        /** @todo передавать через команду понятные параметры */
         $tabConfig = json_decode($command->tabConfigJson, true);
 
         if (json_last_error() !== JSON_ERROR_NONE) {

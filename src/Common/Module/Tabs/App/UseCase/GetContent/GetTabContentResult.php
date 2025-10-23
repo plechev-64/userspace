@@ -9,7 +9,8 @@ class GetTabContentResult
 {
     public function __construct(
         public readonly string $html,
-        public readonly array $assets
-    ) {
+        public readonly array  $assets
+    )
+    {
     }
 }

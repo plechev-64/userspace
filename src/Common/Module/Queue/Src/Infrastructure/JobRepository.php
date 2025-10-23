@@ -90,8 +90,8 @@ class JobRepository implements JobRepositoryInterface
     public function rescheduleAsFailed(int $jobId, int $newAttemptCount, int $delaySeconds): void
     {
         $data = [
-            'status'       => 'pending', // Возвращаем в очередь
-            'attempts'     => $newAttemptCount,
+            'status' => 'pending', // Возвращаем в очередь
+            'attempts' => $newAttemptCount,
             'available_at' => gmdate('Y-m-d H:i:s', time() + $delaySeconds),
         ];
         $this->db->queryBuilder()

@@ -9,6 +9,7 @@ class LoginUserResult
 {
     public function __construct(
         public readonly string $redirectUrl
-    ) {
+    )
+    {
     }
 }

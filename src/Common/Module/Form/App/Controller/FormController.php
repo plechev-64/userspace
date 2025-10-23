@@ -9,6 +9,7 @@ use UserSpace\Common\Module\Form\App\UseCase\SaveConfig\SaveProfileFormConfigUse
 use UserSpace\Common\Module\Form\App\UseCase\SaveConfig\SaveRegistrationFormConfigUseCase;
 use UserSpace\Common\Module\Form\App\UseCase\SaveProfileForm\SaveProfileFormCommand;
 use UserSpace\Common\Module\Form\App\UseCase\SaveProfileForm\SaveProfileFormUseCase;
+use UserSpace\Common\Module\Form\Src\Infrastructure\FormConfig;
 use UserSpace\Common\Renderer\ForgotPasswordFormRenderer;
 use UserSpace\Common\Renderer\LoginFormRenderer;
 use UserSpace\Common\Renderer\RegistrationFormRenderer;
@@ -88,10 +89,16 @@ class FormController extends AbstractController
     #[Route(path: '/config/profile-form/save', method: 'POST', permission: 'manage_options')]
     final public function saveProfileConfig(Request $request, SaveProfileFormConfigUseCase $saveConfigUseCase): JsonResponse
     {
-        $command = new SaveFormConfigCommand(
-            $request->getPost('config', '{}'),
-            $request->getPost('deleted_fields', '[]')
-        );
+        $configArray = json_decode($request->getPost('config', '{}'), true);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            return $this->error(['message' => $this->str->translate('Invalid JSON format.')], 400);
+        }
+
+        $deletedFields = json_decode($request->getPost('deleted_fields', '[]'), true) ?? [];
+
+        $formConfig = FormConfig::fromArray($configArray);
+
+        $command = new SaveFormConfigCommand($formConfig, $deletedFields);
 
         try {
             $saveConfigUseCase->execute($command);
@@ -104,10 +111,16 @@ class FormController extends AbstractController
     #[Route(path: '/config/registration-form/save', method: 'POST', permission: 'manage_options')]
     final public function saveRegistrationConfig(Request $request, SaveRegistrationFormConfigUseCase $saveRegistrationConfigUseCase): JsonResponse
     {
-        $command = new SaveFormConfigCommand(
-            $request->getPost('config', '{}'),
-            $request->getPost('deleted_fields', '[]')
-        );
+        $configArray = json_decode($request->getPost('config', '{}'), true);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            return $this->error(['message' => $this->str->translate('Invalid JSON format.')], 400);
+        }
+
+        $deletedFields = json_decode($request->getPost('deleted_fields', '[]'), true) ?? [];
+
+        $formConfig = FormConfig::fromArray($configArray);
+
+        $command = new SaveFormConfigCommand($formConfig, $deletedFields);
 
         try {
             $saveRegistrationConfigUseCase->execute($command);

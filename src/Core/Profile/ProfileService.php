@@ -17,10 +17,11 @@ class ProfileService implements ProfileServiceApiInterface
 
     public function __construct(
         private readonly OptionManagerInterface $optionManager,
-        private readonly UserApiInterface $userApi,
-        private readonly TabManager $tabManager,
-        private readonly Request $request
-    ) {
+        private readonly UserApiInterface       $userApi,
+        private readonly TabManager             $tabManager,
+        private readonly Request                $request
+    )
+    {
     }
 
     public function getProfileUrl(?int $userId = null): ?string

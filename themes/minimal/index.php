@@ -3,7 +3,7 @@
 namespace UserSpace\Theme\Minimal;
 
 use UserSpace\Core\Asset\AssetRegistryInterface;
-use UserSpace\Core\ContainerInterface;
+use UserSpace\Core\Container\ContainerInterface;
 use UserSpace\Core\Hooks\HookManagerInterface;
 use UserSpace\Core\String\StringFilterInterface;
 use UserSpace\Core\Theme\ThemeInterface;
@@ -46,7 +46,7 @@ class MinimalTheme implements ThemeInterface
         $this->assetRegistry->enqueueScript('usp-account-template-minimal-js', $themeUrl . 'assets/main.js', ['usp-core'], USERSPACE_VERSION, true);
 
         $this->assetRegistry->localizeScript('usp-account-template-minimal-js', 'uspL10n', [
-            'loading'   => $this->stringFilter->translate('Loading...', 'usp'),
+            'loading' => $this->stringFilter->translate('Loading...', 'usp'),
             'loadError' => $this->stringFilter->translate('Failed to load content.', 'usp'),
         ]);
     }

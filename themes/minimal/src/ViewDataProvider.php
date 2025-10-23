@@ -6,7 +6,7 @@ use UserSpace\Common\Module\Tabs\Src\Infrastructure\TabManager;
 use UserSpace\Common\Module\Tabs\Src\Infrastructure\TabRenderer;
 use UserSpace\Common\Service\AvatarManager;
 use UserSpace\Core\Profile\ProfileServiceApiInterface;
-use UserSpace\Common\Service\TemplateManagerInterface;
+use UserSpace\Core\TemplateManagerInterface;
 
 /**
  * Отвечает за подготовку данных для шаблона темы "Minimal".
@@ -14,12 +14,13 @@ use UserSpace\Common\Service\TemplateManagerInterface;
 class ViewDataProvider
 {
     public function __construct(
-        private readonly AvatarManager $avatarManager,
-        private readonly TabRenderer $tabRenderer,
-        private readonly TabManager $tabManager,
-        private readonly TemplateManagerInterface $templateManager,
+        private readonly AvatarManager              $avatarManager,
+        private readonly TabRenderer                $tabRenderer,
+        private readonly TabManager                 $tabManager,
+        private readonly TemplateManagerInterface   $templateManager,
         private readonly ProfileServiceApiInterface $profileService
-    ) {
+    )
+    {
     }
 
     /**
@@ -60,8 +61,8 @@ class ViewDataProvider
 
         return $this->templateManager->render('tab_menu', [
             'tabs_to_render' => $tabsToRender,
-            'location'       => $location,
-            'active_tab_id'  => $activeTabId,
+            'location' => $location,
+            'active_tab_id' => $activeTabId,
         ]);
     }
 }

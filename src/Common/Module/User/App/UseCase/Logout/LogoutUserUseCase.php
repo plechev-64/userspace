@@ -8,7 +8,8 @@ class LogoutUserUseCase
 {
     public function __construct(
         private readonly UserApiInterface $userApi
-    ) {
+    )
+    {
     }
 
     public function execute(): void

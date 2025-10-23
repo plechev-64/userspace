@@ -14,7 +14,8 @@ class GetFieldSettingsFormUseCase
         private readonly FieldMapper           $fieldMapper,
         private readonly FormFactory           $formFactory,
         private readonly StringFilterInterface $str
-    ) {
+    )
+    {
     }
 
     /**
@@ -26,6 +27,7 @@ class GetFieldSettingsFormUseCase
             throw new UspException($this->str->translate('Invalid field type.'), 400);
         }
 
+        /** @todo передавать через команду понятные параметры */
         $fieldConfig = json_decode($command->fieldConfigJson, true);
         if (json_last_error() !== JSON_ERROR_NONE) {
             throw new UspException($this->str->translate('Invalid field configuration format.'), 400);
