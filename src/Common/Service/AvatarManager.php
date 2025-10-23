@@ -2,14 +2,14 @@
 
 namespace UserSpace\Common\Service;
 
+use UserSpace\Common\Module\Media\Src\Domain\MediaApiInterface;
+use UserSpace\Common\Module\Settings\Src\Domain\OptionManagerInterface;
 use UserSpace\Common\Module\User\App\Controller\UserController;
+use UserSpace\Common\Module\User\Src\Domain\UserApiInterface;
+use UserSpace\Common\Module\User\Src\Domain\UserInterface;
 use UserSpace\Core\Hooks\HookManagerInterface;
-use UserSpace\Core\Media\MediaApiInterface;
-use UserSpace\Core\Option\OptionManagerInterface;
-use UserSpace\Core\SecurityHelper;
+use UserSpace\Core\SecurityHelperInterface;
 use UserSpace\Core\String\StringFilterInterface;
-use UserSpace\Core\User\UserApiInterface;
-use WP_User;
 
 /**
  * Управляет аватарами пользователей.
@@ -17,7 +17,7 @@ use WP_User;
 class AvatarManager
 {
     public function __construct(
-        private readonly SecurityHelper         $securityHelper,
+        private readonly SecurityHelperInterface         $securityHelper,
         private readonly ViewedUserContext      $viewedUserContext,
         private readonly StringFilterInterface  $str,
         private readonly OptionManagerInterface $optionManager,
@@ -40,12 +40,12 @@ class AvatarManager
      * Получает URL аватара для указанного пользователя.
      * Учитывает кастомный аватар плагина.
      *
-     * @param WP_User|int $user Объект пользователя или его ID.
+     * @param UserInterface|int $user Объект пользователя или его ID.
      * @return string
      */
-    public function getAvatarUrl(WP_User|int $user): string
+    public function getAvatarUrl(UserInterface|int $user): string
     {
-        $userId = is_numeric($user) ? $user : $user->ID;
+        $userId = is_numeric($user) ? $user : $user->getId();
         $customAvatarId = $this->userApi->getUserMeta($userId, UserController::AVATAR_META_KEY, true);
 
         if ($customAvatarId) {
@@ -136,7 +136,7 @@ class AvatarManager
         <div class="usp-avatar-block" id="usp-avatar-block">
             <div class="usp-account-avatar-wrapper">
                 <img src="<?php echo $this->str->escAttr($avatarUrl); ?>"
-                     alt="<?php echo $this->str->escAttr($viewedUser->display_name); ?>" class="usp-account-avatar-img">
+                     alt="<?php echo $this->str->escAttr($viewedUser->getDisplayName()); ?>" class="usp-account-avatar-img">
                 <?php if ($isOwner) : ?>
                     <?php
                     $config = [
@@ -159,8 +159,8 @@ class AvatarManager
                 <?php endif; ?>
             </div>
             <div class="usp-account-user-info">
-                <h2 class="usp-account-display-name"><?php echo $this->str->escHtml($viewedUser->display_name); ?></h2>
-                <p class="usp-account-user-email"><?php echo $this->str->escHtml($viewedUser->user_email); ?></p>
+                <h2 class="usp-account-display-name"><?php echo $this->str->escHtml($viewedUser->getDisplayName()); ?></h2>
+                <p class="usp-account-user-email"><?php echo $this->str->escHtml($viewedUser->getEmail()); ?></p>
             </div>
         </div>
         <?php

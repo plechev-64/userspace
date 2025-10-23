@@ -2,7 +2,7 @@
 
 namespace UserSpace\Adapters;
 
-use UserSpace\Core\Option\TransientApiInterface;
+use UserSpace\Common\Module\Settings\Src\Domain\TransientApiInterface;
 
 if (!defined('ABSPATH')) {
     exit;

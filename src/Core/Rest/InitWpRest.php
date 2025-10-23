@@ -3,10 +3,10 @@
 namespace UserSpace\Core\Rest;
 
 use Exception;
+use UserSpace\Common\Module\User\Src\Domain\UserApiInterface;
 use UserSpace\Core\Container\ContainerInterface;
 use UserSpace\Core\Http\Request;
 use UserSpace\Core\Rest\Helper\RestHelper;
-use UserSpace\Core\User\UserApiInterface;
 
 class InitWpRest
 {

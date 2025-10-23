@@ -5,12 +5,12 @@ namespace UserSpace\Common\Module\User\App\UseCase\Registration;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormFactory;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormManager;
 use UserSpace\Common\Module\Queue\Src\Infrastructure\QueueDispatcher;
+use UserSpace\Common\Module\Settings\Src\Domain\OptionManagerInterface;
 use UserSpace\Common\Module\User\App\Task\Message\SendConfirmationEmailMessage;
+use UserSpace\Common\Module\User\Src\Domain\UserApiInterface;
 use UserSpace\Core\Exception\UspException;
-use UserSpace\Core\Option\OptionManagerInterface;
-use UserSpace\Core\SecurityHelper;
+use UserSpace\Core\SecurityHelperInterface;
 use UserSpace\Core\String\StringFilterInterface;
-use UserSpace\Core\User\UserApiInterface;
 
 class RegisterUserUseCase
 {
@@ -23,7 +23,7 @@ class RegisterUserUseCase
     public function __construct(
         private readonly FormManager            $formManager,
         private readonly FormFactory            $formFactory,
-        private readonly SecurityHelper         $securityHelper,
+        private readonly SecurityHelperInterface         $securityHelper,
         private readonly StringFilterInterface  $str,
         private readonly OptionManagerInterface $optionManager,
         private readonly UserApiInterface       $userApi,

@@ -1,6 +1,6 @@
 <?php
 
-namespace UserSpace\Core\Media;
+namespace UserSpace\Common\Module\Media\Src\Domain;
 
 if (!defined('ABSPATH')) {
     exit;

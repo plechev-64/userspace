@@ -54,7 +54,7 @@ class FormFactory
                     $dtoClass = $this->fieldMapper->getDtoClass($type);
 
                     // Используем DI-контейнер для создания экземпляра поля, передавая DTO как аргумент.
-                    // Контейнер автоматически внедрит остальные зависимости (StringFilter, SecurityHelper и т.д.).
+                    // Контейнер автоматически внедрит остальные зависимости (StringFilter, SecurityHelperInterface и т.д.).
                     $fields[] = $this->container->build($class_name, ['dto' => new $dtoClass($name, $field_config)]);
                 }
                 $blocks[] = new Block($block_config['title'] ?? '', $fields);

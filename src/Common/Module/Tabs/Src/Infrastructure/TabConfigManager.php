@@ -2,7 +2,7 @@
 
 namespace UserSpace\Common\Module\Tabs\Src\Infrastructure;
 
-use UserSpace\Core\Option\OptionManagerInterface;
+use UserSpace\Common\Module\Settings\Src\Domain\OptionManagerInterface;
 
 /**
  * Управляет сохранением и загрузкой конфигурации вкладок из базы данных.

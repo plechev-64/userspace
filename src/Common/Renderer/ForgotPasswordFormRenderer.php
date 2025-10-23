@@ -2,10 +2,10 @@
 
 namespace UserSpace\Common\Renderer;
 
+use UserSpace\Common\Module\User\Src\Domain\UserApiInterface;
 use UserSpace\Core\Asset\AssetRegistryInterface;
 use UserSpace\Core\String\StringFilterInterface;
 use UserSpace\Core\TemplateManagerInterface;
-use UserSpace\Core\User\UserApiInterface;
 
 // Защита от прямого доступа к файлу
 if (!defined('ABSPATH')) {

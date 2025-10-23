@@ -2,16 +2,16 @@
 
 namespace UserSpace\Common\Module\User\App\UseCase\Registration;
 
+use UserSpace\Common\Module\Settings\Src\Domain\OptionManagerInterface;
+use UserSpace\Common\Module\User\Src\Domain\UserApiInterface;
 use UserSpace\Core\Exception\UspException;
-use UserSpace\Core\Option\OptionManagerInterface;
-use UserSpace\Core\SecurityHelper;
-use UserSpace\Core\User\UserApiInterface;
+use UserSpace\Core\SecurityHelperInterface;
 
 class ConfirmRegistrationUseCase
 {
     public function __construct(
         private readonly UserApiInterface       $userApi,
-        private readonly SecurityHelper         $securityHelper,
+        private readonly SecurityHelperInterface         $securityHelper,
         private readonly OptionManagerInterface $optionManager
     )
     {

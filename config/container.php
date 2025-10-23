@@ -25,6 +25,8 @@ use UserSpace\Common\Module\Grid\Src\Infrastructure\QueueJobsGrid;
 use UserSpace\Common\Module\Grid\Src\Infrastructure\UserListGrid;
 use UserSpace\Common\Module\Grid\Src\Infrastructure\UserListTableGrid;
 use UserSpace\Common\Module\Media\App\Controller\MediaController;
+use UserSpace\Common\Module\Media\Src\Domain\MediaApiInterface;
+use UserSpace\Common\Module\Media\Src\Domain\TemporaryFileCleanupServiceInterface;
 use UserSpace\Common\Module\Media\Src\Domain\TemporaryFileRepositoryInterface;
 use UserSpace\Common\Module\Media\Src\Infrastructure\TemporaryFileCleanupService;
 use UserSpace\Common\Module\Media\Src\Infrastructure\TemporaryFileRepository;
@@ -36,6 +38,8 @@ use UserSpace\Common\Module\Queue\Src\Infrastructure\JobRepository;
 use UserSpace\Common\Module\Queue\Src\Infrastructure\QueueManager;
 use UserSpace\Common\Module\Queue\Src\Infrastructure\QueueStatus;
 use UserSpace\Common\Module\Settings\App\Controller\SettingsAdminController;
+use UserSpace\Common\Module\Settings\Src\Domain\OptionManagerInterface;
+use UserSpace\Common\Module\Settings\Src\Domain\TransientApiInterface;
 use UserSpace\Common\Module\SetupWizard\App\Controller\SetupWizardController;
 use UserSpace\Common\Module\SSE\App\SseController;
 use UserSpace\Common\Module\SSE\Src\Domain\Repository\SseEventRepositoryInterface;
@@ -58,6 +62,7 @@ use UserSpace\Common\Module\User\App\Task\Message\SendConfirmationEmailMessage;
 use UserSpace\Common\Module\User\App\Task\Message\SendWelcomeEmailMessage;
 use UserSpace\Common\Module\User\App\Task\SendConfirmationEmailHandler;
 use UserSpace\Common\Module\User\App\Task\SendWelcomeEmailHandler;
+use UserSpace\Common\Module\User\Src\Domain\UserApiInterface;
 use UserSpace\Common\Service\TemplateManager;
 use UserSpace\Core\Admin\AdminApiInterface;
 use UserSpace\Core\Asset\AssetRegistryInterface;
@@ -70,20 +75,17 @@ use UserSpace\Core\Database\DatabaseConnectionInterface;
 use UserSpace\Core\Hooks\HookManagerInterface;
 use UserSpace\Core\Http\Request;
 use UserSpace\Core\Localization\LocalizationApiInterface;
-use UserSpace\Core\Media\MediaApiInterface;
-use UserSpace\Core\Media\TemporaryFileCleanupServiceInterface;
-use UserSpace\Core\Option\OptionManagerInterface;
-use UserSpace\Core\Option\TransientApiInterface;
 use UserSpace\Core\Profile\ProfileService;
 use UserSpace\Core\Profile\ProfileServiceApiInterface;
 use UserSpace\Core\Query\QueryApiInterface;
 use UserSpace\Core\Rest\Helper\RestHelper;
 use UserSpace\Core\Rest\RestApi;
 use UserSpace\Core\Rest\Route\RouteParser;
+use UserSpace\Core\SecurityHelper;
+use UserSpace\Core\SecurityHelperInterface;
 use UserSpace\Core\SiteApiInterface;
 use UserSpace\Core\String\StringFilterInterface;
 use UserSpace\Core\TemplateManagerInterface;
-use UserSpace\Core\User\UserApiInterface;
 use UserSpace\Core\WpApiInterface;
 use UserSpace\Plugin;
 
@@ -136,6 +138,7 @@ return [
         Plugin::class => fn() => Plugin::getInstance(),
         ContainerInterface::class => fn(ContainerInterface $c) => $c,
         Request::class => fn() => Request::createFromGlobals(),
+        SecurityHelperInterface::class => fn(ContainerInterface $c) => $c->get(SecurityHelper::class),
         DatabaseConnectionInterface::class => function () {
             global $wpdb;
             return new DatabaseConnection($wpdb);
@@ -146,7 +149,7 @@ return [
         AssetRegistryInterface::class => fn() => new AssetRegistry(),
         AdminApiInterface::class => fn() => new AdminApi(),
         HookManagerInterface::class => fn() => new HookManager(),
-        UserApiInterface::class => fn(ContainerInterface $c) => fn(ContainerInterface $c) => $c->get(UserApi::class),
+        UserApiInterface::class => fn(ContainerInterface $c) => $c->get(UserApi::class),
         AuthApiInterface::class => fn() => new AuthApi(),
         MediaApiInterface::class => fn() => new MediaApi(),
         QueryApiInterface::class => fn() => new QueryApi(),

@@ -3,7 +3,7 @@
 namespace UserSpace\Common\Module\SSE\App\UseCase\Stream;
 
 use UserSpace\Common\Module\SSE\Src\Domain\Repository\SseEventRepositoryInterface;
-use UserSpace\Core\SecurityHelper;
+use UserSpace\Core\SecurityHelperInterface;
 use UserSpace\Core\String\StringFilterInterface;
 
 /**
@@ -14,7 +14,7 @@ class StreamSseEventsUseCase
     public function __construct(
         private readonly SseEventRepositoryInterface $repository,
         private readonly StringFilterInterface       $str,
-        private readonly SecurityHelper              $securityHelper
+        private readonly SecurityHelperInterface              $securityHelper
     )
     {
     }

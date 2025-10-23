@@ -5,9 +5,9 @@ namespace UserSpace\Common\Module\Form\App\UseCase\SaveProfileForm;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormFactory;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormManager;
 use UserSpace\Common\Module\Media\Src\Domain\TemporaryFileRepositoryInterface;
+use UserSpace\Common\Module\User\Src\Domain\UserApiInterface;
 use UserSpace\Core\Exception\UspException;
 use UserSpace\Core\String\StringFilterInterface;
-use UserSpace\Core\User\UserApiInterface;
 
 class SaveProfileFormUseCase
 {

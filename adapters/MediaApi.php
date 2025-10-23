@@ -2,7 +2,7 @@
 
 namespace UserSpace\Adapters;
 
-use UserSpace\Core\Media\MediaApiInterface;
+use UserSpace\Common\Module\Media\Src\Domain\MediaApiInterface;
 
 if (!defined('ABSPATH')) {
     exit;

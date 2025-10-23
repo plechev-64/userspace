@@ -35,6 +35,8 @@ class MediaController extends AbstractController
         $command = new UploadFileCommand(
             $_FILES['file'] ?? [],
             $request->getPost('signature'),
+            $config['name'] ?? null,
+            isset($config['multiple']) && $config['multiple'],
             $config['allowedTypes'] ?? null,
             isset($config['maxSize']) ? (float)$config['maxSize'] : null,
             isset($config['minWidth']) ? (int)$config['minWidth'] : null,

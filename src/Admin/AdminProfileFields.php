@@ -2,11 +2,13 @@
 
 namespace UserSpace\Admin;
 
+use UserSpace\Adapters\User;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormFactory;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormManager;
+use UserSpace\Common\Module\User\Src\Domain\UserApiInterface;
+use UserSpace\Common\Module\User\Src\Domain\UserInterface;
 use UserSpace\Core\Hooks\HookManagerInterface;
 use UserSpace\Core\String\StringFilterInterface;
-use UserSpace\Core\User\UserApiInterface;
 
 /**
  * Управляет отображением и сохранением кастомных полей на странице профиля пользователя в админ-панели.
@@ -36,6 +38,7 @@ class AdminProfileFields
     }
 
     /**
+     * @todo избавится от WP_User
      * Рендерит кастомные поля на странице профиля.
      * @param \WP_User $user
      */

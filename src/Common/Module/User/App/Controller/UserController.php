@@ -14,14 +14,13 @@ use UserSpace\Common\Module\User\App\UseCase\Registration\ConfirmRegistrationUse
 use UserSpace\Common\Module\User\App\UseCase\Registration\RegisterUserCommand;
 use UserSpace\Common\Module\User\App\UseCase\Registration\RegisterUserUseCase;
 use UserSpace\Common\Module\User\App\UseCase\SseToken\GenerateSseTokenUseCase;
+use UserSpace\Common\Module\User\Src\Domain\UserApiInterface;
 use UserSpace\Core\Exception\UspException;
 use UserSpace\Core\Http\JsonResponse;
 use UserSpace\Core\Http\Request;
 use UserSpace\Core\Rest\Abstract\AbstractController;
 use UserSpace\Core\Rest\Attributes\Route;
-use UserSpace\Core\SecurityHelper;
 use UserSpace\Core\String\StringFilterInterface;
-use UserSpace\Core\User\UserApiInterface;
 
 #[Route(path: '/user')]
 class UserController extends AbstractController

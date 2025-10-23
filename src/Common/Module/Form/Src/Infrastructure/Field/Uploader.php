@@ -8,8 +8,8 @@ use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\UploaderAbstractFi
 use UserSpace\Common\Module\Form\Src\Infrastructure\Validator\AllowedTypesValidator;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Validator\ImageDimensionsValidator;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Validator\MaxFileSizeValidator;
-use UserSpace\Core\Media\MediaApiInterface;
-use UserSpace\Core\SecurityHelper;
+use UserSpace\Common\Module\Media\Src\Domain\MediaApiInterface;
+use UserSpace\Core\SecurityHelperInterface;
 
 class Uploader extends AbstractField
 {
@@ -17,12 +17,12 @@ class Uploader extends AbstractField
 
     /**
      * @param UploaderAbstractFieldDto $dto
-     * @param SecurityHelper $securityHelper
+     * @param SecurityHelperInterface $securityHelper
      * @param MediaApiInterface $mediaApi
      */
     public function __construct(
         UploaderAbstractFieldDto           $dto,
-        private readonly SecurityHelper    $securityHelper,
+        private readonly SecurityHelperInterface    $securityHelper,
         private readonly MediaApiInterface $mediaApi
     )
     {
@@ -55,12 +55,12 @@ class Uploader extends AbstractField
         }
 
         // Собираем data-атрибуты для валидации на клиенте из валидаторов
-        $allowedTypes = '';
-        $maxSize = '';
-        $minWidth = '';
-        $minHeight = '';
-        $maxWidth = '';
-        $maxHeight = '';
+        $allowedTypes = null;
+        $maxSize = null;
+        $minWidth = null;
+        $minHeight = null;
+        $maxWidth = null;
+        $maxHeight = null;
 
         foreach ($this->rules as $rule) {
             if ($rule instanceof AllowedTypesValidator) {
@@ -68,10 +68,10 @@ class Uploader extends AbstractField
             } elseif ($rule instanceof MaxFileSizeValidator) {
                 $maxSize = $rule->getMaxSizeMb();
             } elseif ($rule instanceof ImageDimensionsValidator) {
-                $minWidth = $rule->getMinWidth() ?? '';
-                $minHeight = $rule->getMinHeight() ?? '';
-                $maxWidth = $rule->getMaxWidth() ?? '';
-                $maxHeight = $rule->getMaxHeight() ?? '';
+                $minWidth = $rule->getMinWidth();
+                $minHeight = $rule->getMinHeight();
+                $maxWidth = $rule->getMaxWidth();
+                $maxHeight = $rule->getMaxHeight();
             }
         }
 
@@ -85,7 +85,6 @@ class Uploader extends AbstractField
             'maxWidth' => $maxWidth,
             'maxHeight' => $maxHeight,
         ];
-
         $validation_attrs = [
             'data-config' => $this->str->escAttr($this->str->jsonEncode($config)) ?: '',
             'data-signature' => $this->str->escAttr($this->securityHelper->sign($config)) ?: '',

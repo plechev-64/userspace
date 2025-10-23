@@ -2,7 +2,7 @@
 
 namespace UserSpace\Common\Module\User\App\UseCase\Logout;
 
-use UserSpace\Core\User\UserApiInterface;
+use UserSpace\Common\Module\User\Src\Domain\UserApiInterface;
 
 class LogoutUserUseCase
 {

@@ -5,10 +5,10 @@ namespace UserSpace\Common\Module\User\App\Task;
 use UserSpace\Common\Module\Queue\Src\Domain\MessageHandlerInterface;
 use UserSpace\Common\Module\Queue\Src\Domain\MessageInterface;
 use UserSpace\Common\Module\User\App\Task\Message\SendWelcomeEmailMessage;
+use UserSpace\Common\Module\User\Src\Domain\UserApiInterface;
 use UserSpace\Common\Service\Dto\EmailDto;
 use UserSpace\Common\Service\MailerServiceInterface;
 use UserSpace\Core\String\StringFilterInterface;
-use UserSpace\Core\User\UserApiInterface;
 
 // Защита от прямого доступа к файлу
 if (!defined('ABSPATH')) {

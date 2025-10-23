@@ -1,6 +1,6 @@
 <?php
 
-namespace UserSpace\Core\Option;
+namespace UserSpace\Common\Module\Settings\Src\Domain;
 
 if (!defined('ABSPATH')) {
     exit;

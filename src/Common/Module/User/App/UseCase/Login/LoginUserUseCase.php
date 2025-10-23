@@ -2,12 +2,12 @@
 
 namespace UserSpace\Common\Module\User\App\UseCase\Login;
 
+use UserSpace\Common\Module\User\Src\Domain\UserApiInterface;
 use UserSpace\Core\Admin\AdminApiInterface;
 use UserSpace\Core\Exception\UspException;
 use UserSpace\Core\Hooks\HookManagerInterface;
 use UserSpace\Core\SiteApiInterface;
 use UserSpace\Core\String\StringFilterInterface;
-use UserSpace\Core\User\UserApiInterface;
 
 class LoginUserUseCase
 {

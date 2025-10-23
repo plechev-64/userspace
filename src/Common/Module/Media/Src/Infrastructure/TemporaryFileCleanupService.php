@@ -2,9 +2,9 @@
 
 namespace UserSpace\Common\Module\Media\Src\Infrastructure;
 
+use UserSpace\Common\Module\Media\Src\Domain\MediaApiInterface;
+use UserSpace\Common\Module\Media\Src\Domain\TemporaryFileCleanupServiceInterface;
 use UserSpace\Common\Module\Media\Src\Domain\TemporaryFileRepositoryInterface;
-use UserSpace\Core\Media\MediaApiInterface;
-use UserSpace\Core\Media\TemporaryFileCleanupServiceInterface;
 
 class TemporaryFileCleanupService implements TemporaryFileCleanupServiceInterface
 {

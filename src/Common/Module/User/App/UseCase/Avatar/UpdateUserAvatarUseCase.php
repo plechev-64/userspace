@@ -2,10 +2,10 @@
 
 namespace UserSpace\Common\Module\User\App\UseCase\Avatar;
 
+use UserSpace\Common\Module\Media\Src\Domain\MediaApiInterface;
+use UserSpace\Common\Module\User\Src\Domain\UserApiInterface;
 use UserSpace\Core\Exception\UspException;
-use UserSpace\Core\Media\MediaApiInterface;
 use UserSpace\Core\String\StringFilterInterface;
-use UserSpace\Core\User\UserApiInterface;
 
 class UpdateUserAvatarUseCase
 {

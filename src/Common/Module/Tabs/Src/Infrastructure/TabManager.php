@@ -3,9 +3,9 @@
 namespace UserSpace\Common\Module\Tabs\Src\Infrastructure;
 
 use UserSpace\Common\Module\Tabs\Src\Domain\AbstractTab;
+use UserSpace\Common\Module\User\Src\Domain\UserApiInterface;
 use UserSpace\Common\Service\ViewedUserContext;
 use UserSpace\Core\Container\ContainerInterface;
-use UserSpace\Core\User\UserApiInterface;
 
 class TabManager
 {
@@ -85,7 +85,7 @@ class TabManager
         if (!$displayedUser) {
             return [];
         }
-        $displayedUserId = $displayedUser->ID;
+        $displayedUserId = $displayedUser->getId();
         $currentUserId = $this->userApi->getCurrentUserId();
 
         // Строим иерархию из всех зарегистрированных вкладок

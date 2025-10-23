@@ -5,7 +5,7 @@ namespace UserSpace\Common\Module\User\App\Task;
 use UserSpace\Common\Module\Queue\Src\Domain\MessageHandlerInterface;
 use UserSpace\Common\Module\Queue\Src\Domain\MessageInterface;
 use UserSpace\Common\Module\User\App\Task\Message\DeleteUserMetaMessage;
-use UserSpace\Core\User\UserApiInterface;
+use UserSpace\Common\Module\User\Src\Domain\UserApiInterface;
 
 class DeleteUserMetaHandler implements MessageHandlerInterface
 {

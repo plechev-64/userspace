@@ -5,17 +5,17 @@ namespace UserSpace\Common\Module\Media\App\UseCase\Upload;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Validator\AllowedTypesValidator;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Validator\ImageDimensionsValidator;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Validator\MaxFileSizeValidator;
+use UserSpace\Common\Module\Media\Src\Domain\MediaApiInterface;
 use UserSpace\Common\Module\Media\Src\Domain\TemporaryFileRepositoryInterface;
 use UserSpace\Common\Service\UploadedFileValidator;
 use UserSpace\Core\Exception\UspException;
-use UserSpace\Core\Media\MediaApiInterface;
-use UserSpace\Core\SecurityHelper;
+use UserSpace\Core\SecurityHelperInterface;
 use UserSpace\Core\String\StringFilterInterface;
 
 class UploadFileUseCase
 {
     public function __construct(
-        private readonly SecurityHelper                   $securityHelper,
+        private readonly SecurityHelperInterface          $securityHelper,
         private readonly StringFilterInterface            $str,
         private readonly MediaApiInterface                $mediaApi,
         private readonly TemporaryFileRepositoryInterface $tempFileRepository
@@ -35,14 +35,16 @@ class UploadFileUseCase
         // --- Серверная валидация ---
         if ($command->signature) {
             // Собираем конфигурацию из команды для валидации подписи
-            $config = array_filter([
+            $config = [
+                'name' => $command->name,
+                'multiple' => $command->multiple,
                 'allowedTypes' => $command->allowedTypes,
                 'maxSize' => $command->maxSize,
                 'minWidth' => $command->minWidth,
                 'minHeight' => $command->minHeight,
                 'maxWidth' => $command->maxWidth,
                 'maxHeight' => $command->maxHeight,
-            ], fn($value) => $value !== null);
+            ];
 
             if (empty($config) || !$this->securityHelper->validate($config, $command->signature)) {
                 throw new UspException($this->str->translate('Invalid request signature.'), 403);

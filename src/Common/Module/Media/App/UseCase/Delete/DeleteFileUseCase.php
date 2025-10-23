@@ -2,9 +2,9 @@
 
 namespace UserSpace\Common\Module\Media\App\UseCase\Delete;
 
+use UserSpace\Common\Module\Media\Src\Domain\MediaApiInterface;
 use UserSpace\Common\Module\Media\Src\Domain\TemporaryFileRepositoryInterface;
 use UserSpace\Core\Exception\UspException;
-use UserSpace\Core\Media\MediaApiInterface;
 use UserSpace\Core\String\StringFilterInterface;
 use UserSpace\Core\WpApiInterface;
 

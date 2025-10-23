@@ -6,11 +6,11 @@ use UserSpace\Admin\Page\Abstract\AbstractAdminPage;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\SelectAbstractFieldDto;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormConfig;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormFactory;
+use UserSpace\Common\Module\Settings\Src\Domain\OptionManagerInterface;
 use UserSpace\Common\Module\SetupWizard\Domain\SetupWizardConfig;
 use UserSpace\Core\Admin\AdminApiInterface;
 use UserSpace\Core\Asset\AssetRegistryInterface;
 use UserSpace\Core\Hooks\HookManagerInterface;
-use UserSpace\Core\Option\OptionManagerInterface;
 use UserSpace\Core\String\StringFilterInterface;
 
 /**

@@ -2,12 +2,12 @@
 
 namespace UserSpace\Core\Profile;
 
+use UserSpace\Common\Module\Settings\Src\Domain\OptionManagerInterface;
 use UserSpace\Common\Module\Tabs\Src\Domain\AbstractTab;
 use UserSpace\Common\Module\Tabs\Src\Infrastructure\TabManager;
+use UserSpace\Common\Module\User\Src\Domain\UserApiInterface;
+use UserSpace\Common\Module\User\Src\Domain\UserInterface;
 use UserSpace\Core\Http\Request;
-use UserSpace\Core\Option\OptionManagerInterface;
-use UserSpace\Core\User\UserApiInterface;
-use WP_User;
 
 class ProfileService implements ProfileServiceApiInterface
 {
@@ -43,9 +43,9 @@ class ProfileService implements ProfileServiceApiInterface
         return add_query_arg([$userQueryVar => $userId], get_permalink($pageId));
     }
 
-    public function getTabUrl(string $tabId, ?WP_User $user = null): ?string
+    public function getTabUrl(string $tabId, ?UserInterface $user = null): ?string
     {
-        $baseUrl = $this->getProfileUrl($user->ID);
+        $baseUrl = $this->getProfileUrl($user?->getId());
         if ($baseUrl === null) {
             return null;
         }

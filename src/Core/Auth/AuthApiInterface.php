@@ -2,6 +2,8 @@
 
 namespace UserSpace\Core\Auth;
 
+use UserSpace\Common\Module\User\Src\Domain\UserInterface;
+
 if (!defined('ABSPATH')) {
     exit;
 }
@@ -16,17 +18,17 @@ interface AuthApiInterface
      * Обертка для wp_signon().
      *
      * @param array $credentials Данные для входа.
-     * @return \WP_User|\WP_Error
+     * @return UserInterface|\WP_Error
      */
-    public function signIn(array $credentials): \WP_User|\WP_Error;
+    public function signIn(array $credentials): UserInterface|\WP_Error;
 
     /**
      * Авторизует пользователя и устанавливает auth cookie.
      *
      * @param array $credentials Данные для входа.
-     * @return \WP_User|\WP_Error
+     * @return UserInterface|\WP_Error
      */
-    public function secureSignIn(array $credentials): \WP_User|\WP_Error;
+    public function secureSignIn(array $credentials): UserInterface|\WP_Error;
 
     /**
      * Выход текущего пользователя из системы.

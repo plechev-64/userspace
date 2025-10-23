@@ -2,9 +2,10 @@
 
 namespace UserSpace\Adapters;
 
+use UserSpace\Common\Module\User\Src\Domain\UserApiInterface;
+use UserSpace\Common\Module\User\Src\Domain\UserInterface;
 use UserSpace\Core\Auth\AuthApiInterface;
 use UserSpace\Core\Database\DatabaseConnectionInterface;
-use UserSpace\Core\User\UserApiInterface;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -37,14 +38,18 @@ class UserApi implements UserApiInterface
         return current_user_can($capability, ...$args);
     }
 
-    public function getCurrentUser(): \WP_User
+    public function getCurrentUser(): UserInterface
     {
-        return wp_get_current_user();
+        return new User(wp_get_current_user());
     }
 
-    public function getUserBy(string $field, int|string $value): \WP_User|false
+    public function getUserBy(string $field, int|string $value): UserInterface|false
     {
-        return get_user_by($field, $value);
+        $wpUser = get_user_by($field, $value);
+        if (!$wpUser) {
+            return false;
+        }
+        return new User($wpUser);
     }
 
     public function getCurrentUserId(): int
@@ -89,8 +94,12 @@ class UserApi implements UserApiInterface
         return $result !== false;
     }
 
-    public function getUserdata(int $userId): \WP_User|false
+    public function getUserdata(int $userId): UserInterface|false
     {
-        return get_userdata($userId);
+        $wpUser = get_userdata($userId);
+        if (!$wpUser) {
+            return false;
+        }
+        return new User($wpUser);
     }
 }

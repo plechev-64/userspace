@@ -3,7 +3,7 @@
 namespace UserSpace\Core\Profile;
 
 use UserSpace\Common\Module\Tabs\Src\Domain\AbstractTab;
-use WP_User;
+use UserSpace\Common\Module\User\Src\Domain\UserInterface;
 
 /**
  * API для управления логикой страницы профиля пользователя.
@@ -23,10 +23,10 @@ interface ProfileServiceApiInterface
      * Возвращает URL для конкретной вкладки на странице профиля.
      *
      * @param string $tabId Идентификатор вкладки.
-     * @param WP_User|null $user Объект пользователя.
+     * @param UserInterface|null $user Объект пользователя.
      * @return string|null URL вкладки или null, если страница не настроена.
      */
-    public function getTabUrl(string $tabId, ?WP_User $user = null): ?string;
+    public function getTabUrl(string $tabId, ?UserInterface $user = null): ?string;
 
     /**
      * Определяет и возвращает активную вкладку на основе текущего URL.

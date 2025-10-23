@@ -2,6 +2,7 @@
 
 namespace UserSpace\Adapters;
 
+use UserSpace\Common\Module\User\Src\Domain\UserInterface;
 use UserSpace\Core\Auth\AuthApiInterface;
 
 if (!defined('ABSPATH')) {
@@ -13,17 +14,24 @@ if (!defined('ABSPATH')) {
  */
 class AuthApi implements AuthApiInterface
 {
-    public function signIn(array $credentials): \WP_User|\WP_Error
+    public function signIn(array $credentials): UserInterface|\WP_Error
     {
-        return wp_signon($credentials, is_ssl());
+        $user = wp_signon($credentials, is_ssl());
+
+        if (is_wp_error($user)) {
+            return $user;
+        }
+
+        return new User($user);
     }
 
-    public function secureSignIn(array $credentials): \WP_User|\WP_Error
+    public function secureSignIn(array $credentials): UserInterface|\WP_Error
     {
         $user = wp_signon($credentials, is_ssl());
 
         if (!is_wp_error($user)) {
             wp_set_auth_cookie($user->ID, $credentials['remember'] ?? false);
+            return new User($user);
         }
 
         return $user;

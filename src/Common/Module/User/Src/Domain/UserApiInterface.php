@@ -1,6 +1,6 @@
 <?php
 
-namespace UserSpace\Core\User;
+namespace UserSpace\Common\Module\User\Src\Domain;
 
 use UserSpace\Core\Auth\AuthApiInterface;
 
@@ -46,9 +46,9 @@ interface UserApiInterface
      * Возвращает объект текущего пользователя.
      * Обертка для wp_get_current_user().
      *
-     * @return \WP_User
+     * @return UserInterface
      */
-    public function getCurrentUser(): \WP_User;
+    public function getCurrentUser(): UserInterface;
 
     /**
      * Получает мета-данные пользователя.
@@ -86,9 +86,9 @@ interface UserApiInterface
      *
      * @param string $field Поле для поиска ('id', 'ID', 'slug', 'email', 'login').
      * @param string|int $value Значение для поиска.
-     * @return \WP_User|false
+     * @return UserInterface|false
      */
-    public function getUserBy(string $field, string|int $value): \WP_User|false;
+    public function getUserBy(string $field, string|int $value): UserInterface|false;
 
     /**
      * Вставляет пользователя в базу данных.
@@ -128,7 +128,7 @@ interface UserApiInterface
      * Получает все данные пользователя по его ID. Обертка для get_userdata().
      *
      * @param int $userId ID пользователя.
-     * @return \WP_User|false Объект WP_User в случае успеха, false в случае ошибки.
+     * @return UserInterface|false Объект UserInterface в случае успеха, false в случае ошибки.
      */
-    public function getUserdata(int $userId): \WP_User|false;
+    public function getUserdata(int $userId): UserInterface|false;
 }

@@ -3,13 +3,13 @@
 namespace UserSpace\Common\Module\User\App\UseCase\SseToken;
 
 use UserSpace\Core\Exception\UspException;
-use UserSpace\Core\SecurityHelper;
+use UserSpace\Core\SecurityHelperInterface;
 use UserSpace\Core\String\StringFilterInterface;
 
 class GenerateSseTokenUseCase
 {
     public function __construct(
-        private readonly SecurityHelper        $securityHelper,
+        private readonly SecurityHelperInterface        $securityHelper,
         private readonly StringFilterInterface $str
     )
     {

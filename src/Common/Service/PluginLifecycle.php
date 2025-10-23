@@ -5,10 +5,10 @@ namespace UserSpace\Common\Service;
 use UserSpace\Common\Module\Form\Src\Domain\Repository\FormRepositoryInterface;
 use UserSpace\Common\Module\Media\Src\Domain\TemporaryFileRepositoryInterface;
 use UserSpace\Common\Module\Queue\Src\Domain\JobRepositoryInterface;
+use UserSpace\Common\Module\Settings\Src\Domain\OptionManagerInterface;
 use UserSpace\Common\Module\SSE\Src\Domain\Repository\SseEventRepositoryInterface;
 use UserSpace\Core\Admin\AdminApiInterface;
 use UserSpace\Core\Hooks\HookManagerInterface;
-use UserSpace\Core\Option\OptionManagerInterface;
 use UserSpace\Core\WpApiInterface;
 
 /**

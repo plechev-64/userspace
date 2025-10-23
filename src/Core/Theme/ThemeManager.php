@@ -2,9 +2,9 @@
 
 namespace UserSpace\Core\Theme;
 
+use UserSpace\Common\Module\Settings\Src\Domain\OptionManagerInterface;
+use UserSpace\Common\Module\User\Src\Domain\UserApiInterface;
 use UserSpace\Common\Service\ViewedUserContext;
-use UserSpace\Core\Option\OptionManagerInterface;
-use UserSpace\Core\User\UserApiInterface;
 
 /**
  * Управляет темами личного кабинета.

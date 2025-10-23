@@ -2,8 +2,8 @@
 
 namespace UserSpace\Common\Module\SetupWizard\App\UseCase\SaveStep;
 
+use UserSpace\Common\Module\Settings\Src\Domain\OptionManagerInterface;
 use UserSpace\Core\Exception\UspException;
-use UserSpace\Core\Option\OptionManagerInterface;
 use UserSpace\Core\String\StringFilterInterface;
 
 class SaveWizardStepUseCase

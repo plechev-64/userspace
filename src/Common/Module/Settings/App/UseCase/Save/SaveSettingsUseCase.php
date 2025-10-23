@@ -3,7 +3,7 @@
 namespace UserSpace\Common\Module\Settings\App\UseCase\Save;
 
 use UserSpace\Common\Module\Media\Src\Domain\TemporaryFileRepositoryInterface;
-use UserSpace\Core\Option\OptionManagerInterface;
+use UserSpace\Common\Module\Settings\Src\Domain\OptionManagerInterface;
 use UserSpace\Core\String\StringFilterInterface;
 
 class SaveSettingsUseCase

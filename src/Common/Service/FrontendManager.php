@@ -2,10 +2,10 @@
 
 namespace UserSpace\Common\Service;
 
+use UserSpace\Common\Module\Settings\Src\Domain\OptionManagerInterface;
 use UserSpace\Common\Module\Tabs\Src\Infrastructure\TabProvider;
 use UserSpace\Core\Asset\AssetRegistryInterface;
 use UserSpace\Core\Hooks\HookManagerInterface;
-use UserSpace\Core\Option\OptionManagerInterface;
 use UserSpace\Core\Profile\ProfileServiceApiInterface;
 use UserSpace\Core\TemplateManagerInterface;
 

@@ -2,11 +2,11 @@
 
 namespace UserSpace\Common\Service;
 
+use UserSpace\Common\Module\Media\Src\Domain\TemporaryFileCleanupServiceInterface;
 use UserSpace\Common\Module\Queue\Src\Infrastructure\QueueManager;
 use UserSpace\Core\Cron\CronApiInterface;
 use UserSpace\Core\Cron\CronManagerInterface;
 use UserSpace\Core\Hooks\HookManagerInterface;
-use UserSpace\Core\Media\TemporaryFileCleanupServiceInterface;
 use UserSpace\Core\String\StringFilterInterface;
 
 if (!defined('ABSPATH')) {

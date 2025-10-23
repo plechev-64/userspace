@@ -2,10 +2,10 @@
 
 namespace UserSpace\Common\Module\SSE\Src\Infrastructure\Repository;
 
+use UserSpace\Common\Module\Settings\Src\Domain\TransientApiInterface;
 use UserSpace\Common\Module\SSE\Src\Domain\Repository\SseEventRepositoryInterface;
 use UserSpace\Core\Database\DatabaseConnectionInterface;
 use UserSpace\Core\Database\QueryBuilderInterface;
-use UserSpace\Core\Option\TransientApiInterface;
 
 if (!defined('ABSPATH')) {
     exit;
