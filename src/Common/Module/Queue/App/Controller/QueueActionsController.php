@@ -27,7 +27,7 @@ class QueueActionsController extends AbstractController
     /**
      * Отправляет тестовую Ping-задачу в очередь.
      */
-    #[Route(path: '/ping', method: 'POST', permission: 'manage_options')]
+    #[Route(path: '/ping', method: 'POST')]
     public function sendPing(Request $request, DispatchPingTaskUseCase $dispatchPingTaskUseCase): JsonResponse
     {
         $dispatchPingTaskUseCase->execute();

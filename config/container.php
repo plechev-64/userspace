@@ -86,6 +86,8 @@ use UserSpace\Core\SecurityHelperInterface;
 use UserSpace\Core\SiteApiInterface;
 use UserSpace\Core\String\StringFilterInterface;
 use UserSpace\Core\TemplateManagerInterface;
+use UserSpace\Core\Theme\ThemeManager;
+use UserSpace\Core\Theme\ThemeManagerInterface;
 use UserSpace\Core\WpApiInterface;
 use UserSpace\Plugin;
 
@@ -157,6 +159,7 @@ return [
         TransientApiInterface::class => fn() => new TransientApi(),
         OptionManagerInterface::class => fn(ContainerInterface $c) => new OptionManager($c->get(TransientApiInterface::class)),
         SiteApiInterface::class => fn(ContainerInterface $c) => $c->get(SiteApi::class),
+        ThemeManagerInterface::class => fn(ContainerInterface $c) => $c->get(ThemeManager::class),
 
         // Grid
         GridProvider::class => function (ContainerInterface $c) {

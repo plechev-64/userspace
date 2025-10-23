@@ -2,6 +2,7 @@
 
 namespace UserSpace\Common\Module\SSE\App\UseCase\Stream;
 
+use UserSpace\Common\Module\Settings\Src\Domain\OptionManagerInterface;
 use UserSpace\Common\Module\SSE\Src\Domain\Repository\SseEventRepositoryInterface;
 use UserSpace\Core\SecurityHelperInterface;
 use UserSpace\Core\String\StringFilterInterface;
@@ -11,10 +12,16 @@ use UserSpace\Core\String\StringFilterInterface;
  */
 class StreamSseEventsUseCase
 {
+    /**
+     * Время жизни одного SSE-соединения в секундах.
+     */
+    private const CONNECTION_LIFETIME = 5;
+
     public function __construct(
         private readonly SseEventRepositoryInterface $repository,
         private readonly StringFilterInterface       $str,
-        private readonly SecurityHelperInterface              $securityHelper
+        private readonly SecurityHelperInterface     $securityHelper,
+        private readonly OptionManagerInterface      $optionManager
     )
     {
     }
@@ -43,25 +50,53 @@ class StreamSseEventsUseCase
         header('Connection: keep-alive');
         header('X-Accel-Buffering: no'); // Отключаем буферизацию для Nginx
 
-        // Устанавливаем короткое время жизни скрипта, так как мы больше не используем длинный опрос
-        set_time_limit(10);
+        // Устанавливаем время жизни скрипта чуть больше, чем наш цикл
+        set_time_limit(self::CONNECTION_LIFETIME + 5);
 
-        $events = $this->repository->findNewerThan($command->lastEventId, $userId);
+        $hasSentData = false; // Флаг для отслеживания отправки "полезных" данных
+        $startTime = time();
+        $lastEventId = $command->lastEventId;
+        $cacheKey = $userId ? "usp_sse_new_event_for_{$userId}" : 'usp_sse_new_event_for_guest';
+        $cache = $this->optionManager->transient();
 
-        if (!empty($events)) {
-            foreach ($events as $event) {
-                echo "id: " . $this->str->escHtml($event->id) . "\n";
-                echo "event: " . $this->str->escHtml($event->event_type) . "\n";
-                echo "data: " . $event->payload . "\n\n";
+        // Запускаем цикл "длинного опроса"
+        while (time() - $startTime < self::CONNECTION_LIFETIME) {
+            // Сначала делаем быструю проверку флага в кэше
+            //if ($cache->get($cacheKey)) {
+                // Только если флаг есть, делаем "тяжелый" запрос в БД
+                $events = $this->repository->findNewerThan($lastEventId, $userId);
+
+                if (!empty($events)) {
+                    foreach ($events as $event) {
+                        echo "id: " . $this->str->escHtml($event->id) . "\n";
+                        echo "event: " . $this->str->escHtml($event->event_type) . "\n";
+                        echo "data: " . $event->payload . "\n\n";
+                        echo "startEventId: " . $this->str->escHtml($lastEventId) . "\n";
+                        $lastEventId = $event->id;
+                        $hasSentData = true; // Устанавливаем флаг, что данные были отправлены
+                    }
+                    // После отправки событий удаляем флаг из кэша
+                    //$cache->delete($cacheKey);
+                //}
             }
-        } else {
-            // Если новых событий нет, отправляем комментарий, чтобы соединение не закрылось по таймауту на стороне клиента
+
+            // Отправляем комментарий, чтобы соединение не закрылось по таймауту
             echo ":keep-alive\n\n";
+
+            // Сбрасываем буфер вывода, чтобы отправить данные клиенту
+            @ob_flush();
+            flush();
+
+            // "Спим" одну секунду перед следующей проверкой
+            sleep(1);
         }
 
-        // Сбрасываем буфер вывода, чтобы отправить данные клиенту
-        @ob_flush();
-        flush();
+        // Если за все время жизни соединения не было отправлено реальных данных,
+        if (!$hasSentData) {
+            echo "retry: 10000\n\n";
+        }else{
+            echo "retry: 0\n\n";
+        }
 
         // Завершаем выполнение скрипта. Клиент автоматически переподключится.
         exit;
