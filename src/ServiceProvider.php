@@ -4,7 +4,7 @@ namespace UserSpace;
 
 use UserSpace\Core\Container\ContainerInterface;
 use UserSpace\Core\Container\Params;
-use UserSpace\Core\Theme\ThemeManager;
+use UserSpace\Core\Theme\ThemeManagerInterface;
 
 /**
  * Регистрирует сервисы плагина в DI-контейнере.
@@ -20,7 +20,7 @@ class ServiceProvider
         $this->registerDefinitions($container, $mainConfig['definitions']);
 
         // 2. Загружаем конфиг активной темы
-        $themeManager = $container->get(ThemeManager::class);
+        $themeManager = $container->get(ThemeManagerInterface::class);
         $themeManager->loadActiveTheme();
         $themeConfig = $themeManager->loadActiveThemeConfig();
 

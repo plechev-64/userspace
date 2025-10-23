@@ -19,7 +19,7 @@ use UserSpace\Core\Admin\AdminApiInterface;
 use UserSpace\Core\Asset\AssetRegistryInterface;
 use UserSpace\Core\Hooks\HookManagerInterface;
 use UserSpace\Core\String\StringFilterInterface;
-use UserSpace\Core\Theme\ThemeManager;
+use UserSpace\Core\Theme\ThemeManagerInterface;
 
 /**
  * Управляет главной страницей настроек плагина.
@@ -31,7 +31,7 @@ class SettingsPage extends AbstractAdminPage
 
     public function __construct(
         private readonly FormFactory            $formFactory,
-        private readonly ThemeManager           $themeManager,
+        private readonly ThemeManagerInterface           $themeManager,
         private readonly SettingsConfig         $settingsConfig,
         private readonly StringFilterInterface  $str,
         private readonly OptionManagerInterface $optionManager,

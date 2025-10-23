@@ -5,11 +5,12 @@ namespace UserSpace\Core\Theme;
 use UserSpace\Common\Module\Settings\Src\Domain\OptionManagerInterface;
 use UserSpace\Common\Module\User\Src\Domain\UserApiInterface;
 use UserSpace\Common\Service\ViewedUserContext;
+use UserSpace\Core\Container\ContainerInterface;
 
 /**
  * Управляет темами личного кабинета.
  */
-class ThemeManager
+class ThemeManager implements ThemeManagerInterface
 {
     private const THEMES_DIR_NAME = 'themes';
 
@@ -18,7 +19,7 @@ class ThemeManager
     private array $themes = [];
 
     public function __construct(
-        private readonly \UserSpace\Core\Container\ContainerInterface $container,
+        private readonly ContainerInterface $container,
         private readonly ViewedUserContext                            $viewedUserContext,
         private readonly OptionManagerInterface                       $optionManager,
         private readonly UserApiInterface                             $userApi

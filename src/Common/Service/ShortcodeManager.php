@@ -7,7 +7,7 @@ use UserSpace\Common\Renderer\ForgotPasswordFormRenderer;
 use UserSpace\Common\Renderer\GenericFormRenderer;
 use UserSpace\Common\Renderer\LoginFormRenderer;
 use UserSpace\Common\Renderer\RegistrationFormRenderer;
-use UserSpace\Core\Theme\ThemeManager;
+use UserSpace\Core\Theme\ThemeManagerInterface;
 
 // Защита от прямого доступа к файлу
 if (!defined('ABSPATH')) {
@@ -24,7 +24,7 @@ class ShortcodeManager
         private readonly LoginFormRenderer          $loginFormRenderer,
         private readonly RegistrationFormRenderer   $registrationFormRenderer,
         private readonly ForgotPasswordFormRenderer $forgotPasswordFormRenderer,
-        private readonly ThemeManager               $themeManager,
+        private readonly ThemeManagerInterface               $themeManager,
         private readonly GenericFormRenderer        $genericFormRenderer,
         private readonly UserListGrid               $userListGrid
     )

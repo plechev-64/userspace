@@ -7,7 +7,7 @@ use UserSpace\Core\Container\ContainerInterface;
 use UserSpace\Core\Hooks\HookManagerInterface;
 use UserSpace\Core\String\StringFilterInterface;
 use UserSpace\Core\Theme\ThemeInterface;
-use UserSpace\Core\Theme\ThemeManager;
+use UserSpace\Core\Theme\ThemeManagerInterface;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -90,8 +90,8 @@ class FirstTheme implements ThemeInterface
 }
 
 /**
- * @var ThemeManager $themeRegistry Объект регистратора, переданный из ThemeManager.
+ * @var ThemeManagerInterface $themeRegistry Объект регистратора, переданный из ThemeManagerInterface.
  */
-if (isset($themeRegistry) && $themeRegistry instanceof ThemeManager) {
+if (isset($themeRegistry) && $themeRegistry instanceof ThemeManagerInterface) {
     return $themeRegistry->register(FirstTheme::class);
 }

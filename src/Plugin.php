@@ -12,7 +12,7 @@ use UserSpace\Core\Container\ContainerInterface;
 use UserSpace\Core\Hooks\HookManagerInterface;
 use UserSpace\Core\Localization\LocalizationApiInterface;
 use UserSpace\Core\Rest\InitWpRest;
-use UserSpace\Core\Theme\ThemeManager;
+use UserSpace\Core\Theme\ThemeManagerInterface;
 
 // Защита от прямого доступа к файлу
 if (!defined('ABSPATH')) {
@@ -54,7 +54,7 @@ final class Plugin
      */
     public function loadTheme(): void
     {
-        $themeManager = $this->container->get(ThemeManager::class);
+        $themeManager = $this->container->get(ThemeManagerInterface::class);
         $themeManager->loadActiveTheme();
     }
 

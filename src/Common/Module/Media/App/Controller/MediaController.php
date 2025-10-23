@@ -60,6 +60,7 @@ class MediaController extends AbstractController
      * Удаляет вложение (медиафайл) из WordPress.
      *
      * @param int $id ID вложения для удаления.
+     * @param DeleteFileUseCase $deleteFileUseCase
      * @return JsonResponse
      */
     #[Route(path: '/(?P<id>[\d]+)', method: 'DELETE', permission: 'upload_files')]

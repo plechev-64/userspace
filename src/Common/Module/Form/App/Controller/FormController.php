@@ -117,12 +117,8 @@ class FormController extends AbstractController
 
         $command = new SaveFormConfigCommand($formConfig, $deletedFields);
 
-        try {
-            $saveConfigUseCase->execute($command);
-            return $this->success(['message' => $this->str->translate('Configuration saved successfully.')]);
-        } catch (UspException $e) {
-            return $this->error(['message' => $e->getMessage()], $e->getCode());
-        }
+        $saveConfigUseCase->execute($command);
+        return $this->success(['message' => $this->str->translate('Configuration saved successfully.')]);
     }
 
     #[Route(path: '/config/registration-form/save', method: 'POST', permission: 'manage_options')]
@@ -139,11 +135,7 @@ class FormController extends AbstractController
 
         $command = new SaveFormConfigCommand($formConfig, $deletedFields);
 
-        try {
-            $saveRegistrationConfigUseCase->execute($command);
-            return $this->success(['message' => $this->str->translate('Configuration saved successfully.')]);
-        } catch (UspException $e) {
-            return $this->error(['message' => $e->getMessage()], $e->getCode());
-        }
+        $saveRegistrationConfigUseCase->execute($command);
+        return $this->success(['message' => $this->str->translate('Configuration saved successfully.')]);
     }
 }
