@@ -64,8 +64,7 @@ final class Plugin
      */
     public function loadTextdomain(): void
     {
-        $this->localizationApi->loadPluginTextdomain('usp',
-            dirname(plugin_basename(USERSPACE_PLUGIN_FILE)) . '/languages'
+        $this->localizationApi->loadPluginTextdomain('usp',dirname(plugin_basename(USERSPACE_PLUGIN_FILE)) . '/languages'
         );
     }
 
@@ -115,8 +114,6 @@ final class Plugin
         $this->initRestApi();
 
         $this->hookManager->addAction('plugins_loaded', [$this, 'run']);
-        /** @todo возможно удалить тк решил загружать активную тему через ServiceProvider */
-        //$this->hookManager->addAction('plugins_loaded', [$this, 'loadTheme']);
         $this->hookManager->addAction('init', [$this, 'loadTextdomain']);
         $this->hookManager->addAction('userspace_addons_init', [$this, 'addonsInit'], 10);
         $this->hookManager->addAction('userspace_addons_init', [$this, 'themeInit'], 15);
