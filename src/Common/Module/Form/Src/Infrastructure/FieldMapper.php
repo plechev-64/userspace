@@ -5,6 +5,7 @@ namespace UserSpace\Common\Module\Form\Src\Infrastructure;
 use InvalidArgumentException;
 use UserSpace\Common\Module\Form\Src\Domain\Field\DTO\AbstractFieldDto;
 use UserSpace\Common\Module\Form\Src\Domain\Field\FieldInterface;
+use UserSpace\Common\Module\Form\Src\Domain\FieldMapperInterface;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Field\Boolean;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Field\Checkbox;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Field\Date;
@@ -14,8 +15,8 @@ use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\DateAbstractFieldD
 use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\KeyValueEditorAbstractFieldDto;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\RadioAbstractFieldDto;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\SelectAbstractFieldDto;
-use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\TextareaAbstractFieldDto;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\TextAbstractFieldDto;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\TextareaAbstractFieldDto;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\UploaderAbstractFieldDto;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\UrlAbstractFieldDto;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Field\KeyValueEditor;
@@ -34,7 +35,7 @@ if (!defined('ABSPATH')) {
 /**
  * Карта соответствия типов полей их классам-реализациям.
  */
-class FieldMapper
+class FieldMapper implements FieldMapperInterface
 {
 
     /**

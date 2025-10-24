@@ -2,14 +2,14 @@
 
 namespace UserSpace\Common\Module\Form\App\UseCase\GetFieldSettingsForm;
 
-use UserSpace\Common\Module\Form\Src\Infrastructure\FieldMapper;
+use UserSpace\Common\Module\Form\Src\Domain\FieldMapperInterface;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormConfig;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormFactory;
 
 class GetFieldSettingsFormUseCase
 {
     public function __construct(
-        private readonly FieldMapper $fieldMapper,
+        private readonly FieldMapperInterface $fieldMapper,
         private readonly FormFactory $formFactory
     )
     {

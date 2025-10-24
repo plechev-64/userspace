@@ -2,7 +2,7 @@
 
 namespace UserSpace\Admin\Page\Abstract;
 
-use UserSpace\Common\Module\Form\Src\Infrastructure\FieldMapper;
+use UserSpace\Common\Module\Form\Src\Domain\FieldMapperInterface;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormConfig;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormConfigBuilder;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormManager;
@@ -17,7 +17,7 @@ use UserSpace\Core\TemplateManagerInterface;
  */
 abstract class AbstractAdminFormPage extends AbstractAdminPage
 {
-    protected readonly FieldMapper $fieldMapper;
+    protected readonly FieldMapperInterface $fieldMapper;
     protected readonly AssetRegistryInterface $assetRegistry;
 
     public function __construct(
@@ -25,7 +25,7 @@ abstract class AbstractAdminFormPage extends AbstractAdminPage
         protected readonly FormConfigBuilder        $formBuilder,
         protected readonly TemplateManagerInterface $templateManager,
         protected readonly StringFilterInterface    $str,
-        FieldMapper                                 $fieldMapper,
+        FieldMapperInterface                                 $fieldMapper,
         AssetRegistryInterface                      $assetRegistry,
         AdminApiInterface                           $adminApi,
         HookManagerInterface                        $hookManager

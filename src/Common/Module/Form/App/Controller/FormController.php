@@ -9,7 +9,7 @@ use UserSpace\Common\Module\Form\App\UseCase\SaveConfig\SaveProfileFormConfigUse
 use UserSpace\Common\Module\Form\App\UseCase\SaveConfig\SaveRegistrationFormConfigUseCase;
 use UserSpace\Common\Module\Form\App\UseCase\SaveProfileForm\SaveProfileFormCommand;
 use UserSpace\Common\Module\Form\App\UseCase\SaveProfileForm\SaveProfileFormUseCase;
-use UserSpace\Common\Module\Form\Src\Infrastructure\FieldMapper;
+use UserSpace\Common\Module\Form\Src\Domain\FieldMapperInterface;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormConfig;
 use UserSpace\Common\Renderer\ForgotPasswordFormRenderer;
 use UserSpace\Common\Renderer\LoginFormRenderer;
@@ -88,7 +88,7 @@ class FormController extends AbstractController
     public function getFieldSettingsForm(
         Request                     $request,
         GetFieldSettingsFormUseCase $getFieldSettingsFormUseCase,
-        FieldMapper                 $fieldMapper
+        FieldMapperInterface                 $fieldMapper
     ): JsonResponse
     {
         $clearedData = $this->sanitizer->sanitize($request->getPostParams(), [

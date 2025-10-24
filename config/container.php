@@ -16,7 +16,9 @@ use UserSpace\Adapters\TransientApi;
 use UserSpace\Adapters\UserApi;
 use UserSpace\Adapters\WpApi;
 use UserSpace\Common\Module\Form\App\Controller\FormController;
+use UserSpace\Common\Module\Form\Src\Domain\FieldMapperInterface;
 use UserSpace\Common\Module\Form\Src\Domain\Repository\FormRepositoryInterface;
+use UserSpace\Common\Module\Form\Src\Infrastructure\FieldMapper;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Repository\FormRepository;
 use UserSpace\Common\Module\Grid\App\Controller\GridController;
 use UserSpace\Common\Module\Grid\App\UseCase\FetchGridDataUseCase;
@@ -166,6 +168,7 @@ return [
         ThemeManagerInterface::class => fn(ContainerInterface $c) => $c->get(ThemeManager::class),
         AddonManagerInterface::class => fn(ContainerInterface $c) => $c->get(AddonManager::class),
         SanitizerInterface::class => fn(ContainerInterface $c) => $c->get(Sanitizer::class),
+        FieldMapperInterface::class => fn(ContainerInterface $c) => $c->get(FieldMapper::class),
 
         // Grid
         GridProvider::class => function (ContainerInterface $c) {

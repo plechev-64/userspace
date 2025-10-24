@@ -3,6 +3,7 @@
 namespace UserSpace\Common\Module\Form\Src\Infrastructure;
 
 use InvalidArgumentException;
+use UserSpace\Common\Module\Form\Src\Domain\FieldMapperInterface;
 use UserSpace\Common\Module\Form\Src\Domain\FormInterface;
 use UserSpace\Core\Container\ContainerInterface;
 
@@ -17,10 +18,10 @@ if (!defined('ABSPATH')) {
 class FormFactory
 {
 
-    private readonly FieldMapper $fieldMapper;
+    private readonly FieldMapperInterface $fieldMapper;
     private readonly ContainerInterface $container;
 
-    public function __construct(FieldMapper $fieldMapper, ContainerInterface $container)
+    public function __construct(FieldMapperInterface $fieldMapper, ContainerInterface $container)
     {
         $this->fieldMapper = $fieldMapper;
         $this->container = $container;
