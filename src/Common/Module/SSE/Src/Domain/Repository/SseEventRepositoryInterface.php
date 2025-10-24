@@ -44,4 +44,12 @@ interface SseEventRepositoryInterface
      * @return int Количество удаленных строк.
      */
     public function pruneOldEvents(string $beforeDate): int;
+
+    /**
+     * Находит самое последнее событие для пользователя или общее.
+     *
+     * @param int|null $userId
+     * @return object|null
+     */
+    public function findLatest(?int $userId): ?object;
 }

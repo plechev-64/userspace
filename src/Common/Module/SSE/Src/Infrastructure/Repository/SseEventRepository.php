@@ -136,4 +136,25 @@ class SseEventRepository implements SseEventRepositoryInterface
     {
         $this->db->dropTableIfExists(self::TABLE_NAME);
     }
+
+    public function findLatest(?int $userId): ?object
+    {
+        $builder = $this->db->queryBuilder()
+            ->from(self::TABLE_NAME)
+            ->orderBy('id', 'DESC')
+            ->limit(1);
+
+        if ($userId > 0) {
+            // События для конкретного пользователя ИЛИ общие события
+            $builder->where(function (QueryBuilderInterface $query) use ($userId) {
+                $query->where('user_id', '=', $userId)
+                    ->orWhereNull('user_id');
+            });
+        } else {
+            // Только общие события для гостей
+            $builder->whereNull('user_id');
+        }
+
+        return $builder->first();
+    }
 }

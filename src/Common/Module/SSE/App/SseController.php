@@ -28,8 +28,8 @@ class SseController extends AbstractController
     public function streamEvents(Request $request): void
     {
         $command = new StreamSseEventsCommand(
-            $request->getPost('token'),
-            $request->getPost('signature'),
+            $request->getQuery('token'),
+            $request->getQuery('signature'),
             (int)$request->getHeader('Last-Event-ID', 0)
         );
 

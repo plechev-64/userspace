@@ -16,6 +16,11 @@ class StreamSseEventsUseCase
      * Время жизни одного SSE-соединения в секундах.
      */
     private const CONNECTION_LIFETIME = 5;
+    private const INITIAL_RETRY_MS = 0; // Начальное значение для активного пользователя
+    private const MAX_RETRY_MS = 10000;
+    private const RETRY_INCREMENT_MS = 2000;
+    private const GUEST_RETRY_MS = 10000;
+    private const TRANSIENT_PREFIX = 'usp_sse_retry_';
 
     public function __construct(
         private readonly SseEventRepositoryInterface $repository,
@@ -34,72 +39,165 @@ class StreamSseEventsUseCase
     public function execute(StreamSseEventsCommand $command): void
     {
         $userId = $this->getUserIdFromToken($command->token, $command->signature);
-
-        // Если getUserIdFromToken вернул false, это значит, что токен был, но он невалидный.
         if ($userId === false) {
-            header("HTTP/1.1 401 Unauthorized");
-            exit('Invalid or expired token.');
+            $this->_sendUnauthorizedAndExit();
         }
 
+        $lastEventId = $command->lastEventId;
+
+        $this->_sendSseHeaders();
+        // Устанавливаем время жизни скрипта чуть больше, чем наш цикл
+        set_time_limit(self::CONNECTION_LIFETIME + 5);
+
+        // Делаем одну первоначальную проверку на наличие новых событий
+        if ($lastEventId > 0) {
+            $events = $this->repository->findNewerThan($lastEventId, $userId);
+        } else {
+            // Если это первое подключение (lastEventId = 0), получаем только одно, самое последнее событие.
+            // Это не считается "новым" событием, поэтому не сбрасываем retry.
+            $latestEvent = $this->repository->findLatest($userId);
+            $events = $latestEvent ? [$latestEvent] : [];
+        }
+
+        if ($userId) {
+            $this->_handleAuthenticatedUser($events, $userId, $lastEventId);
+        } else {
+            $this->_handleGuestUser($command, $events);
+        }
+
+        $this->_flushAndExit();
+    }
+
+    private function sendEvents(array $events, int &$lastEventId): void
+    {
+        foreach ($events as $event) {
+            echo "id: " . $this->str->escHtml($event->id) . "\n";
+            echo "event: " . $this->str->escHtml($event->event_type) . "\n";
+            echo "data: " . $event->payload . "\n\n";
+            $lastEventId = $event->id;
+        }
+    }
+
+    /**
+     * Обрабатывает логику для авторизованного пользователя.
+     */
+    private function _handleAuthenticatedUser(array $events, int $userId, int $lastEventId): void
+    {
+        $transientKey = self::TRANSIENT_PREFIX . $userId;
+
+        if (!empty($events)) {
+            $this->_streamActiveUserEvents($userId, $lastEventId, $transientKey, $events);
+        } else {
+            $this->_setInactiveUserRetry($userId, $lastEventId, $transientKey);
+        }
+    }
+
+    /**
+     * Обрабатывает логику для гостевого пользователя.
+     */
+    private function _handleGuestUser(StreamSseEventsCommand $command, array $events): void
+    {
+        if (!empty($events)) {
+            $lastEventId = $command->lastEventId;
+            $this->sendEvents($events, $lastEventId);
+        }
+        // Гость всегда получает максимальную задержку, чтобы не занимать ресурсы сервера.
+        echo "retry: " . self::GUEST_RETRY_MS . "\n\n";
+    }
+
+    /**
+     * Запускает цикл "длинного опроса" для активного пользователя.
+     */
+    private function _streamActiveUserEvents(int $userId, int $lastEventId, string $transientKey, array $events): void
+    {
+        $transient = $this->optionManager->transient();
+        $retry = self::MAX_RETRY_MS;
+
+        if (!$lastEventId && !empty($events)) {
+            $this->sendEvents($events, $lastEventId);
+        }
+
+        if ($this->stream($lastEventId, $userId)) {
+            $retry = self::INITIAL_RETRY_MS;
+            $transient->set($transientKey, self::INITIAL_RETRY_MS, 60);
+        }
+
+        // После завершения цикла просим клиента переподключиться немедленно или через MAX_RETRY_MS, если это первое подключение.
+        echo "retry: $retry\n\n";
+    }
+
+    /**
+     * Устанавливает и отправляет задержку `retry` для неактивного пользователя.
+     */
+    private function _setInactiveUserRetry(int $userId, int $lastEventId, string $transientKey): void
+    {
+        $transient = $this->optionManager->transient();
+        $currentRetry = $transient->get($transientKey);
+
+        if ($currentRetry !== false) {
+            // Если транзиент существует (пользователь был недавно активен), увеличиваем задержку.
+            $newRetry = (int)$currentRetry + self::RETRY_INCREMENT_MS;
+
+            if ($newRetry >= self::MAX_RETRY_MS) {
+                // Достигли максимума, удаляем транзиент, чтобы пользователь стал "холодным".
+                $transient->delete($transientKey);
+                $newRetry = self::MAX_RETRY_MS;
+            }
+
+            if ($newRetry <= (self::MAX_RETRY_MS / 2) && $this->stream($lastEventId, $userId)) {
+                $newRetry = self::INITIAL_RETRY_MS;
+            }
+
+            // Увеличиваем задержку и обновляем транзиент.
+            $transient->set($transientKey, $newRetry, 60);
+        } else {
+            // Если транзиента нет, это "холодный" пользователь. Устанавливаем максимальную задержку.
+            $newRetry = self::MAX_RETRY_MS;
+        }
+        echo "retry: " . $newRetry . "\n\n";
+    }
+
+    /**
+     * @param $lastEventId
+     * @param $userId
+     * @return int
+     */
+    private function stream($lastEventId, $userId): int
+    {
+        $startTime = time();
+        $countNewEvent = 0;
+        while (time() - $startTime < self::CONNECTION_LIFETIME) {
+
+            $events = $this->repository->findNewerThan($lastEventId, $userId);
+
+            if (!empty($events)) {
+                $countNewEvent += count($events);
+                $this->sendEvents($events, $lastEventId);
+            }
+
+            @ob_flush();
+            flush();
+
+            echo ":keep-alive\n\n";
+
+            sleep(1);
+        }
+
+        return $countNewEvent;
+    }
+
+    /**
+     * Отправляет HTTP-заголовки, необходимые для SSE.
+     */
+    private function _sendSseHeaders(): void
+    {
         // Немедленно закрываем сессию, чтобы не блокировать другие запросы от этого же пользователя.
         @session_write_close();
 
-        // Устанавливаем заголовки для SSE
         header('Content-Type: text/event-stream');
         header('Cache-Control: no-cache');
         header('Connection: keep-alive');
         header('X-Accel-Buffering: no'); // Отключаем буферизацию для Nginx
-
-        // Устанавливаем время жизни скрипта чуть больше, чем наш цикл
-        set_time_limit(self::CONNECTION_LIFETIME + 5);
-
-        $hasSentData = false; // Флаг для отслеживания отправки "полезных" данных
-        $startTime = time();
-        $lastEventId = $command->lastEventId;
-        $cacheKey = $userId ? "usp_sse_new_event_for_{$userId}" : 'usp_sse_new_event_for_guest';
-        $cache = $this->optionManager->transient();
-
-        // Запускаем цикл "длинного опроса"
-        while (time() - $startTime < self::CONNECTION_LIFETIME) {
-            // Сначала делаем быструю проверку флага в кэше
-            //if ($cache->get($cacheKey)) {
-                // Только если флаг есть, делаем "тяжелый" запрос в БД
-                $events = $this->repository->findNewerThan($lastEventId, $userId);
-
-                if (!empty($events)) {
-                    foreach ($events as $event) {
-                        echo "id: " . $this->str->escHtml($event->id) . "\n";
-                        echo "event: " . $this->str->escHtml($event->event_type) . "\n";
-                        echo "data: " . $event->payload . "\n\n";
-                        echo "startEventId: " . $this->str->escHtml($lastEventId) . "\n";
-                        $lastEventId = $event->id;
-                        $hasSentData = true; // Устанавливаем флаг, что данные были отправлены
-                    }
-                    // После отправки событий удаляем флаг из кэша
-                    //$cache->delete($cacheKey);
-                //}
-            }
-
-            // Отправляем комментарий, чтобы соединение не закрылось по таймауту
-            echo ":keep-alive\n\n";
-
-            // Сбрасываем буфер вывода, чтобы отправить данные клиенту
-            @ob_flush();
-            flush();
-
-            // "Спим" одну секунду перед следующей проверкой
-            sleep(1);
-        }
-
-        // Если за все время жизни соединения не было отправлено реальных данных,
-        if (!$hasSentData) {
-            echo "retry: 10000\n\n";
-        }else{
-            echo "retry: 0\n\n";
-        }
-
-        // Завершаем выполнение скрипта. Клиент автоматически переподключится.
-        exit;
     }
 
     /**
@@ -129,5 +227,24 @@ class StreamSseEventsUseCase
 
         // Токен есть, но он невалидный
         return false;
+    }
+
+    /**
+     * Отправляет HTTP-ответ с ошибкой авторизации и завершает выполнение.
+     */
+    private function _sendUnauthorizedAndExit(): void
+    {
+        header("HTTP/1.1 401 Unauthorized");
+        exit('Invalid or expired token.');
+    }
+
+    /**
+     * Сбрасывает буфер вывода и завершает выполнение скрипта.
+     */
+    private function _flushAndExit(): void
+    {
+        @ob_flush();
+        flush();
+        exit;
     }
 }
