@@ -10,14 +10,14 @@ if ( ! defined('ABSPATH')) {
 
 interface ThemeManagerInterface
 {
-	/**
-	 * Регистрирует класс темы.
-	 * Этот метод вызывается из файла index.php темы.
-	 *
-	 * @param string $themeClassName Полное имя класса темы.
-	 * @return ThemeInterface|null
-	 */
-	public function register(string $themeClassName): ?ThemeInterface;
+    /**
+     * Регистрирует класс темы.
+     * Этот метод вызывается из файла index.php темы.
+     *
+     * @param string $themeClassName Полное имя класса темы.
+     * @return void
+     */
+	public function register(string $themeClassName): void;
 
 	/**
 	 * Сканирует директорию и возвращает список доступных тем.
@@ -31,13 +31,6 @@ interface ThemeManagerInterface
 	 * Должен вызываться на раннем этапе, например, 'plugins_loaded'.
 	 */
 	public function loadActiveTheme(): void;
-
-	/**
-	 * Загружает конфигурационный файл активной темы, если он существует.
-	 *
-	 * @return array Конфигурация темы или пустой массив.
-	 */
-	public function loadActiveThemeConfig(): array;
 
 	public function getActiveTheme(): ?ThemeInterface;
 

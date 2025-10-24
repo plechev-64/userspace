@@ -33,7 +33,7 @@ class ProfileService implements ProfileServiceApiInterface
             return null;
         }
 
-        $userToUse = $userId ?? $this->userApi->getCurrentUser()?->ID;
+        $userToUse = $userId ?? $this->userApi->getCurrentUser()?->getId();
         if (!$userToUse) {
             return get_permalink($pageId);
         }

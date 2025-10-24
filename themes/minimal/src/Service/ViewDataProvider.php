@@ -1,6 +1,6 @@
 <?php
 
-namespace UserSpace\Theme\First;
+namespace UserSpace\Theme\Minimal\Service;
 
 use UserSpace\Common\Module\Tabs\Src\Infrastructure\TabManager;
 use UserSpace\Common\Module\Tabs\Src\Infrastructure\TabRenderer;
@@ -9,7 +9,7 @@ use UserSpace\Core\Profile\ProfileServiceApiInterface;
 use UserSpace\Core\TemplateManagerInterface;
 
 /**
- * Отвечает за подготовку данных для шаблона темы "First".
+ * Отвечает за подготовку данных для шаблона темы "Minimal".
  */
 class ViewDataProvider
 {
@@ -35,7 +35,6 @@ class ViewDataProvider
 
         return [
             'avatarBlock' => $this->avatarManager->renderAvatarBlock(),
-            'headerMenu' => $this->renderMenu('header', $activeTabId),
             'sidebarMenu' => $this->renderMenu('sidebar', $activeTabId),
             'tabsContent' => $this->tabRenderer->renderTabsContent(
                 '<div class="usp-account-tab-pane %4$s" id="%1$s" data-content-type="%2$s" data-content-source="%3$s">%5$s</div>',
@@ -47,7 +46,7 @@ class ViewDataProvider
     /**
      * Рендерит меню вкладок для указанной локации.
      *
-     * @param string $location Идентификатор локации ('header', 'sidebar', etc.).
+     * @param string $location Идентификатор локации ('sidebar').
      * @param string|null $activeTabId ID активной вкладки.
      *
      * @return string Сгенерированный HTML-код меню.

@@ -11,30 +11,46 @@ use UserSpace\Core\Theme\ThemeManagerInterface;
  */
 class ServiceProvider
 {
-    public function register(ContainerInterface $container): void
+    public function __construct(private readonly ContainerInterface $container)
     {
-        // 1. Загружаем основной конфиг плагина
-        $mainConfig = require USERSPACE_PLUGIN_DIR . 'config/container.php';
-
-        $this->registerParameters($container, $mainConfig['parameters']);
-        $this->registerDefinitions($container, $mainConfig['definitions']);
-
-        // 2. Загружаем конфиг активной темы
-        $themeManager = $container->get(ThemeManagerInterface::class);
-        $themeManager->loadActiveTheme();
-        $themeConfig = $themeManager->loadActiveThemeConfig();
-
-        $this->registerParameters($container, $themeConfig['parameters']);
-        $this->registerDefinitions($container, $themeConfig['definitions']);
     }
 
-    private function registerParameters($container, array $configParams): void
+    public function register(): void
+    {
+        // 1. Загружаем основной конфиг плагина
+        $this->_processConfig(require USERSPACE_PLUGIN_DIR . 'config/container.php');
+    }
+
+    /**
+     * Обрабатывает конфигурационный массив, регистрируя параметры и определения.
+     *
+     * @param mixed $config Конфигурация, которая может быть массивом или другим типом.
+     */
+    private function _processConfig(mixed $config): void
+    {
+        // Проверяем, что конфигурация является валидным массивом
+        if (!is_array($config)) {
+            return;
+        }
+
+        // Регистрируем параметры, только если они существуют и являются массивом
+        if (!empty($config['parameters']) && is_array($config['parameters'])) {
+            $this->registerParameters($config['parameters']);
+        }
+
+        // Регистрируем определения, только если они существуют и являются массивом
+        if (!empty($config['definitions']) && is_array($config['definitions'])) {
+            $this->registerDefinitions($config['definitions']);
+        }
+    }
+
+    public function registerParameters(array $configParams): void
     {
         // Регистрируем параметры
         foreach ($configParams as $key => $params) {
-            if (is_array($params) && $container->has($key)) {
+            if (is_array($params) && $this->container->has($key)) {
                 // Получаем существующий параметр. Container::get() уже разрешает замыкания/фабрики.
-                $existingParams = $container->get($key);
+                $existingParams = $this->container->get($key);
 
                 if ($existingParams instanceof Params) {
                     foreach ($params as $k => $value) {
@@ -47,27 +63,27 @@ class ServiceProvider
                 if (!is_array($existingParams)) {
                     // Если существующий параметр не массив, мы не можем его слить.
                     // В этом случае, новое значение просто перезапишет старое.
-                    $container->set($key, fn() => $params);
+                    $this->container->set($key, fn() => $params);
                     continue;
                 }
 
                 // Объединяем существующие параметры с новыми и устанавливаем результат напрямую.
                 $mergedParams = array_merge($existingParams, $params);
-                $container->set($key, fn() => $mergedParams);
+                $this->container->set($key, fn() => $mergedParams);
 
             } else {
                 // Если параметра нет или он не массив, устанавливаем его напрямую.
-                $container->set($key, fn() => $params);
+                $this->container->set($key, fn() => $params);
             }
         }
 
     }
 
-    private function registerDefinitions($container, array $definitions): void
+    public function registerDefinitions(array $definitions): void
     {
         // Регистрируем определения сервисов
         foreach ($definitions as $id => $definition) {
-            $container->set($id, $definition);
+            $this->container->set($id, $definition);
         }
     }
 }

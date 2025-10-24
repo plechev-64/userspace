@@ -3,6 +3,7 @@
 namespace UserSpace;
 
 use UserSpace\Admin\AdminManager;
+use UserSpace\Common\Addon\AddonManagerInterface;
 use UserSpace\Common\Service\AssetsManager;
 use UserSpace\Common\Service\AvatarManager;
 use UserSpace\Common\Service\CronManager;
@@ -50,15 +51,6 @@ final class Plugin
     }
 
     /**
-     * Загружает активную тему для регистрации её сервисов.
-     */
-    public function loadTheme(): void
-    {
-        $themeManager = $this->container->get(ThemeManagerInterface::class);
-        $themeManager->loadActiveTheme();
-    }
-
-    /**
      * Основная логика запуска плагина после загрузки всех плагинов.
      */
     public function run(): void
@@ -97,7 +89,9 @@ final class Plugin
         if (null === self::$instance) {
             $container = new Container();
             // 1. Сначала конфигурируем контейнер
-            (new ServiceProvider())->register($container);
+            (new ServiceProvider($container))->register();
+
+            $hooManager = $container->get(HookManagerInterface::class);
 
             // 2. Затем создаем экземпляр Plugin, передавая ему уже готовые зависимости из контейнера
             self::$instance = new self(
@@ -105,6 +99,9 @@ final class Plugin
                 $container->get(HookManagerInterface::class),
                 $container->get(LocalizationApiInterface::class)
             );
+
+            $hooManager->doAction('userspace_loaded', $container->get(AddonManagerInterface::class));
+            $hooManager->doAction('userspace_addons_init');
         }
 
         return self::$instance;
@@ -121,6 +118,8 @@ final class Plugin
         /** @todo возможно удалить тк решил загружать активную тему через ServiceProvider */
         //$this->hookManager->addAction('plugins_loaded', [$this, 'loadTheme']);
         $this->hookManager->addAction('init', [$this, 'loadTextdomain']);
+        $this->hookManager->addAction('userspace_addons_init', [$this, 'addonsInit'], 10);
+        $this->hookManager->addAction('userspace_addons_init', [$this, 'themeInit'], 15);
 
         // Инициализация менеджеров
         $this->container->get(AssetsManager::class)->registerHooks();
@@ -138,6 +137,18 @@ final class Plugin
         /** @var InitWpRest $restInit */
         $restInit = $this->container->get(InitWpRest::class);
         $restInit->__invoke();
+    }
+
+    public function themeInit(): void
+    {
+        $manager = $this->container->get(ThemeManagerInterface::class);
+        $manager->loadActiveTheme();
+    }
+
+    public function addonsInit(): void
+    {
+        $manager = $this->container->get(AddonManagerInterface::class);
+        $manager->initializeAddons();
     }
 
     /**

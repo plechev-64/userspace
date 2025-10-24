@@ -1,6 +1,6 @@
 <?php
 
-namespace UserSpace\Theme\Minimal;
+namespace UserSpace\Theme\Minimal\Service;
 
 use UserSpace\Common\Module\Tabs\Src\Infrastructure\TabLocationManager;
 use UserSpace\Core\String\StringFilterInterface;

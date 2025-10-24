@@ -15,6 +15,8 @@ use UserSpace\Adapters\StringFilter;
 use UserSpace\Adapters\TransientApi;
 use UserSpace\Adapters\UserApi;
 use UserSpace\Adapters\WpApi;
+use UserSpace\Common\Addon\AddonManager;
+use UserSpace\Common\Addon\AddonManagerInterface;
 use UserSpace\Common\Module\Form\App\Controller\FormController;
 use UserSpace\Common\Module\Form\Src\Domain\Repository\FormRepositoryInterface;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Repository\FormRepository;
@@ -160,6 +162,7 @@ return [
         OptionManagerInterface::class => fn(ContainerInterface $c) => new OptionManager($c->get(TransientApiInterface::class)),
         SiteApiInterface::class => fn(ContainerInterface $c) => $c->get(SiteApi::class),
         ThemeManagerInterface::class => fn(ContainerInterface $c) => $c->get(ThemeManager::class),
+        AddonManagerInterface::class => fn(ContainerInterface $c) => $c->get(AddonManager::class),
 
         // Grid
         GridProvider::class => function (ContainerInterface $c) {
