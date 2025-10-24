@@ -4,7 +4,7 @@ namespace UserSpace\Core\Addon;
 
 use UserSpace\Core\Container\ContainerInterface;
 
-if ( ! defined('ABSPATH')) {
+if (!defined('ABSPATH')) {
     exit;
 }
 

@@ -21,9 +21,9 @@ class Uploader extends AbstractField
      * @param MediaApiInterface $mediaApi
      */
     public function __construct(
-        UploaderAbstractFieldDto           $dto,
-        private readonly SecurityHelperInterface    $securityHelper,
-        private readonly MediaApiInterface $mediaApi
+        UploaderAbstractFieldDto                 $dto,
+        private readonly SecurityHelperInterface $securityHelper,
+        private readonly MediaApiInterface       $mediaApi
     )
     {
         parent::__construct($dto);

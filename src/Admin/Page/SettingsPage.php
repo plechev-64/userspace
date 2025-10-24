@@ -31,7 +31,7 @@ class SettingsPage extends AbstractAdminPage
 
     public function __construct(
         private readonly FormFactory            $formFactory,
-        private readonly ThemeManagerInterface           $themeManager,
+        private readonly ThemeManagerInterface  $themeManager,
         private readonly SettingsConfig         $settingsConfig,
         private readonly StringFilterInterface  $str,
         private readonly OptionManagerInterface $optionManager,

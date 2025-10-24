@@ -7,7 +7,7 @@ use UserSpace\Core\Theme\ThemeInterface;
 use UserSpace\Core\Theme\ThemeManager;
 use UserSpace\ServiceProvider;
 
-if ( ! defined('ABSPATH')) {
+if (!defined('ABSPATH')) {
     exit;
 }
 
@@ -18,9 +18,10 @@ class AddonManager implements AddonManagerInterface
 
     public function __construct(
         private readonly ContainerInterface $container,
-        private readonly ServiceProvider $serviceProvider,
-        private readonly ThemeManager $themeManager
-    ) {
+        private readonly ServiceProvider    $serviceProvider,
+        private readonly ThemeManager       $themeManager
+    )
+    {
     }
 
     /**
@@ -28,12 +29,12 @@ class AddonManager implements AddonManagerInterface
      */
     public function register(string $addonClassName): void
     {
-        if ( ! class_exists($addonClassName) || ! is_subclass_of($addonClassName, AddonInterface::class)) {
+        if (!class_exists($addonClassName) || !is_subclass_of($addonClassName, AddonInterface::class)) {
             // Можно добавить логирование ошибки
             return;
         }
 
-        if(is_subclass_of($addonClassName, ThemeInterface::class)){
+        if (is_subclass_of($addonClassName, ThemeInterface::class)) {
             $this->themeManager->register($addonClassName);
             return;
         }
@@ -53,11 +54,11 @@ class AddonManager implements AddonManagerInterface
             if ($configPath && file_exists($configPath)) {
                 $addonConfig = require $configPath;
 
-                if ( ! empty($addonConfig['parameters']) && is_array($addonConfig['parameters'])) {
+                if (!empty($addonConfig['parameters']) && is_array($addonConfig['parameters'])) {
                     $this->serviceProvider->registerParameters($addonConfig['parameters']);
                 }
 
-                if ( ! empty($addonConfig['definitions']) && is_array($addonConfig['definitions'])) {
+                if (!empty($addonConfig['definitions']) && is_array($addonConfig['definitions'])) {
                     $this->serviceProvider->registerDefinitions($addonConfig['definitions']);
                 }
             }

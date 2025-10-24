@@ -17,13 +17,13 @@ use UserSpace\Core\String\StringFilterInterface;
 class AvatarManager
 {
     public function __construct(
-        private readonly SecurityHelperInterface         $securityHelper,
-        private readonly ViewedUserContext      $viewedUserContext,
-        private readonly StringFilterInterface  $str,
-        private readonly OptionManagerInterface $optionManager,
-        private readonly UserApiInterface       $userApi,
-        private readonly MediaApiInterface      $mediaApi,
-        private readonly HookManagerInterface   $hookManager
+        private readonly SecurityHelperInterface $securityHelper,
+        private readonly ViewedUserContext       $viewedUserContext,
+        private readonly StringFilterInterface   $str,
+        private readonly OptionManagerInterface  $optionManager,
+        private readonly UserApiInterface        $userApi,
+        private readonly MediaApiInterface       $mediaApi,
+        private readonly HookManagerInterface    $hookManager
     )
     {
     }
@@ -136,7 +136,8 @@ class AvatarManager
         <div class="usp-avatar-block" id="usp-avatar-block">
             <div class="usp-account-avatar-wrapper">
                 <img src="<?php echo $this->str->escAttr($avatarUrl); ?>"
-                     alt="<?php echo $this->str->escAttr($viewedUser->getDisplayName()); ?>" class="usp-account-avatar-img">
+                     alt="<?php echo $this->str->escAttr($viewedUser->getDisplayName()); ?>"
+                     class="usp-account-avatar-img">
                 <?php if ($isOwner) : ?>
                     <?php
                     $config = [

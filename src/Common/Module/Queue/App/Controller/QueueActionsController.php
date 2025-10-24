@@ -47,11 +47,11 @@ class QueueActionsController extends AbstractController
         permission: 'manage_options'
     )]
     public function getStatus(
-        Request $request,
+        Request               $request,
         GetQueueStatusUseCase $getQueueStatusUseCase,
-        int $page = 1,
-        string $orderby = 'id',
-        string $order = 'desc'
+        int                   $page = 1,
+        string                $orderby = 'id',
+        string                $order = 'desc'
     ): JsonResponse
     {
         // Санитизируем входящие параметры

@@ -24,7 +24,7 @@ class ShortcodeManager
         private readonly LoginFormRenderer          $loginFormRenderer,
         private readonly RegistrationFormRenderer   $registrationFormRenderer,
         private readonly ForgotPasswordFormRenderer $forgotPasswordFormRenderer,
-        private readonly ThemeManagerInterface               $themeManager,
+        private readonly ThemeManagerInterface      $themeManager,
         private readonly GenericFormRenderer        $genericFormRenderer,
         private readonly UserListGrid               $userListGrid
     )

@@ -2,7 +2,7 @@
 
 namespace UserSpace\Core\Addon;
 
-if ( ! defined('ABSPATH')) {
+if (!defined('ABSPATH')) {
     exit;
 }
 

@@ -10,9 +10,9 @@ use UserSpace\Core\SecurityHelperInterface;
 class ConfirmRegistrationUseCase
 {
     public function __construct(
-        private readonly UserApiInterface       $userApi,
-        private readonly SecurityHelperInterface         $securityHelper,
-        private readonly OptionManagerInterface $optionManager
+        private readonly UserApiInterface        $userApi,
+        private readonly SecurityHelperInterface $securityHelper,
+        private readonly OptionManagerInterface  $optionManager
     )
     {
     }

@@ -35,7 +35,7 @@ class User implements UserInterface
 
     public function getRoles(): array
     {
-        return (array) $this->wpUser->roles;
+        return (array)$this->wpUser->roles;
     }
 
     public function hasRole(string $role): bool

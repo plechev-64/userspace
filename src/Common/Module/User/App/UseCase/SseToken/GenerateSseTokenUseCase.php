@@ -9,8 +9,8 @@ use UserSpace\Core\String\StringFilterInterface;
 class GenerateSseTokenUseCase
 {
     public function __construct(
-        private readonly SecurityHelperInterface        $securityHelper,
-        private readonly StringFilterInterface $str
+        private readonly SecurityHelperInterface $securityHelper,
+        private readonly StringFilterInterface   $str
     )
     {
     }

@@ -64,7 +64,7 @@ final class Plugin
      */
     public function loadTextdomain(): void
     {
-        $this->localizationApi->loadPluginTextdomain('usp',dirname(plugin_basename(USERSPACE_PLUGIN_FILE)) . '/languages'
+        $this->localizationApi->loadPluginTextdomain('usp', dirname(plugin_basename(USERSPACE_PLUGIN_FILE)) . '/languages'
         );
     }
 
