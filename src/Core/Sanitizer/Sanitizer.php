@@ -6,24 +6,31 @@ use UserSpace\Core\String\StringFilterInterface;
 
 class Sanitizer implements SanitizerInterface
 {
-    private StringFilterInterface $stringFilter;
-
-    public function __construct(StringFilterInterface $stringFilter)
+    public function __construct(
+        private readonly StringFilterInterface $stringFilter
+    )
     {
-        $this->stringFilter = $stringFilter;
     }
 
     public function sanitize(array $data, array $config): ClearedDataInterface
     {
         $sanitizedData = [];
 
-        foreach ($data as $key => $value) {
-            if (isset($config[$key])) {
+        foreach ($config as $key => $rule) {
+            $value = $data[$key] ?? null;
+
+            // Если значение null, не применяем санитизацию и сохраняем его как есть.
+            if ($value === null) {
+                $sanitizedData[$key] = null;
+                continue;
+            }
+
+            if (isset($rule)) {
                 $rule = $config[$key];
                 $sanitizedData[$key] = $this->applySanitizationRule($value, $rule);
             } else {
                 // Если правило не указано, по умолчанию санируем как текстовое поле для безопасности.
-                $sanitizedData[$key] = $this->stringFilter->sanitizeTextField($value);
+                $sanitizedData[$key] = $this->applySanitizationRule($value, SanitizerRule::TEXT_FIELD);
             }
         }
 
@@ -32,11 +39,6 @@ class Sanitizer implements SanitizerInterface
 
     private function applySanitizationRule(mixed $value, string $rule): mixed
     {
-        // Если значение равно null, не применяем санитизацию и возвращаем его как есть.
-        if ($value === null) {
-            return null;
-        }
-
         // Рекурсивно обрабатываем массивы, если правило предназначено для скалярного типа.
         // Это позволяет применять одно правило ко всем элементам вложенного массива.
         if (is_array($value)) {
@@ -44,7 +46,7 @@ class Sanitizer implements SanitizerInterface
         }
 
         return match ($rule) {
-            SanitizerRule::EMAIL => $this->stringFilter->sanitizeEmail($value),
+            SanitizerRule::EMAIL => $this->stringFilter->sanitizeEmail((string)$value),
             SanitizerRule::URL => $this->stringFilter->sanitizeUrl($value),
             SanitizerRule::INT => (int)$value,
             SanitizerRule::FLOAT => (float)$value,

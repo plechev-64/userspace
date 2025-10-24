@@ -3,6 +3,7 @@
 namespace UserSpace\Common\Module\Tabs\Src\Infrastructure;
 
 use UserSpace\Common\Module\Tabs\Src\Domain\AbstractTab;
+use UserSpace\Common\Module\Tabs\Src\Domain\ItemInterface;
 use UserSpace\Common\Service\ViewedUserContext;
 use UserSpace\Core\Profile\ProfileServiceApiInterface;
 use UserSpace\Core\String\StringFilterInterface;
@@ -43,24 +44,29 @@ class TabRenderer
         $activeTabId = $activeTab?->getId();
 
         // Получаем плоский список всех зарегистрированных вкладок
-        $flatTabs = $this->tabManager->getAllRegisteredTabs(true);
+        $flatItems = $this->tabManager->getAllRegisteredItems(true);
 
-        foreach ($flatTabs as $tab) {
-            // Не рендерим контент-блок для "чистой" родительской вкладки,
-            // так как ее роль - быть контейнером для подменю в навигации.
-            // Ее собственный контент отображается через специальную "обзорную" вкладку (__overview).
-            if (!empty($tab->getSubTabs()) && !str_ends_with($tab->getId(), '__overview')) {
+        foreach ($flatItems as $item) {
+            // Контентные панели рендерятся только для реальных вкладок, а не для кнопок.
+            if (!$item instanceof AbstractTab) {
                 continue;
             }
 
-            $isInitialActive = ($tab->getId() === $activeTabId);
-            $innerContent = $isInitialActive ? $this->render($tab) : '';
-            $restUrl = "/tabs/content/{$tab->getId()}";
+            // Не рендерим контент-блок для "чистой" родительской вкладки,
+            // так как ее роль - быть контейнером для подменю в навигации.
+            // Ее собственный контент отображается через специальную "обзорную" вкладку (__overview).
+            if (!empty($item->getSubTabs()) && !str_ends_with($item->getId(), '__overview')) {
+                continue;
+            }
+
+            $isInitialActive = ($item->getId() === $activeTabId);
+            $innerContent = $isInitialActive ? $this->render($item) : '';
+            $restUrl = "/tabs/content/{$item->getId()}";
 
             $output .= sprintf(
                 $paneWrapperHtml,
-                $this->stringFilter->escAttr($tab->getId()),
-                $this->stringFilter->escAttr($tab->getContentType()),
+                $this->stringFilter->escAttr($item->getId()),
+                $this->stringFilter->escAttr($item->getContentType()),
                 $this->stringFilter->escUrl($restUrl),
                 $isInitialActive ? 'is-loaded active' : '', // Добавляем классы, если контент уже загружен
                 $innerContent
@@ -73,14 +79,14 @@ class TabRenderer
     /**
      * Генерирует HTML-контент для указанной вкладки.
      *
-     * @param AbstractTab $tab
+     * @param ItemInterface $item
      *
      * @return string
      */
-    public function render(AbstractTab $tab): string
+    public function render(ItemInterface $item): string
     {
         // Теперь, когда вкладка - это полноценный объект, она сама знает, как сгенерировать свой контент.
         // Вся логика с contentSource и DI-контейнером уже отработала при создании объекта $tab.
-        return $tab->getContent();
+        return $item->getContent();
     }
 }

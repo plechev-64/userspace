@@ -88,7 +88,7 @@ class FormController extends AbstractController
     public function getFieldSettingsForm(
         Request                     $request,
         GetFieldSettingsFormUseCase $getFieldSettingsFormUseCase,
-        FieldMapperInterface                 $fieldMapper
+        FieldMapperInterface        $fieldMapper
     ): JsonResponse
     {
         $clearedData = $this->sanitizer->sanitize($request->getPostParams(), [

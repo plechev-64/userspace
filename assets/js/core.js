@@ -207,10 +207,39 @@
             }
 
             accountWrapper.addEventListener('click', (e) => {
-                const link = e.target.closest('a');
-                if (!link) {
+                const element = e.target.closest('a, button');
+                if (!element) {
                     return;
                 }
+
+                // --- Обработка клика по кнопке-действию ---
+                if (element.tagName === 'BUTTON' && element.dataset.actionEndpoint) {
+                    e.preventDefault();
+                    const endpoint = element.dataset.actionEndpoint;
+                    const originalText = element.innerHTML;
+                    element.disabled = true;
+                    element.innerHTML = 'Processing...';
+
+                    this.apiClient.post(endpoint)
+                        .then(response => {
+                            // Показываем уведомление об успехе
+                            this.showNotice(response.message || 'Action completed successfully.', 'success');
+                        })
+                        .catch(error => {
+                            // Показываем уведомление об ошибке
+                            this.showNotice(error.message || 'An error occurred.', 'error');
+                        })
+                        .finally(() => {
+                            element.disabled = false;
+                            element.innerHTML = originalText;
+                        });
+
+                    return; // Прерываем дальнейшую обработку
+                }
+
+                // --- Существующая логика для вкладок ---
+                const link = element.closest('a');
+                if (!link) return;
 
                 const targetPaneId = link.getAttribute('href');
 

@@ -25,7 +25,7 @@ abstract class AbstractAdminFormPage extends AbstractAdminPage
         protected readonly FormConfigBuilder        $formBuilder,
         protected readonly TemplateManagerInterface $templateManager,
         protected readonly StringFilterInterface    $str,
-        FieldMapperInterface                                 $fieldMapper,
+        FieldMapperInterface                        $fieldMapper,
         AssetRegistryInterface                      $assetRegistry,
         AdminApiInterface                           $adminApi,
         HookManagerInterface                        $hookManager

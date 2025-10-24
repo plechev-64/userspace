@@ -31,7 +31,7 @@ class ViewDataProvider
     public function prepareTemplateData(): array
     {
         $activeTab = $this->profileService->getActiveTab();
-        $activeTabId = $activeTab ? $activeTab->getId() : null;
+        $activeTabId = $activeTab?->getId();
 
         return [
             'avatarBlock' => $this->avatarManager->renderAvatarBlock(),
@@ -54,14 +54,14 @@ class ViewDataProvider
      */
     private function renderMenu(string $location, ?string $activeTabId): string
     {
-        $tabsToRender = $this->tabManager->getTabs($location);
+        $tabsToRender = $this->tabManager->getItems($location);
 
         if (empty($tabsToRender)) {
             return '';
         }
 
         return $this->templateManager->render('tab_menu', [
-            'tabs_to_render' => $tabsToRender,
+            'items_to_render' => $tabsToRender,
             'location' => $location,
             'active_tab_id' => $activeTabId,
         ]);

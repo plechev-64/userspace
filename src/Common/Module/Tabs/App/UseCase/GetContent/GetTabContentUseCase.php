@@ -28,7 +28,7 @@ class GetTabContentUseCase
             throw new UspException($this->str->translate('Tab ID is missing.'), 400);
         }
 
-        $foundTab = $this->tabManager->getTab($command->tabId);
+        $foundTab = $this->tabManager->getItem($command->tabId);
 
         if (!$foundTab) {
             throw new UspException($this->str->translate('Tab not found.'), 404);

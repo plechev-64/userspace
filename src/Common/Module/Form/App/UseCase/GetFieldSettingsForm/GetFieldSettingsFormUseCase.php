@@ -10,7 +10,7 @@ class GetFieldSettingsFormUseCase
 {
     public function __construct(
         private readonly FieldMapperInterface $fieldMapper,
-        private readonly FormFactory $formFactory
+        private readonly FormFactory          $formFactory
     )
     {
     }

@@ -20,13 +20,13 @@
       "UserSpace\\Theme\\Minimal\\" : "themes/minimal/src/"
     }
   },
-  "autoload-dev": {
-    "psr-4": {
-      "UserSpace\\Tests\\": "tests/"
+  "autoload-dev" : {
+    "psr-4" : {
+      "UserSpace\\Tests\\" : "tests/"
     }
   },
-  "require-dev": {
-    "phpunit/phpunit": "^10.5",
-    "mockery/mockery": "^1.6"
+  "require-dev" : {
+    "phpunit/phpunit" : "^10.5",
+    "mockery/mockery" : "^1.6"
   }
 }

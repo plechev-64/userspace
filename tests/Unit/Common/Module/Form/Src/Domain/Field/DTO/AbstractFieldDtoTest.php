@@ -64,24 +64,24 @@ class AbstractFieldDtoTest extends TestCase
     public static function propertyProvider(): array
     {
         return [
-            'label'       => ['label', 'Test Label'],
-            'value'       => ['value', 'test_value'],
+            'label' => ['label', 'Test Label'],
+            'value' => ['value', 'test_value'],
             'description' => ['description', 'Test Description'],
-            'dependency'  => ['dependency', ['field' => 'other_field', 'value' => 'some_value']],
-            'rules'       => ['rules', ['required' => true]],
-            'attributes'  => ['attributes', ['class' => 'test-class']],
+            'dependency' => ['dependency', ['field' => 'other_field', 'value' => 'some_value']],
+            'rules' => ['rules', ['required' => true]],
+            'attributes' => ['attributes', ['class' => 'test-class']],
         ];
     }
 
     public static function defaultValueProvider(): array
     {
         return [
-            'label'       => ['label', ''],
-            'value'       => ['value', null],
+            'label' => ['label', ''],
+            'value' => ['value', null],
             'description' => ['description', null],
-            'dependency'  => ['dependency', null],
-            'rules'       => ['rules', []],
-            'attributes'  => ['attributes', []],
+            'dependency' => ['dependency', null],
+            'rules' => ['rules', []],
+            'attributes' => ['attributes', []],
         ];
     }
 }

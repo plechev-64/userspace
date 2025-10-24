@@ -82,6 +82,7 @@ class UpdateTabsConfigUseCase
             'isDefault' => SanitizerRule::BOOL,
             'capability' => SanitizerRule::KEY,
             'icon' => SanitizerRule::TEXT_FIELD,
+            'class' => SanitizerRule::TEXT_FIELD
         ];
     }
 }

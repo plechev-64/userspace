@@ -22,19 +22,37 @@
     padding: 0;
 }
 
-.usp-account-menu a {
+/* Общие стили для вкладок (<a>) и кнопок (<button>) */
+.usp-account-menu a,
+.usp-account-menu .usp-account-menu-button {
     display: block;
     padding: 10px 15px;
     text-decoration: none;
     color: #2c3338;
     border-radius: 4px;
     margin-bottom: 2px;
+    width: 100%;
+    text-align: left;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: inherit;
+    font-family: inherit;
+    transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out;
 }
 
-.usp-account-menu a:hover {
+/* Состояние при наведении для обоих типов элементов */
+.usp-account-menu a:hover,
+.usp-account-menu .usp-account-menu-button:hover {
     background-color: #f0f0f1;
 }
 
+.usp-account-menu .usp-account-menu-button:disabled {
+    opacity: 0.7;
+    cursor: wait;
+}
+
+/* Активное состояние (только для вкладок) */
 .usp-account-menu a.active {
     background-color: #007cba;
     color: #fff;

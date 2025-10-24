@@ -3,6 +3,7 @@
 namespace UserSpace\Admin;
 
 use UserSpace\Common\Module\Tabs\Src\Domain\AbstractTab;
+use UserSpace\Common\Module\Tabs\Src\Domain\ItemInterface;
 use UserSpace\Common\Module\Tabs\Src\Infrastructure\TabLocationManager;
 use UserSpace\Common\Module\Tabs\Src\Infrastructure\TabManager;
 use UserSpace\Core\String\StringFilterInterface;
@@ -26,17 +27,17 @@ class TabConfigBuilder
     final public function render(): string
     {
         $locations = $this->tabLocationManager->getRegisteredLocations(); // Получаем все локации, включая _unused
-        $groupedTabs = $this->groupTabs();
+        $groupedItems = $this->groupItems();
 
         $output = '<div class="usp-tabs-config-builder" data-usp-tab-builder>';
 
         // Рендерим все зарегистрированные локации, включая _unused
         foreach ($locations as $locationId => $locationLabel) {
-            $tabsToRender = ($locationId === TabLocationManager::UNUSED_LOCATION)
-                ? $groupedTabs['unassigned']
-                : ($groupedTabs['assigned'][$locationId] ?? []);
+            $itemsToRender = ($locationId === TabLocationManager::UNUSED_LOCATION)
+                ? $groupedItems['unassigned']
+                : ($groupedItems['assigned'][$locationId] ?? []);
 
-            $output .= $this->renderLocation($locationId, $locationLabel, $tabsToRender);
+            $output .= $this->renderLocation($locationId, $locationLabel, $itemsToRender);
         }
 
         $output .= '</div>';
@@ -47,9 +48,9 @@ class TabConfigBuilder
     /**
      * Рендерит контейнер для одного места вывода.
      *
-     * @param AbstractTab[] $tabs
+     * @param ItemInterface[] $items
      */
-    private function renderLocation(string $id, string $label, array $tabs): string
+    private function renderLocation(string $id, string $label, array $items): string
     {
 
         $output = sprintf(
@@ -62,17 +63,12 @@ class TabConfigBuilder
         );
         $output .= '<div class="usp-tab-builder-tabs" data-sortable="tabs">';
 
-        // Фильтруем и сортируем вкладки для этой локации
-        // Здесь мы уже работаем с отфильтрованным массивом $tabs,
-        // поэтому дополнительная фильтрация по parentId не нужна, если логика распределения
-        // по $assignedTabs и $unassignedTabs уже учла иерархию.
-        // Однако, если $allTabs возвращает плоский список, то эта фильтрация нужна.
-        // Предполагаем, что $allTabs возвращает плоский список, и мы хотим отобразить только корневые вкладки здесь.
-        $rootTabs = array_filter($tabs, fn(AbstractTab $tab) => $tab->getParentId() === null);
-        usort($rootTabs, fn(AbstractTab $a, AbstractTab $b) => $a->getOrder() <=> $b->getOrder());
+        // Отображаем только корневые элементы для данной локации
+        $rootItems = array_filter($items, fn(ItemInterface $item) => $item->getParentId() === null);
+        usort($rootItems, fn(ItemInterface $a, ItemInterface $b) => $a->getOrder() <=> $b->getOrder());
 
-        foreach ($rootTabs as $tab) {
-            $output .= $this->renderTab($tab);
+        foreach ($rootItems as $item) {
+            $output .= $this->renderItem($item);
         }
 
         $output .= '</div></div>';
@@ -81,48 +77,57 @@ class TabConfigBuilder
     }
 
     /**
-     * Рендерит одну вкладку (и ее подвкладки).
+     * Рендерит один элемент меню (вкладку или кнопку).
      */
-    private function renderTab(AbstractTab $tab): string
+    private function renderItem(ItemInterface $item): string
     {
-        $configData = $tab->toArray();
-        $configData['class'] = get_class($tab);
+        $configData = $item->toArray();
+        $configData['class'] = get_class($item);
         $configJson = wp_json_encode($configData);
 
-        // Вкладка может иметь дочерние, если у нее есть свой контент.
-        $canHaveSubtabs = !empty(trim($tab->getContent()));
-        // Класс для стилизации добавляем, только если дочерние вкладки уже есть.
-        $hasSubtabsClass = !empty($tab->getSubTabs()) ? 'has-subtabs' : '';
+        $itemType = $item->getItemType();
+        $isTab = $itemType === 'tab';
+
+        // Только вкладки могут иметь дочерние элементы.
+        $canHaveSubItems = false;
+        $hasSubItemsClass = '';
+        if ($isTab && $item instanceof AbstractTab) {
+            // Вкладка может иметь дочерние, если у нее есть свой контент и она не является "обзорной".
+            $canHaveSubItems = !empty(trim($item->getContent())) && !str_ends_with($item->getId(), '_overview');
+            // Класс для стилизации добавляем, только если дочерние элементы уже есть.
+            $hasSubItemsClass = !empty($item->getSubTabs()) ? 'has-sub-items' : '';
+        }
 
         $output = sprintf(
-            '<div class="usp-tab-builder-tab %s" data-id="%s" data-config="%s">',
-            $this->str->escAttr($hasSubtabsClass),
-            $this->str->escAttr($tab->getId()),
+            '<div class="usp-tab-builder-item usp-tab-builder-item--%s %s" data-id="%s" data-config="%s">',
+            $this->str->escAttr($itemType),
+            $this->str->escAttr($hasSubItemsClass),
+            $this->str->escAttr($item->getId()),
             $this->str->escAttr($configJson)
         );
 
-        $output .= '<div class="usp-tab-builder-tab-header">';
+        $output .= '<div class="usp-tab-builder-item-header">';
         $output .= sprintf(
             '<span class="dashicons %s"></span> <span class="tab-title">%s</span>',
-            $this->str->escAttr($tab->getIcon() ?? 'dashicons-admin-page'),
-            $this->str->escHtml($tab->getTitle())
+            $this->str->escAttr($item->getIcon() ?? ($isTab ? 'dashicons-admin-page' : 'dashicons-admin-generic')),
+            $this->str->escHtml($item->getTitle())
         );
-        $output .= '<div class="usp-tab-builder-tab-actions">';
+        $output .= '<div class="usp-tab-builder-item-actions">';
         $output .= '<button type="button" class="button button-small" data-action="edit-tab">' . $this->str->translate('Edit') . '</button>';
         $output .= '</div></div>';
 
-        // Если вкладка может иметь дочерние, всегда рендерим для них контейнер (drop-зону).
-        if ($canHaveSubtabs) {
-            $output .= '<div class="usp-tab-builder-subtabs" data-sortable="subtabs">';
-            $subTabs = $tab->getSubTabs();
-            // Сортируем подвкладки
-            usort($subTabs, fn(AbstractTab $a, AbstractTab $b) => $a->getOrder() <=> $b->getOrder());
-            foreach ($subTabs as $subTab) {
+        // Если это вкладка и она может иметь дочерние элементы, рендерим контейнер для них.
+        if ($canHaveSubItems) {
+            $output .= '<div class="usp-tab-builder-sub-items" data-sortable="subitems">';
+            $subItems = ($item instanceof AbstractTab) ? $item->getSubTabs() : []; // Дополнительная проверка, хотя $canHaveSubItems уже гарантирует, что это AbstractTab
+            // Сортируем дочерние элементы
+            usort($subItems, fn(ItemInterface $a, ItemInterface $b) => $a->getOrder() <=> $b->getOrder());
+            foreach ($subItems as $subItem) {
                 // Пропускаем рендеринг служебных "обзорных" вкладок
-                if (str_ends_with($subTab->getId(), '_overview')) {
+                if (str_ends_with($subItem->getId(), '_overview')) {
                     continue;
                 }
-                $output .= $this->renderTab($subTab);
+                $output .= $this->renderItem($subItem);
             }
             $output .= '</div>';
         }
@@ -133,26 +138,26 @@ class TabConfigBuilder
     }
 
     /**
-     * Группирует все зарегистрированные вкладки на "присвоенные" и "бездомные".
+     * Группирует все зарегистрированные элементы на "присвоенные" и "бездомные".
      *
-     * @return array{assigned: array<string, AbstractTab[]>, unassigned: AbstractTab[]}
+     * @return array{assigned: array<string, ItemInterface[]>, unassigned: ItemInterface[]}
      */
-    private function groupTabs(): array
+    private function groupItems(): array
     {
-        $allTabs = $this->tabManager->getAllRegisteredTabs();
-        $assignedTabs = [];
-        $unassignedTabs = [];
+        $allItems = $this->tabManager->getAllRegisteredItems(true); // Получаем плоский список
+        $assignedItems = [];
+        $unassignedItems = [];
 
-        foreach ($allTabs as $tab) {
-            $location = $tab->getLocation();
+        foreach ($allItems as $item) {
+            $location = $item->getLocation();
             // Если локация вкладки зарегистрирована и это не служебная локация
             if ($this->tabLocationManager->isLocationRegistered($location) && $location !== TabLocationManager::UNUSED_LOCATION) {
-                $assignedTabs[$location][] = $tab;
+                $assignedItems[$location][] = $item;
             } else {
-                $unassignedTabs[] = $tab;
+                $unassignedItems[] = $item;
             }
         }
 
-        return ['assigned' => $assignedTabs, 'unassigned' => $unassignedTabs];
+        return ['assigned' => $assignedItems, 'unassigned' => $unassignedItems];
     }
 }

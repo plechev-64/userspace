@@ -25,8 +25,8 @@
     border-bottom: 1px solid #ccd0d4;
 }
 
-/* Container for draggable tabs */
-.usp-tab-builder-tabs {
+/* Container for draggable items (tabs and buttons) */
+.usp-tab-builder-items {
     padding: 15px;
     min-height: 60px; /* Provides a drop area when empty */
     display: flex;
@@ -34,15 +34,15 @@
     gap: 10px;
 }
 
-/* Individual Tab Item */
-.usp-tab-builder-tab {
+/* Individual Item (Tab or Button) */
+.usp-tab-builder-item {
     background: #f6f7f7;
     border: 1px solid #dcdcde;
     border-radius: 3px;
 }
 
-/* Tab Header (the draggable part) */
-.usp-tab-builder-tab-header {
+/* Item Header (the draggable part) */
+.usp-tab-builder-item-header {
     display: flex;
     align-items: center;
     padding: 8px 12px;
@@ -50,51 +50,63 @@
     user-select: none;
 }
 
-.usp-tab-builder-tab-header:active {
+.usp-tab-builder-item-header:active {
     cursor: grabbing;
 }
 
-.usp-tab-builder-tab-header .dashicons {
+.usp-tab-builder-item-header .dashicons {
     margin-right: 8px;
     color: #50575e;
 }
 
-.usp-tab-builder-tab-header .tab-title {
+.usp-tab-builder-item-header .tab-title {
     font-weight: 500;
     flex-grow: 1;
 }
 
-/* Tab Actions (Edit button) */
-.usp-tab-builder-tab-actions {
+/* Item Actions (Edit button) */
+.usp-tab-builder-item-actions {
     display: flex;
     gap: 5px;
 }
 
-/* Sub-tabs container */
-.usp-tab-builder-subtabs {
+/* Sub-items container (for tabs only) */
+.usp-tab-builder-sub-items {
     padding: 5px;
-    margin: 0 10px 10px 30px; /* Indentation for sub-tabs */
+    margin: 0 10px 10px 30px; /* Indentation for sub-items */
     border-left: 3px solid #8c8f94;
     background: #fff;
-    min-height: 10px; /* Drop area for sub-tabs */
+    min-height: 10px; /* Drop area for sub-items */
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
 
-/* Скрываем контейнер для подвкладок у вложенных элементов (2-го уровня) */
-.usp-tab-builder-tab.is-nested .usp-tab-builder-subtabs {
+/* --- Specific styles for item types --- */
+
+/* Buttons have a slightly different look and feel */
+.usp-tab-builder-item--button .usp-tab-builder-item-header {
+    background-color: #f0f0f1;
+}
+
+/* Hide sub-item container for buttons, as they cannot have children */
+.usp-tab-builder-item--button .usp-tab-builder-sub-items {
+    display: none;
+}
+
+/* Hide sub-item container for nested tabs (2nd level) */
+.usp-tab-builder-item.is-nested .usp-tab-builder-sub-items {
     display: none;
 }
 
 /* SortableJS helper classes */
-.usp-tab-builder-tab.sortable-ghost {
+.usp-tab-builder-item.sortable-ghost {
     background: #d8eafc;
     border-style: dashed;
     opacity: 0.7;
 }
 
-.usp-tab-builder-tab.sortable-drag {
+.usp-tab-builder-item.sortable-drag {
     opacity: 1 !important;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
@@ -104,7 +116,7 @@
     margin: 0 0 20px;
 }
 
-/* --- Special styles for the Unassigned tabs location --- */
+/* --- Special styles for the Unassigned items location --- */
 .usp-tab-builder-location[data-location-id="_unused"] {
     flex-basis: 100%;
     max-width: none;
@@ -120,18 +132,18 @@
     border-bottom-color: #dcdcde;
 }
 
-.usp-tab-builder-location[data-location-id="_unused"] .usp-tab-builder-tabs {
+.usp-tab-builder-location[data-location-id="_unused"] .usp-tab-builder-items {
     flex-direction: row;
     flex-wrap: wrap;
 }
 
-.usp-tab-builder-location[data-location-id="_unused"] .usp-tab-builder-tab {
+.usp-tab-builder-location[data-location-id="_unused"] .usp-tab-builder-item {
     width: 400px;
     flex-grow: 0;
     flex-shrink: 0;
 }
 
-/* Сбрасываем ширину для вложенных вкладок, чтобы они не вылезали за пределы родителя */
-.usp-tab-builder-location[data-location-id="_unused"] .usp-tab-builder-subtabs .usp-tab-builder-tab {
+/* Reset width for nested items so they don't overflow the parent */
+.usp-tab-builder-location[data-location-id="_unused"] .usp-tab-builder-sub-items .usp-tab-builder-item {
     width: auto;
 }

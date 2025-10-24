@@ -3,14 +3,15 @@
 namespace UserSpace\Common\Module\Tabs\Src\Infrastructure;
 
 use UserSpace\Common\Module\Tabs\Src\Domain\AbstractTab;
+use UserSpace\Common\Module\Tabs\Src\Domain\ItemInterface;
 use UserSpace\Common\Module\User\Src\Domain\UserApiInterface;
 use UserSpace\Common\Service\ViewedUserContext;
 use UserSpace\Core\Container\ContainerInterface;
 
 class TabManager
 {
-    /** @var AbstractTab[] */
-    private array $tabs = [];
+    /** @var ItemInterface[] */
+    private array $items = [];
 
     public function __construct(
         private readonly ContainerInterface $container,
@@ -21,65 +22,65 @@ class TabManager
     }
 
     /**
-     * Регистрирует вкладку по имени её класса.
+     * Регистрирует элемент меню (вкладку или кнопку) по имени его класса.
      *
-     * @param class-string<AbstractTab> $tabClassName Имя класса вкладки.
-     * @param array|null $configData Данные из конфигурации для обновления вкладки.
+     * @param class-string<ItemInterface> $itemClassName Имя класса элемента.
+     * @param array|null $configData Данные из конфигурации для обновления элемента.
      *
      * @throws \Exception
      */
-    public function registerTab(string $tabClassName, ?array $configData = null): void
+    public function registerItem(string $itemClassName, ?array $configData = null): void
     {
-        if (!class_exists($tabClassName) || !is_subclass_of($tabClassName, AbstractTab::class)) {
+        if (!class_exists($itemClassName) || !is_subclass_of($itemClassName, ItemInterface::class)) {
             // В реальном приложении здесь лучше логировать ошибку или бросать исключение
             return;
         }
 
-        /** @var AbstractTab $tab */
-        $tab = $this->container->get($tabClassName);
+        /** @var ItemInterface $item */
+        $item = $this->container->get($itemClassName);
 
-        // Если переданы данные из конфигурации, обновляем объект вкладки
-        if (null !== $configData) {
-            $tab->updateFromArray($configData);
+        // Если переданы данные из конфигурации, обновляем объект
+        if (null !== $configData && method_exists($item, 'updateFromArray')) {
+            $item->updateFromArray($configData);
         }
 
         // После всех инициализаций проверяем, что ID установлен.
-        if (empty($tab->getId())) {
-            // Логируем ошибку или бросаем исключение, так как вкладка без ID невалидна.
+        if (empty($item->getId())) {
+            // Логируем ошибку или бросаем исключение, так как элемент без ID невалиден.
             return;
         }
 
-        $this->tabs[$tab->getId()] = $tab;
+        $this->items[$item->getId()] = $item;
     }
 
     /**
-     * Возвращает вкладку по её ID.
+     * Возвращает элемент меню по его ID.
      */
-    public function getTab(string $id): ?AbstractTab
+    public function getItem(string $id): ?ItemInterface
     {
         // Если это ID "обзорной" вкладки (например, "profile__overview")
         if (str_ends_with($id, '_overview')) {
             $parentId = str_replace('_overview', '', $id);
-            $parentTab = $this->tabs[$parentId] ?? null;
+            $parentItem = $this->items[$parentId] ?? null;
 
-            if ($parentTab) {
+            if ($parentItem instanceof AbstractTab) {
                 // Создаем и возвращаем "обзорную" вкладку на лету
-                return $this->createOverviewTab($parentTab);
+                return $this->createOverviewTab($parentItem);
             }
 
             return null;
         }
 
         // Обычный поиск по ID
-        return $this->tabs[$id] ?? null;
+        return $this->items[$id] ?? null;
     }
 
     /**
      * Возвращает отсортированный и отфильтрованный по правам доступа массив вкладок.
      *
-     * @return AbstractTab[]
+     * @return ItemInterface[]
      */
-    public function getTabs(?string $location = null): array
+    public function getItems(?string $location = null): array
     {
         $displayedUser = $this->viewedUserContext->getViewedUser();
         if (!$displayedUser) {
@@ -89,119 +90,130 @@ class TabManager
         $currentUserId = $this->userApi->getCurrentUserId();
 
         // Строим иерархию из всех зарегистрированных вкладок
-        $hierarchicalTabs = $this->buildTabsHierarchy(array_values($this->tabs));
+        $hierarchicalItems = $this->buildItemsHierarchy(array_values($this->items));
 
-        $allowedTabs = [];
-        foreach ($hierarchicalTabs as $tab) {
+        $allowedItems = [];
+        foreach ($hierarchicalItems as $item) {
             // 1. Фильтрация по местоположению
-            if (null !== $location && $tab->getLocation() !== $location) {
+            if (null !== $location && $item->getLocation() !== $location) {
                 continue;
             }
 
             // 2. Проверка приватности: показываем, только если это владелец аккаунта
-            if ($tab->isPrivate() && (int)$currentUserId !== (int)$displayedUserId) {
+            if ($item->isPrivate() && (int)$currentUserId !== (int)$displayedUserId) {
                 continue;
             }
 
-            // 3. Проверка прав доступа для родительской вкладки
-            if (!$tab->getCapability() || $this->userApi->currentUserCan($tab->getCapability(), $displayedUserId)) {
-                $allowedSubTabs = [];
+            // 3. Проверка прав доступа для родительского элемента
+            if ($item->canView()) {
+                // Только вкладки могут иметь дочерние элементы
+                if ($item instanceof AbstractTab) {
+                    $allowedSubItems = [];
+                    foreach ($item->getSubTabs() as $subItem) {
+                        // Проверка приватности и прав для дочерних элементов
+                        if ($subItem->isPrivate() && (int)$currentUserId !== (int)$displayedUserId) {
+                            continue;
+                        }
+                        if ($subItem->canView()) {
+                            $allowedSubItems[] = $subItem;
+                        }
+                    }
+                    // Сортируем дочерние элементы по полю order
+                    usort($allowedSubItems, static fn(ItemInterface $a, ItemInterface $b): int => $a->getOrder() <=> $b->getOrder());
 
-                foreach ($tab->getSubTabs() as $subTab) {
-                    // Проверка приватности и прав для дочерних вкладок
-                    if ($subTab->isPrivate() && (int)$currentUserId !== (int)$displayedUserId) {
-                        continue;
-                    }
-                    if (!$subTab->getCapability() || $this->userApi->currentUserCan($subTab->getCapability(), $displayedUserId)) {
-                        $allowedSubTabs[] = $subTab;
-                    }
+                    // Перезаписываем subItems только отфильтрованными и отсортированными
+                    // Для этого нужно создать клон, чтобы не изменять исходный объект в $this->items
+                    $clonedItem = clone $item;
+                    $clonedItem->setSubTabs($allowedSubItems);
+                    $allowedItems[] = $clonedItem;
+                } else {
+                    // Если это кнопка (или вкладка без дочерних элементов), просто добавляем ее
+                    $allowedItems[] = $item;
                 }
-                // Сортируем подвкладки по полю order
-                usort($allowedSubTabs, static fn(AbstractTab $a, AbstractTab $b): int => $a->getOrder() <=> $b->getOrder());
-
-                // Перезаписываем subTabs только отфильтрованными и отсортированными
-                // Для этого нужно создать клон, чтобы не изменять исходный объект в $this->tabs
-                $clonedTab = clone $tab;
-                $clonedTab->setSubTabs($allowedSubTabs);
-                $allowedTabs[] = $clonedTab;
             }
         }
 
-        // 4. Сортируем основные вкладки по полю order
-        usort($allowedTabs, static fn(AbstractTab $a, AbstractTab $b): int => $a->getOrder() <=> $b->getOrder());
+        // 4. Сортируем основные элементы по полю order
+        usort($allowedItems, static fn(ItemInterface $a, ItemInterface $b): int => $a->getOrder() <=> $b->getOrder());
 
-        return $allowedTabs;
+        return $allowedItems;
     }
 
     /**
-     * Возвращает все зарегистрированные вкладки в виде иерархии без фильтрации прав.
+     * Возвращает все зарегистрированные элементы в виде иерархии без фильтрации прав.
      *
      * @param bool $flat Вернуть плоский список вместо иерархии.
-     * @return AbstractTab[]
+     * @return ItemInterface[]
      */
-    public function getAllRegisteredTabs(bool $flat = false): array
+    public function getAllRegisteredItems(bool $flat = false): array
     {
-        $hierarchicalTabs = $this->buildTabsHierarchy(array_values($this->tabs));
+        $hierarchicalItems = $this->buildItemsHierarchy(array_values($this->items));
 
         if ($flat) {
             $flatList = [];
             // Рекурсивная функция для преобразования иерархии в плоский список.
-            $flattener = static function (array $tabs) use (&$flatList, &$flattener): void {
-                foreach ($tabs as $tab) {
-                    $flatList[] = $tab;
-                    if (!empty($tab->getSubTabs())) {
-                        $flattener($tab->getSubTabs());
+            $flattener = static function (array $items) use (&$flatList, &$flattener): void {
+                foreach ($items as $item) {
+                    $flatList[] = $item;
+                    if ($item instanceof AbstractTab && !empty($item->getSubTabs())) {
+                        $flattener($item->getSubTabs()); // Рекурсия только для вкладок
                     }
                 }
             };
-            $flattener($hierarchicalTabs);
+            $flattener($hierarchicalItems);
 
             return $flatList;
         }
 
-        usort($hierarchicalTabs, static fn(AbstractTab $a, AbstractTab $b): int => $a->getOrder() <=> $b->getOrder());
+        usort($hierarchicalItems, static fn(ItemInterface $a, ItemInterface $b): int => $a->getOrder() <=> $b->getOrder());
 
-        return $hierarchicalTabs;
+        return $hierarchicalItems;
     }
 
     /**
-     * Строит иерархическую структуру из плоского списка вкладок.
+     * Строит иерархическую структуру из плоского списка элементов.
      *
-     * @param AbstractTab[] $tabs Плоский массив объектов AbstractTab.
+     * @param ItemInterface[] $items Плоский массив объектов ItemInterface.
      *
-     * @return AbstractTab[] Массив AbstractTab верхнего уровня с заполненным свойством subTabs.
+     * @return ItemInterface[] Массив ItemInterface верхнего уровня с заполненным свойством subTabs.
      */
-    private function buildTabsHierarchy(array $tabs): array
+    private function buildItemsHierarchy(array $items): array
     {
-        /** @var array<string, AbstractTab> $tabsById */
-        $tabsById = [];
-        foreach ($tabs as $tab) {
-            // Клонируем, чтобы не изменять оригинальные объекты в $this->tabs
-            $clonedTab = clone $tab;
-            $clonedTab->setSubTabs([]); // Сбрасываем subTabs на случай повторного построения
-            $tabsById[$clonedTab->getId()] = $clonedTab;
+        /** @var array<string, ItemInterface> $itemsById */
+        $itemsById = [];
+        // Используем array_map для создания клонов, чтобы гарантировать работу с "чистыми" объектами
+        // и не изменять состояние оригинальных объектов в $this->items.
+        $clonedItems = array_map(fn($item) => clone $item, $items);
+        foreach ($clonedItems as $item) {
+            if ($item instanceof AbstractTab) {
+                $item->setSubTabs([]); // Сбрасываем subTabs на случай повторного построения
+            }
+            $itemsById[$item->getId()] = $item;
         }
 
-        foreach ($tabsById as $tab) {
-            $parentId = $tab->getParentId();
-            if ($parentId && isset($tabsById[$parentId])) {
-                $tabsById[$parentId]->addSubTab($tab);
+        foreach ($itemsById as $item) {
+            $parentId = $item->getParentId();
+            if ($parentId && isset($itemsById[$parentId])) {
+                if ($itemsById[$parentId] instanceof AbstractTab) {
+                    $itemsById[$parentId]->addSubTab($item);
+                }
             }
         }
 
         // Создаем "обзорные" подвкладки для родителей, у которых есть контент и другие дочерние вкладки
-        foreach ($tabsById as $tab) {
-            if (count($tab->getSubTabs()) > 0 && !empty(trim($tab->getContent()))) {
-                $overviewTab = $this->createOverviewTab($tab);
+        foreach ($itemsById as $item) {
+            // "Обзорные" вкладки создаются только для реальных вкладок (не для кнопок)
+            if ($item instanceof AbstractTab && count($item->getSubTabs()) > 0 && !empty(trim($item->getContent()))) {
+                $overviewTab = $this->createOverviewTab($item);
 
                 // Помещаем "обзорную" вкладку в начало списка дочерних
-                $subTabs = $tab->getSubTabs();
-                array_unshift($subTabs, $overviewTab);
-                $tab->setSubTabs($subTabs);
+                $subItems = $item->getSubTabs();
+                array_unshift($subItems, $overviewTab);
+                $item->setSubTabs($subItems);
             }
         }
 
-        return array_filter($tabsById, fn(AbstractTab $tab) => $tab->getParentId() === null);
+        return array_filter($itemsById, fn(ItemInterface $item) => $item->getParentId() === null);
     }
 
     /**

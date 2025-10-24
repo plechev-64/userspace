@@ -4,6 +4,7 @@ namespace UserSpace\Core\Profile;
 
 use UserSpace\Common\Module\Settings\Src\Domain\OptionManagerInterface;
 use UserSpace\Common\Module\Tabs\Src\Domain\AbstractTab;
+use UserSpace\Common\Module\Tabs\Src\Domain\ItemInterface;
 use UserSpace\Common\Module\Tabs\Src\Infrastructure\TabManager;
 use UserSpace\Common\Module\User\Src\Domain\UserApiInterface;
 use UserSpace\Common\Module\User\Src\Domain\UserInterface;
@@ -26,7 +27,7 @@ class ProfileService implements ProfileServiceApiInterface
 
     public function getProfileUrl(?int $userId = null): ?string
     {
-        $settings = $this->getSettings();
+        $settings = $this->_getSettings();
         $pageId = $settings['profile_page_id'] ?? null;
 
         if (empty($pageId)) {
@@ -50,7 +51,7 @@ class ProfileService implements ProfileServiceApiInterface
             return null;
         }
 
-        $settings = $this->getSettings();
+        $settings = $this->_getSettings();
         $tabQueryVar = !empty($settings['profile_tab_query_var']) ? $settings['profile_tab_query_var'] : 'tab';
 
         return add_query_arg([$tabQueryVar => $tabId], $baseUrl);
@@ -58,38 +59,45 @@ class ProfileService implements ProfileServiceApiInterface
 
     public function getActiveTab(): ?AbstractTab
     {
-        $tabs = $this->tabManager->getTabs();
-        if (empty($tabs)) {
+        $items = $this->tabManager->getItems();
+        if (empty($items)) {
             return null;
         }
 
-        $settings = $this->getSettings();
+        // Для определения активной вкладки нам нужны только элементы типа "tab"
+        /** @var AbstractTab[] $tabs */
+        $tabs = array_filter($items, static fn(ItemInterface $item): bool => $item instanceof AbstractTab);
+        if (empty($tabs)) {
+            return null; // Нет доступных вкладок
+        }
+
+        $settings = $this->_getSettings();
         $tabQueryVar = !empty($settings['profile_tab_query_var']) ? $settings['profile_tab_query_var'] : 'tab';
 
         $activeTabId = sanitize_text_field($this->request->getQuery($tabQueryVar, ''));
 
         if (!empty($activeTabId)) {
-            foreach ($tabs as $tab) {
-                if ($tab->getId() === $activeTabId) {
-                    return $tab;
+            foreach ($tabs as $tabItem) {
+                if ($tabItem->getId() === $activeTabId) {
+                    return $tabItem;
                 }
             }
         }
 
         // Если активная вкладка не найдена или не задана, возвращаем вкладку по умолчанию
-        return $this->getDefaultTab($tabs);
+        return $this->_getDefaultTab($tabs);
     }
 
     /**
      * @param AbstractTab[] $tabs
      * @return AbstractTab|null
      */
-    private function getDefaultTab(array $tabs): ?AbstractTab
+    private function _getDefaultTab(array $tabs): ?AbstractTab
     {
         // Сначала ищем вкладку, явно помеченную как по умолчанию
         foreach ($tabs as $tab) {
             if ($tab->isDefault()) {
-                return $tab;
+                return $tab; // Этот метод есть только у AbstractTab
             }
         }
 
@@ -106,7 +114,7 @@ class ProfileService implements ProfileServiceApiInterface
      *
      * @return array
      */
-    private function getSettings(): array
+    private function _getSettings(): array
     {
         if ($this->settings === null) {
             $this->settings = $this->optionManager->get(self::OPTION_NAME, []);

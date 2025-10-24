@@ -1,41 +1,57 @@
 <?php
 /**
- * Шаблон для рендеринга меню вкладок.
+ * Шаблон для рендеринга меню личного кабинета (вкладки и кнопки).
  *
- * @var AbstractTab[] $tabs_to_render Массив объектов AbstractTab для рендеринга.
+ * @var \UserSpace\Common\Module\Tabs\Src\Domain\ItemInterface[] $items_to_render Массив объектов для рендеринга.
  * @var string|null $active_tab_id ID активной вкладки.
  */
 
 use UserSpace\Common\Module\Tabs\Src\Domain\AbstractTab;
 
-if (!defined('ABSPATH') || empty($tabs_to_render)) {
+if (!defined('ABSPATH') || empty($items_to_render)) {
     return;
 }
 
-foreach ($tabs_to_render as $tab) :
-    $has_subtabs = !empty($tab->getSubTabs());
-    $parent_classes = $has_subtabs ? 'has-submenu' : '';
+foreach ($items_to_render as $item) :
+    $is_tab = $item instanceof AbstractTab;
+    $is_button = !$is_tab;
 
-    // Определяем, активна ли текущая вкладка или одна из ее дочерних вкладок
-    $is_parent_active = $has_subtabs && in_array($active_tab_id, array_map(fn($sub) => $sub->getId(), $tab->getSubTabs()));
-    $active_class = ($tab->getId() === $active_tab_id || $is_parent_active) ? 'active' : '';
+    if ($is_tab) {
+        $has_subtabs = !empty($item->getSubTabs());
+        $parent_classes = $has_subtabs ? 'has-submenu' : '';
 
-    // Если это родительская вкладка с подменю, ссылка не должна вести на контент,
-    // а только служить для раскрытия меню. JS обработает клик и перейдет на первую дочернюю.
-    $link_href = $has_subtabs ? '#' : '#' . esc_attr($tab->getId());
-    $data_tab_id = $has_subtabs ? '' : 'data-tab-id="' . esc_attr($tab->getId()) . '"';
+        // Определяем, активна ли текущая вкладка или одна из ее дочерних вкладок
+        $is_parent_active = $has_subtabs && in_array($active_tab_id, array_map(fn($sub) => $sub->getId(), $item->getSubTabs()));
+        $active_class = ($item->getId() === $active_tab_id || $is_parent_active) ? 'active' : '';
+
+        // Если это родительская вкладка с подменю, ссылка не должна вести на контент,
+        // а только служить для раскрытия меню. JS обработает клик и перейдет на первую дочернюю.
+        $link_href = $has_subtabs ? '#' : '#' . esc_attr($item->getId());
+        $data_tab_id = $has_subtabs ? '' : 'data-tab-id="' . esc_attr($item->getId()) . '"';
+    }
     ?>
-    <div class="usp-account-menu-item <?php echo esc_attr($parent_classes); ?>">
-        <a href="<?php echo $link_href; ?>" class="<?php echo esc_attr($active_class); ?>" <?php echo $data_tab_id; ?>>
-            <?php if ($tab->getIcon()) : ?>
-                <span class="dashicons <?php echo esc_attr($tab->getIcon()); ?>"></span>
-            <?php endif; ?>
-            <span class="usp-menu-item-title"><?php echo esc_html($tab->getTitle()); ?></span>
-        </a>
+    <div class="usp-account-menu-item <?php if ($is_tab) echo esc_attr($parent_classes); ?>">
+        <?php if ($is_tab) : ?>
+            <a href="<?php echo $link_href; ?>"
+               class="<?php echo esc_attr($active_class); ?>" <?php echo $data_tab_id; ?>>
+                <?php if ($item->getIcon()) : ?>
+                    <span class="dashicons <?php echo esc_attr($item->getIcon()); ?>"></span>
+                <?php endif; ?>
+                <span class="usp-menu-item-title"><?php echo esc_html($item->getTitle()); ?></span>
+            </a>
+        <?php else : // Это кнопка ?>
+            <button type="button" class="usp-account-menu-button"
+                    data-action-endpoint="<?php echo esc_attr($item->getActionEndpoint()); ?>">
+                <?php if ($item->getIcon()) : ?>
+                    <span class="dashicons <?php echo esc_attr($item->getIcon()); ?>"></span>
+                <?php endif; ?>
+                <span class="usp-menu-item-title"><?php echo esc_html($item->getTitle()); ?></span>
+            </button>
+        <?php endif; ?>
 
-        <?php if ($has_subtabs) : ?>
+        <?php if ($is_tab && $has_subtabs) : ?>
             <div class="usp-account-submenu">
-                <?php foreach ($tab->getSubTabs() as $sub_tab) : ?>
+                <?php foreach ($item->getSubTabs() as $sub_tab) : ?>
                     <?php $sub_active_class = ($sub_tab->getId() === $active_tab_id) ? 'active' : ''; ?>
                     <div class="usp-account-menu-item">
                         <a href="#<?php echo esc_attr($sub_tab->getId()); ?>"

@@ -23,26 +23,26 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // --- Инициализация SortableJS ---
     const initSortable = () => {
-        const tabContainers = builder.querySelectorAll('[data-sortable="tabs"], [data-sortable="subtabs"]');
-        tabContainers.forEach(container => {
+        const itemContainers = builder.querySelectorAll('[data-sortable="tabs"], [data-sortable="subitems"]');
+        itemContainers.forEach(container => {
             new Sortable(container, {
                 animation: 150,
-                handle: '.usp-tab-builder-tab-header',
-                group: 'shared-tabs', // Все вкладки в одной группе для перемещения между локациями
+                handle: '.usp-tab-builder-item-header',
+                group: 'shared-items', // Все элементы в одной группе для перемещения между локациями
                 onEnd: () => {
-                    // После любого перемещения обновляем состояние всех вкладок
-                    updateTabStates();
+                    // После любого перемещения обновляем состояние всех элементов
+                    updateItemStates();
                 },
                 onMove: (evt) => {
                     // evt.to - контейнер, КУДА перемещаем
                     // evt.dragged - элемент, КОТОРЫЙ перемещаем
 
                     // Если мы пытаемся переместить вкладку в контейнер для подвкладок
-                    if (evt.to.matches('[data-sortable="subtabs"]')) {
+                    if (evt.to.matches('[data-sortable="subitems"]')) {
                         // Запрещаем перемещать вкладку, у которой уже есть свои дочерние вкладки.
                         // Это предотвращает создание 3-го уровня вложенности.
-                        const draggedSubtabs = evt.dragged.querySelector('[data-sortable="subtabs"]');
-                        if (draggedSubtabs && draggedSubtabs.children.length > 0) {
+                        const draggedSubItems = evt.dragged.querySelector('[data-sortable="subitems"]');
+                        if (draggedSubItems && draggedSubItems.children.length > 0) {
                             return false; // Отменить перемещение
                         }
                     }
@@ -53,17 +53,17 @@ document.addEventListener('DOMContentLoaded', function () {
     };
 
     /**
-     * Обновляет CSS-классы вкладок в зависимости от их уровня вложенности.
-     * Скрывает возможность добавления дочерних вкладок для вложенных элементов.
+     * Обновляет CSS-классы элементов в зависимости от их уровня вложенности.
+     * Скрывает возможность добавления дочерних элементов для вложенных элементов.
      */
-    const updateTabStates = () => {
-        const allTabs = builder.querySelectorAll('.usp-tab-builder-tab');
-        allTabs.forEach(tab => {
+    const updateItemStates = () => {
+        const allItems = builder.querySelectorAll('.usp-tab-builder-item');
+        allItems.forEach(item => {
             // Проверяем, является ли вкладка вложенной (2-й уровень)
-            if (tab.closest('[data-sortable="subtabs"]')) {
-                tab.classList.add('is-nested');
+            if (item.closest('[data-sortable="subitems"]')) {
+                item.classList.add('is-nested');
             } else {
-                tab.classList.remove('is-nested');
+                item.classList.remove('is-nested');
             }
         });
     };
@@ -75,8 +75,8 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
         e.preventDefault();
-        const tabEl = target.closest('.usp-tab-builder-tab');
-        await openEditModal(tabEl);
+        const itemEl = target.closest('.usp-tab-builder-item');
+        await openEditModal(itemEl);
     });
 
     // --- Логика создания новой вкладки ---
@@ -88,22 +88,22 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    const openEditModal = async (tabEl) => {
-        const currentConfig = tabEl.dataset.config;
+    const openEditModal = async (itemEl) => {
+        const currentConfig = itemEl.dataset.config;
 
         const formData = new FormData();
         formData.append('tabConfig', currentConfig);
 
         try {
             const json = await window.UspCore.api.post('/tabs/settings', formData);
-            buildAndShowEditModal(tabEl, json.html);
+            buildAndShowEditModal(itemEl, json.html);
         } catch (error) {
             alert((l10n.errorPrefix || 'Error: ') + error.message);
         }
     };
 
-    const buildAndShowEditModal = (tabEl, settingsHtml) => {
-        const config = JSON.parse(tabEl.dataset.config || '{}');
+    const buildAndShowEditModal = (itemEl, settingsHtml) => {
+        const config = JSON.parse(itemEl.dataset.config || '{}');
 
         const modalHtml = `
             <div class="usp-modal-backdrop is-visible">
@@ -137,19 +137,19 @@ document.addEventListener('DOMContentLoaded', function () {
 
             if (e.target.matches('[data-action="save-edit"]')) {
                 const newSettings = collectSettingsFromModal(modal);
-                const oldConfig = JSON.parse(tabEl.dataset.config || '{}');
+                const oldConfig = JSON.parse(itemEl.dataset.config || '{}');
 
                 // Обновляем только те свойства, которые есть в форме
                 const newConfig = {...oldConfig, ...newSettings};
 
-                tabEl.dataset.config = JSON.stringify(newConfig);
+                itemEl.dataset.config = JSON.stringify(newConfig);
 
                 // Обновляем видимые элементы в конструкторе
-                const titleEl = tabEl.querySelector('.tab-title');
+                const titleEl = itemEl.querySelector('.tab-title');
                 if (titleEl) {
                     titleEl.textContent = newConfig.title;
                 }
-                const iconEl = tabEl.querySelector('.dashicons');
+                const iconEl = itemEl.querySelector('.dashicons');
                 if (iconEl) {
                     iconEl.className = `dashicons ${newConfig.icon || 'dashicons-admin-page'}`;
                 }
@@ -260,19 +260,20 @@ document.addEventListener('DOMContentLoaded', function () {
             capability: 'read',
             icon: 'dashicons-admin-page',
             contentType: 'rest',
+            itemType: 'tab', // Новые элементы по умолчанию - вкладки
             class: 'UserSpace\\Tabs\\CustomTab' // Указываем класс для кастомной вкладки
         };
 
         const tabHtml = `
-            <div class="usp-tab-builder-tab" data-id="${defaultConfig.id}" data-config='${JSON.stringify(defaultConfig)}'>
-                <div class="usp-tab-builder-tab-header">
+            <div class="usp-tab-builder-item usp-tab-builder-item--tab" data-id="${defaultConfig.id}" data-config='${JSON.stringify(defaultConfig)}'>
+                <div class="usp-tab-builder-item-header">
                     <span class="dashicons ${defaultConfig.icon}"></span>
                     <span class="tab-title">${defaultConfig.title}</span>
-                    <div class="usp-tab-builder-tab-actions">
+                    <div class="usp-tab-builder-item-actions">
                         <button type="button" class="button button-small" data-action="edit-tab">${l10n.edit || 'Edit'}</button>
                     </div>
                 </div>
-                <div class="usp-tab-builder-subtabs" data-sortable="subtabs"></div>
+                <div class="usp-tab-builder-sub-items" data-sortable="subitems"></div>
             </div>
         `;
 
@@ -314,9 +315,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const serializeBuilder = () => {
         const finalConfig = [];
 
-        const processTab = (tabEl, parentId = null, location = null) => {
-            const config = JSON.parse(tabEl.dataset.config || '{}');
-            const tabId = tabEl.dataset.id;
+        const processItem = (itemEl, parentId = null, location = null) => {
+            const config = JSON.parse(itemEl.dataset.config || '{}');
+            const itemId = itemEl.dataset.id;
 
             // Обновляем родителя и местоположение
             config.parentId = parentId;
@@ -325,17 +326,17 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
             // Обновляем порядок
-            const siblings = Array.from(tabEl.parentNode.children);
-            config.order = siblings.indexOf(tabEl) * 10;
+            const siblings = Array.from(itemEl.parentNode.children);
+            config.order = siblings.indexOf(itemEl) * 10;
 
             // Поле 'class' уже должно быть в объекте config, так как оно берется из data-config.
 
             // Рекурсивно обрабатываем подвкладки
-            const subTabsContainer = tabEl.querySelector('[data-sortable="subtabs"]');
-            if (subTabsContainer) {
-                const subTabs = subTabsContainer.querySelectorAll(':scope > .usp-tab-builder-tab');
-                subTabs.forEach(subTabEl => {
-                    processTab(subTabEl, tabId, config.location);
+            const subItemsContainer = itemEl.querySelector('[data-sortable="subitems"]');
+            if (subItemsContainer) {
+                const subItems = subItemsContainer.querySelectorAll(':scope > .usp-tab-builder-item');
+                subItems.forEach(subItemEl => {
+                    processItem(subItemEl, itemId, config.location);
                 });
             }
 
@@ -347,9 +348,9 @@ document.addEventListener('DOMContentLoaded', function () {
         const locations = builder.querySelectorAll('.usp-tab-builder-location');
         locations.forEach(locationEl => {
             const locationId = locationEl.dataset.locationId;
-            const topLevelTabs = locationEl.querySelectorAll(':scope > .usp-tab-builder-tabs > .usp-tab-builder-tab');
-            topLevelTabs.forEach(tabEl => {
-                processTab(tabEl, null, locationId);
+            const topLevelItems = locationEl.querySelectorAll(':scope > .usp-tab-builder-tabs > .usp-tab-builder-item');
+            topLevelItems.forEach(itemEl => {
+                processItem(itemEl, null, locationId);
             });
         });
 
@@ -358,5 +359,5 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Первичная инициализация
     initSortable();
-    updateTabStates(); // Устанавливаем начальное состояние
+    updateItemStates(); // Устанавливаем начальное состояние
 });

@@ -15,6 +15,8 @@ use UserSpace\Adapters\StringFilter;
 use UserSpace\Adapters\TransientApi;
 use UserSpace\Adapters\UserApi;
 use UserSpace\Adapters\WpApi;
+use UserSpace\Admin\Service\SettingsFormConfigService;
+use UserSpace\Admin\Service\SettingsFormConfigServiceInterface;
 use UserSpace\Common\Module\Form\App\Controller\FormController;
 use UserSpace\Common\Module\Form\Src\Domain\FieldMapperInterface;
 use UserSpace\Common\Module\Form\Src\Domain\Repository\FormRepositoryInterface;
@@ -50,6 +52,7 @@ use UserSpace\Common\Module\SSE\Src\Infrastructure\Repository\SseEventRepository
 use UserSpace\Common\Module\SSE\Src\Infrastructure\SseEventDispatcher;
 use UserSpace\Common\Module\Tabs\App\Controller\TabController;
 use UserSpace\Common\Module\Tabs\App\Tabs\ActivityTab;
+use UserSpace\Common\Module\Tabs\App\Tabs\ClearCacheButton;
 use UserSpace\Common\Module\Tabs\App\Tabs\EditProfileTab;
 use UserSpace\Common\Module\Tabs\App\Tabs\ProfileTab;
 use UserSpace\Common\Module\Tabs\App\Tabs\SecurityTab;
@@ -117,6 +120,7 @@ return [
             SecurityTab::class,
             ActivityTab::class,
             UserListTab::class,
+            ClearCacheButton::class,
         ],
         'app.controllers' => [
             FormController::class,
@@ -169,6 +173,7 @@ return [
         AddonManagerInterface::class => fn(ContainerInterface $c) => $c->get(AddonManager::class),
         SanitizerInterface::class => fn(ContainerInterface $c) => $c->get(Sanitizer::class),
         FieldMapperInterface::class => fn(ContainerInterface $c) => $c->get(FieldMapper::class),
+        SettingsFormConfigServiceInterface::class => fn(ContainerInterface $c) => $c->get(SettingsFormConfigService::class),
 
         // Grid
         GridProvider::class => function (ContainerInterface $c) {

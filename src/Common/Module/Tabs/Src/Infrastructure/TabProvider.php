@@ -2,14 +2,17 @@
 
 namespace UserSpace\Common\Module\Tabs\Src\Infrastructure;
 
-use UserSpace\Common\Module\Tabs\Src\Domain\AbstractTab;
+use UserSpace\Common\Module\Tabs\Src\Domain\ItemInterface;
 
 class TabProvider
 {
+    /**
+     * @param array<int, class-string<ItemInterface>> $hardcodedItemClasses
+     */
     public function __construct(
         private readonly TabManager       $tabManager,
         private readonly TabConfigManager $tabConfigManager,
-        private readonly array            $hardcodedTabClasses
+        private readonly array            $hardcodedItemClasses
     )
     {
     }
@@ -17,7 +20,8 @@ class TabProvider
     public function registerDefaultTabs(): void
     {
         $config = $this->tabConfigManager->load() ?? [];
-        $hardcodedClasses = $this->getHardcodedTabClasses();
+
+        $hardcodedClasses = $this->getHardcodedItemClasses();
 
         $configTabsByClass = [];
         foreach ($config as $tabData) {
@@ -26,45 +30,45 @@ class TabProvider
             }
         }
 
-        // 1. Регистрируем все вкладки (и из конфига, и новые системные)
+        // 1. Регистрируем все элементы (и из конфига, и новые системные)
         $allClassesToRegister = array_unique(array_merge($hardcodedClasses, array_keys($configTabsByClass)));
 
         foreach ($allClassesToRegister as $class) {
             // Применяем сохраненную конфигурацию, если она есть для этого класса
             $tabConfig = $configTabsByClass[$class] ?? null;
-            $this->tabManager->registerTab($class, $tabConfig);
+            $this->tabManager->registerItem($class, $tabConfig);
         }
 
-        // 2. Если были добавлены новые системные вкладки, которых не было в конфиге,
+        // 2. Если были добавлены новые системные элементы, которых не было в конфиге,
         // то обновляем конфиг, чтобы они появились в конструкторе.
         $newClasses = array_diff($hardcodedClasses, array_keys($configTabsByClass));
         if (!empty($newClasses)) {
-            $this->updateConfigWithNewTabs();
+            $this->updateConfigWithNewItems();
         }
     }
 
     /**
-     * Возвращает список всех "жестко" закодированных системных вкладок.
+     * Возвращает список всех "жестко" закодированных системных элементов (вкладок и кнопок).
      *
-     * @return array<int, class-string<AbstractTab>>
+     * @return array<int, class-string<ItemInterface>>
      */
-    private function getHardcodedTabClasses(): array
+    private function getHardcodedItemClasses(): array
     {
-        return $this->hardcodedTabClasses;
+        return $this->hardcodedItemClasses;
 
     }
 
     /**
-     * Обновляет сохраненную конфигурацию, добавляя в нее новые системные вкладки.
+     * Обновляет сохраненную конфигурацию, добавляя в нее новые системные элементы.
      */
-    private function updateConfigWithNewTabs(): void
+    private function updateConfigWithNewItems(): void
     {
-        $allTabs = $this->tabManager->getAllRegisteredTabs(true); // Получаем плоский список
+        $allItems = $this->tabManager->getAllRegisteredItems(true); // Получаем плоский список
         $newConfig = [];
-        foreach ($allTabs as $tab) {
-            $tabData = $tab->toArray();
-            $tabData['class'] = get_class($tab);
-            $newConfig[] = $tabData;
+        foreach ($allItems as $item) {
+            $itemData = $item->toArray();
+            $itemData['class'] = get_class($item);
+            $newConfig[] = $itemData;
         }
         $this->tabConfigManager->save($newConfig);
     }
