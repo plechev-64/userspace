@@ -6,11 +6,11 @@
  * Version:           1.0.0
  * Requires at least: 5.2
  * Requires PHP:      8.1
- * Author:            Your Name
+ * Author:            Plechev Andrey
  * Author URI:        https://example.com/
  * License:           GPL v2 or later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       userspace
+ * Text Domain:       usp
  * Domain Path:       /languages
  */
 

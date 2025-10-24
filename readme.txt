@@ -1,5 +1,5 @@
 === UserSpace: Advanced User Management & Profile Toolkit ===
-Contributors: (your-wordpress-org-username)
+Contributors: Plechev Andrey
 Tags: user, profile, registration, login, form builder, custom fields, tabs, sse, queue, framework
 Requires at least: 6.0
 Tested up to: 6.5
