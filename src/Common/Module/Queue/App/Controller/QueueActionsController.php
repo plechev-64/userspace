@@ -11,6 +11,8 @@ use UserSpace\Common\Module\Queue\App\UseCase\TriggerWorker\TriggerQueueWorkerUs
 use UserSpace\Core\Exception\UspException;
 use UserSpace\Core\Http\JsonResponse;
 use UserSpace\Core\Http\Request;
+use UserSpace\Core\Sanitizer\SanitizerInterface;
+use UserSpace\Core\Sanitizer\SanitizerRule;
 use UserSpace\Core\Rest\Abstract\AbstractController;
 use UserSpace\Core\Rest\Attributes\Route;
 use UserSpace\Core\String\StringFilterInterface;
@@ -19,7 +21,8 @@ use UserSpace\Core\String\StringFilterInterface;
 class QueueActionsController extends AbstractController
 {
     public function __construct(
-        private readonly StringFilterInterface $str
+        private readonly StringFilterInterface $str,
+        private readonly SanitizerInterface    $sanitizer
     )
     {
     }
@@ -38,14 +41,37 @@ class QueueActionsController extends AbstractController
     /**
      * Получает актуальный статус очереди и данные для грида.
      */
-    #[Route(path: '/status/page/(?P<page>\d+)/orderby/(?P<orderby>[a-zA-Z_]+)/order/(?P<order>asc|desc)', method: 'GET', permission: 'manage_options')]
-    public function getStatus(Request $request, GetQueueStatusUseCase $getQueueStatusUseCase, int $page = 1, string $orderby = 'id', string $order = 'desc'): JsonResponse
+    #[Route(
+        path: '/status/page/(?P<page>\d+)/orderby/(?P<orderby>[a-zA-Z_]+)/order/(?P<order>asc|desc)',
+        method: 'GET',
+        permission: 'manage_options'
+    )]
+    public function getStatus(
+        Request $request,
+        GetQueueStatusUseCase $getQueueStatusUseCase,
+        int $page = 1,
+        string $orderby = 'id',
+        string $order = 'desc'
+    ): JsonResponse
     {
+        // Санитизируем входящие параметры
+        $clearedData = $this->sanitizer->sanitize([
+            'page' => $page, // Уже int, но можно явно указать правило
+            'orderby' => $orderby,
+            'order' => $order,
+            'search' => $request->getQuery('search', '')
+        ], [
+            'page' => SanitizerRule::INT,
+            'orderby' => SanitizerRule::KEY, // Ключи для сортировки должны быть безопасными
+            'order' => SanitizerRule::KEY,   // Направление сортировки должно быть безопасным
+            'search' => SanitizerRule::TEXT_FIELD,
+        ]);
+
         $command = new GetQueueStatusCommand(
-            $page,
-            $orderby,
-            $order,
-            $request->getQuery('search', '')
+            $clearedData->get('page'),
+            $clearedData->get('orderby'),
+            $clearedData->get('order'),
+            $clearedData->get('search')
         );
         $result = $getQueueStatusUseCase->execute($command);
 
@@ -62,7 +88,7 @@ class QueueActionsController extends AbstractController
      * Запускает обработку очереди вручную.
      */
     #[Route(path: '/process-now', method: 'POST', permission: 'manage_options')]
-    public function processNow(Request $request, TriggerQueueWorkerUseCase $triggerQueueWorkerUseCase): JsonResponse
+    public function processNow(TriggerQueueWorkerUseCase $triggerQueueWorkerUseCase): JsonResponse
     {
         $triggerQueueWorkerUseCase->execute();
 

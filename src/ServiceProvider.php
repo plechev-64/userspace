@@ -4,7 +4,6 @@ namespace UserSpace;
 
 use UserSpace\Core\Container\ContainerInterface;
 use UserSpace\Core\Container\Params;
-use UserSpace\Core\Theme\ThemeManagerInterface;
 
 /**
  * Регистрирует сервисы плагина в DI-контейнере.

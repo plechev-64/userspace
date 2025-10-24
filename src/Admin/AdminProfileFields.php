@@ -2,12 +2,11 @@
 
 namespace UserSpace\Admin;
 
-use UserSpace\Adapters\User;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormFactory;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormManager;
 use UserSpace\Common\Module\User\Src\Domain\UserApiInterface;
-use UserSpace\Common\Module\User\Src\Domain\UserInterface;
 use UserSpace\Core\Hooks\HookManagerInterface;
+use UserSpace\Core\Http\Request;
 use UserSpace\Core\String\StringFilterInterface;
 
 /**
@@ -20,7 +19,8 @@ class AdminProfileFields
         private readonly FormFactory           $formFactory,
         private readonly StringFilterInterface $str,
         private readonly HookManagerInterface  $hookManager,
-        private readonly UserApiInterface      $userApi
+        private readonly UserApiInterface      $userApi,
+        private readonly Request               $request
     )
     {
     }
@@ -38,9 +38,9 @@ class AdminProfileFields
     }
 
     /**
+     * @param \WP_User $user
      * @todo избавится от WP_User
      * Рендерит кастомные поля на странице профиля.
-     * @param \WP_User $user
      */
     public function renderProfileFields(\WP_User $user): void
     {
@@ -90,14 +90,14 @@ class AdminProfileFields
 
         foreach (array_keys($fields) as $fieldName) {
             // Сохраняем только если поле было отправлено в POST
-            if (isset($_POST[$fieldName])) {
+            if ($this->request->getPost($fieldName) !== null) {
                 // Пропускаем основные поля, WordPress сохраняет их сам
                 if (in_array($fieldName, ['user_login', 'user_email', 'display_name', 'user_pass', 'password_repeat'])) {
                     continue;
                 }
 
                 // Здесь можно добавить более сложную санацию в зависимости от типа поля
-                $value = $this->str->unslash($_POST[$fieldName]);
+                $value = $this->str->unslash($this->request->getPost($fieldName));
                 $this->userApi->updateUserMeta($userId, $fieldName, $value);
             }
         }

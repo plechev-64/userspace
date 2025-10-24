@@ -2,6 +2,7 @@
 
 namespace UserSpace\Common\Module\User\App\UseCase\Registration;
 
+use UserSpace\Common\Module\Form\Src\Domain\Field\FieldInterface;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormFactory;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormManager;
 use UserSpace\Common\Module\Queue\Src\Infrastructure\QueueDispatcher;
@@ -9,6 +10,8 @@ use UserSpace\Common\Module\Settings\Src\Domain\OptionManagerInterface;
 use UserSpace\Common\Module\User\App\Task\Message\SendConfirmationEmailMessage;
 use UserSpace\Common\Module\User\Src\Domain\UserApiInterface;
 use UserSpace\Core\Exception\UspException;
+use UserSpace\Core\Sanitizer\SanitizerInterface;
+use UserSpace\Core\Sanitizer\SanitizerRule;
 use UserSpace\Core\SecurityHelperInterface;
 use UserSpace\Core\String\StringFilterInterface;
 
@@ -21,13 +24,14 @@ class RegisterUserUseCase
     private const CORE_USER_FIELDS = ['user_login', 'user_email', 'user_pass'];
 
     public function __construct(
-        private readonly FormManager            $formManager,
-        private readonly FormFactory            $formFactory,
-        private readonly SecurityHelperInterface         $securityHelper,
-        private readonly StringFilterInterface  $str,
-        private readonly OptionManagerInterface $optionManager,
-        private readonly UserApiInterface       $userApi,
-        private readonly QueueDispatcher        $queueDispatcher
+        private readonly FormManager             $formManager,
+        private readonly FormFactory             $formFactory,
+        private readonly SecurityHelperInterface $securityHelper,
+        private readonly StringFilterInterface   $str,
+        private readonly OptionManagerInterface  $optionManager,
+        private readonly UserApiInterface        $userApi,
+        private readonly QueueDispatcher         $queueDispatcher,
+        private readonly SanitizerInterface      $sanitizer
     )
     {
     }
@@ -67,10 +71,11 @@ class RegisterUserUseCase
         $userData = [];
         $metaData = [];
         foreach ($form->getFields() as $field) {
+            $sanitizedValue = $this->_sanitizeFieldValue($field);
             if (in_array($field->getName(), self::CORE_USER_FIELDS, true)) {
-                $userData[$field->getName()] = $field->getValue();
+                $userData[$field->getName()] = $sanitizedValue;
             } else {
-                $metaData[$field->getName()] = $field->getValue();
+                $metaData[$field->getName()] = $sanitizedValue;
             }
         }
 
@@ -137,5 +142,32 @@ class RegisterUserUseCase
         $message = sprintf($this->str->translate("Thanks for signing up! To activate your account, please click this link:\n\n%s"), $confirmationUrl);
 
         $this->queueDispatcher->dispatch(new SendConfirmationEmailMessage($userData['user_email'], $subject, $message));
+    }
+
+    /**
+     * Применяет правило санитизации к значению поля на основе его типа.
+     *
+     * @param FieldInterface $field Объект поля.
+     * @return mixed Очищенное значение.
+     */
+    private function _sanitizeFieldValue(FieldInterface $field): mixed
+    {
+        $value = $field->getValue();
+        $type = $field->getType();
+
+        // Для пароля не применяем санитизацию, которая может его изменить.
+        // WordPress сам позаботится о хэшировании. Мы просто удаляем теги.
+        if ($type === 'password') {
+            return $this->str->stripAllTags((string)$value);
+        }
+
+        $rule = match ($type) {
+            'email' => SanitizerRule::EMAIL,
+            'user_login' => SanitizerRule::USER,
+            default => SanitizerRule::TEXT_FIELD,
+        };
+
+        $clearedData = $this->sanitizer->sanitize(['value' => $value], ['value' => $rule]);
+        return $clearedData->get('value');
     }
 }

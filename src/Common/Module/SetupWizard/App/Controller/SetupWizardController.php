@@ -9,6 +9,7 @@ use UserSpace\Core\Http\JsonResponse;
 use UserSpace\Core\Http\Request;
 use UserSpace\Core\Rest\Abstract\AbstractController;
 use UserSpace\Core\Rest\Attributes\Route;
+use UserSpace\Core\Sanitizer\SanitizerInterface;
 use UserSpace\Core\String\StringFilterInterface;
 
 #[Route(path: '/setup-wizard')]
@@ -16,7 +17,8 @@ class SetupWizardController extends AbstractController
 {
     public function __construct(
         private readonly StringFilterInterface $str,
-        private readonly SaveWizardStepUseCase $saveWizardStepUseCase
+        private readonly SaveWizardStepUseCase $saveWizardStepUseCase,
+        private readonly SanitizerInterface    $sanitizer
     )
     {
     }
@@ -30,7 +32,10 @@ class SetupWizardController extends AbstractController
     #[Route(path: '/save-step', method: 'POST', permission: 'manage_options')]
     public function saveStep(Request $request): JsonResponse
     {
-        $command = new SaveWizardStepCommand($request->getPost('data', []));
+        $rawData = $request->getPost('data', []);
+        $clearedData = $this->sanitizer->sanitize($rawData, []); // Use default sanitization (TEXT_FIELD)
+
+        $command = new SaveWizardStepCommand($clearedData->all());
 
         try {
             $this->saveWizardStepUseCase->execute($command);

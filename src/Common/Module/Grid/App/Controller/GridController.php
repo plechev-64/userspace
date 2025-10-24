@@ -7,6 +7,8 @@ use UserSpace\Common\Module\Grid\App\UseCase\FetchGridDataUseCase;
 use UserSpace\Core\Exception\UspException;
 use UserSpace\Core\Http\JsonResponse;
 use UserSpace\Core\Http\Request;
+use UserSpace\Core\Sanitizer\SanitizerInterface;
+use UserSpace\Core\Sanitizer\SanitizerRule;
 use UserSpace\Core\Rest\Abstract\AbstractController;
 use UserSpace\Core\Rest\Attributes\Route;
 
@@ -14,7 +16,8 @@ use UserSpace\Core\Rest\Attributes\Route;
 class GridController extends AbstractController
 {
     public function __construct(
-        private readonly FetchGridDataUseCase $fetchGridDataUseCase
+        private readonly FetchGridDataUseCase $fetchGridDataUseCase,
+        private readonly SanitizerInterface   $sanitizer
     )
     {
     }
@@ -51,7 +54,17 @@ class GridController extends AbstractController
      */
     private function handleGridRequest(string $gridType, Request $request): JsonResponse
     {
-        $command = new FetchGridDataCommand($gridType, $request->getPostParams());
+        // Санитизируем входящие параметры запроса
+        $sanitizationConfig = [
+            'page' => SanitizerRule::INT,
+            'orderby' => SanitizerRule::KEY,
+            'order' => SanitizerRule::KEY,
+            'search' => SanitizerRule::TEXT_FIELD,
+            // Добавьте другие ожидаемые параметры грида здесь
+        ];
+        $clearedRequestParams = $this->sanitizer->sanitize($request->getPostParams(), $sanitizationConfig)->all();
+
+        $command = new FetchGridDataCommand($gridType, $clearedRequestParams);
 
         try {
             $result = $this->fetchGridDataUseCase->execute($command);

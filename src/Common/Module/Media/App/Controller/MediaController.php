@@ -10,6 +10,8 @@ use UserSpace\Core\Http\JsonResponse;
 use UserSpace\Core\Http\Request;
 use UserSpace\Core\Rest\Abstract\AbstractController;
 use UserSpace\Core\Rest\Attributes\Route;
+use UserSpace\Core\Sanitizer\SanitizerInterface;
+use UserSpace\Core\Sanitizer\SanitizerRule;
 use UserSpace\Core\String\StringFilterInterface;
 
 /**
@@ -19,7 +21,8 @@ use UserSpace\Core\String\StringFilterInterface;
 class MediaController extends AbstractController
 {
     public function __construct(
-        private readonly StringFilterInterface $str
+        private readonly StringFilterInterface $str,
+        private readonly SanitizerInterface    $sanitizer
     )
     {
     }
@@ -27,22 +30,43 @@ class MediaController extends AbstractController
     #[Route(path: '/upload', method: 'POST', permission: 'upload_files')]
     public function handleUpload(Request $request, UploadFileUseCase $uploadFileUseCase): JsonResponse
     {
-        $config = json_decode($request->getPost('config', '{}'), true);
+        // 1. Санитизируем "сырые" POST-данные
+        $clearedPost = $this->sanitizer->sanitize($request->getPostParams(), [
+            'config' => SanitizerRule::TEXT_FIELD,
+            'signature' => SanitizerRule::TEXT_FIELD,
+        ]);
+
+        $configJson = $clearedPost->get('config', '{}');
+        $signature = $clearedPost->get('signature');
+
+        $decodedConfig = json_decode($configJson, true);
         if (json_last_error() !== JSON_ERROR_NONE) {
             return $this->error(['message' => $this->str->translate('Invalid configuration format.')], 400);
         }
 
+        // 2. Санитизируем данные *внутри* декодированного JSON
+        $clearedConfig = $this->sanitizer->sanitize($decodedConfig, [
+            'name' => SanitizerRule::KEY,
+            'multiple' => SanitizerRule::BOOL,
+            'allowedTypes' => SanitizerRule::TEXT_FIELD,
+            'maxSize' => SanitizerRule::FLOAT,
+            'minWidth' => SanitizerRule::INT,
+            'minHeight' => SanitizerRule::INT,
+            'maxWidth' => SanitizerRule::INT,
+            'maxHeight' => SanitizerRule::INT,
+        ]);
+
         $command = new UploadFileCommand(
             $_FILES['file'] ?? [],
-            $request->getPost('signature'),
-            $config['name'] ?? null,
-            isset($config['multiple']) && $config['multiple'],
-            $config['allowedTypes'] ?? null,
-            isset($config['maxSize']) ? (float)$config['maxSize'] : null,
-            isset($config['minWidth']) ? (int)$config['minWidth'] : null,
-            isset($config['minHeight']) ? (int)$config['minHeight'] : null,
-            isset($config['maxWidth']) ? (int)$config['maxWidth'] : null,
-            isset($config['maxHeight']) ? (int)$config['maxHeight'] : null
+            $signature,
+            $clearedConfig->get('name'),
+            $clearedConfig->get('multiple', false),
+            $clearedConfig->get('allowedTypes'),
+            $clearedConfig->get('maxSize'),
+            $clearedConfig->get('minWidth'),
+            $clearedConfig->get('minHeight'),
+            $clearedConfig->get('maxWidth'),
+            $clearedConfig->get('maxHeight')
         );
 
         try {
@@ -66,8 +90,10 @@ class MediaController extends AbstractController
     #[Route(path: '/(?P<id>[\d]+)', method: 'DELETE', permission: 'upload_files')]
     public function deleteAttachment(int $id, DeleteFileUseCase $deleteFileUseCase): JsonResponse
     {
+        // Хотя роутер уже валидирует ID как число, дополнительная санитизация - хорошая практика.
+        $sanitizedId = (int)$id;
         try {
-            $deleteFileUseCase->execute($id);
+            $deleteFileUseCase->execute($sanitizedId);
 
             return $this->success([
                 'message' => $this->str->translate('File deleted successfully.'),

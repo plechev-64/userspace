@@ -3,11 +3,11 @@
 namespace UserSpace;
 
 use UserSpace\Admin\AdminManager;
-use UserSpace\Common\Addon\AddonManagerInterface;
 use UserSpace\Common\Service\AssetsManager;
 use UserSpace\Common\Service\AvatarManager;
 use UserSpace\Common\Service\CronManager;
 use UserSpace\Common\Service\FrontendManager;
+use UserSpace\Core\Addon\AddonManagerInterface;
 use UserSpace\Core\Container\Container;
 use UserSpace\Core\Container\ContainerInterface;
 use UserSpace\Core\Hooks\HookManagerInterface;

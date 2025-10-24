@@ -15,8 +15,6 @@ use UserSpace\Adapters\StringFilter;
 use UserSpace\Adapters\TransientApi;
 use UserSpace\Adapters\UserApi;
 use UserSpace\Adapters\WpApi;
-use UserSpace\Common\Addon\AddonManager;
-use UserSpace\Common\Addon\AddonManagerInterface;
 use UserSpace\Common\Module\Form\App\Controller\FormController;
 use UserSpace\Common\Module\Form\Src\Domain\Repository\FormRepositoryInterface;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Repository\FormRepository;
@@ -66,6 +64,8 @@ use UserSpace\Common\Module\User\App\Task\SendConfirmationEmailHandler;
 use UserSpace\Common\Module\User\App\Task\SendWelcomeEmailHandler;
 use UserSpace\Common\Module\User\Src\Domain\UserApiInterface;
 use UserSpace\Common\Service\TemplateManager;
+use UserSpace\Core\Addon\AddonManager;
+use UserSpace\Core\Addon\AddonManagerInterface;
 use UserSpace\Core\Admin\AdminApiInterface;
 use UserSpace\Core\Asset\AssetRegistryInterface;
 use UserSpace\Core\Auth\AuthApiInterface;
@@ -83,6 +83,8 @@ use UserSpace\Core\Query\QueryApiInterface;
 use UserSpace\Core\Rest\Helper\RestHelper;
 use UserSpace\Core\Rest\RestApi;
 use UserSpace\Core\Rest\Route\RouteParser;
+use UserSpace\Core\Sanitizer\Sanitizer;
+use UserSpace\Core\Sanitizer\SanitizerInterface;
 use UserSpace\Core\SecurityHelper;
 use UserSpace\Core\SecurityHelperInterface;
 use UserSpace\Core\SiteApiInterface;
@@ -163,6 +165,7 @@ return [
         SiteApiInterface::class => fn(ContainerInterface $c) => $c->get(SiteApi::class),
         ThemeManagerInterface::class => fn(ContainerInterface $c) => $c->get(ThemeManager::class),
         AddonManagerInterface::class => fn(ContainerInterface $c) => $c->get(AddonManager::class),
+        SanitizerInterface::class => fn(ContainerInterface $c) => $c->get(Sanitizer::class),
 
         // Grid
         GridProvider::class => function (ContainerInterface $c) {

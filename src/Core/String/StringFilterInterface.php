@@ -120,4 +120,22 @@ interface StringFilterInterface
      * @return string|false
      */
     public function jsonEncode(mixed $data): string|false;
+
+    public function sanitizeEmail(string $email): string;
+
+    public function sanitizeUrl(string $url): string;
+
+    public function ksesPost(string $string): string;
+
+    public function ksesData(string $string): string;
+
+    public function stripAllTags(string $string, bool $remove_breaks = false): string;
+
+    public function sanitizeTitle(string $title): string;
+
+    public function sanitizeFileName(string $filename): string;
+
+    public function sanitizeHtmlClass(string $class): string;
+
+    public function sanitizeUser(string $username, bool $strict = false): string;
 }

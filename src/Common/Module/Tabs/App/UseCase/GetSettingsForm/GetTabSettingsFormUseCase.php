@@ -5,13 +5,16 @@ namespace UserSpace\Common\Module\Tabs\App\UseCase\GetSettingsForm;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormConfig;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormFactory;
 use UserSpace\Core\Exception\UspException;
+use UserSpace\Core\Sanitizer\SanitizerInterface;
+use UserSpace\Core\Sanitizer\SanitizerRule;
 use UserSpace\Core\String\StringFilterInterface;
 
 class GetTabSettingsFormUseCase
 {
     public function __construct(
         private readonly FormFactory           $formFactory,
-        private readonly StringFilterInterface $str
+        private readonly StringFilterInterface $str,
+        private readonly SanitizerInterface    $sanitizer
     )
     {
     }
@@ -21,20 +24,28 @@ class GetTabSettingsFormUseCase
      */
     public function execute(GetTabSettingsFormCommand $command): GetTabSettingsFormResult
     {
-        /** @todo передавать через команду понятные параметры */
-        $tabConfig = json_decode($command->tabConfigJson, true);
+        $decodedConfig = json_decode($command->tabConfigJson, true);
 
-        if (json_last_error() !== JSON_ERROR_NONE) {
+        if (!is_array($decodedConfig)) {
             throw new UspException($this->str->translate('Invalid tab configuration format.'), 400);
         }
+
+        // Очищаем данные, полученные из JSON
+        $sanitizedConfig = $this->sanitizer->sanitize($decodedConfig, [
+            'title' => SanitizerRule::TEXT_FIELD,
+            'icon' => SanitizerRule::TEXT_FIELD,
+            'capability' => SanitizerRule::KEY,
+            'isPrivate' => SanitizerRule::BOOL,
+            'isDefault' => SanitizerRule::BOOL,
+        ])->all();
 
         $settingsFields = $this->getSettingsFields();
 
         // Заполняем поля формы текущими значениями из конфигурации вкладки
-        if (!empty($tabConfig)) {
+        if (!empty($sanitizedConfig)) {
             foreach ($settingsFields as $settingName => &$settingConfig) {
-                if (isset($tabConfig[$settingName])) {
-                    $settingConfig['value'] = $tabConfig[$settingName];
+                if (isset($sanitizedConfig[$settingName])) {
+                    $settingConfig['value'] = $sanitizedConfig[$settingName];
                 }
             }
         }

@@ -1,6 +1,6 @@
 <?php
 
-namespace UserSpace\Common\Addon;
+namespace UserSpace\Core\Addon;
 
 if ( ! defined('ABSPATH')) {
     exit;

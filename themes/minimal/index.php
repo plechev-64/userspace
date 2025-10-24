@@ -2,7 +2,7 @@
 
 namespace UserSpace\Theme\Minimal;
 
-use UserSpace\Common\Addon\AddonManagerInterface;
+use UserSpace\Core\Addon\AddonManagerInterface;
 
 if (!defined('ABSPATH')) {
     exit;

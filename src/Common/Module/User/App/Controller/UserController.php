@@ -20,6 +20,8 @@ use UserSpace\Core\Http\JsonResponse;
 use UserSpace\Core\Http\Request;
 use UserSpace\Core\Rest\Abstract\AbstractController;
 use UserSpace\Core\Rest\Attributes\Route;
+use UserSpace\Core\Sanitizer\SanitizerInterface;
+use UserSpace\Core\Sanitizer\SanitizerRule;
 use UserSpace\Core\String\StringFilterInterface;
 
 #[Route(path: '/user')]
@@ -30,6 +32,7 @@ class UserController extends AbstractController
     public function __construct(
         private readonly UserApiInterface      $userApi,
         private readonly StringFilterInterface $str,
+        private readonly SanitizerInterface    $sanitizer
     )
     {
     }
@@ -40,8 +43,12 @@ class UserController extends AbstractController
     #[Route(path: '/avatar', method: 'POST', permission: 'read')]
     public function updateAvatar(Request $request, UpdateUserAvatarUseCase $updateUserAvatarUseCase): JsonResponse
     {
+        $clearedData = $this->sanitizer->sanitize($request->getPostParams(), [
+            'attachmentId' => SanitizerRule::INT,
+        ]);
+
         $command = new UpdateUserAvatarCommand(
-            (int)$request->getPost('attachmentId'),
+            $clearedData->get('attachmentId', 0),
             $this->userApi->getCurrentUserId()
         );
 
@@ -59,11 +66,18 @@ class UserController extends AbstractController
     #[Route(path: '/login', method: 'POST')]
     public function handleLogin(Request $request, LoginUserUseCase $loginUserUseCase): JsonResponse
     {
+        $clearedData = $this->sanitizer->sanitize($request->getPostParams(), [
+            'log' => SanitizerRule::TEXT_FIELD,
+            'pwd' => SanitizerRule::NO_HTML, // Пароль не должен содержать HTML, но не должен изменяться
+            'rememberme' => SanitizerRule::KEY,
+            'redirect_to' => SanitizerRule::URL,
+        ]);
+
         $command = new LoginUserCommand(
-            username: $request->getPost('log', ''),
-            password: $request->getPost('pwd', ''),
-            remember: $request->getPost('rememberme') === 'forever',
-            redirectTo: $request->getPost('redirect_to')
+            username: $clearedData->get('log', ''),
+            password: $request->getPost('pwd', ''), // Пароль передаем "сырым", так как он не должен быть изменен
+            remember: $clearedData->get('rememberme') === 'forever',
+            redirectTo: $clearedData->get('redirect_to')
         );
 
         try {
@@ -105,7 +119,11 @@ class UserController extends AbstractController
     #[Route(path: '/password/reset', method: 'POST')]
     public function handlePasswordReset(Request $request, RequestPasswordResetUseCase $requestPasswordResetUseCase): JsonResponse
     {
-        $command = new RequestPasswordResetCommand($request->getPost('user_login', ''));
+        $clearedData = $this->sanitizer->sanitize($request->getPostParams(), [
+            'user_login' => SanitizerRule::TEXT_FIELD,
+        ]);
+
+        $command = new RequestPasswordResetCommand($clearedData->get('user_login', ''));
 
         try {
             $requestPasswordResetUseCase->execute($command);
@@ -118,6 +136,9 @@ class UserController extends AbstractController
     #[Route(path: '/register', method: 'POST')]
     public function handleRegistration(Request $request, RegisterUserUseCase $registerUserUseCase): JsonResponse|UspException
     {
+        // Для регистрации санитизация происходит внутри UseCase на основе конфигурации полей,
+        // так как каждое поле может требовать своего типа очистки (email, text, password и т.д.).
+        // Передаем "сырые" данные.
         $command = new RegisterUserCommand('registration', $request->getPostParams());
 
         try {
@@ -135,7 +156,11 @@ class UserController extends AbstractController
     #[Route(path: '/confirm-registration', method: 'GET')]
     public function confirmRegistration(Request $request, ConfirmRegistrationUseCase $confirmRegistrationUseCase): void
     {
-        $command = new ConfirmRegistrationCommand($request->getQuery('token', ''));
+        $clearedData = $this->sanitizer->sanitize($request->getGetParams(), [
+            'token' => SanitizerRule::TEXT_FIELD,
+        ]);
+
+        $command = new ConfirmRegistrationCommand($clearedData->get('token', ''));
 
         try {
             $result = $confirmRegistrationUseCase->execute($command);

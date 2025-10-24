@@ -2,7 +2,7 @@
 
 namespace UserSpace\Core\Theme;
 
-use UserSpace\Common\Addon\AddonInterface;
+use UserSpace\Core\Addon\AddonInterface;
 
 /**
  * Определяет контракт для тем личного кабинета.

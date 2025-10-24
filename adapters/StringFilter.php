@@ -119,4 +119,49 @@ class StringFilter implements StringFilterInterface
     {
         return wp_json_encode($data);
     }
+
+    public function sanitizeEmail(string $email): string
+    {
+        return sanitize_email($email);
+    }
+
+    public function sanitizeUrl(string $url): string
+    {
+        return sanitize_url($url);
+    }
+
+    public function ksesPost(string $string): string
+    {
+        return wp_kses_post($string);
+    }
+
+    public function ksesData(string $string): string
+    {
+        return wp_kses_data($string);
+    }
+
+    public function stripAllTags(string $string, bool $remove_breaks = false): string
+    {
+        return wp_strip_all_tags($string, $remove_breaks);
+    }
+
+    public function sanitizeTitle(string $title): string
+    {
+        return sanitize_title($title);
+    }
+
+    public function sanitizeFileName(string $filename): string
+    {
+        return sanitize_file_name($filename);
+    }
+
+    public function sanitizeHtmlClass(string $class): string
+    {
+        return sanitize_html_class($class);
+    }
+
+    public function sanitizeUser(string $username, bool $strict = false): string
+    {
+        return sanitize_user($username, $strict);
+    }
 }

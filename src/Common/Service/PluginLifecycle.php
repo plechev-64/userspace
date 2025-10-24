@@ -9,6 +9,7 @@ use UserSpace\Common\Module\Settings\Src\Domain\OptionManagerInterface;
 use UserSpace\Common\Module\SSE\Src\Domain\Repository\SseEventRepositoryInterface;
 use UserSpace\Core\Admin\AdminApiInterface;
 use UserSpace\Core\Hooks\HookManagerInterface;
+use UserSpace\Core\Http\Request;
 use UserSpace\Core\WpApiInterface;
 
 /**
@@ -27,7 +28,8 @@ class PluginLifecycle
         private readonly WpApiInterface                   $wpApi,
         private readonly AdminApiInterface                $adminApi,
         private readonly HookManagerInterface             $hookManager,
-        private readonly TemporaryFileRepositoryInterface $tempFileRepository
+        private readonly TemporaryFileRepositoryInterface $tempFileRepository,
+        private readonly Request                          $request
     )
     {
     }
@@ -80,7 +82,7 @@ class PluginLifecycle
             $this->optionManager->transient()->delete(self::REDIRECT_TRANSIENT);
 
             // Не перенаправляем при AJAX запросах, CRON, или сетевой активации.
-            if ($this->wpApi->isDoingAjax() || $this->wpApi->isDoingCron() || isset($_GET['activate-multi'])) {
+            if ($this->wpApi->isDoingAjax() || $this->wpApi->isDoingCron() || $this->request->getQuery('activate-multi') !== null) {
                 return;
             }
 

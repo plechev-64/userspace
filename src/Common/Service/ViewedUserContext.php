@@ -5,6 +5,7 @@ namespace UserSpace\Common\Service;
 use UserSpace\Common\Module\Settings\Src\Domain\OptionManagerInterface;
 use UserSpace\Common\Module\User\Src\Domain\UserApiInterface;
 use UserSpace\Common\Module\User\Src\Domain\UserInterface;
+use UserSpace\Core\Http\Request;
 use UserSpace\Core\Query\QueryApiInterface;
 
 /**
@@ -26,7 +27,8 @@ class ViewedUserContext
     public function __construct(
         private readonly OptionManagerInterface $optionManager,
         private readonly UserApiInterface       $userApi,
-        private readonly QueryApiInterface      $wpQueryApi
+        private readonly QueryApiInterface      $wpQueryApi,
+        private readonly Request                $request
     )
     {
         // Инициализация будет отложена до первого вызова метода.
@@ -109,8 +111,8 @@ class ViewedUserContext
         $queryVarName = $this->getQueryVarName();
         $userId = $this->wpQueryApi->getQueryVar($queryVarName);
 
-        if (empty($userId) && isset($_GET[$queryVarName])) {
-            $userId = (int)$_GET[$queryVarName];
+        if (empty($userId) && $this->request->getQuery($queryVarName) !== null) {
+            $userId = (int)$this->request->getQuery($queryVarName);
         }
 
         if (empty($userId)) {

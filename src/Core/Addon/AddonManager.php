@@ -1,6 +1,6 @@
 <?php
 
-namespace UserSpace\Common\Addon;
+namespace UserSpace\Core\Addon;
 
 use UserSpace\Core\Container\ContainerInterface;
 use UserSpace\Core\Theme\ThemeInterface;
