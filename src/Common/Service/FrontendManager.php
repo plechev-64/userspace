@@ -3,6 +3,7 @@
 namespace UserSpace\Common\Service;
 
 use UserSpace\Common\Module\Locations\Src\Infrastructure\ItemProvider;
+use UserSpace\Common\Module\Settings\App\SettingsEnum;
 use UserSpace\Common\Module\Settings\Src\Domain\OptionManagerInterface;
 use UserSpace\Core\Asset\AssetRegistryInterface;
 use UserSpace\Core\Hooks\HookManagerInterface;
@@ -49,7 +50,7 @@ class FrontendManager
     public function renderUserBar(): void
     {
         $settings = $this->optionManager->get('usp_settings', []);
-        if (empty($settings['enable_user_bar'])) {
+        if (empty($settings[SettingsEnum::ENABLE_USER_BAR->value])) {
             return;
         }
 
@@ -59,8 +60,8 @@ class FrontendManager
             return $classes;
         });
 
-        $login_page_url = !empty($settings['login_page_id']) ? get_permalink($settings['login_page_id']) : wp_login_url();
-        $registration_page_url = !empty($settings['registration_page_id']) ? get_permalink($settings['registration_page_id']) : wp_registration_url();
+        $login_page_url = !empty($settings[SettingsEnum::LOGIN_PAGE_ID->value]) ? get_permalink($settings[SettingsEnum::LOGIN_PAGE_ID->value]) : wp_login_url();
+        $registration_page_url = !empty($settings[SettingsEnum::REGISTRATION_PAGE_ID->value]) ? get_permalink($settings[SettingsEnum::REGISTRATION_PAGE_ID->value]) : wp_registration_url();
         $account_page_url = $this->profileService->getProfileUrl() ?? home_url();
 
         echo $this->templateManager->render('user_bar', [

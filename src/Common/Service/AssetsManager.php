@@ -7,6 +7,7 @@ use UserSpace\Admin\Page\RegistrationFormPage;
 use UserSpace\Admin\Page\SettingsPage;
 use UserSpace\Admin\Page\SetupWizardPage;
 use UserSpace\Admin\Page\TabsConfigPage;
+use UserSpace\Common\Module\Settings\App\SettingsEnum;
 use UserSpace\Core\Asset\AssetRegistryInterface;
 use UserSpace\Core\String\StringFilterInterface;
 
@@ -100,7 +101,7 @@ class AssetsManager
             'usp-core',
             'uspCoreParams',
             [
-                'tabParam' => $settings['profile_tab_query_var'] ?? 'tab',
+                'tabParam' => $settings[SettingsEnum::PROFILE_TAB_QUERY_VAR->value] ?? 'tab',
             ]
         );
 

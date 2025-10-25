@@ -2,6 +2,7 @@
 
 namespace UserSpace\Core\Theme;
 
+use UserSpace\Common\Module\Settings\App\SettingsEnum;
 use UserSpace\Common\Module\Settings\Src\Domain\OptionManagerInterface;
 use UserSpace\Common\Module\User\Src\Domain\UserApiInterface;
 use UserSpace\Common\Service\ViewedUserContext;
@@ -72,7 +73,7 @@ class ThemeManager implements ThemeManagerInterface
     public function loadActiveTheme(): void
     {
         $settings = $this->optionManager->get('usp_settings', []);
-        $activeThemeSlug = $settings['account_theme'] ?? self::DEFAULT_THEME_SLUG;
+        $activeThemeSlug = $settings[SettingsEnum::ACCOUNT_THEME->value] ?? self::DEFAULT_THEME_SLUG;
         if (isset($this->themes[$activeThemeSlug])) {
             $this->activeTheme = $this->themes[$activeThemeSlug];
             $configPath = $this->activeTheme->getContainerConfigPath();

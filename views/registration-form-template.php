@@ -7,11 +7,13 @@
  * @package UserSpace
  */
 
+use UserSpace\Common\Module\Settings\App\SettingsEnum;
+
 if (!defined('ABSPATH')) {
     exit;
 }
 
-$login_page_url = !empty($settings['login_page_id']) ? get_permalink($settings['login_page_id']) : wp_login_url();
+$login_page_url = !empty($settings[SettingsEnum::LOGIN_PAGE_ID->value]) ? get_permalink($settings[SettingsEnum::LOGIN_PAGE_ID->value]) : wp_login_url();
 ?>
 
 <form name="registerform" class="usp-form" id="registerform" action="" method="post" data-usp-form="registration">

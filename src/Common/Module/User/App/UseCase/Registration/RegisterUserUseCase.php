@@ -6,6 +6,7 @@ use UserSpace\Common\Module\Form\Src\Domain\Field\FieldInterface;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormFactory;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormManager;
 use UserSpace\Common\Module\Queue\Src\Infrastructure\QueueDispatcher;
+use UserSpace\Common\Module\Settings\App\SettingsEnum;
 use UserSpace\Common\Module\Settings\Src\Domain\OptionManagerInterface;
 use UserSpace\Common\Module\User\App\Task\Message\SendConfirmationEmailMessage;
 use UserSpace\Common\Module\User\Src\Domain\UserApiInterface;
@@ -80,7 +81,7 @@ class RegisterUserUseCase
         }
 
         $settings = $this->optionManager->get('usp_settings', []);
-        $requireConfirmation = !empty($settings['require_email_confirmation']);
+        $requireConfirmation = !empty($settings[SettingsEnum::REQUIRE_EMAIL_CONFIRMATION->value]);
 
         if ($requireConfirmation) {
             return $this->registerWithConfirmation($userData, $metaData);

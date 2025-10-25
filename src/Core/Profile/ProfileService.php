@@ -5,6 +5,7 @@ namespace UserSpace\Core\Profile;
 use UserSpace\Common\Module\Locations\Src\Domain\AbstractTab;
 use UserSpace\Common\Module\Locations\Src\Domain\ItemInterface;
 use UserSpace\Common\Module\Locations\Src\Domain\ItemManagerInterface;
+use UserSpace\Common\Module\Settings\App\SettingsEnum;
 use UserSpace\Common\Module\Settings\Src\Domain\OptionManagerInterface;
 use UserSpace\Common\Module\User\Src\Domain\UserApiInterface;
 use UserSpace\Common\Module\User\Src\Domain\UserInterface;
@@ -28,7 +29,7 @@ class ProfileService implements ProfileServiceApiInterface
     public function getProfileUrl(?int $userId = null): ?string
     {
         $settings = $this->_getSettings();
-        $pageId = $settings['profile_page_id'] ?? null;
+        $pageId = $settings[SettingsEnum::PROFILE_PAGE_ID->value] ?? null;
 
         if (empty($pageId)) {
             return null;
@@ -39,7 +40,7 @@ class ProfileService implements ProfileServiceApiInterface
             return get_permalink($pageId);
         }
 
-        $userQueryVar = !empty($settings['profile_user_query_var']) ? $settings['profile_user_query_var'] : 'user_id';
+        $userQueryVar = !empty($settings[SettingsEnum::PROFILE_USER_QUERY_VAR->value]) ? $settings[SettingsEnum::PROFILE_USER_QUERY_VAR->value] : 'user_id';
 
         return add_query_arg([$userQueryVar => $userId], get_permalink($pageId));
     }
@@ -52,7 +53,7 @@ class ProfileService implements ProfileServiceApiInterface
         }
 
         $settings = $this->_getSettings();
-        $tabQueryVar = !empty($settings['profile_tab_query_var']) ? $settings['profile_tab_query_var'] : 'tab';
+        $tabQueryVar = !empty($settings[SettingsEnum::PROFILE_TAB_QUERY_VAR->value]) ? $settings[SettingsEnum::PROFILE_TAB_QUERY_VAR->value] : 'tab';
 
         return add_query_arg([$tabQueryVar => $tabId], $baseUrl);
     }
@@ -72,7 +73,7 @@ class ProfileService implements ProfileServiceApiInterface
         }
 
         $settings = $this->_getSettings();
-        $tabQueryVar = !empty($settings['profile_tab_query_var']) ? $settings['profile_tab_query_var'] : 'tab';
+        $tabQueryVar = !empty($settings[SettingsEnum::PROFILE_TAB_QUERY_VAR->value]) ? $settings[SettingsEnum::PROFILE_TAB_QUERY_VAR->value] : 'tab';
 
         $activeTabId = sanitize_text_field($this->request->getQuery($tabQueryVar, ''));
 

@@ -2,6 +2,8 @@
 
 namespace UserSpace\Common\Module\User\App\UseCase\Login;
 
+use UserSpace\Common\Module\Settings\App\SettingsEnum;
+use UserSpace\Common\Module\Settings\Src\Domain\OptionManagerInterface;
 use UserSpace\Common\Module\User\Src\Domain\UserApiInterface;
 use UserSpace\Core\Admin\AdminApiInterface;
 use UserSpace\Core\Exception\UspException;
@@ -11,12 +13,15 @@ use UserSpace\Core\String\StringFilterInterface;
 
 class LoginUserUseCase
 {
+    private const SETTINGS_OPTION_NAME = 'usp_settings';
+
     public function __construct(
-        private readonly StringFilterInterface $str,
-        private readonly UserApiInterface      $userApi,
-        private readonly AdminApiInterface     $adminApi,
-        private readonly SiteApiInterface      $siteApi,
-        private readonly HookManagerInterface  $hookManager
+        private readonly StringFilterInterface  $str,
+        private readonly UserApiInterface       $userApi,
+        private readonly AdminApiInterface      $adminApi,
+        private readonly SiteApiInterface       $siteApi,
+        private readonly HookManagerInterface   $hookManager,
+        private readonly OptionManagerInterface $optionManager
     )
     {
     }
@@ -47,9 +52,10 @@ class LoginUserUseCase
         }
 
         // 3. Определение URL для перенаправления
-        $redirectTo = $command->redirectTo;
-        if (empty($redirectTo) || $redirectTo === $this->adminApi->adminUrl()) {
-            $redirectTo = $this->siteApi->homeUrl(); // По умолчанию на главную
+        $redirectTo = $this->siteApi->homeUrl(); // URL по умолчанию
+        // Приоритет 1: URL из запроса (если он безопасен)
+        if (!empty($command->redirectTo) && $command->redirectTo !== $this->adminApi->adminUrl()) {
+            $redirectTo = $command->redirectTo;
         }
 
         // 4. Применение фильтра для возможности изменить URL

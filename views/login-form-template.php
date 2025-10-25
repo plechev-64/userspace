@@ -5,14 +5,23 @@
  * @package UserSpace
  */
 
+use UserSpace\Common\Module\Settings\App\SettingsEnum;
+
 if (!defined('ABSPATH')) {
     exit;
 }
 
-$redirect_to = $_REQUEST['redirect_to'] ?? home_url();
 $settings = get_option('usp_settings', []);
-$registration_page_url = !empty($settings['registration_page_id']) ? get_permalink($settings['registration_page_id']) : wp_registration_url();
-$lost_password_page_url = !empty($settings['lost_password_page_id']) ? get_permalink($settings['lost_password_page_id']) : wp_lostpassword_url();
+$redirect_to = $_REQUEST['redirect_to'] ?? home_url();
+$redirectPageId = !empty($settings[SettingsEnum::REDIRECT_AFTER_LOGIN_PAGE_ID->value]) ? (int)$settings[SettingsEnum::REDIRECT_AFTER_LOGIN_PAGE_ID->value] : 0;
+if ($redirectPageId > 0) {
+    $pageUrl = get_permalink($redirectPageId);
+    if ($pageUrl) {
+        $redirect_to = $pageUrl;
+    }
+}
+$registration_page_url = !empty($settings[SettingsEnum::REGISTRATION_PAGE_ID->value]) ? get_permalink($settings[SettingsEnum::REGISTRATION_PAGE_ID->value]) : wp_registration_url();
+$lost_password_page_url = !empty($settings[SettingsEnum::PASSWORD_RESET_PAGE_ID->value]) ? get_permalink($settings[SettingsEnum::PASSWORD_RESET_PAGE_ID->value]) : wp_lostpassword_url();
 ?>
 
 <form name="loginform" class="usp-form" id="loginform"

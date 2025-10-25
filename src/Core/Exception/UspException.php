@@ -24,8 +24,8 @@ class UspException extends Exception implements ExceptionInterface
     public static function createFromWpError(WP_Error $wpError): self
     {
         return new self(
-            $wpError->get_error_code(),
             $wpError->get_error_message(),
+            (int) $wpError->get_error_code(),
             $wpError->get_error_data()
         );
     }

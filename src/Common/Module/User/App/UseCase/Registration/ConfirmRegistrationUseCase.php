@@ -2,6 +2,7 @@
 
 namespace UserSpace\Common\Module\User\App\UseCase\Registration;
 
+use UserSpace\Common\Module\Settings\App\SettingsEnum;
 use UserSpace\Common\Module\Settings\Src\Domain\OptionManagerInterface;
 use UserSpace\Common\Module\User\Src\Domain\UserApiInterface;
 use UserSpace\Core\Exception\UspException;
@@ -41,7 +42,7 @@ class ConfirmRegistrationUseCase
 
         // Определяем URL для перенаправления
         $settings = $this->optionManager->get('usp_settings', []);
-        $loginPageUrl = !empty($settings['login_page_id']) ? get_permalink($settings['login_page_id']) : wp_login_url();
+        $loginPageUrl = !empty($settings[SettingsEnum::LOGIN_PAGE_ID->value]) ? get_permalink($settings[SettingsEnum::LOGIN_PAGE_ID->value]) : wp_login_url();
         $redirectUrl = add_query_arg('reg-success', 'confirmed', $loginPageUrl);
 
         return new ConfirmRegistrationResult($redirectUrl);
