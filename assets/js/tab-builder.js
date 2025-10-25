@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', function () {
         formData.append('tabConfig', currentConfig);
 
         try {
-            const json = await window.UspCore.api.post('/tabs/settings', formData);
+            const json = await window.UspCore.api.post('/location/item/settings', formData);
             buildAndShowEditModal(itemEl, json.html);
         } catch (error) {
             alert((l10n.errorPrefix || 'Error: ') + error.message);
@@ -244,7 +244,7 @@ document.addEventListener('DOMContentLoaded', function () {
     };
 
     const createNewTabElement = (config) => {
-        const firstLocation = builder.querySelector('.usp-tab-builder-tabs[data-sortable="tabs"]');
+        const firstLocation = builder.querySelector('.usp-tab-builder-items[data-sortable="tabs"]');
         if (!firstLocation) {
             console.error('No tab locations found to add the new tab.');
             return;
@@ -297,7 +297,7 @@ document.addEventListener('DOMContentLoaded', function () {
             formData.append('config', JSON.stringify(config));
 
             try {
-                const json = await window.UspCore.api.post('/tabs/config/update', formData);
+                const json = await window.UspCore.api.post('/location/config/update', formData);
                 window.UspCore.ui.showAdminNotice(json.message, 'success', '#usp-tab-builder-notifications');
             } catch (error) {
                 window.UspCore.ui.showAdminNotice(error.message || l10n.unknownError, 'error', '#usp-tab-builder-notifications');
@@ -348,7 +348,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const locations = builder.querySelectorAll('.usp-tab-builder-location');
         locations.forEach(locationEl => {
             const locationId = locationEl.dataset.locationId;
-            const topLevelItems = locationEl.querySelectorAll(':scope > .usp-tab-builder-tabs > .usp-tab-builder-item');
+            const topLevelItems = locationEl.querySelectorAll(':scope > .usp-tab-builder-items > .usp-tab-builder-item');
             topLevelItems.forEach(itemEl => {
                 processItem(itemEl, null, locationId);
             });

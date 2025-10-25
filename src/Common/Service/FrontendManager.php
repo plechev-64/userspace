@@ -2,8 +2,8 @@
 
 namespace UserSpace\Common\Service;
 
+use UserSpace\Common\Module\Locations\Src\Infrastructure\ItemProvider;
 use UserSpace\Common\Module\Settings\Src\Domain\OptionManagerInterface;
-use UserSpace\Common\Module\Tabs\Src\Infrastructure\TabProvider;
 use UserSpace\Core\Asset\AssetRegistryInterface;
 use UserSpace\Core\Hooks\HookManagerInterface;
 use UserSpace\Core\Profile\ProfileServiceApiInterface;
@@ -14,7 +14,7 @@ class FrontendManager
     public function __construct(
         private readonly ShortcodeManager           $shortcodeManager,
         private readonly TemplateManagerInterface   $templateManager,
-        private readonly TabProvider                $tabProvider,
+        private readonly ItemProvider               $tabProvider,
         private readonly OptionManagerInterface     $optionManager,
         private readonly AssetRegistryInterface     $assetRegistry,
         private readonly HookManagerInterface       $hookManager,
@@ -26,7 +26,7 @@ class FrontendManager
     public function registerHooks(): void
     {
         $this->hookManager->addAction('init', [$this, 'registerShortcodes']);
-        $this->hookManager->addAction('init', [$this, 'registerTabs']);
+        $this->hookManager->addAction('init', [$this, 'prepareAndLoadItems']);
         $this->hookManager->addAction('wp_footer', [$this, 'addModalContainer']);
         $this->hookManager->addAction('wp_footer', [$this, 'renderUserBar']);
     }
@@ -36,9 +36,9 @@ class FrontendManager
         $this->shortcodeManager->registerShortcodes();
     }
 
-    public function registerTabs(): void
+    public function prepareAndLoadItems(): void
     {
-        $this->tabProvider->registerDefaultTabs();
+        $this->tabProvider->mergeRegisteredItemsAndConfig();
     }
 
     public function addModalContainer(): void

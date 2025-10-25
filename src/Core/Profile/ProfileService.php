@@ -2,10 +2,10 @@
 
 namespace UserSpace\Core\Profile;
 
+use UserSpace\Common\Module\Locations\Src\Domain\AbstractTab;
+use UserSpace\Common\Module\Locations\Src\Domain\ItemInterface;
+use UserSpace\Common\Module\Locations\Src\Domain\ItemManagerInterface;
 use UserSpace\Common\Module\Settings\Src\Domain\OptionManagerInterface;
-use UserSpace\Common\Module\Tabs\Src\Domain\AbstractTab;
-use UserSpace\Common\Module\Tabs\Src\Domain\ItemInterface;
-use UserSpace\Common\Module\Tabs\Src\Infrastructure\TabManager;
 use UserSpace\Common\Module\User\Src\Domain\UserApiInterface;
 use UserSpace\Common\Module\User\Src\Domain\UserInterface;
 use UserSpace\Core\Http\Request;
@@ -19,7 +19,7 @@ class ProfileService implements ProfileServiceApiInterface
     public function __construct(
         private readonly OptionManagerInterface $optionManager,
         private readonly UserApiInterface       $userApi,
-        private readonly TabManager             $tabManager,
+        private readonly ItemManagerInterface   $tabManager,
         private readonly Request                $request
     )
     {

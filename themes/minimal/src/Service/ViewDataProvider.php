@@ -2,8 +2,8 @@
 
 namespace UserSpace\Theme\Minimal\Service;
 
-use UserSpace\Common\Module\Tabs\Src\Infrastructure\TabManager;
-use UserSpace\Common\Module\Tabs\Src\Infrastructure\TabRenderer;
+use UserSpace\Common\Module\Locations\Src\Domain\ItemManagerInterface;
+use UserSpace\Common\Module\Locations\Src\Infrastructure\ItemRenderer;
 use UserSpace\Common\Service\AvatarManager;
 use UserSpace\Core\Profile\ProfileServiceApiInterface;
 use UserSpace\Core\TemplateManagerInterface;
@@ -15,8 +15,8 @@ class ViewDataProvider
 {
     public function __construct(
         private readonly AvatarManager              $avatarManager,
-        private readonly TabRenderer                $tabRenderer,
-        private readonly TabManager                 $tabManager,
+        private readonly ItemRenderer               $tabRenderer,
+        private readonly ItemManagerInterface       $tabManager,
         private readonly TemplateManagerInterface   $templateManager,
         private readonly ProfileServiceApiInterface $profileService
     )

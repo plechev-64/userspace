@@ -3,6 +3,13 @@
 namespace UserSpace;
 
 use UserSpace\Admin\AdminManager;
+use UserSpace\Common\Module\Locations\App\Default\ActivityTab;
+use UserSpace\Common\Module\Locations\App\Default\ClearCacheButton;
+use UserSpace\Common\Module\Locations\App\Default\EditProfileTab;
+use UserSpace\Common\Module\Locations\App\Default\ProfileTab;
+use UserSpace\Common\Module\Locations\App\Default\SecurityTab;
+use UserSpace\Common\Module\Locations\App\Default\UserListTab;
+use UserSpace\Common\Module\Locations\Src\Domain\ItemRegistryInterface;
 use UserSpace\Common\Service\AssetsManager;
 use UserSpace\Common\Service\AvatarManager;
 use UserSpace\Common\Service\CronManager;
@@ -44,10 +51,40 @@ final class Plugin
     private function __construct(
         private readonly ContainerInterface       $container,
         private readonly HookManagerInterface     $hookManager,
-        private readonly LocalizationApiInterface $localizationApi
+        private readonly LocalizationApiInterface $localizationApi,
+        private readonly ItemRegistryInterface    $itemRegistry
     )
     {
         $this->initHooks();
+    }
+
+    /**
+     * Получение единственного экземпляра класса.
+     *
+     * @return Plugin
+     */
+    public static function getInstance(): self
+    {
+        if (null === self::$instance) {
+            $container = new Container();
+            // 1. Сначала конфигурируем контейнер
+            (new ServiceProvider($container))->register();
+
+            $hooManager = $container->get(HookManagerInterface::class);
+
+            // 2. Затем создаем экземпляр Plugin, передавая ему уже готовые зависимости из контейнера
+            self::$instance = new self(
+                $container,
+                $container->get(HookManagerInterface::class),
+                $container->get(LocalizationApiInterface::class),
+                $container->get(ItemRegistryInterface::class)
+            );
+
+            $hooManager->doAction('userspace_loaded', $container->get(AddonManagerInterface::class));
+            $hooManager->doAction('userspace_addons_init');
+        }
+
+        return self::$instance;
     }
 
     /**
@@ -79,34 +116,6 @@ final class Plugin
     }
 
     /**
-     * Получение единственного экземпляра класса.
-     *
-     * @return Plugin
-     */
-    public static function getInstance(): self
-    {
-        if (null === self::$instance) {
-            $container = new Container();
-            // 1. Сначала конфигурируем контейнер
-            (new ServiceProvider($container))->register();
-
-            $hooManager = $container->get(HookManagerInterface::class);
-
-            // 2. Затем создаем экземпляр Plugin, передавая ему уже готовые зависимости из контейнера
-            self::$instance = new self(
-                $container,
-                $container->get(HookManagerInterface::class),
-                $container->get(LocalizationApiInterface::class)
-            );
-
-            $hooManager->doAction('userspace_loaded', $container->get(AddonManagerInterface::class));
-            $hooManager->doAction('userspace_addons_init');
-        }
-
-        return self::$instance;
-    }
-
-    /**
      * Инициализация хуков WordPress.
      */
     private function initHooks(): void
@@ -117,6 +126,7 @@ final class Plugin
         $this->hookManager->addAction('init', [$this, 'loadTextdomain']);
         $this->hookManager->addAction('userspace_addons_init', [$this, 'addonsInit'], 10);
         $this->hookManager->addAction('userspace_addons_init', [$this, 'themeInit'], 15);
+        $this->hookManager->addAction('userspace_addons_init', [$this, 'registerDefaultItems'], 20);
 
         // Инициализация менеджеров
         $this->container->get(AssetsManager::class)->registerHooks();
@@ -147,6 +157,22 @@ final class Plugin
         $manager = $this->container->get(AddonManagerInterface::class);
         $manager->initializeAddons();
     }
+
+    /**
+     * Регистрирует дефолтные вкладки и кнопки плагина.
+     *
+     * @return void
+     */
+    public function registerDefaultItems(): void
+    {
+        $this->itemRegistry->registerItem(ProfileTab::class);
+        $this->itemRegistry->registerItem(EditProfileTab::class);
+        $this->itemRegistry->registerItem(SecurityTab::class);
+        $this->itemRegistry->registerItem(ActivityTab::class);
+        $this->itemRegistry->registerItem(UserListTab::class);
+        $this->itemRegistry->registerItem(ClearCacheButton::class);
+    }
+
 
     /**
      * Запрещаем клонирование для Singleton.

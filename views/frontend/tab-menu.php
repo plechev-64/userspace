@@ -9,7 +9,7 @@
  * @var string $location ,
  */
 
-use UserSpace\Common\Module\Tabs\Src\Domain\AbstractTab;
+use UserSpace\Common\Module\Locations\Src\Domain\AbstractTab;
 
 if (!defined('ABSPATH') || empty($tabs_to_render)) {
     exit;

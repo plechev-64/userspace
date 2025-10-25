@@ -2,11 +2,12 @@
 /**
  * Шаблон для рендеринга меню личного кабинета (вкладки и кнопки).
  *
- * @var \UserSpace\Common\Module\Tabs\Src\Domain\ItemInterface[] $items_to_render Массив объектов для рендеринга.
+ * @var ItemInterface[] $items_to_render Массив объектов для рендеринга.
  * @var string|null $active_tab_id ID активной вкладки.
  */
 
-use UserSpace\Common\Module\Tabs\Src\Domain\AbstractTab;
+use UserSpace\Common\Module\Locations\Src\Domain\AbstractTab;
+use UserSpace\Common\Module\Locations\Src\Domain\ItemInterface;
 
 if (!defined('ABSPATH') || empty($items_to_render)) {
     return;

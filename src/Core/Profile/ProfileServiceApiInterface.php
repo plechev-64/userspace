@@ -2,7 +2,7 @@
 
 namespace UserSpace\Core\Profile;
 
-use UserSpace\Common\Module\Tabs\Src\Domain\AbstractTab;
+use UserSpace\Common\Module\Locations\Src\Domain\AbstractTab;
 use UserSpace\Common\Module\User\Src\Domain\UserInterface;
 
 /**

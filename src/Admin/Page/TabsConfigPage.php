@@ -3,7 +3,7 @@
 namespace UserSpace\Admin\Page;
 
 use UserSpace\Admin\Page\Abstract\AbstractAdminPage;
-use UserSpace\Admin\TabConfigBuilder;
+use UserSpace\Common\Module\Locations\Src\Infrastructure\LocationConfigBuilder;
 use UserSpace\Core\Admin\AdminApiInterface;
 use UserSpace\Core\Asset\AssetRegistryInterface;
 use UserSpace\Core\Hooks\HookManagerInterface;
@@ -12,7 +12,7 @@ use UserSpace\Core\String\StringFilterInterface;
 class TabsConfigPage extends AbstractAdminPage
 {
     public function __construct(
-        private readonly TabConfigBuilder       $tabConfigBuilder,
+        private readonly LocationConfigBuilder  $tabConfigBuilder,
         private readonly StringFilterInterface  $str,
         private readonly AssetRegistryInterface $assetRegistry,
         AdminApiInterface                       $adminApi,

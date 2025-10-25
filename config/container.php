@@ -28,6 +28,17 @@ use UserSpace\Common\Module\Grid\Src\Infrastructure\GridProvider;
 use UserSpace\Common\Module\Grid\Src\Infrastructure\QueueJobsGrid;
 use UserSpace\Common\Module\Grid\Src\Infrastructure\UserListGrid;
 use UserSpace\Common\Module\Grid\Src\Infrastructure\UserListTableGrid;
+use UserSpace\Common\Module\Locations\App\Controller\LocationController;
+use UserSpace\Common\Module\Locations\App\Controller\LocationItemController;
+use UserSpace\Common\Module\Locations\Src\Domain\ItemManagerInterface;
+use UserSpace\Common\Module\Locations\Src\Domain\ItemProviderInterface;
+use UserSpace\Common\Module\Locations\Src\Domain\ItemRegistryInterface;
+use UserSpace\Common\Module\Locations\Src\Domain\LocationRegistryInterface;
+use UserSpace\Common\Module\Locations\Src\Infrastructure\ItemManager;
+use UserSpace\Common\Module\Locations\Src\Infrastructure\ItemProvider;
+use UserSpace\Common\Module\Locations\Src\Infrastructure\ItemRegistry;
+use UserSpace\Common\Module\Locations\Src\Infrastructure\LocationConfigManager;
+use UserSpace\Common\Module\Locations\Src\Infrastructure\LocationRegistry;
 use UserSpace\Common\Module\Media\App\Controller\MediaController;
 use UserSpace\Common\Module\Media\Src\Domain\MediaApiInterface;
 use UserSpace\Common\Module\Media\Src\Domain\TemporaryFileCleanupServiceInterface;
@@ -50,16 +61,6 @@ use UserSpace\Common\Module\SSE\Src\Domain\Repository\SseEventRepositoryInterfac
 use UserSpace\Common\Module\SSE\Src\Domain\SseEventDispatcherInterface;
 use UserSpace\Common\Module\SSE\Src\Infrastructure\Repository\SseEventRepository;
 use UserSpace\Common\Module\SSE\Src\Infrastructure\SseEventDispatcher;
-use UserSpace\Common\Module\Tabs\App\Controller\TabController;
-use UserSpace\Common\Module\Tabs\App\Tabs\ActivityTab;
-use UserSpace\Common\Module\Tabs\App\Tabs\ClearCacheButton;
-use UserSpace\Common\Module\Tabs\App\Tabs\EditProfileTab;
-use UserSpace\Common\Module\Tabs\App\Tabs\ProfileTab;
-use UserSpace\Common\Module\Tabs\App\Tabs\SecurityTab;
-use UserSpace\Common\Module\Tabs\App\Tabs\UserListTab;
-use UserSpace\Common\Module\Tabs\Src\Infrastructure\TabConfigManager;
-use UserSpace\Common\Module\Tabs\Src\Infrastructure\TabManager;
-use UserSpace\Common\Module\Tabs\Src\Infrastructure\TabProvider;
 use UserSpace\Common\Module\User\App\Controller\UserController;
 use UserSpace\Common\Module\User\App\Task\DeleteUserMetaHandler;
 use UserSpace\Common\Module\User\App\Task\Message\DeleteUserMetaMessage;
@@ -114,18 +115,11 @@ return [
             'admin_form_builder_templates' => USERSPACE_PLUGIN_DIR . 'views/admin/form-builder-templates.php',
             'emails/email-wrapper' => USERSPACE_PLUGIN_DIR . 'views/emails/email-wrapper.php',
         ]),
-        'app.tabs' => [
-            ProfileTab::class,
-            EditProfileTab::class,
-            SecurityTab::class,
-            ActivityTab::class,
-            UserListTab::class,
-            ClearCacheButton::class,
-        ],
         'app.controllers' => [
             FormController::class,
             SettingsAdminController::class,
-            TabController::class,
+            LocationController::class,
+            LocationItemController::class,
             UserController::class,
             GridController::class,
             SetupWizardController::class,
@@ -174,6 +168,10 @@ return [
         SanitizerInterface::class => fn(ContainerInterface $c) => $c->get(Sanitizer::class),
         FieldMapperInterface::class => fn(ContainerInterface $c) => $c->get(FieldMapper::class),
         SettingsFormConfigServiceInterface::class => fn(ContainerInterface $c) => $c->get(SettingsFormConfigService::class),
+        LocationRegistryInterface::class => fn(ContainerInterface $c) => $c->get(LocationRegistry::class),
+        ItemRegistryInterface::class => fn(ContainerInterface $c) => $c->get(ItemRegistry::class),
+        ItemProviderInterface::class => fn(ContainerInterface $c) => $c->get(ItemProvider::class),
+        ItemManagerInterface::class => fn(ContainerInterface $c) => $c->get(ItemManager::class),
 
         // Grid
         GridProvider::class => function (ContainerInterface $c) {
@@ -189,7 +187,6 @@ return [
 
         // App Services
         TemplateManagerInterface::class => fn(ContainerInterface $c) => new TemplateManager($c->get('app.templates'), $c->get(StringFilterInterface::class)),
-        TabProvider::class => fn(ContainerInterface $c) => new TabProvider($c->get(TabManager::class), $c->get(TabConfigManager::class), $c->get('app.tabs')),
         CronManagerInterface::class => function (ContainerInterface $c) {
             $queueManager = $c->get(QueueManager::class);
             $cronManager = $c->get(CronManagerInterface::class);

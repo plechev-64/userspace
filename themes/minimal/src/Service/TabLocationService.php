@@ -2,7 +2,7 @@
 
 namespace UserSpace\Theme\Minimal\Service;
 
-use UserSpace\Common\Module\Tabs\Src\Infrastructure\TabLocationManager;
+use UserSpace\Common\Module\Locations\Src\Domain\LocationRegistryInterface;
 use UserSpace\Core\String\StringFilterInterface;
 
 /**
@@ -11,8 +11,8 @@ use UserSpace\Core\String\StringFilterInterface;
 class TabLocationService
 {
     public function __construct(
-        private readonly TabLocationManager    $tabLocationManager,
-        private readonly StringFilterInterface $stringFilter
+        private readonly LocationRegistryInterface $tabLocationManager,
+        private readonly StringFilterInterface     $stringFilter
     )
     {
     }
