@@ -7,7 +7,7 @@ use UserSpace\Common\Module\Form\Src\Infrastructure\FormFactory;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormManager;
 use UserSpace\Common\Module\Queue\Src\Infrastructure\QueueDispatcher;
 use UserSpace\Common\Module\Settings\App\SettingsEnum;
-use UserSpace\Common\Module\Settings\Src\Domain\OptionManagerInterface;
+use UserSpace\Common\Module\Settings\Src\Domain\PluginSettingsInterface;
 use UserSpace\Common\Module\User\App\Task\Message\SendConfirmationEmailMessage;
 use UserSpace\Common\Module\User\Src\Domain\UserApiInterface;
 use UserSpace\Core\Exception\UspException;
@@ -29,10 +29,10 @@ class RegisterUserUseCase
         private readonly FormFactory             $formFactory,
         private readonly SecurityHelperInterface $securityHelper,
         private readonly StringFilterInterface   $str,
-        private readonly OptionManagerInterface  $optionManager,
         private readonly UserApiInterface        $userApi,
         private readonly QueueDispatcher         $queueDispatcher,
-        private readonly SanitizerInterface      $sanitizer
+        private readonly SanitizerInterface      $sanitizer,
+        private readonly PluginSettingsInterface $pluginSettings
     )
     {
     }
@@ -80,8 +80,7 @@ class RegisterUserUseCase
             }
         }
 
-        $settings = $this->optionManager->get('usp_settings', []);
-        $requireConfirmation = !empty($settings[SettingsEnum::REQUIRE_EMAIL_CONFIRMATION->value]);
+        $requireConfirmation = $this->pluginSettings->get(SettingsEnum::REQUIRE_EMAIL_CONFIRMATION);
 
         if ($requireConfirmation) {
             return $this->registerWithConfirmation($userData, $metaData);
@@ -96,7 +95,7 @@ class RegisterUserUseCase
     private function registerWithConfirmation(array $userData, array $metaData): RegisterUserResult
     {
         $userId = $this->userApi->insertUser($userData);
-        if (is_wp_error($userId)) {
+        if (UspException::isWpError($userId)) {
             throw new UspException($userId->get_error_message(), 409);
         }
 
@@ -117,7 +116,7 @@ class RegisterUserUseCase
     private function registerWithoutConfirmation(array $userData, array $metaData): RegisterUserResult
     {
         $userId = $this->userApi->createUser($userData['user_login'], $userData['user_pass'], $userData['user_email']);
-        if (is_wp_error($userId)) {
+        if (UspException::isWpError($userId)) {
             throw new UspException($userId->get_error_message(), 409);
         }
 

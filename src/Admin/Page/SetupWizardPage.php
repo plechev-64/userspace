@@ -6,7 +6,7 @@ use UserSpace\Admin\Page\Abstract\AbstractAdminPage;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\SelectAbstractFieldDto;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormConfig;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormFactory;
-use UserSpace\Common\Module\Settings\Src\Domain\OptionManagerInterface;
+use UserSpace\Common\Module\Settings\Src\Domain\PluginSettingsInterface;
 use UserSpace\Common\Module\SetupWizard\Domain\SetupWizardConfig;
 use UserSpace\Core\Admin\AdminApiInterface;
 use UserSpace\Core\Asset\AssetRegistryInterface;
@@ -18,16 +18,14 @@ use UserSpace\Core\String\StringFilterInterface;
  */
 class SetupWizardPage extends AbstractAdminPage
 {
-    private const OPTION_NAME = 'usp_settings';
-
     public function __construct(
-        private readonly FormFactory            $formFactory,
-        private readonly SetupWizardConfig      $wizardConfig,
-        private readonly StringFilterInterface  $str,
-        private readonly AssetRegistryInterface $assetRegistry,
-        private readonly OptionManagerInterface $optionManager,
-        AdminApiInterface                       $adminApi,
-        HookManagerInterface                    $hookManager
+        private readonly FormFactory             $formFactory,
+        private readonly SetupWizardConfig       $wizardConfig,
+        private readonly StringFilterInterface   $str,
+        private readonly AssetRegistryInterface  $assetRegistry,
+        private readonly PluginSettingsInterface $pluginSettings,
+        AdminApiInterface                        $adminApi,
+        HookManagerInterface                     $hookManager
     )
     {
         parent::__construct($adminApi, $hookManager);
@@ -93,7 +91,7 @@ class SetupWizardPage extends AbstractAdminPage
     {
         $wizardConfig = $this->getWizardConfig();
         $config = $wizardConfig->toArray();
-        $options = $this->optionManager->get(self::OPTION_NAME, []);
+        $options = $this->pluginSettings->all();
 
         echo '<div class="wrap usp-setup-wizard-wrap">';
         echo '<h1>' . $this->str->escHtml($this->adminApi->getAdminPageTitle()) . '</h1>';

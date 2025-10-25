@@ -3,7 +3,8 @@
 namespace UserSpace\Common\Service;
 
 use UserSpace\Common\Module\Media\Src\Domain\MediaApiInterface;
-use UserSpace\Common\Module\Settings\Src\Domain\OptionManagerInterface;
+use UserSpace\Common\Module\Settings\App\SettingsEnum;
+use UserSpace\Common\Module\Settings\Src\Domain\PluginSettingsInterface;
 use UserSpace\Common\Module\User\App\Controller\UserController;
 use UserSpace\Common\Module\User\Src\Domain\UserApiInterface;
 use UserSpace\Common\Module\User\Src\Domain\UserInterface;
@@ -20,7 +21,7 @@ class AvatarManager
         private readonly SecurityHelperInterface $securityHelper,
         private readonly ViewedUserContext       $viewedUserContext,
         private readonly StringFilterInterface   $str,
-        private readonly OptionManagerInterface  $optionManager,
+        private readonly PluginSettingsInterface $optionManager,
         private readonly UserApiInterface        $userApi,
         private readonly MediaApiInterface       $mediaApi,
         private readonly HookManagerInterface    $hookManager
@@ -84,7 +85,7 @@ class AvatarManager
         } elseif (is_string($id_or_email) && $this->str->isEmail($id_or_email)) {
             $user = $this->userApi->getUserBy('email', $id_or_email);
             if ($user) {
-                $userId = $user->ID;
+                $userId = $user->getId();
             }
         }
 
@@ -96,10 +97,7 @@ class AvatarManager
 
         // Если персональный аватар не найден, ищем аватар по умолчанию в настройках плагина
         if (!$avatarId) {
-            $options = $this->optionManager->get('usp_settings', []);
-            if (!empty($options['default_avatar_id'])) {
-                $avatarId = (int)$options['default_avatar_id'];
-            }
+            $avatarId = $this->optionManager->get(SettingsEnum::DEFAULT_AVATAR_ID) ?? 0;
         }
 
         if ($avatarId) {

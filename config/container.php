@@ -54,6 +54,8 @@ use UserSpace\Common\Module\Queue\Src\Infrastructure\QueueManager;
 use UserSpace\Common\Module\Queue\Src\Infrastructure\QueueStatus;
 use UserSpace\Common\Module\Settings\App\Controller\SettingsAdminController;
 use UserSpace\Common\Module\Settings\Src\Domain\OptionManagerInterface;
+use UserSpace\Common\Module\Settings\Src\Domain\PluginSettings;
+use UserSpace\Common\Module\Settings\Src\Domain\PluginSettingsInterface;
 use UserSpace\Common\Module\Settings\Src\Domain\TransientApiInterface;
 use UserSpace\Common\Module\SetupWizard\App\Controller\SetupWizardController;
 use UserSpace\Common\Module\SSE\App\SseController;
@@ -172,6 +174,7 @@ return [
         ItemRegistryInterface::class => fn(ContainerInterface $c) => $c->get(ItemRegistry::class),
         ItemProviderInterface::class => fn(ContainerInterface $c) => $c->get(ItemProvider::class),
         ItemManagerInterface::class => fn(ContainerInterface $c) => $c->get(ItemManager::class),
+        PluginSettingsInterface::class => fn(ContainerInterface $c) => $c->get(PluginSettings::class),
 
         // Grid
         GridProvider::class => function (ContainerInterface $c) {

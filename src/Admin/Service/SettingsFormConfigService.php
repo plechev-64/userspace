@@ -13,21 +13,19 @@ use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\UploaderAbstractFi
 use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\UrlAbstractFieldDto;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormConfig;
 use UserSpace\Common\Module\Settings\App\SettingsEnum;
-use UserSpace\Common\Module\Settings\Src\Domain\OptionManagerInterface;
+use UserSpace\Common\Module\Settings\Src\Domain\PluginSettingsInterface;
 use UserSpace\Core\Hooks\HookManagerInterface;
 use UserSpace\Core\String\StringFilterInterface;
 use UserSpace\Core\Theme\ThemeManagerInterface;
 
 class SettingsFormConfigService implements SettingsFormConfigServiceInterface
 {
-    private const OPTION_NAME = 'usp_settings';
-
     public function __construct(
-        private readonly ThemeManagerInterface  $themeManager,
-        private readonly SettingsConfig         $settingsConfig,
-        private readonly StringFilterInterface  $str,
-        private readonly OptionManagerInterface $optionManager,
-        private readonly HookManagerInterface   $hookManager
+        private readonly SettingsConfig          $settingsConfig,
+        private readonly PluginSettingsInterface $pluginSettings,
+        private readonly StringFilterInterface   $str,
+        private readonly ThemeManagerInterface   $themeManager,
+        private readonly HookManagerInterface    $hookManager
     )
     {
     }
@@ -41,7 +39,7 @@ class SettingsFormConfigService implements SettingsFormConfigServiceInterface
 
         $formConfig = new FormConfig();
 
-        $options = $this->optionManager->get(self::OPTION_NAME, []);
+        $options = $this->pluginSettings->all();
         $configArray = $config->toArray();
 
         // Проверяем, что в конфигурации есть секции.

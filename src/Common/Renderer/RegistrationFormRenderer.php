@@ -4,7 +4,7 @@ namespace UserSpace\Common\Renderer;
 
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormFactory;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormManager;
-use UserSpace\Common\Module\Settings\Src\Domain\OptionManagerInterface;
+use UserSpace\Common\Module\Settings\Src\Domain\PluginSettingsInterface;
 use UserSpace\Common\Module\User\Src\Domain\UserApiInterface;
 use UserSpace\Core\Asset\AssetRegistryInterface;
 use UserSpace\Core\String\StringFilterInterface;
@@ -23,9 +23,9 @@ class RegistrationFormRenderer
         private readonly FormFactory              $formFactory,
         private readonly TemplateManagerInterface $templateManager,
         private readonly StringFilterInterface    $str,
-        private readonly OptionManagerInterface   $optionManager,
         private readonly AssetRegistryInterface   $assetRegistry,
-        private readonly UserApiInterface         $userApi
+        private readonly UserApiInterface         $userApi,
+        private readonly PluginSettingsInterface  $optionManager
     )
     {
     }
@@ -48,7 +48,7 @@ class RegistrationFormRenderer
 
         // $config уже является DTO, передаем его напрямую в фабрику
         $form = $this->formFactory->create($config);
-        $settings = $this->optionManager->get('usp_settings', []);
+        $settings = $this->optionManager->all();
 
         return $this->templateManager->render('registration_form', [
             'form' => $form,

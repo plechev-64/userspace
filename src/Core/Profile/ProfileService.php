@@ -6,30 +6,26 @@ use UserSpace\Common\Module\Locations\Src\Domain\AbstractTab;
 use UserSpace\Common\Module\Locations\Src\Domain\ItemInterface;
 use UserSpace\Common\Module\Locations\Src\Domain\ItemManagerInterface;
 use UserSpace\Common\Module\Settings\App\SettingsEnum;
-use UserSpace\Common\Module\Settings\Src\Domain\OptionManagerInterface;
+use UserSpace\Common\Module\Settings\Src\Domain\PluginSettingsInterface;
 use UserSpace\Common\Module\User\Src\Domain\UserApiInterface;
 use UserSpace\Common\Module\User\Src\Domain\UserInterface;
 use UserSpace\Core\Http\Request;
 
 class ProfileService implements ProfileServiceApiInterface
 {
-    private const OPTION_NAME = 'usp_settings';
-
-    private ?array $settings = null;
-
     public function __construct(
-        private readonly OptionManagerInterface $optionManager,
-        private readonly UserApiInterface       $userApi,
-        private readonly ItemManagerInterface   $tabManager,
-        private readonly Request                $request
+        private readonly PluginSettingsInterface $optionManager,
+        private readonly UserApiInterface        $userApi,
+        private readonly ItemManagerInterface    $tabManager,
+        private readonly Request                 $request
     )
     {
     }
 
     public function getProfileUrl(?int $userId = null): ?string
     {
-        $settings = $this->_getSettings();
-        $pageId = $settings[SettingsEnum::PROFILE_PAGE_ID->value] ?? null;
+
+        $pageId = $this->optionManager->get(SettingsEnum::PROFILE_PAGE_ID);
 
         if (empty($pageId)) {
             return null;
@@ -40,7 +36,7 @@ class ProfileService implements ProfileServiceApiInterface
             return get_permalink($pageId);
         }
 
-        $userQueryVar = !empty($settings[SettingsEnum::PROFILE_USER_QUERY_VAR->value]) ? $settings[SettingsEnum::PROFILE_USER_QUERY_VAR->value] : 'user_id';
+        $userQueryVar = $this->optionManager->get(SettingsEnum::PROFILE_USER_QUERY_VAR, 'user_id');
 
         return add_query_arg([$userQueryVar => $userId], get_permalink($pageId));
     }
@@ -52,8 +48,7 @@ class ProfileService implements ProfileServiceApiInterface
             return null;
         }
 
-        $settings = $this->_getSettings();
-        $tabQueryVar = !empty($settings[SettingsEnum::PROFILE_TAB_QUERY_VAR->value]) ? $settings[SettingsEnum::PROFILE_TAB_QUERY_VAR->value] : 'tab';
+        $tabQueryVar = $this->optionManager->get(SettingsEnum::PROFILE_TAB_QUERY_VAR, 'tab');
 
         return add_query_arg([$tabQueryVar => $tabId], $baseUrl);
     }
@@ -72,8 +67,7 @@ class ProfileService implements ProfileServiceApiInterface
             return null; // Нет доступных вкладок
         }
 
-        $settings = $this->_getSettings();
-        $tabQueryVar = !empty($settings[SettingsEnum::PROFILE_TAB_QUERY_VAR->value]) ? $settings[SettingsEnum::PROFILE_TAB_QUERY_VAR->value] : 'tab';
+        $tabQueryVar = $this->optionManager->get(SettingsEnum::PROFILE_TAB_QUERY_VAR, 'tab');
 
         $activeTabId = sanitize_text_field($this->request->getQuery($tabQueryVar, ''));
 
@@ -108,18 +102,5 @@ class ProfileService implements ProfileServiceApiInterface
         }
 
         return null;
-    }
-
-    /**
-     * Получает и кэширует настройки плагина.
-     *
-     * @return array
-     */
-    private function _getSettings(): array
-    {
-        if ($this->settings === null) {
-            $this->settings = $this->optionManager->get(self::OPTION_NAME, []);
-        }
-        return $this->settings;
     }
 }

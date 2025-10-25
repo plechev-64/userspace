@@ -4,11 +4,10 @@ namespace UserSpace\Common\Module\Settings\App\UseCase\Save;
 
 use UserSpace\Common\Module\Media\Src\Domain\TemporaryFileRepositoryInterface;
 use UserSpace\Common\Module\Settings\Src\Domain\OptionManagerInterface;
+use UserSpace\Common\Module\Settings\Src\Domain\PluginSettings;
 
 class SaveSettingsUseCase
 {
-    private const OPTION_NAME = 'usp_settings';
-
     public function __construct(
         private readonly OptionManagerInterface           $optionManager,
         private readonly TemporaryFileRepositoryInterface $tempFileRepository
@@ -19,7 +18,7 @@ class SaveSettingsUseCase
     public function execute(SaveSettingsCommand $command): void
     {
         // Данные уже санитизированы контроллером.
-        $this->optionManager->update(self::OPTION_NAME, $command->settingsPayload);
+        $this->optionManager->update(PluginSettings::OPTION_NAME, $command->settingsPayload);
         $this->commitUsedFiles($command->settingsPayload);
     }
 

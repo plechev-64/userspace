@@ -4,7 +4,7 @@ namespace UserSpace\Common\Service;
 
 use UserSpace\Common\Module\Locations\Src\Infrastructure\ItemProvider;
 use UserSpace\Common\Module\Settings\App\SettingsEnum;
-use UserSpace\Common\Module\Settings\Src\Domain\OptionManagerInterface;
+use UserSpace\Common\Module\Settings\Src\Domain\PluginSettingsInterface;
 use UserSpace\Core\Asset\AssetRegistryInterface;
 use UserSpace\Core\Hooks\HookManagerInterface;
 use UserSpace\Core\Profile\ProfileServiceApiInterface;
@@ -16,7 +16,7 @@ class FrontendManager
         private readonly ShortcodeManager           $shortcodeManager,
         private readonly TemplateManagerInterface   $templateManager,
         private readonly ItemProvider               $tabProvider,
-        private readonly OptionManagerInterface     $optionManager,
+        private readonly PluginSettingsInterface    $pluginSettings,
         private readonly AssetRegistryInterface     $assetRegistry,
         private readonly HookManagerInterface       $hookManager,
         private readonly ProfileServiceApiInterface $profileService
@@ -49,8 +49,7 @@ class FrontendManager
 
     public function renderUserBar(): void
     {
-        $settings = $this->optionManager->get('usp_settings', []);
-        if (empty($settings[SettingsEnum::ENABLE_USER_BAR->value])) {
+        if (empty($this->pluginSettings->get(SettingsEnum::ENABLE_USER_BAR))) {
             return;
         }
 
@@ -60,8 +59,11 @@ class FrontendManager
             return $classes;
         });
 
-        $login_page_url = !empty($settings[SettingsEnum::LOGIN_PAGE_ID->value]) ? get_permalink($settings[SettingsEnum::LOGIN_PAGE_ID->value]) : wp_login_url();
-        $registration_page_url = !empty($settings[SettingsEnum::REGISTRATION_PAGE_ID->value]) ? get_permalink($settings[SettingsEnum::REGISTRATION_PAGE_ID->value]) : wp_registration_url();
+        $loginPageId = $this->pluginSettings->get(SettingsEnum::LOGIN_PAGE_ID, 0);
+        $registrationPageId = $this->pluginSettings->get(SettingsEnum::REGISTRATION_PAGE_ID, 0);
+
+        $login_page_url = $loginPageId ? get_permalink($loginPageId) : wp_login_url();
+        $registration_page_url = $registrationPageId ? get_permalink($registrationPageId) : wp_registration_url();
         $account_page_url = $this->profileService->getProfileUrl() ?? home_url();
 
         echo $this->templateManager->render('user_bar', [

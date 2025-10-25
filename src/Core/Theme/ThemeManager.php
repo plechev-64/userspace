@@ -3,7 +3,7 @@
 namespace UserSpace\Core\Theme;
 
 use UserSpace\Common\Module\Settings\App\SettingsEnum;
-use UserSpace\Common\Module\Settings\Src\Domain\OptionManagerInterface;
+use UserSpace\Common\Module\Settings\Src\Domain\PluginSettingsInterface;
 use UserSpace\Common\Module\User\Src\Domain\UserApiInterface;
 use UserSpace\Common\Service\ViewedUserContext;
 use UserSpace\Core\Container\ContainerInterface;
@@ -22,11 +22,11 @@ class ThemeManager implements ThemeManagerInterface
     private string $localThemesDir;
 
     public function __construct(
-        private readonly ContainerInterface     $container,
-        private readonly ViewedUserContext      $viewedUserContext,
-        private readonly OptionManagerInterface $optionManager,
-        private readonly UserApiInterface       $userApi,
-        private readonly ServiceProvider        $serviceProvider
+        private readonly ContainerInterface      $container,
+        private readonly ViewedUserContext       $viewedUserContext,
+        private readonly PluginSettingsInterface $optionManager,
+        private readonly UserApiInterface        $userApi,
+        private readonly ServiceProvider         $serviceProvider
     )
     {
         $this->localThemesDir = USERSPACE_PLUGIN_DIR . self::THEMES_DIR_NAME . '/';
@@ -72,8 +72,7 @@ class ThemeManager implements ThemeManagerInterface
      */
     public function loadActiveTheme(): void
     {
-        $settings = $this->optionManager->get('usp_settings', []);
-        $activeThemeSlug = $settings[SettingsEnum::ACCOUNT_THEME->value] ?? self::DEFAULT_THEME_SLUG;
+        $activeThemeSlug = $this->optionManager->get(SettingsEnum::ACCOUNT_THEME, self::DEFAULT_THEME_SLUG);
         if (isset($this->themes[$activeThemeSlug])) {
             $this->activeTheme = $this->themes[$activeThemeSlug];
             $configPath = $this->activeTheme->getContainerConfigPath();

@@ -8,28 +8,32 @@ use UserSpace\Admin\Page\SettingsPage;
 use UserSpace\Admin\Page\SetupWizardPage;
 use UserSpace\Admin\Page\TabsConfigPage;
 use UserSpace\Common\Module\Settings\App\SettingsEnum;
+use UserSpace\Common\Module\Settings\Src\Domain\PluginSettingsInterface;
 use UserSpace\Core\Asset\AssetRegistryInterface;
+use UserSpace\Core\Hooks\HookManagerInterface;
 use UserSpace\Core\String\StringFilterInterface;
 
 class AssetsManager
 {
     public function __construct(
-        protected readonly SettingsPage           $settingsPage,
-        protected readonly ProfileFormPage        $profileFormPage,
-        protected readonly RegistrationFormPage   $registrationFormPage,
-        protected readonly TabsConfigPage         $tabsConfigPage,
-        protected readonly SetupWizardPage        $setupWizardPage,
-        protected readonly StringFilterInterface  $str,
-        protected readonly AssetRegistryInterface $assetRegistry
+        protected readonly SettingsPage            $settingsPage,
+        protected readonly ProfileFormPage         $profileFormPage,
+        protected readonly RegistrationFormPage    $registrationFormPage,
+        protected readonly TabsConfigPage          $tabsConfigPage,
+        protected readonly SetupWizardPage         $setupWizardPage,
+        protected readonly StringFilterInterface   $str,
+        protected readonly AssetRegistryInterface  $assetRegistry,
+        protected readonly HookManagerInterface    $hookManager,
+        protected readonly PluginSettingsInterface $pluginSettings
     )
     {
     }
 
     public function registerHooks(): void
     {
-        add_action('init', [$this, 'registerAllAssets']);
-        add_action('wp_enqueue_scripts', [$this, 'enqueuePublicAssets']);
-        add_action('admin_enqueue_scripts', [$this, 'enqueueAdminAssets']);
+        $this->hookManager->addAction('init', [$this, 'registerAllAssets']);
+        $this->hookManager->addAction('wp_enqueue_scripts', [$this, 'enqueuePublicAssets']);
+        $this->hookManager->addAction('admin_enqueue_scripts', [$this, 'enqueueAdminAssets']);
     }
 
     /**
@@ -94,14 +98,11 @@ class AssetsManager
             ]
         );
 
-        /** @todo надо затащить все настройки плагина в какой то объект */
-        $settings = get_option('usp_settings', []);
-
         $this->assetRegistry->localizeScript(
             'usp-core',
             'uspCoreParams',
             [
-                'tabParam' => $settings[SettingsEnum::PROFILE_TAB_QUERY_VAR->value] ?? 'tab',
+                'tabParam' => $this->pluginSettings->get(SettingsEnum::PROFILE_TAB_QUERY_VAR, 'tab'),
             ]
         );
 

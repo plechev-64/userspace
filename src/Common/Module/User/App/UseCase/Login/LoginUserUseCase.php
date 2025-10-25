@@ -2,8 +2,6 @@
 
 namespace UserSpace\Common\Module\User\App\UseCase\Login;
 
-use UserSpace\Common\Module\Settings\App\SettingsEnum;
-use UserSpace\Common\Module\Settings\Src\Domain\OptionManagerInterface;
 use UserSpace\Common\Module\User\Src\Domain\UserApiInterface;
 use UserSpace\Core\Admin\AdminApiInterface;
 use UserSpace\Core\Exception\UspException;
@@ -13,15 +11,12 @@ use UserSpace\Core\String\StringFilterInterface;
 
 class LoginUserUseCase
 {
-    private const SETTINGS_OPTION_NAME = 'usp_settings';
-
     public function __construct(
-        private readonly StringFilterInterface  $str,
-        private readonly UserApiInterface       $userApi,
-        private readonly AdminApiInterface      $adminApi,
-        private readonly SiteApiInterface       $siteApi,
-        private readonly HookManagerInterface   $hookManager,
-        private readonly OptionManagerInterface $optionManager
+        private readonly StringFilterInterface $str,
+        private readonly UserApiInterface      $userApi,
+        private readonly AdminApiInterface     $adminApi,
+        private readonly SiteApiInterface      $siteApi,
+        private readonly HookManagerInterface  $hookManager
     )
     {
     }

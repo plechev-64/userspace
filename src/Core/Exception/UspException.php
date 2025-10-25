@@ -25,7 +25,7 @@ class UspException extends Exception implements ExceptionInterface
     {
         return new self(
             $wpError->get_error_message(),
-            (int) $wpError->get_error_code(),
+            (int)$wpError->get_error_code(),
             $wpError->get_error_data()
         );
     }

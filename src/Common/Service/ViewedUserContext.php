@@ -2,7 +2,8 @@
 
 namespace UserSpace\Common\Service;
 
-use UserSpace\Common\Module\Settings\Src\Domain\OptionManagerInterface;
+use UserSpace\Common\Module\Settings\App\SettingsEnum;
+use UserSpace\Common\Module\Settings\Src\Domain\PluginSettingsInterface;
 use UserSpace\Common\Module\User\Src\Domain\UserApiInterface;
 use UserSpace\Common\Module\User\Src\Domain\UserInterface;
 use UserSpace\Core\Http\Request;
@@ -16,7 +17,6 @@ use UserSpace\Core\Query\QueryApiInterface;
  */
 class ViewedUserContext
 {
-    private const OPTION_NAME = 'usp_settings';
     private const DEFAULT_QUERY_VAR = 'user_id';
 
     private ?UserInterface $viewedUser = null;
@@ -25,10 +25,10 @@ class ViewedUserContext
     private bool $isInitialized = false;
 
     public function __construct(
-        private readonly OptionManagerInterface $optionManager,
-        private readonly UserApiInterface       $userApi,
-        private readonly QueryApiInterface      $wpQueryApi,
-        private readonly Request                $request
+        private readonly PluginSettingsInterface $optionManager,
+        private readonly UserApiInterface        $userApi,
+        private readonly QueryApiInterface       $wpQueryApi,
+        private readonly Request                 $request
     )
     {
         // Инициализация будет отложена до первого вызова метода.
@@ -89,9 +89,7 @@ class ViewedUserContext
      */
     private function getQueryVarName(): string
     {
-        $options = $this->optionManager->get(self::OPTION_NAME, []);
-
-        return $options['profile_user_query_var'] ?? self::DEFAULT_QUERY_VAR;
+        return $this->optionManager->get(SettingsEnum::PROFILE_USER_QUERY_VAR, self::DEFAULT_QUERY_VAR);
     }
 
     /**

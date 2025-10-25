@@ -4,23 +4,14 @@ namespace UserSpace\Admin\Page;
 
 use UserSpace\Admin\Page\Abstract\AbstractAdminPage;
 use UserSpace\Admin\Service\SettingsFormConfigServiceInterface;
-use UserSpace\Admin\SettingsConfig;
-use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\BooleanAbstractFieldDto;
-use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\CheckboxAbstractFieldDto;
-use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\RadioAbstractFieldDto;
-use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\SelectAbstractFieldDto;
-use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\TextAbstractFieldDto;
-use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\TextareaAbstractFieldDto;
-use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\UploaderAbstractFieldDto;
-use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\UrlAbstractFieldDto;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormConfig;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormFactory;
 use UserSpace\Common\Module\Settings\Src\Domain\OptionManagerInterface;
+use UserSpace\Common\Module\Settings\Src\Domain\PluginSettings;
 use UserSpace\Core\Admin\AdminApiInterface;
 use UserSpace\Core\Asset\AssetRegistryInterface;
 use UserSpace\Core\Hooks\HookManagerInterface;
 use UserSpace\Core\String\StringFilterInterface;
-use UserSpace\Core\Theme\ThemeManagerInterface;
 
 /**
  * Управляет главной страницей настроек плагина.
@@ -28,7 +19,6 @@ use UserSpace\Core\Theme\ThemeManagerInterface;
 class SettingsPage extends AbstractAdminPage
 {
     private const OPTION_GROUP = 'usp_settings_group';
-    private const OPTION_NAME = 'usp_settings';
 
     public function __construct(
         private readonly FormFactory                        $formFactory,
@@ -48,7 +38,7 @@ class SettingsPage extends AbstractAdminPage
      */
     public function registerSettings(): void
     {
-        $this->optionManager->register(self::OPTION_GROUP, self::OPTION_NAME);
+        $this->optionManager->register(self::OPTION_GROUP, PluginSettings::OPTION_NAME);
     }
 
     /**

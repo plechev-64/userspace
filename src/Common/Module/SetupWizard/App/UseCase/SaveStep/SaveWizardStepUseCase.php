@@ -2,17 +2,15 @@
 
 namespace UserSpace\Common\Module\SetupWizard\App\UseCase\SaveStep;
 
-use UserSpace\Common\Module\Settings\Src\Domain\OptionManagerInterface;
+use UserSpace\Common\Module\Settings\Src\Domain\PluginSettings;
 use UserSpace\Core\Exception\UspException;
 use UserSpace\Core\String\StringFilterInterface;
 
 class SaveWizardStepUseCase
 {
-    private const OPTION_NAME = 'usp_settings';
-
     public function __construct(
-        private readonly StringFilterInterface  $str,
-        private readonly OptionManagerInterface $optionManager
+        private readonly StringFilterInterface $str,
+        private readonly PluginSettings        $optionManager
     )
     {
     }
@@ -29,7 +27,7 @@ class SaveWizardStepUseCase
             throw new UspException($this->str->translate('No data to save.'), 400);
         }
 
-        $options = $this->optionManager->get(self::OPTION_NAME, []);
+        $options = $this->optionManager->all();
         $sanitized_data = [];
 
         foreach ($data as $key => $value) {
@@ -45,6 +43,6 @@ class SaveWizardStepUseCase
         }
 
         $new_options = array_merge($options, $sanitized_data);
-        $this->optionManager->update(self::OPTION_NAME, $new_options);
+        $this->optionManager->updateAll($new_options);
     }
 }
