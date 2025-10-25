@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: userspace\n"
-"POT-Creation-Date: 2025-10-24 15:44+0400\n"
-"PO-Revision-Date: 2025-10-24 15:44+0400\n"
+"POT-Creation-Date: 2025-10-25 21:12+0400\n"
+"PO-Revision-Date: 2025-10-25 21:13+0400\n"
 "Last-Translator: \n"
 "Language-Team: userspace.com\n"
 "Language: en\n"
@@ -62,7 +62,7 @@ msgid "Cancel"
 msgstr ""
 
 #: src/Admin/Page/Abstract/AbstractAdminFormPage.php:114
-#: src/Common/Renderer/GenericFormRenderer.php:69
+#: src/Common/Renderer/GenericFormRenderer.php:72
 msgid "Save"
 msgstr ""
 
@@ -121,13 +121,13 @@ msgstr ""
 
 #: src/Admin/Page/Abstract/AbstractAdminFormPage.php:126
 #: src/Common/Module/Form/Src/Infrastructure/Field/Uploader.php:104
-#: src/Common/Service/AssetsManager.php:122
+#: src/Common/Service/AssetsManager.php:124
 msgid "Remove"
 msgstr ""
 
 #: src/Admin/Page/Abstract/AbstractAdminFormPage.php:127
-#: src/Admin/Page/SettingsPage.php:98 src/Admin/Page/SetupWizardPage.php:83
-#: src/Common/Renderer/GenericFormRenderer.php:48
+#: src/Admin/Page/SettingsPage.php:88 src/Admin/Page/SetupWizardPage.php:81
+#: src/Common/Renderer/GenericFormRenderer.php:50
 msgid "Saving..."
 msgstr ""
 
@@ -255,340 +255,98 @@ msgstr ""
 msgid "Repeat Password"
 msgstr ""
 
-#: src/Admin/Page/SettingsPage.php:99 src/Admin/Page/SetupWizardPage.php:84
+#: src/Admin/Page/SettingsPage.php:89 src/Admin/Page/SetupWizardPage.php:82
 msgid "Network error occurred."
 msgstr ""
 
-#: src/Admin/Page/SettingsPage.php:183
+#: src/Admin/Page/SettingsPage.php:155
 msgid "Save Settings"
 msgstr ""
 
-#: src/Admin/Page/SettingsPage.php:193
+#: src/Admin/Page/SettingsPage.php:165
 msgid "UserSpace Settings"
 msgstr ""
 
-#: src/Admin/Page/SettingsPage.php:223
-msgid "General"
-msgstr ""
-
-#: src/Admin/Page/SettingsPage.php:224
-msgid "Main Settings"
-msgstr ""
-
-#: src/Admin/Page/SettingsPage.php:225
-msgid "API Key"
-msgstr ""
-
-#: src/Admin/Page/SettingsPage.php:226
-msgid "Enable Feature X"
-msgstr ""
-
-#: src/Admin/Page/SettingsPage.php:228
-msgid "Default Avatar"
-msgstr ""
-
-#: src/Admin/Page/SettingsPage.php:233
-msgid "Files"
-msgstr ""
-
-#: src/Admin/Page/SettingsPage.php:237
-msgid "Enable User Bar at the top of the site"
-msgstr ""
-
-#: src/Admin/Page/SettingsPage.php:238
-msgid "Require email confirmation for registration"
-msgstr ""
-
-#: src/Admin/Page/SettingsPage.php:240
-msgid "Prefer color"
-msgstr ""
-
-#: src/Admin/Page/SettingsPage.php:242
-msgid "White"
-msgstr ""
-
-#: src/Admin/Page/SettingsPage.php:243
-msgid "Black"
-msgstr ""
-
-#: src/Admin/Page/SettingsPage.php:244
-msgid "Green"
-msgstr ""
-
-#: src/Admin/Page/SettingsPage.php:248
-msgid "Advanced"
-msgstr ""
-
-#: src/Admin/Page/SettingsPage.php:249
-msgid "Integration"
-msgstr ""
-
-#: src/Admin/Page/SettingsPage.php:251
-msgid "Integration Mode"
-msgstr ""
-
-#: src/Admin/Page/SettingsPage.php:252
-msgid "Mode 1"
-msgstr ""
-
-#: src/Admin/Page/SettingsPage.php:252
-msgid "Mode 2"
-msgstr ""
-
-#: src/Admin/Page/SettingsPage.php:254
-msgid "Webhook URL"
-msgstr ""
-
-#: src/Admin/Page/SettingsPage.php:255
-msgid "Other"
-msgstr ""
-
-#: src/Admin/Page/SettingsPage.php:257
-msgid "Default Role"
-msgstr ""
-
-#: src/Admin/Page/SettingsPage.php:258
-msgid "Subscriber"
-msgstr ""
-
-#: src/Admin/Page/SettingsPage.php:258
-msgid "Editor"
-msgstr ""
-
-#: src/Admin/Page/SettingsPage.php:260
-msgid "Custom CSS"
-msgstr ""
-
-#: src/Admin/Page/SettingsPage.php:262 src/Admin/Page/SetupWizardPage.php:182
-msgid "Page Assignment"
-msgstr ""
-
-#: src/Admin/Page/SettingsPage.php:263
-msgid "Core Pages"
-msgstr ""
-
-#: src/Admin/Page/SettingsPage.php:265 src/Admin/Page/SetupWizardPage.php:184
-msgid "Login Page"
-msgstr ""
-
-#: src/Admin/Page/SettingsPage.php:269 src/Admin/Page/SetupWizardPage.php:189
-msgid "Registration Page"
-msgstr ""
-
-#: src/Admin/Page/SettingsPage.php:273 src/Admin/Page/SetupWizardPage.php:202
-msgid "Password Recovery Page"
-msgstr ""
-
-#: src/Admin/Page/SettingsPage.php:277 src/Admin/Page/SetupWizardPage.php:194
-msgid "User Profile Page"
-msgstr ""
-
-#: src/Admin/Page/SettingsPage.php:281
-msgid "User ID Query Variable"
-msgstr ""
-
-#: src/Admin/Page/SettingsPage.php:282
-msgid ""
-"The GET parameter in the URL to identify the user. Default: <code>user_id</"
-"code>."
-msgstr ""
-
-#: src/Admin/Page/SettingsPage.php:285
-msgid "Profile Tab Query Variable"
-msgstr ""
-
-#: src/Admin/Page/SettingsPage.php:286
-msgid ""
-"The GET parameter in the URL to identify the profile tab. Default: "
-"<code>tab</code>."
-msgstr ""
-
-#: src/Admin/Page/SettingsPage.php:289
-msgid "Dependency Examples"
-msgstr ""
-
-#: src/Admin/Page/SettingsPage.php:290
-msgid "Parent Fields"
-msgstr ""
-
-#: src/Admin/Page/SettingsPage.php:292
-msgid "Select an Option"
-msgstr ""
-
-#: src/Admin/Page/SettingsPage.php:294
-msgid "Option 1 (shows text field)"
-msgstr ""
-
-#: src/Admin/Page/SettingsPage.php:295
-msgid "Option 2 (shows checkbox)"
-msgstr ""
-
-#: src/Admin/Page/SettingsPage.php:296
-msgid "Option 3 (shows radio)"
-msgstr ""
-
-#: src/Admin/Page/SettingsPage.php:298
-msgid "Select a value to reveal dependent fields."
-msgstr ""
-
-#: src/Admin/Page/SettingsPage.php:301
-msgid "Enable Feature Y"
-msgstr ""
-
-#: src/Admin/Page/SettingsPage.php:302
-msgid "Check this to reveal a dependent text area."
-msgstr ""
-
-#: src/Admin/Page/SettingsPage.php:305
-msgid "Choose a Type"
-msgstr ""
-
-#: src/Admin/Page/SettingsPage.php:307
-msgid "Type A (shows URL field)"
-msgstr ""
-
-#: src/Admin/Page/SettingsPage.php:308
-msgid "Type B (shows uploader)"
-msgstr ""
-
-#: src/Admin/Page/SettingsPage.php:310
-msgid "Select a type to reveal dependent fields."
-msgstr ""
-
-#: src/Admin/Page/SettingsPage.php:312
-msgid "Dependent Fields"
-msgstr ""
-
-#: src/Admin/Page/SettingsPage.php:314
-msgid "Text Field for Option 1"
-msgstr ""
-
-#: src/Admin/Page/SettingsPage.php:315
-msgid "This field appears when \"Option 1\" is selected."
-msgstr ""
-
-#: src/Admin/Page/SettingsPage.php:323
-msgid "Checkbox for Option 2"
-msgstr ""
-
-#: src/Admin/Page/SettingsPage.php:324
-msgid "This checkbox appears when \"Option 2\" is selected."
-msgstr ""
-
-#: src/Admin/Page/SettingsPage.php:326
-msgid "check A"
-msgstr ""
-
-#: src/Admin/Page/SettingsPage.php:327
-msgid "check B"
-msgstr ""
-
-#: src/Admin/Page/SettingsPage.php:336
-msgid "Radio for Option 3"
-msgstr ""
-
-#: src/Admin/Page/SettingsPage.php:338
-msgid "Sub Option A"
-msgstr ""
-
-#: src/Admin/Page/SettingsPage.php:339
-msgid "Sub Option B"
-msgstr ""
-
-#: src/Admin/Page/SettingsPage.php:341
-msgid "These radio buttons appear when \"Option 3\" is selected."
-msgstr ""
-
-#: src/Admin/Page/SettingsPage.php:349
-msgid "Text Area for Feature Y"
-msgstr ""
-
-#: src/Admin/Page/SettingsPage.php:350
-msgid "This text area appears when \"Enable Feature Y\" is checked."
-msgstr ""
-
-#: src/Admin/Page/SettingsPage.php:358
-msgid "URL Field for Type A"
-msgstr ""
-
-#: src/Admin/Page/SettingsPage.php:359
-msgid "This URL field appears when \"Type A\" is chosen."
-msgstr ""
-
-#: src/Admin/Page/SettingsPage.php:367
-msgid "Uploader for Type B"
-msgstr ""
-
-#: src/Admin/Page/SettingsPage.php:368
-msgid "This uploader appears when \"Type B\" is chosen."
-msgstr ""
-
-#: src/Admin/Page/SettingsPage.php:376
-msgid "Appearance"
-msgstr ""
-
-#: src/Admin/Page/SettingsPage.php:377
-msgid "Account Theme"
-msgstr ""
-
-#: src/Admin/Page/SettingsPage.php:379
-msgid "Select Theme"
-msgstr ""
-
-#: src/Admin/Page/SettingsPage.php:389 src/Admin/Page/SetupWizardPage.php:212
-msgid "— Select a page —"
-msgstr ""
-
-#: src/Admin/Page/SetupWizardPage.php:85
+#: src/Admin/Page/SetupWizardPage.php:83
 msgid "Finish"
 msgstr ""
 
-#: src/Admin/Page/SetupWizardPage.php:86 src/Admin/Page/SetupWizardPage.php:152
+#: src/Admin/Page/SetupWizardPage.php:84 src/Admin/Page/SetupWizardPage.php:150
 msgid "Next"
 msgstr ""
 
-#: src/Admin/Page/SetupWizardPage.php:123
+#: src/Admin/Page/SetupWizardPage.php:121
 msgid ""
 "Welcome! This wizard will help you with the initial setup of the plugin. "
 "Please follow the steps to configure the most important options."
 msgstr ""
 
-#: src/Admin/Page/SetupWizardPage.php:125
+#: src/Admin/Page/SetupWizardPage.php:123
 msgid ""
 "Setup is complete! You have configured the basic settings. You can change "
 "them at any time on the plugin settings page."
 msgstr ""
 
-#: src/Admin/Page/SetupWizardPage.php:151
+#: src/Admin/Page/SetupWizardPage.php:149
 msgid "Previous"
 msgstr ""
 
-#: src/Admin/Page/SetupWizardPage.php:153
+#: src/Admin/Page/SetupWizardPage.php:151
 msgid "Go to Settings"
 msgstr ""
 
-#: src/Admin/Page/SetupWizardPage.php:161
+#: src/Admin/Page/SetupWizardPage.php:159
 msgid "UserSpace Setup Wizard"
 msgstr ""
 
-#: src/Admin/Page/SetupWizardPage.php:166
+#: src/Admin/Page/SetupWizardPage.php:164
 msgid "Setup Wizard"
 msgstr ""
 
-#: src/Admin/Page/SetupWizardPage.php:186
+#: src/Admin/Page/SetupWizardPage.php:180
+#: src/Admin/Service/SettingsFormConfigService.php:113
+msgid "Page Assignment"
+msgstr ""
+
+#: src/Admin/Page/SetupWizardPage.php:182
+#: src/Admin/Service/SettingsFormConfigService.php:116
+msgid "Login Page"
+msgstr ""
+
+#: src/Admin/Page/SetupWizardPage.php:184
 msgid "Select the page where the login form will be displayed."
 msgstr ""
 
-#: src/Admin/Page/SetupWizardPage.php:191
+#: src/Admin/Page/SetupWizardPage.php:187
+#: src/Admin/Service/SettingsFormConfigService.php:120
+msgid "Registration Page"
+msgstr ""
+
+#: src/Admin/Page/SetupWizardPage.php:189
 msgid "Select the page for the user registration form."
 msgstr ""
 
-#: src/Admin/Page/SetupWizardPage.php:196
+#: src/Admin/Page/SetupWizardPage.php:192
+#: src/Admin/Service/SettingsFormConfigService.php:132
+msgid "User Profile Page"
+msgstr ""
+
+#: src/Admin/Page/SetupWizardPage.php:194
 msgid "Select the page to display user profiles."
 msgstr ""
 
-#: src/Admin/Page/SetupWizardPage.php:200
+#: src/Admin/Page/SetupWizardPage.php:198
 msgid "Advanced Settings"
+msgstr ""
+
+#: src/Admin/Page/SetupWizardPage.php:200
+#: src/Admin/Service/SettingsFormConfigService.php:128
+msgid "Password Recovery Page"
+msgstr ""
+
+#: src/Admin/Page/SetupWizardPage.php:210
+#: src/Admin/Service/SettingsFormConfigService.php:244
+msgid "— Select a page —"
 msgstr ""
 
 #: src/Admin/Page/TabsConfigPage.php:66
@@ -632,49 +390,294 @@ msgstr ""
 msgid "Users (Table)"
 msgstr ""
 
-#: src/Admin/TabConfigBuilder.php:111
-#: src/Common/Module/Form/Src/Infrastructure/FormConfigBuilder.php:274
-#: views/admin/form-builder-templates.php:58
-msgid "Edit"
+#: src/Admin/Service/SettingsFormConfigService.php:74
+msgid "General"
 msgstr ""
 
-#: src/Common/Module/Form/App/Controller/FormController.php:40
+#: src/Admin/Service/SettingsFormConfigService.php:75
+msgid "Main Settings"
+msgstr ""
+
+#: src/Admin/Service/SettingsFormConfigService.php:76
+msgid "API Key"
+msgstr ""
+
+#: src/Admin/Service/SettingsFormConfigService.php:77
+msgid "Enable Feature X"
+msgstr ""
+
+#: src/Admin/Service/SettingsFormConfigService.php:79
+msgid "Default Avatar"
+msgstr ""
+
+#: src/Admin/Service/SettingsFormConfigService.php:84
+msgid "Files"
+msgstr ""
+
+#: src/Admin/Service/SettingsFormConfigService.php:88
+msgid "Enable User Bar at the top of the site"
+msgstr ""
+
+#: src/Admin/Service/SettingsFormConfigService.php:89
+msgid "Require email confirmation for registration"
+msgstr ""
+
+#: src/Admin/Service/SettingsFormConfigService.php:91
+msgid "Prefer color"
+msgstr ""
+
+#: src/Admin/Service/SettingsFormConfigService.php:93
+msgid "White"
+msgstr ""
+
+#: src/Admin/Service/SettingsFormConfigService.php:94
+msgid "Black"
+msgstr ""
+
+#: src/Admin/Service/SettingsFormConfigService.php:95
+msgid "Green"
+msgstr ""
+
+#: src/Admin/Service/SettingsFormConfigService.php:99
+msgid "Advanced"
+msgstr ""
+
+#: src/Admin/Service/SettingsFormConfigService.php:100
+msgid "Integration"
+msgstr ""
+
+#: src/Admin/Service/SettingsFormConfigService.php:102
+msgid "Integration Mode"
+msgstr ""
+
+#: src/Admin/Service/SettingsFormConfigService.php:103
+msgid "Mode 1"
+msgstr ""
+
+#: src/Admin/Service/SettingsFormConfigService.php:103
+msgid "Mode 2"
+msgstr ""
+
+#: src/Admin/Service/SettingsFormConfigService.php:105
+msgid "Webhook URL"
+msgstr ""
+
+#: src/Admin/Service/SettingsFormConfigService.php:106
+msgid "Other"
+msgstr ""
+
+#: src/Admin/Service/SettingsFormConfigService.php:108
+msgid "Default Role"
+msgstr ""
+
+#: src/Admin/Service/SettingsFormConfigService.php:109
+msgid "Subscriber"
+msgstr ""
+
+#: src/Admin/Service/SettingsFormConfigService.php:109
+msgid "Editor"
+msgstr ""
+
+#: src/Admin/Service/SettingsFormConfigService.php:111
+msgid "Custom CSS"
+msgstr ""
+
+#: src/Admin/Service/SettingsFormConfigService.php:114
+msgid "Core Pages"
+msgstr ""
+
+#: src/Admin/Service/SettingsFormConfigService.php:124
+msgid "Redirect After Login Page"
+msgstr ""
+
+#: src/Admin/Service/SettingsFormConfigService.php:136
+msgid "User ID Query Variable"
+msgstr ""
+
+#: src/Admin/Service/SettingsFormConfigService.php:137
+msgid ""
+"The GET parameter in the URL to identify the user. Default: <code>user_id</"
+"code>."
+msgstr ""
+
+#: src/Admin/Service/SettingsFormConfigService.php:140
+msgid "Profile Tab Query Variable"
+msgstr ""
+
+#: src/Admin/Service/SettingsFormConfigService.php:141
+msgid ""
+"The GET parameter in the URL to identify the profile tab. Default: "
+"<code>tab</code>."
+msgstr ""
+
+#: src/Admin/Service/SettingsFormConfigService.php:144
+msgid "Dependency Examples"
+msgstr ""
+
+#: src/Admin/Service/SettingsFormConfigService.php:145
+msgid "Parent Fields"
+msgstr ""
+
+#: src/Admin/Service/SettingsFormConfigService.php:147
+msgid "Select an Option"
+msgstr ""
+
+#: src/Admin/Service/SettingsFormConfigService.php:149
+msgid "Option 1 (shows text field)"
+msgstr ""
+
+#: src/Admin/Service/SettingsFormConfigService.php:150
+msgid "Option 2 (shows checkbox)"
+msgstr ""
+
+#: src/Admin/Service/SettingsFormConfigService.php:151
+msgid "Option 3 (shows radio)"
+msgstr ""
+
+#: src/Admin/Service/SettingsFormConfigService.php:153
+msgid "Select a value to reveal dependent fields."
+msgstr ""
+
+#: src/Admin/Service/SettingsFormConfigService.php:156
+msgid "Enable Feature Y"
+msgstr ""
+
+#: src/Admin/Service/SettingsFormConfigService.php:157
+msgid "Check this to reveal a dependent text area."
+msgstr ""
+
+#: src/Admin/Service/SettingsFormConfigService.php:160
+msgid "Choose a Type"
+msgstr ""
+
+#: src/Admin/Service/SettingsFormConfigService.php:162
+msgid "Type A (shows URL field)"
+msgstr ""
+
+#: src/Admin/Service/SettingsFormConfigService.php:163
+msgid "Type B (shows uploader)"
+msgstr ""
+
+#: src/Admin/Service/SettingsFormConfigService.php:165
+msgid "Select a type to reveal dependent fields."
+msgstr ""
+
+#: src/Admin/Service/SettingsFormConfigService.php:167
+msgid "Dependent Fields"
+msgstr ""
+
+#: src/Admin/Service/SettingsFormConfigService.php:169
+msgid "Text Field for Option 1"
+msgstr ""
+
+#: src/Admin/Service/SettingsFormConfigService.php:170
+msgid "This field appears when \"Option 1\" is selected."
+msgstr ""
+
+#: src/Admin/Service/SettingsFormConfigService.php:178
+msgid "Checkbox for Option 2"
+msgstr ""
+
+#: src/Admin/Service/SettingsFormConfigService.php:179
+msgid "This checkbox appears when \"Option 2\" is selected."
+msgstr ""
+
+#: src/Admin/Service/SettingsFormConfigService.php:181
+msgid "check A"
+msgstr ""
+
+#: src/Admin/Service/SettingsFormConfigService.php:182
+msgid "check B"
+msgstr ""
+
+#: src/Admin/Service/SettingsFormConfigService.php:191
+msgid "Radio for Option 3"
+msgstr ""
+
+#: src/Admin/Service/SettingsFormConfigService.php:193
+msgid "Sub Option A"
+msgstr ""
+
+#: src/Admin/Service/SettingsFormConfigService.php:194
+msgid "Sub Option B"
+msgstr ""
+
+#: src/Admin/Service/SettingsFormConfigService.php:196
+msgid "These radio buttons appear when \"Option 3\" is selected."
+msgstr ""
+
+#: src/Admin/Service/SettingsFormConfigService.php:204
+msgid "Text Area for Feature Y"
+msgstr ""
+
+#: src/Admin/Service/SettingsFormConfigService.php:205
+msgid "This text area appears when \"Enable Feature Y\" is checked."
+msgstr ""
+
+#: src/Admin/Service/SettingsFormConfigService.php:213
+msgid "URL Field for Type A"
+msgstr ""
+
+#: src/Admin/Service/SettingsFormConfigService.php:214
+msgid "This URL field appears when \"Type A\" is chosen."
+msgstr ""
+
+#: src/Admin/Service/SettingsFormConfigService.php:222
+msgid "Uploader for Type B"
+msgstr ""
+
+#: src/Admin/Service/SettingsFormConfigService.php:223
+msgid "This uploader appears when \"Type B\" is chosen."
+msgstr ""
+
+#: src/Admin/Service/SettingsFormConfigService.php:231
+msgid "Appearance"
+msgstr ""
+
+#: src/Admin/Service/SettingsFormConfigService.php:232
+msgid "Account Theme"
+msgstr ""
+
+#: src/Admin/Service/SettingsFormConfigService.php:234
+msgid "Select Theme"
+msgstr ""
+
+#: src/Common/Module/Form/App/Controller/FormController.php:46
 msgid "Data saved successfully!"
 msgstr ""
 
-#: src/Common/Module/Form/App/Controller/FormController.php:66
+#: src/Common/Module/Form/App/Controller/FormController.php:68
+#: src/Common/Module/Form/App/Controller/FormController.php:79
 #: src/Common/Module/Form/App/UseCase/GetModalForm/GetModalFormUseCase.php:35
 msgid "Invalid form type specified."
 msgstr ""
 
-#: src/Common/Module/Form/App/Controller/FormController.php:84
+#: src/Common/Module/Form/App/Controller/FormController.php:104
 msgid "Invalid field configuration format."
 msgstr ""
 
-#: src/Common/Module/Form/App/Controller/FormController.php:89
+#: src/Common/Module/Form/App/Controller/FormController.php:120
 msgid "Invalid field type specified."
 msgstr ""
 
-#: src/Common/Module/Form/App/Controller/FormController.php:111
-#: src/Common/Module/Form/App/Controller/FormController.php:129
-#: src/Common/Module/Tabs/App/UseCase/UpdateConfig/UpdateTabsConfigUseCase.php:27
+#: src/Common/Module/Form/App/Controller/FormController.php:160
+#: src/Common/Module/Locations/App/UseCase/UpdateConfig/UpdateLocationConfigUseCase.php:29
 msgid "Invalid JSON format."
 msgstr ""
 
-#: src/Common/Module/Form/App/Controller/FormController.php:121
-#: src/Common/Module/Form/App/Controller/FormController.php:139
+#: src/Common/Module/Form/App/Controller/FormController.php:178
 msgid "Configuration saved successfully."
 msgstr ""
 
-#: src/Common/Module/Form/App/UseCase/SaveProfileForm/SaveProfileFormUseCase.php:39
+#: src/Common/Module/Form/App/UseCase/SaveProfileForm/SaveProfileFormUseCase.php:43
 msgid "Form configuration not found."
 msgstr ""
 
-#: src/Common/Module/Form/App/UseCase/SaveProfileForm/SaveProfileFormUseCase.php:54
+#: src/Common/Module/Form/App/UseCase/SaveProfileForm/SaveProfileFormUseCase.php:58
 msgid "Validation error. Please check the fields."
 msgstr ""
 
-#: src/Common/Module/Form/App/UseCase/SaveProfileForm/SaveProfileFormUseCase.php:62
+#: src/Common/Module/Form/App/UseCase/SaveProfileForm/SaveProfileFormUseCase.php:66
 msgid "You must be logged in to save the profile."
 msgstr ""
 
@@ -725,6 +728,12 @@ msgstr ""
 #: src/Common/Module/Form/Src/Infrastructure/FormConfigBuilder.php:257
 #: views/admin/form-builder-templates.php:46
 msgid "Add Field"
+msgstr ""
+
+#: src/Common/Module/Form/Src/Infrastructure/FormConfigBuilder.php:274
+#: src/Common/Module/Locations/Src/Infrastructure/LocationConfigBuilder.php:114
+#: views/admin/form-builder-templates.php:58
+msgid "Edit"
 msgstr ""
 
 #: src/Common/Module/Form/Src/Infrastructure/FormConfigBuilder.php:292
@@ -870,11 +879,102 @@ msgstr ""
 msgid "Registered"
 msgstr ""
 
-#: src/Common/Module/Media/App/Controller/MediaController.php:32
+#: src/Common/Module/Locations/App/Controller/LocationController.php:41
+msgid "Tabs configuration saved successfully."
+msgstr ""
+
+#: src/Common/Module/Locations/App/Default/ActivityTab.php:12
+msgid "Activity"
+msgstr ""
+
+#: src/Common/Module/Locations/App/Default/ActivityTab.php:20
+msgid "User activity feed will be here."
+msgstr ""
+
+#: src/Common/Module/Locations/App/Default/CustomTab.php:19
+#, php-format
+msgid "Content for the custom tab \"%s\" will be here."
+msgstr ""
+
+#: src/Common/Module/Locations/App/Default/EditProfileTab.php:17
+msgid "Edit Profile"
+msgstr ""
+
+#: src/Common/Module/Locations/App/Default/ProfileTab.php:12
+msgid "Profile"
+msgstr ""
+
+#: src/Common/Module/Locations/App/Default/SecurityTab.php:12
+msgid "Security"
+msgstr ""
+
+#: src/Common/Module/Locations/App/Default/SecurityTab.php:20
+msgid "Security settings will be here."
+msgstr ""
+
+#: src/Common/Module/Locations/App/Default/UserListTab.php:13
+msgid "Users"
+msgstr ""
+
+#: src/Common/Module/Locations/App/UseCase/GetContent/GetTabContentUseCase.php:28
+msgid "Tab ID is missing."
+msgstr ""
+
+#: src/Common/Module/Locations/App/UseCase/GetContent/GetTabContentUseCase.php:34
+msgid "Tab not found."
+msgstr ""
+
+#: src/Common/Module/Locations/App/UseCase/GetSettingsForm/GetItemSettingsFormUseCase.php:30
+#: src/Common/Module/Locations/App/UseCase/UpdateConfig/UpdateLocationConfigUseCase.php:33
+msgid "Invalid tab configuration format."
+msgstr ""
+
+#: src/Common/Module/Locations/App/UseCase/GetSettingsForm/GetItemSettingsFormUseCase.php:76
+msgid "Title"
+msgstr ""
+
+#: src/Common/Module/Locations/App/UseCase/GetSettingsForm/GetItemSettingsFormUseCase.php:81
+msgid "Icon"
+msgstr ""
+
+#: src/Common/Module/Locations/App/UseCase/GetSettingsForm/GetItemSettingsFormUseCase.php:84
+#, php-format
+msgid "Enter a Dashicon class name. See all available icons %s."
+msgstr ""
+
+#: src/Common/Module/Locations/App/UseCase/GetSettingsForm/GetItemSettingsFormUseCase.php:85
+msgid "here"
+msgstr ""
+
+#: src/Common/Module/Locations/App/UseCase/GetSettingsForm/GetItemSettingsFormUseCase.php:90
+msgid "Capability"
+msgstr ""
+
+#: src/Common/Module/Locations/App/UseCase/GetSettingsForm/GetItemSettingsFormUseCase.php:91
+msgid "Required capability to view this tab (e.g., \"read\", \"edit_posts\")."
+msgstr ""
+
+#: src/Common/Module/Locations/App/UseCase/GetSettingsForm/GetItemSettingsFormUseCase.php:96
+msgid "Private Tab"
+msgstr ""
+
+#: src/Common/Module/Locations/App/UseCase/GetSettingsForm/GetItemSettingsFormUseCase.php:97
+msgid "If checked, the tab will only be visible to the profile owner."
+msgstr ""
+
+#: src/Common/Module/Locations/App/UseCase/GetSettingsForm/GetItemSettingsFormUseCase.php:101
+msgid "Default Tab"
+msgstr ""
+
+#: src/Common/Module/Locations/App/UseCase/GetSettingsForm/GetItemSettingsFormUseCase.php:102
+msgid "If checked, this tab will be opened by default."
+msgstr ""
+
+#: src/Common/Module/Media/App/Controller/MediaController.php:44
 msgid "Invalid configuration format."
 msgstr ""
 
-#: src/Common/Module/Media/App/Controller/MediaController.php:73
+#: src/Common/Module/Media/App/Controller/MediaController.php:99
 msgid "File deleted successfully."
 msgstr ""
 
@@ -894,129 +994,39 @@ msgstr ""
 msgid "Invalid request signature."
 msgstr ""
 
-#: src/Common/Module/Queue/App/Controller/QueueActionsController.php:35
+#: src/Common/Module/Queue/App/Controller/QueueActionsController.php:38
 msgid "Ping task has been dispatched."
 msgstr ""
 
-#: src/Common/Module/Queue/App/Controller/QueueActionsController.php:69
+#: src/Common/Module/Queue/App/Controller/QueueActionsController.php:95
 msgid "Queue processing has been triggered in the background."
 msgstr ""
 
-#: src/Common/Module/Settings/App/Controller/SettingsAdminController.php:31
+#: src/Common/Module/Settings/App/Controller/SettingsAdminController.php:55
 msgid "Settings saved successfully."
 msgstr ""
 
-#: src/Common/Module/SetupWizard/App/Controller/SetupWizardController.php:38
+#: src/Common/Module/SetupWizard/App/Controller/SetupWizardController.php:43
 msgid "Step settings saved successfully."
 msgstr ""
 
-#: src/Common/Module/SetupWizard/App/UseCase/SaveStep/SaveWizardStepUseCase.php:29
+#: src/Common/Module/SetupWizard/App/UseCase/SaveStep/SaveWizardStepUseCase.php:27
 msgid "No data to save."
 msgstr ""
 
-#: src/Common/Module/Tabs/App/Controller/TabController.php:70
-msgid "Tabs configuration saved successfully."
-msgstr ""
-
-#: src/Common/Module/Tabs/App/Tabs/ActivityTab.php:12
-msgid "Activity"
-msgstr ""
-
-#: src/Common/Module/Tabs/App/Tabs/ActivityTab.php:20
-msgid "User activity feed will be here."
-msgstr ""
-
-#: src/Common/Module/Tabs/App/Tabs/CustomTab.php:19
-#, php-format
-msgid "Content for the custom tab \"%s\" will be here."
-msgstr ""
-
-#: src/Common/Module/Tabs/App/Tabs/EditProfileTab.php:17
-msgid "Edit Profile"
-msgstr ""
-
-#: src/Common/Module/Tabs/App/Tabs/ProfileTab.php:12
-msgid "Profile"
-msgstr ""
-
-#: src/Common/Module/Tabs/App/Tabs/SecurityTab.php:12
-msgid "Security"
-msgstr ""
-
-#: src/Common/Module/Tabs/App/Tabs/SecurityTab.php:20
-msgid "Security settings will be here."
-msgstr ""
-
-#: src/Common/Module/Tabs/App/Tabs/UserListTab.php:13
-msgid "Users"
-msgstr ""
-
-#: src/Common/Module/Tabs/App/UseCase/GetContent/GetTabContentUseCase.php:28
-msgid "Tab ID is missing."
-msgstr ""
-
-#: src/Common/Module/Tabs/App/UseCase/GetContent/GetTabContentUseCase.php:34
-msgid "Tab not found."
-msgstr ""
-
-#: src/Common/Module/Tabs/App/UseCase/GetSettingsForm/GetTabSettingsFormUseCase.php:28
-msgid "Invalid tab configuration format."
-msgstr ""
-
-#: src/Common/Module/Tabs/App/UseCase/GetSettingsForm/GetTabSettingsFormUseCase.php:65
-msgid "Title"
-msgstr ""
-
-#: src/Common/Module/Tabs/App/UseCase/GetSettingsForm/GetTabSettingsFormUseCase.php:70
-msgid "Icon"
-msgstr ""
-
-#: src/Common/Module/Tabs/App/UseCase/GetSettingsForm/GetTabSettingsFormUseCase.php:73
-#, php-format
-msgid "Enter a Dashicon class name. See all available icons %s."
-msgstr ""
-
-#: src/Common/Module/Tabs/App/UseCase/GetSettingsForm/GetTabSettingsFormUseCase.php:74
-msgid "here"
-msgstr ""
-
-#: src/Common/Module/Tabs/App/UseCase/GetSettingsForm/GetTabSettingsFormUseCase.php:79
-msgid "Capability"
-msgstr ""
-
-#: src/Common/Module/Tabs/App/UseCase/GetSettingsForm/GetTabSettingsFormUseCase.php:80
-msgid "Required capability to view this tab (e.g., \"read\", \"edit_posts\")."
-msgstr ""
-
-#: src/Common/Module/Tabs/App/UseCase/GetSettingsForm/GetTabSettingsFormUseCase.php:85
-msgid "Private Tab"
-msgstr ""
-
-#: src/Common/Module/Tabs/App/UseCase/GetSettingsForm/GetTabSettingsFormUseCase.php:86
-msgid "If checked, the tab will only be visible to the profile owner."
-msgstr ""
-
-#: src/Common/Module/Tabs/App/UseCase/GetSettingsForm/GetTabSettingsFormUseCase.php:90
-msgid "Default Tab"
-msgstr ""
-
-#: src/Common/Module/Tabs/App/UseCase/GetSettingsForm/GetTabSettingsFormUseCase.php:91
-msgid "If checked, this tab will be opened by default."
-msgstr ""
-
-#: src/Common/Module/User/App/Controller/UserController.php:52
+#: src/Common/Module/User/App/Controller/UserController.php:59
 msgid "Avatar updated successfully."
 msgstr ""
 
-#: src/Common/Module/User/App/Controller/UserController.php:73
+#: src/Common/Module/User/App/Controller/UserController.php:87
 msgid "Login successful!"
 msgstr ""
 
-#: src/Common/Module/User/App/Controller/UserController.php:86
+#: src/Common/Module/User/App/Controller/UserController.php:100
 msgid "You have been logged out."
 msgstr ""
 
-#: src/Common/Module/User/App/Controller/UserController.php:112
+#: src/Common/Module/User/App/Controller/UserController.php:130
 msgid "Please check your email for the confirmation link."
 msgstr ""
 
@@ -1058,34 +1068,34 @@ msgstr ""
 msgid "Please enter a username or email address."
 msgstr ""
 
-#: src/Common/Module/User/App/UseCase/Registration/RegisterUserUseCase.php:41
+#: src/Common/Module/User/App/UseCase/Registration/RegisterUserUseCase.php:46
 #: src/Common/Renderer/RegistrationFormRenderer.php:36
 msgid "You are already registered and logged in."
 msgstr ""
 
-#: src/Common/Module/User/App/UseCase/Registration/RegisterUserUseCase.php:46
+#: src/Common/Module/User/App/UseCase/Registration/RegisterUserUseCase.php:51
 msgid "Registration form configuration not found."
 msgstr ""
 
-#: src/Common/Module/User/App/UseCase/Registration/RegisterUserUseCase.php:61
+#: src/Common/Module/User/App/UseCase/Registration/RegisterUserUseCase.php:66
 msgid "Validation error."
 msgstr ""
 
-#: src/Common/Module/User/App/UseCase/Registration/RegisterUserUseCase.php:105
+#: src/Common/Module/User/App/UseCase/Registration/RegisterUserUseCase.php:110
 msgid ""
 "Registration successful! Please check your email to activate your account."
 msgstr ""
 
-#: src/Common/Module/User/App/UseCase/Registration/RegisterUserUseCase.php:122
+#: src/Common/Module/User/App/UseCase/Registration/RegisterUserUseCase.php:127
 msgid "Registration successful!"
 msgstr ""
 
-#: src/Common/Module/User/App/UseCase/Registration/RegisterUserUseCase.php:136
+#: src/Common/Module/User/App/UseCase/Registration/RegisterUserUseCase.php:141
 #, php-format
 msgid "[%s] Activate Your Account"
 msgstr ""
 
-#: src/Common/Module/User/App/UseCase/Registration/RegisterUserUseCase.php:137
+#: src/Common/Module/User/App/UseCase/Registration/RegisterUserUseCase.php:142
 #, php-format
 msgid ""
 "Thanks for signing up! To activate your account, please click this link:\n"
@@ -1097,11 +1107,11 @@ msgstr ""
 msgid "Authentication required."
 msgstr ""
 
-#: src/Common/Renderer/GenericFormRenderer.php:32
+#: src/Common/Renderer/GenericFormRenderer.php:34
 msgid "Error: \"type\" attribute not specified in the shortcode."
 msgstr ""
 
-#: src/Common/Renderer/GenericFormRenderer.php:38
+#: src/Common/Renderer/GenericFormRenderer.php:40
 #, php-format
 msgid "Error: form with type \"%s\" not found."
 msgstr ""
@@ -1114,51 +1124,51 @@ msgstr ""
 msgid "Registration form is not configured yet."
 msgstr ""
 
-#: src/Common/Service/AssetsManager.php:113
+#: src/Common/Service/AssetsManager.php:115
 msgid "Validating..."
 msgstr ""
 
-#: src/Common/Service/AssetsManager.php:114
+#: src/Common/Service/AssetsManager.php:116
 msgid "Uploading..."
 msgstr ""
 
-#: src/Common/Service/AssetsManager.php:115
+#: src/Common/Service/AssetsManager.php:117
 msgid "Success!"
 msgstr ""
 
-#: src/Common/Service/AssetsManager.php:116
+#: src/Common/Service/AssetsManager.php:118
 msgid "Error: {message}"
 msgstr ""
 
-#: src/Common/Service/AssetsManager.php:117
+#: src/Common/Service/AssetsManager.php:119
 msgid "File is too large. Maximum size is {maxSize} MB."
 msgstr ""
 
-#: src/Common/Service/AssetsManager.php:118
+#: src/Common/Service/AssetsManager.php:120
 msgid "Invalid file type."
 msgstr ""
 
-#: src/Common/Service/AssetsManager.php:119
+#: src/Common/Service/AssetsManager.php:121
 msgid "Image is too small. Minimum dimensions are {minWidth}x{minHeight}px."
 msgstr ""
 
-#: src/Common/Service/AssetsManager.php:120
+#: src/Common/Service/AssetsManager.php:122
 msgid "Image is too large. Maximum dimensions are {maxWidth}x{maxHeight}px."
 msgstr ""
 
-#: src/Common/Service/AssetsManager.php:121
+#: src/Common/Service/AssetsManager.php:123
 msgid "Could not read image dimensions."
 msgstr ""
 
-#: src/Common/Service/AssetsManager.php:123
+#: src/Common/Service/AssetsManager.php:125
 msgid "Preview"
 msgstr ""
 
-#: src/Common/Service/AssetsManager.php:126
+#: src/Common/Service/AssetsManager.php:128
 msgid "Logging in..."
 msgstr ""
 
-#: src/Common/Service/AssetsManager.php:129
+#: src/Common/Service/AssetsManager.php:131
 msgid "Registering..."
 msgstr ""
 
@@ -1195,43 +1205,43 @@ msgstr ""
 msgid "Sidebar Menu"
 msgstr ""
 
-#: views/forgot-password-form-template.php:20
+#: views/forgot-password-form-template.php:22
 msgid ""
 "Please enter your username or email address. You will receive an email "
 "message with instructions on how to reset your password."
 msgstr ""
 
-#: views/forgot-password-form-template.php:22 views/login-form-template.php:22
+#: views/forgot-password-form-template.php:24 views/login-form-template.php:31
 msgid "Username or Email Address"
 msgstr ""
 
-#: views/forgot-password-form-template.php:27
+#: views/forgot-password-form-template.php:29
 msgid "Get New Password"
 msgstr ""
 
-#: views/forgot-password-form-template.php:32
-#: views/registration-form-template.php:27
+#: views/forgot-password-form-template.php:34
+#: views/registration-form-template.php:29
 msgid "Log in"
 msgstr ""
 
-#: views/forgot-password-form-template.php:34 views/login-form-template.php:43
-#: views/registration-form-template.php:22 views/user-bar-template.php:38
+#: views/forgot-password-form-template.php:36 views/login-form-template.php:52
+#: views/registration-form-template.php:24 views/user-bar-template.php:38
 msgid "Register"
 msgstr ""
 
-#: views/login-form-template.php:26
+#: views/login-form-template.php:35
 msgid "Password"
 msgstr ""
 
-#: views/login-form-template.php:31
+#: views/login-form-template.php:40
 msgid "Remember Me"
 msgstr ""
 
-#: views/login-form-template.php:36 views/user-bar-template.php:34
+#: views/login-form-template.php:45 views/user-bar-template.php:34
 msgid "Log In"
 msgstr ""
 
-#: views/login-form-template.php:45
+#: views/login-form-template.php:54
 msgid "Lost your password?"
 msgstr ""
 
