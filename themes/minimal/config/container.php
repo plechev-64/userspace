@@ -3,7 +3,7 @@
 return [
     'parameters' => [
         'app.templates' => [
-            'tab_menu' => dirname(__DIR__) . '/views/parts/tab-menu.php',
+            'tab_menu' => dirname(__DIR__) . '/views/parts/item-menu.php',
         ],
     ],
     'definitions' => [

@@ -2,27 +2,28 @@
 /**
  * Шаблон для рендеринга меню личного кабинета (вкладки и кнопки).
  *
- * @var ItemInterface[] $items_to_render Массив объектов для рендеринга.
- * @var string|null $active_tab_id ID активной вкладки.
+ * @var ItemInterface[] $itemsToRender Массив объектов для рендеринга.
+ * @var string|null $activeTabId ID активной вкладки.
  */
 
-use UserSpace\Common\Module\Locations\Src\Domain\ItemInterface;
 use UserSpace\Common\Module\Locations\Src\Domain\AbstractTab;
+use UserSpace\Common\Module\Locations\Src\Domain\ItemInterface;
 
-if (!defined('ABSPATH') || empty($items_to_render)) {
+if (!defined('ABSPATH') || empty($itemsToRender)) {
     return;
 }
 
-foreach ($items_to_render as $item) :
+foreach ($itemsToRender as $item) :
     $is_tab = $item instanceof AbstractTab;
+    $is_button = !$is_tab;
 
     if ($is_tab) {
         $has_subtabs = !empty($item->getSubTabs());
         $parent_classes = $has_subtabs ? 'has-submenu' : '';
 
         // Определяем, активна ли текущая вкладка или одна из ее дочерних вкладок
-        $is_parent_active = $has_subtabs && in_array($active_tab_id, array_map(fn($sub) => $sub->getId(), $item->getSubTabs()));
-        $active_class = ($item->getId() === $active_tab_id || $is_parent_active) ? 'active' : '';
+        $is_parent_active = $has_subtabs && in_array($activeTabId, array_map(fn($sub) => $sub->getId(), $item->getSubTabs()));
+        $active_class = ($item->getId() === $activeTabId || $is_parent_active) ? 'active' : '';
 
         // Если это родительская вкладка с подменю, ссылка не должна вести на контент,
         // а только служить для раскрытия меню. JS обработает клик и перейдет на первую дочернюю.
@@ -52,7 +53,7 @@ foreach ($items_to_render as $item) :
         <?php if ($is_tab && $has_subtabs) : ?>
             <div class="usp-account-submenu">
                 <?php foreach ($item->getSubTabs() as $sub_tab) : ?>
-                    <?php $sub_active_class = ($sub_tab->getId() === $active_tab_id) ? 'active' : ''; ?>
+                    <?php $sub_active_class = ($sub_tab->getId() === $activeTabId) ? 'active' : ''; ?>
                     <div class="usp-account-menu-item">
                         <a href="#<?php echo esc_attr($sub_tab->getId()); ?>"
                            class="<?php echo esc_attr($sub_active_class); ?>"

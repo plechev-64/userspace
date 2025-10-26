@@ -4,14 +4,12 @@ namespace UserSpace\Common\Module\Form\App\UseCase\GetFieldSettingsForm;
 
 use UserSpace\Common\Module\Form\Src\Domain\Factory\FieldFactoryInterface;
 use UserSpace\Common\Module\Form\Src\Domain\Form\Config\FormConfig;
-use UserSpace\Common\Module\Form\Src\Domain\Service\FieldMapRegistryInterface;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Factory\FormFactory;
 
 class GetFieldSettingsFormUseCase
 {
     public function __construct(
         private readonly FieldFactoryInterface     $fieldFactory,
-        private readonly FieldMapRegistryInterface $fieldMapper,
         private readonly FormFactory               $formFactory
     )
     {

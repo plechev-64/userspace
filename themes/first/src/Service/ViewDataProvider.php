@@ -62,9 +62,9 @@ class ViewDataProvider
         }
 
         return $this->templateManager->render('tab_menu', [
-            'items_to_render' => $tabsToRender,
+            'itemsToRender' => $tabsToRender,
             'location' => $location,
-            'active_tab_id' => $activeTabId,
+            'activeTabId' => $activeTabId,
         ]);
     }
 }

@@ -235,6 +235,7 @@ class SettingsFormConfigService implements SettingsFormConfigServiceInterface
                 'options' => $this->themeManager->discoverThemes(),
             ]));
 
+        /** @todo вместо фильтра реализовать регистратор опции */
         return $this->hookManager->applyFilters('usp_settings_config', $config);
     }
 
