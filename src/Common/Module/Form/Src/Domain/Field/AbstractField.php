@@ -63,6 +63,11 @@ abstract class AbstractField implements FieldInterface
         $this->dependency = $dto->dependency;
     }
 
+    /**
+     * Возвращает тип поля.
+     *
+     * @return string
+     */
     public function getType(): string
     {
         return $this->type;
@@ -255,8 +260,39 @@ abstract class AbstractField implements FieldInterface
     /**
      * @inheritDoc
      */
+    final public function renderValue(): string
+    {
+        // Этот метод является "оберткой", которая использует реализацию дочернего класса.
+        $renderableValue = $this->_getRenderableValue();
+
+        // Если у поля нет значения, не рендерим ничего.
+        if ($renderableValue === null || $renderableValue === '') {
+            return '';
+        }
+
+        $output = '<div class="usp-field-rendered-item">';
+        $output .= '<div class="usp-field-rendered-label">' . $this->getLabel() . '</div>';
+        $output .= '<div class="usp-field-rendered-value">' . $renderableValue . '</div>';
+        $output .= '</div>';
+
+        return $output;
+    }
+
+    /**
+     * Возвращает значение поля в виде, пригодном для отображения пользователю.
+     * Этот метод должен быть реализован в каждом дочернем классе.
+     *
+     * @return string|null
+     */
+    abstract protected function _getRenderableValue(): ?string;
+
     public function getLabel(): string
     {
         return $this->label;
+    }
+
+    public function setValue(mixed $value): void
+    {
+        $this->value = $value;
     }
 }

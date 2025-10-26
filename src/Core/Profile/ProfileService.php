@@ -72,13 +72,11 @@ class ProfileService implements ProfileServiceApiInterface
 
         $tabQueryVar = $this->optionManager->get(SettingsEnum::PROFILE_TAB_QUERY_VAR, 'tab');
         $tabQueryId = $this->request->getQuery($tabQueryVar, '');
-        $activeTabId = $this->sanitizer->sanitize([$tabQueryId], [$tabQueryVar => SanitizerRule::SLUG]);
-
+        $activeTabId = $this->sanitizer->sanitize(['id' => $tabQueryId], ['id' => SanitizerRule::SLUG])->get('id');
         if (!empty($activeTabId)) {
-            foreach ($tabs as $tabItem) {
-                if ($tabItem->getId() === $activeTabId) {
-                    return $tabItem;
-                }
+            $tab = $this->tabManager->getItem($activeTabId);
+            if ($tab instanceof AbstractTab) {
+                return $tab;
             }
         }
 

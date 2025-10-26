@@ -3,7 +3,6 @@
 namespace UserSpace\Common\Module\Form\Src\Domain\Form;
 
 use UserSpace\Common\Module\Form\Src\Domain\Field\FieldInterface;
-use UserSpace\Common\Module\Form\Src\Domain\SectionInterface;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -53,7 +52,7 @@ interface FormInterface
 
     /**
      * Возвращает все секции формы.
-     * @return SectionInterface[]
+     * @return Section[]
      */
     public function getSections(): array;
 }

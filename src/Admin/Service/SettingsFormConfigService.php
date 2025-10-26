@@ -3,6 +3,7 @@
 namespace UserSpace\Admin\Service;
 
 use UserSpace\Admin\SettingsConfig;
+use UserSpace\Common\Module\Form\Src\Domain\Form\Config\FormConfig;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\BooleanAbstractFieldDto;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\CheckboxAbstractFieldDto;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\RadioAbstractFieldDto;
@@ -11,7 +12,6 @@ use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\TextAbstractFieldD
 use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\TextareaAbstractFieldDto;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\UploaderAbstractFieldDto;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\UrlAbstractFieldDto;
-use UserSpace\Common\Module\Form\Src\Infrastructure\Form\FormConfig;
 use UserSpace\Common\Module\Settings\App\SettingsEnum;
 use UserSpace\Common\Module\Settings\Src\Domain\PluginSettingsInterface;
 use UserSpace\Core\Addon\Theme\ThemeManagerInterface;

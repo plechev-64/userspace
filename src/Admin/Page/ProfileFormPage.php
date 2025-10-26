@@ -3,7 +3,7 @@
 namespace UserSpace\Admin\Page;
 
 use UserSpace\Admin\Page\Abstract\AbstractAdminFormPage;
-use UserSpace\Common\Module\Form\Src\Infrastructure\Form\FormConfig;
+use UserSpace\Common\Module\Form\Src\Domain\Form\Config\FormConfig;
 
 class ProfileFormPage extends AbstractAdminFormPage
 {
@@ -33,15 +33,16 @@ class ProfileFormPage extends AbstractAdminFormPage
             ->reset() // Сбрасываем состояние перед построением
             ->addSection('main', $this->str->translate('Main Information'))
             ->addBlock('main_block');
-        $this->formBuilder->addField('user_email', [
-            'type' => 'text',
-            'label' => $this->str->translate('Email'),
-            'rules' => ['required' => true],
-        ])
+        $this->formBuilder
+            ->addField('user_email', [
+                'type' => 'text',
+                'label' => $this->str->translate('Email'),
+                //'rules' => [new RequiredValidator()],
+            ])
             ->addField('display_name', [
                 'type' => 'text',
                 'label' => $this->str->translate('Display Name'),
-                'rules' => ['required' => true],
+                //'rules' => [new RequiredValidator()],
             ])
             ->addField('about', [
                 'type' => 'textarea',

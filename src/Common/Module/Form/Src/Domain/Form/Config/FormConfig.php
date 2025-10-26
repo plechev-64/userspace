@@ -1,6 +1,6 @@
 <?php
 
-namespace UserSpace\Common\Module\Form\Src\Infrastructure\Form;
+namespace UserSpace\Common\Module\Form\Src\Domain\Form\Config;
 
 use LogicException;
 
@@ -15,13 +15,13 @@ if (!defined('ABSPATH')) {
  */
 class FormConfig
 {
+    /**
+     * @var SectionConfig[]
+     */
+    private array $sections = [];
 
-    private array $config = [
-        'sections' => [],
-    ];
-
-    private ?int $currentSectionIndex = null;
-    private ?int $currentBlockIndex = null;
+    private ?SectionConfig $currentSection = null;
+    private ?BlockConfig $currentBlock = null;
 
     /**
      * Добавляет новую секцию в конфигурацию.
@@ -32,12 +32,10 @@ class FormConfig
      */
     public function addSection(string $title): self
     {
-        $this->config['sections'][] = [
-            'title' => $title,
-            'blocks' => [],
-        ];
-        $this->currentSectionIndex = count($this->config['sections']) - 1;
-        $this->currentBlockIndex = null; // Сбрасываем индекс блока при добавлении новой секции
+        $section = new SectionConfig($title);
+        $this->sections[] = $section;
+        $this->currentSection = $section;
+        $this->currentBlock = null; // Сбрасываем текущий блок при добавлении новой секции
 
         return $this;
     }
@@ -52,15 +50,13 @@ class FormConfig
      */
     public function addBlock(string $title): self
     {
-        if ($this->currentSectionIndex === null) {
+        if ($this->currentSection === null) {
             throw new LogicException('Cannot add a block without a section. Call addSection() first.');
         }
 
-        $this->config['sections'][$this->currentSectionIndex]['blocks'][] = [
-            'title' => $title,
-            'fields' => [],
-        ];
-        $this->currentBlockIndex = count($this->config['sections'][$this->currentSectionIndex]['blocks']) - 1;
+        $block = new BlockConfig($title);
+        $this->currentSection->addBlock($block);
+        $this->currentBlock = $block;
 
         return $this;
     }
@@ -76,11 +72,11 @@ class FormConfig
      */
     public function addField(string $name, array $fieldConfig): self
     {
-        if ($this->currentBlockIndex === null) {
+        if ($this->currentBlock === null) {
             throw new LogicException('Cannot add a field without a block. Call addBlock() first.');
         }
 
-        $this->config['sections'][$this->currentSectionIndex]['blocks'][$this->currentBlockIndex]['fields'][$name] = $fieldConfig;
+        $this->currentBlock->addField($name, $fieldConfig);
 
         return $this;
     }
@@ -90,7 +86,13 @@ class FormConfig
      */
     public function toArray(): array
     {
-        return $this->config;
+        $sectionsArray = [];
+        foreach ($this->sections as $section) {
+            $sectionsArray[] = $section->toArray();
+        }
+        return [
+            'sections' => $sectionsArray,
+        ];
     }
 
     /**
@@ -103,10 +105,10 @@ class FormConfig
      */
     public function updateFieldValue(string $fieldName, mixed $value): bool
     {
-        foreach ($this->config['sections'] as &$section) {
-            foreach ($section['blocks'] as &$block) {
-                if (isset($block['fields'][$fieldName])) {
-                    $block['fields'][$fieldName]['value'] = $value;
+        foreach ($this->sections as $section) {
+            foreach ($section->getBlocks() as $block) {
+                if ($block->hasField($fieldName)) {
+                    $block->updateFieldValue($fieldName, $value);
 
                     return true;
                 }
@@ -125,10 +127,9 @@ class FormConfig
      */
     public function removeField(string $fieldName): bool
     {
-        foreach ($this->config['sections'] as &$section) {
-            foreach ($section['blocks'] as &$block) {
-                if (isset($block['fields'][$fieldName])) {
-                    unset($block['fields'][$fieldName]);
+        foreach ($this->sections as $section) {
+            foreach ($section->getBlocks() as $block) {
+                if ($block->removeField($fieldName)) {
 
                     return true;
                 }
@@ -158,6 +159,7 @@ class FormConfig
                 }
             }
         }
+
         return $formConfig;
     }
 
@@ -169,14 +171,22 @@ class FormConfig
     public function getFields(): array
     {
         $allFields = [];
-        foreach ($this->config['sections'] as $section) {
-            foreach ($section['blocks'] as $block) {
-                if (!empty($block['fields'])) {
-                    $allFields = array_merge($allFields, $block['fields']);
+        foreach ($this->sections as $section) {
+            foreach ($section->getBlocks() as $block) {
+                if (!empty($block->getFields())) {
+                    $allFields = array_merge($allFields, $block->getFields());
                 }
             }
         }
 
         return $allFields;
+    }
+
+    /**
+     * @return SectionConfig[]
+     */
+    public function getSections(): array
+    {
+        return $this->sections;
     }
 }

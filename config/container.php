@@ -19,9 +19,13 @@ use UserSpace\Admin\Service\SettingsFormConfigService;
 use UserSpace\Admin\Service\SettingsFormConfigServiceInterface;
 use UserSpace\Common\Module\Form\App\Controller\FormController;
 use UserSpace\Common\Module\Form\Src\Domain\Factory\FieldFactoryInterface;
+use UserSpace\Common\Module\Form\Src\Domain\Factory\FormFactoryInterface;
+use UserSpace\Common\Module\Form\Src\Domain\Form\Config\FormConfigManagerInterface;
 use UserSpace\Common\Module\Form\Src\Domain\Repository\FormRepositoryInterface;
 use UserSpace\Common\Module\Form\Src\Domain\Service\FieldMapRegistryInterface;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Factory\FieldFactory;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Factory\FormFactory;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Form\Config\FormConfigManager;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Repository\FormRepository;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Service\FieldMapRegistry;
 use UserSpace\Common\Module\Grid\App\Controller\GridController;
@@ -179,6 +183,8 @@ return [
         ItemManagerInterface::class => fn(ContainerInterface $c) => $c->get(ItemManager::class),
         PluginSettingsInterface::class => fn(ContainerInterface $c) => $c->get(PluginSettings::class),
         FieldFactoryInterface::class => fn(ContainerInterface $c) => $c->get(FieldFactory::class),
+        FormConfigManagerInterface::class => fn(ContainerInterface $c) => $c->get(FormConfigManager::class),
+        FormFactoryInterface::class => fn(ContainerInterface $c) => $c->get(FormFactory::class),
 
         // Grid
         GridProvider::class => function (ContainerInterface $c) {

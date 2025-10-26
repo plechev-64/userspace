@@ -20,4 +20,9 @@ class Boolean extends AbstractField
             $attributes, $checked, $this->str->escHtml($this->label) // Используем $this->label для текста рядом с чекбоксом
         );
     }
+
+    protected function _getRenderableValue(): string
+    {
+        return $this->value == '1' ? $this->str->translate('Yes') : $this->str->translate('No');
+    }
 }

@@ -41,4 +41,19 @@ class KeyValueEditor extends AbstractField
                 <button type="button" class="button button-link-delete usp-kv-remove">&times;</button>
             </div>';
     }
+
+    protected function _getRenderableValue(): string
+    {
+        if (empty($this->value) || !is_array($this->value)) {
+            return '';
+        }
+
+        $renderedPairs = [];
+        foreach ($this->value as $key => $val) {
+            // Формируем строку "Ключ: Значение"
+            $renderedPairs[] = "{$key}: {$val}";
+        }
+
+        return implode(', ', $renderedPairs);
+    }
 }

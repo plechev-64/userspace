@@ -205,7 +205,7 @@ class ItemManager implements ItemManagerInterface
         // Создаем "обзорные" подвкладки для родителей, у которых есть контент и другие дочерние вкладки
         foreach ($itemsById as $item) {
             // "Обзорные" вкладки создаются только для реальных вкладок (не для кнопок)
-            if ($item instanceof AbstractTab && count($item->getSubTabs()) > 0 && !empty(trim($item->getContent()))) {
+            if ($item instanceof AbstractTab && count($item->getSubTabs()) > 0) {
                 $overviewTab = $this->createOverviewTab($item);
 
                 // Помещаем "обзорную" вкладку в начало списка дочерних

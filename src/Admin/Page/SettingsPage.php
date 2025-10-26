@@ -4,8 +4,8 @@ namespace UserSpace\Admin\Page;
 
 use UserSpace\Admin\Page\Abstract\AbstractAdminPage;
 use UserSpace\Admin\Service\SettingsFormConfigServiceInterface;
+use UserSpace\Common\Module\Form\Src\Domain\Form\Config\FormConfig;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Factory\FormFactory;
-use UserSpace\Common\Module\Form\Src\Infrastructure\Form\FormConfig;
 use UserSpace\Common\Module\Settings\Src\Domain\OptionManagerInterface;
 use UserSpace\Common\Module\Settings\Src\Domain\PluginSettings;
 use UserSpace\Core\Admin\AdminApiInterface;

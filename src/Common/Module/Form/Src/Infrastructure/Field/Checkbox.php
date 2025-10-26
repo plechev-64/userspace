@@ -46,4 +46,24 @@ class Checkbox extends AbstractField
 
         return '<div class="usp-checkbox-group">' . $options_html . '</div>';
     }
+
+    protected function _getRenderableValue(): string
+    {
+        $selectedValues = (array)$this->value;
+        if (empty($selectedValues)) {
+            return '';
+        }
+
+        $options = $this->options ?? [];
+        $selectedLabels = [];
+
+        foreach ($selectedValues as $value) {
+            // Добавляем метку, только если она существует для данного значения
+            if (isset($options[$value])) {
+                $selectedLabels[] = $this->str->escHtml($options[$value]);
+            }
+        }
+
+        return implode(', ', $selectedLabels);
+    }
 }

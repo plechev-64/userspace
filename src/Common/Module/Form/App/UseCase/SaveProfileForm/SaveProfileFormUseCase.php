@@ -3,8 +3,8 @@
 namespace UserSpace\Common\Module\Form\App\UseCase\SaveProfileForm;
 
 use UserSpace\Common\Module\Form\Src\Domain\Field\FieldInterface;
+use UserSpace\Common\Module\Form\Src\Domain\Form\Config\FormConfigManagerInterface;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Factory\FormFactory;
-use UserSpace\Common\Module\Form\Src\Infrastructure\Form\FormManager;
 use UserSpace\Common\Module\Media\Src\Domain\TemporaryFileRepositoryInterface;
 use UserSpace\Common\Module\User\Src\Domain\UserApiInterface;
 use UserSpace\Core\Exception\UspException;
@@ -22,7 +22,7 @@ class SaveProfileFormUseCase
     private const CORE_USER_FIELDS = ['user_email', 'display_name', 'user_url', 'user_pass', 'nickname'];
 
     public function __construct(
-        private readonly FormManager                      $formManager,
+        private readonly FormConfigManagerInterface       $formManager,
         private readonly FormFactory                      $formFactory,
         private readonly StringFilterInterface            $str,
         private readonly UserApiInterface                 $userApi,

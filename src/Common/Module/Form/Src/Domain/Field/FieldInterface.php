@@ -68,5 +68,14 @@ interface FieldInterface
      */
     public function getSettingsFormConfig(): array;
 
+    /**
+     * Генерирует и возвращает HTML-представление значения поля для отображения пользователю.
+     * Например, для поля 'select' это будет метка опции, а не ее ключ.
+     *
+     * @return string
+     */
+    public function renderValue(): string;
+
+    public function setValue(mixed $value);
 
 }

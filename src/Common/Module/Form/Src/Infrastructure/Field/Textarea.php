@@ -23,4 +23,9 @@ class Textarea extends AbstractField
 
         return "<textarea {$attributes}>" . $this->str->escTextarea($this->value) . '</textarea>';
     }
+
+    protected function _getRenderableValue(): string
+    {
+        return (string)$this->value;
+    }
 }

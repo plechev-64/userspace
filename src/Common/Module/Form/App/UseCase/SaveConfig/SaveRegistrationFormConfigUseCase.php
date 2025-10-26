@@ -2,14 +2,15 @@
 
 namespace UserSpace\Common\Module\Form\App\UseCase\SaveConfig;
 
-use UserSpace\Common\Module\Form\Src\Infrastructure\Form\FormManager;
+
+use UserSpace\Common\Module\Form\Src\Domain\Form\Config\FormConfigManagerInterface;
 
 class SaveRegistrationFormConfigUseCase
 {
     private const FORM_TYPE = 'registration';
 
     public function __construct(
-        private readonly FormManager $formManager
+        private readonly FormConfigManagerInterface $formManager
     )
     {
     }

@@ -25,7 +25,7 @@ class FieldFactory implements FieldFactoryInterface
         $fieldClassName = $this->fieldMapper->getClass($dto->type);
 
         /** @var FieldInterface $field */
-        $field = $this->container->get($fieldClassName);
+        $field = $this->container->build($fieldClassName);
         $field->init($dto);
 
         return $field;

@@ -73,4 +73,14 @@ class Select extends AbstractField
         ];
         return $config;
     }
+
+    protected function _getRenderableValue(): string
+    {
+        if (empty($this->value)) {
+            return '';
+        }
+
+        // Возвращаем метку опции, а не ее ключ.
+        return $this->options[$this->value] ?? (string)$this->value;
+    }
 }

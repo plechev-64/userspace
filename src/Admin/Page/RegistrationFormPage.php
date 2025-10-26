@@ -3,7 +3,7 @@
 namespace UserSpace\Admin\Page;
 
 use UserSpace\Admin\Page\Abstract\AbstractAdminFormPage;
-use UserSpace\Common\Module\Form\Src\Infrastructure\Form\FormConfig;
+use UserSpace\Common\Module\Form\Src\Domain\Form\Config\FormConfig;
 use UserSpace\Plugin;
 
 class RegistrationFormPage extends AbstractAdminFormPage

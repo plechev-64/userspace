@@ -1,9 +1,11 @@
 <?php
 
-namespace UserSpace\Common\Module\Form\Src\Infrastructure\Form;
+namespace UserSpace\Common\Module\Form\Src\Infrastructure\Form\Config;
 
 use InvalidArgumentException;
+use UserSpace\Common\Module\Form\Src\Domain\Form\Config\FormConfig;
 use UserSpace\Core\String\StringFilterInterface;
+use function UserSpace\Common\Module\Form\Src\Infrastructure\Form\wp_json_encode;
 
 // Защита от прямого доступа к файлу
 if (!defined('ABSPATH')) {

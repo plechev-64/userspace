@@ -26,4 +26,20 @@ class Url extends AbstractField
 
         return "<input {$attributes}>";
     }
+
+    protected function _getRenderableValue(): string
+    {
+        if (empty($this->value)) {
+            return '';
+        }
+
+        $url = (string)$this->value;
+
+        // Возвращаем кликабельную ссылку
+        return sprintf(
+            '<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+            $this->str->escUrl($url),
+            $this->str->escHtml($url)
+        );
+    }
 }

@@ -26,4 +26,9 @@ class Hidden extends AbstractField
 
         return "<input {$attributes}>";
     }
+
+    protected function _getRenderableValue(): ?string
+    {
+        return null;
+    }
 }

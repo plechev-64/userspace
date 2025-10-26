@@ -1,7 +1,9 @@
 <?php
 
-namespace UserSpace\Common\Module\Form\Src\Infrastructure\Form;
+namespace UserSpace\Common\Module\Form\Src\Infrastructure\Form\Config;
 
+use UserSpace\Common\Module\Form\Src\Domain\Form\Config\FormConfig;
+use UserSpace\Common\Module\Form\Src\Domain\Form\Config\FormConfigManagerInterface;
 use UserSpace\Common\Module\Form\Src\Domain\Repository\FormRepositoryInterface;
 
 // Защита от прямого доступа к файлу
@@ -12,7 +14,7 @@ if (!defined('ABSPATH')) {
 /**
  * Управляет конфигурациями форм (сохранение, загрузка).
  */
-class FormManager
+class FormConfigManager implements FormConfigManagerInterface
 {
     public function __construct(private readonly FormRepositoryInterface $repository)
     {

@@ -2,8 +2,8 @@
 
 namespace UserSpace\Common\Renderer;
 
+use UserSpace\Common\Module\Form\Src\Domain\Form\Config\FormConfigManagerInterface;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Factory\FormFactory;
-use UserSpace\Common\Module\Form\Src\Infrastructure\Form\FormManager;
 use UserSpace\Common\Module\Settings\Src\Domain\PluginSettingsInterface;
 use UserSpace\Common\Module\User\Src\Domain\UserApiInterface;
 use UserSpace\Core\Asset\AssetRegistryInterface;
@@ -19,13 +19,13 @@ class RegistrationFormRenderer
 {
 
     public function __construct(
-        private readonly FormManager              $formManager,
-        private readonly FormFactory              $formFactory,
-        private readonly TemplateManagerInterface $templateManager,
-        private readonly StringFilterInterface    $str,
-        private readonly AssetRegistryInterface   $assetRegistry,
-        private readonly UserApiInterface         $userApi,
-        private readonly PluginSettingsInterface  $optionManager
+        private readonly FormConfigManagerInterface $formManager,
+        private readonly FormFactory                $formFactory,
+        private readonly TemplateManagerInterface   $templateManager,
+        private readonly StringFilterInterface      $str,
+        private readonly AssetRegistryInterface     $assetRegistry,
+        private readonly UserApiInterface           $userApi,
+        private readonly PluginSettingsInterface    $optionManager
     )
     {
     }

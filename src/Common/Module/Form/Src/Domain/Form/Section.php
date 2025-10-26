@@ -1,6 +1,6 @@
 <?php
 
-namespace UserSpace\Common\Module\Form\Src\Infrastructure\Form;
+namespace UserSpace\Common\Module\Form\Src\Domain\Form;
 
 use UserSpace\Adapters\StringFilter;
 
@@ -61,5 +61,10 @@ class Section
         $output .= '</div></div>';
 
         return $output;
+    }
+
+    public function getTitle(): string
+    {
+        return $this->title;
     }
 }

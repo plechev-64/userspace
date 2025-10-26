@@ -3,8 +3,8 @@
 namespace UserSpace\Common\Module\Form\Src\Domain\Factory;
 
 use InvalidArgumentException;
+use UserSpace\Common\Module\Form\Src\Domain\Form\Config\FormConfig;
 use UserSpace\Common\Module\Form\Src\Domain\Form\FormInterface;
-use UserSpace\Common\Module\Form\Src\Infrastructure\Form\FormConfig;
 
 /**
  * Интерфейс для фабрики, создающей объекты Form.

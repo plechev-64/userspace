@@ -2,19 +2,17 @@
 
 namespace UserSpace\Common\Module\Form\App\UseCase\SaveConfig;
 
-use UserSpace\Common\Module\Form\Src\Infrastructure\Form\FormManager;
+use UserSpace\Common\Module\Form\Src\Domain\Form\Config\FormConfigManagerInterface;
 use UserSpace\Common\Module\Queue\Src\Infrastructure\QueueDispatcher;
 use UserSpace\Common\Module\User\App\Task\Message\DeleteUserMetaMessage;
-use UserSpace\Common\Module\User\Src\Domain\UserApiInterface;
 
 class SaveProfileFormConfigUseCase
 {
     private const FORM_TYPE = 'profile';
 
     public function __construct(
-        private readonly FormManager      $formManager,
-        private readonly UserApiInterface $userApi,
-        private readonly QueueDispatcher  $queueDispatcher
+        private readonly FormConfigManagerInterface $formManager,
+        private readonly QueueDispatcher            $queueDispatcher
     )
     {
     }

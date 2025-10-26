@@ -26,4 +26,20 @@ class Date extends AbstractField
 
         return "<input {$attributes}>";
     }
+
+    protected function _getRenderableValue(): string
+    {
+        if (empty($this->value)) {
+            return '';
+        }
+
+        try {
+            $date = new \DateTime($this->value);
+            // Форматируем дату в более привычный для пользователя вид.
+            return $date->format('d.m.Y');
+        } catch (\Exception $e) {
+            // Если дата в некорректном формате, возвращаем исходное значение.
+            return (string)$this->value;
+        }
+    }
 }

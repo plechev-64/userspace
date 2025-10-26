@@ -14,7 +14,7 @@ use UserSpace\Core\SecurityHelperInterface;
 
 class Uploader extends AbstractField
 {
-    private readonly bool $multiple;
+    private bool $multiple;
 
     /**
      * @param SecurityHelperInterface $securityHelper
@@ -196,5 +196,27 @@ class Uploader extends AbstractField
                 ],
             ]
         );
+    }
+
+    protected function _getRenderableValue(): string
+    {
+        $attachmentIds = array_filter((array)$this->value);
+
+        if (empty($attachmentIds)) {
+            return '';
+        }
+
+        $links = [];
+        foreach ($attachmentIds as $id) {
+            $url = $this->mediaApi->getAttachmentImageUrl((int)$id);
+            $title = get_the_title((int)$id);
+
+            if ($url && $title) {
+                $links[] = sprintf('<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>', $this->str->escUrl($url), $this->str->escHtml($title));
+            }
+        }
+
+        // Возвращаем ссылки, разделенные тегом <br> для наглядности.
+        return implode('<br>', $links);
     }
 }

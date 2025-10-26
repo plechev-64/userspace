@@ -2,8 +2,8 @@
 
 namespace UserSpace\Admin;
 
+use UserSpace\Common\Module\Form\Src\Domain\Form\Config\FormConfigManagerInterface;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Factory\FormFactory;
-use UserSpace\Common\Module\Form\Src\Infrastructure\Form\FormManager;
 use UserSpace\Common\Module\User\Src\Domain\UserApiInterface;
 use UserSpace\Core\Hooks\HookManagerInterface;
 use UserSpace\Core\Http\Request;
@@ -15,12 +15,12 @@ use UserSpace\Core\String\StringFilterInterface;
 class AdminProfileFields
 {
     public function __construct(
-        private readonly FormManager           $formManager,
-        private readonly FormFactory           $formFactory,
-        private readonly StringFilterInterface $str,
-        private readonly HookManagerInterface  $hookManager,
-        private readonly UserApiInterface      $userApi,
-        private readonly Request               $request
+        private readonly FormConfigManagerInterface $formManager,
+        private readonly FormFactory                $formFactory,
+        private readonly StringFilterInterface      $str,
+        private readonly HookManagerInterface       $hookManager,
+        private readonly UserApiInterface           $userApi,
+        private readonly Request                    $request
     )
     {
     }

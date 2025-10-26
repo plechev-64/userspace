@@ -2,8 +2,8 @@
 
 namespace UserSpace\Common\Renderer;
 
+use UserSpace\Common\Module\Form\Src\Domain\Form\Config\FormConfigManagerInterface;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Factory\FormFactory;
-use UserSpace\Common\Module\Form\Src\Infrastructure\Form\FormManager;
 use UserSpace\Core\Asset\AssetRegistryInterface;
 use UserSpace\Core\Http\Request;
 use UserSpace\Core\String\StringFilterInterface;
@@ -17,11 +17,11 @@ class GenericFormRenderer
 {
 
     public function __construct(
-        private readonly FormManager            $formManager,
-        private readonly FormFactory            $formFactory,
-        private readonly StringFilterInterface  $str,
-        private readonly AssetRegistryInterface $assetRegistry,
-        private readonly Request                $request
+        private readonly FormConfigManagerInterface $formManager,
+        private readonly FormFactory                $formFactory,
+        private readonly StringFilterInterface      $str,
+        private readonly AssetRegistryInterface     $assetRegistry,
+        private readonly Request                    $request
     )
     {
     }
