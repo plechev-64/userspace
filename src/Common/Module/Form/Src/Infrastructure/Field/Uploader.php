@@ -9,6 +9,7 @@ use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\UploaderAbstractFi
 use UserSpace\Common\Module\Form\Src\Infrastructure\Validator\AllowedTypesValidator;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Validator\ImageDimensionsValidator;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Validator\MaxFileSizeValidator;
+use UserSpace\Common\Module\Media\App\UseCase\Upload\UploaderConfig;
 use UserSpace\Common\Module\Media\Src\Domain\MediaApiInterface;
 use UserSpace\Core\SecurityHelperInterface;
 
@@ -85,19 +86,20 @@ class Uploader extends AbstractField
             }
         }
 
-        $config = [
-            'name' => $this->name,
-            'multiple' => $this->multiple,
-            'allowedTypes' => $allowedTypes,
-            'maxSize' => $maxSize,
-            'minWidth' => $minWidth,
-            'minHeight' => $minHeight,
-            'maxWidth' => $maxWidth,
-            'maxHeight' => $maxHeight,
-        ];
+        $config = new UploaderConfig(
+            name: $this->name,
+            multiple: $this->multiple,
+            allowedTypes: $allowedTypes,
+            maxSize: $maxSize,
+            minWidth: $minWidth,
+            minHeight: $minHeight,
+            maxWidth: $maxWidth,
+            maxHeight: $maxHeight
+        );
+
         $validation_attrs = [
-            'data-config' => $this->str->escAttr($this->str->jsonEncode($config)) ?: '',
-            'data-signature' => $this->str->escAttr($this->securityHelper->sign($config)) ?: '',
+            'data-config' => $this->str->escAttr($this->str->jsonEncode($config->toArray())) ?: '',
+            'data-signature' => $this->str->escAttr($this->securityHelper->sign($config->toArray())) ?: '',
             'data-max-size' => $this->str->escAttr($maxSize) ?: '',
             'data-min-width' => $this->str->escAttr($minWidth) ?: '',
             'data-min-height' => $this->str->escAttr($minHeight) ?: '',

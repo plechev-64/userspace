@@ -2,6 +2,7 @@
 
 namespace UserSpace\Common\Service;
 
+use UserSpace\Common\Module\Media\App\UseCase\Upload\UploaderConfig;
 use UserSpace\Common\Module\Media\Src\Domain\MediaApiInterface;
 use UserSpace\Common\Module\Settings\App\SettingsEnum;
 use UserSpace\Common\Module\Settings\Src\Domain\PluginSettingsInterface;
@@ -138,11 +139,11 @@ class AvatarManager
                      class="usp-account-avatar-img">
                 <?php if ($isOwner) : ?>
                     <?php
-                    $config = [
-                        'name' => 'user_avatar',
-                        'allowedTypes' => 'image/jpeg,image/png,image/gif',
-                        'maxSize' => 2, // Максимальный размер 2MB
-                    ];
+                    $config = (new UploaderConfig(
+                        name: 'user_avatar',
+                        allowedTypes: 'image/jpeg,image/png,image/gif',
+                        maxSize: 2, // MB
+                    ))->toArray();
                     ?>
                     <div class="usp-account-avatar-uploader"
                          data-config='<?php echo $this->str->escAttr(wp_json_encode($config)); ?>'

@@ -34,23 +34,14 @@ class UploadFileUseCase
 
         // --- Серверная валидация ---
         if ($command->signature) {
-            // Собираем конфигурацию из команды для валидации подписи
-            $config = [
-                'name' => $command->name,
-                'multiple' => $command->multiple,
-                'allowedTypes' => $command->allowedTypes,
-                'maxSize' => $command->maxSize,
-                'minWidth' => $command->minWidth,
-                'minHeight' => $command->minHeight,
-                'maxWidth' => $command->maxWidth,
-                'maxHeight' => $command->maxHeight,
-            ];
+            $uploaderConfig = UploaderConfig::fromCommand($command);
+            $configArray = $uploaderConfig->toArray();
 
-            if (empty($config) || !$this->securityHelper->validate($config, $command->signature)) {
+            if (empty($configArray) || !$this->securityHelper->validate($configArray, $command->signature)) {
                 throw new UspException($this->str->translate('Invalid request signature.'), 403);
             }
 
-            $this->validateFile($command->file, $config);
+            $this->validateFile($command->file, $configArray);
         }
         // --- Конец серверной валидации ---
 
