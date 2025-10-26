@@ -1,0 +1,1330 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: userspace\n"
+"POT-Creation-Date: 2025-10-26 21:52+0400\n"
+"PO-Revision-Date: 2025-10-26 21:52+0400\n"
+"Last-Translator: \n"
+"Language-Team: userspace.com\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.8\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;translate\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: .idea\n"
+"X-Poedit-SearchPathExcluded-1: vendor\n"
+
+#: src/Admin/AdminProfileFields.php:66
+msgid "Additional Information"
+msgstr "Дополнительная информация"
+
+#: src/Admin/Page/Abstract/AbstractAdminFormPage.php:106
+msgid ""
+"This section contains custom fields. Deleting the section will permanently "
+"remove all data for these fields from all users. Are you sure?"
+msgstr ""
+"Эта секция содержит кастомные поля. Удаление секции навсегда удалит все "
+"данные для этих полей у всех пользователей. Вы уверены?"
+
+#: src/Admin/Page/Abstract/AbstractAdminFormPage.php:107
+msgid ""
+"This block contains custom fields. Deleting the block will permanently "
+"remove all data for these fields from all users. Are you sure?"
+msgstr ""
+"Этот блок содержит кастомные поля. Удаление блока навсегда удалит все данные "
+"для этих полей у всех пользователей. Вы уверены?"
+
+#: src/Admin/Page/Abstract/AbstractAdminFormPage.php:108
+msgid ""
+"This section contains fields. They will be moved to \"Available Fields\". "
+"Are you sure?"
+msgstr ""
+"Эта секция содержит поля. Они будут перемещены в \"Доступные поля\". Вы "
+"уверены?"
+
+#: src/Admin/Page/Abstract/AbstractAdminFormPage.php:109
+msgid ""
+"This is a custom field. Deleting it will permanently remove all its data "
+"from all users. Are you sure?"
+msgstr ""
+"Это кастомное поле. Его удаление навсегда удалит все его данные у всех "
+"пользователей. Вы уверены?"
+
+#: src/Admin/Page/Abstract/AbstractAdminFormPage.php:110
+msgid "Error: "
+msgstr "Ошибка: "
+
+#: src/Admin/Page/Abstract/AbstractAdminFormPage.php:111
+msgid "Field Settings:"
+msgstr "Настройки поля:"
+
+#: src/Admin/Page/Abstract/AbstractAdminFormPage.php:112
+msgid "Name (read-only)"
+msgstr "Имя (только для чтения)"
+
+#: src/Admin/Page/Abstract/AbstractAdminFormPage.php:113
+msgid "Cancel"
+msgstr "Отмена"
+
+#: src/Admin/Page/Abstract/AbstractAdminFormPage.php:114
+#: src/Common/Module/Locations/App/Default/EditProfileTab.php:56
+#: src/Common/Renderer/GenericFormRenderer.php:72
+msgid "Save"
+msgstr "Сохранить"
+
+#: src/Admin/Page/Abstract/AbstractAdminFormPage.php:115
+msgid "Close"
+msgstr "Закрыть"
+
+#: src/Admin/Page/Abstract/AbstractAdminFormPage.php:116
+msgid "Create New Field"
+msgstr "Создать новое поле"
+
+#: src/Admin/Page/Abstract/AbstractAdminFormPage.php:117
+msgid "Name (unique identifier)"
+msgstr "Имя (уникальный идентификатор)"
+
+#: src/Admin/Page/Abstract/AbstractAdminFormPage.php:118
+msgid "Field Type"
+msgstr "Тип поля"
+
+#: src/Admin/Page/Abstract/AbstractAdminFormPage.php:119
+msgid "-- Select type --"
+msgstr "-- Выберите тип --"
+
+#: src/Admin/Page/Abstract/AbstractAdminFormPage.php:120
+msgid "Create Field"
+msgstr "Создать поле"
+
+#: src/Admin/Page/Abstract/AbstractAdminFormPage.php:121
+#: src/Common/Module/Grid/Src/Domain/AbstractListContentGrid.php:144
+#: src/Common/Module/Grid/Src/Domain/TableContentGrid.php:99
+#: src/Common/Module/Grid/Src/Infrastructure/QueueJobsGrid.php:122
+#: src/Common/Module/Grid/Src/Infrastructure/UserListGrid.php:66
+#: src/Common/Module/Grid/Src/Infrastructure/UserListTableGrid.php:119
+#: themes/first/src/FirstTheme.php:42 themes/minimal/src/MinimalTheme.php:42
+msgid "Loading..."
+msgstr "Загрузка..."
+
+#: src/Admin/Page/Abstract/AbstractAdminFormPage.php:122
+msgid "Error loading settings"
+msgstr "Ошибка загрузки настроек"
+
+#: src/Admin/Page/Abstract/AbstractAdminFormPage.php:123
+msgid "Field name and type are required."
+msgstr "Имя и тип поля обязательны."
+
+#: src/Admin/Page/Abstract/AbstractAdminFormPage.php:124
+#: src/Common/Module/Form/Src/Infrastructure/Field/KeyValueEditor.php:39
+msgid "Value"
+msgstr "Значение"
+
+#: src/Admin/Page/Abstract/AbstractAdminFormPage.php:125
+#: src/Common/Module/Form/Src/Domain/Field/AbstractField.php:251
+#: src/Common/Module/Form/Src/Infrastructure/Field/KeyValueEditor.php:40
+msgid "Label"
+msgstr "Метка"
+
+#: src/Admin/Page/Abstract/AbstractAdminFormPage.php:126
+#: src/Common/Module/Form/Src/Infrastructure/Field/Uploader.php:116
+#: src/Common/Service/AssetsManager.php:127
+msgid "Remove"
+msgstr "Удалить"
+
+#: src/Admin/Page/Abstract/AbstractAdminFormPage.php:127
+#: src/Admin/Page/SettingsPage.php:88 src/Admin/Page/SetupWizardPage.php:81
+#: src/Common/Module/Locations/App/Default/EditProfileTab.php:41
+#: src/Common/Renderer/GenericFormRenderer.php:50
+msgid "Saving..."
+msgstr "Сохранение..."
+
+#: src/Admin/Page/Abstract/AbstractAdminFormPage.php:128
+msgid "Unknown error"
+msgstr "Неизвестная ошибка"
+
+#: src/Admin/Page/Abstract/AbstractAdminFormPage.php:160
+#: src/Admin/Page/TabsConfigPage.php:74
+msgid "Save Changes"
+msgstr "Сохранить изменения"
+
+#: src/Admin/Page/ProfileFormPage.php:12
+msgid "Profile Form Editor"
+msgstr "Редактор формы профиля"
+
+#: src/Admin/Page/ProfileFormPage.php:17
+msgid "Profile Form"
+msgstr "Форма профиля"
+
+#: src/Admin/Page/ProfileFormPage.php:34
+#: src/Admin/Page/RegistrationFormPage.php:40
+msgid "Main Information"
+msgstr "Основная информация"
+
+#: src/Admin/Page/ProfileFormPage.php:39
+#: src/Common/Module/Grid/Src/Infrastructure/UserListTableGrid.php:85
+msgid "Email"
+msgstr "Email"
+
+#: src/Admin/Page/ProfileFormPage.php:44
+msgid "Display Name"
+msgstr "Отображаемое имя"
+
+#: src/Admin/Page/ProfileFormPage.php:49
+msgid "About Me"
+msgstr "Обо мне"
+
+#: src/Admin/Page/ProfileFormPage.php:53
+msgid "Gender"
+msgstr "Пол"
+
+#: src/Admin/Page/ProfileFormPage.php:54
+msgid "Male"
+msgstr "Мужской"
+
+#: src/Admin/Page/ProfileFormPage.php:54
+msgid "Female"
+msgstr "Женский"
+
+#: src/Admin/Page/ProfileFormPage.php:58
+msgid "Hair Color"
+msgstr "Цвет волос"
+
+#: src/Admin/Page/ProfileFormPage.php:59
+msgid "Blond"
+msgstr "Блонд"
+
+#: src/Admin/Page/ProfileFormPage.php:59
+msgid "Brunette"
+msgstr "Брюнет"
+
+#: src/Admin/Page/ProfileFormPage.php:59
+msgid "Red"
+msgstr "Рыжий"
+
+#: src/Admin/Page/QueueJobsPage.php:46
+msgid "Running"
+msgstr "Выполняется"
+
+#: src/Admin/Page/QueueJobsPage.php:47
+msgid "Idle"
+msgstr "Ожидает"
+
+#: src/Admin/Page/QueueJobsPage.php:48
+msgid "Stalled"
+msgstr "Зависла"
+
+#: src/Admin/Page/QueueJobsPage.php:53
+msgid "Queue Status"
+msgstr "Статус очереди"
+
+#: src/Admin/Page/QueueJobsPage.php:56
+msgid "Process Now"
+msgstr "Запустить сейчас"
+
+#: src/Admin/Page/QueueJobsPage.php:58
+msgid "Send Ping Task"
+msgstr "Отправить тестовую задачу"
+
+#: src/Admin/Page/QueueJobsPage.php:65
+msgid "Recent Activity"
+msgstr "Последняя активность"
+
+#: src/Admin/Page/QueueJobsPage.php:68
+msgid "No recent activity."
+msgstr "Нет недавней активности."
+
+#: src/Admin/Page/QueueJobsPage.php:98
+msgid "Failed to dispatch ping task."
+msgstr "Не удалось отправить тестовую задачу."
+
+#: src/Admin/Page/QueueJobsPage.php:99
+msgid "Sending..."
+msgstr "Отправка..."
+
+#: src/Admin/Page/QueueJobsPage.php:100
+#: src/Common/Renderer/ForgotPasswordFormRenderer.php:39
+msgid "Processing..."
+msgstr "Обработка..."
+
+#: src/Admin/Page/QueueJobsPage.php:106 src/Admin/Page/QueueJobsPage.php:111
+msgid "Jobs Queue"
+msgstr "Очередь задач"
+
+#: src/Admin/Page/RegistrationFormPage.php:13
+msgid "Registration Form Editor"
+msgstr "Редактор формы регистрации"
+
+#: src/Admin/Page/RegistrationFormPage.php:18
+msgid "Registration Form"
+msgstr "Форма регистрации"
+
+#: src/Admin/Page/RegistrationFormPage.php:52
+msgid "Repeat Password"
+msgstr "Повторите пароль"
+
+#: src/Admin/Page/SettingsPage.php:89 src/Admin/Page/SetupWizardPage.php:82
+msgid "Network error occurred."
+msgstr "Произошла сетевая ошибка."
+
+#: src/Admin/Page/SettingsPage.php:155
+msgid "Save Settings"
+msgstr "Сохранить настройки"
+
+#: src/Admin/Page/SettingsPage.php:165
+msgid "UserSpace Settings"
+msgstr "Настройки UserSpace"
+
+#: src/Admin/Page/SetupWizardPage.php:83
+msgid "Finish"
+msgstr "Завершить"
+
+#: src/Admin/Page/SetupWizardPage.php:84 src/Admin/Page/SetupWizardPage.php:150
+msgid "Next"
+msgstr "Далее"
+
+#: src/Admin/Page/SetupWizardPage.php:121
+msgid ""
+"Welcome! This wizard will help you with the initial setup of the plugin. "
+"Please follow the steps to configure the most important options."
+msgstr ""
+"Добро пожаловать! Этот мастер поможет вам с первоначальной настройкой "
+"плагина. Пожалуйста, следуйте шагам, чтобы настроить наиболее важные опции."
+
+#: src/Admin/Page/SetupWizardPage.php:123
+msgid ""
+"Setup is complete! You have configured the basic settings. You can change "
+"them at any time on the plugin settings page."
+msgstr ""
+"Настройка завершена! Вы сконфигурировали базовые параметры. Вы можете "
+"изменить их в любое время на странице настроек плагина."
+
+#: src/Admin/Page/SetupWizardPage.php:149
+msgid "Previous"
+msgstr "Назад"
+
+#: src/Admin/Page/SetupWizardPage.php:151
+msgid "Go to Settings"
+msgstr "Перейти к настройкам"
+
+#: src/Admin/Page/SetupWizardPage.php:159
+msgid "UserSpace Setup Wizard"
+msgstr "Мастер настройки UserSpace"
+
+#: src/Admin/Page/SetupWizardPage.php:164
+msgid "Setup Wizard"
+msgstr "Мастер настройки"
+
+#: src/Admin/Page/SetupWizardPage.php:180
+#: src/Admin/Service/SettingsFormConfigService.php:113
+msgid "Page Assignment"
+msgstr "Назначение страниц"
+
+#: src/Admin/Page/SetupWizardPage.php:182
+#: src/Admin/Service/SettingsFormConfigService.php:116
+msgid "Login Page"
+msgstr "Страница входа"
+
+#: src/Admin/Page/SetupWizardPage.php:184
+msgid "Select the page where the login form will be displayed."
+msgstr "Выберите страницу, на которой будет отображаться форма входа."
+
+#: src/Admin/Page/SetupWizardPage.php:187
+#: src/Admin/Service/SettingsFormConfigService.php:120
+msgid "Registration Page"
+msgstr "Страница регистрации"
+
+#: src/Admin/Page/SetupWizardPage.php:189
+msgid "Select the page for the user registration form."
+msgstr "Выберите страницу для формы регистрации пользователя."
+
+#: src/Admin/Page/SetupWizardPage.php:192
+#: src/Admin/Service/SettingsFormConfigService.php:132
+msgid "User Profile Page"
+msgstr "Страница профиля пользователя"
+
+#: src/Admin/Page/SetupWizardPage.php:194
+msgid "Select the page to display user profiles."
+msgstr "Выберите страницу для отображения профилей пользователей."
+
+#: src/Admin/Page/SetupWizardPage.php:198
+msgid "Advanced Settings"
+msgstr "Расширенные настройки"
+
+#: src/Admin/Page/SetupWizardPage.php:200
+#: src/Admin/Service/SettingsFormConfigService.php:128
+msgid "Password Recovery Page"
+msgstr "Страница восстановления пароля"
+
+#: src/Admin/Page/SetupWizardPage.php:210
+#: src/Admin/Service/SettingsFormConfigService.php:245
+msgid "— Select a page —"
+msgstr "— Выберите страницу —"
+
+#: src/Admin/Page/TabsConfigPage.php:66
+msgid "Add New Tab"
+msgstr "Добавить новую вкладку"
+
+#: src/Admin/Page/TabsConfigPage.php:67
+msgid "Here you will be able to configure the tabs of the user profile."
+msgstr "Здесь вы сможете настроить вкладки профиля пользователя."
+
+#: src/Admin/Page/TabsConfigPage.php:81
+msgid "Tabs Configuration"
+msgstr "Конфигурация вкладок"
+
+#: src/Admin/Page/TabsConfigPage.php:86
+msgid "Tabs"
+msgstr "Вкладки"
+
+#: src/Admin/Page/UserCardListPage.php:25
+msgid "User List"
+msgstr "Список пользователей"
+
+#: src/Admin/Page/UserCardListPage.php:32
+msgid "A list of registered users with search and pagination."
+msgstr "Список зарегистрированных пользователей с поиском и пагинацией."
+
+#: src/Admin/Page/UserCardListPage.php:41
+msgid "Users (Cards)"
+msgstr "Пользователи (Карточки)"
+
+#: src/Admin/Page/UserTableListPage.php:27
+msgid ""
+"A list of registered users with search, sort and pagination in a table view."
+msgstr ""
+"Список зарегистрированных пользователей с поиском, сортировкой и пагинацией "
+"в виде таблицы."
+
+#: src/Admin/Page/UserTableListPage.php:36
+msgid "User List (Table)"
+msgstr "Список пользователей (Таблица)"
+
+#: src/Admin/Page/UserTableListPage.php:41
+msgid "Users (Table)"
+msgstr "Пользователи (Таблица)"
+
+#: src/Admin/Service/SettingsFormConfigService.php:74
+msgid "General"
+msgstr "Общие"
+
+#: src/Admin/Service/SettingsFormConfigService.php:75
+msgid "Main Settings"
+msgstr "Основные настройки"
+
+#: src/Admin/Service/SettingsFormConfigService.php:76
+msgid "API Key"
+msgstr "API Ключ"
+
+#: src/Admin/Service/SettingsFormConfigService.php:77
+msgid "Enable Feature X"
+msgstr "Включить Функцию X"
+
+#: src/Admin/Service/SettingsFormConfigService.php:79
+msgid "Default Avatar"
+msgstr "Аватар по умолчанию"
+
+#: src/Admin/Service/SettingsFormConfigService.php:84
+msgid "Files"
+msgstr "Файлы"
+
+#: src/Admin/Service/SettingsFormConfigService.php:88
+msgid "Enable User Bar at the top of the site"
+msgstr "Включить панель пользователя вверху сайта"
+
+#: src/Admin/Service/SettingsFormConfigService.php:89
+msgid "Require email confirmation for registration"
+msgstr "Требовать подтверждение email при регистрации"
+
+#: src/Admin/Service/SettingsFormConfigService.php:91
+msgid "Prefer color"
+msgstr "Предпочитаемый цвет"
+
+#: src/Admin/Service/SettingsFormConfigService.php:93
+msgid "White"
+msgstr "Белый"
+
+#: src/Admin/Service/SettingsFormConfigService.php:94
+msgid "Black"
+msgstr "Черный"
+
+#: src/Admin/Service/SettingsFormConfigService.php:95
+msgid "Green"
+msgstr "Зеленый"
+
+#: src/Admin/Service/SettingsFormConfigService.php:99
+msgid "Advanced"
+msgstr "Расширенные"
+
+#: src/Admin/Service/SettingsFormConfigService.php:100
+msgid "Integration"
+msgstr "Интеграция"
+
+#: src/Admin/Service/SettingsFormConfigService.php:102
+msgid "Integration Mode"
+msgstr "Режим интеграции"
+
+#: src/Admin/Service/SettingsFormConfigService.php:103
+msgid "Mode 1"
+msgstr "Режим 1"
+
+#: src/Admin/Service/SettingsFormConfigService.php:103
+msgid "Mode 2"
+msgstr "Режим 2"
+
+#: src/Admin/Service/SettingsFormConfigService.php:105
+msgid "Webhook URL"
+msgstr "Webhook URL"
+
+#: src/Admin/Service/SettingsFormConfigService.php:106
+msgid "Other"
+msgstr "Другое"
+
+#: src/Admin/Service/SettingsFormConfigService.php:108
+msgid "Default Role"
+msgstr "Роль по умолчанию"
+
+#: src/Admin/Service/SettingsFormConfigService.php:109
+msgid "Subscriber"
+msgstr "Подписчик"
+
+#: src/Admin/Service/SettingsFormConfigService.php:109
+msgid "Editor"
+msgstr "Редактор"
+
+#: src/Admin/Service/SettingsFormConfigService.php:111
+msgid "Custom CSS"
+msgstr "Пользовательский CSS"
+
+#: src/Admin/Service/SettingsFormConfigService.php:114
+msgid "Core Pages"
+msgstr "Основные страницы"
+
+#: src/Admin/Service/SettingsFormConfigService.php:124
+msgid "Redirect After Login Page"
+msgstr ""
+
+#: src/Admin/Service/SettingsFormConfigService.php:136
+msgid "User ID Query Variable"
+msgstr "Переменная запроса ID пользователя"
+
+#: src/Admin/Service/SettingsFormConfigService.php:137
+msgid ""
+"The GET parameter in the URL to identify the user. Default: <code>user_id</"
+"code>."
+msgstr ""
+"GET-параметр в URL для идентификации пользователя. По умолчанию: "
+"<code>user_id</code>."
+
+#: src/Admin/Service/SettingsFormConfigService.php:140
+msgid "Profile Tab Query Variable"
+msgstr "Переменная запроса для вкладок профиля"
+
+#: src/Admin/Service/SettingsFormConfigService.php:141
+msgid ""
+"The GET parameter in the URL to identify the profile tab. Default: "
+"<code>tab</code>."
+msgstr ""
+"GET-параметр в URL для идентификации вкладки профиля. По умолчанию: "
+"<code>tab</code>."
+
+#: src/Admin/Service/SettingsFormConfigService.php:144
+msgid "Dependency Examples"
+msgstr "Примеры зависимостей"
+
+#: src/Admin/Service/SettingsFormConfigService.php:145
+msgid "Parent Fields"
+msgstr "Родительские поля"
+
+#: src/Admin/Service/SettingsFormConfigService.php:147
+msgid "Select an Option"
+msgstr "Выберите опцию"
+
+#: src/Admin/Service/SettingsFormConfigService.php:149
+msgid "Option 1 (shows text field)"
+msgstr "Опция 1 (показывает текстовое поле)"
+
+#: src/Admin/Service/SettingsFormConfigService.php:150
+msgid "Option 2 (shows checkbox)"
+msgstr "Опция 2 (показывает чекбокс)"
+
+#: src/Admin/Service/SettingsFormConfigService.php:151
+msgid "Option 3 (shows radio)"
+msgstr "Опция 3 (показывает радиокнопки)"
+
+#: src/Admin/Service/SettingsFormConfigService.php:153
+msgid "Select a value to reveal dependent fields."
+msgstr "Выберите значение, чтобы показать зависимые поля."
+
+#: src/Admin/Service/SettingsFormConfigService.php:156
+msgid "Enable Feature Y"
+msgstr "Включить Функцию Y"
+
+#: src/Admin/Service/SettingsFormConfigService.php:157
+msgid "Check this to reveal a dependent text area."
+msgstr "Отметьте, чтобы показать зависимое текстовое поле."
+
+#: src/Admin/Service/SettingsFormConfigService.php:160
+msgid "Choose a Type"
+msgstr "Выберите тип"
+
+#: src/Admin/Service/SettingsFormConfigService.php:162
+msgid "Type A (shows URL field)"
+msgstr "Тип A (показывает поле URL)"
+
+#: src/Admin/Service/SettingsFormConfigService.php:163
+msgid "Type B (shows uploader)"
+msgstr "Тип B (показывает загрузчик)"
+
+#: src/Admin/Service/SettingsFormConfigService.php:165
+msgid "Select a type to reveal dependent fields."
+msgstr "Выберите тип, чтобы показать зависимые поля."
+
+#: src/Admin/Service/SettingsFormConfigService.php:167
+msgid "Dependent Fields"
+msgstr "Зависимые поля"
+
+#: src/Admin/Service/SettingsFormConfigService.php:169
+msgid "Text Field for Option 1"
+msgstr "Текстовое поле для Опции 1"
+
+#: src/Admin/Service/SettingsFormConfigService.php:170
+msgid "This field appears when \"Option 1\" is selected."
+msgstr "Это поле появляется, когда выбрана \"Опция 1\"."
+
+#: src/Admin/Service/SettingsFormConfigService.php:178
+msgid "Checkbox for Option 2"
+msgstr "Чекбокс для Опции 2"
+
+#: src/Admin/Service/SettingsFormConfigService.php:179
+msgid "This checkbox appears when \"Option 2\" is selected."
+msgstr "Этот чекбокс появляется, когда выбрана \"Опция 2\"."
+
+#: src/Admin/Service/SettingsFormConfigService.php:181
+msgid "check A"
+msgstr "отметить A"
+
+#: src/Admin/Service/SettingsFormConfigService.php:182
+msgid "check B"
+msgstr "отметить B"
+
+#: src/Admin/Service/SettingsFormConfigService.php:191
+msgid "Radio for Option 3"
+msgstr "Радиокнопки для Опции 3"
+
+#: src/Admin/Service/SettingsFormConfigService.php:193
+msgid "Sub Option A"
+msgstr "Подопция A"
+
+#: src/Admin/Service/SettingsFormConfigService.php:194
+msgid "Sub Option B"
+msgstr "Подопция B"
+
+#: src/Admin/Service/SettingsFormConfigService.php:196
+msgid "These radio buttons appear when \"Option 3\" is selected."
+msgstr "Эти радиокнопки появляются, когда выбрана \"Опция 3\"."
+
+#: src/Admin/Service/SettingsFormConfigService.php:204
+msgid "Text Area for Feature Y"
+msgstr "Текстовая область для Функции Y"
+
+#: src/Admin/Service/SettingsFormConfigService.php:205
+msgid "This text area appears when \"Enable Feature Y\" is checked."
+msgstr ""
+"Эта текстовая область появляется, когда отмечена \"Включить Функцию Y\"."
+
+#: src/Admin/Service/SettingsFormConfigService.php:213
+msgid "URL Field for Type A"
+msgstr "Поле URL для Типа A"
+
+#: src/Admin/Service/SettingsFormConfigService.php:214
+msgid "This URL field appears when \"Type A\" is chosen."
+msgstr "Это поле URL появляется, когда выбран \"Тип A\"."
+
+#: src/Admin/Service/SettingsFormConfigService.php:222
+msgid "Uploader for Type B"
+msgstr "Загрузчик для Типа B"
+
+#: src/Admin/Service/SettingsFormConfigService.php:223
+msgid "This uploader appears when \"Type B\" is chosen."
+msgstr "Этот загрузчик появляется, когда выбран \"Тип B\"."
+
+#: src/Admin/Service/SettingsFormConfigService.php:231
+msgid "Appearance"
+msgstr "Внешний вид"
+
+#: src/Admin/Service/SettingsFormConfigService.php:232
+msgid "Account Theme"
+msgstr "Тема аккаунта"
+
+#: src/Admin/Service/SettingsFormConfigService.php:234
+msgid "Select Theme"
+msgstr "Выберите тему"
+
+#: src/Common/Module/Form/App/Controller/FormController.php:47
+msgid "Data saved successfully!"
+msgstr "Данные успешно сохранены!"
+
+#: src/Common/Module/Form/App/Controller/FormController.php:67
+#: src/Common/Module/Form/App/UseCase/GetModalForm/GetModalFormUseCase.php:35
+msgid "Invalid form type specified."
+msgstr "Указан неверный тип формы."
+
+#: src/Common/Module/Form/App/Controller/FormController.php:98
+msgid "Invalid field configuration format."
+msgstr "Неверный формат конфигурации поля."
+
+#: src/Common/Module/Form/App/Controller/FormController.php:114
+msgid "Invalid field type specified."
+msgstr "Указан неверный тип поля."
+
+#: src/Common/Module/Form/App/Controller/FormController.php:165
+#: src/Common/Module/Locations/App/UseCase/UpdateConfig/UpdateLocationConfigUseCase.php:29
+msgid "Invalid JSON format."
+msgstr "Неверный формат JSON."
+
+#: src/Common/Module/Form/App/Controller/FormController.php:183
+msgid "Configuration saved successfully."
+msgstr "Конфигурация успешно сохранена."
+
+#: src/Common/Module/Form/App/UseCase/SaveProfileForm/SaveProfileFormUseCase.php:43
+msgid "Form configuration not found."
+msgstr "Конфигурация формы не найдена."
+
+#: src/Common/Module/Form/App/UseCase/SaveProfileForm/SaveProfileFormUseCase.php:58
+msgid "Validation error. Please check the fields."
+msgstr "Ошибка валидации. Пожалуйста, проверьте поля."
+
+#: src/Common/Module/Form/App/UseCase/SaveProfileForm/SaveProfileFormUseCase.php:66
+msgid "You must be logged in to save the profile."
+msgstr "Вы должны быть авторизованы, чтобы сохранить профиль."
+
+#: src/Common/Module/Form/Src/Domain/Field/AbstractField.php:255
+msgid "Required"
+msgstr "Обязательно"
+
+#: src/Common/Module/Form/Src/Infrastructure/Field/Boolean.php:26
+msgid "Yes"
+msgstr ""
+
+#: src/Common/Module/Form/Src/Infrastructure/Field/Boolean.php:26
+msgid "No"
+msgstr ""
+
+#: src/Common/Module/Form/Src/Infrastructure/Field/KeyValueEditor.php:28
+msgid "Add Option"
+msgstr "Добавить опцию"
+
+#: src/Common/Module/Form/Src/Infrastructure/Field/Radio.php:61
+#, php-format
+msgid "Invalid value selected for field \"%s\"."
+msgstr "Выбрано неверное значение для поля \"%s\"."
+
+#: src/Common/Module/Form/Src/Infrastructure/Field/Radio.php:72
+#: src/Common/Module/Form/Src/Infrastructure/Field/Select.php:72
+msgid "Options"
+msgstr "Опции"
+
+#: src/Common/Module/Form/Src/Infrastructure/Field/Uploader.php:155
+msgid "Select File"
+msgstr "Выберите файл"
+
+#: src/Common/Module/Form/Src/Infrastructure/Field/Uploader.php:171
+msgid "Allow multiple file upload"
+msgstr ""
+
+#: src/Common/Module/Form/Src/Infrastructure/Field/Uploader.php:175
+#, fuzzy
+#| msgid "Invalid file type."
+msgid "Allowed file types"
+msgstr "Неверный тип файла."
+
+#: src/Common/Module/Form/Src/Infrastructure/Field/Uploader.php:176
+msgid "Comma-separated MIME types, e.g., image/jpeg,image/png,application/pdf"
+msgstr ""
+
+#: src/Common/Module/Form/Src/Infrastructure/Field/Uploader.php:180
+msgid "Max file size (MB)"
+msgstr ""
+
+#: src/Common/Module/Form/Src/Infrastructure/Field/Uploader.php:181
+msgid "Leave empty for no limit."
+msgstr ""
+
+#: src/Common/Module/Form/Src/Infrastructure/Field/Uploader.php:185
+msgid "Min image width (px)"
+msgstr ""
+
+#: src/Common/Module/Form/Src/Infrastructure/Field/Uploader.php:189
+msgid "Min image height (px)"
+msgstr ""
+
+#: src/Common/Module/Form/Src/Infrastructure/Field/Uploader.php:193
+msgid "Max image width (px)"
+msgstr ""
+
+#: src/Common/Module/Form/Src/Infrastructure/Field/Uploader.php:197
+msgid "Max image height (px)"
+msgstr ""
+
+#: src/Common/Module/Form/Src/Infrastructure/Form/Config/FormConfigBuilder.php:225
+#: views/admin/form-builder-templates.php:23
+msgid "Add Block"
+msgstr "Добавить блок"
+
+#: src/Common/Module/Form/Src/Infrastructure/Form/Config/FormConfigBuilder.php:226
+#: src/Common/Module/Form/Src/Infrastructure/Form/Config/FormConfigBuilder.php:247
+#: src/Common/Module/Form/Src/Infrastructure/Form/Config/FormConfigBuilder.php:276
+#: views/admin/form-builder-templates.php:25
+#: views/admin/form-builder-templates.php:40
+#: views/admin/form-builder-templates.php:60
+msgid "Delete"
+msgstr "Удалить"
+
+#: src/Common/Module/Form/Src/Infrastructure/Form/Config/FormConfigBuilder.php:229
+msgid "Untitled Section"
+msgstr "Секция без названия"
+
+#: src/Common/Module/Form/Src/Infrastructure/Form/Config/FormConfigBuilder.php:250
+msgid "Untitled Block"
+msgstr "Блок без названия"
+
+#: src/Common/Module/Form/Src/Infrastructure/Form/Config/FormConfigBuilder.php:258
+#: views/admin/form-builder-templates.php:46
+msgid "Add Field"
+msgstr "Добавить поле"
+
+#: src/Common/Module/Form/Src/Infrastructure/Form/Config/FormConfigBuilder.php:276
+#: src/Common/Module/Locations/Src/Infrastructure/LocationConfigBuilder.php:114
+#: views/admin/form-builder-templates.php:58
+msgid "Edit"
+msgstr "Редактировать"
+
+#: src/Common/Module/Form/Src/Infrastructure/Form/Config/FormConfigBuilder.php:294
+msgid "Available Fields"
+msgstr "Доступные поля"
+
+#: src/Common/Module/Form/Src/Infrastructure/Validator/AllowedTypesValidator.php:38
+#, php-format
+msgid "Invalid file type. Allowed types: %s."
+msgstr "Неверный тип файла. Разрешенные типы: %s."
+
+#: src/Common/Module/Form/Src/Infrastructure/Validator/ImageDimensionsValidator.php:38
+msgid "Could not determine image size."
+msgstr "Не удалось определить размер изображения."
+
+#: src/Common/Module/Form/Src/Infrastructure/Validator/ImageDimensionsValidator.php:44
+#, php-format
+msgid "Image width is too small. Minimum width is %dpx."
+msgstr "Ширина изображения слишком мала. Минимальная ширина: %dpx."
+
+#: src/Common/Module/Form/Src/Infrastructure/Validator/ImageDimensionsValidator.php:47
+#, php-format
+msgid "Image height is too small. Minimum height is %dpx."
+msgstr "Высота изображения слишком мала. Минимальная высота: %dpx."
+
+#: src/Common/Module/Form/Src/Infrastructure/Validator/ImageDimensionsValidator.php:50
+#, php-format
+msgid "Image width is too large. Maximum width is %dpx."
+msgstr "Ширина изображения слишком велика. Максимальная ширина: %dpx."
+
+#: src/Common/Module/Form/Src/Infrastructure/Validator/ImageDimensionsValidator.php:53
+#, php-format
+msgid "Image height is too large. Maximum height is %dpx."
+msgstr "Высота изображения слишком велика. Максимальная высота: %dpx."
+
+#: src/Common/Module/Form/Src/Infrastructure/Validator/MaxDateValidator.php:35
+#, php-format
+msgid "Date in \"%s\" field cannot be later than %s."
+msgstr "Дата в поле \"%s\" не может быть позже %s."
+
+#: src/Common/Module/Form/Src/Infrastructure/Validator/MaxDateValidator.php:37
+#: src/Common/Module/Form/Src/Infrastructure/Validator/MinDateValidator.php:37
+#, php-format
+msgid "Invalid date format in \"%s\" field."
+msgstr "Неверный формат даты в поле \"%s\"."
+
+#: src/Common/Module/Form/Src/Infrastructure/Validator/MaxFileSizeValidator.php:31
+#, php-format
+msgid "File is too large. Maximum size is %s MB."
+msgstr "Файл слишком большой. Максимальный размер: %s МБ."
+
+#: src/Common/Module/Form/Src/Infrastructure/Validator/MaxLengthValidator.php:27
+#, php-format
+msgid "Field \"%s\" must be no more than %d characters long."
+msgstr "Поле \"%s\" должно быть не длиннее %d символов."
+
+#: src/Common/Module/Form/Src/Infrastructure/Validator/MinDateValidator.php:35
+#, php-format
+msgid "Date in \"%s\" field cannot be earlier than %s."
+msgstr "Дата в поле \"%s\" не может быть раньше %s."
+
+#: src/Common/Module/Form/Src/Infrastructure/Validator/MinLengthValidator.php:27
+#, php-format
+msgid "Field \"%s\" must be at least %d characters long."
+msgstr "Поле \"%s\" должно быть не короче %d символов."
+
+#: src/Common/Module/Form/Src/Infrastructure/Validator/RequiredValidator.php:19
+#, php-format
+msgid "Field \"%s\" is required."
+msgstr "Поле \"%s\" обязательно для заполнения."
+
+#: src/Common/Module/Grid/Src/Domain/AbstractListContentGrid.php:132
+#: src/Common/Module/Grid/Src/Domain/TableContentGrid.php:87
+msgid "Search..."
+msgstr "Поиск..."
+
+#: src/Common/Module/Grid/Src/Domain/AbstractListContentGrid.php:134
+#: src/Common/Module/Grid/Src/Domain/TableContentGrid.php:89
+msgid "Search"
+msgstr "Найти"
+
+#: src/Common/Module/Grid/Src/Domain/AbstractListContentGrid.php:167
+#: src/Common/Module/Grid/Src/Domain/TableContentGrid.php:142
+msgid "No items found."
+msgstr "Элементы не найдены."
+
+#: src/Common/Module/Grid/Src/Domain/AbstractListContentGrid.php:206
+msgid "&laquo; Prev"
+msgstr "&laquo; Назад"
+
+#: src/Common/Module/Grid/Src/Domain/AbstractListContentGrid.php:207
+msgid "Next &raquo;"
+msgstr "Вперед &raquo;"
+
+#: src/Common/Module/Grid/Src/Domain/TableContentGrid.php:73
+msgid "Settings"
+msgstr "Настройки"
+
+#: src/Common/Module/Grid/Src/Domain/TableContentGrid.php:76
+msgid "Toggle columns:"
+msgstr "Показать/скрыть столбцы:"
+
+#: src/Common/Module/Grid/Src/Infrastructure/QueueJobsGrid.php:72
+#: src/Common/Module/Grid/Src/Infrastructure/UserListTableGrid.php:73
+msgid "ID"
+msgstr "ID"
+
+#: src/Common/Module/Grid/Src/Infrastructure/QueueJobsGrid.php:76
+msgid "Message Class"
+msgstr "Класс сообщения"
+
+#: src/Common/Module/Grid/Src/Infrastructure/QueueJobsGrid.php:80
+msgid "Status"
+msgstr "Статус"
+
+#: src/Common/Module/Grid/Src/Infrastructure/QueueJobsGrid.php:84
+msgid "Attempts"
+msgstr "Попытки"
+
+#: src/Common/Module/Grid/Src/Infrastructure/QueueJobsGrid.php:88
+msgid "Available At"
+msgstr "Доступно с"
+
+#: src/Common/Module/Grid/Src/Infrastructure/QueueJobsGrid.php:92
+msgid "Created At"
+msgstr "Создано"
+
+#: src/Common/Module/Grid/Src/Infrastructure/QueueJobsGrid.php:123
+#: src/Common/Module/Grid/Src/Infrastructure/UserListGrid.php:67
+#: src/Common/Module/Grid/Src/Infrastructure/UserListTableGrid.php:120
+msgid "An error occurred. Please try again."
+msgstr "Произошла ошибка. Пожалуйста, попробуйте снова."
+
+#: src/Common/Module/Grid/Src/Infrastructure/UserListTableGrid.php:77
+msgid "Login"
+msgstr "Логин"
+
+#: src/Common/Module/Grid/Src/Infrastructure/UserListTableGrid.php:81
+msgid "Name"
+msgstr "Имя"
+
+#: src/Common/Module/Grid/Src/Infrastructure/UserListTableGrid.php:89
+msgid "Registered"
+msgstr "Зарегистрирован"
+
+#: src/Common/Module/Locations/App/Controller/LocationController.php:41
+msgid "Tabs configuration saved successfully."
+msgstr "Конфигурация вкладок успешно сохранена."
+
+#: src/Common/Module/Locations/App/Default/ActivityTab.php:12
+msgid "Activity"
+msgstr "Активность"
+
+#: src/Common/Module/Locations/App/Default/ActivityTab.php:20
+msgid "User activity feed will be here."
+msgstr "Лента активности пользователя будет здесь."
+
+#: src/Common/Module/Locations/App/Default/CustomTab.php:19
+#, php-format
+msgid "Content for the custom tab \"%s\" will be here."
+msgstr "Содержимое для кастомной вкладки \"%s\" будет здесь."
+
+#: src/Common/Module/Locations/App/Default/EditProfileTab.php:22
+msgid "Edit Profile"
+msgstr "Редактировать профиль"
+
+#: src/Common/Module/Locations/App/Default/ProfileTab.php:18
+msgid "Profile"
+msgstr "Профиль"
+
+#: src/Common/Module/Locations/App/Default/SecurityTab.php:12
+msgid "Security"
+msgstr "Безопасность"
+
+#: src/Common/Module/Locations/App/Default/SecurityTab.php:20
+msgid "Security settings will be here."
+msgstr "Настройки безопасности будут здесь."
+
+#: src/Common/Module/Locations/App/Default/UserListTab.php:13
+msgid "Users"
+msgstr "Пользователи"
+
+#: src/Common/Module/Locations/App/UseCase/GetContent/GetTabContentUseCase.php:28
+msgid "Tab ID is missing."
+msgstr "Отсутствует ID вкладки."
+
+#: src/Common/Module/Locations/App/UseCase/GetContent/GetTabContentUseCase.php:34
+msgid "Tab not found."
+msgstr "Вкладка не найдена."
+
+#: src/Common/Module/Locations/App/UseCase/GetSettingsForm/GetItemSettingsFormUseCase.php:30
+#: src/Common/Module/Locations/App/UseCase/UpdateConfig/UpdateLocationConfigUseCase.php:33
+msgid "Invalid tab configuration format."
+msgstr "Неверный формат конфигурации вкладки."
+
+#: src/Common/Module/Locations/App/UseCase/GetSettingsForm/GetItemSettingsFormUseCase.php:75
+msgid "Title"
+msgstr "Заголовок"
+
+#: src/Common/Module/Locations/App/UseCase/GetSettingsForm/GetItemSettingsFormUseCase.php:80
+msgid "Icon"
+msgstr "Иконка"
+
+#: src/Common/Module/Locations/App/UseCase/GetSettingsForm/GetItemSettingsFormUseCase.php:83
+#, php-format
+msgid "Enter a Dashicon class name. See all available icons %s."
+msgstr "Введите имя класса Dashicon. Посмотреть все доступные иконки можно %s."
+
+#: src/Common/Module/Locations/App/UseCase/GetSettingsForm/GetItemSettingsFormUseCase.php:84
+msgid "here"
+msgstr "здесь"
+
+#: src/Common/Module/Locations/App/UseCase/GetSettingsForm/GetItemSettingsFormUseCase.php:89
+msgid "Capability"
+msgstr "Право доступа"
+
+#: src/Common/Module/Locations/App/UseCase/GetSettingsForm/GetItemSettingsFormUseCase.php:90
+msgid "Required capability to view this tab (e.g., \"read\", \"edit_posts\")."
+msgstr ""
+"Требуемое право для просмотра этой вкладки (например, \"read\", "
+"\"edit_posts\")."
+
+#: src/Common/Module/Locations/App/UseCase/GetSettingsForm/GetItemSettingsFormUseCase.php:95
+msgid "Private Tab"
+msgstr "Приватная вкладка"
+
+#: src/Common/Module/Locations/App/UseCase/GetSettingsForm/GetItemSettingsFormUseCase.php:96
+msgid "If checked, the tab will only be visible to the profile owner."
+msgstr "Если отмечено, вкладка будет видна только владельцу профиля."
+
+#: src/Common/Module/Locations/App/UseCase/GetSettingsForm/GetItemSettingsFormUseCase.php:100
+msgid "Default Tab"
+msgstr "Вкладка по умолчанию"
+
+#: src/Common/Module/Locations/App/UseCase/GetSettingsForm/GetItemSettingsFormUseCase.php:101
+msgid "If checked, this tab will be opened by default."
+msgstr "Если отмечено, эта вкладка будет открываться по умолчанию."
+
+#: src/Common/Module/Media/App/Controller/MediaController.php:44
+msgid "Invalid configuration format."
+msgstr "Неверный формат конфигурации."
+
+#: src/Common/Module/Media/App/Controller/MediaController.php:99
+msgid "File deleted successfully."
+msgstr "Файл успешно удален."
+
+#: src/Common/Module/Media/App/UseCase/Delete/DeleteFileUseCase.php:29
+msgid "File not found."
+msgstr "Файл не найден."
+
+#: src/Common/Module/Media/App/UseCase/Delete/DeleteFileUseCase.php:36
+msgid "Failed to delete the file. Please try again."
+msgstr "Не удалось удалить файл. Пожалуйста, попробуйте снова."
+
+#: src/Common/Module/Media/App/UseCase/Upload/UploadFileUseCase.php:32
+msgid "No file was uploaded."
+msgstr "Файл не был загружен."
+
+#: src/Common/Module/Media/App/UseCase/Upload/UploadFileUseCase.php:41
+msgid "Invalid request signature."
+msgstr "Неверная подпись запроса."
+
+#: src/Common/Module/Queue/App/Controller/QueueActionsController.php:38
+msgid "Ping task has been dispatched."
+msgstr "Тестовая задача была отправлена."
+
+#: src/Common/Module/Queue/App/Controller/QueueActionsController.php:95
+msgid "Queue processing has been triggered in the background."
+msgstr "Обработка очереди была запущена в фоновом режиме."
+
+#: src/Common/Module/Settings/App/Controller/SettingsAdminController.php:55
+msgid "Settings saved successfully."
+msgstr "Настройки успешно сохранены."
+
+#: src/Common/Module/SetupWizard/App/Controller/SetupWizardController.php:43
+msgid "Step settings saved successfully."
+msgstr "Настройки шага успешно сохранены."
+
+#: src/Common/Module/SetupWizard/App/UseCase/SaveStep/SaveWizardStepUseCase.php:27
+msgid "No data to save."
+msgstr "Нет данных для сохранения."
+
+#: src/Common/Module/User/App/Controller/UserController.php:59
+msgid "Avatar updated successfully."
+msgstr "Аватар успешно обновлен."
+
+#: src/Common/Module/User/App/Controller/UserController.php:87
+msgid "Login successful!"
+msgstr "Вход выполнен успешно!"
+
+#: src/Common/Module/User/App/Controller/UserController.php:100
+msgid "You have been logged out."
+msgstr "Вы вышли из системы."
+
+#: src/Common/Module/User/App/Controller/UserController.php:130
+msgid "Please check your email for the confirmation link."
+msgstr ""
+"Пожалуйста, проверьте вашу почту для получения ссылки для подтверждения."
+
+#: src/Common/Module/User/App/Task/SendWelcomeEmailHandler.php:41
+msgid "Welcome to our site!"
+msgstr "Добро пожаловать на наш сайт!"
+
+#: src/Common/Module/User/App/Task/SendWelcomeEmailHandler.php:44
+#, php-format
+msgid "Hello, %s!"
+msgstr "Здравствуйте, %s!"
+
+#: src/Common/Module/User/App/Task/SendWelcomeEmailHandler.php:45
+msgid "Thank you for registering on our site."
+msgstr "Спасибо за регистрацию на нашем сайте."
+
+#: src/Common/Module/User/App/Task/SendWelcomeEmailHandler.php:46
+#, php-format
+msgid "You chose the template: %s."
+msgstr "Вы выбрали шаблон: %s."
+
+#: src/Common/Module/User/App/UseCase/Avatar/UpdateUserAvatarUseCase.php:28
+msgid "You must be logged in to update your avatar."
+msgstr "Вы должны быть авторизованы, чтобы обновить аватар."
+
+#: src/Common/Module/User/App/UseCase/Avatar/UpdateUserAvatarUseCase.php:32
+msgid "Attachment ID is missing."
+msgstr "Отсутствует ID вложения."
+
+#: src/Common/Module/User/App/UseCase/Avatar/UpdateUserAvatarUseCase.php:37
+msgid "The uploaded file is not an image."
+msgstr "Загруженный файл не является изображением."
+
+#: src/Common/Module/User/App/UseCase/Login/LoginUserUseCase.php:33
+msgid "Username and password are required."
+msgstr "Требуется имя пользователя и пароль."
+
+#: src/Common/Module/User/App/UseCase/PasswordReset/RequestPasswordResetUseCase.php:26
+msgid "Please enter a username or email address."
+msgstr "Пожалуйста, введите имя пользователя или email."
+
+#: src/Common/Module/User/App/UseCase/Registration/RegisterUserUseCase.php:46
+#: src/Common/Renderer/RegistrationFormRenderer.php:36
+msgid "You are already registered and logged in."
+msgstr "Вы уже зарегистрированы и авторизованы."
+
+#: src/Common/Module/User/App/UseCase/Registration/RegisterUserUseCase.php:51
+msgid "Registration form configuration not found."
+msgstr "Конфигурация формы регистрации не найдена."
+
+#: src/Common/Module/User/App/UseCase/Registration/RegisterUserUseCase.php:66
+msgid "Validation error."
+msgstr "Ошибка валидации."
+
+#: src/Common/Module/User/App/UseCase/Registration/RegisterUserUseCase.php:110
+msgid ""
+"Registration successful! Please check your email to activate your account."
+msgstr ""
+"Регистрация прошла успешно! Пожалуйста, проверьте вашу почту, чтобы "
+"активировать аккаунт."
+
+#: src/Common/Module/User/App/UseCase/Registration/RegisterUserUseCase.php:127
+msgid "Registration successful!"
+msgstr "Регистрация прошла успешно!"
+
+#: src/Common/Module/User/App/UseCase/Registration/RegisterUserUseCase.php:141
+#, php-format
+msgid "[%s] Activate Your Account"
+msgstr "[%s] Активируйте ваш аккаунт"
+
+#: src/Common/Module/User/App/UseCase/Registration/RegisterUserUseCase.php:142
+#, php-format
+msgid ""
+"Thanks for signing up! To activate your account, please click this link:\n"
+"\n"
+"%s"
+msgstr ""
+"Спасибо за регистрацию! Чтобы активировать ваш аккаунт, пожалуйста, нажмите "
+"на эту ссылку:\n"
+"\n"
+"%s"
+
+#: src/Common/Module/User/App/UseCase/SseToken/GenerateSseTokenUseCase.php:24
+msgid "Authentication required."
+msgstr "Требуется аутентификация."
+
+#: src/Common/Renderer/GenericFormRenderer.php:34
+msgid "Error: \"type\" attribute not specified in the shortcode."
+msgstr "Ошибка: атрибут \"type\" не указан в шорткоде."
+
+#: src/Common/Renderer/GenericFormRenderer.php:40
+#, php-format
+msgid "Error: form with type \"%s\" not found."
+msgstr "Ошибка: форма с типом \"%s\" не найдена."
+
+#: src/Common/Renderer/LoginFormRenderer.php:29
+msgid "You are already logged in."
+msgstr "Вы уже авторизованы."
+
+#: src/Common/Renderer/RegistrationFormRenderer.php:43
+msgid "Registration form is not configured yet."
+msgstr "Форма регистрации еще не настроена."
+
+#: src/Common/Service/AssetsManager.php:118
+msgid "Validating..."
+msgstr "Проверка..."
+
+#: src/Common/Service/AssetsManager.php:119
+msgid "Uploading..."
+msgstr "Загрузка..."
+
+#: src/Common/Service/AssetsManager.php:120
+msgid "Success!"
+msgstr "Успешно!"
+
+#: src/Common/Service/AssetsManager.php:121
+msgid "Error: {message}"
+msgstr "Ошибка: {message}"
+
+#: src/Common/Service/AssetsManager.php:122
+msgid "File is too large. Maximum size is {maxSize} MB."
+msgstr "Файл слишком большой. Максимальный размер: {maxSize} МБ."
+
+#: src/Common/Service/AssetsManager.php:123
+msgid "Invalid file type."
+msgstr "Неверный тип файла."
+
+#: src/Common/Service/AssetsManager.php:124
+msgid "Image is too small. Minimum dimensions are {minWidth}x{minHeight}px."
+msgstr ""
+"Изображение слишком маленькое. Минимальные размеры: {minWidth}x{minHeight}px."
+
+#: src/Common/Service/AssetsManager.php:125
+msgid "Image is too large. Maximum dimensions are {maxWidth}x{maxHeight}px."
+msgstr ""
+"Изображение слишком большое. Максимальные размеры: {maxWidth}x{maxHeight}px."
+
+#: src/Common/Service/AssetsManager.php:126
+msgid "Could not read image dimensions."
+msgstr "Не удалось прочитать размеры изображения."
+
+#: src/Common/Service/AssetsManager.php:128
+msgid "Preview"
+msgstr "Предпросмотр"
+
+#: src/Common/Service/AssetsManager.php:131
+msgid "Logging in..."
+msgstr "Вход в систему..."
+
+#: src/Common/Service/AssetsManager.php:134
+msgid "Registering..."
+msgstr "Регистрация..."
+
+#: src/Common/Service/CronManager.php:73
+msgid "Every 5 Minutes"
+msgstr "Каждые 5 минут"
+
+#: src/Common/Service/TemplateManager.php:59
+#, php-format
+msgid "Template with key \"%s\" is not registered."
+msgstr "Шаблон с ключом \"%s\" не зарегистрирован."
+
+#: src/Core/Addon/Theme/ThemeManager.php:114
+msgid "Active theme is not loaded. Please check plugin initialization."
+msgstr ""
+"Активная тема не загружена. Пожалуйста, проверьте инициализацию плагина."
+
+#: src/Core/Addon/Theme/ThemeManager.php:120
+msgid "Active account theme not found."
+msgstr "Активная тема аккаунта не найдена."
+
+#: themes/first/src/FirstTheme.php:43 themes/minimal/src/MinimalTheme.php:43
+msgid "Failed to load content."
+msgstr "Не удалось загрузить содержимое."
+
+#: themes/first/src/Service/TabLocationService.php:22
+msgid "Sidebar"
+msgstr "Боковая панель"
+
+#: themes/first/src/Service/TabLocationService.php:23
+msgid "Header Menu"
+msgstr "Меню в шапке"
+
+#: themes/minimal/src/Service/TabLocationService.php:27
+msgid "Sidebar Menu"
+msgstr "Меню в боковой панели"
+
+#: views/forgot-password-form-template.php:22
+msgid ""
+"Please enter your username or email address. You will receive an email "
+"message with instructions on how to reset your password."
+msgstr ""
+"Пожалуйста, введите ваше имя пользователя или email. Вы получите письмо с "
+"инструкциями по сбросу пароля."
+
+#: views/forgot-password-form-template.php:24 views/login-form-template.php:31
+msgid "Username or Email Address"
+msgstr "Имя пользователя или Email"
+
+#: views/forgot-password-form-template.php:29
+msgid "Get New Password"
+msgstr "Получить новый пароль"
+
+#: views/forgot-password-form-template.php:34
+#: views/registration-form-template.php:29
+msgid "Log in"
+msgstr "Войти"
+
+#: views/forgot-password-form-template.php:36 views/login-form-template.php:52
+#: views/registration-form-template.php:24 views/user-bar-template.php:38
+msgid "Register"
+msgstr "Регистрация"
+
+#: views/login-form-template.php:35
+msgid "Password"
+msgstr "Пароль"
+
+#: views/login-form-template.php:40
+msgid "Remember Me"
+msgstr "Запомнить меня"
+
+#: views/login-form-template.php:45 views/user-bar-template.php:34
+msgid "Log In"
+msgstr "Войти"
+
+#: views/login-form-template.php:54
+msgid "Lost your password?"
+msgstr "Забыли пароль?"
+
+#: views/user-bar-template.php:30
+msgid "Log Out"
+msgstr "Выйти"

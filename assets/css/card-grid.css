@@ -1,0 +1,31 @@
+.usp-grid-items-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.usp-grid-item.user-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    background: #fff;
+    border: 1px solid #ccd0d4;
+    border-radius: 4px;
+}
+
+.user-item__avatar img {
+    border-radius: 50%;
+    display: block;
+}
+
+.user-item__info h3 {
+    margin: 0 0 5px;
+    font-size: 16px;
+}
+
+.user-item__info p {
+    margin: 0;
+    font-size: 13px;
+    color: #50575e;
+}

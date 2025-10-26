@@ -1,0 +1,123 @@
+<?php
+
+namespace UserSpace\Admin\Page;
+
+use UserSpace\Admin\Page\Abstract\AbstractAdminPage;
+use UserSpace\Common\Module\Grid\Src\Infrastructure\QueueJobsGrid;
+use UserSpace\Common\Module\Queue\Src\Infrastructure\QueueStatus;
+use UserSpace\Core\Admin\AdminApiInterface;
+use UserSpace\Core\Asset\AssetRegistryInterface;
+use UserSpace\Core\Hooks\HookManagerInterface;
+use UserSpace\Core\String\StringFilterInterface;
+
+class QueueJobsPage extends AbstractAdminPage
+{
+    public function __construct(
+        private readonly QueueJobsGrid          $grid,
+        private readonly QueueStatus            $status,
+        private readonly StringFilterInterface  $str,
+        private readonly AssetRegistryInterface $assetRegistry,
+        AdminApiInterface                       $adminApi,
+        HookManagerInterface                    $hookManager
+    )
+    {
+        parent::__construct($adminApi, $hookManager);
+    }
+
+    public function render(): void
+    {
+
+        $this->enqueuePageScripts();
+
+        echo '<div class="wrap">';
+        echo '<h1>' . $this->str->escHtml($this->adminApi->getAdminPageTitle()) . '</h1>';
+
+        $this->renderStatusWidget();
+
+        echo $this->grid->render();
+
+        echo '</div>';
+    }
+
+    private function renderStatusWidget(): void
+    {
+        $status = $this->status->getStatus();
+        $state_text = [
+            'running' => $this->str->translate('Running'),
+            'idle' => $this->str->translate('Idle'),
+            'stalled' => $this->str->translate('Stalled'),
+        ];
+        ?>
+        <div class="usp-queue-status-widget">
+            <div class="usp-queue-widget-header" id="usp-queue-widget-header">
+                <h3><?php echo $this->str->translate('Queue Status'); ?></h3>
+                <div class="usp-queue-actions">
+                    <button type="button" id="usp-process-now-btn" class="button button-secondary"
+                            style="margin-right: 10px;"><?php echo $this->str->translate('Process Now'); ?></button>
+                    <button type="button" id="usp-send-ping-btn"
+                            class="button"><?php echo $this->str->translate('Send Ping Task'); ?></button>
+                </div>
+            </div>
+            <p id="usp-queue-status-text">
+                <span class="usp-queue-status-indicator <?php echo $this->str->escAttr($status['state']); ?>"></span>
+                <strong><?php echo $this->str->escHtml($state_text[$status['state']] ?? 'Unknown'); ?></strong>
+            </p>
+            <h4><?php echo $this->str->translate('Recent Activity'); ?></h4>
+            <div class="usp-queue-log" id="usp-queue-log">
+                <?php if (empty($status['log'])): ?>
+                    <?php echo $this->str->translate('No recent activity.'); ?>
+                <?php else: ?>
+                    <?php echo implode("\n", array_map([$this->str, 'escHtml'], $status['log'])); ?>
+                <?php endif; ?>
+            </div>
+        </div>
+        <?php
+    }
+
+    public function enqueuePageScripts(): void
+    {
+        $this->assetRegistry->enqueueStyle(
+            'usp-queue-page-style',
+            USERSPACE_PLUGIN_URL . 'assets/css/queue-page.css',
+            [],
+            USERSPACE_VERSION
+        );
+        $this->assetRegistry->enqueueScript(
+            'usp-queue-page-script',
+            USERSPACE_PLUGIN_URL . 'assets/js/queue-page.js',
+            ['usp-core', 'wp-i18n'],
+            USERSPACE_VERSION,
+            true
+        );
+        $this->assetRegistry->localizeScript('usp-queue-page-script', 'uspQueuePageData', [
+            'statusEndpoint' => '/queue/status',
+            'pingEndpoint' => '/queue/ping',
+            'processEndpoint' => '/queue/process-now',
+            'eventsEndpoint' => '/sse/events',
+            'uspLightWeightWorker' => USERSPACE_PLUGIN_URL . 'userspace-worker.php',
+            'ping_error' => $this->str->translate('Failed to dispatch ping task.'),
+            'ping_sending' => $this->str->translate('Sending...'),
+            'processing' => $this->str->translate('Processing...'),
+        ]);
+    }
+
+    public function getPageTitle(): string
+    {
+        return $this->str->translate('Jobs Queue');
+    }
+
+    public function getMenuTitle(): string
+    {
+        return $this->str->translate('Jobs Queue');
+    }
+
+    protected function getMenuSlug(): string
+    {
+        return 'userspace-queue-jobs';
+    }
+
+    protected function getParentSlug(): ?string
+    {
+        return 'userspace-settings';
+    }
+}

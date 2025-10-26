@@ -1,0 +1,132 @@
+.usp-settings-wrap .usp-settings-layout {
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.usp-settings-tabs-menu {
+    flex: 0 0 200px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-right: 1px solid #c3c4c7;
+}
+
+.usp-settings-tabs-menu li a {
+    display: block;
+    padding: 10px 15px;
+    text-decoration: none;
+    color: #2271b1;
+    border-left: 4px solid transparent;
+    font-weight: 600;
+}
+
+.usp-settings-tabs-menu li a:hover {
+    background-color: #f0f0f1;
+}
+
+.usp-settings-tabs-menu li a.active {
+    background-color: #f0f0f1;
+    border-left-color: #2271b1;
+    color: #1d2327;
+}
+
+.usp-settings-tabs-content {
+    flex: 1;
+}
+
+.usp-tab-pane {
+    display: none;
+}
+
+.usp-tab-pane.active {
+    display: block;
+}
+
+.usp-settings-tabs-content .usp-form .usp-form-section {
+    border: none;
+    padding: 0;
+    background-color: transparent;
+}
+
+.usp-settings-tabs-content .usp-form-block {
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+}
+
+.usp-settings-tabs-content .usp-form-block:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.usp-settings-tabs-content .usp-form-block-title {
+    font-size: 1.4em;
+    margin: 0 0 1em;
+}
+
+/* --- Стили для полей формы (переписано с нуля) --- */
+
+.usp-settings-tabs-content .usp-form-field-wrapper {
+    display: grid;
+    grid-template-columns: 250px 1fr; /* Увеличим левую колонку для длинных названий */
+    align-items: start;
+    gap: 20px;
+    margin-bottom: 15px;
+}
+
+.usp-settings-tabs-content .usp-form-field-wrapper label {
+    font-weight: 600;
+    padding: 0;
+    margin: 0;
+    padding-top: 5px; /* Небольшой отступ для визуального выравнивания с полями ввода */
+}
+
+.usp-settings-tabs-content .usp-form-field-wrapper .usp-field-controls .description {
+    color: #646970;
+    font-size: 13px;
+    margin-top: 5px;
+    max-width: 600px; /* Ограничиваем ширину описания */
+}
+
+.usp-settings-tabs-content .usp-form-field-wrapper input[type="text"],
+.usp-settings-tabs-content .usp-form-field-wrapper input[type="url"],
+.usp-settings-tabs-content .usp-form-field-wrapper input[type="email"],
+.usp-settings-tabs-content .usp-form-field-wrapper input[type="password"],
+.usp-settings-tabs-content .usp-form-field-wrapper select,
+.usp-settings-tabs-content .usp-form-field-wrapper textarea {
+    width: 100%;
+    max-width: 600px; /* Ограничиваем максимальную ширину для читаемости */
+}
+
+.usp-settings-tabs-content .usp-form-field-wrapper textarea {
+    min-height: 100px;
+}
+
+/* Для BooleanField (одиночный чекбокс) - смещаем его в правую колонку */
+.usp-settings-tabs-content .usp-form-field-wrapper.field-type-boolean {
+    grid-template-columns: 250px 1fr;
+}
+
+.usp-settings-tabs-content .usp-form-field-wrapper.field-type-boolean .usp-field-controls {
+    grid-column-start: 2; /* Явно указываем, что контрол начинается со второй колонки */
+}
+
+/* Группы радио-кнопок и чекбоксов */
+.usp-settings-tabs-content .usp-form-field-wrapper .usp-radio-group,
+.usp-settings-tabs-content .usp-form-field-wrapper .usp-checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 20px; /* Отступы между элементами */
+    align-items: center;
+    padding-top: 5px; /* Выравниваем по вертикали с другими полями */
+}
+
+.usp-dependent-field-wrapper.is-hidden-by-dependency {
+    display: none !important;
+}
+
+/* Стили для загрузчика файлов */
+.usp-settings-tabs-content .usp-uploader-preview-wrapper {
+    margin-bottom: 10px;
+}

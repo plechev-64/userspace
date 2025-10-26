@@ -1,0 +1,57 @@
+/* Table Grid Styles */
+.usp-table-grid-container .usp-grid-items-list {
+    display: block; /* Override grid display */
+    grid-template-columns: none;
+    gap: 0;
+}
+
+.usp-table-grid-container table {
+    margin-top: 0;
+}
+
+.usp-table-grid-container .sortable .sorting-indicator:before {
+    content: "\f142";
+    font: normal 18px/1 'dashicons';
+    speak: never;
+    display: inline-block;
+    padding: 0 0 0 4px;
+    vertical-align: top;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: #a0a5aa;
+}
+
+.usp-table-grid-container .sortable.asc .sorting-indicator:before {
+    content: "\f142";
+    color: #2271b1;
+}
+
+.usp-table-grid-container .sortable.desc .sorting-indicator:before {
+    content: "\f140";
+    color: #2271b1;
+}
+
+
+/* Settings Dropdown */
+.usp-grid-settings {
+    position: relative;
+}
+
+.usp-grid-settings-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: #fff;
+    border: 1px solid #ccd0d4;
+    padding: 10px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, .04);
+    z-index: 100;
+    min-width: 200px;
+}
+
+.usp-grid-settings-dropdown label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: normal;
+}

@@ -1,0 +1,83 @@
+/* Modal Backdrop */
+.usp-modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 100000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Класс для отображения модального окна */
+.usp-modal-backdrop.is-visible {
+    display: flex;
+}
+
+/* Modal Content Box */
+.usp-modal-content {
+    background: #f6f7f7;
+    border-radius: 4px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    width: 90%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    max-height: 90vh;
+}
+
+/* Modal Header */
+.usp-modal-header {
+    padding: 15px 20px;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.usp-modal-header h2 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #1d2327;
+}
+
+.usp-modal-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    line-height: 1;
+    cursor: pointer;
+    color: #646970;
+    padding: 0;
+}
+
+.usp-modal-close:hover {
+    color: #1d2327;
+}
+
+/* Modal Body */
+.usp-modal-body {
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.usp-modal-body .usp-form-group {
+    margin-bottom: 15px;
+}
+
+/* Modal Footer */
+.usp-modal-footer {
+    padding: 15px 20px;
+    border-top: 1px solid #ddd;
+    background: #fff;
+    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+}

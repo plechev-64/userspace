@@ -1,0 +1,152 @@
+.usp-theme-minimal {
+    display: flex;
+    gap: 24px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.usp-account-sidebar {
+    width: 250px;
+    flex-shrink: 0;
+}
+
+.usp-account-content {
+    flex-grow: 1;
+    min-width: 0; /* Prevents content from overflowing flex container */
+}
+
+/* --- Avatar Styles (reused from 'first' theme for consistency) --- */
+.usp-avatar-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+    padding-bottom: 25px;
+    border-bottom: 1px solid #e0e0e0;
+    width: 100%;
+    text-align: center;
+}
+
+.usp-account-avatar-wrapper {
+    position: relative;
+    width: 96px;
+    height: 96px;
+    flex-shrink: 0;
+}
+
+.usp-account-avatar-img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+}
+
+.usp-account-avatar-uploader {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+.usp-account-avatar-wrapper:hover .usp-account-avatar-uploader {
+    opacity: 1;
+}
+
+.usp-change-avatar-btn {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 0;
+    font-size: 28px;
+}
+
+.usp-avatar-status {
+    position: absolute;
+    bottom: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #333;
+    color: #fff;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    display: none;
+}
+
+.usp-account-display-name {
+    margin: 0 0 4px;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.usp-account-user-email {
+    margin: 0;
+    color: #555;
+    font-size: 13px;
+    word-break: break-all;
+}
+
+/* --- Menu Styles --- */
+.usp-account-menu {
+    padding: 0;
+    margin: 0;
+}
+
+/* Общие стили для вкладок (<a>) и кнопок (<button>) */
+.usp-account-menu a,
+.usp-account-menu .usp-account-menu-button {
+    display: block;
+    padding: 10px 15px;
+    text-decoration: none;
+    color: #2c3338;
+    border-radius: 4px;
+    margin-bottom: 4px;
+    transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out;
+    width: 100%;
+    text-align: left;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: inherit;
+    font-family: inherit;
+}
+
+/* Состояние при наведении для обоих типов элементов */
+.usp-account-menu a:hover,
+.usp-account-menu .usp-account-menu-button:hover {
+    background-color: #f0f0f1;
+}
+
+.usp-account-menu .usp-account-menu-button:disabled {
+    opacity: 0.7;
+    cursor: wait;
+}
+
+/* Активное состояние (только для вкладок) */
+.usp-account-menu a.active {
+    background-color: #007cba;
+    color: #fff;
+}
+
+/* --- Tab Content --- */
+.usp-account-tab-pane {
+    display: none;
+}
+
+.usp-account-tab-pane.active {
+    display: block;
+}

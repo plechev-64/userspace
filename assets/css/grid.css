@@ -1,0 +1,136 @@
+.usp-grid-container {
+    margin-top: 20px;
+}
+
+.usp-grid-header {
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.usp-grid-search {
+    display: flex;
+    gap: 5px;
+}
+
+.usp-grid-search-input {
+    min-width: 250px;
+}
+
+.usp-grid-body {
+    position: relative;
+    min-height: 100px;
+}
+
+.usp-grid-loader {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.7);
+    display: none; /* Скрываем по умолчанию, JS будет управлять видимостью */
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2em;
+    z-index: 10;
+}
+
+.usp-grid-items-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.usp-grid-item.user-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    background: #fff;
+    border: 1px solid #ccd0d4;
+    border-radius: 4px;
+}
+
+.user-item__avatar img {
+    border-radius: 50%;
+    display: block;
+}
+
+.user-item__info h3 {
+    margin: 0 0 5px;
+    font-size: 16px;
+}
+
+.user-item__info p {
+    margin: 0;
+    font-size: 13px;
+    color: #50575e;
+}
+
+.usp-grid-footer {
+    margin-top: 20px;
+}
+
+.usp-grid-pagination .page-numbers {
+    padding: 5px 10px;
+    text-decoration: none;
+}
+
+/* Table Grid Styles */
+.usp-table-grid-container .usp-grid-items-list {
+    display: block; /* Override grid display */
+    grid-template-columns: none;
+    gap: 0;
+}
+
+.usp-table-grid-container table {
+    margin-top: 0;
+}
+
+.usp-table-grid-container .sortable .sorting-indicator:before {
+    content: "\f142";
+    font: normal 18px/1 'dashicons';
+    speak: never;
+    display: inline-block;
+    padding: 0 0 0 4px;
+    vertical-align: top;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: #a0a5aa;
+}
+
+.usp-table-grid-container .sortable.asc .sorting-indicator:before {
+    content: "\f142";
+    color: #2271b1;
+}
+
+.usp-table-grid-container .sortable.desc .sorting-indicator:before {
+    content: "\f140";
+    color: #2271b1;
+}
+
+/* Settings Dropdown */
+.usp-grid-settings {
+    position: relative;
+}
+
+.usp-grid-settings-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: #fff;
+    border: 1px solid #ccd0d4;
+    padding: 10px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, .04);
+    z-index: 100;
+    min-width: 200px;
+}
+
+.usp-grid-settings-dropdown label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: normal;
+}

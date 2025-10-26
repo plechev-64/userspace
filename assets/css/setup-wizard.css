@@ -1,0 +1,102 @@
+.usp-setup-wizard-wrap {
+    max-width: 800px;
+    margin: 2rem auto;
+    background: #fff;
+    padding: 2rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .13);
+    border-radius: 4px;
+}
+
+.usp-setup-wizard-wrap h1 {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 24px;
+}
+
+.usp-wizard-intro {
+    font-size: 1.1em;
+    text-align: center;
+    margin: 0 0 2em;
+}
+
+/* Steps Navigation */
+.usp-wizard-steps {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 1rem;
+}
+
+.usp-wizard-step {
+    display: flex;
+    flex-direction: column; /* Располагаем элементы друг под другом */
+    align-items: center; /* Центрируем по горизонтали */
+    color: #888;
+    flex: 1;
+    justify-content: flex-start; /* Выравниваем по верху */
+    position: relative;
+    padding-top: 5px; /* Небольшой отступ сверху */
+}
+
+.usp-wizard-step.is-clickable {
+    cursor: pointer;
+}
+
+.usp-wizard-step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 19px; /* Позиционируем линию по центру кружка (30px / 2) + padding-top (5px) = 20px */
+    left: 50%; /* Начинаем линию от центра текущего шага */
+    width: 100%; /* Растягиваем на всю ширину flex-элемента */
+    height: 2px;
+    background-color: #ddd;
+    z-index: 1;
+}
+
+.usp-wizard-step-number {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #ddd;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px; /* Отступ под кружком */
+    font-weight: bold;
+    z-index: 2;
+}
+
+.usp-wizard-step-title {
+    position: relative;
+    text-align: center; /* Центрируем текст */
+    z-index: 2; /* Убедимся, что текст всегда над линией */
+}
+
+.usp-wizard-step.active .usp-wizard-step-number {
+    background-color: #2271b1;
+}
+
+.usp-wizard-step.active .usp-wizard-step-title {
+    color: #2271b1;
+    font-weight: bold;
+}
+
+/* Panes */
+.usp-wizard-pane {
+    display: none;
+}
+
+.usp-wizard-pane.active {
+    display: block;
+}
+
+/* Actions */
+.usp-wizard-actions {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid #ddd;
+    padding-top: 1.5rem;
+}

@@ -1,0 +1,58 @@
+<?php
+
+namespace UserSpace\Common\Module\Form\Src\Domain\Form;
+
+use UserSpace\Common\Module\Form\Src\Domain\Field\FieldInterface;
+
+if (!defined('ABSPATH')) {
+    exit;
+}
+
+/**
+ * Интерфейс для объекта формы.
+ */
+interface FormInterface
+{
+    /**
+     * Генерирует HTML-код всей формы.
+     *
+     * @param bool $isAdminContext Указывает, происходит ли рендеринг в админ-контексте.
+     *
+     * @return string
+     */
+    public function render(bool $isAdminContext = false): string;
+
+    /**
+     * Валидирует все поля формы.
+     *
+     * @return bool True, если все поля валидны, иначе false.
+     */
+    public function validate(): bool;
+
+    /**
+     * Возвращает массив всех ошибок валидации.
+     *
+     * @return string[]
+     */
+    public function getErrors(): array;
+
+    /**
+     * Возвращает плоский массив всех полей формы.
+     * @return FieldInterface[]
+     */
+    public function getFields(): array;
+
+    /**
+     * Находит и возвращает поле по его имени.
+     *
+     * @param string $name Имя поля.
+     * @return FieldInterface|null Объект поля или null, если поле не найдено.
+     */
+    public function getField(string $name): ?FieldInterface;
+
+    /**
+     * Возвращает все секции формы.
+     * @return Section[]
+     */
+    public function getSections(): array;
+}
