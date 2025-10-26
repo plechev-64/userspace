@@ -5,7 +5,7 @@ namespace UserSpace\Common\Module\Form\Src\Infrastructure\Field;
 use UserSpace\Adapters\StringFilter;
 use UserSpace\Common\Module\Form\Src\Domain\Field\AbstractField;
 use UserSpace\Common\Module\Form\Src\Domain\Field\DTO\AbstractFieldDto;
-use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\UploaderAbstractFieldDto;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\UploaderFieldDto;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Validator\AllowedTypesValidator;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Validator\ImageDimensionsValidator;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Validator\MaxFileSizeValidator;
@@ -32,7 +32,7 @@ class Uploader extends AbstractField
     }
 
     /**
-     * @param UploaderAbstractFieldDto $dto
+     * @param UploaderFieldDto $dto
      * @return void
      */
     public function init(AbstractFieldDto $dto): void

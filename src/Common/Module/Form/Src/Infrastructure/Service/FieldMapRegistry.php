@@ -9,17 +9,19 @@ use UserSpace\Common\Module\Form\Src\Domain\Service\FieldMapRegistryInterface;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Field\Boolean;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Field\Checkbox;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Field\Date;
-use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\BooleanAbstractFieldDto;
-use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\CheckboxAbstractFieldDto;
-use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\DateAbstractFieldDto;
-use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\KeyValueEditorAbstractFieldDto;
-use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\RadioAbstractFieldDto;
-use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\SelectAbstractFieldDto;
-use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\TextAbstractFieldDto;
-use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\TextareaAbstractFieldDto;
-use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\UploaderAbstractFieldDto;
-use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\UrlAbstractFieldDto;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\BooleanFieldDto;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\CheckboxFieldDto;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\DateFieldDto;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\KeyValueEditorFieldDto;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\NumberFieldDto;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\RadioFieldDto;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\SelectFieldDto;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\TextFieldDto;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\TextareaFieldDto;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\UploaderFieldDto;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\UrlFieldDto;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Field\KeyValueEditor;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Field\Number;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Field\Radio;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Field\Select;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Field\Text;
@@ -46,16 +48,17 @@ class FieldMapRegistry implements FieldMapRegistryInterface
     {
         // Регистрация всех стандартных типов полей
         $this->map = [
-            'boolean' => new FieldMap(Boolean::class, BooleanAbstractFieldDto::class),
-            'text' => new FieldMap(Text::class, TextAbstractFieldDto::class),
-            'checkbox' => new FieldMap(Checkbox::class, CheckboxAbstractFieldDto::class),
-            'date' => new FieldMap(Date::class, DateAbstractFieldDto::class),
-            'radio' => new FieldMap(Radio::class, RadioAbstractFieldDto::class),
-            'select' => new FieldMap(Select::class, SelectAbstractFieldDto::class),
-            'textarea' => new FieldMap(Textarea::class, TextareaAbstractFieldDto::class),
-            'url' => new FieldMap(Url::class, UrlAbstractFieldDto::class),
-            'uploader' => new FieldMap(Uploader::class, UploaderAbstractFieldDto::class),
-            'key_value_editor' => new FieldMap(KeyValueEditor::class, KeyValueEditorAbstractFieldDto::class),
+            'boolean' => new FieldMap(Boolean::class, BooleanFieldDto::class),
+            'text' => new FieldMap(Text::class, TextFieldDto::class),
+            'checkbox' => new FieldMap(Checkbox::class, CheckboxFieldDto::class),
+            'date' => new FieldMap(Date::class, DateFieldDto::class),
+            'radio' => new FieldMap(Radio::class, RadioFieldDto::class),
+            'select' => new FieldMap(Select::class, SelectFieldDto::class),
+            'textarea' => new FieldMap(Textarea::class, TextareaFieldDto::class),
+            'url' => new FieldMap(Url::class, UrlFieldDto::class),
+            'uploader' => new FieldMap(Uploader::class, UploaderFieldDto::class),
+            'key_value_editor' => new FieldMap(KeyValueEditor::class, KeyValueEditorFieldDto::class),
+            'number' => new FieldMap(Number::class, NumberFieldDto::class),
         ];
     }
 

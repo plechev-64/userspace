@@ -4,7 +4,7 @@ namespace UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO;
 
 use UserSpace\Common\Module\Form\Src\Domain\Field\DTO\AbstractFieldDto;
 
-class SelectAbstractFieldDto extends AbstractFieldDto
+class SelectFieldDto extends AbstractFieldDto
 {
     public array $options = [];
 

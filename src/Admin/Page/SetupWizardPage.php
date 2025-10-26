@@ -5,7 +5,7 @@ namespace UserSpace\Admin\Page;
 use UserSpace\Admin\Page\Abstract\AbstractAdminPage;
 use UserSpace\Common\Module\Form\Src\Domain\Form\Config\FormConfig;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Factory\FormFactory;
-use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\SelectAbstractFieldDto;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\SelectFieldDto;
 use UserSpace\Common\Module\Settings\Src\Domain\PluginSettingsInterface;
 use UserSpace\Common\Module\SetupWizard\Domain\SetupWizardConfig;
 use UserSpace\Core\Admin\AdminApiInterface;
@@ -178,17 +178,17 @@ class SetupWizardPage extends AbstractAdminPage
         $config = $this->wizardConfig
             //-- Шаг 1: Основные страницы
             ->addStep('pages', $this->str->translate('Page Assignment'))
-            ->addOption(new SelectAbstractFieldDto('login_page_id', [
+            ->addOption(new SelectFieldDto('login_page_id', [
                 'label' => $this->str->translate('Login Page'),
                 'options' => $this->getPagesAsOptions(),
                 'description' => $this->str->translate('Select the page where the login form will be displayed.'),
             ]))
-            ->addOption(new SelectAbstractFieldDto('registration_page_id', [
+            ->addOption(new SelectFieldDto('registration_page_id', [
                 'label' => $this->str->translate('Registration Page'),
                 'options' => $this->getPagesAsOptions(),
                 'description' => $this->str->translate('Select the page for the user registration form.'),
             ]))
-            ->addOption(new SelectAbstractFieldDto('profile_page_id', [
+            ->addOption(new SelectFieldDto('profile_page_id', [
                 'label' => $this->str->translate('User Profile Page'),
                 'options' => $this->getPagesAsOptions(),
                 'description' => $this->str->translate('Select the page to display user profiles.'),
@@ -196,7 +196,7 @@ class SetupWizardPage extends AbstractAdminPage
 
             //-- Шаг 2: Дополнительные настройки
             ->addStep('advanced', $this->str->translate('Advanced Settings'))
-            ->addOption(new SelectAbstractFieldDto('password_reset_page_id', [
+            ->addOption(new SelectFieldDto('password_reset_page_id', [
                 'label' => $this->str->translate('Password Recovery Page'),
                 'options' => $this->getPagesAsOptions(),
             ]));

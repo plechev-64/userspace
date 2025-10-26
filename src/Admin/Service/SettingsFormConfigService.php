@@ -4,14 +4,14 @@ namespace UserSpace\Admin\Service;
 
 use UserSpace\Admin\SettingsConfig;
 use UserSpace\Common\Module\Form\Src\Domain\Form\Config\FormConfig;
-use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\BooleanAbstractFieldDto;
-use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\CheckboxAbstractFieldDto;
-use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\RadioAbstractFieldDto;
-use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\SelectAbstractFieldDto;
-use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\TextAbstractFieldDto;
-use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\TextareaAbstractFieldDto;
-use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\UploaderAbstractFieldDto;
-use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\UrlAbstractFieldDto;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\BooleanFieldDto;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\CheckboxFieldDto;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\RadioFieldDto;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\SelectFieldDto;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\TextFieldDto;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\TextareaFieldDto;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\UploaderFieldDto;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\UrlFieldDto;
 use UserSpace\Common\Module\Settings\App\SettingsEnum;
 use UserSpace\Common\Module\Settings\Src\Domain\PluginSettingsInterface;
 use UserSpace\Core\Addon\Theme\ThemeManagerInterface;
@@ -73,21 +73,21 @@ class SettingsFormConfigService implements SettingsFormConfigServiceInterface
             //-- Section
             ->addSection('general', $this->str->translate('General'))
             ->addBlock('main', $this->str->translate('Main Settings')) // Блок
-            ->addOption(new TextAbstractFieldDto(SettingsEnum::API_KEY->value, ['label' => $this->str->translate('API Key')]))
-            ->addOption(new BooleanAbstractFieldDto(SettingsEnum::ENABLE_FEATURE_X->value, ['label' => $this->str->translate('Enable Feature X')]))
-            ->addOption(new UploaderAbstractFieldDto(SettingsEnum::DEFAULT_AVATAR_ID->value, [
+            ->addOption(new TextFieldDto(SettingsEnum::API_KEY->value, ['label' => $this->str->translate('API Key')]))
+            ->addOption(new BooleanFieldDto(SettingsEnum::ENABLE_FEATURE_X->value, ['label' => $this->str->translate('Enable Feature X')]))
+            ->addOption(new UploaderFieldDto(SettingsEnum::DEFAULT_AVATAR_ID->value, [
                 'label' => $this->str->translate('Default Avatar'),
                 'allowed_types' => 'image/jpeg',
                 'image_max_width' => 500,
             ]))
-            ->addOption(new UploaderAbstractFieldDto(SettingsEnum::FILES->value, [
+            ->addOption(new UploaderFieldDto(SettingsEnum::FILES->value, [
                 'label' => $this->str->translate('Files'),
                 'allowed_types' => 'image/jpeg',
                 'multiple' => true,
             ]))
-            ->addOption(new BooleanAbstractFieldDto(SettingsEnum::ENABLE_USER_BAR->value, ['label' => $this->str->translate('Enable User Bar at the top of the site')]))
-            ->addOption(new BooleanAbstractFieldDto(SettingsEnum::REQUIRE_EMAIL_CONFIRMATION->value, ['label' => $this->str->translate('Require email confirmation for registration')]))
-            ->addOption(new CheckboxAbstractFieldDto(SettingsEnum::PREFER_COLOR->value, [
+            ->addOption(new BooleanFieldDto(SettingsEnum::ENABLE_USER_BAR->value, ['label' => $this->str->translate('Enable User Bar at the top of the site')]))
+            ->addOption(new BooleanFieldDto(SettingsEnum::REQUIRE_EMAIL_CONFIRMATION->value, ['label' => $this->str->translate('Require email confirmation for registration')]))
+            ->addOption(new CheckboxFieldDto(SettingsEnum::PREFER_COLOR->value, [
                 'label' => $this->str->translate('Prefer color'),
                 'options' => [
                     'white' => $this->str->translate('White'),
@@ -98,52 +98,52 @@ class SettingsFormConfigService implements SettingsFormConfigServiceInterface
             //-- Section
             ->addSection('advanced', $this->str->translate('Advanced'))
             ->addBlock('integration', $this->str->translate('Integration')) // Блок
-            ->addOption(new SelectAbstractFieldDto(SettingsEnum::INTEGRATION_MODE->value, [
+            ->addOption(new SelectFieldDto(SettingsEnum::INTEGRATION_MODE->value, [
                 'label' => $this->str->translate('Integration Mode'),
                 'options' => ['mode1' => $this->str->translate('Mode 1'), 'mode2' => $this->str->translate('Mode 2')],
             ]))
-            ->addOption(new UrlAbstractFieldDto(SettingsEnum::WEBHOOK_URL->value, ['label' => $this->str->translate('Webhook URL')]))
+            ->addOption(new UrlFieldDto(SettingsEnum::WEBHOOK_URL->value, ['label' => $this->str->translate('Webhook URL')]))
             ->addBlock('other', $this->str->translate('Other')) // Блок
-            ->addOption(new RadioAbstractFieldDto(SettingsEnum::USER_ROLE->value, [
+            ->addOption(new RadioFieldDto(SettingsEnum::USER_ROLE->value, [
                 'label' => $this->str->translate('Default Role'),
                 'options' => ['subscriber' => $this->str->translate('Subscriber'), 'editor' => $this->str->translate('Editor')],
             ]))
-            ->addOption(new TextareaAbstractFieldDto(SettingsEnum::CUSTOM_CSS->value, ['label' => $this->str->translate('Custom CSS')]))
+            ->addOption(new TextareaFieldDto(SettingsEnum::CUSTOM_CSS->value, ['label' => $this->str->translate('Custom CSS')]))
             //-- Section
             ->addSection('page_settings', $this->str->translate('Page Assignment'))
             ->addBlock('core_pages', $this->str->translate('Core Pages')) // Блок
-            ->addOption(new SelectAbstractFieldDto(SettingsEnum::LOGIN_PAGE_ID->value, [
+            ->addOption(new SelectFieldDto(SettingsEnum::LOGIN_PAGE_ID->value, [
                 'label' => $this->str->translate('Login Page'),
                 'options' => $this->getPagesAsOptions(),
             ]))
-            ->addOption(new SelectAbstractFieldDto(SettingsEnum::REGISTRATION_PAGE_ID->value, [
+            ->addOption(new SelectFieldDto(SettingsEnum::REGISTRATION_PAGE_ID->value, [
                 'label' => $this->str->translate('Registration Page'),
                 'options' => $this->getPagesAsOptions(),
             ]))
-            ->addOption(new SelectAbstractFieldDto(SettingsEnum::REDIRECT_AFTER_LOGIN_PAGE_ID->value, [
+            ->addOption(new SelectFieldDto(SettingsEnum::REDIRECT_AFTER_LOGIN_PAGE_ID->value, [
                 'label' => $this->str->translate('Redirect After Login Page'),
                 'options' => $this->getPagesAsOptions(),
             ]))
-            ->addOption(new SelectAbstractFieldDto(SettingsEnum::PASSWORD_RESET_PAGE_ID->value, [
+            ->addOption(new SelectFieldDto(SettingsEnum::PASSWORD_RESET_PAGE_ID->value, [
                 'label' => $this->str->translate('Password Recovery Page'),
                 'options' => $this->getPagesAsOptions(),
             ]))
-            ->addOption(new SelectAbstractFieldDto(SettingsEnum::PROFILE_PAGE_ID->value, [
+            ->addOption(new SelectFieldDto(SettingsEnum::PROFILE_PAGE_ID->value, [
                 'label' => $this->str->translate('User Profile Page'),
                 'options' => $this->getPagesAsOptions(),
             ]))
-            ->addOption(new TextAbstractFieldDto(SettingsEnum::PROFILE_USER_QUERY_VAR->value, [
+            ->addOption(new TextFieldDto(SettingsEnum::PROFILE_USER_QUERY_VAR->value, [
                 'label' => $this->str->translate('User ID Query Variable'),
                 'description' => $this->str->translate('The GET parameter in the URL to identify the user. Default: <code>user_id</code>.'),
             ]))
-            ->addOption(new TextAbstractFieldDto(SettingsEnum::PROFILE_TAB_QUERY_VAR->value, [
+            ->addOption(new TextFieldDto(SettingsEnum::PROFILE_TAB_QUERY_VAR->value, [
                 'label' => $this->str->translate('Profile Tab Query Variable'),
                 'description' => $this->str->translate('The GET parameter in the URL to identify the profile tab. Default: <code>tab</code>.'),
             ]))
             // NEW: Example Parent-Child Settings
             ->addSection('dependency_examples', $this->str->translate('Dependency Examples'))
             ->addBlock('parent_fields', $this->str->translate('Parent Fields')) // Блок
-            ->addOption(new SelectAbstractFieldDto(SettingsEnum::PARENT_SELECT_FIELD->value, [
+            ->addOption(new SelectFieldDto(SettingsEnum::PARENT_SELECT_FIELD->value, [
                 'label' => $this->str->translate('Select an Option'),
                 'options' => [
                     'option1' => $this->str->translate('Option 1 (shows text field)'),
@@ -152,11 +152,11 @@ class SettingsFormConfigService implements SettingsFormConfigServiceInterface
                 ],
                 'description' => $this->str->translate('Select a value to reveal dependent fields.'),
             ]))
-            ->addOption(new BooleanAbstractFieldDto(SettingsEnum::PARENT_CHECKBOX_FIELD->value, [
+            ->addOption(new BooleanFieldDto(SettingsEnum::PARENT_CHECKBOX_FIELD->value, [
                 'label' => $this->str->translate('Enable Feature Y'),
                 'description' => $this->str->translate('Check this to reveal a dependent text area.'),
             ]))
-            ->addOption(new RadioAbstractFieldDto(SettingsEnum::PARENT_RADIO_FIELD->value, [
+            ->addOption(new RadioFieldDto(SettingsEnum::PARENT_RADIO_FIELD->value, [
                 'label' => $this->str->translate('Choose a Type'),
                 'options' => [
                     'typeA' => $this->str->translate('Type A (shows URL field)'),
@@ -165,7 +165,7 @@ class SettingsFormConfigService implements SettingsFormConfigServiceInterface
                 'description' => $this->str->translate('Select a type to reveal dependent fields.'),
             ]))
             ->addBlock('dependent_fields', $this->str->translate('Dependent Fields')) // Блок
-            ->addOption(new TextAbstractFieldDto(SettingsEnum::DEPENDENT_TEXT_FIELD->value, [
+            ->addOption(new TextFieldDto(SettingsEnum::DEPENDENT_TEXT_FIELD->value, [
                 'label' => $this->str->translate('Text Field for Option 1'),
                 'description' => $this->str->translate('This field appears when "Option 1" is selected.'),
                 'dependency' => [
@@ -174,7 +174,7 @@ class SettingsFormConfigService implements SettingsFormConfigServiceInterface
                     'type' => 'select',
                 ],
             ]))
-            ->addOption(new CheckboxAbstractFieldDto(SettingsEnum::DEPENDENT_CHECKBOX_FIELD->value, [
+            ->addOption(new CheckboxFieldDto(SettingsEnum::DEPENDENT_CHECKBOX_FIELD->value, [
                 'label' => $this->str->translate('Checkbox for Option 2'),
                 'description' => $this->str->translate('This checkbox appears when "Option 2" is selected.'),
                 'options' => [
@@ -187,7 +187,7 @@ class SettingsFormConfigService implements SettingsFormConfigServiceInterface
                     'type' => 'select',
                 ],
             ]))
-            ->addOption(new RadioAbstractFieldDto(SettingsEnum::DEPENDENT_RADIO_FIELD->value, [
+            ->addOption(new RadioFieldDto(SettingsEnum::DEPENDENT_RADIO_FIELD->value, [
                 'label' => $this->str->translate('Radio for Option 3'),
                 'options' => [
                     'sub_option_a' => $this->str->translate('Sub Option A'),
@@ -200,7 +200,7 @@ class SettingsFormConfigService implements SettingsFormConfigServiceInterface
                     'type' => 'select',
                 ],
             ]))
-            ->addOption(new TextareaAbstractFieldDto(SettingsEnum::DEPENDENT_TEXTAREA_FIELD->value, [
+            ->addOption(new TextareaFieldDto(SettingsEnum::DEPENDENT_TEXTAREA_FIELD->value, [
                 'label' => $this->str->translate('Text Area for Feature Y'),
                 'description' => $this->str->translate('This text area appears when "Enable Feature Y" is checked.'),
                 'dependency' => [
@@ -209,7 +209,7 @@ class SettingsFormConfigService implements SettingsFormConfigServiceInterface
                     'type' => 'checkbox',
                 ],
             ]))
-            ->addOption(new UrlAbstractFieldDto(SettingsEnum::DEPENDENT_URL_FIELD->value, [
+            ->addOption(new UrlFieldDto(SettingsEnum::DEPENDENT_URL_FIELD->value, [
                 'label' => $this->str->translate('URL Field for Type A'),
                 'description' => $this->str->translate('This URL field appears when "Type A" is chosen.'),
                 'dependency' => [
@@ -218,7 +218,7 @@ class SettingsFormConfigService implements SettingsFormConfigServiceInterface
                     'type' => 'radio',
                 ],
             ]))
-            ->addOption(new UploaderAbstractFieldDto(SettingsEnum::DEPENDENT_UPLOADER_FIELD->value, [
+            ->addOption(new UploaderFieldDto(SettingsEnum::DEPENDENT_UPLOADER_FIELD->value, [
                 'label' => $this->str->translate('Uploader for Type B'),
                 'description' => $this->str->translate('This uploader appears when "Type B" is chosen.'),
                 'dependency' => [
@@ -230,7 +230,7 @@ class SettingsFormConfigService implements SettingsFormConfigServiceInterface
             //-- Section
             ->addSection('appearance', $this->str->translate('Appearance'))
             ->addBlock('account_theme', $this->str->translate('Account Theme')) // Блок
-            ->addOption(new SelectAbstractFieldDto(SettingsEnum::ACCOUNT_THEME->value, [
+            ->addOption(new SelectFieldDto(SettingsEnum::ACCOUNT_THEME->value, [
                 'label' => $this->str->translate('Select Theme'),
                 'options' => $this->themeManager->discoverThemes(),
             ]));

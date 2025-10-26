@@ -5,7 +5,7 @@ namespace UserSpace\Common\Module\Form\Src\Infrastructure\Field;
 use UserSpace\Adapters\StringFilter;
 use UserSpace\Common\Module\Form\Src\Domain\Field\AbstractField;
 use UserSpace\Common\Module\Form\Src\Domain\Field\DTO\AbstractFieldDto;
-use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\SelectAbstractFieldDto;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\SelectFieldDto;
 
 // Защита от прямого доступа к файлу
 if (!defined('ABSPATH')) {
@@ -21,7 +21,7 @@ class Select extends AbstractField
     protected array $options;
 
     /**
-     * @param SelectAbstractFieldDto $dto Объект с данными для создания поля.
+     * @param SelectFieldDto $dto Объект с данными для создания поля.
      */
     public function init(AbstractFieldDto $dto): void
     {

@@ -41,6 +41,7 @@ class AssetsManager
      */
     public function registerAllAssets(): void
     {
+        $this->assetRegistry->registerStyle('usp-main', USERSPACE_PLUGIN_URL . 'assets/css/main.css', [], USERSPACE_VERSION);
         $this->assetRegistry->registerStyle('usp-form', USERSPACE_PLUGIN_URL . 'assets/css/form.css', [], USERSPACE_VERSION);
         $this->assetRegistry->registerScript('usp-core', USERSPACE_PLUGIN_URL . 'assets/js/core.js', [], USERSPACE_VERSION, true);
         $this->assetRegistry->registerStyle('usp-modal', USERSPACE_PLUGIN_URL . 'assets/css/modal.css', [], USERSPACE_VERSION);
@@ -57,6 +58,8 @@ class AssetsManager
      */
     public function enqueuePublicAssets(): void
     {
+        $this->assetRegistry->enqueueStyle('usp-main');
+
         $this->assetRegistry->enqueueScript('usp-uploader-handler');
         $this->assetRegistry->enqueueStyle('usp-modal');
 

@@ -5,7 +5,7 @@ namespace UserSpace\Common\Module\Form\Src\Infrastructure\Field;
 use UserSpace\Adapters\StringFilter;
 use UserSpace\Common\Module\Form\Src\Domain\Field\AbstractField;
 use UserSpace\Common\Module\Form\Src\Domain\Field\DTO\AbstractFieldDto;
-use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\RadioAbstractFieldDto;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\RadioFieldDto;
 
 // Защита от прямого доступа к файлу
 if (!defined('ABSPATH')) {
@@ -21,7 +21,7 @@ class Radio extends AbstractField
     protected array $options;
 
     /**
-     * @param RadioAbstractFieldDto $dto
+     * @param RadioFieldDto $dto
      * @return void
      */
     public function init(AbstractFieldDto $dto): void

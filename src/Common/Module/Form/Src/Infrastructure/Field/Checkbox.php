@@ -4,7 +4,7 @@ namespace UserSpace\Common\Module\Form\Src\Infrastructure\Field;
 
 use UserSpace\Common\Module\Form\Src\Domain\Field\AbstractField;
 use UserSpace\Common\Module\Form\Src\Domain\Field\DTO\AbstractFieldDto;
-use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\CheckboxAbstractFieldDto;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\CheckboxFieldDto;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -19,7 +19,7 @@ class Checkbox extends AbstractField
     protected array $options;
 
     /**
-     * @param CheckboxAbstractFieldDto $dto
+     * @param CheckboxFieldDto $dto
      */
     public function init(AbstractFieldDto $dto): void
     {

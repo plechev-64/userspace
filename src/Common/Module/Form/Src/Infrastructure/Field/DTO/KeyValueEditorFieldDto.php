@@ -4,7 +4,7 @@ namespace UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO;
 
 use UserSpace\Common\Module\Form\Src\Domain\Field\DTO\AbstractFieldDto;
 
-class KeyValueEditorAbstractFieldDto extends AbstractFieldDto
+class KeyValueEditorFieldDto extends AbstractFieldDto
 {
     public function __construct(string $name, array $config)
     {
