@@ -44,9 +44,8 @@ class GetFieldSettingsFormUseCase
             $formConfig->addField($name, $fieldData);
         }
         $settingsForm = $this->formFactory->create($formConfig);
-
-        $html = '<form class="usp-form">' . $settingsForm->render() . '</form>';
-
-        return new GetFieldSettingsFormResult($html);
+        
+        // Возвращаем объект-результат с готовой формой, а не HTML
+        return new GetFieldSettingsFormResult($settingsForm);
     }
 }

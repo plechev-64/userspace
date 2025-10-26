@@ -59,9 +59,7 @@ class GetItemSettingsFormUseCase
         }
         $settingsForm = $this->formFactory->create($formConfig);
 
-        $html = '<form class="usp-form">' . $settingsForm->render() . '</form>';
-
-        return new GetItemSettingsFormResult($html);
+        return new GetItemSettingsFormResult($settingsForm);
     }
 
     /**
@@ -70,6 +68,7 @@ class GetItemSettingsFormUseCase
      */
     private function getSettingsFields(): array
     {
+        /** @todo вынести формирование настроек в каждый отдельный ItemInterface */
         return [
             'title' => [
                 'type' => 'text',

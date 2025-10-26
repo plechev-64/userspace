@@ -115,6 +115,8 @@ return [
             'grid_user_item' => USERSPACE_PLUGIN_DIR . 'views/grid/user-item.php',
             'admin_form_builder_templates' => USERSPACE_PLUGIN_DIR . 'views/admin/form-builder-templates.php',
             'emails/email-wrapper' => USERSPACE_PLUGIN_DIR . 'views/emails/email-wrapper.php',
+            'admin/form/field-settings' => USERSPACE_PLUGIN_DIR . 'views/admin/field-form-settings.php',
+            'admin/location/item/form-settings' => USERSPACE_PLUGIN_DIR . 'views/admin/item-form-settings.php',
         ]),
         'app.controllers' => [
             FormController::class,

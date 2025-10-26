@@ -21,7 +21,8 @@ class LocationItemController extends AbstractController
 {
     public function __construct(
         private readonly SanitizerInterface   $sanitizer,
-        private readonly ItemManagerInterface $tabManager
+        private readonly ItemManagerInterface $tabManager,
+        private readonly TemplateManagerInterface $templateManager
     )
     {
     }
@@ -57,8 +58,13 @@ class LocationItemController extends AbstractController
         $command = new GetItemSettingsFormCommand($clearedData->get('tabConfig', '{}'));
 
         try {
-            $result = $getTabSettingsFormUseCase->execute($command);
-            return $this->success(['html' => $result->html]);
+            $result = $getTabSettingsFormUseCase->execute($command); // Получаем результат с объектом формы
+
+            // Рендерим шаблон, передавая в него объект формы
+            $html = $this->templateManager->render('admin/location/item/form-settings', [
+                'form' => $result->form,
+            ]);
+            return $this->success(['html' => $html]);
         } catch (UspException $e) {
             return $this->error(['message' => $e->getMessage()], $e->getCode());
         }

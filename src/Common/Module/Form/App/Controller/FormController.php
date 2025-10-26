@@ -4,6 +4,8 @@ namespace UserSpace\Common\Module\Form\App\Controller;
 
 use UserSpace\Common\Module\Form\App\UseCase\GetFieldSettingsForm\GetFieldSettingsFormCommand;
 use UserSpace\Common\Module\Form\App\UseCase\GetFieldSettingsForm\GetFieldSettingsFormUseCase;
+use UserSpace\Common\Module\Form\App\UseCase\GetModalForm\GetModalFormCommand;
+use UserSpace\Common\Module\Form\App\UseCase\GetModalForm\GetModalFormUseCase;
 use UserSpace\Common\Module\Form\App\UseCase\SaveConfig\SaveFormConfigCommand;
 use UserSpace\Common\Module\Form\App\UseCase\SaveConfig\SaveProfileFormConfigUseCase;
 use UserSpace\Common\Module\Form\App\UseCase\SaveConfig\SaveRegistrationFormConfigUseCase;
@@ -11,9 +13,6 @@ use UserSpace\Common\Module\Form\App\UseCase\SaveProfileForm\SaveProfileFormComm
 use UserSpace\Common\Module\Form\App\UseCase\SaveProfileForm\SaveProfileFormUseCase;
 use UserSpace\Common\Module\Form\Src\Domain\FieldMapperInterface;
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormConfig;
-use UserSpace\Common\Renderer\ForgotPasswordFormRenderer;
-use UserSpace\Common\Renderer\LoginFormRenderer;
-use UserSpace\Common\Renderer\RegistrationFormRenderer;
 use UserSpace\Core\Exception\UspException;
 use UserSpace\Core\Http\JsonResponse;
 use UserSpace\Core\Http\Request;
@@ -22,13 +21,15 @@ use UserSpace\Core\Rest\Attributes\Route;
 use UserSpace\Core\Sanitizer\SanitizerInterface;
 use UserSpace\Core\Sanitizer\SanitizerRule;
 use UserSpace\Core\String\StringFilterInterface;
+use UserSpace\Core\TemplateManagerInterface;
 
 #[Route(path: '/form')]
 class FormController extends AbstractController
 {
     public function __construct(
-        private readonly StringFilterInterface $str,
-        private readonly SanitizerInterface    $sanitizer
+        private readonly StringFilterInterface    $str,
+        private readonly SanitizerInterface       $sanitizer,
+        private readonly TemplateManagerInterface $templateManager
     )
     {
     }
@@ -55,10 +56,8 @@ class FormController extends AbstractController
 
     #[Route(path: '/modal/(?P<type>[a-zA-Z0-9_-]+)', method: 'GET')]
     public function getFormHtml(
-        string                     $type,
-        LoginFormRenderer          $loginFormRenderer,
-        RegistrationFormRenderer   $registrationFormRenderer,
-        ForgotPasswordFormRenderer $forgotPasswordFormRenderer
+        string              $type,
+        GetModalFormUseCase $getModalFormUseCase,
     ): JsonResponse
     {
         $clearedData = $this->sanitizer->sanitize(['type' => $type], ['type' => SanitizerRule::KEY]);
@@ -68,18 +67,13 @@ class FormController extends AbstractController
             return $this->error(['message' => $this->str->translate('Invalid form type specified.')], 400);
         }
 
-        $renderer = match ($sanitizedType) {
-            'login' => $loginFormRenderer,
-            'register' => $registrationFormRenderer,
-            'forgot-password' => $forgotPasswordFormRenderer,
-            default => null
-        };
+        $command = new GetModalFormCommand($sanitizedType);
 
-        if (!$renderer) {
-            return $this->error(['message' => $this->str->translate('Invalid form type specified.')], 400);
+        try {
+            $html = $getModalFormUseCase->execute($command);
+        } catch (UspException $e) {
+            return $this->error(['message' => $e->getMessage()], $e->getCode());
         }
-
-        $html = $renderer->render();
 
         return $this->success(['html' => $html]);
     }
@@ -126,8 +120,19 @@ class FormController extends AbstractController
 
         $command = new GetFieldSettingsFormCommand($fieldDto);
 
-        $result = $getFieldSettingsFormUseCase->execute($command);
-        return $this->success(['html' => $result->html]);
+        try {
+            $result = $getFieldSettingsFormUseCase->execute($command); // Получаем результат с объектом формы
+
+            // Рендерим шаблон, передавая в него объект формы
+            $html = $this->templateManager->render('admin/form/field-settings', [
+                'form' => $result->form,
+                'str' => $this->str, // Передаем сервис локализации в шаблон
+            ]);
+            return $this->success(['html' => $html]);
+        } catch (UspException $e) {
+            return $this->error(['message' => $e->getMessage()], $e->getCode());
+        }
+
     }
 
     #[Route(path: '/config/profile-form/save', method: 'POST', permission: 'manage_options')]
@@ -148,7 +153,7 @@ class FormController extends AbstractController
      * @param SaveProfileFormConfigUseCase|SaveRegistrationFormConfigUseCase $useCase
      * @return JsonResponse
      */
-    private function handleSaveConfigRequest(Request $request, $useCase): JsonResponse
+    private function handleSaveConfigRequest(Request $request, SaveProfileFormConfigUseCase|SaveRegistrationFormConfigUseCase $useCase): JsonResponse
     {
         $clearedData = $this->sanitizer->sanitize($request->getPostParams(), [
             'config' => SanitizerRule::TEXT_FIELD,
