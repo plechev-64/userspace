@@ -2,9 +2,9 @@
 
 namespace UserSpace\Core\Addon;
 
+use UserSpace\Core\Addon\Theme\ThemeInterface;
+use UserSpace\Core\Addon\Theme\ThemeManager;
 use UserSpace\Core\Container\ContainerInterface;
-use UserSpace\Core\Theme\ThemeInterface;
-use UserSpace\Core\Theme\ThemeManager;
 use UserSpace\ServiceProvider;
 
 if (!defined('ABSPATH')) {
@@ -46,7 +46,7 @@ class AddonManager implements AddonManagerInterface
     /**
      * Инициализирует все зарегистрированные дополнения.
      */
-    public function initializeAddons(): void
+    public function initialize(): void
     {
         foreach ($this->addons as $addon) {
             // Загружаем определения из DI контейнера аддона

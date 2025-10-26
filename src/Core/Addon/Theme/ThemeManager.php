@@ -1,6 +1,6 @@
 <?php
 
-namespace UserSpace\Core\Theme;
+namespace UserSpace\Core\Addon\Theme;
 
 use UserSpace\Common\Module\Settings\App\SettingsEnum;
 use UserSpace\Common\Module\Settings\Src\Domain\PluginSettingsInterface;
@@ -70,7 +70,7 @@ class ThemeManager implements ThemeManagerInterface
     /**
      * Загружает точку входа активной темы для регистрации её сервисов и хуков.
      */
-    public function loadActiveTheme(): void
+    public function initialize(): void
     {
         $activeThemeSlug = $this->optionManager->get(SettingsEnum::ACCOUNT_THEME, self::DEFAULT_THEME_SLUG);
         if (isset($this->themes[$activeThemeSlug])) {

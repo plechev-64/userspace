@@ -10,6 +10,8 @@ use UserSpace\Common\Module\Settings\Src\Domain\PluginSettingsInterface;
 use UserSpace\Common\Module\User\Src\Domain\UserApiInterface;
 use UserSpace\Common\Module\User\Src\Domain\UserInterface;
 use UserSpace\Core\Http\Request;
+use UserSpace\Core\Sanitizer\SanitizerInterface;
+use UserSpace\Core\Sanitizer\SanitizerRule;
 
 class ProfileService implements ProfileServiceApiInterface
 {
@@ -17,7 +19,8 @@ class ProfileService implements ProfileServiceApiInterface
         private readonly PluginSettingsInterface $optionManager,
         private readonly UserApiInterface        $userApi,
         private readonly ItemManagerInterface    $tabManager,
-        private readonly Request                 $request
+        private readonly Request                 $request,
+        private readonly SanitizerInterface      $sanitizer
     )
     {
     }
@@ -68,8 +71,8 @@ class ProfileService implements ProfileServiceApiInterface
         }
 
         $tabQueryVar = $this->optionManager->get(SettingsEnum::PROFILE_TAB_QUERY_VAR, 'tab');
-
-        $activeTabId = sanitize_text_field($this->request->getQuery($tabQueryVar, ''));
+        $tabQueryId = $this->request->getQuery($tabQueryVar, '');
+        $activeTabId = $this->sanitizer->sanitize([$tabQueryId], [$tabQueryVar => SanitizerRule::SLUG]);
 
         if (!empty($activeTabId)) {
             foreach ($tabs as $tabItem) {

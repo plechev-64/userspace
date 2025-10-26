@@ -2,11 +2,11 @@
 
 namespace UserSpace\Theme\Minimal;
 
+use UserSpace\Core\Addon\Theme\ThemeInterface;
 use UserSpace\Core\Asset\AssetRegistryInterface;
 use UserSpace\Core\Container\ContainerInterface;
 use UserSpace\Core\Hooks\HookManagerInterface;
 use UserSpace\Core\String\StringFilterInterface;
-use UserSpace\Core\Theme\ThemeInterface;
 use UserSpace\Theme\Minimal\Service\TabLocationService;
 use UserSpace\Theme\Minimal\Service\ViewDataProvider;
 

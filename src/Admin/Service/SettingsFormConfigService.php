@@ -14,9 +14,9 @@ use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\UrlAbstractFieldDt
 use UserSpace\Common\Module\Form\Src\Infrastructure\FormConfig;
 use UserSpace\Common\Module\Settings\App\SettingsEnum;
 use UserSpace\Common\Module\Settings\Src\Domain\PluginSettingsInterface;
+use UserSpace\Core\Addon\Theme\ThemeManagerInterface;
 use UserSpace\Core\Hooks\HookManagerInterface;
 use UserSpace\Core\String\StringFilterInterface;
-use UserSpace\Core\Theme\ThemeManagerInterface;
 
 class SettingsFormConfigService implements SettingsFormConfigServiceInterface
 {

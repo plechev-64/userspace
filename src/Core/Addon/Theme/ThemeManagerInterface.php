@@ -2,13 +2,15 @@
 
 declare(strict_types=1);
 
-namespace UserSpace\Core\Theme;
+namespace UserSpace\Core\Addon\Theme;
+
+use UserSpace\Core\Addon\AddonManagerInterface;
 
 if (!defined('ABSPATH')) {
     exit;
 }
 
-interface ThemeManagerInterface
+interface ThemeManagerInterface extends AddonManagerInterface
 {
     /**
      * Регистрирует класс темы.
@@ -30,7 +32,7 @@ interface ThemeManagerInterface
      * Загружает точку входа активной темы для регистрации её сервисов и хуков.
      * Должен вызываться на раннем этапе, например, 'plugins_loaded'.
      */
-    public function loadActiveTheme(): void;
+    public function initialize(): void;
 
     public function getActiveTheme(): ?ThemeInterface;
 

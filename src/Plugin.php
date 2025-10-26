@@ -15,12 +15,12 @@ use UserSpace\Common\Service\AvatarManager;
 use UserSpace\Common\Service\CronManager;
 use UserSpace\Common\Service\FrontendManager;
 use UserSpace\Core\Addon\AddonManagerInterface;
+use UserSpace\Core\Addon\Theme\ThemeManagerInterface;
 use UserSpace\Core\Container\Container;
 use UserSpace\Core\Container\ContainerInterface;
 use UserSpace\Core\Hooks\HookManagerInterface;
 use UserSpace\Core\Localization\LocalizationApiInterface;
 use UserSpace\Core\Rest\InitWpRest;
-use UserSpace\Core\Theme\ThemeManagerInterface;
 
 // Защита от прямого доступа к файлу
 if (!defined('ABSPATH')) {
@@ -149,13 +149,13 @@ final class Plugin
     public function themeInit(): void
     {
         $manager = $this->container->get(ThemeManagerInterface::class);
-        $manager->loadActiveTheme();
+        $manager->initialize();
     }
 
     public function addonsInit(): void
     {
         $manager = $this->container->get(AddonManagerInterface::class);
-        $manager->initializeAddons();
+        $manager->initialize();
     }
 
     /**

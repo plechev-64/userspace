@@ -7,7 +7,7 @@ use UserSpace\Common\Renderer\ForgotPasswordFormRenderer;
 use UserSpace\Common\Renderer\GenericFormRenderer;
 use UserSpace\Common\Renderer\LoginFormRenderer;
 use UserSpace\Common\Renderer\RegistrationFormRenderer;
-use UserSpace\Core\Theme\ThemeManagerInterface;
+use UserSpace\Core\Addon\Theme\ThemeManagerInterface;
 
 // Защита от прямого доступа к файлу
 if (!defined('ABSPATH')) {

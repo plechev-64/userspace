@@ -16,5 +16,5 @@ interface AddonManagerInterface
      */
     public function register(string $addonClassName): void;
 
-    public function initializeAddons(): void;
+    public function initialize(): void;
 }
