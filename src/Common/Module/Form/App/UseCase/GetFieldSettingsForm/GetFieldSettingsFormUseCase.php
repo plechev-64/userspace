@@ -2,15 +2,17 @@
 
 namespace UserSpace\Common\Module\Form\App\UseCase\GetFieldSettingsForm;
 
-use UserSpace\Common\Module\Form\Src\Domain\FieldMapperInterface;
-use UserSpace\Common\Module\Form\Src\Infrastructure\FormConfig;
-use UserSpace\Common\Module\Form\Src\Infrastructure\FormFactory;
+use UserSpace\Common\Module\Form\Src\Domain\Factory\FieldFactoryInterface;
+use UserSpace\Common\Module\Form\Src\Domain\Service\FieldMapRegistryInterface;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Factory\FormFactory;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Form\FormConfig;
 
 class GetFieldSettingsFormUseCase
 {
     public function __construct(
-        private readonly FieldMapperInterface $fieldMapper,
-        private readonly FormFactory          $formFactory
+        private readonly FieldFactoryInterface     $fieldFactory,
+        private readonly FieldMapRegistryInterface $fieldMapper,
+        private readonly FormFactory               $formFactory
     )
     {
     }
@@ -21,8 +23,8 @@ class GetFieldSettingsFormUseCase
     {
         $fieldDto = $command->fieldDto;
 
-        $fieldClass = $this->fieldMapper->getClass($fieldDto->type);
-        $settingsFields = $fieldClass::getSettingsFormConfig();
+        $field = $this->fieldFactory->createFromDto($fieldDto);
+        $settingsFields = $field->getSettingsFormConfig();
 
         // Заполняем поля формы текущими значениями из конфигурации поля
         // Теперь мы можем напрямую обращаться к свойствам DTO
@@ -44,7 +46,7 @@ class GetFieldSettingsFormUseCase
             $formConfig->addField($name, $fieldData);
         }
         $settingsForm = $this->formFactory->create($formConfig);
-        
+
         // Возвращаем объект-результат с готовой формой, а не HTML
         return new GetFieldSettingsFormResult($settingsForm);
     }

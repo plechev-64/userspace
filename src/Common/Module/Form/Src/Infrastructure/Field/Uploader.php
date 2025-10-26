@@ -4,6 +4,7 @@ namespace UserSpace\Common\Module\Form\Src\Infrastructure\Field;
 
 use UserSpace\Adapters\StringFilter;
 use UserSpace\Common\Module\Form\Src\Domain\Field\AbstractField;
+use UserSpace\Common\Module\Form\Src\Domain\Field\DTO\AbstractFieldDto;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\UploaderAbstractFieldDto;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Validator\AllowedTypesValidator;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Validator\ImageDimensionsValidator;
@@ -16,17 +17,26 @@ class Uploader extends AbstractField
     private readonly bool $multiple;
 
     /**
-     * @param UploaderAbstractFieldDto $dto
      * @param SecurityHelperInterface $securityHelper
      * @param MediaApiInterface $mediaApi
+     * @param StringFilter $str
      */
     public function __construct(
-        UploaderAbstractFieldDto                 $dto,
         private readonly SecurityHelperInterface $securityHelper,
-        private readonly MediaApiInterface       $mediaApi
+        private readonly MediaApiInterface       $mediaApi,
+        StringFilter                             $str
     )
     {
-        parent::__construct($dto);
+        parent::__construct($str);
+    }
+
+    /**
+     * @param UploaderAbstractFieldDto $dto
+     * @return void
+     */
+    public function init(AbstractFieldDto $dto): void
+    {
+        parent::init($dto);
         $this->multiple = $dto->multiple;
     }
 
@@ -149,40 +159,40 @@ class Uploader extends AbstractField
         return $output;
     }
 
-    public static function getSettingsFormConfig(): array
+    public function getSettingsFormConfig(): array
     {
         return array_merge(
             parent::getSettingsFormConfig(),
             [
                 'multiple' => [
                     'type' => 'boolean',
-                    'label' => StringFilter::sTranslate('Allow multiple file upload'),
+                    'label' => $this->str->translate('Allow multiple file upload'),
                 ],
                 'allowed_types' => [
                     'type' => 'text',
-                    'label' => StringFilter::sTranslate('Allowed file types'),
-                    'description' => StringFilter::sTranslate('Comma-separated MIME types, e.g., image/jpeg,image/png,application/pdf'),
+                    'label' => $this->str->translate('Allowed file types'),
+                    'description' => $this->str->translate('Comma-separated MIME types, e.g., image/jpeg,image/png,application/pdf'),
                 ],
                 'max_size' => [
                     'type' => 'number',
-                    'label' => StringFilter::sTranslate('Max file size (MB)'),
-                    'description' => StringFilter::sTranslate('Leave empty for no limit.'),
+                    'label' => $this->str->translate('Max file size (MB)'),
+                    'description' => $this->str->translate('Leave empty for no limit.'),
                 ],
                 'image_min_width' => [
                     'type' => 'number',
-                    'label' => StringFilter::sTranslate('Min image width (px)'),
+                    'label' => $this->str->translate('Min image width (px)'),
                 ],
                 'image_min_height' => [
                     'type' => 'number',
-                    'label' => StringFilter::sTranslate('Min image height (px)'),
+                    'label' => $this->str->translate('Min image height (px)'),
                 ],
                 'image_max_width' => [
                     'type' => 'number',
-                    'label' => StringFilter::sTranslate('Max image width (px)'),
+                    'label' => $this->str->translate('Max image width (px)'),
                 ],
                 'image_max_height' => [
                     'type' => 'number',
-                    'label' => StringFilter::sTranslate('Max image height (px)'),
+                    'label' => $this->str->translate('Max image height (px)'),
                 ],
             ]
         );

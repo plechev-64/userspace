@@ -2,8 +2,8 @@
 
 namespace UserSpace\Common\Module\Form\Src\Infrastructure\Field;
 
-// Защита от прямого доступа к файлу
 use UserSpace\Common\Module\Form\Src\Domain\Field\AbstractField;
+use UserSpace\Common\Module\Form\Src\Domain\Field\DTO\AbstractFieldDto;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\CheckboxAbstractFieldDto;
 
 if (!defined('ABSPATH')) {
@@ -21,9 +21,9 @@ class Checkbox extends AbstractField
     /**
      * @param CheckboxAbstractFieldDto $dto
      */
-    public function __construct(CheckboxAbstractFieldDto $dto)
+    public function init(AbstractFieldDto $dto): void
     {
-        parent::__construct($dto);
+        parent::init($dto);
         $this->options = $dto->options;
     }
 

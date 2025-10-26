@@ -4,6 +4,7 @@ namespace UserSpace\Common\Module\Form\Src\Infrastructure\Field;
 
 use UserSpace\Adapters\StringFilter;
 use UserSpace\Common\Module\Form\Src\Domain\Field\AbstractField;
+use UserSpace\Common\Module\Form\Src\Domain\Field\DTO\AbstractFieldDto;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\RadioAbstractFieldDto;
 
 // Защита от прямого доступа к файлу
@@ -19,9 +20,13 @@ class Radio extends AbstractField
 
     protected array $options;
 
-    public function __construct(RadioAbstractFieldDto $dto)
+    /**
+     * @param RadioAbstractFieldDto $dto
+     * @return void
+     */
+    public function init(AbstractFieldDto $dto): void
     {
-        parent::__construct($dto);
+        parent::init($dto);
         $this->options = $dto->options;
     }
 
@@ -59,13 +64,12 @@ class Radio extends AbstractField
         return $this->isValid();
     }
 
-    public static function getSettingsFormConfig(): array
+    public function getSettingsFormConfig(): array
     {
-        $str = new StringFilter();
         $config = parent::getSettingsFormConfig();
         $config['options'] = [
             'type' => 'key_value_editor',
-            'label' => $str->translate('Options'),
+            'label' => $this->str->translate('Options'),
         ];
         return $config;
     }

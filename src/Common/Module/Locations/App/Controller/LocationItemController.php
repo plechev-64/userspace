@@ -15,13 +15,14 @@ use UserSpace\Core\Rest\Abstract\AbstractController;
 use UserSpace\Core\Rest\Attributes\Route;
 use UserSpace\Core\Sanitizer\SanitizerInterface;
 use UserSpace\Core\Sanitizer\SanitizerRule;
+use UserSpace\Core\TemplateManagerInterface;
 
 #[Route(path: '/location/item')]
 class LocationItemController extends AbstractController
 {
     public function __construct(
-        private readonly SanitizerInterface   $sanitizer,
-        private readonly ItemManagerInterface $tabManager,
+        private readonly SanitizerInterface       $sanitizer,
+        private readonly ItemManagerInterface     $tabManager,
         private readonly TemplateManagerInterface $templateManager
     )
     {

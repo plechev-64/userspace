@@ -11,8 +11,8 @@ use UserSpace\Common\Module\Form\App\UseCase\SaveConfig\SaveProfileFormConfigUse
 use UserSpace\Common\Module\Form\App\UseCase\SaveConfig\SaveRegistrationFormConfigUseCase;
 use UserSpace\Common\Module\Form\App\UseCase\SaveProfileForm\SaveProfileFormCommand;
 use UserSpace\Common\Module\Form\App\UseCase\SaveProfileForm\SaveProfileFormUseCase;
-use UserSpace\Common\Module\Form\Src\Domain\FieldMapperInterface;
-use UserSpace\Common\Module\Form\Src\Infrastructure\FormConfig;
+use UserSpace\Common\Module\Form\Src\Domain\Service\FieldMapRegistryInterface;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Form\FormConfig;
 use UserSpace\Core\Exception\UspException;
 use UserSpace\Core\Http\JsonResponse;
 use UserSpace\Core\Http\Request;
@@ -82,7 +82,7 @@ class FormController extends AbstractController
     public function getFieldSettingsForm(
         Request                     $request,
         GetFieldSettingsFormUseCase $getFieldSettingsFormUseCase,
-        FieldMapperInterface        $fieldMapper
+        FieldMapRegistryInterface   $fieldMapper
     ): JsonResponse
     {
         $clearedData = $this->sanitizer->sanitize($request->getPostParams(), [

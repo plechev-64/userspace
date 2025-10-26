@@ -1,16 +1,24 @@
 <?php
 
-namespace UserSpace\Common\Module\Form\Src\Domain;
+namespace UserSpace\Common\Module\Form\Src\Domain\Service;
 
 use InvalidArgumentException;
 use UserSpace\Common\Module\Form\Src\Domain\Field\DTO\AbstractFieldDto;
-use UserSpace\Common\Module\Form\Src\Domain\Field\FieldInterface;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Service\FieldMap;
 
 /**
  * Интерфейс для карты соответствия типов полей их классам-реализациям.
  */
-interface FieldMapperInterface
+interface FieldMapRegistryInterface
 {
+    /**
+     * Регистрирует новый тип поля.
+     *
+     * @param string $type Уникальный идентификатор типа поля (например, 'text').
+     * @param FieldMap $fieldMap Объект карты поля.
+     */
+    public function register(string $type, FieldMap $fieldMap): void;
+
     /**
      * Возвращает имя класса для указанного типа поля.
      *

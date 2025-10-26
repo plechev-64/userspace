@@ -1,6 +1,6 @@
 <?php
 
-namespace UserSpace\Common\Module\Form\Src\Infrastructure;
+namespace UserSpace\Common\Module\Form\Src\Infrastructure\Form;
 
 use InvalidArgumentException;
 use UserSpace\Core\String\StringFilterInterface;

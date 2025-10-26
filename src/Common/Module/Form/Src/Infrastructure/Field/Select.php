@@ -4,6 +4,7 @@ namespace UserSpace\Common\Module\Form\Src\Infrastructure\Field;
 
 use UserSpace\Adapters\StringFilter;
 use UserSpace\Common\Module\Form\Src\Domain\Field\AbstractField;
+use UserSpace\Common\Module\Form\Src\Domain\Field\DTO\AbstractFieldDto;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\SelectAbstractFieldDto;
 
 // Защита от прямого доступа к файлу
@@ -22,9 +23,9 @@ class Select extends AbstractField
     /**
      * @param SelectAbstractFieldDto $dto Объект с данными для создания поля.
      */
-    public function __construct(SelectAbstractFieldDto $dto)
+    public function init(AbstractFieldDto $dto): void
     {
-        parent::__construct($dto);
+        parent::init($dto);
         $this->options = $dto->options;
     }
 
@@ -63,13 +64,12 @@ class Select extends AbstractField
         return $this->isValid();
     }
 
-    public static function getSettingsFormConfig(): array
+    public function getSettingsFormConfig(): array
     {
-        $str = new StringFilter();
         $config = parent::getSettingsFormConfig();
         $config['options'] = [
             'type' => 'key_value_editor',
-            'label' => $str->translate('Options'),
+            'label' => $this->str->translate('Options'),
         ];
         return $config;
     }

@@ -3,18 +3,12 @@
 namespace UserSpace\Common\Module\Form\Src\Infrastructure\Field;
 
 use UserSpace\Common\Module\Form\Src\Domain\Field\AbstractField;
-use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\BooleanAbstractFieldDto;
 
 /**
  * Класс для поля-переключателя (одиночный чекбокс, boolean).
  */
 class Boolean extends AbstractField
 {
-    public function __construct(BooleanAbstractFieldDto $dto)
-    {
-        parent::__construct($dto);
-    }
-
     public function renderInput(): string
     {
         $attributes = $this->renderAttributes(['type' => 'checkbox', 'value' => '1']);

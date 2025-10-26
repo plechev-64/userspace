@@ -66,5 +66,7 @@ interface FieldInterface
      *
      * @return array
      */
-    public static function getSettingsFormConfig(): array;
+    public function getSettingsFormConfig(): array;
+
+
 }

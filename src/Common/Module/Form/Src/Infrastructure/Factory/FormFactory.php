@@ -1,11 +1,15 @@
 <?php
 
-namespace UserSpace\Common\Module\Form\Src\Infrastructure;
+namespace UserSpace\Common\Module\Form\Src\Infrastructure\Factory;
 
 use InvalidArgumentException;
-use UserSpace\Common\Module\Form\Src\Domain\FieldMapperInterface;
-use UserSpace\Common\Module\Form\Src\Domain\FormInterface;
-use UserSpace\Core\Container\ContainerInterface;
+use UserSpace\Common\Module\Form\Src\Domain\Factory\FieldFactoryInterface;
+use UserSpace\Common\Module\Form\Src\Domain\Factory\FormFactoryInterface;
+use UserSpace\Common\Module\Form\Src\Domain\Form\FormInterface;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Form\Block;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Form\Form;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Form\FormConfig;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Form\Section;
 
 // Защита от прямого доступа к файлу
 if (!defined('ABSPATH')) {
@@ -15,16 +19,12 @@ if (!defined('ABSPATH')) {
 /**
  * Фабрика для создания объектов Form.
  */
-class FormFactory
+class FormFactory implements FormFactoryInterface
 {
-
-    private readonly FieldMapperInterface $fieldMapper;
-    private readonly ContainerInterface $container;
-
-    public function __construct(FieldMapperInterface $fieldMapper, ContainerInterface $container)
+    public function __construct(
+        private readonly FieldFactoryInterface $fieldFactory
+    )
     {
-        $this->fieldMapper = $fieldMapper;
-        $this->container = $container;
     }
 
     /**
@@ -49,14 +49,8 @@ class FormFactory
                 $fields = [];
                 $field_configs = $block_config['fields'] ?? [];
 
-                foreach ($field_configs as $name => $field_config) {
-                    $type = $field_config['type'] ?? 'text';
-                    $class_name = $this->fieldMapper->getClass($type);
-                    $dtoClass = $this->fieldMapper->getDtoClass($type);
-
-                    // Используем DI-контейнер для создания экземпляра поля, передавая DTO как аргумент.
-                    // Контейнер автоматически внедрит остальные зависимости (StringFilter, SecurityHelperInterface и т.д.).
-                    $fields[] = $this->container->build($class_name, ['dto' => new $dtoClass($name, $field_config)]);
+                foreach ($field_configs as $name => $fieldData) {
+                    $fields[] = $this->fieldFactory->createFromConfig($name, $fieldData);
                 }
                 $blocks[] = new Block($block_config['title'] ?? '', $fields);
             }

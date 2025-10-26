@@ -1,10 +1,10 @@
 <?php
 
-namespace UserSpace\Common\Module\Form\Src\Infrastructure;
+namespace UserSpace\Common\Module\Form\Src\Infrastructure\Form;
 
 // Защита от прямого доступа к файлу
 use UserSpace\Common\Module\Form\Src\Domain\Field\FieldInterface;
-use UserSpace\Common\Module\Form\Src\Domain\FormInterface;
+use UserSpace\Common\Module\Form\Src\Domain\Form\FormInterface;
 
 if (!defined('ABSPATH')) {
     exit;

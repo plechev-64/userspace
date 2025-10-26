@@ -2,7 +2,7 @@
 
 namespace UserSpace\Common\Module\Form\App\UseCase\GetFieldSettingsForm;
 
-use UserSpace\Common\Module\Form\Src\Domain\FormInterface;
+use UserSpace\Common\Module\Form\Src\Domain\Form\FormInterface;
 
 /**
  * Результат успешного получения HTML-кода формы настроек поля.

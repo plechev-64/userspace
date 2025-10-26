@@ -18,10 +18,12 @@ use UserSpace\Adapters\WpApi;
 use UserSpace\Admin\Service\SettingsFormConfigService;
 use UserSpace\Admin\Service\SettingsFormConfigServiceInterface;
 use UserSpace\Common\Module\Form\App\Controller\FormController;
-use UserSpace\Common\Module\Form\Src\Domain\FieldMapperInterface;
+use UserSpace\Common\Module\Form\Src\Domain\Factory\FieldFactoryInterface;
 use UserSpace\Common\Module\Form\Src\Domain\Repository\FormRepositoryInterface;
-use UserSpace\Common\Module\Form\Src\Infrastructure\FieldMapper;
+use UserSpace\Common\Module\Form\Src\Domain\Service\FieldMapRegistryInterface;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Factory\FieldFactory;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Repository\FormRepository;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Service\FieldMapRegistry;
 use UserSpace\Common\Module\Grid\App\Controller\GridController;
 use UserSpace\Common\Module\Grid\App\UseCase\FetchGridDataUseCase;
 use UserSpace\Common\Module\Grid\Src\Infrastructure\GridProvider;
@@ -169,13 +171,14 @@ return [
         ThemeManagerInterface::class => fn(ContainerInterface $c) => $c->get(ThemeManager::class),
         AddonManagerInterface::class => fn(ContainerInterface $c) => $c->get(AddonManager::class),
         SanitizerInterface::class => fn(ContainerInterface $c) => $c->get(Sanitizer::class),
-        FieldMapperInterface::class => fn(ContainerInterface $c) => $c->get(FieldMapper::class),
+        FieldMapRegistryInterface::class => fn(ContainerInterface $c) => $c->get(FieldMapRegistry::class),
         SettingsFormConfigServiceInterface::class => fn(ContainerInterface $c) => $c->get(SettingsFormConfigService::class),
         LocationRegistryInterface::class => fn(ContainerInterface $c) => $c->get(LocationRegistry::class),
         ItemRegistryInterface::class => fn(ContainerInterface $c) => $c->get(ItemRegistry::class),
         ItemProviderInterface::class => fn(ContainerInterface $c) => $c->get(ItemProvider::class),
         ItemManagerInterface::class => fn(ContainerInterface $c) => $c->get(ItemManager::class),
         PluginSettingsInterface::class => fn(ContainerInterface $c) => $c->get(PluginSettings::class),
+        FieldFactoryInterface::class => fn(ContainerInterface $c) => $c->get(FieldFactory::class),
 
         // Grid
         GridProvider::class => function (ContainerInterface $c) {

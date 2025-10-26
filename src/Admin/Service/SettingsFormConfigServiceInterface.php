@@ -3,7 +3,7 @@
 namespace UserSpace\Admin\Service;
 
 use UserSpace\Admin\SettingsConfig;
-use UserSpace\Common\Module\Form\Src\Infrastructure\FormConfig;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Form\FormConfig;
 
 /**
  * Сервис для создания конфигурации формы настроек.

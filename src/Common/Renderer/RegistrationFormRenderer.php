@@ -2,8 +2,8 @@
 
 namespace UserSpace\Common\Renderer;
 
-use UserSpace\Common\Module\Form\Src\Infrastructure\FormFactory;
-use UserSpace\Common\Module\Form\Src\Infrastructure\FormManager;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Factory\FormFactory;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Form\FormManager;
 use UserSpace\Common\Module\Settings\Src\Domain\PluginSettingsInterface;
 use UserSpace\Common\Module\User\Src\Domain\UserApiInterface;
 use UserSpace\Core\Asset\AssetRegistryInterface;

@@ -1,6 +1,6 @@
 <?php
 
-namespace UserSpace\Common\Module\Form\Src\Domain;
+namespace UserSpace\Common\Module\Form\Src\Domain\Validator;
 
 // Защита от прямого доступа к файлу
 if (!defined('ABSPATH')) {

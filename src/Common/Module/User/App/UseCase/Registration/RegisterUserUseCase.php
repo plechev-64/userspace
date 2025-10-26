@@ -3,8 +3,8 @@
 namespace UserSpace\Common\Module\User\App\UseCase\Registration;
 
 use UserSpace\Common\Module\Form\Src\Domain\Field\FieldInterface;
-use UserSpace\Common\Module\Form\Src\Infrastructure\FormFactory;
-use UserSpace\Common\Module\Form\Src\Infrastructure\FormManager;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Factory\FormFactory;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Form\FormManager;
 use UserSpace\Common\Module\Queue\Src\Infrastructure\QueueDispatcher;
 use UserSpace\Common\Module\Settings\App\SettingsEnum;
 use UserSpace\Common\Module\Settings\Src\Domain\PluginSettingsInterface;

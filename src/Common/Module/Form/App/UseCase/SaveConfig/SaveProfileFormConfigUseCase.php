@@ -2,7 +2,7 @@
 
 namespace UserSpace\Common\Module\Form\App\UseCase\SaveConfig;
 
-use UserSpace\Common\Module\Form\Src\Infrastructure\FormManager;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Form\FormManager;
 use UserSpace\Common\Module\Queue\Src\Infrastructure\QueueDispatcher;
 use UserSpace\Common\Module\User\App\Task\Message\DeleteUserMetaMessage;
 use UserSpace\Common\Module\User\Src\Domain\UserApiInterface;

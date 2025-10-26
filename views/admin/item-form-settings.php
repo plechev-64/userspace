@@ -2,11 +2,10 @@
 /**
  * Шаблон с формой настроек ItemInterface.
  *
- * @var FormInterface $form Объект формы для рендеринга.
+ * @var \UserSpace\Common\Module\Form\Src\Domain\Form\FormInterface $form Объект формы для рендеринга.
  */
 
-use UserSpace\Common\Module\Form\Src\Domain\FormInterface;
-use UserSpace\Core\String\StringFilterInterface;
+use UserSpace\Common\Module\Form\Src\Domain\Form\FormInterface;
 
 ?>
 <form class="usp-form">

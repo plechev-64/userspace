@@ -2,10 +2,10 @@
 
 namespace UserSpace\Common\Module\Form\Src\Domain\Field;
 
-use UserSpace\Adapters\StringFilter;
 use InvalidArgumentException;
 use UserSpace\Common\Module\Form\Src\Domain\Field\DTO\AbstractFieldDto;
-use UserSpace\Common\Module\Form\Src\Domain\ValidatorInterface;
+use UserSpace\Common\Module\Form\Src\Domain\Validator\ValidatorInterface;
+use UserSpace\Core\String\StringFilterInterface;
 
 // Защита от прямого доступа к файлу
 if (!defined('ABSPATH')) {
@@ -30,20 +30,29 @@ abstract class AbstractField implements FieldInterface
     protected array $rules;
     protected ?array $dependency;
     protected array $errors = [];
-    protected StringFilter $str;
+    protected StringFilterInterface $str;
 
     /**
      * Конструктор поля.
      *
-     * @param AbstractFieldDto $dto Объект с данными для создания поля.
-     *
-     * @throws InvalidArgumentException Если имя поля пустое.
+     * @param StringFilterInterface $str
      */
-    public function __construct(AbstractFieldDto $dto)
+    public function __construct(StringFilterInterface $str)
+    {
+        $this->str = $str;
+    }
+
+    /**
+     * Инициализирует поле данными из DTO.
+     * @param AbstractFieldDto $dto
+     * @throws InvalidArgumentException
+     */
+    public function init(AbstractFieldDto $dto): void
     {
         if (empty(trim($dto->name))) {
             throw new InvalidArgumentException('Field name cannot be empty.');
         }
+
         $this->type = $dto->type;
         $this->name = $dto->name;
         $this->label = $dto->label;
@@ -52,9 +61,6 @@ abstract class AbstractField implements FieldInterface
         $this->attributes = $dto->attributes;
         $this->rules = $dto->rules;
         $this->dependency = $dto->dependency;
-
-        // Временное решение, пока нет DI в полях
-        $this->str = new StringFilter();
     }
 
     public function getType(): string
@@ -232,17 +238,16 @@ abstract class AbstractField implements FieldInterface
      * Возвращает базовую конфигурацию формы для настроек.
      * @return array
      */
-    public static function getSettingsFormConfig(): array
+    public function getSettingsFormConfig(): array
     {
-        $str = new StringFilter();
         return [
             'label' => [
                 'type' => 'text',
-                'label' => $str->translate('Label'),
+                'label' => $this->str->translate('Label'),
             ],
             'required' => [
                 'type' => 'boolean',
-                'label' => $str->translate('Required'),
+                'label' => $this->str->translate('Required'),
             ],
         ];
     }

@@ -2,10 +2,10 @@
 
 namespace UserSpace\Admin\Page\Abstract;
 
-use UserSpace\Common\Module\Form\Src\Domain\FieldMapperInterface;
-use UserSpace\Common\Module\Form\Src\Infrastructure\FormConfig;
-use UserSpace\Common\Module\Form\Src\Infrastructure\FormConfigBuilder;
-use UserSpace\Common\Module\Form\Src\Infrastructure\FormManager;
+use UserSpace\Common\Module\Form\Src\Domain\Service\FieldMapRegistryInterface;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Form\FormConfig;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Form\FormConfigBuilder;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Form\FormManager;
 use UserSpace\Core\Admin\AdminApiInterface;
 use UserSpace\Core\Asset\AssetRegistryInterface;
 use UserSpace\Core\Hooks\HookManagerInterface;
@@ -17,7 +17,7 @@ use UserSpace\Core\TemplateManagerInterface;
  */
 abstract class AbstractAdminFormPage extends AbstractAdminPage
 {
-    protected readonly FieldMapperInterface $fieldMapper;
+    protected readonly FieldMapRegistryInterface $fieldMapper;
     protected readonly AssetRegistryInterface $assetRegistry;
 
     public function __construct(
@@ -25,7 +25,7 @@ abstract class AbstractAdminFormPage extends AbstractAdminPage
         protected readonly FormConfigBuilder        $formBuilder,
         protected readonly TemplateManagerInterface $templateManager,
         protected readonly StringFilterInterface    $str,
-        FieldMapperInterface                        $fieldMapper,
+        FieldMapRegistryInterface                   $fieldMapper,
         AssetRegistryInterface                      $assetRegistry,
         AdminApiInterface                           $adminApi,
         HookManagerInterface                        $hookManager
@@ -93,7 +93,7 @@ abstract class AbstractAdminFormPage extends AbstractAdminPage
                 'namespace' => USERSPACE_REST_NAMESPACE,
                 'nonce' => wp_create_nonce('wp_rest'),
                 'formType' => $this->getFormType(),
-                'fieldTypes' => $this->fieldMapper->getMap(),
+                'fieldTypes' => $this->fieldMapper->toArray(),
             ]
         );
 

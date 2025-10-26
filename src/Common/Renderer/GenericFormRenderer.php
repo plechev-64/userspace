@@ -2,8 +2,8 @@
 
 namespace UserSpace\Common\Renderer;
 
-use UserSpace\Common\Module\Form\Src\Infrastructure\FormFactory;
-use UserSpace\Common\Module\Form\Src\Infrastructure\FormManager;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Factory\FormFactory;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Form\FormManager;
 use UserSpace\Core\Asset\AssetRegistryInterface;
 use UserSpace\Core\Http\Request;
 use UserSpace\Core\String\StringFilterInterface;

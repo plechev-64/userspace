@@ -1,6 +1,6 @@
 <?php
 
-namespace UserSpace\Common\Module\Form\Src\Infrastructure;
+namespace UserSpace\Common\Module\Form\Src\Infrastructure\Form;
 
 use UserSpace\Common\Module\Form\Src\Domain\Repository\FormRepositoryInterface;
 

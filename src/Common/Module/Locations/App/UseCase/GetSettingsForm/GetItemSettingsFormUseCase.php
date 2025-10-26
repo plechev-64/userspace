@@ -2,8 +2,8 @@
 
 namespace UserSpace\Common\Module\Locations\App\UseCase\GetSettingsForm;
 
-use UserSpace\Common\Module\Form\Src\Infrastructure\FormConfig;
-use UserSpace\Common\Module\Form\Src\Infrastructure\FormFactory;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Factory\FormFactory;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Form\FormConfig;
 use UserSpace\Core\Exception\UspException;
 use UserSpace\Core\Sanitizer\SanitizerInterface;
 use UserSpace\Core\Sanitizer\SanitizerRule;

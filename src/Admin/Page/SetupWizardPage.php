@@ -3,9 +3,9 @@
 namespace UserSpace\Admin\Page;
 
 use UserSpace\Admin\Page\Abstract\AbstractAdminPage;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Factory\FormFactory;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\SelectAbstractFieldDto;
-use UserSpace\Common\Module\Form\Src\Infrastructure\FormConfig;
-use UserSpace\Common\Module\Form\Src\Infrastructure\FormFactory;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Form\FormConfig;
 use UserSpace\Common\Module\Settings\Src\Domain\PluginSettingsInterface;
 use UserSpace\Common\Module\SetupWizard\Domain\SetupWizardConfig;
 use UserSpace\Core\Admin\AdminApiInterface;

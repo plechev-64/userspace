@@ -1,8 +1,9 @@
 <?php
 
-namespace UserSpace\Common\Module\Form\Src\Domain;
+namespace UserSpace\Common\Module\Form\Src\Domain\Form;
 
 use UserSpace\Common\Module\Form\Src\Domain\Field\FieldInterface;
+use UserSpace\Common\Module\Form\Src\Domain\SectionInterface;
 
 if (!defined('ABSPATH')) {
     exit;

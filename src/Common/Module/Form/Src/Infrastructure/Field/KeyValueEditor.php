@@ -3,7 +3,6 @@
 namespace UserSpace\Common\Module\Form\Src\Infrastructure\Field;
 
 use UserSpace\Common\Module\Form\Src\Domain\Field\AbstractField;
-use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\KeyValueEditorAbstractFieldDto;
 
 // Защита от прямого доступа к файлу
 if (!defined('ABSPATH')) {
@@ -15,12 +14,6 @@ if (!defined('ABSPATH')) {
  */
 class KeyValueEditor extends AbstractField
 {
-
-    public function __construct(KeyValueEditorAbstractFieldDto $dto)
-    {
-        parent::__construct($dto);
-    }
-
     public function renderInput(): string
     {
         $pairsHtml = '';

@@ -1,6 +1,6 @@
 <?php
 
-namespace UserSpace\Common\Module\Form\Src\Domain;
+namespace UserSpace\Common\Module\Form\Src\Domain\Validator;
 
 use UserSpace\Common\Module\Form\Src\Domain\Field\FieldInterface;
 

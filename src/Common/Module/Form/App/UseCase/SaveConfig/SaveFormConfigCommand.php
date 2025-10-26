@@ -2,7 +2,7 @@
 
 namespace UserSpace\Common\Module\Form\App\UseCase\SaveConfig;
 
-use UserSpace\Common\Module\Form\Src\Infrastructure\FormConfig;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Form\FormConfig;
 
 /**
  * Команда для сохранения конфигурации формы.

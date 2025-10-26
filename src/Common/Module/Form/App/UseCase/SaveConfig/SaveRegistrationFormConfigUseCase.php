@@ -2,7 +2,7 @@
 
 namespace UserSpace\Common\Module\Form\App\UseCase\SaveConfig;
 
-use UserSpace\Common\Module\Form\Src\Infrastructure\FormManager;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Form\FormManager;
 
 class SaveRegistrationFormConfigUseCase
 {
