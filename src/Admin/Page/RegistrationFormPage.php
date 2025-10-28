@@ -10,12 +10,12 @@ class RegistrationFormPage extends AbstractAdminFormPage
 {
     protected function getPageTitle(): string
     {
-        return __('Registration Form Editor', 'usp');
+        return $this->str->translate('Registration Form Editor');
     }
 
     protected function getMenuTitle(): string
     {
-        return __('Registration Form', 'usp');
+        return $this->str->translate('Registration Form', 'usp');
     }
 
     protected function getMenuSlug(): string
@@ -37,7 +37,7 @@ class RegistrationFormPage extends AbstractAdminFormPage
 
         // Добавляем обязательные поля для регистрации
         $this->formBuilder->reset()
-            ->addSection('main', __('Main Information', 'usp'))
+            ->addSection('main', $this->str->translate('Main Information', 'usp'))
             ->addBlock('main_block');
 
         // Добавляем все поля из профиля как доступные
@@ -49,7 +49,7 @@ class RegistrationFormPage extends AbstractAdminFormPage
         // Добавляем постоянное поле "повтор пароля"
         $this->formBuilder->addField('password_repeat', [
             'type' => 'text', // В идеале 'password'
-            'label' => __('Repeat Password', 'usp'),
+            'label' => $this->str->translate('Repeat Password', 'usp'),
             'rules' => ['required' => true],
         ]);
 

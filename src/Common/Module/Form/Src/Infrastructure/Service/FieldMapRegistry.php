@@ -14,6 +14,7 @@ use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\CheckboxFieldDto;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\DateFieldDto;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\KeyValueEditorFieldDto;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\NumberFieldDto;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\PasswordFieldDto;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\RadioFieldDto;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\SelectFieldDto;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\TextFieldDto;
@@ -22,6 +23,7 @@ use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\UploaderFieldDto;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\UrlFieldDto;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Field\KeyValueEditor;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Field\Number;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Field\Password;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Field\Radio;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Field\Select;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Field\Text;
@@ -59,6 +61,7 @@ class FieldMapRegistry implements FieldMapRegistryInterface
             'uploader' => new FieldMap(Uploader::class, UploaderFieldDto::class),
             'key_value_editor' => new FieldMap(KeyValueEditor::class, KeyValueEditorFieldDto::class),
             'number' => new FieldMap(Number::class, NumberFieldDto::class),
+            'password' => new FieldMap(Password::class, PasswordFieldDto::class),
         ];
     }
 
