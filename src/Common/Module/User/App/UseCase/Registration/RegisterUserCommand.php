@@ -7,9 +7,13 @@ namespace UserSpace\Common\Module\User\App\UseCase\Registration;
  */
 class RegisterUserCommand
 {
+    /**
+     * @param string $formType
+     * @param array<string, mixed> $registerData
+     */
     public function __construct(
         public readonly string $formType,
-        public readonly array  $requestData
+        public readonly array  $registerData
     )
     {
     }

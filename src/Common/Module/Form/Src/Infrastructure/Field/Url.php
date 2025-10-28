@@ -3,6 +3,7 @@
 namespace UserSpace\Common\Module\Form\Src\Infrastructure\Field;
 
 use UserSpace\Common\Module\Form\Src\Domain\Field\AbstractField;
+use UserSpace\Core\Sanitizer\SanitizerRule;
 
 // Защита от прямого доступа к файлу
 if (!defined('ABSPATH')) {
@@ -41,5 +42,10 @@ class Url extends AbstractField
             $this->str->escUrl($url),
             $this->str->escHtml($url)
         );
+    }
+
+    public static function getSanitizationRule(): string
+    {
+        return SanitizerRule::URL;
     }
 }

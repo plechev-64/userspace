@@ -6,6 +6,7 @@ use UserSpace\Adapters\StringFilter;
 use UserSpace\Common\Module\Form\Src\Domain\Field\AbstractField;
 use UserSpace\Common\Module\Form\Src\Domain\Field\DTO\AbstractFieldDto;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\RadioFieldDto;
+use UserSpace\Core\Sanitizer\SanitizerRule;
 
 // Защита от прямого доступа к файлу
 if (!defined('ABSPATH')) {
@@ -82,5 +83,10 @@ class Radio extends AbstractField
 
         // Возвращаем метку опции, а не ее ключ.
         return $this->options[$this->value] ?? (string)$this->value;
+    }
+
+    public static function getSanitizationRule(): string
+    {
+        return SanitizerRule::KEY;
     }
 }

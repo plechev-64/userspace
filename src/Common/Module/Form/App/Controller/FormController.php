@@ -11,7 +11,9 @@ use UserSpace\Common\Module\Form\App\UseCase\SaveConfig\SaveProfileFormConfigUse
 use UserSpace\Common\Module\Form\App\UseCase\SaveConfig\SaveRegistrationFormConfigUseCase;
 use UserSpace\Common\Module\Form\App\UseCase\SaveProfileForm\SaveProfileFormCommand;
 use UserSpace\Common\Module\Form\App\UseCase\SaveProfileForm\SaveProfileFormUseCase;
+use UserSpace\Common\Module\Form\Src\Domain\Field\FieldInterface;
 use UserSpace\Common\Module\Form\Src\Domain\Form\Config\FormConfig;
+use UserSpace\Common\Module\Form\Src\Domain\Form\Config\FormConfigManagerInterface;
 use UserSpace\Common\Module\Form\Src\Domain\Service\FieldMapRegistryInterface;
 use UserSpace\Core\Exception\UspException;
 use UserSpace\Core\Http\JsonResponse;
@@ -35,12 +37,30 @@ class FormController extends AbstractController
     }
 
     #[Route(path: '/profile/save', method: 'POST')]
-    public function saveProfile(Request $request, SaveProfileFormUseCase $saveProfileUseCase): JsonResponse
+    public function saveProfile(
+        Request                    $request,
+        SaveProfileFormUseCase     $saveProfileUseCase,
+        FormConfigManagerInterface $formConfigManager,
+        FieldMapRegistryInterface  $fieldMapRegistry
+    ): JsonResponse
     {
-        // Для сохранения профиля мы не можем применить строгую санитизацию ко всем полям,
-        // так как некоторые могут содержать HTML. Валидация и санитизация происходят внутри UseCase.
-        // Здесь мы просто передаем "сырые" данные.
-        $command = new SaveProfileFormCommand('profile', $request->getPostParams());
+
+        /** @todo вынести тип формы в константу */
+        $formType = 'profile';
+
+        $formConfig = $formConfigManager->load($formType);
+
+        /** @todo вынести процедуру создания конфига санитизации формы в сервис */
+        $sanitizationConfig = array_map(function ($field) use ($fieldMapRegistry) {
+            // получаем правила очистки поля по типу и добавляем в конфиг
+            /** @var class-string<FieldInterface> $fieldClassName */
+            $fieldClassName = $fieldMapRegistry->getClass($field['type']);
+            return $fieldClassName::getSanitizationRule();
+        }, $formConfig->getFields());
+
+        $clearedData = $this->sanitizer->sanitize($request->getPostParams(), $sanitizationConfig);
+
+        $command = new SaveProfileFormCommand('profile', $clearedData->all());
 
         try {
             $saveProfileUseCase->execute($command);

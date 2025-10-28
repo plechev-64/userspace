@@ -5,6 +5,7 @@ namespace UserSpace\Common\Module\Form\Src\Domain\Field;
 use InvalidArgumentException;
 use UserSpace\Common\Module\Form\Src\Domain\Field\DTO\AbstractFieldDto;
 use UserSpace\Common\Module\Form\Src\Domain\Validator\ValidatorInterface;
+use UserSpace\Core\Sanitizer\SanitizerRule;
 use UserSpace\Core\String\StringFilterInterface;
 
 // Защита от прямого доступа к файлу
@@ -295,4 +296,11 @@ abstract class AbstractField implements FieldInterface
     {
         $this->value = $value;
     }
+
+    /**
+     * Возвращает правило санитайзера для этого типа поля.
+     *
+     * @return string
+     */
+    abstract public static function getSanitizationRule(): string;
 }

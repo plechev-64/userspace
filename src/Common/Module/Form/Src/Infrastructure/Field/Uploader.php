@@ -11,6 +11,7 @@ use UserSpace\Common\Module\Form\Src\Infrastructure\Validator\ImageDimensionsVal
 use UserSpace\Common\Module\Form\Src\Infrastructure\Validator\MaxFileSizeValidator;
 use UserSpace\Common\Module\Media\App\UseCase\Upload\UploaderConfig;
 use UserSpace\Common\Module\Media\Src\Domain\MediaApiInterface;
+use UserSpace\Core\Sanitizer\SanitizerRule;
 use UserSpace\Core\SecurityHelperInterface;
 
 class Uploader extends AbstractField
@@ -220,5 +221,10 @@ class Uploader extends AbstractField
 
         // Возвращаем ссылки, разделенные тегом <br> для наглядности.
         return implode('<br>', $links);
+    }
+
+    public static function getSanitizationRule(): string
+    {
+        return SanitizerRule::INT;
     }
 }

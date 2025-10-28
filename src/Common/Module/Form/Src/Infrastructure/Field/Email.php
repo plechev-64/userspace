@@ -11,9 +11,9 @@ if (!defined('ABSPATH')) {
 }
 
 /**
- * Класс для скрытого поля (input type="hidden").
+ * Класс для текстового поля (input type="text").
  */
-class Hidden extends AbstractField
+class Email extends AbstractField
 {
     /**
      * @inheritDoc
@@ -21,20 +21,24 @@ class Hidden extends AbstractField
     public function renderInput(): string
     {
         $attributes = $this->renderAttributes([
-            'type' => 'hidden',
+            'type' => 'email',
             'value' => $this->value,
         ]);
 
         return "<input {$attributes}>";
     }
 
-    protected function _getRenderableValue(): ?string
+    protected function _getRenderableValue(): string
     {
-        return null;
+        if (is_array($this->value)) {
+            return implode(', ', $this->value);
+        }
+
+        return (string)$this->value;
     }
 
     public static function getSanitizationRule(): string
     {
-        return SanitizerRule::TEXT_FIELD;
+        return SanitizerRule::EMAIL;
     }
 }

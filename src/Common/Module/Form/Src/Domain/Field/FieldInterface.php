@@ -78,4 +78,5 @@ interface FieldInterface
 
     public function setValue(mixed $value);
 
+    public static function getSanitizationRule(): string;
 }

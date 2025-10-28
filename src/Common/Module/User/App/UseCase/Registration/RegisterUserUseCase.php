@@ -54,9 +54,8 @@ class RegisterUserUseCase
         // Обновляем DTO данными из запроса
         $fields = $config->getFields();
         foreach (array_keys($fields) as $fieldName) {
-            /** @todo передавать через команду понятные параметры */
-            if (array_key_exists($fieldName, $command->requestData)) {
-                $config->updateFieldValue($fieldName, $this->str->unslash($command->requestData[$fieldName]));
+            if (array_key_exists($fieldName, $command->registerData)) {
+                $config->updateFieldValue($fieldName, $this->str->unslash($command->registerData[$fieldName]));
             }
         }
 
@@ -81,6 +80,8 @@ class RegisterUserUseCase
         }
 
         $requireConfirmation = $this->pluginSettings->get(SettingsEnum::REQUIRE_EMAIL_CONFIRMATION);
+
+        $userData['user_pass'] = $userData['user_pass'] ?? wp_generate_password(8, false);
 
         if ($requireConfirmation) {
             return $this->registerWithConfirmation($userData, $metaData);

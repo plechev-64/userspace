@@ -37,21 +37,20 @@ class RegistrationFormPage extends AbstractAdminFormPage
 
         // Добавляем обязательные поля для регистрации
         $this->formBuilder->reset()
-            ->addSection('main', $this->str->translate('Main Information', 'usp'))
+            ->addSection('main', $this->str->translate('Main Information'))
             ->addBlock('main_block');
+
+        $this->formBuilder->addField('user_login', [
+            'type' => 'text',
+            'label' => $this->str->translate('Login'),
+            'rules' => ['required' => true],
+        ]);
 
         // Добавляем все поля из профиля как доступные
         $profileFields = $this->getFieldsFromConfig($profileConfig);
         foreach ($profileFields as $name => $config) {
             $this->formBuilder->addField($name, $config);
         }
-
-        // Добавляем постоянное поле "повтор пароля"
-        $this->formBuilder->addField('password_repeat', [
-            'type' => 'text', // В идеале 'password'
-            'label' => $this->str->translate('Repeat Password', 'usp'),
-            'rules' => ['required' => true],
-        ]);
 
         return $this->formBuilder->build();
     }

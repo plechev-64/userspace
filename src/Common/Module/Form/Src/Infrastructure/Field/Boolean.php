@@ -3,6 +3,7 @@
 namespace UserSpace\Common\Module\Form\Src\Infrastructure\Field;
 
 use UserSpace\Common\Module\Form\Src\Domain\Field\AbstractField;
+use UserSpace\Core\Sanitizer\SanitizerRule;
 
 /**
  * Класс для поля-переключателя (одиночный чекбокс, boolean).
@@ -24,5 +25,10 @@ class Boolean extends AbstractField
     protected function _getRenderableValue(): string
     {
         return $this->value == '1' ? $this->str->translate('Yes') : $this->str->translate('No');
+    }
+
+    public static function getSanitizationRule(): string
+    {
+        return SanitizerRule::BOOL;
     }
 }
