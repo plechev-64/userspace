@@ -3,6 +3,10 @@
 namespace UserSpace\Common\Module\Form\Src\Domain\Field;
 
 // Защита от прямого доступа к файлу
+use InvalidArgumentException;
+use UserSpace\Common\Module\Form\Src\Domain\Field\DTO\AbstractFieldDto;
+use UserSpace\Common\Module\Form\Src\Domain\Field\DTO\FieldDtoInterface;
+
 if (!defined('ABSPATH')) {
     exit;
 }
@@ -79,4 +83,11 @@ interface FieldInterface
     public function setValue(mixed $value);
 
     public static function getSanitizationRule(): string;
+
+    /**
+     * Инициализирует поле данными из DTO.
+     * @param FieldDtoInterface $dto
+     * @throws InvalidArgumentException
+     */
+    public function init(FieldDtoInterface $dto): void;
 }

@@ -2,7 +2,7 @@
 
 namespace UserSpace\Common\Module\Form\Src\Domain\Field\DTO;
 
-abstract class AbstractFieldDto
+abstract class AbstractFieldDto implements FieldDtoInterface
 {
     public string $name;
     public string $type;
