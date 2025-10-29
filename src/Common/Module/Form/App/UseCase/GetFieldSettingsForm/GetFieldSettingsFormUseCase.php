@@ -45,7 +45,6 @@ class GetFieldSettingsFormUseCase
         }
         $settingsForm = $this->formFactory->create($formConfig);
 
-        // Возвращаем объект-результат с готовой формой, а не HTML
         return new GetFieldSettingsFormResult($settingsForm);
     }
 }

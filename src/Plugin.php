@@ -3,6 +3,7 @@
 namespace UserSpace;
 
 use UserSpace\Admin\AdminManager;
+use UserSpace\Common\Module\Form\Src\Infrastructure\DefaultFormConfigs;
 use UserSpace\Common\Module\Locations\App\Default\ActivityTab;
 use UserSpace\Common\Module\Locations\App\Default\ClearCacheButton;
 use UserSpace\Common\Module\Locations\App\Default\EditProfileTab;
@@ -180,9 +181,11 @@ final class Plugin
      */
     public function registerDefaultConfigs(): void
     {
-        /** @var DefaultSetupWizardConfig $setupWizardConfig */
         $setupWizardConfig = $this->container->get(DefaultSetupWizardConfig::class);
         $setupWizardConfig->register();
+
+        $defaultFormConfigs = $this->container->get(DefaultFormConfigs::class);
+        $defaultFormConfigs->register();
     }
 
     /**

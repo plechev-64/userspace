@@ -2,11 +2,12 @@
 
 namespace UserSpace\Common\Renderer;
 
-use UserSpace\Common\Module\Form\Src\Domain\Form\Config\FormConfigManagerInterface;
-use UserSpace\Common\Module\Form\Src\Infrastructure\Factory\FormFactory;
+use UserSpace\Common\Module\Form\App\UseCase\GetRegistrationForm\GetRegistrationFormCommand;
+use UserSpace\Common\Module\Form\App\UseCase\GetRegistrationForm\GetRegistrationFormUseCase;
 use UserSpace\Common\Module\Settings\Src\Domain\PluginSettingsInterface;
 use UserSpace\Common\Module\User\Src\Domain\UserApiInterface;
 use UserSpace\Core\Asset\AssetRegistryInterface;
+use UserSpace\Core\Exception\UspException;
 use UserSpace\Core\String\StringFilterInterface;
 use UserSpace\Core\TemplateManagerInterface;
 
@@ -19,8 +20,7 @@ class RegistrationFormRenderer
 {
 
     public function __construct(
-        private readonly FormConfigManagerInterface $formManager,
-        private readonly FormFactory                $formFactory,
+        private readonly GetRegistrationFormUseCase $getRegistrationFormUseCase,
         private readonly TemplateManagerInterface   $templateManager,
         private readonly StringFilterInterface      $str,
         private readonly AssetRegistryInterface     $assetRegistry,
@@ -36,18 +36,18 @@ class RegistrationFormRenderer
             return '<p>' . $this->str->translate('You are already registered and logged in.') . '</p>';
         }
 
-        $formType = 'registration';
-        $config = $this->formManager->load($formType);
-
-        if (null === $config) {
-            return '<p style="color: red;">' . $this->str->translate('Registration form is not configured yet.') . '</p>';
-        }
-
         $this->assetRegistry->enqueueStyle('usp-form');
         $this->assetRegistry->enqueueScript('usp-registration-handler');
 
-        // $config уже является DTO, передаем его напрямую в фабрику
-        $form = $this->formFactory->create($config);
+        try {
+            $command = new GetRegistrationFormCommand();
+            $result = $this->getRegistrationFormUseCase->execute($command);
+            $form = $result->form;
+        } catch (UspException $e) {
+            // В случае ошибки (например, конфиг не найден), возвращаем сообщение
+            return '<p style="color: red;">' . $this->str->escHtml($e->getMessage()) . '</p>';
+        }
+
         $settings = $this->optionManager->all();
 
         return $this->templateManager->render('registration_form', [

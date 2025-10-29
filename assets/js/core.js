@@ -131,7 +131,13 @@
             this.modal.classList.add('is-visible');
 
             try {
-                const json = await this.apiClient.post(`/form/modal/${formType}`);
+                const endpoint = {
+                    'register': '/form/registration-form',
+                    'login': '/form/login-form',
+                    'forgot-password': '/form/forgot-password-form',
+                }[formType] || `/form/modal-form/${formType}`; // Fallback for other modal forms
+                const json = await this.apiClient.post(endpoint);
+
                 this.modalBody.innerHTML = json.html;
             } catch (error) {
                 this.modalBody.innerHTML = `<p style="color: red;">${error.message}</p>`;

@@ -22,7 +22,7 @@ class SetupWizardController extends AbstractController
         private readonly StringFilterInterface              $str,
         private readonly SaveWizardStepUseCase              $saveWizardStepUseCase,
         private readonly SetupWizardConfigRegistryInterface $wizardConfigRegistry,
-        private readonly FormSanitizerInterface            $formSanitizer
+        private readonly FormSanitizerInterface             $formSanitizer
     )
     {
     }

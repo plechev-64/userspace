@@ -65,22 +65,22 @@ class UserController extends AbstractController
         }
     }
 
+    /**
+     * @throws UspException
+     */
     #[Route(path: '/login', method: 'POST')]
-    public function handleLogin(Request $request, LoginUserUseCase $loginUserUseCase): JsonResponse
+    public function handleLogin(
+        Request                    $request,
+        LoginUserUseCase           $loginUserUseCase,
+        FormConfigManagerInterface $formConfigManager,
+        FormSanitizerInterface     $formSanitizer
+    ): JsonResponse|UspException
     {
-        $clearedData = $this->sanitizer->sanitize($request->getPostParams(), [
-            'log' => SanitizerRule::TEXT_FIELD,
-            'pwd' => SanitizerRule::NO_HTML, // Пароль не должен содержать HTML, но не должен изменяться
-            'rememberme' => SanitizerRule::KEY,
-            'redirect_to' => SanitizerRule::URL,
-        ]);
+        $formType = 'login';
+        $formConfig = $formConfigManager->load($formType) ?? throw new UspException('Login form config not found', 500);
+        $clearedData = $formSanitizer->sanitize($formConfig, $request->getPostParams());
 
-        $command = new LoginUserCommand(
-            username: $clearedData->get('log', ''),
-            password: $request->getPost('pwd', ''), // Пароль передаем "сырым", так как он не должен быть изменен
-            remember: $clearedData->get('rememberme') === 'forever',
-            redirectTo: $clearedData->get('redirect_to')
-        );
+        $command = new LoginUserCommand($clearedData->all());
 
         try {
             $result = $loginUserUseCase->execute($command);

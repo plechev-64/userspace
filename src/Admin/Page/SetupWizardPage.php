@@ -22,8 +22,8 @@ class SetupWizardPage extends AbstractAdminPage
         private readonly AssetRegistryInterface             $assetRegistry,
         private readonly PluginSettingsInterface            $pluginSettings,
         private readonly SetupWizardConfigRegistryInterface $wizardConfigRegistry,
-        AdminApiInterface                        $adminApi,
-        HookManagerInterface                     $hookManager
+        AdminApiInterface                                   $adminApi,
+        HookManagerInterface                                $hookManager
     )
     {
         parent::__construct($adminApi, $hookManager);

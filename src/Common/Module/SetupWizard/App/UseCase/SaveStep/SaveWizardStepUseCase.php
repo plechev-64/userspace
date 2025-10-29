@@ -9,7 +9,7 @@ use UserSpace\Core\String\StringFilterInterface;
 class SaveWizardStepUseCase
 {
     public function __construct(
-        private readonly StringFilterInterface $str,
+        private readonly StringFilterInterface   $str,
         private readonly PluginSettingsInterface $pluginSettings
     )
     {

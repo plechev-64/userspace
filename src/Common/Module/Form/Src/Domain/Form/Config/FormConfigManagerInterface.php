@@ -20,9 +20,15 @@ interface FormConfigManagerInterface
     /**
      * Загружает конфигурацию формы из базы данных.
      *
-     * @param string $type Тип формы.
+     * @param string $formType Тип формы.
      *
      * @return FormConfig|null Конфигурационный DTO или null, если не найдено.
      */
-    public function load(string $type): ?FormConfig;
+    public function load(string $formType): ?FormConfig;
+
+    /**
+     * Регистрирует внутреннюю (не из БД) конфигурацию формы.
+     * @param callable(): FormConfig $configProvider
+     */
+    public function registerInternalConfig(string $formType, callable $configProvider): void;
 }

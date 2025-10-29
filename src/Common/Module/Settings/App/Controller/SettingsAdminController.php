@@ -29,8 +29,8 @@ class SettingsAdminController extends AbstractController
 
     #[Route(path: '/save', method: 'POST', permission: 'manage_options')]
     public function saveSettings(
-        Request                   $request,
-        FormSanitizerInterface    $formSanitizer
+        Request                $request,
+        FormSanitizerInterface $formSanitizer
     ): JsonResponse
     {
         // 1. Получаем конфигурацию формы, чтобы знать типы полей.
