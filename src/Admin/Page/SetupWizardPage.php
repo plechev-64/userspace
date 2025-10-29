@@ -3,11 +3,9 @@
 namespace UserSpace\Admin\Page;
 
 use UserSpace\Admin\Page\Abstract\AbstractAdminPage;
-use UserSpace\Common\Module\Form\Src\Domain\Form\Config\FormConfig;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Factory\FormFactory;
-use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\SelectFieldDto;
 use UserSpace\Common\Module\Settings\Src\Domain\PluginSettingsInterface;
-use UserSpace\Common\Module\SetupWizard\Domain\SetupWizardConfig;
+use UserSpace\Common\Module\SetupWizard\Domain\SetupWizardConfigRegistryInterface;
 use UserSpace\Core\Admin\AdminApiInterface;
 use UserSpace\Core\Asset\AssetRegistryInterface;
 use UserSpace\Core\Hooks\HookManagerInterface;
@@ -19,11 +17,11 @@ use UserSpace\Core\String\StringFilterInterface;
 class SetupWizardPage extends AbstractAdminPage
 {
     public function __construct(
-        private readonly FormFactory             $formFactory,
-        private readonly SetupWizardConfig       $wizardConfig,
-        private readonly StringFilterInterface   $str,
-        private readonly AssetRegistryInterface  $assetRegistry,
-        private readonly PluginSettingsInterface $pluginSettings,
+        private readonly FormFactory                        $formFactory,
+        private readonly StringFilterInterface              $str,
+        private readonly AssetRegistryInterface             $assetRegistry,
+        private readonly PluginSettingsInterface            $pluginSettings,
+        private readonly SetupWizardConfigRegistryInterface $wizardConfigRegistry,
         AdminApiInterface                        $adminApi,
         HookManagerInterface                     $hookManager
     )
@@ -89,7 +87,7 @@ class SetupWizardPage extends AbstractAdminPage
 
     public function render(): void
     {
-        $wizardConfig = $this->getWizardConfig();
+        $wizardConfig = $this->wizardConfigRegistry->getWizardConfig();
         $config = $wizardConfig->toArray();
         $options = $this->pluginSettings->all();
 
@@ -115,7 +113,7 @@ class SetupWizardPage extends AbstractAdminPage
 
         foreach ($config['steps'] as $index => $step) {
             $class = $index === 0 ? 'active' : '';
-            echo '<div class="usp-wizard-pane ' . $this->str->escAttr($class) . '" data-step-content="' . $this->str->escAttr($index) . '">';
+            echo '<div class="usp-wizard-pane ' . $this->str->escAttr($class) . '" data-step-content="' . $this->str->escAttr($index) . '" data-step-id="' . $this->str->escAttr($step['id']) . '">';
 
             if ($index === 0) {
                 echo '<p class="usp-wizard-intro">' . $this->str->translate('Welcome! This wizard will help you with the initial setup of the plugin. Please follow the steps to configure the most important options.') . '</p>';
@@ -123,11 +121,10 @@ class SetupWizardPage extends AbstractAdminPage
                 echo '<p class="usp-wizard-intro">' . $this->str->translate('Setup is complete! You have configured the basic settings. You can change them at any time on the plugin settings page.') . '</p>';
             }
 
-            $stepFormConfig = new FormConfig();
-            // FormConfig требует, чтобы поля находились внутри блоков,
-            // а блоки - внутри секций.
-            $stepFormConfig->addSection('');
-            $stepFormConfig->addBlock('');
+            // Создаем временный FormConfig для рендеринга полей текущего шага
+            $stepFormConfig = new \UserSpace\Common\Module\Form\Src\Domain\Form\Config\FormConfig();
+            $stepFormConfig->addSection('')->addBlock(''); // Добавляем пустую секцию и блок
+
             foreach ($step['fields'] as $name => $fieldData) {
                 if (isset($options[$name])) {
                     $fieldData['value'] = $options[$name];
@@ -167,50 +164,5 @@ class SetupWizardPage extends AbstractAdminPage
     protected function getMenuSlug(): string
     {
         return 'userspace-setup';
-    }
-
-    /**
-     * Собирает конфигурацию для мастера настройки.
-     * @return SetupWizardConfig
-     */
-    private function getWizardConfig(): SetupWizardConfig
-    {
-        $config = $this->wizardConfig
-            //-- Шаг 1: Основные страницы
-            ->addStep('pages', $this->str->translate('Page Assignment'))
-            ->addOption(new SelectFieldDto('login_page_id', [
-                'label' => $this->str->translate('Login Page'),
-                'options' => $this->getPagesAsOptions(),
-                'description' => $this->str->translate('Select the page where the login form will be displayed.'),
-            ]))
-            ->addOption(new SelectFieldDto('registration_page_id', [
-                'label' => $this->str->translate('Registration Page'),
-                'options' => $this->getPagesAsOptions(),
-                'description' => $this->str->translate('Select the page for the user registration form.'),
-            ]))
-            ->addOption(new SelectFieldDto('profile_page_id', [
-                'label' => $this->str->translate('User Profile Page'),
-                'options' => $this->getPagesAsOptions(),
-                'description' => $this->str->translate('Select the page to display user profiles.'),
-            ]))
-
-            //-- Шаг 2: Дополнительные настройки
-            ->addStep('advanced', $this->str->translate('Advanced Settings'))
-            ->addOption(new SelectFieldDto('password_reset_page_id', [
-                'label' => $this->str->translate('Password Recovery Page'),
-                'options' => $this->getPagesAsOptions(),
-            ]));
-
-        return $this->hookManager->applyFilters('usp_setup_wizard_config', $config);
-    }
-
-    private function getPagesAsOptions(): array
-    {
-        $pages = get_pages();
-        $options = ['' => $this->str->translate('— Select a page —')];
-        foreach ($pages as $page) {
-            $options[$page->ID] = $page->post_title;
-        }
-        return $options;
     }
 }

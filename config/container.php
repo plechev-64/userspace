@@ -64,6 +64,8 @@ use UserSpace\Common\Module\Settings\Src\Domain\OptionManagerInterface;
 use UserSpace\Common\Module\Settings\Src\Domain\PluginSettings;
 use UserSpace\Common\Module\Settings\Src\Domain\PluginSettingsInterface;
 use UserSpace\Common\Module\Settings\Src\Domain\TransientApiInterface;
+use UserSpace\Common\Module\SetupWizard\Domain\SetupWizardConfigRegistryInterface;
+use UserSpace\Common\Module\SetupWizard\Infrastructure\SetupWizardConfigRegistry;
 use UserSpace\Common\Module\SetupWizard\App\Controller\SetupWizardController;
 use UserSpace\Common\Module\SSE\App\SseController;
 use UserSpace\Common\Module\SSE\Src\Domain\Repository\SseEventRepositoryInterface;
@@ -188,6 +190,7 @@ return [
         FormConfigManagerInterface::class => fn(ContainerInterface $c) => $c->get(FormConfigManager::class),
         FormSanitizerInterface::class => fn(ContainerInterface $c) => $c->get(FormSanitizer::class),
         FormFactoryInterface::class => fn(ContainerInterface $c) => $c->get(FormFactory::class),
+        SetupWizardConfigRegistryInterface::class => fn(ContainerInterface $c) => $c->get(SetupWizardConfigRegistry::class),
 
         // Grid
         GridProvider::class => function (ContainerInterface $c) {
