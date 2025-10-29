@@ -2,14 +2,11 @@
 
 namespace UserSpace\Common\Module\Form\App\UseCase\SaveProfileForm;
 
-use UserSpace\Common\Module\Form\Src\Domain\Field\FieldInterface;
 use UserSpace\Common\Module\Form\Src\Domain\Form\Config\FormConfigManagerInterface;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Factory\FormFactory;
 use UserSpace\Common\Module\Media\Src\Domain\TemporaryFileRepositoryInterface;
 use UserSpace\Common\Module\User\Src\Domain\UserApiInterface;
 use UserSpace\Core\Exception\UspException;
-use UserSpace\Core\Sanitizer\SanitizerInterface;
-use UserSpace\Core\Sanitizer\SanitizerRule;
 use UserSpace\Core\String\StringFilterInterface;
 
 class SaveProfileFormUseCase
@@ -26,8 +23,7 @@ class SaveProfileFormUseCase
         private readonly FormFactory                      $formFactory,
         private readonly StringFilterInterface            $str,
         private readonly UserApiInterface                 $userApi,
-        private readonly TemporaryFileRepositoryInterface $tempFileRepository,
-        private readonly SanitizerInterface               $sanitizer
+        private readonly TemporaryFileRepositoryInterface $tempFileRepository
     )
     {
     }

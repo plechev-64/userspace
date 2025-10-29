@@ -4,7 +4,6 @@ namespace UserSpace\Common\Module\Form\Src\Infrastructure\Form\Config;
 
 use UserSpace\Common\Module\Form\Src\Domain\Form\Config\FormConfig;
 use UserSpace\Common\Module\Form\Src\Domain\Form\Config\FormConfigManagerInterface;
-use UserSpace\Common\Module\Form\Src\Domain\formRepository\FormformRepositoryInterface;
 use UserSpace\Common\Module\Form\Src\Domain\Repository\FormRepositoryInterface;
 
 // Защита от прямого доступа к файлу
@@ -25,7 +24,6 @@ class FormConfigManager implements FormConfigManagerInterface
     public function __construct(private readonly FormRepositoryInterface $formRepository)
     {
     }
-
 
     /**
      * Сохраняет конфигурацию формы в базу данных.
@@ -62,6 +60,11 @@ class FormConfigManager implements FormConfigManagerInterface
         }
 
         $configData = json_decode($config_json, true);
+
+        // Если JSON некорректен или декодирование вернуло не массив, возвращаем null
+        if (json_last_error() !== JSON_ERROR_NONE || !is_array($configData)) {
+            return null;
+        }
 
         return FormConfig::fromArray($configData);
     }
