@@ -8,6 +8,7 @@ use UserSpace\Common\Module\Locations\Src\Domain\AbstractTab;
 use UserSpace\Common\Service\ViewedUserContext;
 use UserSpace\Core\Asset\AssetRegistryInterface;
 use UserSpace\Core\String\StringFilterInterface;
+use UserSpace\Core\TemplateManagerInterface;
 
 class EditProfileTab extends AbstractTab
 {
@@ -16,8 +17,10 @@ class EditProfileTab extends AbstractTab
         private readonly ViewedUserContext              $viewedUserContext,
         private readonly StringFilterInterface          $str,
         private readonly AssetRegistryInterface         $assetRegistry,
+        TemplateManagerInterface $templateManager
     )
     {
+        parent::__construct($templateManager);
         $this->id = 'edit_profile';
         $this->title = $str->translate('Edit Profile', 'usp');
         $this->parentId = 'profile';

@@ -4,6 +4,7 @@ namespace UserSpace\Common\Module\Form\Src\Domain\Field;
 
 use InvalidArgumentException;
 use UserSpace\Common\Module\Form\Src\Domain\Field\DTO\AbstractFieldDto;
+use UserSpace\Common\Module\Form\Src\Domain\Field\DTO\FieldDtoInterface;
 use UserSpace\Common\Module\Form\Src\Domain\Validator\ValidatorInterface;
 use UserSpace\Core\String\StringFilterInterface;
 
@@ -44,10 +45,9 @@ abstract class AbstractField implements FieldInterface
 
     /**
      * Инициализирует поле данными из DTO.
-     * @param AbstractFieldDto $dto
-     * @throws InvalidArgumentException
+     * @param FieldDtoInterface $dto
      */
-    public function init(AbstractFieldDto $dto): void
+    public function init(FieldDtoInterface $dto): void
     {
         if (empty(trim($dto->name))) {
             throw new InvalidArgumentException('Field name cannot be empty.');

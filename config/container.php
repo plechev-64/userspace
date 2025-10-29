@@ -145,6 +145,8 @@ return [
         'rest.prefix' => 'wp-json',
         'rest.namespace' => USERSPACE_REST_NAMESPACE,
         'app.templates' => new Params([
+            'item_tab' => USERSPACE_PLUGIN_DIR . 'views/parts/item-tab.php',
+            'item_button' => USERSPACE_PLUGIN_DIR . 'views/parts/item-button.php',
             'modal_container' => USERSPACE_PLUGIN_DIR . 'views/modal-container.php',
             'user_bar' => USERSPACE_PLUGIN_DIR . 'views/user-bar-template.php',
             'login_form' => USERSPACE_PLUGIN_DIR . 'views/login-form-template.php',

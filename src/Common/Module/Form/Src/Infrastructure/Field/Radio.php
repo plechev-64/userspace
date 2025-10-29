@@ -5,6 +5,7 @@ namespace UserSpace\Common\Module\Form\Src\Infrastructure\Field;
 use UserSpace\Adapters\StringFilter;
 use UserSpace\Common\Module\Form\Src\Domain\Field\AbstractField;
 use UserSpace\Common\Module\Form\Src\Domain\Field\DTO\AbstractFieldDto;
+use UserSpace\Common\Module\Form\Src\Domain\Field\DTO\FieldDtoInterface;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\RadioFieldDto;
 use UserSpace\Core\Sanitizer\SanitizerRule;
 
@@ -25,7 +26,7 @@ class Radio extends AbstractField
      * @param RadioFieldDto $dto
      * @return void
      */
-    public function init(AbstractFieldDto $dto): void
+    public function init(FieldDtoInterface $dto): void
     {
         parent::init($dto);
         $this->options = $dto->options;

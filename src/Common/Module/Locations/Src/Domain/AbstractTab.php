@@ -2,6 +2,9 @@
 
 namespace UserSpace\Common\Module\Locations\Src\Domain;
 
+
+use UserSpace\Core\TemplateManagerInterface;
+
 abstract class AbstractTab implements ItemInterface
 {
     public const OVERVIEW_POSTFIX = '__overview';
@@ -18,6 +21,16 @@ abstract class AbstractTab implements ItemInterface
     protected mixed $contentSource = null; // Может быть URL или колбэк
     protected array $subTabs = [];
 
+    protected TemplateManagerInterface $templateManager;
+
+    /**
+     * @param TemplateManagerInterface $templateManager
+     */
+    public function __construct(TemplateManagerInterface $templateManager)
+    {
+        $this->templateManager = $templateManager;
+    }
+
     abstract public function getContent(): string;
 
     public function isDefault(): bool
@@ -28,6 +41,21 @@ abstract class AbstractTab implements ItemInterface
     public function getItemType(): string
     {
         return 'tab';
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function render(): string
+    {
+        // По умолчанию рендерим стандартный шаблон для элемента меню.
+        // Конкретные классы вкладок могут переопределить этот метод для кастомного рендеринга.
+        return $this->templateManager->render('item_tab', [
+            'item' => $this,
+            'url' => '#' . $this->getId(),
+            'title' => $this->getTitle(),
+            'is_active' => false, // Логика определения активной вкладки должна быть здесь
+        ]);
     }
 
     public function getId(): string
