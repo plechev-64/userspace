@@ -2,9 +2,8 @@
 
 namespace UserSpace\Common\Module\User\App\Controller;
 
-use UserSpace\Common\Module\Form\Src\Domain\Field\FieldInterface;
 use UserSpace\Common\Module\Form\Src\Domain\Form\Config\FormConfigManagerInterface;
-use UserSpace\Common\Module\Form\Src\Domain\Service\FieldMapRegistryInterface;
+use UserSpace\Common\Module\Form\Src\Domain\Service\FormSanitizerInterface;
 use UserSpace\Common\Module\User\App\UseCase\Avatar\UpdateUserAvatarCommand;
 use UserSpace\Common\Module\User\App\UseCase\Avatar\UpdateUserAvatarUseCase;
 use UserSpace\Common\Module\User\App\UseCase\Login\LoginUserCommand;
@@ -141,24 +140,16 @@ class UserController extends AbstractController
         Request                    $request,
         RegisterUserUseCase        $registerUserUseCase,
         FormConfigManagerInterface $formConfigManager,
-        FieldMapRegistryInterface  $fieldMapRegistry
+        FormSanitizerInterface     $formSanitizer
     ): JsonResponse|UspException
     {
 
         /** @todo вынести тип формы в константу */
         $formType = 'registration';
 
-        $formConfig = $formConfigManager->load($formType);
+        $formConfig = $formConfigManager->load($formType) ?? throw new UspException('Registration form config not found', 500);
 
-        /** @todo вынести процедуру создания конфига санитизации формы в сервис */
-        $sanitizationConfig = array_map(function ($field) use ($fieldMapRegistry) {
-            // получаем правила очистки поля по типу и добавляем в конфиг
-            /** @var class-string<FieldInterface> $fieldClassName */
-            $fieldClassName = $fieldMapRegistry->getClass($field['type']);
-            return $fieldClassName::getSanitizationRule();
-        }, $formConfig->getFields());
-
-        $clearedData = $this->sanitizer->sanitize($request->getPostParams(), $sanitizationConfig);
+        $clearedData = $formSanitizer->sanitize($formConfig, $request->getPostParams());
 
         $command = new RegisterUserCommand($formType, $clearedData->all());
 

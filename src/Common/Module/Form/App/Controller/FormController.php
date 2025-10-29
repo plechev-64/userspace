@@ -14,7 +14,7 @@ use UserSpace\Common\Module\Form\App\UseCase\SaveProfileForm\SaveProfileFormUseC
 use UserSpace\Common\Module\Form\Src\Domain\Field\FieldInterface;
 use UserSpace\Common\Module\Form\Src\Domain\Form\Config\FormConfig;
 use UserSpace\Common\Module\Form\Src\Domain\Form\Config\FormConfigManagerInterface;
-use UserSpace\Common\Module\Form\Src\Domain\Service\FieldMapRegistryInterface;
+use UserSpace\Common\Module\Form\Src\Domain\Service\FormSanitizerInterface;
 use UserSpace\Core\Exception\UspException;
 use UserSpace\Core\Http\JsonResponse;
 use UserSpace\Core\Http\Request;
@@ -41,26 +41,18 @@ class FormController extends AbstractController
         Request                    $request,
         SaveProfileFormUseCase     $saveProfileUseCase,
         FormConfigManagerInterface $formConfigManager,
-        FieldMapRegistryInterface  $fieldMapRegistry
+        FormSanitizerInterface     $formSanitizer
     ): JsonResponse
     {
 
         /** @todo вынести тип формы в константу */
         $formType = 'profile';
 
-        $formConfig = $formConfigManager->load($formType);
+        $formConfig = $formConfigManager->load($formType) ?? throw new UspException('Profile form config not found', 500);
 
-        /** @todo вынести процедуру создания конфига санитизации формы в сервис */
-        $sanitizationConfig = array_map(function ($field) use ($fieldMapRegistry) {
-            // получаем правила очистки поля по типу и добавляем в конфиг
-            /** @var class-string<FieldInterface> $fieldClassName */
-            $fieldClassName = $fieldMapRegistry->getClass($field['type']);
-            return $fieldClassName::getSanitizationRule();
-        }, $formConfig->getFields());
+        $clearedData = $formSanitizer->sanitize($formConfig, $request->getPostParams());
 
-        $clearedData = $this->sanitizer->sanitize($request->getPostParams(), $sanitizationConfig);
-
-        $command = new SaveProfileFormCommand('profile', $clearedData->all());
+        $command = new SaveProfileFormCommand($formType, $clearedData->all());
 
         try {
             $saveProfileUseCase->execute($command);

@@ -23,11 +23,13 @@ use UserSpace\Common\Module\Form\Src\Domain\Factory\FormFactoryInterface;
 use UserSpace\Common\Module\Form\Src\Domain\Form\Config\FormConfigManagerInterface;
 use UserSpace\Common\Module\Form\Src\Domain\Repository\FormRepositoryInterface;
 use UserSpace\Common\Module\Form\Src\Domain\Service\FieldMapRegistryInterface;
+use UserSpace\Common\Module\Form\Src\Domain\Service\FormSanitizerInterface;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Factory\FieldFactory;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Factory\FormFactory;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Form\Config\FormConfigManager;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Repository\FormRepository;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Service\FieldMapRegistry;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Service\FormSanitizer;
 use UserSpace\Common\Module\Grid\App\Controller\GridController;
 use UserSpace\Common\Module\Grid\App\UseCase\FetchGridDataUseCase;
 use UserSpace\Common\Module\Grid\Src\Infrastructure\GridProvider;
@@ -184,6 +186,7 @@ return [
         PluginSettingsInterface::class => fn(ContainerInterface $c) => $c->get(PluginSettings::class),
         FieldFactoryInterface::class => fn(ContainerInterface $c) => $c->get(FieldFactory::class),
         FormConfigManagerInterface::class => fn(ContainerInterface $c) => $c->get(FormConfigManager::class),
+        FormSanitizerInterface::class => fn(ContainerInterface $c) => $c->get(FormSanitizer::class),
         FormFactoryInterface::class => fn(ContainerInterface $c) => $c->get(FormFactory::class),
 
         // Grid

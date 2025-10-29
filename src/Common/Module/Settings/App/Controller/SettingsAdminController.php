@@ -3,8 +3,7 @@
 namespace UserSpace\Common\Module\Settings\App\Controller;
 
 use UserSpace\Admin\Service\SettingsFormConfigServiceInterface;
-use UserSpace\Common\Module\Form\Src\Domain\Field\FieldInterface;
-use UserSpace\Common\Module\Form\Src\Domain\Service\FieldMapRegistryInterface;
+use UserSpace\Common\Module\Form\Src\Domain\Service\FormSanitizerInterface;
 use UserSpace\Common\Module\Settings\App\UseCase\Save\SaveSettingsCommand;
 use UserSpace\Common\Module\Settings\App\UseCase\Save\SaveSettingsUseCase;
 use UserSpace\Core\Exception\UspException;
@@ -31,22 +30,14 @@ class SettingsAdminController extends AbstractController
     #[Route(path: '/save', method: 'POST', permission: 'manage_options')]
     public function saveSettings(
         Request                   $request,
-        FieldMapRegistryInterface $fieldMapRegistry
+        FormSanitizerInterface    $formSanitizer
     ): JsonResponse
     {
         // 1. Получаем конфигурацию формы, чтобы знать типы полей.
         $formConfig = $this->settingsFormConfigService->getFormConfig();
 
         // 2. Строим конфигурацию санитизации на основе типов полей.
-        /** @todo вынести процедуру создания конфига санитизации формы в сервис */
-        $sanitizationConfig = array_map(function ($field) use ($fieldMapRegistry) {
-            // получаем правила очистки поля по типу и добавляем в конфиг
-            /** @var class-string<FieldInterface> $fieldClassName */
-            $fieldClassName = $fieldMapRegistry->getClass($field['type']);
-            return $fieldClassName::getSanitizationRule();
-        }, $formConfig->getFields());
-
-        $clearedData = $this->sanitizer->sanitize($request->getPostParams(), $sanitizationConfig);
+        $clearedData = $formSanitizer->sanitize($formConfig, $request->getPostParams());
 
         $command = new SaveSettingsCommand($clearedData->all()); // Передаем полностью очищенный массив
 
