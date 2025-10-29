@@ -21,8 +21,14 @@ class FetchGridDataUseCase
     {
         $grid = $this->gridProvider->getGrid($command->gridType);
 
-        /** @todo передавать через команду понятные параметры */
-        $paramsDto = new GridRequestParamsDto($command->requestParams);
+        $paramsDto = new GridRequestParamsDto(
+            page: $command->page,
+            perPage: $command->perPage,
+            search: $command->search,
+            orderBy: $command->orderBy,
+            order: $command->order
+        );
+
         $data = $grid->fetchData($paramsDto);
 
         $itemsHtml = $grid->renderItems($data['items']);
