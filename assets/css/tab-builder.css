@@ -59,6 +59,10 @@
     color: #50575e;
 }
 
+.usp-tab-builder-item-header .uspi {
+    margin-right: 8px; /* Отступ для новых иконок */
+}
+
 .usp-tab-builder-item-header .tab-title {
     font-weight: 500;
     flex-grow: 1;

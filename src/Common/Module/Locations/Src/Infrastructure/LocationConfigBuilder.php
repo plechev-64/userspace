@@ -105,9 +105,20 @@ class LocationConfigBuilder
         );
 
         $output .= '<div class="usp-tab-builder-item-header">';
+
+        $iconClass = $item->getIcon();
+        if ($iconClass) {
+            // Если иконка задана, используем новую систему <i class="uspi ...">
+            $iconHtml = sprintf('<i class="uspi %s"></i>', $this->str->escAttr($iconClass));
+        } else {
+            // В качестве фолбэка оставляем старые dashicons
+            $fallbackIcon = $isTab ? 'dashicons-admin-page' : 'dashicons-admin-generic';
+            $iconHtml = sprintf('<span class="dashicons %s"></span>', $this->str->escAttr($fallbackIcon));
+        }
+
         $output .= sprintf(
-            '<span class="dashicons %s"></span> <span class="tab-title">%s</span>',
-            $this->str->escAttr($item->getIcon() ?? ($isTab ? 'dashicons-admin-page' : 'dashicons-admin-generic')),
+            '%s <span class="tab-title">%s</span>',
+            $iconHtml,
             $this->str->escHtml($item->getTitle())
         );
         $output .= '<div class="usp-tab-builder-item-actions">';

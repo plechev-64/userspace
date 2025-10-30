@@ -120,7 +120,17 @@
 
 /* Иконки в меню */
 .usp-sidebar-nav__icon {
-    display: none; /* Иконки в верхнем меню не нужны */
+    margin-right: 10px; /* Отступ справа от иконки */
+    display: inline-flex;
+    align-items: center;
+    opacity: 0.8; /* Немного приглушаем иконку по умолчанию */
+    transition: var(--usp-transition);
+}
+
+/* Активная иконка */
+.usp-sidebar-nav__link.is-active .usp-sidebar-nav__icon {
+    opacity: 1; /* Полная непрозрачность для активной иконки */
+    color: var(--usp-color-primary); /* Цвет активной иконки */
 }
 
 /* Подменю (выпадающее) */
