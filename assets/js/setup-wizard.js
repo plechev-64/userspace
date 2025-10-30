@@ -99,12 +99,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
         async saveStepData() {
             const currentPane = this.panes[this.currentStep];
+            const stepId = currentPane.dataset.stepId;
             const inputs = currentPane.querySelectorAll('input, select, textarea');
             const stepData = {};
 
             inputs.forEach(input => {
                 if (input.name) {
-                    stepData[input.name] = input.value;
+                    // Обработка чекбоксов
+                    if (input.type === 'checkbox') {
+                        stepData[input.name] = input.checked ? input.value : '0';
+                    } else {
+                        stepData[input.name] = input.value;
+                    }
                 }
             });
 
@@ -112,7 +118,10 @@ document.addEventListener('DOMContentLoaded', () => {
             this.nextButton.textContent = this.l10n.saving || 'Saving...';
 
             try {
-                const response = await window.UspCore.api.post('/setup-wizard/save-step', {data: stepData});
+                const response = await window.UspCore.api.post('/setup-wizard/save-step', {
+                    stepId: stepId,
+                    data: stepData
+                });
                 window.UspCore.ui.showAdminNotice(response.message, 'success', '#usp-wizard-notifications');
                 return true;
             } catch (error) {

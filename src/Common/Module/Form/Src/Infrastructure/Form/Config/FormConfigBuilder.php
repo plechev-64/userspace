@@ -266,7 +266,7 @@ class FormConfigBuilder
 
         $label = $fieldConfig['label'] ?? $name;
         $type = $fieldConfig['type'] ?? 'text';
-        $config_json = wp_json_encode($fieldConfig);
+        $config_json = json_encode($fieldConfig);
 
         return sprintf(
             '<div class="usp-form-builder-field" data-name="%s" data-type="%s" data-config="%s">

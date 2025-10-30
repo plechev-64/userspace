@@ -3,6 +3,7 @@
 namespace UserSpace;
 
 use UserSpace\Admin\AdminManager;
+use UserSpace\Common\Module\Form\Src\Infrastructure\DefaultFormConfigs;
 use UserSpace\Common\Module\Locations\App\Default\ActivityTab;
 use UserSpace\Common\Module\Locations\App\Default\ClearCacheButton;
 use UserSpace\Common\Module\Locations\App\Default\EditProfileTab;
@@ -10,6 +11,7 @@ use UserSpace\Common\Module\Locations\App\Default\ProfileTab;
 use UserSpace\Common\Module\Locations\App\Default\SecurityTab;
 use UserSpace\Common\Module\Locations\App\Default\UserListTab;
 use UserSpace\Common\Module\Locations\Src\Domain\ItemRegistryInterface;
+use UserSpace\Common\Module\SetupWizard\Infrastructure\DefaultSetupWizardConfig;
 use UserSpace\Common\Service\AssetsManager;
 use UserSpace\Common\Service\AvatarManager;
 use UserSpace\Common\Service\CronManager;
@@ -127,6 +129,7 @@ final class Plugin
         $this->hookManager->addAction('userspace_addons_init', [$this, 'addonsInit'], 10);
         $this->hookManager->addAction('userspace_addons_init', [$this, 'themeInit'], 15);
         $this->hookManager->addAction('userspace_addons_init', [$this, 'registerDefaultItems'], 20);
+        $this->hookManager->addAction('userspace_addons_init', [$this, 'registerDefaultConfigs'], 25);
 
         // Инициализация менеджеров
         $this->container->get(AssetsManager::class)->registerHooks();
@@ -173,6 +176,17 @@ final class Plugin
         $this->itemRegistry->registerItem(ClearCacheButton::class);
     }
 
+    /**
+     * Регистрирует конфигурации по умолчанию.
+     */
+    public function registerDefaultConfigs(): void
+    {
+        $setupWizardConfig = $this->container->get(DefaultSetupWizardConfig::class);
+        $setupWizardConfig->register();
+
+        $defaultFormConfigs = $this->container->get(DefaultFormConfigs::class);
+        $defaultFormConfigs->register();
+    }
 
     /**
      * Запрещаем клонирование для Singleton.

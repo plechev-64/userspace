@@ -9,8 +9,8 @@ use UserSpace\Common\Module\Form\Src\Infrastructure\Factory\FormFactory;
 class GetFieldSettingsFormUseCase
 {
     public function __construct(
-        private readonly FieldFactoryInterface     $fieldFactory,
-        private readonly FormFactory               $formFactory
+        private readonly FieldFactoryInterface $fieldFactory,
+        private readonly FormFactory           $formFactory
     )
     {
     }
@@ -45,7 +45,6 @@ class GetFieldSettingsFormUseCase
         }
         $settingsForm = $this->formFactory->create($formConfig);
 
-        // Возвращаем объект-результат с готовой формой, а не HTML
         return new GetFieldSettingsFormResult($settingsForm);
     }
 }

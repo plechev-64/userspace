@@ -2,14 +2,11 @@
 
 namespace UserSpace\Common\Module\Form\App\UseCase\SaveProfileForm;
 
-use UserSpace\Common\Module\Form\Src\Domain\Field\FieldInterface;
 use UserSpace\Common\Module\Form\Src\Domain\Form\Config\FormConfigManagerInterface;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Factory\FormFactory;
 use UserSpace\Common\Module\Media\Src\Domain\TemporaryFileRepositoryInterface;
 use UserSpace\Common\Module\User\Src\Domain\UserApiInterface;
 use UserSpace\Core\Exception\UspException;
-use UserSpace\Core\Sanitizer\SanitizerInterface;
-use UserSpace\Core\Sanitizer\SanitizerRule;
 use UserSpace\Core\String\StringFilterInterface;
 
 class SaveProfileFormUseCase
@@ -26,8 +23,7 @@ class SaveProfileFormUseCase
         private readonly FormFactory                      $formFactory,
         private readonly StringFilterInterface            $str,
         private readonly UserApiInterface                 $userApi,
-        private readonly TemporaryFileRepositoryInterface $tempFileRepository,
-        private readonly SanitizerInterface               $sanitizer
+        private readonly TemporaryFileRepositoryInterface $tempFileRepository
     )
     {
     }
@@ -72,7 +68,7 @@ class SaveProfileFormUseCase
 
         foreach ($form->getFields() as $field) {
             $fieldName = $field->getName();
-            $sanitizedValue = $this->_sanitizeFieldValue($field);
+            $sanitizedValue = $field->getValue();
 
             if (in_array($fieldName, self::CORE_USER_FIELDS, true)) {
                 // Не добавляем пустые значения для полей пароля
@@ -110,31 +106,5 @@ class SaveProfileFormUseCase
         if (!empty($attachmentIds)) {
             $this->tempFileRepository->remove($attachmentIds);
         }
-    }
-
-    /**
-     * Применяет правило санитизации к значению поля на основе его типа.
-     *
-     * @param FieldInterface $field Объект поля.
-     * @return mixed Очищенное значение.
-     */
-    private function _sanitizeFieldValue(FieldInterface $field): mixed
-    {
-        $value = $field->getValue();
-        $type = $field->getType();
-
-        $rule = match ($type) {
-            'email' => SanitizerRule::EMAIL,
-            'url' => SanitizerRule::URL,
-            'textarea' => SanitizerRule::KSES_POST, // Разрешаем безопасный HTML для многострочных полей
-            'number', 'file', 'image' => SanitizerRule::INT, // ID вложений - это числа
-            default => SanitizerRule::TEXT_FIELD, // По умолчанию очищаем как простое текстовое поле
-        };
-
-        // Используем универсальный санитайзер для применения правила.
-        // Оборачиваем в массив, так как санитайзер ожидает массив.
-        $clearedData = $this->sanitizer->sanitize(['value' => $value], ['value' => $rule]);
-
-        return $clearedData->get('value');
     }
 }

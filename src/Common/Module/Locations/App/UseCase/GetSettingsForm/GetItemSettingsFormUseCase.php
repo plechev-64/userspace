@@ -83,6 +83,9 @@ class GetItemSettingsFormUseCase
                     $this->str->translate('Enter a Dashicon class name. See all available icons %s.'),
                     '<a href="https://developer.wordpress.org/resource/dashicons/" target="_blank">' . $this->str->translate('here') . '</a>'
                 ),
+                'attributes' => [
+                    'class' => 'usp-icon-picker'
+                ],
             ],
             'capability' => [
                 'type' => 'text',

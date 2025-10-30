@@ -7,6 +7,11 @@ namespace UserSpace\Common\Module\Locations\Src\Domain;
  */
 interface ItemInterface
 {
+    /**
+     * Возвращает HTML-представление элемента (например, для меню).
+     * @return string
+     */
+    public function render(): string;
     public function getId(): string;
 
     public function getTitle(): string;

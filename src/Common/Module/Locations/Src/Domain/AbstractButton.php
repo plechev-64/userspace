@@ -3,6 +3,7 @@
 namespace UserSpace\Common\Module\Locations\Src\Domain;
 
 use UserSpace\Common\Module\User\Src\Domain\UserApiInterface;
+use UserSpace\Core\TemplateManagerInterface;
 
 abstract class AbstractButton implements ItemInterface
 {
@@ -16,10 +17,15 @@ abstract class AbstractButton implements ItemInterface
     protected bool $isPrivate = false;
     protected ?string $actionEndpoint = null;
     protected UserApiInterface $userApi;
+    protected TemplateManagerInterface $templateManager;
 
-    public function __construct(UserApiInterface $userApi)
+    public function __construct(
+        UserApiInterface $userApi,
+        TemplateManagerInterface $templateManager
+    )
     {
         $this->userApi = $userApi;
+        $this->templateManager = $templateManager;
     }
 
     /**
@@ -28,6 +34,20 @@ abstract class AbstractButton implements ItemInterface
      * @return mixed Результат выполнения.
      */
     abstract public function handleAction(array $requestData): mixed;
+
+    /**
+     * @inheritDoc
+     */
+    public function render(): string
+    {
+        // По умолчанию рендерим стандартный шаблон для элемента кнопки.
+        // Конкретные классы кнопок могут переопределить этот метод для кастомного рендеринга.
+        return $this->templateManager->render('item_button', [
+            'item' => $this,
+            'title' => $this->getTitle(),
+            'actionEndpoint' => $this->getActionEndpoint(),
+        ]);
+    }
 
     public function getItemType(): string
     {

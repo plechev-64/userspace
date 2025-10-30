@@ -1,0 +1,105 @@
+:root {
+    --usp-ip-bg: #fff;
+    --usp-ip-border-color: #ccc;
+    --usp-ip-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+    --usp-ip-item-hover-bg: #f5f5f5;
+    --usp-ip-item-selected-bg: #4a90e2;
+    --usp-ip-item-selected-color: #fff;
+}
+
+/* --- Обертка для поля ввода и предпросмотра --- */
+.usp-icon-picker-wrapper {
+    position: relative;
+    display: inline-block; /* Чтобы обертка вела себя как инлайн-элемент */
+    vertical-align: middle; /* Для выравнивания с другими элементами формы */
+    width: 100%;
+}
+
+/* --- Предпросмотр иконки --- */
+.usp-icon-preview {
+    position: absolute; /* Абсолютное позиционирование внутри обертки */
+    left: 1px; /* Отступ от левого края поля (внутри границы) */
+    top: 1px; /* Отступ от верхнего края поля (внутри границы) */
+    height: calc(100% - 2px); /* Высота, чтобы поместиться внутри границы поля */
+    width: 34px; /* Фиксированная ширина для области иконки */
+    display: flex; /* Для центрирования иконки */
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    color: #505050; /* Цвет иконки по умолчанию */
+    pointer-events: none; /* Позволяет кликам проходить сквозь превью к полю ввода */
+    z-index: 1; /* Убедимся, что иконка поверх текста поля */
+    border: none; /* Убираем лишние границы */
+    background-color: transparent; /* Прозрачный фон */
+    border-radius: 0; /* Убираем скругления */
+}
+
+/* --- Поле ввода --- */
+.usp-icon-picker {
+    padding-left: 40px!important; /* Отступ слева для текста, чтобы не наезжал на иконку (34px иконка + 6px отступ) */
+    border-radius: 4px !important; /* Применяем полное скругление к самому полю */
+    background-color: var(--usp-ip-bg); /* Убедимся, что у поля есть фон */
+}
+
+/* --- Всплывающее окно --- */
+.usp-iconpicker-popover {
+    position: absolute;
+    display: none;
+    width: 280px;
+    z-index: 999999; /* Увеличено для отображения поверх модальных окон */
+    background: var(--usp-ip-bg);
+    border: 1px solid var(--usp-ip-border-color);
+    border-radius: 6px;
+    box-shadow: var(--usp-ip-shadow);
+    padding: 8px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.15s ease-out, transform 0.15s ease-out;
+}
+
+.usp-iconpicker-popover.is-visible {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* --- Поиск --- */
+.usp-iconpicker-search {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid var(--usp-ip-border-color);
+    border-radius: 4px;
+    margin-bottom: 8px;
+    box-sizing: border-box; /* Важно */
+}
+
+/* --- Контейнер с иконками --- */
+.usp-iconpicker-items {
+    max-height: 200px;
+    overflow-y: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(38px, 1fr));
+    gap: 4px;
+}
+
+/* --- Элемент иконки --- */
+.usp-iconpicker-item {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    font-size: 18px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.usp-iconpicker-item:hover {
+    background-color: var(--usp-ip-item-hover-bg);
+}
+
+.usp-iconpicker-item.is-selected {
+    background-color: var(--usp-ip-item-selected-bg);
+    color: var(--usp-ip-item-selected-color);
+}

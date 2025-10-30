@@ -2,6 +2,8 @@
 
 namespace UserSpace\Common\Module\User\App\Controller;
 
+use UserSpace\Common\Module\Form\Src\Domain\Form\Config\FormConfigManagerInterface;
+use UserSpace\Common\Module\Form\Src\Domain\Service\FormSanitizerInterface;
 use UserSpace\Common\Module\User\App\UseCase\Avatar\UpdateUserAvatarCommand;
 use UserSpace\Common\Module\User\App\UseCase\Avatar\UpdateUserAvatarUseCase;
 use UserSpace\Common\Module\User\App\UseCase\Login\LoginUserCommand;
@@ -63,22 +65,22 @@ class UserController extends AbstractController
         }
     }
 
+    /**
+     * @throws UspException
+     */
     #[Route(path: '/login', method: 'POST')]
-    public function handleLogin(Request $request, LoginUserUseCase $loginUserUseCase): JsonResponse
+    public function handleLogin(
+        Request                    $request,
+        LoginUserUseCase           $loginUserUseCase,
+        FormConfigManagerInterface $formConfigManager,
+        FormSanitizerInterface     $formSanitizer
+    ): JsonResponse|UspException
     {
-        $clearedData = $this->sanitizer->sanitize($request->getPostParams(), [
-            'log' => SanitizerRule::TEXT_FIELD,
-            'pwd' => SanitizerRule::NO_HTML, // Пароль не должен содержать HTML, но не должен изменяться
-            'rememberme' => SanitizerRule::KEY,
-            'redirect_to' => SanitizerRule::URL,
-        ]);
+        $formType = 'login';
+        $formConfig = $formConfigManager->load($formType) ?? throw new UspException('Login form config not found', 500);
+        $clearedData = $formSanitizer->sanitize($formConfig, $request->getPostParams());
 
-        $command = new LoginUserCommand(
-            username: $clearedData->get('log', ''),
-            password: $request->getPost('pwd', ''), // Пароль передаем "сырым", так как он не должен быть изменен
-            remember: $clearedData->get('rememberme') === 'forever',
-            redirectTo: $clearedData->get('redirect_to')
-        );
+        $command = new LoginUserCommand($clearedData->all());
 
         try {
             $result = $loginUserUseCase->execute($command);
@@ -134,12 +136,22 @@ class UserController extends AbstractController
     }
 
     #[Route(path: '/register', method: 'POST')]
-    public function handleRegistration(Request $request, RegisterUserUseCase $registerUserUseCase): JsonResponse|UspException
+    public function handleRegistration(
+        Request                    $request,
+        RegisterUserUseCase        $registerUserUseCase,
+        FormConfigManagerInterface $formConfigManager,
+        FormSanitizerInterface     $formSanitizer
+    ): JsonResponse|UspException
     {
-        // Для регистрации санитизация происходит внутри UseCase на основе конфигурации полей,
-        // так как каждое поле может требовать своего типа очистки (email, text, password и т.д.).
-        // Передаем "сырые" данные.
-        $command = new RegisterUserCommand('registration', $request->getPostParams());
+
+        /** @todo вынести тип формы в константу */
+        $formType = 'registration';
+
+        $formConfig = $formConfigManager->load($formType) ?? throw new UspException('Registration form config not found', 500);
+
+        $clearedData = $formSanitizer->sanitize($formConfig, $request->getPostParams());
+
+        $command = new RegisterUserCommand($formType, $clearedData->all());
 
         try {
             $result = $registerUserUseCase->execute($command);

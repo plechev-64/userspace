@@ -2,8 +2,12 @@
 
 namespace UserSpace\Common\Renderer;
 
+use UserSpace\Common\Module\Form\App\UseCase\GetForgotPasswordForm\GetForgotPasswordFormCommand;
+use UserSpace\Common\Module\Form\App\UseCase\GetForgotPasswordForm\GetForgotPasswordFormUseCase;
+use UserSpace\Common\Module\Settings\Src\Domain\PluginSettingsInterface;
 use UserSpace\Common\Module\User\Src\Domain\UserApiInterface;
 use UserSpace\Core\Asset\AssetRegistryInterface;
+use UserSpace\Core\Exception\UspException;
 use UserSpace\Core\String\StringFilterInterface;
 use UserSpace\Core\TemplateManagerInterface;
 
@@ -15,10 +19,12 @@ if (!defined('ABSPATH')) {
 class ForgotPasswordFormRenderer
 {
     public function __construct(
-        private readonly TemplateManagerInterface $templateManager,
-        private readonly StringFilterInterface    $str,
-        private readonly AssetRegistryInterface   $assetRegistry,
-        private readonly UserApiInterface         $userApi
+        private readonly TemplateManagerInterface     $templateManager,
+        private readonly StringFilterInterface        $str,
+        private readonly AssetRegistryInterface       $assetRegistry,
+        private readonly UserApiInterface             $userApi,
+        private readonly GetForgotPasswordFormUseCase $getRegistrationFormUseCase,
+        private readonly PluginSettingsInterface      $optionManager
     )
     {
     }
@@ -41,6 +47,20 @@ class ForgotPasswordFormRenderer
             ]
         );
 
-        return $this->templateManager->render('forgot_password_form');
+        try {
+            $command = new GetForgotPasswordFormCommand();
+            $result = $this->getRegistrationFormUseCase->execute($command);
+            $form = $result->form;
+        } catch (UspException $e) {
+            // В случае ошибки (например, конфиг не найден), возвращаем сообщение
+            return '<p style="color: red;">' . $this->str->escHtml($e->getMessage()) . '</p>';
+        }
+
+        $settings = $this->optionManager->all();
+
+        return $this->templateManager->render('forgot_password_form', [
+            'form' => $form,
+            'settings' => $settings,
+        ]);
     }
 }

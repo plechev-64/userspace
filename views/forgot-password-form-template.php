@@ -2,10 +2,12 @@
 /**
  * Шаблон формы восстановления пароля.
  *
+ * @var FormInterface $form
  * @var array $settings
  * @package UserSpace
  */
 
+use UserSpace\Common\Module\Form\Src\Domain\Form\FormInterface;
 use UserSpace\Common\Module\Settings\App\SettingsEnum;
 
 if (!defined('ABSPATH')) {
@@ -20,10 +22,7 @@ $registration_page_url = !empty($settings[SettingsEnum::REGISTRATION_PAGE_ID->va
       action="<?php echo esc_url(network_site_url('wp-login.php?action=lostpassword', 'login_post')); ?>" method="post"
       data-usp-form="forgot-password">
     <p><?php _e('Please enter your username or email address. You will receive an email message with instructions on how to reset your password.', 'usp'); ?></p>
-    <div class="usp-form-field-wrapper">
-        <label for="user_login"><?php _e('Username or Email Address', 'usp'); ?></label>
-        <input type="text" name="user_login" id="user_login" class="input" value="" size="20"/>
-    </div>
+    <?php echo $form->render(); ?>
     <div class="usp-form-submit-wrapper">
         <button type="submit" name="wp-submit" id="wp-submit"
                 class="button button-primary"><?php _e('Get New Password', 'usp'); ?></button>

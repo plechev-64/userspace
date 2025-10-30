@@ -4,7 +4,9 @@ namespace UserSpace\Common\Module\Form\Src\Infrastructure\Field;
 
 use UserSpace\Common\Module\Form\Src\Domain\Field\AbstractField;
 use UserSpace\Common\Module\Form\Src\Domain\Field\DTO\AbstractFieldDto;
+use UserSpace\Common\Module\Form\Src\Domain\Field\DTO\FieldDtoInterface;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\CheckboxFieldDto;
+use UserSpace\Core\Sanitizer\SanitizerRule;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -21,7 +23,7 @@ class Checkbox extends AbstractField
     /**
      * @param CheckboxFieldDto $dto
      */
-    public function init(AbstractFieldDto $dto): void
+    public function init(FieldDtoInterface $dto): void
     {
         parent::init($dto);
         $this->options = $dto->options;
@@ -65,5 +67,10 @@ class Checkbox extends AbstractField
         }
 
         return implode(', ', $selectedLabels);
+    }
+
+    public static function getSanitizationRule(): string
+    {
+        return SanitizerRule::KEY;
     }
 }

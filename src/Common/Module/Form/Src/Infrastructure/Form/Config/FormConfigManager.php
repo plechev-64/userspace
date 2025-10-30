@@ -16,10 +16,14 @@ if (!defined('ABSPATH')) {
  */
 class FormConfigManager implements FormConfigManagerInterface
 {
-    public function __construct(private readonly FormRepositoryInterface $repository)
+    /**
+     * @var array<string, callable(): FormConfig>
+     */
+    private array $internalConfigs = [];
+
+    public function __construct(private readonly FormRepositoryInterface $formRepository)
     {
     }
-
 
     /**
      * Сохраняет конфигурацию формы в базу данных.
@@ -31,19 +35,24 @@ class FormConfigManager implements FormConfigManagerInterface
      */
     public function save(string $type, FormConfig $formConfig): int|false
     {
-        return $this->repository->createOrUpdate($type, $formConfig->toArray());
+        return $this->formRepository->createOrUpdate($type, $formConfig->toArray());
     }
 
     /**
      * Загружает конфигурацию формы из базы данных.
      *
-     * @param string $type Тип формы.
+     * @param string $formType Тип формы.
      *
      * @return FormConfig|null Конфигурационный DTO или null, если не найдено.
      */
-    public function load(string $type): ?FormConfig
+    public function load(string $formType): ?FormConfig
     {
-        $form = $this->repository->findByType($type);
+        // Сначала проверяем, есть ли внутренняя конфигурация
+        if (isset($this->internalConfigs[$formType])) {
+            return call_user_func($this->internalConfigs[$formType]);
+        }
+
+        $form = $this->formRepository->findByType($formType);
         $config_json = $form->config ?? null;
 
         if (!$config_json) {
@@ -52,6 +61,16 @@ class FormConfigManager implements FormConfigManagerInterface
 
         $configData = json_decode($config_json, true);
 
+        // Если JSON некорректен или декодирование вернуло не массив, возвращаем null
+        if (json_last_error() !== JSON_ERROR_NONE || !is_array($configData)) {
+            return null;
+        }
+
         return FormConfig::fromArray($configData);
+    }
+
+    public function registerInternalConfig(string $formType, callable $configProvider): void
+    {
+        $this->internalConfigs[$formType] = $configProvider;
     }
 }

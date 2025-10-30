@@ -24,7 +24,7 @@ class TabLocationService
     {
         $this->tabLocationManager->registerLocation(
             'sidebar',
-            $this->stringFilter->translate('Sidebar Menu', 'usp')
+            $this->stringFilter->translate('Sidebar Menu')
         );
     }
 }

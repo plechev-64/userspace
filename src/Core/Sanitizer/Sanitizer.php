@@ -16,17 +16,16 @@ class Sanitizer implements SanitizerInterface
     {
         $sanitizedData = [];
 
-        foreach ($config as $key => $rule) {
-            $value = $data[$key] ?? null;
-
+        foreach ($data as $key => $value) {
             // Если значение null, не применяем санитизацию и сохраняем его как есть.
             if ($value === null) {
                 $sanitizedData[$key] = null;
                 continue;
             }
 
+            $rule = $config[$key] ?? null;
+
             if (isset($rule)) {
-                $rule = $config[$key];
                 $sanitizedData[$key] = $this->applySanitizationRule($value, $rule);
             } else {
                 // Если правило не указано, по умолчанию санируем как текстовое поле для безопасности.

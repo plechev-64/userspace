@@ -55,16 +55,26 @@ class GridController extends AbstractController
     private function handleGridRequest(string $gridType, Request $request): JsonResponse
     {
         // Санитизируем входящие параметры запроса
+        $defaultOrder = 'DESC';
         $sanitizationConfig = [
             'page' => SanitizerRule::INT,
+            'per_page' => SanitizerRule::INT,
             'orderby' => SanitizerRule::KEY,
             'order' => SanitizerRule::KEY,
             'search' => SanitizerRule::TEXT_FIELD,
-            // Добавьте другие ожидаемые параметры грида здесь
         ];
         $clearedRequestParams = $this->sanitizer->sanitize($request->getPostParams(), $sanitizationConfig)->all();
 
-        $command = new FetchGridDataCommand($gridType, $clearedRequestParams);
+        $order = strtoupper($clearedRequestParams['order'] ?? $defaultOrder);
+
+        $command = new FetchGridDataCommand(
+            gridType: $gridType,
+            page: max(1, $clearedRequestParams['page'] ?? 1),
+            perPage: $clearedRequestParams['per_page'] ?? 20,
+            search: $clearedRequestParams['search'] ?? '',
+            orderBy: $clearedRequestParams['orderby'] ?? 'id',
+            order: in_array($order, ['ASC', 'DESC']) ? $order : $defaultOrder
+        );
 
         try {
             $result = $this->fetchGridDataUseCase->execute($command);

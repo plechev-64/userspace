@@ -6,28 +6,6 @@ use InvalidArgumentException;
 use UserSpace\Common\Module\Form\Src\Domain\Field\DTO\AbstractFieldDto;
 use UserSpace\Common\Module\Form\Src\Domain\Field\FieldInterface;
 use UserSpace\Common\Module\Form\Src\Domain\Service\FieldMapRegistryInterface;
-use UserSpace\Common\Module\Form\Src\Infrastructure\Field\Boolean;
-use UserSpace\Common\Module\Form\Src\Infrastructure\Field\Checkbox;
-use UserSpace\Common\Module\Form\Src\Infrastructure\Field\Date;
-use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\BooleanFieldDto;
-use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\CheckboxFieldDto;
-use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\DateFieldDto;
-use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\KeyValueEditorFieldDto;
-use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\NumberFieldDto;
-use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\RadioFieldDto;
-use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\SelectFieldDto;
-use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\TextFieldDto;
-use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\TextareaFieldDto;
-use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\UploaderFieldDto;
-use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\UrlFieldDto;
-use UserSpace\Common\Module\Form\Src\Infrastructure\Field\KeyValueEditor;
-use UserSpace\Common\Module\Form\Src\Infrastructure\Field\Number;
-use UserSpace\Common\Module\Form\Src\Infrastructure\Field\Radio;
-use UserSpace\Common\Module\Form\Src\Infrastructure\Field\Select;
-use UserSpace\Common\Module\Form\Src\Infrastructure\Field\Text;
-use UserSpace\Common\Module\Form\Src\Infrastructure\Field\Textarea;
-use UserSpace\Common\Module\Form\Src\Infrastructure\Field\Uploader;
-use UserSpace\Common\Module\Form\Src\Infrastructure\Field\Url;
 
 // Защита от прямого доступа к файлу
 if (!defined('ABSPATH')) {
@@ -42,24 +20,14 @@ class FieldMapRegistry implements FieldMapRegistryInterface
     /**
      * @var array<string, FieldMap>
      */
-    private array $map;
+    private array $map = [];
 
-    public function __construct()
+    /**
+     * @param array<string, FieldMap> $fieldMaps
+     */
+    public function __construct(array $fieldMaps = [])
     {
-        // Регистрация всех стандартных типов полей
-        $this->map = [
-            'boolean' => new FieldMap(Boolean::class, BooleanFieldDto::class),
-            'text' => new FieldMap(Text::class, TextFieldDto::class),
-            'checkbox' => new FieldMap(Checkbox::class, CheckboxFieldDto::class),
-            'date' => new FieldMap(Date::class, DateFieldDto::class),
-            'radio' => new FieldMap(Radio::class, RadioFieldDto::class),
-            'select' => new FieldMap(Select::class, SelectFieldDto::class),
-            'textarea' => new FieldMap(Textarea::class, TextareaFieldDto::class),
-            'url' => new FieldMap(Url::class, UrlFieldDto::class),
-            'uploader' => new FieldMap(Uploader::class, UploaderFieldDto::class),
-            'key_value_editor' => new FieldMap(KeyValueEditor::class, KeyValueEditorFieldDto::class),
-            'number' => new FieldMap(Number::class, NumberFieldDto::class),
-        ];
+        $this->map = $fieldMaps;
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace UserSpace\Common\Module\Settings\App\Controller;
 
 use UserSpace\Admin\Service\SettingsFormConfigServiceInterface;
+use UserSpace\Common\Module\Form\Src\Domain\Service\FormSanitizerInterface;
 use UserSpace\Common\Module\Settings\App\UseCase\Save\SaveSettingsCommand;
 use UserSpace\Common\Module\Settings\App\UseCase\Save\SaveSettingsUseCase;
 use UserSpace\Core\Exception\UspException;
@@ -27,26 +28,16 @@ class SettingsAdminController extends AbstractController
     }
 
     #[Route(path: '/save', method: 'POST', permission: 'manage_options')]
-    public function saveSettings(Request $request): JsonResponse
+    public function saveSettings(
+        Request                $request,
+        FormSanitizerInterface $formSanitizer
+    ): JsonResponse
     {
         // 1. Получаем конфигурацию формы, чтобы знать типы полей.
         $formConfig = $this->settingsFormConfigService->getFormConfig();
-        $sanitizationConfig = [];
 
         // 2. Строим конфигурацию санитизации на основе типов полей.
-        foreach ($formConfig->getFields() as $field) {
-            $sanitizationConfig[$field['name']] = match ($field['type']) {
-                'boolean' => SanitizerRule::BOOL,
-                'uploader', 'number' => SanitizerRule::INT, // ID вложений - это числа
-                'url' => SanitizerRule::URL,
-                'email' => SanitizerRule::EMAIL,
-                'select', 'radio', 'checkbox' => SanitizerRule::KEY, // Ожидаем безопасные ключи
-                'textarea' => SanitizerRule::KSES_POST, // Разрешаем безопасный HTML
-                default => SanitizerRule::TEXT_FIELD, // По умолчанию очищаем как текст
-            };
-        }
-
-        $clearedData = $this->sanitizer->sanitize($request->getPostParams(), $sanitizationConfig);
+        $clearedData = $formSanitizer->sanitize($formConfig, $request->getPostParams());
 
         $command = new SaveSettingsCommand($clearedData->all()); // Передаем полностью очищенный массив
 

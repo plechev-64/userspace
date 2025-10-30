@@ -1,152 +1,290 @@
-.usp-theme-minimal {
+/*
+  * UserSpace Minimal Theme - Top Navigation Layout
+  * Version: 3.0
+  * Description: A modern, app-style layout with top-level horizontal navigation.
+  */
+
+/* 1. CSS переменные (цветовая схема и размеры) */
+/* ---------------------------------------------------------- */
+:root {
+    --usp-color-primary: #3498db; /* Основной цвет акцентов */
+    --usp-color-primary-light: #5dade2;
+    --usp-color-bg: #f8f9fa; /* Фон всей страницы */
+    --usp-color-surface: #ffffff; /* Фон для карточек, шапки */
+    --usp-color-border: #dee2e6;
+    --usp-color-text-primary: #212529; /* Основной текст */
+    --usp-color-text-secondary: #6c757d; /* Второстепенный текст */
+    --usp-color-white: #ffffff;
+
+    --usp-header-height: 64px;
+    --usp-border-radius: 6px;
+    --usp-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    --usp-transition: all 0.2s ease-in-out;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+/* 2. Базовая структура и лейаут */
+/* ---------------------------------------------------------- */
+.usp-account-layout--minimal {
+    background-color: var(--usp-color-bg);
+    color: var(--usp-color-text-primary);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+.usp-account-layout__header {
     display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: var(--usp-header-height);
+    padding: 0 24px;
+    background-color: var(--usp-color-surface);
+    border-bottom: 1px solid var(--usp-color-border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.usp-header-left,
+.usp-header-right {
+    display: flex;
+    flex-wrap: wrap; /* Позволяем элементам переноситься, если не хватает места */
+    align-items: center;
     gap: 24px;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+}
+
+.usp-account-layout__header h1 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.usp-account-layout__main {
+    padding: 24px;
     max-width: 1200px;
     margin: 0 auto;
 }
 
-.usp-account-sidebar {
-    width: 250px;
-    flex-shrink: 0;
+.usp-content-area {
+    background-color: var(--usp-color-surface);
+    border-radius: var(--usp-border-radius);
+    border: 1px solid var(--usp-color-border);
+    padding: 24px;
 }
 
-.usp-account-content {
-    flex-grow: 1;
-    min-width: 0; /* Prevents content from overflowing flex container */
+/* Скрываем все панели вкладок по умолчанию */
+.usp-account-tab-pane {
+    display: none;
 }
 
-/* --- Avatar Styles (reused from 'first' theme for consistency) --- */
-.usp-avatar-block {
+/* Показываем только активную панель */
+.usp-account-tab-pane.active {
+    display: block;
+}
+
+/* 3. Навигация (общие стили для всех меню) */
+/* ---------------------------------------------------------- */
+.usp-main-nav .usp-location-items {
     display: flex;
-    flex-direction: column;
+    gap: 8px;
+}
+
+.usp-sidebar-nav__link {
+    display: flex;
     align-items: center;
-    gap: 15px;
-    margin-bottom: 25px;
-    padding-bottom: 25px;
-    border-bottom: 1px solid #e0e0e0;
+    padding: 8px 12px;
+    border-radius: var(--usp-border-radius);
+    text-decoration: none;
+    color: var(--usp-color-text-secondary);
+    font-weight: 500;
+    transition: var(--usp-transition);
+    border-bottom: 2px solid transparent;
+    border-radius: 0;
+}
+
+.usp-sidebar-nav__link:hover,
+.usp-sidebar-nav__link--action:hover {
+    color: var(--usp-color-text-primary);
+    background-color: transparent;
+}
+
+.usp-sidebar-nav__link.is-active {
+    color: var(--usp-color-primary);
+    border-bottom-color: var(--usp-color-primary);
+    background-color: transparent;
+}
+
+/* Иконки в меню */
+.usp-sidebar-nav__icon {
+    margin-right: 10px; /* Отступ справа от иконки */
+    display: inline-flex;
+    align-items: center;
+    opacity: 0.8; /* Немного приглушаем иконку по умолчанию */
+    transition: var(--usp-transition);
+}
+
+/* Активная иконка */
+.usp-sidebar-nav__link.is-active .usp-sidebar-nav__icon {
+    opacity: 1; /* Полная непрозрачность для активной иконки */
+    color: var(--usp-color-primary); /* Цвет активной иконки */
+}
+
+/* Подменю (выпадающее) */
+.usp-sidebar-nav__item {
+    position: relative;
+}
+
+.usp-account-submenu {
+    display: none; /* Скрыто по умолчанию */
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    background-color: var(--usp-color-surface);
+    border-radius: var(--usp-border-radius);
+    box-shadow: var(--usp-shadow);
+    padding: 20px 10px 10px; /* Убираем margin-top и добавляем padding-top для визуального отступа */
+    min-width: 200px;
+    border: 1px solid var(--usp-color-border);
+}
+
+/* Показываем подменю при наведении на родительский элемент */
+.usp-sidebar-nav__item:hover > .usp-account-submenu {
+    display: block;
+}
+
+.usp-account-submenu .usp-sidebar-nav__link {
     width: 100%;
-    text-align: center;
+    border-bottom: none;
+}
+
+.usp-account-submenu .usp-sidebar-nav__link.is-active {
+    background-color: var(--usp-color-bg);
+}
+
+/* 4. Мобильная версия и адаптивность */
+/* ---------------------------------------------------------- */
+.usp-mobile-menu-toggle {
+    display: none; /* Скрыт по умолчанию */
+    background: none;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 1001;
+}
+
+.usp-mobile-menu-toggle__icon {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background-color: var(--usp-color-text-primary);
+    position: relative;
+    transition: background-color 0s 0.3s;
+}
+
+.usp-mobile-menu-toggle__icon::before,
+.usp-mobile-menu-toggle__icon::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--usp-color-text-primary);
+    transition: var(--usp-transition);
+}
+
+.usp-mobile-menu-toggle__icon::before { top: -7px; }
+.usp-mobile-menu-toggle__icon::after { top: 7px; }
+
+/* Стили для открытого меню-гамбургера */
+.usp-mobile-menu-open .usp-mobile-menu-toggle__icon { background-color: transparent; }
+.usp-mobile-menu-open .usp-mobile-menu-toggle__icon::before { transform: translateY(7px) rotate(45deg); }
+.usp-mobile-menu-open .usp-mobile-menu-toggle__icon::after { transform: translateY(-7px) rotate(-45deg); }
+
+/* Медиа-запрос для планшетов и мобильных телефонов */
+@media (max-width: 992px) {
+    .usp-mobile-menu-toggle {
+        display: block;
+    }
+
+    .usp-main-nav {
+        display: none; /* Скрываем основное меню */
+        position: absolute;
+        top: var(--usp-header-height);
+        left: 0;
+        right: 0;
+        background-color: var(--usp-color-surface);
+        border-bottom: 1px solid var(--usp-color-border);
+        padding: 16px;
+        box-shadow: var(--usp-shadow);
+    }
+
+    .usp-mobile-menu-open .usp-main-nav {
+        display: block; /* Показываем при клике на гамбургер */
+    }
+
+    .usp-main-nav .usp-location-items {
+        flex-direction: column; /* Делаем меню вертикальным на мобильных */
+        gap: 0;
+    }
+
+    .usp-sidebar-nav__link {
+        border-bottom: none;
+        padding: 12px;
+    }
+
+    .usp-sidebar-nav__link.is-active {
+        background-color: var(--usp-color-bg);
+        color: var(--usp-color-primary);
+    }
+}
+
+/* 5. Компоненты UI (Аватар) */
+/* ---------------------------------------------------------- */
+.usp-avatar-block {
+    position: relative;
 }
 
 .usp-account-avatar-wrapper {
-    position: relative;
-    width: 96px;
-    height: 96px;
-    flex-shrink: 0;
+    width: 40px;
+    position: relative; /* Для позиционирования кнопки */
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
 }
 
 .usp-account-avatar-img {
     width: 100%;
     height: 100%;
-    border-radius: 50%;
     object-fit: cover;
-    display: block;
 }
 
 .usp-account-avatar-uploader {
+    /* Позиционируем кнопку поверх аватара */
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
+    background-color: rgba(0, 0, 0, 0.5);
     opacity: 0;
-    transition: opacity 0.2s ease-in-out;
-    cursor: pointer;
+    transition: var(--usp-transition);
 }
 
-.usp-account-avatar-wrapper:hover .usp-account-avatar-uploader {
+.usp-account-avatar-wrapper:hover .usp-account-avatar-uploader,
+.usp-account-avatar-wrapper.is-active .usp-account-avatar-uploader
+{
     opacity: 1;
 }
 
-.usp-change-avatar-btn {
-    background: none;
-    border: none;
-    color: white;
-    cursor: pointer;
-    padding: 0;
-    font-size: 28px;
-}
-
-.usp-avatar-status {
-    position: absolute;
-    bottom: -25px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #333;
-    color: #fff;
-    padding: 2px 8px;
-    border-radius: 4px;
-    font-size: 12px;
-    white-space: nowrap;
-    display: none;
-}
-
-.usp-account-display-name {
-    margin: 0 0 4px;
-    font-size: 18px;
-    font-weight: 600;
-}
-
-.usp-account-user-email {
-    margin: 0;
-    color: #555;
-    font-size: 13px;
-    word-break: break-all;
-}
-
-/* --- Menu Styles --- */
-.usp-account-menu {
-    padding: 0;
-    margin: 0;
-}
-
-/* Общие стили для вкладок (<a>) и кнопок (<button>) */
-.usp-account-menu a,
-.usp-account-menu .usp-account-menu-button {
-    display: block;
-    padding: 10px 15px;
-    text-decoration: none;
-    color: #2c3338;
-    border-radius: 4px;
-    margin-bottom: 4px;
-    transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out;
-    width: 100%;
-    text-align: left;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    font-size: inherit;
-    font-family: inherit;
-}
-
-/* Состояние при наведении для обоих типов элементов */
-.usp-account-menu a:hover,
-.usp-account-menu .usp-account-menu-button:hover {
-    background-color: #f0f0f1;
-}
-
-.usp-account-menu .usp-account-menu-button:disabled {
-    opacity: 0.7;
-    cursor: wait;
-}
-
-/* Активное состояние (только для вкладок) */
-.usp-account-menu a.active {
-    background-color: #007cba;
-    color: #fff;
-}
-
-/* --- Tab Content --- */
-.usp-account-tab-pane {
-    display: none;
-}
-
-.usp-account-tab-pane.active {
-    display: block;
+.usp-account-user-info {
+    display: none; /* Скрываем имя и email в шапке для минимализма */
 }

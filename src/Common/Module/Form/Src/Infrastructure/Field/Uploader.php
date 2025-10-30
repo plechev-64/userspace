@@ -5,12 +5,14 @@ namespace UserSpace\Common\Module\Form\Src\Infrastructure\Field;
 use UserSpace\Adapters\StringFilter;
 use UserSpace\Common\Module\Form\Src\Domain\Field\AbstractField;
 use UserSpace\Common\Module\Form\Src\Domain\Field\DTO\AbstractFieldDto;
+use UserSpace\Common\Module\Form\Src\Domain\Field\DTO\FieldDtoInterface;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\UploaderFieldDto;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Validator\AllowedTypesValidator;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Validator\ImageDimensionsValidator;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Validator\MaxFileSizeValidator;
 use UserSpace\Common\Module\Media\App\UseCase\Upload\UploaderConfig;
 use UserSpace\Common\Module\Media\Src\Domain\MediaApiInterface;
+use UserSpace\Core\Sanitizer\SanitizerRule;
 use UserSpace\Core\SecurityHelperInterface;
 
 class Uploader extends AbstractField
@@ -35,7 +37,7 @@ class Uploader extends AbstractField
      * @param UploaderFieldDto $dto
      * @return void
      */
-    public function init(AbstractFieldDto $dto): void
+    public function init(FieldDtoInterface $dto): void
     {
         parent::init($dto);
         $this->multiple = $dto->multiple;
@@ -220,5 +222,10 @@ class Uploader extends AbstractField
 
         // Возвращаем ссылки, разделенные тегом <br> для наглядности.
         return implode('<br>', $links);
+    }
+
+    public static function getSanitizationRule(): string
+    {
+        return SanitizerRule::INT;
     }
 }

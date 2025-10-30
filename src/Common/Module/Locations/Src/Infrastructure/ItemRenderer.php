@@ -24,6 +24,59 @@ class ItemRenderer
     }
 
     /**
+     * Рендерит все элементы (ItemInterface) в указанной локации.
+     *
+     * @param string $locationId Идентификатор локации.
+     * @return string Сгенерированный HTML.
+     */
+    public function renderLocation(string $locationId): string
+    {
+        // Получаем только элементы верхнего уровня для указанной локации
+        $items = $this->tabManager->getItems($locationId);
+        if (empty($items)) {
+            return '';
+        }
+
+        $output = '';
+        // Используем рекурсивный метод для рендеринга каждого элемента и его дочерних элементов
+        foreach ($items as $item) {
+            $output .= $this->renderItemAndChildren($item);
+        }
+
+        return '<div class="usp-location-items">' . $output . '</div>';
+    }
+
+    /**
+     * Рекурсивно рендерит элемент и все его дочерние элементы.
+     *
+     * @param ItemInterface $item Элемент для рендеринга.
+     * @return string Сгенерированный HTML.
+     */
+    private function renderItemAndChildren(ItemInterface $item): string
+    {
+        $has_submenu = ($item instanceof AbstractTab && !empty($item->getSubTabs()));
+        $item_classes = 'usp-sidebar-nav__item' . ($has_submenu ? ' has-submenu' : '');
+
+        $output = '<div class="' . $this->stringFilter->escAttr($item_classes) . '">';
+        $output .= $item->render(); // Объект сам рендерит свой <A> тег
+
+        // Если элемент является вкладкой и у него есть дочерние вкладки, рендерим их
+        if ($item instanceof AbstractTab && $has_submenu) {
+            $output .= '<div class="usp-account-submenu">';
+            foreach ($item->getSubTabs() as $subItem) {
+                // Рекурсивно вызываем этот же метод для дочерних элементов,
+                // чтобы обработать дальнейшие уровни вложенности.
+                $output .= $this->renderItemAndChildren($subItem);
+            }
+            $output .= '</div>';
+        }
+
+        $output .= '</div>';
+
+        return $output;
+    }
+
+    /**
      * Рендерит HTML для всех панелей контента вкладок.
      *
      * @param string $paneWrapperHtml HTML-шаблон для обертки одной панели, использующий плейсхолдеры sprintf.

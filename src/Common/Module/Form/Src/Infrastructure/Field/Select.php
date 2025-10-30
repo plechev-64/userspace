@@ -5,7 +5,9 @@ namespace UserSpace\Common\Module\Form\Src\Infrastructure\Field;
 use UserSpace\Adapters\StringFilter;
 use UserSpace\Common\Module\Form\Src\Domain\Field\AbstractField;
 use UserSpace\Common\Module\Form\Src\Domain\Field\DTO\AbstractFieldDto;
+use UserSpace\Common\Module\Form\Src\Domain\Field\DTO\FieldDtoInterface;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\SelectFieldDto;
+use UserSpace\Core\Sanitizer\SanitizerRule;
 
 // Защита от прямого доступа к файлу
 if (!defined('ABSPATH')) {
@@ -23,7 +25,7 @@ class Select extends AbstractField
     /**
      * @param SelectFieldDto $dto Объект с данными для создания поля.
      */
-    public function init(AbstractFieldDto $dto): void
+    public function init(FieldDtoInterface $dto): void
     {
         parent::init($dto);
         $this->options = $dto->options;
@@ -82,5 +84,10 @@ class Select extends AbstractField
 
         // Возвращаем метку опции, а не ее ключ.
         return $this->options[$this->value] ?? (string)$this->value;
+    }
+
+    public static function getSanitizationRule(): string
+    {
+        return SanitizerRule::KEY;
     }
 }

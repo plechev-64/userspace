@@ -6,16 +6,21 @@ use UserSpace\Common\Module\Form\App\UseCase\GetPopulatedProfileForm\GetPopulate
 use UserSpace\Common\Module\Form\App\UseCase\GetPopulatedProfileForm\GetPopulatedProfileFormUseCase;
 use UserSpace\Common\Module\Locations\Src\Domain\AbstractTab;
 use UserSpace\Common\Service\ViewedUserContext;
+use UserSpace\Core\String\StringFilterInterface;
+use UserSpace\Core\TemplateManagerInterface;
 
 class ProfileTab extends AbstractTab
 {
     public function __construct(
         private readonly GetPopulatedProfileFormUseCase $getPopulatedFormUseCase,
-        private readonly ViewedUserContext              $viewedUserContext
+        private readonly ViewedUserContext              $viewedUserContext,
+        private readonly StringFilterInterface $str,
+        TemplateManagerInterface $templateManager
     )
     {
+        parent::__construct($templateManager);
         $this->id = 'profile';
-        $this->title = __('Profile', 'usp');
+        $this->title = $this->str->translate('Profile');
         $this->order = 10;
         $this->location = 'sidebar';
         $this->icon = 'dashicons-admin-users';

@@ -131,7 +131,13 @@
             this.modal.classList.add('is-visible');
 
             try {
-                const json = await this.apiClient.post(`/form/modal/${formType}`);
+                const endpoint = {
+                    'register': '/form/registration-form',
+                    'login': '/form/login-form',
+                    'forgot-password': '/form/forgot-password-form',
+                }[formType] || `/form/modal-form/${formType}`; // Fallback for other modal forms
+                const json = await this.apiClient.post(endpoint);
+
                 this.modalBody.innerHTML = json.html;
             } catch (error) {
                 this.modalBody.innerHTML = `<p style="color: red;">${error.message}</p>`;
@@ -213,7 +219,8 @@
                 }
 
                 // --- Обработка клика по кнопке-действию ---
-                if (element.tagName === 'BUTTON' && element.dataset.actionEndpoint) {
+                // Ищем любой элемент с data-action-endpoint, а не только button
+                if (element.dataset.actionEndpoint) {
                     e.preventDefault();
                     const endpoint = element.dataset.actionEndpoint;
                     const originalText = element.innerHTML;
@@ -255,8 +262,21 @@
                     }
                 }
 
+                const parentItem = link.closest('.usp-sidebar-nav__item');
+                const submenu = parentItem ? parentItem.querySelector('.usp-account-submenu') : null;
+
+                // Если у элемента есть подменю, просто открываем/закрываем его и не идем дальше
+                if (submenu) {
+                    e.preventDefault();
+                    parentItem.classList.toggle('is-expanded');
+                    submenu.style.display = parentItem.classList.contains('is-expanded') ? 'block' : 'none';
+                    return;
+                }
+
                 // Только если ссылка является частью меню вкладок и ее href - это локальный якорь (#tab-id)
-                const isTabNavigationLink = link.closest('.usp-account-menu');
+                // Обновляем селектор, чтобы он соответствовал новой верстке
+                // Убираем проверку на родительский контейнер, чтобы логика работала в любом месте.
+                const isTabNavigationLink = link.closest('.usp-location-items');
                 if (!isTabNavigationLink || !targetPaneId || !targetPaneId.startsWith('#') || targetPaneId === '#') {
                     return; // Игнорируем ссылки, не относящиеся к навигации вкладок
                 }
@@ -269,20 +289,12 @@
                     return;
                 }
 
-                // Находим меню, в котором произошел клик
-                const currentMenu = link.closest('.usp-account-menu');
-                if (!currentMenu) {
-                    return;
-                }
-
                 // Убираем active со всех ссылок и панелей
-                accountWrapper.querySelectorAll('.usp-account-menu a.active').forEach(a => a.classList.remove('active'));
-                accountWrapper.querySelectorAll('.usp-account-menu-item.is-active').forEach(item => item.classList.remove('is-active'));
+                accountWrapper.querySelectorAll('.usp-location-items .is-active').forEach(el => el.classList.remove('is-active'));
                 accountWrapper.querySelectorAll('.usp-account-tab-pane.active').forEach(pane => pane.classList.remove('active'));
 
                 // Добавляем active к нажатой ссылке и ее родителям
-                link.classList.add('active');
-                link.closest('.usp-account-menu-item')?.classList.add('is-active');
+                link.classList.add('is-active');
 
                 // Если это под-вкладка, также делаем активной родительскую ссылку
                 const parentLink = link.closest('.usp-account-submenu')?.closest('.usp-account-menu-item')?.querySelector('a');
@@ -866,7 +878,7 @@
         init() {
             this.modalManager.init();
             this.avatarUploader.init();
-            this.ui.initAccountTabs('.usp-account-wrapper');
+            this.ui.initAccountTabs('.usp-account-layout');
         }
     }
 

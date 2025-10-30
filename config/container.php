@@ -20,14 +20,44 @@ use UserSpace\Admin\Service\SettingsFormConfigServiceInterface;
 use UserSpace\Common\Module\Form\App\Controller\FormController;
 use UserSpace\Common\Module\Form\Src\Domain\Factory\FieldFactoryInterface;
 use UserSpace\Common\Module\Form\Src\Domain\Factory\FormFactoryInterface;
+use UserSpace\Common\Module\Form\Src\Domain\Field\FieldType;
 use UserSpace\Common\Module\Form\Src\Domain\Form\Config\FormConfigManagerInterface;
 use UserSpace\Common\Module\Form\Src\Domain\Repository\FormRepositoryInterface;
 use UserSpace\Common\Module\Form\Src\Domain\Service\FieldMapRegistryInterface;
+use UserSpace\Common\Module\Form\Src\Domain\Service\FormSanitizerInterface;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Factory\FieldFactory;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Factory\FormFactory;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Field\Boolean;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Field\Checkbox;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Field\Date;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\BooleanFieldDto;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\CheckboxFieldDto;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\DateFieldDto;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\EmailFieldDto;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\KeyValueEditorFieldDto;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\NumberFieldDto;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\PasswordFieldDto;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\RadioFieldDto;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\SelectFieldDto;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\TextareaFieldDto;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\TextFieldDto;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\UploaderFieldDto;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Field\DTO\UrlFieldDto;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Field\Email;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Field\KeyValueEditor;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Field\Number;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Field\Password;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Field\Radio;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Field\Select;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Field\Text;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Field\Textarea;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Field\Uploader;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Field\Url;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Form\Config\FormConfigManager;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Repository\FormRepository;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Service\FieldMap;
 use UserSpace\Common\Module\Form\Src\Infrastructure\Service\FieldMapRegistry;
+use UserSpace\Common\Module\Form\Src\Infrastructure\Service\FormSanitizer;
 use UserSpace\Common\Module\Grid\App\Controller\GridController;
 use UserSpace\Common\Module\Grid\App\UseCase\FetchGridDataUseCase;
 use UserSpace\Common\Module\Grid\Src\Infrastructure\GridProvider;
@@ -62,6 +92,8 @@ use UserSpace\Common\Module\Settings\Src\Domain\OptionManagerInterface;
 use UserSpace\Common\Module\Settings\Src\Domain\PluginSettings;
 use UserSpace\Common\Module\Settings\Src\Domain\PluginSettingsInterface;
 use UserSpace\Common\Module\Settings\Src\Domain\TransientApiInterface;
+use UserSpace\Common\Module\SetupWizard\Domain\SetupWizardConfigRegistryInterface;
+use UserSpace\Common\Module\SetupWizard\Infrastructure\SetupWizardConfigRegistry;
 use UserSpace\Common\Module\SetupWizard\App\Controller\SetupWizardController;
 use UserSpace\Common\Module\SSE\App\SseController;
 use UserSpace\Common\Module\SSE\Src\Domain\Repository\SseEventRepositoryInterface;
@@ -113,6 +145,8 @@ return [
         'rest.prefix' => 'wp-json',
         'rest.namespace' => USERSPACE_REST_NAMESPACE,
         'app.templates' => new Params([
+            'item_tab' => USERSPACE_PLUGIN_DIR . 'views/parts/item-tab.php',
+            'item_button' => USERSPACE_PLUGIN_DIR . 'views/parts/item-button.php',
             'modal_container' => USERSPACE_PLUGIN_DIR . 'views/modal-container.php',
             'user_bar' => USERSPACE_PLUGIN_DIR . 'views/user-bar-template.php',
             'login_form' => USERSPACE_PLUGIN_DIR . 'views/login-form-template.php',
@@ -124,6 +158,21 @@ return [
             'admin/form/field-settings' => USERSPACE_PLUGIN_DIR . 'views/admin/field-form-settings.php',
             'admin/location/item/form-settings' => USERSPACE_PLUGIN_DIR . 'views/admin/item-form-settings.php',
         ]),
+        'app.field_maps' => [
+            FieldType::BOOLEAN->value => new FieldMap(Boolean::class, BooleanFieldDto::class),
+            FieldType::TEXT->value => new FieldMap(Text::class, TextFieldDto::class),
+            FieldType::EMAIL->value => new FieldMap(Email::class, EmailFieldDto::class),
+            FieldType::CHECKBOX->value => new FieldMap(Checkbox::class, CheckboxFieldDto::class),
+            FieldType::DATE->value => new FieldMap(Date::class, DateFieldDto::class),
+            FieldType::RADIO->value => new FieldMap(Radio::class, RadioFieldDto::class),
+            FieldType::SELECT->value => new FieldMap(Select::class, SelectFieldDto::class),
+            FieldType::TEXTAREA->value => new FieldMap(Textarea::class, TextareaFieldDto::class),
+            FieldType::URL->value => new FieldMap(Url::class, UrlFieldDto::class),
+            FieldType::UPLOADER->value => new FieldMap(Uploader::class, UploaderFieldDto::class),
+            FieldType::KEY_VALUE_EDITOR->value => new FieldMap(KeyValueEditor::class, KeyValueEditorFieldDto::class),
+            FieldType::NUMBER->value => new FieldMap(Number::class, NumberFieldDto::class),
+            FieldType::PASSWORD->value => new FieldMap(Password::class, PasswordFieldDto::class),
+        ],
         'app.controllers' => [
             FormController::class,
             SettingsAdminController::class,
@@ -175,7 +224,7 @@ return [
         ThemeManagerInterface::class => fn(ContainerInterface $c) => $c->get(ThemeManager::class),
         AddonManagerInterface::class => fn(ContainerInterface $c) => $c->get(AddonManager::class),
         SanitizerInterface::class => fn(ContainerInterface $c) => $c->get(Sanitizer::class),
-        FieldMapRegistryInterface::class => fn(ContainerInterface $c) => $c->get(FieldMapRegistry::class),
+        FieldMapRegistryInterface::class => fn(ContainerInterface $c) => new FieldMapRegistry($c->get('app.field_maps')),
         SettingsFormConfigServiceInterface::class => fn(ContainerInterface $c) => $c->get(SettingsFormConfigService::class),
         LocationRegistryInterface::class => fn(ContainerInterface $c) => $c->get(LocationRegistry::class),
         ItemRegistryInterface::class => fn(ContainerInterface $c) => $c->get(ItemRegistry::class),
@@ -184,7 +233,9 @@ return [
         PluginSettingsInterface::class => fn(ContainerInterface $c) => $c->get(PluginSettings::class),
         FieldFactoryInterface::class => fn(ContainerInterface $c) => $c->get(FieldFactory::class),
         FormConfigManagerInterface::class => fn(ContainerInterface $c) => $c->get(FormConfigManager::class),
+        FormSanitizerInterface::class => fn(ContainerInterface $c) => $c->get(FormSanitizer::class),
         FormFactoryInterface::class => fn(ContainerInterface $c) => $c->get(FormFactory::class),
+        SetupWizardConfigRegistryInterface::class => fn(ContainerInterface $c) => $c->get(SetupWizardConfigRegistry::class),
 
         // Grid
         GridProvider::class => function (ContainerInterface $c) {

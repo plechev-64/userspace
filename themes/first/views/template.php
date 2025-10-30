@@ -1,33 +1,40 @@
 <?php
-/**
- * Шаблон личного кабинета для темы "First".
- *
- * @var string $avatarBlock HTML-блок с аватаром пользователя.
- * @var string $headerMenu HTML-меню для хедера.
- * @var string $sidebarMenu HTML-меню для сайдбара.
- * @var string $tabsContent HTML-контент вкладок.
- */
+// Защита от прямого доступа к файлу
 
 if (!defined('ABSPATH')) {
     exit;
 }
-?>
-<div class="usp-account-wrapper">
-    <div class="usp-account-header">
-        <?php echo $avatarBlock; ?>
-        <div class="usp-header-tabs">
-            <div class="usp-account-menu">
-                <?php echo $headerMenu; ?>
-            </div>
-        </div>
-    </div>
 
-    <div class="usp-account-sidebar">
-        <div class="usp-account-menu">
-            <?php echo $sidebarMenu; ?>
+/**
+ * @var string $headerMenu
+ * @var string $sidebarMenu
+ * @var string $mainContent
+ * @var string $avatarBlock
+ */
+?>
+<div class="usp-account-layout">
+    <header class="usp-account-layout__header">
+        <button class="usp-mobile-menu-toggle" aria-label="Открыть меню" aria-expanded="false">
+            <span class="usp-mobile-menu-toggle__icon"></span>
+        </button>
+        <div class="usp-account-layout__header-title">
+            <h1>Личный кабинет</h1>
         </div>
-    </div>
-    <div class="usp-account-content">
-        <?php echo $tabsContent; ?>
+        <nav class="usp-header-nav">
+            <?php echo $headerMenu; ?>
+        </nav>
+    </header>
+    <div class="usp-account-layout__body">
+        <aside class="usp-account-layout__sidebar">
+            <?php echo $avatarBlock; ?>
+            <nav class="usp-sidebar-nav">
+                <?php echo $sidebarMenu; ?>
+            </nav>
+        </aside>
+        <main class="usp-account-layout__main">
+            <div class="usp-content-area">
+                <?php echo $mainContent; ?>
+            </div>
+        </main>
     </div>
 </div>

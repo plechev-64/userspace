@@ -4,6 +4,8 @@ namespace UserSpace\Common\Module\Locations\App\Default;
 
 use UserSpace\Common\Module\Locations\Src\Domain\AbstractButton;
 use UserSpace\Common\Module\User\Src\Domain\UserApiInterface;
+use UserSpace\Core\String\StringFilterInterface;
+use UserSpace\Core\TemplateManagerInterface;
 
 class ClearCacheButton extends AbstractButton
 {
@@ -12,9 +14,13 @@ class ClearCacheButton extends AbstractButton
     protected ?string $icon = 'dashicons-trash';
     protected string $capability = 'manage_options'; // Доступно только администраторам
 
-    public function __construct(UserApiInterface $userApi)
+    public function __construct(
+        UserApiInterface $userApi,
+        private readonly StringFilterInterface $str,
+        TemplateManagerInterface $templateManager
+    )
     {
-        parent::__construct($userApi);
+        parent::__construct($userApi, $templateManager);
     }
 
     /**
@@ -30,7 +36,7 @@ class ClearCacheButton extends AbstractButton
 
         // Для примера просто возвращаем сообщение об успехе.
         return [
-            'message' => 'Cache cleared successfully!'
+            'message' => $this->str->translate('Cache cleared successfully!')
         ];
     }
 }

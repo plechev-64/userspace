@@ -32,6 +32,10 @@ class TabsConfigPage extends AbstractAdminPage
             return;
         }
 
+        $this->assetRegistry->enqueueStyle('usp-icons');
+        $this->assetRegistry->enqueueStyle('usp-iconpicker');
+        $this->assetRegistry->enqueueScript('usp-iconpicker');
+
         // Стили для конструктора и модальных окон
         $this->assetRegistry->enqueueStyle('usp-form-builder', USERSPACE_PLUGIN_URL . 'assets/css/tab-builder.css', [], USERSPACE_VERSION);
         $this->assetRegistry->enqueueStyle('usp-modal', USERSPACE_PLUGIN_URL . 'assets/css/modal.css', [], USERSPACE_VERSION);
