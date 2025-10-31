@@ -124,6 +124,7 @@ use UserSpace\Core\Database\DatabaseConnectionInterface;
 use UserSpace\Core\Hooks\HookManagerInterface;
 use UserSpace\Core\Http\Request;
 use UserSpace\Core\Localization\LocalizationApiInterface;
+use UserSpace\Core\Mutex\TransientMutex;
 use UserSpace\Core\Profile\ProfileService;
 use UserSpace\Core\Profile\ProfileServiceApiInterface;
 use UserSpace\Core\Query\QueryApiInterface;
@@ -236,6 +237,7 @@ return [
         FormSanitizerInterface::class => fn(ContainerInterface $c) => $c->get(FormSanitizer::class),
         FormFactoryInterface::class => fn(ContainerInterface $c) => $c->get(FormFactory::class),
         SetupWizardConfigRegistryInterface::class => fn(ContainerInterface $c) => $c->get(SetupWizardConfigRegistry::class),
+        \UserSpace\Core\Mutex\MutexInterface::class => fn(ContainerInterface $c) => $c->get(TransientMutex::class),
 
         // Grid
         GridProvider::class => function (ContainerInterface $c) {

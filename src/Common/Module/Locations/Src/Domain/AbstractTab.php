@@ -126,7 +126,7 @@ abstract class AbstractTab implements ItemInterface
         return $this->subTabs;
     }
 
-    public function addSubTab(AbstractTab $subTab): void
+    public function addSubTab(ItemInterface $subTab): void
     {
         $this->subTabs[] = $subTab;
     }

@@ -6,6 +6,7 @@ use UserSpace\Common\Module\Queue\Src\Domain\JobRepositoryInterface;
 use UserSpace\Common\Module\Queue\Src\Domain\MessageHandlerInterface;
 use UserSpace\Common\Module\Queue\Src\Domain\MessageInterface;
 use UserSpace\Common\Module\SSE\Src\Domain\Repository\SseEventRepositoryInterface;
+use UserSpace\Core\Mutex\MutexInterface;
 use UserSpace\Common\Module\SSE\Src\Domain\SseEventDispatcherInterface;
 use UserSpace\Common\Service\CronManager;
 use UserSpace\Core\Container\ContainerInterface;
@@ -23,6 +24,7 @@ if (!defined('ABSPATH')) {
 final class QueueManager
 {
     private const MAX_ATTEMPTS = 3;
+    private const QUEUE_LOCK_KEY = 'usp_queue_process_lock';
 
     private ?CronManager $cronManager = null;
 
@@ -32,7 +34,8 @@ final class QueueManager
         private readonly SseEventDispatcherInterface $sseManager,
         private readonly JobRepositoryInterface      $jobRepository,
         private readonly SseEventRepositoryInterface $sseEventRepository,
-        private readonly array                       $messageHandlerMap
+        private readonly array $messageHandlerMap,
+        private readonly MutexInterface $mutex
     )
     {
     }
@@ -50,30 +53,42 @@ final class QueueManager
      */
     public function processQueueBatch(): void
     {
-        $this->status->startRun();
-        $jobsProcessed = 0;
-
-        $time_limit = ini_get('max_execution_time');
-        $safe_time_limit = $time_limit > 5 ? $time_limit - 5 : 25;
-        $start_time = time();
-
-        while (time() - $start_time < $safe_time_limit) {
-            $jobId = $this->processSingleJob();
-            // Если задача была обработана, увеличиваем счетчик.
-            if ($jobId) {
-                $jobsProcessed++;
-                $this->sseManager->dispatchEvent('batch_processed', ['IdProcessed' => $jobId, 'JobsProcessed' => $jobsProcessed]);
-            } else {
-                // Если задач нет, делаем паузу в 1 секунду, чтобы не нагружать БД.
-                sleep(1);
-            }
+        // Пытаемся установить блокировку на 2 минуты. Если не удалось - выходим.
+        if ( ! $this->mutex->acquireLock( self::QUEUE_LOCK_KEY, 120 ) ) {
+            $this->status->log( 'Queue processing is already running. Skipping this run.' );
+            return;
         }
 
-        $this->status->endRun($jobsProcessed);
+        try {
+            $this->status->startRun();
+            $jobsProcessed = 0;
 
-        // Если были обработаны задачи и в очереди еще есть что-то, планируем немедленный перезапуск.
-        if ($this->cronManager && $jobsProcessed > 0 && $this->jobRepository->hasPendingJobs()) {
-            $this->cronManager->scheduleImmediateBatch();
+            $time_limit        = ini_get( 'max_execution_time' );
+            $safe_time_limit   = $time_limit > 5 ? $time_limit - 5 : 25;
+            $start_time        = time();
+
+            while ( time() - $start_time < $safe_time_limit ) {
+                $jobId = $this->processSingleJob();
+                // Если задача была обработана, увеличиваем счетчик.
+                if ( $jobId ) {
+                    $jobsProcessed ++;
+                    $this->sseManager->dispatchEvent( 'batch_processed', [ 'IdProcessed' => $jobId, 'JobsProcessed' => $jobsProcessed ] );
+                } else {
+                    // Если задач нет, выходим из цикла, чтобы не ждать зря.
+                    break;
+                }
+            }
+
+            $this->status->endRun( $jobsProcessed );
+
+            // Если были обработаны задачи и в очереди еще есть что-то, планируем немедленный перезапуск.
+            if ( $this->cronManager && $jobsProcessed > 0 && $this->jobRepository->hasPendingJobs() ) {
+                $this->cronManager->scheduleImmediateBatch();
+            }
+        } finally {
+            // Гарантированно снимаем блокировку, даже если произошла ошибка.
+            $this->mutex->releaseLock( self::QUEUE_LOCK_KEY );
+            $this->status->log( 'Queue lock released.' );
         }
     }
 
